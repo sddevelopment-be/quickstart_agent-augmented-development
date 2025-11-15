@@ -1,0 +1,12 @@
+# Ignore generated artifacts
+output/
+
+# Optional: allow people to decide what to track in work/
+# e.g. keep logs, ignore junk
+work/**/*.tmp
+work/**/*.bak
+
+.idea
+*.iml
+.DS_Store
+.vscode

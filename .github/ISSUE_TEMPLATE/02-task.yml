@@ -1,0 +1,123 @@
+name: Task
+description: Discrete unit of work with clear completion criteria
+title: "Task: "
+labels: ["task"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Task Template
+        A task represents a discrete, executable unit of work that contributes to a Feature.
+        Tasks should be small enough to complete in 1-2 days and have clear validation criteria.
+  
+  - type: input
+    id: feature
+    attributes:
+      label: Parent Feature
+      description: Link to the parent Feature issue (e.g., #124)
+      placeholder: "#124"
+    validations:
+      required: false
+  
+  - type: textarea
+    id: description
+    attributes:
+      label: Task Description
+      description: What needs to be done?
+      placeholder: Clear description of the specific work to be completed
+    validations:
+      required: true
+  
+  - type: textarea
+    id: steps
+    attributes:
+      label: Implementation Steps
+      description: Step-by-step breakdown of how to complete this task
+      placeholder: |
+        1. Step 1
+        2. Step 2
+        3. Step 3
+    validations:
+      required: false
+  
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      description: How do we know this task is complete?
+      placeholder: |
+        - [ ] Criterion 1 met
+        - [ ] Criterion 2 validated
+        - [ ] Tests pass
+    validations:
+      required: true
+  
+  - type: dropdown
+    id: type
+    attributes:
+      label: Task Type
+      description: What kind of work does this task involve?
+      options:
+        - "Development"
+        - "Documentation"
+        - "Testing"
+        - "Configuration"
+        - "Research"
+        - "Design"
+        - "Automation"
+    validations:
+      required: false
+  
+  - type: dropdown
+    id: effort
+    attributes:
+      label: Effort Estimate
+      description: Expected effort to complete
+      options:
+        - "XS (< 2 hours)"
+        - "S (2-4 hours)"
+        - "M (4-8 hours)"
+        - "L (1-2 days)"
+        - "XL (2+ days)"
+    validations:
+      required: false
+  
+  - type: input
+    id: assignee
+    attributes:
+      label: Assigned Agent / Person
+      description: Who will complete this task?
+      placeholder: "Frontend Specialist / @username"
+    validations:
+      required: false
+  
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: What must be completed before this task can start?
+      placeholder: |
+        - Blocks: #126
+        - Blocked by: #125
+    validations:
+      required: false
+  
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation Steps
+      description: How to verify this task was completed correctly
+      placeholder: |
+        1. Run test command
+        2. Check output
+        3. Verify no regressions
+    validations:
+      required: false
+  
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Additional context or considerations
+    validations:
+      required: false

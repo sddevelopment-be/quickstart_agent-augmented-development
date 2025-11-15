@@ -1,0 +1,30 @@
+name: <(^v^)> Update README.md with Changelog
+on:
+  workflow_dispatch:
+#  push:
+#    branches:
+#      - main
+#      - feature/**
+
+
+jobs:
+  build:
+    name: update-readme
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v5
+
+      - run: sed -i '/<!-- CHANGELOG:START -->/,/<!-- CHANGELOG:END -->/d' README.md
+      - run: echo '<!-- CHANGELOG:START -->' >> README.md
+      - run: cat docs/CHANGELOG.md >> README.md
+      - run: echo '<!-- CHANGELOG:END -->' >> README.md
+
+      - name: push
+        uses: actions-x/commit@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+        with:
+          name: GitHub Actions Autocommitter
+          files: ./README.md
+          message: "[GITOPS] updated README with latest changes"

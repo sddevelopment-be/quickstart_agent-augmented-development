@@ -1,0 +1,12 @@
+name: Epic
+description: Multi-task body of work
+title: "Epic: "
+labels: ["epic"]
+body:
+  - type: textarea
+    attributes:
+      label: Goal
+  - type: textarea
+    attributes:
+      label: Tasks
+      description: Use checkboxes

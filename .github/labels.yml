@@ -1,0 +1,194 @@
+# General purpose
+- name: 'good first issue'
+  color: '5319e7'
+  description: 'Good for newcomers'
+  aliases: []
+
+- name: 'help wanted'
+  color: '008672'
+  description: 'Extra attention is needed'
+  aliases: []
+
+# Work item hierarchy
+- name: 'epic'
+  color: '8B008B'
+  description: 'Multi-phase initiative with strategic value'
+  aliases: []
+
+- name: 'feature'
+  color: '0E8A16'
+  description: 'Cohesive set of tasks delivering specific capability'
+  aliases: []
+
+- name: 'task'
+  color: '1D76DB'
+  description: 'Discrete unit of work with clear completion criteria'
+  aliases: []
+
+- name: 'draft'
+  color: 'FBCA04'
+  description: 'Work in progress, not yet ready for review'
+  aliases: []
+
+# Agent-specific work
+- name: 'agent-driven'
+  color: '7057FF'
+  description: 'Work primarily executed by automated agents'
+  aliases: []
+
+- name: 'human-review-required'
+  color: 'D93F0B'
+  description: 'Requires human decision or validation'
+  aliases: []
+
+- name: 'mixed-collaboration'
+  color: 'BFD4F2'
+  description: 'Collaborative work between agents and humans'
+  aliases: []
+
+- name: 'status: pending'
+  color: c5def5
+  description: 'More info is needed before deciding what to do.'
+  aliases: []
+
+- name: 'status: pinned'
+  color: 0052cc
+  description: 'Issues and PRs that should not be labeled as stale or closed if they remain inactive.'
+  aliases: []
+
+- name: 'status: stale'
+  color: fbca04
+  description: 'Inactive issues and PRs.'
+  aliases: ['stale']
+
+- name: 'status: wontfix'
+  color: ffffff
+  description: 'This will not be worked on.'
+  aliases: ['wontfix']
+
+- name: 'type: automation'
+  color: 2fc904
+  description: 'About actions workflows and automation.'
+  aliases: ['automation', 'actions']
+
+- name: 'type: bug'
+  color: d73a4a
+  description: 'Verified problems that need to be worked on.'
+  aliases: ['bug']
+
+- name: 'type: dependencies'
+  color: 0366d6
+  description: 'Pull requests that update a dependency file'
+  aliases: ['dependencies']
+
+- name: 'type: duplicate'
+  color: cfd3d7
+  description: 'This issue or pull request already exists.'
+  aliases: ['duplicate']
+
+- name: 'type: enhancement'
+  color: a2eeef
+  description: 'New feature or request.'
+  aliases: ['enhancement']
+
+- name: 'type: invalid'
+  color: e4e669
+  description: "This doesn't seem right."
+  aliases: ['invalid']
+
+- name: 'type: maintenance'
+  color: 0075ca
+  description: "Documentation improvements and code refactoring, doesn't affect functionality."
+  aliases: ['documentation', 'docs']
+
+- name: 'type: not a bug'
+  color: 0e8a16
+  description: 'Reports that happen not be our fault.'
+  aliases: ['not a bug']
+
+- name: 'type: question'
+  color: d876e3
+  description: 'Further information is requested.'
+  aliases: ['question']
+
+- name: 'type: security'
+  color: 'ee0701'
+  description: 'Pull requests that address a security vulnerability.'
+  aliases: ['security']
+
+- name: 'type: concept-suggestion'
+  color: '3333cc'
+  description: 'Suggestion for a technical or behavioural pattern that could be a good addition to the collection.'
+  aliases: ['pattern', 'suggestion']
+
+- name: 'type: practice-suggestion'
+  color: '3333cc'
+  description: 'Suggestion for a technical or behavioural pattern that could be a good addition to the collection.'
+  aliases: ['pattern', 'suggestion']
+
+- name: 'type: resource-recommendation'
+  color: '3434cc'
+  description: 'Recommendations and Reviews of learning resources.'
+  aliases: ['recommended-reads', 'reasource-review']
+
+# Primer series labels
+- name: 'primer-series'
+  color: 'FF6B6B'
+  description: 'All primer-related work'
+  aliases: ['primers']
+
+- name: 'primer-programming'
+  color: 'FFA07A'
+  description: 'Programming language primers'
+  aliases: ['primer-languages']
+
+- name: 'primer-markup'
+  color: 'FFD700'
+  description: 'Markup and diagramming primers'
+  aliases: ['primer-diagramming']
+
+- name: 'primer-toolchain'
+  color: '87CEEB'
+  description: 'Toolchain and automation primers'
+  aliases: ['primer-automation']
+
+- name: 'primer-architectural'
+  color: '9370DB'
+  description: 'Architectural primers'
+  aliases: ['primer-architecture']
+
+- name: 'primer-algorithmic'
+  color: '98FB98'
+  description: 'Algorithmic primers'
+  aliases: ['primer-algorithms']
+
+# Primer phase labels
+- name: 'primer-phase-0'
+  color: 'E0E0E0'
+  description: 'Phase 0: Foundation and infrastructure'
+  aliases: []
+
+- name: 'primer-phase-1'
+  color: 'B0E0E6'
+  description: 'Phase 1: Split-focus initial batch'
+  aliases: []
+
+- name: 'primer-phase-2'
+  color: 'ADD8E6'
+  description: 'Phase 2: Family expansion'
+  aliases: []
+
+- name: 'primer-phase-3'
+  color: '87CEEB'
+  description: 'Phase 3: Deep coverage and specialization'
+  aliases: []
+
+- name: 'primer-phase-4'
+  color: '4682B4'
+  description: 'Phase 4: Consolidation and quality assurance'
+  aliases: []
+
+- name: 'primer-phase-5'
+  color: '4169E1'
+  description: 'Phase 5: Continuous expansion'
+  aliases: []

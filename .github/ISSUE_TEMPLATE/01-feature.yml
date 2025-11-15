@@ -1,0 +1,124 @@
+name: Feature
+description: Cohesive set of related tasks delivering specific capability
+title: "Feature: "
+labels: ["feature"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Feature Template
+        A feature represents a cohesive set of related tasks that together deliver a specific capability or component.
+        Features belong to an Epic and are broken down into Tasks.
+  
+  - type: input
+    id: epic
+    attributes:
+      label: Parent Epic
+      description: Link to the parent Epic issue (e.g., #123)
+      placeholder: "#123"
+    validations:
+      required: false
+  
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+      description: What specific capability or component does this feature deliver?
+      placeholder: Clear, concise statement of what this feature accomplishes
+    validations:
+      required: true
+  
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: Boundaries of this feature - what's included and what's explicitly excluded
+      placeholder: |
+        **In Scope:**
+        - Item 1
+        - Item 2
+        
+        **Out of Scope:**
+        - Item 1
+        - Item 2
+    validations:
+      required: true
+  
+  - type: textarea
+    id: deliverables
+    attributes:
+      label: Deliverables
+      description: Concrete outputs expected from this feature
+      placeholder: |
+        - [ ] Deliverable 1
+        - [ ] Deliverable 2
+    validations:
+      required: true
+  
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      description: How do we know this feature is complete and working correctly?
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+    validations:
+      required: true
+  
+  - type: dropdown
+    id: effort
+    attributes:
+      label: Effort Estimate
+      description: Rough effort estimate (not timeline commitment)
+      options:
+        - "Low (1-2 days)"
+        - "Medium (3-4 days)"
+        - "Medium-High (5-7 days)"
+        - "High (8+ days)"
+    validations:
+      required: false
+  
+  - type: dropdown
+    id: risk
+    attributes:
+      label: Risk Level
+      description: Assessed risk level for this feature
+      options:
+        - "Low"
+        - "Low-Medium"
+        - "Medium"
+        - "Medium-High"
+        - "High"
+    validations:
+      required: false
+  
+  - type: textarea
+    id: agents
+    attributes:
+      label: Assigned Agents / Contributors
+      description: Which agents or team members will work on this?
+      placeholder: |
+        - Primary: Frontend Specialist
+        - Supporting: Build Automation, Bootstrap Bill
+    validations:
+      required: false
+  
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: What must be completed before this feature can start?
+      placeholder: |
+        - Depends on #123
+        - Requires baseline testing infrastructure
+    validations:
+      required: false
+  
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional Notes
+      description: Any other relevant context, constraints, or considerations
+    validations:
+      required: false
