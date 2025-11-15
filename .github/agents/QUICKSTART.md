@@ -51,7 +51,50 @@ When you create a new repository from this template:
 
 ---
 
-## 3. How agents should combine these documents
+## 3. Using Issue Templates for Agent Tasks
+
+This repository includes specialized issue templates that streamline agent-driven workflows:
+
+### Bootstrap Repository Template
+- **File:** `.github/ISSUE_TEMPLATE/bootstrap-repo.yml`
+- **Purpose:** Configure repository vision, guidelines, and agent context
+- **Assigned to:** Bootstrap Bill (`agent:bootstrap-bill` label)
+- **Use when:** Setting up a new repository or updating vision and operational guidelines
+
+The template captures:
+- Repository vision and scope
+- Technology stack and constraints
+- Communication preferences
+- Agent roles and responsibilities
+- Reference materials
+
+### Create New Agent Template
+- **File:** `.github/ISSUE_TEMPLATE/create-new-agent.yml`
+- **Purpose:** Request creation of a new specialized agent
+- **Assigned to:** Manager Mike (`agent:manager-mike` label)
+- **Use when:** Need a new specialized agent for a specific domain
+
+The template captures:
+- Agent name and purpose
+- Primary focus and specialization
+- Success criteria and tools needed
+- Collaboration protocols
+- Reference materials (stored in `docs/references/` if requested)
+
+### Agent Ownership Labels
+
+Issues are automatically routed using agent-specific labels defined in `.github/labels.yml`:
+- `agent:bootstrap-bill` - Repository structure and scaffolding
+- `agent:manager-mike` - Coordination and routing
+- `agent:writer-editor` - Documentation and content
+- `agent:architect` - System design
+- And 11 more specialist labels...
+
+For complete details, see `work/ISSUE_TEMPLATES_GUIDE.md`.
+
+---
+
+## 4. How agents should combine these documents
 
 When you configure an agent, instruct it to:
 
