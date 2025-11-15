@@ -46,6 +46,82 @@
   description: 'Collaborative work between agents and humans'
   aliases: []
 
+# Agent ownership labels
+- name: 'agent:bootstrap-bill'
+  color: '9B59B6'
+  description: 'Owned by Bootstrap Bill - repository structure and scaffolding'
+  aliases: []
+
+- name: 'agent:manager-mike'
+  color: 'E67E22'
+  description: 'Owned by Manager Mike - coordination and routing'
+  aliases: []
+
+- name: 'agent:writer-editor'
+  color: '3498DB'
+  description: 'Owned by Writer/Editor - documentation and content'
+  aliases: []
+
+- name: 'agent:architect'
+  color: '1ABC9C'
+  description: 'Owned by Architect - system design and architecture'
+  aliases: []
+
+- name: 'agent:backend-dev'
+  color: '2ECC71'
+  description: 'Owned by Backend Developer - server-side implementation'
+  aliases: []
+
+- name: 'agent:frontend-dev'
+  color: 'F39C12'
+  description: 'Owned by Frontend Developer - UI implementation'
+  aliases: []
+
+- name: 'agent:researcher'
+  color: 'E74C3C'
+  description: 'Owned by Researcher - exploration and analysis'
+  aliases: []
+
+- name: 'agent:diagrammer'
+  color: '95A5A6'
+  description: 'Owned by Diagrammer - visual documentation'
+  aliases: []
+
+- name: 'agent:scribe'
+  color: '34495E'
+  description: 'Owned by Scribe - meeting notes and summaries'
+  aliases: []
+
+- name: 'agent:curator'
+  color: 'F1C40F'
+  description: 'Owned by Curator - content organization'
+  aliases: []
+
+- name: 'agent:synthesizer'
+  color: '16A085'
+  description: 'Owned by Synthesizer - information consolidation'
+  aliases: []
+
+- name: 'agent:lexical'
+  color: 'C0392B'
+  description: 'Owned by Lexical Agent - terminology and naming'
+  aliases: []
+
+- name: 'agent:translator'
+  color: '8E44AD'
+  description: 'Owned by Translator - language conversion'
+  aliases: []
+
+- name: 'agent:project-planner'
+  color: 'D35400'
+  description: 'Owned by Project Planner - planning and roadmaps'
+  aliases: []
+
+- name: 'agent:build-automation'
+  color: '27AE60'
+  description: 'Owned by Build Automation - CI/CD and tooling'
+  aliases: []
+
 - name: 'status: pending'
   color: c5def5
   description: 'More info is needed before deciding what to do.'

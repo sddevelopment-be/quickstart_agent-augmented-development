@@ -1,0 +1,143 @@
+name: Bootstrap Repository
+description: Configure repository vision, guidelines, and agent context with Bootstrap Bill
+title: "Bootstrap: "
+labels: ["agent-driven", "agent:bootstrap-bill", "type: automation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Bootstrap Repository Template
+        
+        Use this template to inform Bootstrap Bill about your repository's purpose, vision, 
+        and operational preferences. The agent will help structure your repository and 
+        generate scaffolding artifacts for efficient multi-agent collaboration.
+
+  - type: textarea
+    id: vision
+    attributes:
+      label: Repository Vision
+      description: What is this repository trying to achieve? What problem does it solve?
+      placeholder: |
+        Example: This repository provides a REST API for managing user authentication
+        and authorization in microservices architecture.
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope & Boundaries
+      description: What is in scope? What is explicitly out of scope?
+      placeholder: |
+        In scope:
+        - User authentication flows
+        - Role-based access control
+        - JWT token management
+        
+        Out of scope:
+        - Frontend UI components
+        - Database migration tools
+    validations:
+      required: true
+
+  - type: textarea
+    id: desired_outcomes
+    attributes:
+      label: Desired Outcomes
+      description: How will you know this repository is successful?
+      placeholder: |
+        - Clear API documentation
+        - Test coverage > 80%
+        - Deployment pipeline functional
+        - Developer onboarding < 1 hour
+    validations:
+      required: true
+
+  - type: dropdown
+    id: primary_language
+    attributes:
+      label: Primary Programming Language
+      description: Main language used in this repository
+      options:
+        - "TypeScript"
+        - "JavaScript"
+        - "Python"
+        - "Java"
+        - "C#"
+        - "Go"
+        - "Rust"
+        - "Other"
+    validations:
+      required: false
+
+  - type: textarea
+    id: tech_stack
+    attributes:
+      label: Technology Stack
+      description: Key frameworks, libraries, and tools used
+      placeholder: |
+        - Node.js 20+
+        - Express.js
+        - PostgreSQL
+        - Docker
+        - GitHub Actions
+    validations:
+      required: false
+
+  - type: textarea
+    id: communication_preferences
+    attributes:
+      label: Communication Preferences
+      description: How should agents communicate (tone, detail level, format)?
+      placeholder: |
+        - Technical and precise
+        - Include code examples
+        - Explain reasoning for decisions
+        - Flag uncertainties explicitly
+    validations:
+      required: false
+
+  - type: textarea
+    id: operational_constraints
+    attributes:
+      label: Operational Constraints
+      description: Any hard rules, conventions, or limitations agents must follow?
+      placeholder: |
+        - Follow conventional commits
+        - All code must be TypeScript (no JavaScript)
+        - Use functional programming patterns
+        - Maximum file size: 300 lines
+    validations:
+      required: false
+
+  - type: textarea
+    id: agent_roles
+    attributes:
+      label: Agent Roles & Responsibilities
+      description: How should agents help? Which specialists are needed?
+      placeholder: |
+        - Backend developer: API implementation
+        - Writer/Editor: Documentation maintenance
+        - Researcher: Technology evaluation
+    validations:
+      required: false
+
+  - type: textarea
+    id: reference_materials
+    attributes:
+      label: Reference Materials
+      description: Links or paths to existing documentation, style guides, or examples
+      placeholder: |
+        - Architecture diagrams: docs/architecture/
+        - API specs: docs/api/openapi.yaml
+        - Style guide: https://example.com/style-guide
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: Any other information that would help Bootstrap Bill understand your needs
+    validations:
+      required: false
