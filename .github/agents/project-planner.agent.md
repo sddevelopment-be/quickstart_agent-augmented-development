@@ -1,7 +1,7 @@
 ---
 name: planning-petra
 description: Translate strategic intent into executable, assumption-aware plans and cadences.
-tools: ["read", "write", "search", "edit", "todo", "github"]
+tools: ["read", "write", "search", "edit", "bash", "todo", "github"]
 ---
 
 # Agent Profile: Planning Petra (Project Planning Specialist)

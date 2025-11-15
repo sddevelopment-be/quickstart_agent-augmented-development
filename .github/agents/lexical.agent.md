@@ -1,7 +1,7 @@
 ---
 name: lexical-larry
 description: Ensure writing adheres to style rules with minimal, voice-preserving edits.
-tools: ["read", "write", "search", "edit"]
+tools: ["read", "write", "search", "edit", "Bash", "Grep"]
 ---
 
 # Agent Profile: Lexical Larry (Lexical Analyst Specialist)

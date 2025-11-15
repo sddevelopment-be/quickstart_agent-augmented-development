@@ -1,7 +1,7 @@
 ---
 name: synthesizer-sam
 description: Integrate multi-agent outputs into coherent, context-aligned insight systems.
-tools: [ "read", "write", "search", "edit", "MultiEdit", "bash" ]
+tools: [ "read", "write", "search", "edit", "MultiEdit", "bash", "markdown-linter"]
 ---
 
 # Agent Profile: Synthesizer Sam ( Multi-Agent Integration Specialist )

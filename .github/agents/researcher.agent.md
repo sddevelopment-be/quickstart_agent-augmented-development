@@ -1,7 +1,7 @@
 ---
 name: researcher-ralph
 description: Deliver grounded, verifiable insights for systemic reasoning.
-tools: ["read", "write", "search", "edit", "web"]
+tools: ["read", "write", "search", "edit", "web", "bash", "grep"]
 ---
 
 # Agent Profile: Researcher Ralph (Research and Corroboration Specialist)

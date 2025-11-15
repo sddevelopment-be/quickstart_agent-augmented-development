@@ -1,0 +1,176 @@
+name: Create New Agent
+description: Request Manager Mike to create a new specialized agent
+title: "New Agent: "
+labels: ["agent-driven", "agent:manager-mike", "type: automation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Create New Agent Template
+        
+        Use this template to request Manager Mike to create a new specialized agent
+        following the NEW_SPECIALIST.agent.md template. The agent will be configured
+        based on your specifications and reference materials.
+
+  - type: input
+    id: agent_name
+    attributes:
+      label: Agent Name
+      description: What should this agent be called? (e.g., "Security Auditor", "Performance Optimizer")
+      placeholder: "Data Engineer"
+    validations:
+      required: true
+
+  - type: textarea
+    id: agent_purpose
+    attributes:
+      label: Agent Purpose
+      description: What is this agent's primary mandate? What should it do (and not do)?
+      placeholder: |
+        Design and implement data pipelines, ETL processes, and data transformation logic.
+        Focus on data quality, performance optimization, and schema management.
+    validations:
+      required: true
+
+  - type: textarea
+    id: primary_focus
+    attributes:
+      label: Primary Focus
+      description: Core responsibilities and areas of expertise
+      placeholder: |
+        - Data pipeline architecture
+        - ETL job implementation
+        - Data quality validation
+        - Performance optimization
+    validations:
+      required: true
+
+  - type: textarea
+    id: secondary_awareness
+    attributes:
+      label: Secondary Awareness
+      description: Supporting knowledge areas or adjacent concerns
+      placeholder: |
+        - Database optimization
+        - Monitoring and alerting
+        - Cost management
+    validations:
+      required: false
+
+  - type: textarea
+    id: avoid
+    attributes:
+      label: What to Avoid
+      description: Activities outside this agent's scope
+      placeholder: |
+        - Frontend development
+        - Infrastructure provisioning (delegate to DevOps agent)
+        - Business logic implementation
+    validations:
+      required: false
+
+  - type: textarea
+    id: success_criteria
+    attributes:
+      label: Success Criteria
+      description: How do we measure this agent's effectiveness?
+      placeholder: |
+        - Pipeline code is maintainable and testable
+        - Data quality checks are comprehensive
+        - Performance meets SLA requirements
+    validations:
+      required: true
+
+  - type: dropdown
+    id: reasoning_mode
+    attributes:
+      label: Default Reasoning Mode
+      description: Which mode should this agent use most frequently?
+      options:
+        - "/analysis-mode (Structured reasoning)"
+        - "/creative-mode (Generative/ideation)"
+        - "/meta-mode (Process reflection)"
+    validations:
+      required: false
+
+  - type: textarea
+    id: tools
+    attributes:
+      label: Required Tools
+      description: Which tools does this agent need access to?
+      placeholder: |
+        - read, write, search, edit
+        - Bash
+        - GitHub
+        - custom-agent (for delegation)
+    validations:
+      required: false
+
+  - type: textarea
+    id: output_artifacts
+    attributes:
+      label: Output Artifacts
+      description: What files or documentation should this agent produce?
+      placeholder: |
+        - /work/data-engineering/PIPELINE_DESIGN.md
+        - /work/data-engineering/QUALITY_CHECKS.md
+        - /output/pipelines/*.py
+    validations:
+      required: false
+
+  - type: textarea
+    id: operating_procedure
+    attributes:
+      label: Operating Procedure
+      description: Step-by-step workflow this agent should follow
+      placeholder: |
+        1. Review data requirements and source systems
+        2. Design pipeline architecture
+        3. Implement ETL logic with quality checks
+        4. Document data flows and transformations
+        5. Hand off to testing agent
+    validations:
+      required: false
+
+  - type: textarea
+    id: collaboration_protocol
+    attributes:
+      label: Collaboration Protocol
+      description: How should this agent interact with other agents or humans?
+      placeholder: |
+        - Coordinate with Backend Developer for schema changes
+        - Hand off to QA Agent for integration testing
+        - Escalate to Architect for design decisions
+    validations:
+      required: false
+
+  - type: textarea
+    id: reference_materials
+    attributes:
+      label: Reference Materials
+      description: Links, docs, or examples this agent should study
+      placeholder: |
+        - docs/references/data-engineering-best-practices.md
+        - https://example.com/etl-patterns
+        - Existing pipeline examples in /src/pipelines/
+    validations:
+      required: false
+
+  - type: dropdown
+    id: store_references
+    attributes:
+      label: Store References in docs/references/?
+      description: Should reference materials be synthesized and stored?
+      options:
+        - "Yes - synthesize and store"
+        - "No - use as-is"
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: Any other requirements or considerations?
+    validations:
+      required: false

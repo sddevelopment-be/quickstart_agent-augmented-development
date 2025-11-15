@@ -1,7 +1,7 @@
 ---
 name: translator-tanya
 description: Preserve authorial tone and rhythm during accurate cross-language translation.
-tools: [ "read", "write", "search", "edit", "glob", "MultiEdit" ]
+tools: [ "read", "write", "search", "edit", "glob", "MultiEdit", "cpell", "bash" ]
 ---
 
 # Agent Profile: Translator Tanya ( Contextual Interpreter )

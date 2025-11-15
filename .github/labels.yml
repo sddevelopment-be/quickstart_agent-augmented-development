@@ -1,194 +1,194 @@
-# General purpose
-- name: 'good first issue'
-  color: '5319e7'
-  description: 'Good for newcomers'
-  aliases: []
+labels:
+  # General purpose
+  - name: 'good first issue'
+    color: '5319e7'
+    description: 'Good for newcomers'
+    aliases: []
 
-- name: 'help wanted'
-  color: '008672'
-  description: 'Extra attention is needed'
-  aliases: []
+  - name: 'help wanted'
+    color: '008672'
+    description: 'Extra attention is needed'
+    aliases: []
 
-# Work item hierarchy
-- name: 'epic'
-  color: '8B008B'
-  description: 'Multi-phase initiative with strategic value'
-  aliases: []
+  # Work item hierarchy
+  - name: 'epic'
+    color: '8B008B'
+    description: 'Multi-phase initiative with strategic value'
+    aliases: []
 
-- name: 'feature'
-  color: '0E8A16'
-  description: 'Cohesive set of tasks delivering specific capability'
-  aliases: []
+  - name: 'feature'
+    color: '0E8A16'
+    description: 'Cohesive set of tasks delivering specific capability'
+    aliases: []
 
-- name: 'task'
-  color: '1D76DB'
-  description: 'Discrete unit of work with clear completion criteria'
-  aliases: []
+  - name: 'task'
+    color: '1D76DB'
+    description: 'Discrete unit of work with clear completion criteria'
+    aliases: []
 
-- name: 'draft'
-  color: 'FBCA04'
-  description: 'Work in progress, not yet ready for review'
-  aliases: []
+  - name: 'draft'
+    color: 'FBCA04'
+    description: 'Work in progress, not yet ready for review'
+    aliases: []
 
-# Agent-specific work
-- name: 'agent-driven'
-  color: '7057FF'
-  description: 'Work primarily executed by automated agents'
-  aliases: []
+  # Agent-specific work
+  - name: 'agent-driven'
+    color: '7057FF'
+    description: 'Work primarily executed by automated agents'
+    aliases: []
 
-- name: 'human-review-required'
-  color: 'D93F0B'
-  description: 'Requires human decision or validation'
-  aliases: []
+  - name: 'human-review-required'
+    color: 'D93F0B'
+    description: 'Requires human decision or validation'
+    aliases: []
 
-- name: 'mixed-collaboration'
-  color: 'BFD4F2'
-  description: 'Collaborative work between agents and humans'
-  aliases: []
+  - name: 'mixed-collaboration'
+    color: 'BFD4F2'
+    description: 'Collaborative work between agents and humans'
+    aliases: []
 
-- name: 'status: pending'
-  color: c5def5
-  description: 'More info is needed before deciding what to do.'
-  aliases: []
+  # Agent ownership labels
+  - name: 'agent:bootstrap-bill'
+    color: '9B59B6'
+    description: 'Owned by Bootstrap Bill - repository structure and scaffolding'
+    aliases: []
 
-- name: 'status: pinned'
-  color: 0052cc
-  description: 'Issues and PRs that should not be labeled as stale or closed if they remain inactive.'
-  aliases: []
+  - name: 'agent:manager-mike'
+    color: 'E67E22'
+    description: 'Owned by Manager Mike - coordination and routing'
+    aliases: []
 
-- name: 'status: stale'
-  color: fbca04
-  description: 'Inactive issues and PRs.'
-  aliases: ['stale']
+  - name: 'agent:writer-editor'
+    color: '3498DB'
+    description: 'Owned by Writer/Editor - documentation and content'
+    aliases: []
 
-- name: 'status: wontfix'
-  color: ffffff
-  description: 'This will not be worked on.'
-  aliases: ['wontfix']
+  - name: 'agent:architect'
+    color: '1ABC9C'
+    description: 'Owned by Architect - system design and architecture'
+    aliases: []
 
-- name: 'type: automation'
-  color: 2fc904
-  description: 'About actions workflows and automation.'
-  aliases: ['automation', 'actions']
+  - name: 'agent:backend-dev'
+    color: '2ECC71'
+    description: 'Owned by Backend Developer - server-side implementation'
+    aliases: []
 
-- name: 'type: bug'
-  color: d73a4a
-  description: 'Verified problems that need to be worked on.'
-  aliases: ['bug']
+  - name: 'agent:frontend-dev'
+    color: 'F39C12'
+    description: 'Owned by Frontend Developer - UI implementation'
+    aliases: []
 
-- name: 'type: dependencies'
-  color: 0366d6
-  description: 'Pull requests that update a dependency file'
-  aliases: ['dependencies']
+  - name: 'agent:researcher'
+    color: 'E74C3C'
+    description: 'Owned by Researcher - exploration and analysis'
+    aliases: []
 
-- name: 'type: duplicate'
-  color: cfd3d7
-  description: 'This issue or pull request already exists.'
-  aliases: ['duplicate']
+  - name: 'agent:diagrammer'
+    color: '95A5A6'
+    description: 'Owned by Diagrammer - visual documentation'
+    aliases: []
 
-- name: 'type: enhancement'
-  color: a2eeef
-  description: 'New feature or request.'
-  aliases: ['enhancement']
+  - name: 'agent:scribe'
+    color: '34495E'
+    description: 'Owned by Scribe - meeting notes and summaries'
+    aliases: []
 
-- name: 'type: invalid'
-  color: e4e669
-  description: "This doesn't seem right."
-  aliases: ['invalid']
+  - name: 'agent:curator'
+    color: 'F1C40F'
+    description: 'Owned by Curator - content organization'
+    aliases: []
 
-- name: 'type: maintenance'
-  color: 0075ca
-  description: "Documentation improvements and code refactoring, doesn't affect functionality."
-  aliases: ['documentation', 'docs']
+  - name: 'agent:synthesizer'
+    color: '16A085'
+    description: 'Owned by Synthesizer - information consolidation'
+    aliases: []
 
-- name: 'type: not a bug'
-  color: 0e8a16
-  description: 'Reports that happen not be our fault.'
-  aliases: ['not a bug']
+  - name: 'agent:lexical'
+    color: 'C0392B'
+    description: 'Owned by Lexical Agent - terminology and naming'
+    aliases: []
 
-- name: 'type: question'
-  color: d876e3
-  description: 'Further information is requested.'
-  aliases: ['question']
+  - name: 'agent:translator'
+    color: '8E44AD'
+    description: 'Owned by Translator - language conversion'
+    aliases: []
 
-- name: 'type: security'
-  color: 'ee0701'
-  description: 'Pull requests that address a security vulnerability.'
-  aliases: ['security']
+  - name: 'agent:project-planner'
+    color: 'D35400'
+    description: 'Owned by Project Planner - planning and roadmaps'
+    aliases: []
 
-- name: 'type: concept-suggestion'
-  color: '3333cc'
-  description: 'Suggestion for a technical or behavioural pattern that could be a good addition to the collection.'
-  aliases: ['pattern', 'suggestion']
+  - name: 'agent:build-automation'
+    color: '27AE60'
+    description: 'Owned by Build Automation - CI/CD and tooling'
+    aliases: []
 
-- name: 'type: practice-suggestion'
-  color: '3333cc'
-  description: 'Suggestion for a technical or behavioural pattern that could be a good addition to the collection.'
-  aliases: ['pattern', 'suggestion']
+  - name: 'status: pending'
+    color: c5def5
+    description: 'More info is needed before deciding what to do.'
+    aliases: []
 
-- name: 'type: resource-recommendation'
-  color: '3434cc'
-  description: 'Recommendations and Reviews of learning resources.'
-  aliases: ['recommended-reads', 'reasource-review']
+  - name: 'status: pinned'
+    color: 0052cc
+    description: 'Issues and PRs that should not be labeled as stale or closed if they remain inactive.'
+    aliases: []
 
-# Primer series labels
-- name: 'primer-series'
-  color: 'FF6B6B'
-  description: 'All primer-related work'
-  aliases: ['primers']
+  - name: 'status: stale'
+    color: fbca04
+    description: 'Inactive issues and PRs.'
+    aliases: ['stale']
 
-- name: 'primer-programming'
-  color: 'FFA07A'
-  description: 'Programming language primers'
-  aliases: ['primer-languages']
+  - name: 'status: wontfix'
+    color: ffffff
+    description: 'This will not be worked on.'
+    aliases: ['wontfix']
 
-- name: 'primer-markup'
-  color: 'FFD700'
-  description: 'Markup and diagramming primers'
-  aliases: ['primer-diagramming']
+  - name: 'type: automation'
+    color: 2fc904
+    description: 'About actions workflows and automation.'
+    aliases: ['automation', 'actions']
 
-- name: 'primer-toolchain'
-  color: '87CEEB'
-  description: 'Toolchain and automation primers'
-  aliases: ['primer-automation']
+  - name: 'type: bug'
+    color: d73a4a
+    description: 'Verified problems that need to be worked on.'
+    aliases: ['bug']
 
-- name: 'primer-architectural'
-  color: '9370DB'
-  description: 'Architectural primers'
-  aliases: ['primer-architecture']
+  - name: 'type: dependencies'
+    color: 0366d6
+    description: 'Pull requests that update a dependency file'
+    aliases: ['dependencies']
 
-- name: 'primer-algorithmic'
-  color: '98FB98'
-  description: 'Algorithmic primers'
-  aliases: ['primer-algorithms']
+  - name: 'type: duplicate'
+    color: cfd3d7
+    description: 'This issue or pull request already exists.'
+    aliases: ['duplicate']
 
-# Primer phase labels
-- name: 'primer-phase-0'
-  color: 'E0E0E0'
-  description: 'Phase 0: Foundation and infrastructure'
-  aliases: []
+  - name: 'type: enhancement'
+    color: a2eeef
+    description: 'New feature or request.'
+    aliases: ['enhancement']
 
-- name: 'primer-phase-1'
-  color: 'B0E0E6'
-  description: 'Phase 1: Split-focus initial batch'
-  aliases: []
+  - name: 'type: invalid'
+    color: e4e669
+    description: "This doesn't seem right."
+    aliases: ['invalid']
 
-- name: 'primer-phase-2'
-  color: 'ADD8E6'
-  description: 'Phase 2: Family expansion'
-  aliases: []
+  - name: 'type: maintenance'
+    color: 0075ca
+    description: "Documentation improvements and code refactoring, doesn't affect functionality."
+    aliases: ['documentation', 'docs']
 
-- name: 'primer-phase-3'
-  color: '87CEEB'
-  description: 'Phase 3: Deep coverage and specialization'
-  aliases: []
+  - name: 'type: not a bug'
+    color: 0e8a16
+    description: 'Reports that happen not be our fault.'
+    aliases: ['not a bug']
 
-- name: 'primer-phase-4'
-  color: '4682B4'
-  description: 'Phase 4: Consolidation and quality assurance'
-  aliases: []
+  - name: 'type: question'
+    color: d876e3
+    description: 'Further information is requested.'
+    aliases: ['question']
 
-- name: 'primer-phase-5'
-  color: '4169E1'
-  description: 'Phase 5: Continuous expansion'
-  aliases: []
+  - name: 'type: security'
+    color: 'ee0701'
+    description: 'Pull requests that address a security vulnerability.'
+    aliases: ['security']
