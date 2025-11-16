@@ -3,7 +3,7 @@
 OpenCode Specification Validator
 
 Validates JSON configuration files against the OpenCode agent specification.
-Provides detailed error reporting for schema violations.
+Uses the official JSON Schema from docs/opencode_config.json.
 
 Usage:
     python3 opencode-spec-validator.py <config-file.json>
@@ -18,18 +18,116 @@ import sys
 import json
 import argparse
 from pathlib import Path
-from typing import Dict, List, Any, Tuple
+from typing import Dict, Any, Tuple
+
+try:
+    import jsonschema
+    from jsonschema import validate, ValidationError as JsonSchemaValidationError, SchemaError
+    JSONSCHEMA_AVAILABLE = True
+except ImportError:
+    JSONSCHEMA_AVAILABLE = False
 
 
-# OpenCode Schema Definition
-# Based on common agent configuration patterns
-# Update this when official specification is available
-OPENCODE_SCHEMA = {
-    "required_fields": ["agents", "version"],
-    "optional_fields": ["metadata"],
-    "agent_required_fields": ["name", "description", "instructions"],
-    "agent_optional_fields": ["tools", "model", "capabilities"],
-}
+def load_schema(schema_path: Path) -> Tuple[Dict[str, Any], str]:
+    """
+    Load the OpenCode JSON Schema.
+    
+    Args:
+        schema_path: Path to the schema file
+        
+    Returns:
+        Tuple of (schema_dict, error_message)
+    """
+    try:
+        with open(schema_path, 'r', encoding='utf-8') as f:
+            schema = json.load(f)
+            return schema, ""
+    except FileNotFoundError:
+        return {}, f"Schema file not found: {schema_path}"
+    except json.JSONDecodeError as e:
+        return {}, f"Invalid JSON in schema: {e}"
+    except Exception as e:
+        return {}, f"Error loading schema: {e}"
+
+
+def validate_with_jsonschema(config: Dict[str, Any], schema: Dict[str, Any]) -> Tuple[bool, str]:
+    """
+    Validate configuration using jsonschema library.
+    
+    Args:
+        config: Configuration to validate
+        schema: JSON Schema to validate against
+        
+    Returns:
+        Tuple of (is_valid, error_message)
+    """
+    if not JSONSCHEMA_AVAILABLE:
+        return False, "jsonschema library not available"
+    
+    try:
+        validate(instance=config, schema=schema)
+        return True, ""
+    except JsonSchemaValidationError as e:
+        # Format the validation error nicely
+        error_path = " -> ".join(str(p) for p in e.path) if e.path else "root"
+        error_msg = f"Validation error at {error_path}:\n  {e.message}"
+        
+        # Add context if available
+        if e.context:
+            error_msg += "\n\nContext:"
+            for ctx_error in e.context:
+                ctx_path = " -> ".join(str(p) for p in ctx_error.path) if ctx_error.path else "root"
+                error_msg += f"\n  • {ctx_path}: {ctx_error.message}"
+        
+        return False, error_msg
+    except SchemaError as e:
+        return False, f"Invalid schema: {e.message}"
+    except Exception as e:
+        return False, f"Validation error: {e}"
+
+
+def simple_validation(config: Dict[str, Any]) -> Tuple[bool, str]:
+    """
+    Simple validation without jsonschema library.
+    Checks basic structure only.
+    
+    Args:
+        config: Configuration to validate
+        
+    Returns:
+        Tuple of (is_valid, error_message)
+    """
+    errors = []
+    
+    # Check if it's a dict
+    if not isinstance(config, dict):
+        return False, "Configuration must be a JSON object"
+    
+    # Check for agent property (optional but common)
+    if "agent" in config:
+        if not isinstance(config["agent"], dict):
+            errors.append("'agent' must be an object")
+        else:
+            # Check each agent configuration
+            for agent_name, agent_config in config["agent"].items():
+                if not isinstance(agent_config, dict):
+                    errors.append(f"Agent '{agent_name}' must be an object")
+                    continue
+                
+                # Check for prompt (common field)
+                if "prompt" in agent_config:
+                    if not isinstance(agent_config["prompt"], str):
+                        errors.append(f"Agent '{agent_name}': 'prompt' must be a string")
+                
+                # Check for mode (common field)
+                if "mode" in agent_config:
+                    if not isinstance(agent_config["mode"], str):
+                        errors.append(f"Agent '{agent_name}': 'mode' must be a string")
+    
+    if errors:
+        return False, "\n".join(f"  • {e}" for e in errors)
+    
+    return True, ""
 
 
 class ValidationError:
@@ -48,212 +146,50 @@ class ValidationError:
 class OpenCodeValidator:
     """Validates OpenCode configuration files."""
     
-    def __init__(self):
-        self.errors: List[ValidationError] = []
-        self.warnings: List[ValidationError] = []
+    def __init__(self, schema_path: Path = None):
+        self.schema_path = schema_path
+        self.schema = None
+        self.use_jsonschema = JSONSCHEMA_AVAILABLE
+        
+        # Try to load schema if provided
+        if schema_path and schema_path.exists():
+            self.schema, error = load_schema(schema_path)
+            if error:
+                print(f"⚠️  Warning: {error}", file=sys.stderr)
+                self.schema = None
     
-    def validate(self, config: Dict[str, Any]) -> bool:
+    def validate(self, config: Dict[str, Any]) -> Tuple[bool, str]:
         """
-        Validate the configuration against OpenCode schema.
+        Validate the configuration.
         
         Args:
             config: Parsed JSON configuration
             
         Returns:
-            True if valid, False otherwise
+            Tuple of (is_valid, error_message)
         """
-        self.errors.clear()
-        self.warnings.clear()
+        # If we have jsonschema and a schema, use it
+        if self.use_jsonschema and self.schema:
+            return validate_with_jsonschema(config, self.schema)
         
-        # Check root-level required fields
-        self._validate_required_fields(
-            config, 
-            OPENCODE_SCHEMA["required_fields"],
-            "root"
-        )
-        
-        # Validate version format
-        if "version" in config:
-            self._validate_version(config["version"])
-        
-        # Validate agents array
-        if "agents" in config:
-            if not isinstance(config["agents"], list):
-                self.errors.append(
-                    ValidationError("root.agents", "Must be an array")
-                )
-            else:
-                self._validate_agents(config["agents"])
-        
-        # Validate metadata if present
-        if "metadata" in config:
-            self._validate_metadata(config["metadata"])
-        
-        # Check for unknown fields (warning only)
-        known_fields = (
-            OPENCODE_SCHEMA["required_fields"] + 
-            OPENCODE_SCHEMA["optional_fields"]
-        )
-        for field in config.keys():
-            if field not in known_fields:
-                self.warnings.append(
-                    ValidationError(
-                        f"root.{field}",
-                        f"Unknown field '{field}' in root configuration",
-                        "warning"
-                    )
-                )
-        
-        return len(self.errors) == 0
+        # Otherwise fall back to simple validation
+        return simple_validation(config)
     
-    def _validate_required_fields(
-        self, 
-        obj: Dict[str, Any], 
-        required: List[str],
-        path: str
-    ):
-        """Check that all required fields are present."""
-        for field in required:
-            if field not in obj:
-                self.errors.append(
-                    ValidationError(
-                        path,
-                        f"Missing required field: '{field}'"
-                    )
-                )
-    
-    def _validate_version(self, version: Any):
-        """Validate version field format."""
-        if not isinstance(version, str):
-            self.errors.append(
-                ValidationError(
-                    "root.version",
-                    "Version must be a string"
-                )
-            )
-        elif not version.strip():
-            self.errors.append(
-                ValidationError(
-                    "root.version",
-                    "Version cannot be empty"
-                )
-            )
-    
-    def _validate_agents(self, agents: List[Dict[str, Any]]):
-        """Validate the agents array."""
-        if len(agents) == 0:
-            self.warnings.append(
-                ValidationError(
-                    "root.agents",
-                    "Agents array is empty",
-                    "warning"
-                )
-            )
-        
-        for idx, agent in enumerate(agents):
-            self._validate_agent(agent, idx)
-    
-    def _validate_agent(self, agent: Dict[str, Any], idx: int):
-        """Validate a single agent configuration."""
-        path = f"agents[{idx}]"
-        
-        if not isinstance(agent, dict):
-            self.errors.append(
-                ValidationError(path, "Agent must be an object")
-            )
-            return
-        
-        # Check required fields
-        self._validate_required_fields(
-            agent,
-            OPENCODE_SCHEMA["agent_required_fields"],
-            path
-        )
-        
-        # Validate name
-        if "name" in agent:
-            if not isinstance(agent["name"], str):
-                self.errors.append(
-                    ValidationError(f"{path}.name", "Must be a string")
-                )
-            elif not agent["name"].strip():
-                self.errors.append(
-                    ValidationError(f"{path}.name", "Cannot be empty")
-                )
-        
-        # Validate description
-        if "description" in agent:
-            if not isinstance(agent["description"], str):
-                self.errors.append(
-                    ValidationError(f"{path}.description", "Must be a string")
-                )
-        
-        # Validate instructions
-        if "instructions" in agent:
-            if not isinstance(agent["instructions"], str):
-                self.errors.append(
-                    ValidationError(f"{path}.instructions", "Must be a string")
-                )
-        
-        # Validate tools if present
-        if "tools" in agent:
-            if not isinstance(agent["tools"], list):
-                self.errors.append(
-                    ValidationError(f"{path}.tools", "Must be an array")
-                )
-            else:
-                for tool_idx, tool in enumerate(agent["tools"]):
-                    if not isinstance(tool, str):
-                        self.errors.append(
-                            ValidationError(
-                                f"{path}.tools[{tool_idx}]",
-                                "Tool must be a string"
-                            )
-                        )
-        
-        # Check for unknown fields
-        known_fields = (
-            OPENCODE_SCHEMA["agent_required_fields"] +
-            OPENCODE_SCHEMA["agent_optional_fields"]
-        )
-        for field in agent.keys():
-            if field not in known_fields:
-                self.warnings.append(
-                    ValidationError(
-                        f"{path}.{field}",
-                        f"Unknown agent field '{field}'",
-                        "warning"
-                    )
-                )
-    
-    def _validate_metadata(self, metadata: Any):
-        """Validate metadata object."""
-        if not isinstance(metadata, dict):
-            self.errors.append(
-                ValidationError(
-                    "root.metadata",
-                    "Metadata must be an object"
-                )
-            )
-    
-    def get_report(self) -> str:
+    def get_report(self, is_valid: bool, error_msg: str = "") -> str:
         """Generate a human-readable validation report."""
         lines = []
         
-        if self.errors:
-            lines.append("\n❌ VALIDATION FAILED\n")
-            lines.append(f"Found {len(self.errors)} error(s):\n")
-            for error in self.errors:
-                lines.append(f"  {error}")
-        
-        if self.warnings:
-            lines.append(f"\n⚠️  Found {len(self.warnings)} warning(s):\n")
-            for warning in self.warnings:
-                lines.append(f"  {warning}")
-        
-        if not self.errors and not self.warnings:
+        if is_valid:
             lines.append("\n✅ VALIDATION PASSED\n")
-            lines.append("Configuration is valid according to OpenCode specification.")
+            if self.schema:
+                lines.append("Configuration is valid according to OpenCode specification.")
+            else:
+                lines.append("Configuration passed basic structure validation.")
+                lines.append("(Full schema validation unavailable)")
+        else:
+            lines.append("\n❌ VALIDATION FAILED\n")
+            if error_msg:
+                lines.append(error_msg)
         
         return "\n".join(lines)
 
@@ -278,6 +214,22 @@ def load_json_file(filepath: Path) -> Tuple[Dict[str, Any], str]:
         return {}, f"Error reading file: {e}"
 
 
+def find_schema_file() -> Path:
+    """Find the OpenCode schema file in the repository."""
+    # Try common locations
+    candidates = [
+        Path('docs/opencode_config.json'),
+        Path('../docs/opencode_config.json'),
+        Path('../../docs/opencode_config.json'),
+    ]
+    
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate.resolve()
+    
+    return None
+
+
 def main():
     """Main entry point for the validator."""
     parser = argparse.ArgumentParser(
@@ -287,6 +239,7 @@ def main():
 Examples:
   python3 opencode-spec-validator.py config.json
   python3 opencode-spec-validator.py --quiet opencode-config.json
+  python3 opencode-spec-validator.py --schema docs/opencode_config.json config.json
 
 Exit codes:
   0 - Valid configuration
@@ -302,15 +255,21 @@ Exit codes:
     )
     
     parser.add_argument(
+        '-s', '--schema',
+        type=Path,
+        help='Path to OpenCode JSON Schema file (default: auto-detect)'
+    )
+    
+    parser.add_argument(
         '-q', '--quiet',
         action='store_true',
         help='Suppress output, only use exit code'
     )
     
     parser.add_argument(
-        '--warnings-as-errors',
+        '--no-schema',
         action='store_true',
-        help='Treat warnings as errors'
+        help='Skip schema validation, only do basic checks'
     )
     
     args = parser.parse_args()
@@ -323,17 +282,27 @@ Exit codes:
             print(f"❌ ERROR: {error}", file=sys.stderr)
         return 2
     
-    # Validate configuration
-    validator = OpenCodeValidator()
-    is_valid = validator.validate(config)
+    # Find schema file if not provided
+    schema_path = None
+    if not args.no_schema:
+        if args.schema:
+            schema_path = args.schema
+        else:
+            schema_path = find_schema_file()
+        
+        if schema_path and not schema_path.exists():
+            if not args.quiet:
+                print(f"⚠️  Schema file not found: {schema_path}", file=sys.stderr)
+                print(f"⚠️  Falling back to basic validation", file=sys.stderr)
+            schema_path = None
     
-    # Check if warnings should be treated as errors
-    if args.warnings_as_errors and validator.warnings:
-        is_valid = False
+    # Validate configuration
+    validator = OpenCodeValidator(schema_path=schema_path)
+    is_valid, error_msg = validator.validate(config)
     
     # Print report
     if not args.quiet:
-        print(validator.get_report())
+        print(validator.get_report(is_valid, error_msg))
     
     # Return appropriate exit code
     return 0 if is_valid else 1

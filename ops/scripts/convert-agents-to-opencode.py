@@ -3,7 +3,7 @@
 Agent to OpenCode Configuration Converter
 
 Converts agent markdown files from .github/agents to OpenCode JSON format.
-Parses YAML frontmatter and markdown content to generate standardized config.
+Uses file references with {file:path} syntax as per OpenCode specification.
 
 Usage:
     python3 convert-agents-to-opencode.py [options]
@@ -13,6 +13,7 @@ Options:
     -o, --output PATH        Output JSON file (default: opencode-config.json)
     -v, --verbose            Enable verbose logging
     --validate               Validate output using opencode-spec-validator.py
+    --primary-agent NAME     Name of the primary agent (default: manager)
 
 Exit Codes:
     0 - Successful conversion
@@ -25,7 +26,6 @@ import json
 import argparse
 import re
 from pathlib import Path
-from datetime import datetime, timezone
 from typing import Dict, List, Any, Optional, Tuple
 
 
@@ -43,20 +43,20 @@ class AgentParser:
     
     def parse_file(self, filepath: Path) -> Optional[Dict[str, Any]]:
         """
-        Parse an agent markdown file.
+        Parse an agent markdown file to extract frontmatter.
         
         Args:
             filepath: Path to the agent file
             
         Returns:
-            Dictionary with agent data or None if parsing fails
+            Dictionary with name and other frontmatter data, or None if parsing fails
         """
         try:
             content = filepath.read_text(encoding='utf-8')
             
             # Extract YAML frontmatter
             frontmatter_match = re.match(
-                r'^---\s*\n(.*?)\n---\s*\n(.*)$',
+                r'^---\s*\n(.*?)\n---\s*\n',
                 content,
                 re.DOTALL
             )
@@ -66,7 +66,6 @@ class AgentParser:
                 return None
             
             frontmatter_text = frontmatter_match.group(1)
-            markdown_body = frontmatter_match.group(2).strip()
             
             # Parse frontmatter manually (simple YAML subset)
             frontmatter = self._parse_simple_yaml(frontmatter_text)
@@ -75,28 +74,13 @@ class AgentParser:
                 self.errors.append(f"Failed to parse frontmatter in {filepath.name}")
                 return None
             
-            # Build agent configuration
-            agent = {
-                "name": frontmatter.get("name", ""),
-                "description": frontmatter.get("description", ""),
-                "instructions": markdown_body
-            }
-            
-            # Add optional fields if present
-            if "tools" in frontmatter:
-                agent["tools"] = frontmatter["tools"]
-            
             # Validate required fields
-            if not agent["name"]:
+            if "name" not in frontmatter:
                 self.errors.append(f"Missing 'name' in {filepath.name}")
                 return None
             
-            if not agent["description"]:
-                self.errors.append(f"Missing 'description' in {filepath.name}")
-                return None
-            
-            self.log(f"Parsed agent: {agent['name']}")
-            return agent
+            self.log(f"Parsed agent: {frontmatter['name']}")
+            return frontmatter
             
         except Exception as e:
             self.errors.append(f"Error parsing {filepath.name}: {e}")
@@ -151,10 +135,11 @@ class AgentParser:
 class AgentConverter:
     """Convert agent files to OpenCode configuration."""
     
-    def __init__(self, input_dir: Path, verbose: bool = False):
+    def __init__(self, input_dir: Path, verbose: bool = False, primary_agent: str = "manager"):
         self.input_dir = input_dir
         self.parser = AgentParser(verbose=verbose)
         self.verbose = verbose
+        self.primary_agent = primary_agent
     
     def log(self, message: str):
         """Log a message if verbose mode is enabled."""
@@ -181,30 +166,60 @@ class AgentConverter:
         self.log(f"Found {len(agent_files)} agent file(s)")
         
         # Parse each agent file
-        agents = []
+        agents_config = {}
         for filepath in agent_files:
-            agent = self.parser.parse_file(filepath)
-            if agent:
-                agents.append(agent)
+            agent_data = self.parser.parse_file(filepath)
+            if agent_data:
+                agent_name = agent_data["name"]
+                
+                # Build OpenCode agent configuration
+                # Use file reference syntax: {file:path}
+                # Use relative path from repository root
+                try:
+                    # Get path relative to input directory's parent (.github)
+                    relative_path = filepath.relative_to(self.input_dir.parent)
+                    path_str = f"./{relative_path}"
+                except ValueError:
+                    # Fallback to path relative to current directory
+                    try:
+                        relative_path = filepath.relative_to(Path.cwd())
+                        path_str = f"./{relative_path}"
+                    except ValueError:
+                        # Last resort: use filename with agents prefix
+                        path_str = f"./agents/{filepath.name}"
+                
+                agent_config = {
+                    "prompt": f"{{file:{path_str}}}"
+                }
+                
+                # Set mode: primary for the primary agent, subagent for others
+                if agent_name == self.primary_agent:
+                    agent_config["mode"] = "primary"
+                else:
+                    agent_config["mode"] = "subagent"
+                
+                # Add tools if present in frontmatter
+                # OpenCode format: tools is an object with tool names as keys, booleans as values
+                if "tools" in agent_data:
+                    tools_list = agent_data["tools"]
+                    if isinstance(tools_list, list):
+                        agent_config["tools"] = {tool: True for tool in tools_list}
+                    elif isinstance(tools_list, dict):
+                        agent_config["tools"] = tools_list
+                
+                # Add description if present
+                if "description" in agent_data:
+                    agent_config["description"] = agent_data["description"]
+                
+                agents_config[agent_name] = agent_config
         
-        if not agents and self.parser.errors:
+        if not agents_config and self.parser.errors:
             return {}, self.parser.errors
         
         # Build OpenCode configuration
-        try:
-            source_path = str(self.input_dir.relative_to(Path.cwd()))
-        except ValueError:
-            source_path = str(self.input_dir)
-        
         config = {
-            "version": "1.0.0",
-            "agents": agents,
-            "metadata": {
-                "source": source_path,
-                "generated": datetime.now(timezone.utc).isoformat(),
-                "generator": "convert-agents-to-opencode.py",
-                "agent_count": len(agents)
-            }
+            "$schema": "https://opencode.ai/config.json",
+            "agent": agents_config
         }
         
         return config, self.parser.errors
@@ -287,6 +302,9 @@ Examples:
   
   # Convert and validate
   python3 convert-agents-to-opencode.py --validate --verbose
+  
+  # Specify primary agent
+  python3 convert-agents-to-opencode.py --primary-agent manager-mike
         """
     )
     
@@ -316,12 +334,19 @@ Examples:
         help='Validate output using opencode-spec-validator.py'
     )
     
+    parser.add_argument(
+        '--primary-agent',
+        type=str,
+        default='manager-mike',
+        help='Name of the primary agent (default: manager-mike)'
+    )
+    
     args = parser.parse_args()
     
     # Convert agents
     print(f"🔄 Converting agents from {args.input_dir}...")
     
-    converter = AgentConverter(args.input_dir, verbose=args.verbose)
+    converter = AgentConverter(args.input_dir, verbose=args.verbose, primary_agent=args.primary_agent)
     config, errors = converter.convert()
     
     # Report errors
@@ -331,7 +356,7 @@ Examples:
             print(f"  • {error}")
     
     # Check if we got any agents
-    if not config or not config.get("agents"):
+    if not config or not config.get("agent"):
         print("\n❌ No agents were successfully converted", file=sys.stderr)
         return 1
     
@@ -340,7 +365,7 @@ Examples:
     if not converter.save_config(config, args.output):
         return 1
     
-    print(f"\n✅ Successfully converted {len(config['agents'])} agent(s)")
+    print(f"\n✅ Successfully converted {len(config['agent'])} agent(s)")
     
     # Validate if requested
     if args.validate:
