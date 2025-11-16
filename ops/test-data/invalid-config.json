@@ -1,0 +1,23 @@
+{
+  "agents": [
+    {
+      "name": "incomplete-agent",
+      "description": "Missing instructions field"
+    },
+    {
+      "description": "Missing name field",
+      "instructions": "This agent is missing a name"
+    },
+    {
+      "name": "",
+      "description": "Empty name",
+      "instructions": "This agent has an empty name"
+    },
+    {
+      "name": "invalid-tools",
+      "description": "Invalid tools format",
+      "instructions": "This agent has invalid tools",
+      "tools": "should-be-array"
+    }
+  ]
+}

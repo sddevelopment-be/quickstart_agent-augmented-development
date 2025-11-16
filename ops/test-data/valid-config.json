@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "agents": [
+    {
+      "name": "test-agent",
+      "description": "A test agent for validation",
+      "instructions": "This is a test agent with minimal configuration.",
+      "tools": ["read", "write", "search"]
+    },
+    {
+      "name": "advanced-agent",
+      "description": "An advanced test agent",
+      "instructions": "This agent has more capabilities and demonstrates all optional fields.",
+      "tools": ["read", "write", "search", "edit", "bash"],
+      "model": "gpt-4",
+      "capabilities": ["code-generation", "analysis"]
+    }
+  ],
+  "metadata": {
+    "source": ".github/agents",
+    "generated": "2025-11-16T08:16:00Z",
+    "generator": "convert-agents-to-opencode.py"
+  }
+}
