@@ -113,7 +113,9 @@
         "read": true,
         "write": true,
         "search": true,
-        "edit": true
+        "edit": true,
+        "Bash": true,
+        "Grep": true
       },
       "description": "Ensure writing adheres to style rules with minimal, voice-preserving edits."
     },
@@ -125,6 +127,9 @@
         "write": true,
         "search": true,
         "edit": true,
+        "bash": true,
+        "grep": true,
+        "awk": true,
         "github": true,
         "custom-agent": true,
         "todo": true
@@ -139,6 +144,7 @@
         "write": true,
         "search": true,
         "edit": true,
+        "bash": true,
         "todo": true,
         "github": true
       },
@@ -152,7 +158,9 @@
         "write": true,
         "search": true,
         "edit": true,
-        "web": true
+        "web": true,
+        "bash": true,
+        "grep": true
       },
       "description": "Deliver grounded, verifiable insights for systemic reasoning."
     },
@@ -177,7 +185,8 @@
         "search": true,
         "edit": true,
         "MultiEdit": true,
-        "bash": true
+        "bash": true,
+        "markdown-linter": true
       },
       "description": "Integrate multi-agent outputs into coherent, context-aligned insight systems."
     },
@@ -190,7 +199,9 @@
         "search": true,
         "edit": true,
         "glob": true,
-        "MultiEdit": true
+        "MultiEdit": true,
+        "cpell": true,
+        "bash": true
       },
       "description": "Preserve authorial tone and rhythm during accurate cross-language translation."
     },
