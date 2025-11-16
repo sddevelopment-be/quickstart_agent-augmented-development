@@ -1,0 +1,223 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "architect-alphonso": {
+      "prompt": "{file:./agents/architect.agent.md}",
+      "mode": "subagent",
+      "tools": {
+        "read": true,
+        "write": true,
+        "search": true,
+        "edit": true,
+        "bash": true,
+        "plantuml": true,
+        "MultiEdit": true,
+        "markdown-linter": true
+      },
+      "description": "Clarify complex systems with contextual trade-offs."
+    },
+    "backend-benny": {
+      "prompt": "{file:./agents/backend-dev.agent.md}",
+      "mode": "subagent",
+      "tools": {
+        "read": true,
+        "write": true,
+        "search": true,
+        "edit": true,
+        "MultiEdit": true,
+        "Bash": true,
+        "Grep": true,
+        "Docker": true,
+        "Java": true,
+        "Python": true
+      },
+      "description": "Shape resilient service backends and integration surfaces with traceable decisions."
+    },
+    "bootstrap-bill": {
+      "prompt": "{file:./agents/bootstrap-bill.agent.md}",
+      "mode": "subagent",
+      "tools": {
+        "read": true,
+        "write": true,
+        "search": true,
+        "edit": true,
+        "Bash": true,
+        "Grep": true,
+        "github": true,
+        "todo": true
+      },
+      "description": "Describe repository structure and generate scaffolding artifacts for efficient multi-agent collaboration."
+    },
+    "devops-danny": {
+      "prompt": "{file:./agents/build-automation.agent.md}",
+      "mode": "subagent",
+      "tools": {
+        "read": true,
+        "write": true,
+        "search": true,
+        "edit": true,
+        "MultiEdit": true,
+        "Bash": true,
+        "Grep": true,
+        "github": true,
+        "yaml": true
+      },
+      "description": "Design reproducible build, test, and release pipelines for SDD repositories."
+    },
+    "curator-claire": {
+      "prompt": "{file:./agents/curator.agent.md}",
+      "mode": "subagent",
+      "tools": {
+        "read": true,
+        "write": true,
+        "search": true,
+        "edit": true
+      },
+      "description": "Maintain structural, tonal, and metadata integrity across artifacts."
+    },
+    "diagram-daisy": {
+      "prompt": "{file:./agents/diagrammer.agent.md}",
+      "mode": "subagent",
+      "tools": {
+        "read": true,
+        "write": true,
+        "search": true,
+        "edit": true,
+        "bash": true,
+        "mermaid-generator": true,
+        "plantuml-generator": true,
+        "graphviz-generator": true
+      },
+      "description": "Transform conceptual and architectural structures into clear, semantically aligned diagrams."
+    },
+    "frontend-freddy": {
+      "prompt": "{file:./agents/frontend.agent.md}",
+      "mode": "subagent",
+      "tools": {
+        "read": true,
+        "write": true,
+        "search": true,
+        "edit": true,
+        "MultiEdit": true,
+        "Bash": true,
+        "Grep": true,
+        "Node": true,
+        "Docker": true
+      },
+      "description": "Integrate design, technical architecture, and usability reasoning for coherent front-end systems."
+    },
+    "lexical-larry": {
+      "prompt": "{file:./agents/lexical.agent.md}",
+      "mode": "subagent",
+      "tools": {
+        "read": true,
+        "write": true,
+        "search": true,
+        "edit": true,
+        "Bash": true,
+        "Grep": true
+      },
+      "description": "Ensure writing adheres to style rules with minimal, voice-preserving edits."
+    },
+    "manager-mike": {
+      "prompt": "{file:./agents/manager.agent.md}",
+      "mode": "primary",
+      "tools": {
+        "read": true,
+        "write": true,
+        "search": true,
+        "edit": true,
+        "bash": true,
+        "grep": true,
+        "awk": true,
+        "github": true,
+        "custom-agent": true,
+        "todo": true
+      },
+      "description": "Coordinate multi-agent workflows, routing decisions, and status traceability."
+    },
+    "planning-petra": {
+      "prompt": "{file:./agents/project-planner.agent.md}",
+      "mode": "subagent",
+      "tools": {
+        "read": true,
+        "write": true,
+        "search": true,
+        "edit": true,
+        "bash": true,
+        "todo": true,
+        "github": true
+      },
+      "description": "Translate strategic intent into executable, assumption-aware plans and cadences."
+    },
+    "researcher-ralph": {
+      "prompt": "{file:./agents/researcher.agent.md}",
+      "mode": "subagent",
+      "tools": {
+        "read": true,
+        "write": true,
+        "search": true,
+        "edit": true,
+        "web": true,
+        "bash": true,
+        "grep": true
+      },
+      "description": "Deliver grounded, verifiable insights for systemic reasoning."
+    },
+    "scribe-sally": {
+      "prompt": "{file:./agents/scribe.agent.md}",
+      "mode": "subagent",
+      "tools": {
+        "read": true,
+        "write": true,
+        "search": true,
+        "edit": true,
+        "bash": true
+      },
+      "description": "Maintain traceable, neutral documentation integrity."
+    },
+    "synthesizer-sam": {
+      "prompt": "{file:./agents/synthesizer.agent.md}",
+      "mode": "subagent",
+      "tools": {
+        "read": true,
+        "write": true,
+        "search": true,
+        "edit": true,
+        "MultiEdit": true,
+        "bash": true,
+        "markdown-linter": true
+      },
+      "description": "Integrate multi-agent outputs into coherent, context-aligned insight systems."
+    },
+    "translator-tanya": {
+      "prompt": "{file:./agents/translator.agent.md}",
+      "mode": "subagent",
+      "tools": {
+        "read": true,
+        "write": true,
+        "search": true,
+        "edit": true,
+        "glob": true,
+        "MultiEdit": true,
+        "cpell": true,
+        "bash": true
+      },
+      "description": "Preserve authorial tone and rhythm during accurate cross-language translation."
+    },
+    "editor-eddy": {
+      "prompt": "{file:./agents/writer-editor.agent.md}",
+      "mode": "subagent",
+      "tools": {
+        "read": true,
+        "write": true,
+        "search": true,
+        "edit": true,
+        "comment": true,
+        "summarize": true,
+        "bash": true
+      },
+      "description": "Revise and refine existing written content for tone, clarity, and strategic/operational alignment without introducing new facts."
+    }
+  }
+}

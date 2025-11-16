@@ -1,0 +1,17 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "missing-prompt": {
+      "mode": "primary"
+    },
+    "invalid-mode": {
+      "mode": "invalid-value",
+      "prompt": "{file:./test.md}"
+    },
+    "invalid-tools": {
+      "mode": "subagent",
+      "prompt": "{file:./test.md}",
+      "tools": ["should", "be", "object"]
+    }
+  }
+}

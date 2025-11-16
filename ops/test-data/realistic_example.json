@@ -1,0 +1,58 @@
+
+{
+   "$schema": "https://opencode.ai/config.json",
+   "agent": {
+     "manager": {
+         "mode": "primary",
+         "prompt": "{file:./agents/manager.agent.md}"
+     },
+     "architect": {
+       "mode": "subagent",
+       "prompt": "{file:./agents/architect.agent.md}"
+     },
+     "backend-dev": {
+       "mode": "subagent",
+       "prompt": "{file:./agents/backend-dev.agent.md}"
+     },
+     "bootstrap-bill": {
+       "mode": "subagent",
+       "prompt": "{file:./agents/bootstrap-bill.agent.md}"
+     },
+     "curator": {
+       "mode": "subagent",
+       "prompt": "{file:./agents/curator.agent.md}"
+     },
+     "diagrammer": {
+       "mode": "subagent",
+       "prompt": "{file:./agents/diagrammer.agent.md}"
+     },
+     "lexical": {
+       "mode": "subagent",
+       "prompt": "{file:./agents/lexical.agent.md}"
+     },
+     "project-planner": {
+       "mode": "subagent",
+       "prompt": "{file:./agents/project-planner.agent.md}"
+     },
+     "researcher": {
+       "mode": "subagent",
+       "prompt": "{file:./agents/researcher.agent.md}"
+     },
+     "scribe": {
+       "mode": "subagent",
+       "prompt": "{file:./agents/scribe.agent.md}"
+     },
+     "synthesizer": {
+       "mode": "subagent",
+       "prompt": "{file:./agents/synthesizer.agent.md}"
+     },
+     "translator": {
+       "mode": "subagent",
+       "prompt": "{file:./agents/translator.agent.md}"
+     },
+     "writer-editor": {
+       "mode": "subagent",
+       "prompt": "{file:./agents/writer-editor.agent.md}"
+     }
+   }
+ }

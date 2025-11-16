@@ -1,0 +1,23 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "test-agent": {
+      "mode": "primary",
+      "prompt": "{file:./agents/test-agent.md}",
+      "tools": {
+        "read": true,
+        "write": true,
+        "search": true
+      },
+      "description": "A test agent for validation"
+    },
+    "helper-agent": {
+      "mode": "subagent",
+      "prompt": "{file:./agents/helper.md}",
+      "tools": {
+        "read": true,
+        "write": true
+      }
+    }
+  }
+}
