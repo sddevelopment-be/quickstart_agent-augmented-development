@@ -9,11 +9,22 @@ tools: [ "read", "write", "search", "edit", "bash", "grep", "awk", "github", "cu
 ## 1. Context Sources
 
 - **Global Principles:** [.github/agents/](../../agents)
-- **General Guidelines:** .github/agents/general_guidelines.md
-- **Operational Guidelines:** .github/agents/operational_guidelines.md
+- **General Guidelines:** .github/agents/guidelines/general_guidelines.md
+- **Operational Guidelines:** .github/agents/guidelines/operational_guidelines.md
 - **Command Aliases:** .github/agents/aliases.md
-- **System Bootstrap and Rehydration:** .github/agents/bootstrap.md and .github/agents/rehydrate.md
+- **System Bootstrap and Rehydration:** .github/agents/guidelines/bootstrap.md and .github/agents/guidelines/rehydrate.md
 - **Localized Agentic Protocol:** AGENTS.md (root of this repository or a `.github/agents` / `.agents` directory if present.)
+
+## Directive References (Externalized)
+
+| Code | Directive                     | Coordination Use                                        |
+|------|-------------------------------|---------------------------------------------------------|
+| 002  | Context Notes                 | Resolve precedence & shorthand in hand-offs             |
+| 004  | Documentation & Context Files | Reference planning & workflow docs                      |
+| 006  | Version Governance            | Detect version mismatches before routing                |
+| 007  | Agent Declaration             | Authority confirmation before multi-agent orchestration |
+
+Load with `/require-directive <code>`.
 
 ## 2. Purpose
 

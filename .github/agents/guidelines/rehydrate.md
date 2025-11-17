@@ -1,5 +1,11 @@
 # Rehydrate Instructions
 
+_Version: 1.0.0_  
+_Last updated: 2025-11-17_
+_Format: Markdown protocol for agent initialization and governance_
+
+---
+
 How an agent should resume work from existing context.
 
 1. Look for recent context in `work/`:

@@ -1,0 +1,128 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2025-11-17T00:00:00Z",
+  "description": "Manifest of externalized agent directives for Penguin Pragmatic Patterns",
+  "directives": [
+    {
+      "code": "001",
+      "slug": "cli_shell_tooling",
+      "title": "CLI & Shell Tooling",
+      "file": "001_cli_shell_tooling.md",
+      "purpose": "Detailed tool usage rubric (fd/rg/ast-grep/jq/yq/fzf)",
+      "dependencies": [],
+      "requiredInAgents": false,
+      "safetyCritical": true
+    },
+    {
+      "code": "002",
+      "slug": "context_notes",
+      "title": "Context Notes",
+      "file": "002_context_notes.md",
+      "purpose": "Specialized profile precedence & shorthand caution",
+      "dependencies": [],
+      "requiredInAgents": false,
+      "safetyCritical": true
+    },
+    {
+      "code": "003",
+      "slug": "repository_quick_reference",
+      "title": "Repository Quick Reference",
+      "file": "003_repository_quick_reference.md",
+      "purpose": "Directory roles & Hugo version requirement",
+      "dependencies": ["002"],
+      "requiredInAgents": false,
+      "safetyCritical": true
+    },
+    {
+      "code": "004",
+      "slug": "documentation_context_files",
+      "title": "Documentation & Context Files",
+      "file": "004_documentation_context_files.md",
+      "purpose": "Canonical structural & workflow references",
+      "dependencies": ["003"],
+      "requiredInAgents": false,
+      "safetyCritical": true
+    },
+    {
+      "code": "005",
+      "slug": "agent_profiles",
+      "title": "Agent Profiles",
+      "file": "005_agent_profiles.md",
+      "purpose": "Role specialization catalog",
+      "dependencies": [],
+      "requiredInAgents": false,
+      "safetyCritical": false
+    },
+    {
+      "code": "006",
+      "slug": "version_governance",
+      "title": "Version Governance",
+      "file": "006_version_governance.md",
+      "purpose": "Versioned layer table & update rules",
+      "dependencies": [],
+      "requiredInAgents": true,
+      "safetyCritical": true
+    },
+    {
+      "code": "007",
+      "slug": "agent_declaration",
+      "title": "Agent Declaration",
+      "file": "007_agent_declaration.md",
+      "purpose": "Mandatory operational authority affirmation",
+      "dependencies": ["006"],
+      "requiredInAgents": true,
+      "safetyCritical": true
+    },
+    {
+      "code": "008",
+      "slug": "artifact_templates",
+      "title": "Artifact Templates",
+      "file": "008_artifact_templates.md",
+      "purpose": "Template locations & usage rules",
+      "dependencies": ["004"],
+      "requiredInAgents": false,
+      "safetyCritical": false
+    },
+    {
+      "code": "009",
+      "slug": "role_capabilities",
+      "title": "Role Capabilities",
+      "file": "009_role_capabilities.md",
+      "purpose": "Allowed operational verbs & conflict prevention",
+      "dependencies": ["005", "002"],
+      "requiredInAgents": false,
+      "safetyCritical": true
+    },
+    {
+      "code": "010",
+      "slug": "mode_protocol",
+      "title": "Mode Protocol",
+      "file": "010_mode_protocol.md",
+      "purpose": "Standardized mode transitions & misuse indicators",
+      "dependencies": ["006"],
+      "requiredInAgents": false,
+      "safetyCritical": true
+    },
+    {
+      "code": "011",
+      "slug": "risk_escalation",
+      "title": "Risk & Escalation",
+      "file": "011_risk_escalation.md",
+      "purpose": "Markers, triggers, remediation procedure",
+      "dependencies": ["010", "006"],
+      "requiredInAgents": false,
+      "safetyCritical": true
+    },
+    {
+      "code": "012",
+      "slug": "common_operating_procedures",
+      "title": "Common Operating Procedures",
+      "file": "012_operating_procedures.md",
+      "purpose": "Centralized behavioral norms (redundant for safety)",
+      "dependencies": ["010", "011"],
+      "requiredInAgents": true,
+      "safetyCritical": true
+    }
+  ]
+}
+

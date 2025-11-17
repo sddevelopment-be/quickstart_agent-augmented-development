@@ -1,14 +1,21 @@
 # Bootstrap Instructions
 
+_Version: 1.0.0_  
+_Last updated: 2025-11-17_
+_Format: Markdown protocol for agent initialization and governance_
+
+---
+
 How an agent should start when it has no prior context.
 
 1. Read:
    - `docs/VISION.md`
    - `docs/specific_guidelines.md`
-   - `.github/agents/general_guidelines.md`
-   - `.github/agents/operational_guidelines.md`
+   - `.github/agents/guidelines/general_guidelines.md`
+   - `.github/agents/guidelines/operational_guidelines.md`
    - `.github/agents/aliases.md` (command shortcuts & mode discipline)
    - Your own specialist file (`.github/agents/*.agent.md`) if you are acting as a specialist agent.
+   - Initialize, according to your agent profile.
 
 2. Create or update a progress log in `work/`:
    - Note the current date.

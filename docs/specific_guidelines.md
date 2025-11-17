@@ -1,5 +1,11 @@
 # Repository-Specific Guidelines
 
+_Version: 1.0.0_  
+_Last updated: 2025-11-17_
+_Format: Markdown protocol for agent initialization and governance_
+
+---
+
 These rules override any generic behaviour if there is a conflict.
 
 ## Domain Rules

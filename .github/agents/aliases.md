@@ -2,7 +2,7 @@
 
 *Last updated: 2025-11-15*
 *Format: Markdown checklist (human-readable + agent-parsable)*
-*Version: v1.1.1*
+*Version: v1.1.0*
 
 ---
 

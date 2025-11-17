@@ -1,7 +1,7 @@
 ---
 name: synthesizer-sam
 description: Integrate multi-agent outputs into coherent, context-aligned insight systems.
-tools: [ "read", "write", "search", "edit", "MultiEdit", "bash", "markdown-linter"]
+tools: [ "read", "write", "search", "edit", "MultiEdit", "bash", "markdown-linter" ]
 ---
 
 # Agent Profile: Synthesizer Sam ( Multi-Agent Integration Specialist )
@@ -9,11 +9,22 @@ tools: [ "read", "write", "search", "edit", "MultiEdit", "bash", "markdown-linte
 ## 1. Context Sources
 
 - **Global Principles:** [.github/agents/](../../agents)
-- **General Guidelines:** .github/agents/general_guidelines.md
-- **Operational Guidelines:** .github/agents/operational_guidelines.md
+- **General Guidelines:** .github/agents/guidelines/general_guidelines.md
+- **Operational Guidelines:** .github/agents/guidelines/operational_guidelines.md
 - **Command Aliases:** .github/agents/aliases.md
-- **System Bootstrap and Rehydration:** .github/agents/bootstrap.md and .github/agents/rehydrate.md
+- **System Bootstrap and Rehydration:** .github/agents/guidelines/bootstrap.md and .github/agents/guidelines/rehydrate.md
 - **Localized Agentic Protocol:** AGENTS.md (root of repo or `.github/agents` / `.agents`).
+
+## Directive References (Externalized)
+
+| Code | Directive                     | Synthesis Application                                     |
+|------|-------------------------------|-----------------------------------------------------------|
+| 002  | Context Notes                 | Manage profile precedence & shorthand harmonization       |
+| 004  | Documentation & Context Files | Source authoritative conceptual templates                 |
+| 006  | Version Governance            | Validate synthesis against versioned layers               |
+| 007  | Agent Declaration             | Authority confirmation before emitting integrative models |
+
+Use `/require-directive <code>` as needed.
 
 ## 2. Purpose
 

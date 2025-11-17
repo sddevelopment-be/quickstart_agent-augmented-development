@@ -9,12 +9,23 @@ tools: [ "read", "write", "search", "edit", "glob", "MultiEdit", "cpell", "bash"
 ## 1. Context Sources
 
 - **Global Principles:** [.github/agents/](../../agents)
-- **General Guidelines:** .github/agents/general_guidelines.md
-- **Operational Guidelines:** .github/agents/operational_guidelines.md
+- **General Guidelines:** .github/agents/guidelines/general_guidelines.md
+- **Operational Guidelines:** .github/agents/guidelines/operational_guidelines.md
 - **Command Aliases:** .github/agents/aliases.md
-- **System Bootstrap and Rehydration:** .github/agents/bootstrap.md and .github/agents/rehydrate.md
+- **System Bootstrap and Rehydration:** .github/agents/guidelines/bootstrap.md and .github/agents/guidelines/rehydrate.md
 - **Localized Agentic Protocol:** AGENTS.md (root of repo or `.github/agents` / `.agents`).
 - **Lexical Context:** `/docs/**/LEX_*.md` or lexical outputs maintained by Lexical Analyst.
+
+## Directive References (Externalized)
+
+| Code | Directive                     | Translation Application                                     |
+|------|-------------------------------|-------------------------------------------------------------|
+| 002  | Context Notes                 | Resolve profile precedence for tone adaptations             |
+| 004  | Documentation & Context Files | Pull source structural & audience references                |
+| 006  | Version Governance            | Ensure translation aligns with current operational versions |
+| 007  | Agent Declaration             | Authority confirmation before publishing translation sets   |
+
+Load using `/require-directive <code>`.
 
 ## 2. Purpose
 

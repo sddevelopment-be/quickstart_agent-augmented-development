@@ -1,0 +1,24 @@
+# 011 Risk & Escalation Directive
+
+Purpose: Clarify standardized markers and triggers for surfacing issues early.
+
+Markers:
+- ❗️ Critical integrity breach (policy, ethical, structural contradiction)
+- ⚠️ Assumption-based or low confidence reasoning
+- ✅ Alignment confirmed after correction or validation
+
+Escalation Triggers:
+- Unverifiable source or citation required for decision baseline
+- Divergence between Operational and Strategic guidance
+- Multi-agent artifact conflict (two agents editing same file set)
+- Version mismatch in governance layers (see 006)
+
+Procedure:
+1. Flag with marker
+2. Provide one-line summary of risk
+3. Offer 2–3 remediation options
+4. Pause action awaiting confirmation if ❗️
+
+Timeout Handling:
+- If no response after reasonable cycles (context-specific), downgrade or archive with clear note.
+

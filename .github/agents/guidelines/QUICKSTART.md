@@ -100,10 +100,10 @@ When you configure an agent, instruct it to:
 
 1. Read `docs/VISION.md`.
 2. Read `docs/specific_guidelines.md`.
-3. Read `.github/agents/general_guidelines.md`.
-4. Read `.github/agents/operational_guidelines.md`.
+3. Read `.github/agents/guidelines/general_guidelines.md`.
+4. Read `.github/agents/guidelines/operational_guidelines.md`.
 5. Read its own specialist definition defined in `.github/agents/*.agent.md`.
-6. If resuming work, follow `.github/agents/rehydrate.md`.
-7. If starting new work, follow `.github/agents/bootstrap.md`.
+6. If resuming work, follow `.github/agents/guidelines/rehydrate.md`.
+7. If starting new work, follow `.github/agents/guidelines/bootstrap.md`.
 
 This keeps behaviour consistent while letting each repo define its own purpose.
