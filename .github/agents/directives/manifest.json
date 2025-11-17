@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "generated_at": "2025-11-17T00:00:00Z",
-  "description": "Manifest of externalized agent directives for Penguin Pragmatic Patterns",
+  "generated_at": "2025-11-17T07:07:00Z",
+  "description": "Manifest of externalized agent directives for agent-augmented development",
   "directives": [
     {
       "code": "001",
@@ -11,7 +11,9 @@
       "purpose": "Detailed tool usage rubric (fd/rg/ast-grep/jq/yq/fzf)",
       "dependencies": [],
       "requiredInAgents": false,
-      "safetyCritical": true
+      "safetyCritical": true,
+      "directive_version": "1.0.0",
+      "status": "active"
     },
     {
       "code": "002",
@@ -21,7 +23,9 @@
       "purpose": "Specialized profile precedence & shorthand caution",
       "dependencies": [],
       "requiredInAgents": false,
-      "safetyCritical": true
+      "safetyCritical": true,
+      "directive_version": "1.0.0",
+      "status": "active"
     },
     {
       "code": "003",
@@ -31,7 +35,9 @@
       "purpose": "Directory roles & Hugo version requirement",
       "dependencies": ["002"],
       "requiredInAgents": false,
-      "safetyCritical": true
+      "safetyCritical": true,
+      "directive_version": "1.0.0",
+      "status": "active"
     },
     {
       "code": "004",
@@ -41,7 +47,9 @@
       "purpose": "Canonical structural & workflow references",
       "dependencies": ["003"],
       "requiredInAgents": false,
-      "safetyCritical": true
+      "safetyCritical": true,
+      "directive_version": "1.0.0",
+      "status": "active"
     },
     {
       "code": "005",
@@ -51,7 +59,9 @@
       "purpose": "Role specialization catalog",
       "dependencies": [],
       "requiredInAgents": false,
-      "safetyCritical": false
+      "safetyCritical": false,
+      "directive_version": "1.0.0",
+      "status": "active"
     },
     {
       "code": "006",
@@ -61,7 +71,9 @@
       "purpose": "Versioned layer table & update rules",
       "dependencies": [],
       "requiredInAgents": true,
-      "safetyCritical": true
+      "safetyCritical": true,
+      "directive_version": "1.0.0",
+      "status": "active"
     },
     {
       "code": "007",
@@ -71,7 +83,9 @@
       "purpose": "Mandatory operational authority affirmation",
       "dependencies": ["006"],
       "requiredInAgents": true,
-      "safetyCritical": true
+      "safetyCritical": true,
+      "directive_version": "1.0.0",
+      "status": "active"
     },
     {
       "code": "008",
@@ -81,7 +95,9 @@
       "purpose": "Template locations & usage rules",
       "dependencies": ["004"],
       "requiredInAgents": false,
-      "safetyCritical": false
+      "safetyCritical": false,
+      "directive_version": "1.0.0",
+      "status": "active"
     },
     {
       "code": "009",
@@ -91,7 +107,9 @@
       "purpose": "Allowed operational verbs & conflict prevention",
       "dependencies": ["005", "002"],
       "requiredInAgents": false,
-      "safetyCritical": true
+      "safetyCritical": true,
+      "directive_version": "1.0.0",
+      "status": "active"
     },
     {
       "code": "010",
@@ -101,7 +119,9 @@
       "purpose": "Standardized mode transitions & misuse indicators",
       "dependencies": ["006"],
       "requiredInAgents": false,
-      "safetyCritical": true
+      "safetyCritical": true,
+      "directive_version": "1.0.0",
+      "status": "active"
     },
     {
       "code": "011",
@@ -111,7 +131,9 @@
       "purpose": "Markers, triggers, remediation procedure",
       "dependencies": ["010", "006"],
       "requiredInAgents": false,
-      "safetyCritical": true
+      "safetyCritical": true,
+      "directive_version": "1.0.0",
+      "status": "active"
     },
     {
       "code": "012",
@@ -121,7 +143,21 @@
       "purpose": "Centralized behavioral norms (redundant for safety)",
       "dependencies": ["010", "011"],
       "requiredInAgents": true,
-      "safetyCritical": true
+      "safetyCritical": true,
+      "directive_version": "1.0.0",
+      "status": "active"
+    },
+    {
+      "code": "013",
+      "slug": "tooling_setup",
+      "title": "Tooling Setup & Fallbacks",
+      "file": "013_tooling_setup.md",
+      "purpose": "Installation commands, version requirements, and fallback strategies for core tools",
+      "dependencies": ["001"],
+      "requiredInAgents": false,
+      "safetyCritical": false,
+      "directive_version": "1.0.0",
+      "status": "active"
     }
   ]
 }

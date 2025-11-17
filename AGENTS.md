@@ -1,7 +1,9 @@
 # Agent Specification Document (ASD)
 
-_Version: 1.0.0_
-_Last updated: 2025-11-17_
+_Version: 1.0.0_  
+_Core Version: 1.0.0_  
+_Directive Set Version: 1.0.0_  
+_Last updated: 2025-11-17_  
 _Format: Agent initialization and governance protocol_
 
 This document defines how any autonomous or semi-autonomous system (“Agent”) should initialize, interpret, and operate under **a specific contextual
@@ -145,15 +147,21 @@ On state loss or restart:
 
 The following optional/specific instruction sets are externalized for token efficiency. Load only as needed:
 
-| Code | Directive                     | Purpose                                               |
-|------|-------------------------------|-------------------------------------------------------|
-| 001  | CLI & Shell Tooling           | Detailed tool usage rubric (fd/rg/ast-grep/jq/yq/fzf) |
-| 002  | Context Notes                 | Specialized profile precedence & shorthand caution    |
-| 003  | Repository Quick Reference    | Directory roles                                       |
-| 004  | Documentation & Context Files | Canonical structural & workflow references            |
-| 005  | Agent Profiles                | Role specialization catalog                           |
-| 006  | Version Governance            | Versioned layer table & update rules                  |
-| 007  | Agent Declaration             | Mandatory operational authority affirmation           |
+| Code | Directive                     | Purpose                                                         |
+|------|-------------------------------|-----------------------------------------------------------------|
+| 001  | CLI & Shell Tooling           | Detailed tool usage rubric (fd/rg/ast-grep/jq/yq/fzf)          |
+| 002  | Context Notes                 | Specialized profile precedence & shorthand caution              |
+| 003  | Repository Quick Reference    | Directory roles                                                 |
+| 004  | Documentation & Context Files | Canonical structural & workflow references                      |
+| 005  | Agent Profiles                | Role specialization catalog                                     |
+| 006  | Version Governance            | Versioned layer table & update rules                            |
+| 007  | Agent Declaration             | Mandatory operational authority affirmation                     |
+| 008  | Artifact Templates            | Template locations & usage rules                                |
+| 009  | Role Capabilities             | Allowed operational verbs & conflict prevention                 |
+| 010  | Mode Protocol                 | Standardized mode transitions & misuse indicators               |
+| 011  | Risk & Escalation             | Markers, triggers, remediation procedures                       |
+| 012  | Common Operating Procedures   | Centralized behavioral norms (redundant for safety)             |
+| 013  | Tooling Setup & Fallbacks     | Installation commands, version requirements, fallback strategies|
 
 Location: `.github/agents/directives/XXX_name.md` Example load pattern:
 
