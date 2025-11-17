@@ -11,9 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Modular agent directive system with 12 core directives (001-012)
+- Modular agent directive system with 13 core directives (001-013)
 - Comprehensive agent profiles for specialized roles (architect, curator, developer, writer, etc.)
-- Directive manifest with metadata, dependencies, and safety flags
+- Directive manifest with enhanced metadata (directive_version, status fields)
 - Validation tooling (`validation/validate_directives.sh`) for directive integrity checks
 - Agent bootstrapping and rehydration protocols
 - Command aliases system for efficient agent interaction
@@ -24,7 +24,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - LEX (Lexical Excellence) templates for style consistency
 - OpenCode configuration mapping and validation scripts
 - Portability enhancement documentation
-- Audience documentation for automation agents
+- Audience documentation for automation agents (`docs/audience/automation_agent.md`)
+- Architecture documentation directory (`docs/architecture/`)
+  - ADR-001: Modular Agent Directive System
+  - Architectural Vision document
+  - Agent Specialization Patterns guide
+  - Directive System Architecture technical documentation
+  - Architecture README with navigation and guidelines
+- Directive 013: Tooling Setup & Fallbacks (install commands, version requirements, fallback strategies)
+- Redundancy rationale documentation in directive 012
+- Meta-version tracking in `AGENTS.md` (core_version, directive_set_version)
 
 ### Changed
 
