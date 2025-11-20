@@ -33,13 +33,13 @@ The architecture documentation captures:
 Architecture Decision Records capture significant architectural decisions made in this project. Each ADR includes context, decision, rationale, consequences, and alternatives. They are stored in the [`adrs/`](./adrs/README.md) directory.
 
 
-| ADR | Title | Status | Date |
-|-----|-------|--------|------|
-| [ADR-001](ADR-001-modular-agent-directive-system.md) | Modular Agent Directive System | Accepted | 2025-11-17 |
-| [ADR-002](ADR-002-file-based-async-coordination.md) | File-Based Asynchronous Agent Coordination | Proposed | 2025-11-20 |
-| [ADR-003](ADR-003-task-lifecycle-state-management.md) | Task Lifecycle and State Management | Proposed | 2025-11-20 |
-| [ADR-004](ADR-004-work-directory-structure.md) | Work Directory Structure and Conventions | Proposed | 2025-11-20 |
-| [ADR-005](ADR-005-coordinator-agent-pattern.md) | Coordinator Agent Pattern | Proposed | 2025-11-20 |
+| ADR                                                        | Title                                      | Status   | Date       |
+|------------------------------------------------------------|--------------------------------------------|----------|------------|
+| [ADR-001](adrs/ADR-001-modular-agent-directive-system.md)  | Modular Agent Directive System             | Accepted | 2025-11-17 |
+| [ADR-002](adrs/ADR-002-file-based-async-coordination.md)   | File-Based Asynchronous Agent Coordination | Proposed | 2025-11-20 |
+| [ADR-003](adrs/ADR-003-task-lifecycle-state-management.md) | Task Lifecycle and State Management        | Proposed | 2025-11-20 |
+| [ADR-004](adrs/ADR-004-work-directory-structure.md)        | Work Directory Structure and Conventions   | Proposed | 2025-11-20 |
+| [ADR-005](adrs/ADR-005-coordinator-agent-pattern.md)       | Coordinator Agent Pattern                  | Proposed | 2025-11-20 |
 
 ## Key Architectural Principles
 
