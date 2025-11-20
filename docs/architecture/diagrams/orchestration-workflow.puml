@@ -1,0 +1,78 @@
+@startuml Asynchronous Multi-Agent Orchestration Workflow
+
+title Asynchronous Multi-Agent Orchestration\nFile-Driven Task Flow
+
+!define INBOX #E1F5FF
+!define ASSIGNED #FFF9E1
+!define DONE #E8F5E9
+!define ARCHIVE #F5F5F5
+
+actor Human
+participant "Planning\nAgent" as Planning
+database "work/inbox/" as Inbox INBOX
+participant "Coordinator\nAgent" as Coordinator
+database "work/assigned/\nstructural/" as AssignedS ASSIGNED
+database "work/assigned/\nlexical/" as AssignedL ASSIGNED
+participant "Structural\nAgent" as Structural
+participant "Lexical\nAgent" as Lexical
+database "work/done/" as Done DONE
+database "work/archive/" as Archive ARCHIVE
+collections "Collaboration\nArtifacts" as Collab
+
+== Task Creation ==
+
+Human -> Planning: Request work\n"Generate repo docs"
+Planning -> Inbox: Create task YAML\nstatus: new\nagent: structural
+note right
+  task-001.yaml:
+    agent: structural
+    status: new
+    artefacts: [REPO_MAP.md]
+end note
+
+== Task Assignment ==
+
+Coordinator -> Inbox: Poll for new tasks\n(every 5 min)
+Coordinator -> AssignedS: Move task\nstatus: assigned
+Coordinator -> Collab: Log assignment\nWORKFLOW_LOG.md
+
+== Task Execution ==
+
+Structural -> AssignedS: Poll for tasks
+Structural -> AssignedS: Update status:\nin_progress
+Structural -> Structural: Load context\nGenerate artifacts
+Structural -> AssignedS: Update result:\nnext_agent: lexical
+Structural -> Done: Move completed task\nstatus: done
+Structural -> Collab: Update handoff\nHANDOFFS.md
+
+== Workflow Sequencing ==
+
+Coordinator -> Done: Check for next_agent
+Coordinator -> Inbox: Create follow-up task\nstatus: new\nagent: lexical
+note right
+  task-002.yaml:
+    agent: lexical
+    status: new
+    previous_task: task-001
+end note
+Coordinator -> AssignedL: Assign to lexical
+Coordinator -> Collab: Log handoff\nStructural → Lexical
+
+== Follow-up Execution ==
+
+Lexical -> AssignedL: Poll for tasks
+Lexical -> AssignedL: Update status:\nin_progress
+Lexical -> Lexical: Refine artifacts
+Lexical -> Done: Move completed task\nstatus: done\n(no next_agent)
+
+== Archival ==
+
+Coordinator -> Done: Check age (> 30 days)
+Coordinator -> Archive: Move old tasks
+
+== Status Monitoring ==
+
+Coordinator -> Collab: Update status\nAGENT_STATUS.md
+Human -> Collab: Review dashboard
+
+@enduml
