@@ -20,10 +20,26 @@ The architecture documentation captures:
 | [`architectural_vision.md`](architectural_vision.md)                           | High-level principles, layers, quality attributes | Architects, stakeholders, new contributors |
 | [`directive_system_architecture.md`](design/directive_system_architecture.md) | Technical details of modular directive system     | Developers, curators, automation agents    |
 | [`agent_specialization_patterns.md`](agent_specialization_patterns.md)         | Patterns for agent roles and collaboration        | Agent developers, architects               |
+| [`async_multiagent_orchestration.md`](async_multiagent_orchestration.md) | File-driven asynchronous multi-agent coordination | Architects, developers, automation agents |
+
+### Technical Designs
+
+| Document | Purpose | Audience |
+|----------|---------|----------|
+| [`async_orchestration_technical_design.md`](async_orchestration_technical_design.md) | Implementation details for async orchestration | Developers, build automation agents |
 
 ### Architecture Decision Records (ADRs)
 
 Architecture Decision Records capture significant architectural decisions made in this project. Each ADR includes context, decision, rationale, consequences, and alternatives. They are stored in the [`adrs/`](./adrs/README.md) directory.
+
+
+| ADR | Title | Status | Date |
+|-----|-------|--------|------|
+| [ADR-001](ADR-001-modular-agent-directive-system.md) | Modular Agent Directive System | Accepted | 2025-11-17 |
+| [ADR-002](ADR-002-file-based-async-coordination.md) | File-Based Asynchronous Agent Coordination | Proposed | 2025-11-20 |
+| [ADR-003](ADR-003-task-lifecycle-state-management.md) | Task Lifecycle and State Management | Proposed | 2025-11-20 |
+| [ADR-004](ADR-004-work-directory-structure.md) | Work Directory Structure and Conventions | Proposed | 2025-11-20 |
+| [ADR-005](ADR-005-coordinator-agent-pattern.md) | Coordinator Agent Pattern | Proposed | 2025-11-20 |
 
 ## Key Architectural Principles
 
@@ -179,6 +195,7 @@ Architecture Decision Records capture significant architectural decisions made i
 - Curator Assessment: [`work/curator/agentic_setup_reassessment.md`](/work/curator/agentic_setup_reassessment.md)
 - Directive Suite: [`.github/agents/directives/`](/.github/agents/directives/)
 - Templates: [`docs/templates/architecture/`](../templates/architecture/)
+- Orchestration Implementation Plan: [`work/collaboration/orchestration-implementation-plan.md`](/work/collaboration/orchestration-implementation-plan.md)
 
 ## Questions?
 
@@ -187,6 +204,8 @@ Architecture Decision Records capture significant architectural decisions made i
 - **What are the guiding principles?** → Read [`architectural_vision.md`](architectural_vision.md)
 - **Why was a decision made?** → Check ADRs in this directory
 - **How do I propose a change?** → See "Contributing to Architecture" above
+- **How does multi-agent orchestration work?** → Read [`async_multiagent_orchestration.md`](async_multiagent_orchestration.md)
+- **How do I implement the orchestration system?** → Read [`async_orchestration_technical_design.md`](async_orchestration_technical_design.md)
 
 ---
 
