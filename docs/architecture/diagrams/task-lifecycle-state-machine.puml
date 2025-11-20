@@ -1,0 +1,108 @@
+@startuml Task Lifecycle State Machine
+
+title Task Lifecycle State Machine
+
+[*] --> new : Human or Planning\nAgent creates task
+
+state "new" as new #E1F5FF
+state "assigned" as assigned #FFF9E1
+state "in_progress" as in_progress #FFE082
+state "done" as done #E8F5E9
+state "error" as error #FFCDD2
+state "archived" as archived #F5F5F5
+
+new --> assigned : Coordinator moves\nto work/assigned/<agent>/
+note on link
+  File move operation
+  Status updated in YAML
+  Event logged
+end note
+
+assigned --> in_progress : Agent starts work
+note on link
+  Agent updates status
+  Adds started_at timestamp
+  Loads context
+end note
+
+in_progress --> done : Agent completes
+note on link
+  Agent adds result block
+  Moves to work/done/
+  Optionally sets next_agent
+end note
+
+in_progress --> error : Exception occurs
+note on link
+  Agent adds error block
+  Stays in assigned/
+  Requires human review
+end note
+
+error --> assigned : Human resets\nfor retry
+note on link
+  Remove error block
+  Reset status
+  Optional context updates
+end note
+
+error --> archived : Unrecoverable\nCancel task
+note on link
+  Move to archive/
+  Document cancellation
+end note
+
+done --> archived : After 30 days
+note on link
+  Coordinator moves
+  to work/archive/YYYY-MM/
+end note
+
+done --> new : Coordinator creates\nfollow-up (if next_agent)
+note on link
+  New task in inbox/
+  Links to previous task
+  Inherits context
+end note
+
+archived --> [*]
+
+note right of new
+  Location: work/inbox/
+  Status: new
+  Owner: None
+end note
+
+note right of assigned
+  Location: work/assigned/<agent>/
+  Status: assigned
+  Owner: Specific agent
+end note
+
+note right of in_progress
+  Location: work/assigned/<agent>/
+  Status: in_progress
+  Owner: Specific agent
+  Timeout: 2 hours
+end note
+
+note right of done
+  Location: work/done/
+  Status: done
+  Contains: result block
+end note
+
+note right of error
+  Location: work/assigned/<agent>/
+  Status: error
+  Contains: error block
+  Requires: human intervention
+end note
+
+note right of archived
+  Location: work/archive/YYYY-MM/
+  Status: done or error
+  Retention: 1 year
+end note
+
+@enduml
