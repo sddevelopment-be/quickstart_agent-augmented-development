@@ -1,18 +1,37 @@
 # Agents Quickstart
 
-This folder contains the shared instructions for all agents in this repository.
+This repository is set up to host autonomous agents that can help manage, build, and maintain the codebase. This Quickstart guide explains how to use the agent framework provided here.
 
-The idea:
+## Overview of the Agent Framework
 
-- **Generic guidelines live here** (`.github/agents/*.md`).
+### Main guardrail documents
+
+Core ideas of this framework:
+- **Generic guidelines live here:** `.github/agents/*.md`.
 - **Repo-specific rules live in** `docs/` (`VISION.md`, `specific_guidelines.md`).
 - **Specialist agents live in** `.github/agents/*.agent.md`.
 
 Agents should always combine both: generic + repo-specific.
 
+### Specialist agents
+
+Specialist agents are defined in `.github/agents/` as `*.agent.md` files. Each file describes a specific role (e.g., planner, researcher, implementer) with its own purpose and collaboration rules. This is done to limit the scope of each agents, making them more effective, easier to manage, and less likely to forget important contextual details.
+
+To limit the amount of information each agent has to process, agents should only load the generic guidelines, repo-specific rules, and their own specialist definition.
+
+Specialist agents use:
+
+- **Their own role description** from `.github/agents/*.agent.md`.
+- **Specific Directives** they need to perform their tasks from `.github/agents/directives` (referenced in their definition).
+- **Approaches** defined in `.github/agents/approaches/` (if applicable).
+- **Specific work or output folders** defined in `docs/specific_guidelines.md` or their own definition.
+
+
 ---
 
-## 1. Files in this folder
+## 1. Main Guardrail Documents
+
+This repository includes four main guardrail documents that define how agents should behave and operate within any context:
 
 - `general_guidelines.md`  
   How agents should generally behave (tone, safety, collaboration, etc.).
@@ -29,25 +48,22 @@ Agents should always combine both: generic + repo-specific.
 - `rehydrate.md`  
   How an agent should recover context and resume existing work.
 
-- `*.agent.md`  
-  Predefined roles (planner, researcher, implementer, …).  
-  Each file documents:
-  - the purpose of the specialist
-  - typical inputs and outputs
-  - when to hand over to another agent
-
 ---
 
 ## 2. Customizing this template
 
 When you create a new repository from this template:
 
-1. Update `docs/VISION.md` to describe what this repo is trying to achieve.
-2. Update `docs/specific_guidelines.md` with any hard rules or constraints.
+1. Update `docs/VISION.md` to describe what this repo is trying to achieve. Use the template in [docs/templates/project](docs/templates/project/VISION.md) as a baseline.
+2. Update `docs/specific_guidelines.md` with any hard rules or constraints. Use the template in [docs/templates/project](docs/templates/project/specific_guidelines.md) as a baseline.
 3. Review the specialists in `.github/agents/*.agent.md`:
    - Delete ones you will not use.
    - Rename or adjust their responsibilities.
 4. Optionally, add your own specialist files for your domain.
+
+> **Tip:** Use the "Bootstrap Repository" issue template to guide you through this process (see next section).
+
+> **Tip 2:** Combining the 'curator' and `manager` agents is a good way to come up with your own agent definitions. Instruct them to help you design specialist agents for your domain.
 
 ---
 
@@ -69,6 +85,7 @@ The template captures:
 - Reference materials
 
 ### Create New Agent Template
+
 - **File:** `.github/ISSUE_TEMPLATE/create-new-agent.yml`
 - **Purpose:** Request creation of a new specialized agent
 - **Assigned to:** Manager Mike (`agent:manager-mike` label)
@@ -90,7 +107,7 @@ Issues are automatically routed using agent-specific labels defined in `.github/
 - `agent:architect` - System design
 - And 11 more specialist labels...
 
-For complete details, see `work/ISSUE_TEMPLATES_GUIDE.md`.
+For complete details, see [`docs/HOW_TO_USE/ISSUE_TEMPLATES_GUIDE.md`](/docs/HOW_TO_USE/ISSUE_TEMPLATES_GUIDE.md).
 
 ---
 

@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Audience documentation for automation agents (`docs/audience/automation_agent.md`)
 - Architecture documentation directory (`docs/architecture/`)
   - ADR-001: Modular Agent Directive System
+  - ADR-001: Portability Enhancement – OpenCode Specification (standardized agent configuration using OpenCode JSON for portability, validation, and CI/CD)
   - Architectural Vision document
   - Agent Specialization Patterns guide
   - Directive System Architecture technical documentation

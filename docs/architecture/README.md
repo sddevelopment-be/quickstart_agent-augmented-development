@@ -24,7 +24,7 @@ The architecture documentation captures:
 
 | ADR | Title | Status | Date |
 |-----|-------|--------|------|
-| [ADR-001](ADR-001-modular-agent-directive-system.md) | Modular Agent Directive System | Accepted | 2025-11-17 |
+| [ADR-001](adrs/ADR-001-modular-agent-directive-system.md) | Modular Agent Directive System | Accepted | 2025-11-17 |
 
 ## Key Architectural Principles
 

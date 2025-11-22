@@ -63,33 +63,9 @@ You can use the specialist agents in `.github/agents/` as a starting point. On g
 
 ---
 
-> **REMOVE THIS SECTION WHEN READY!**
+> **REPLACE THIS README WHEN READY!**
 > Use this README as a template to create your own project README.
-> Replace the placeholder text below with your own project details.
 
----
-
-# <Project Name>
-
-> **REPLACE THIS:** Short one-line description of what this repository is about.
-
-
-## Repository Layout
-
-- `.github/agents/` – Base agents and generic guidelines.
-    - `QUICKSTART.md` – How to customize and use agents in this repo.
-    - `general_guidelines.md` – How agents should generally behave.
-    - `operational_guidelines.md` – How agents should work *inside this repo*.
-    - `bootstrap.md` – How an agent should start from a cold state.
-    - `rehydrate.md` – How an agent should resume work from existing context.
-    - `*.agent.md` – Pre-built specialist agents you can keep, modify, or remove.
-- `docs/` – Repository-specific documentation.
-    - `VISION.md` – What this repo is for.
-    - `specific_guidelines.md` – Rules and constraints specific to this project.
-- `work/` – Shared scratch space for humans and agents (logs, notes, WIP).
-- `output/` – Generated artifacts (ignored by git).
-- `agents.md` – Human-readable overview of the agents in this repo.
-- `CHANGELOG.md` – High-level summary of how the repo evolves over time.
 
 
 

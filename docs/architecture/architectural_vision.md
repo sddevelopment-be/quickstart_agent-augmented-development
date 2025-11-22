@@ -165,7 +165,7 @@ This repository serves as a **quickstart template and reference implementation**
 **Rationale:** Achieve token efficiency, maintainability, and portability without sacrificing quality or safety.
 
 **Status:** Accepted  
-**See:** [`docs/architecture/ADR-001-modular-agent-directive-system.md`](ADR-001-modular-agent-directive-system.md)
+**See:** [`docs/architecture/ADR-001-modular-agent-directive-system.md`](adrs/ADR-001-modular-agent-directive-system.md)
 
 ## Quality Attributes
 
@@ -293,7 +293,7 @@ This architecture is successful when:
 ## Related Documentation
 
 - Core Specification: [`AGENTS.md`](/AGENTS.md)
-- Modular Directive System ADR: [`ADR-001-modular-agent-directive-system.md`](ADR-001-modular-agent-directive-system.md)
+- Modular Directive System ADR: [`ADR-001-modular-agent-directive-system.md`](adrs/ADR-001-modular-agent-directive-system.md)
 - Agent Audience Documentation: [`docs/audience/automation_agent.md`](/docs/audience/automation_agent.md)
 - Repository Vision: [`docs/VISION.md`](/docs/VISION.md)
 - Curator Assessment: [`work/curator/agentic_setup_reassessment.md`](/work/curator/agentic_setup_reassessment.md)

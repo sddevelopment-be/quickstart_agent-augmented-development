@@ -384,7 +384,7 @@ Agent specialization patterns are effective when:
 - Role Capabilities Directive: [`.github/agents/directives/009_role_capabilities.md`](/.github/agents/directives/009_role_capabilities.md)
 - Agent Audience Documentation: [`docs/audience/automation_agent.md`](/docs/audience/automation_agent.md)
 - Architectural Vision: [`docs/architecture/architectural_vision.md`](architectural_vision.md)
-- ADR-001 Modular Directive System: [`docs/architecture/ADR-001-modular-agent-directive-system.md`](ADR-001-modular-agent-directive-system.md)
+- ADR-001 Modular Directive System: [`docs/architecture/ADR-001-modular-agent-directive-system.md`](adrs/ADR-001-modular-agent-directive-system.md)
 
 ---
 
