@@ -8,7 +8,8 @@
 
 ## Purpose
 
-This repository serves as a **quickstart template and reference implementation** for agent-augmented development workflows. It provides a structured, portable, and maintainable foundation for teams integrating AI agents into their software development processes.
+This repository serves as a **quickstart template and reference implementation
+** for agent-augmented development workflows. It provides a structured, portable, and maintainable foundation for teams integrating AI agents into their software development processes.
 
 ## Core Principles
 
@@ -17,6 +18,7 @@ This repository serves as a **quickstart template and reference implementation**
 **Goal:** Minimize LLM context window consumption while maintaining quality and guideline adherence.
 
 **Implementation:**
+
 - Modular directive system with lazy loading
 - Selective context assembly based on agent role and task
 - Deduplication of shared governance content
@@ -29,6 +31,7 @@ This repository serves as a **quickstart template and reference implementation**
 **Goal:** Enable sensible human-readable execution, minimizing review and maintenance overhead.
 
 **Implementation:**
+
 - Separation of concerns (core spec, directives, profiles, templates)
 - Clear ownership and safety-critical flags
 - Predictable structure with validation tooling
@@ -41,6 +44,7 @@ This repository serves as a **quickstart template and reference implementation**
 **Goal:** Enable reuse across different LLM toolchains and projects.
 
 **Implementation:**
+
 - Markdown-first format (no vendor-specific syntax)
 - Standardized manifest for metadata and dependencies
 - Toolchain-agnostic patterns and templates
@@ -55,6 +59,7 @@ This repository serves as a **quickstart template and reference implementation**
 **Responsibility:** Define universal agent behavior, initialization protocol, and safety guardrails.
 
 **Contents:**
+
 - Context stack priorities
 - Runtime behavior defaults
 - Integrity markers and escalation protocol
@@ -69,6 +74,7 @@ This repository serves as a **quickstart template and reference implementation**
 **Responsibility:** Provide specialized operational guidance on specific topics.
 
 **Contents:**
+
 - 001: CLI & Shell Tooling
 - 002: Context Notes
 - 003: Repository Quick Reference
@@ -89,6 +95,7 @@ This repository serves as a **quickstart template and reference implementation**
 **Responsibility:** Define role-specific specializations, capabilities, and directive dependencies.
 
 **Contents:**
+
 - Role purpose and boundaries
 - Primary/secondary focus areas
 - Success criteria
@@ -103,6 +110,7 @@ This repository serves as a **quickstart template and reference implementation**
 **Responsibility:** Standardize output formats for common artifacts.
 
 **Contents:**
+
 - Architecture templates (ADR, design vision, roadmap, technical design, functional requirements)
 - Structure templates (repo map, surfaces, workflows, context links)
 - LEX templates (style rules, deltas, reports)
@@ -115,6 +123,7 @@ This repository serves as a **quickstart template and reference implementation**
 **Responsibility:** Capture strategic intent, vision, audience needs, and evolving decisions.
 
 **Contents:**
+
 - `VISION.md`: Repository purpose and scope
 - `CHANGELOG.md`: Notable changes over time
 - `specific_guidelines.md`: Project-specific constraints
@@ -130,6 +139,7 @@ This repository serves as a **quickstart template and reference implementation**
 **Responsibility:** Provide scratch space for agent collaboration, progress logs, and human-agent handoffs.
 
 **Contents:**
+
 - `curator/`: Validation, consistency checks, assessments
 - `collaboration/`: Cross-agent coordination messages
 - Role-specific directories for task logs

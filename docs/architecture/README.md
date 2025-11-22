@@ -5,6 +5,7 @@ This directory contains architectural decisions, patterns, and technical designs
 ## Overview
 
 The architecture documentation captures:
+
 - **Strategic decisions** with full rationale and trade-offs (ADRs)
 - **System vision** and guiding principles
 - **Technical patterns** for common agent workflows
@@ -14,17 +15,15 @@ The architecture documentation captures:
 
 ### Core Architecture
 
-| Document | Purpose | Audience |
-|----------|---------|----------|
-| [`architectural_vision.md`](architectural_vision.md) | High-level principles, layers, quality attributes | Architects, stakeholders, new contributors |
-| [`directive_system_architecture.md`](directive_system_architecture.md) | Technical details of modular directive system | Developers, curators, automation agents |
-| [`agent_specialization_patterns.md`](agent_specialization_patterns.md) | Patterns for agent roles and collaboration | Agent developers, architects |
+| Document                                                                       | Purpose                                           | Audience                                   |
+|--------------------------------------------------------------------------------|---------------------------------------------------|--------------------------------------------|
+| [`architectural_vision.md`](architectural_vision.md)                           | High-level principles, layers, quality attributes | Architects, stakeholders, new contributors |
+| [`directive_system_architecture.md`](design/directive_system_architecture.md) | Technical details of modular directive system     | Developers, curators, automation agents    |
+| [`agent_specialization_patterns.md`](agent_specialization_patterns.md)         | Patterns for agent roles and collaboration        | Agent developers, architects               |
 
 ### Architecture Decision Records (ADRs)
 
-| ADR | Title | Status | Date |
-|-----|-------|--------|------|
-| [ADR-001](adrs/ADR-001-modular-agent-directive-system.md) | Modular Agent Directive System | Accepted | 2025-11-17 |
+Architecture Decision Records capture significant architectural decisions made in this project. Each ADR includes context, decision, rationale, consequences, and alternatives. They are stored in the [`adrs/`](./adrs/README.md) directory.
 
 ## Key Architectural Principles
 
@@ -115,30 +114,34 @@ The architecture documentation captures:
 
 ## Quality Attributes
 
-| Attribute | Target | Measurement |
-|-----------|--------|-------------|
-| **Token Efficiency** | 40-60% reduction vs. monolithic | Context window size on init |
-| **Initialization Time** | <2 seconds | Profile + directives load time |
-| **Validation Time** | <1 second | Full suite structural checks |
-| **Maintainability** | Single-file updates | Change isolation score |
-| **Portability** | Cross-toolchain | Markdown compatibility |
+| Attribute               | Target                          | Measurement                    |
+|-------------------------|---------------------------------|--------------------------------|
+| **Token Efficiency**    | 40-60% reduction vs. monolithic | Context window size on init    |
+| **Initialization Time** | <2 seconds                      | Profile + directives load time |
+| **Validation Time**     | <1 second                       | Full suite structural checks   |
+| **Maintainability**     | Single-file updates             | Change isolation score         |
+| **Portability**         | Cross-toolchain                 | Markdown compatibility         |
 
 ## Future Enhancements
 
 ### Phase 1: Integrity (Critical)
+
 - Per-directive versioning and checksums
 - Dependency resolution automation
 - Tooling setup directive (013)
 
 ### Phase 2: Validation (High)
+
 - Semantic validation (purpose checks, orphan detection)
 - CI integration with JSON reports
 
 ### Phase 3: Governance (Medium)
+
 - Recovery and integrity protocols (directive 014)
 - Meta-versioning (composite version tracking)
 
 ### Phase 4: Developer Experience (Low)
+
 - Automated manifest regeneration
 - Prose linting and normalization
 
@@ -179,7 +182,7 @@ The architecture documentation captures:
 
 ## Questions?
 
-- **How do I understand the directive system?** → Read [`directive_system_architecture.md`](directive_system_architecture.md)
+- **How do I understand the directive system?** → Read [`directive_system_architecture.md`](design/directive_system_architecture.md)
 - **How should agents collaborate?** → Read [`agent_specialization_patterns.md`](agent_specialization_patterns.md)
 - **What are the guiding principles?** → Read [`architectural_vision.md`](architectural_vision.md)
 - **Why was a decision made?** → Check ADRs in this directory
