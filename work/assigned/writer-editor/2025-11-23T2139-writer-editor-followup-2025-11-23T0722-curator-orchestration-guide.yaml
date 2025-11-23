@@ -1,6 +1,7 @@
 id: 2025-11-23T2139-writer-editor-followup-2025-11-23T0722-curator-orchestration-guide
 agent: writer-editor
-status: new
+status: assigned
+priority: medium
 title: Review and polish multi-agent orchestration user guide
 artefacts:
 - docs/HOW_TO_USE/multi-agent-orchestration.md
@@ -18,3 +19,4 @@ context:
     orchestration efficiency
 created_at: '2025-11-23T21:39:20.246771Z'
 created_by: coordinator
+assigned_at: '2025-11-23T22:07:07.447616Z'

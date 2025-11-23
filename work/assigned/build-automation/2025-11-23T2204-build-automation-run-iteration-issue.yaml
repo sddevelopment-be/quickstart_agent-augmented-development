@@ -1,0 +1,189 @@
+id: 2025-11-23T2204-build-automation-run-iteration-issue
+agent: build-automation
+status: assigned
+mode: /analysis-mode
+priority: medium
+title: Create 'Run Iteration' GitHub Issue Template for Orchestration Automation
+artefacts:
+- .github/ISSUE_TEMPLATE/run-iteration.md
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: copilot/execute-file-based-orchestration
+  notes:
+  - 'Requested by @stijn-dejongh in PR #24 comments'
+  - Create GitHub issue template for running orchestration iterations
+  - 'Template should contain prompt similar to original that started PR #24'
+  - Enable automated/repeatable iteration execution
+  - Instruct Copilot to run an orchestration cycle
+  original_prompt_reference:
+    description: 'Original prompt that initiated PR #24 orchestration work'
+    key_elements:
+    - Execute orchestration cycle for task management using file-based approach
+    - Follow file-based orchestration per .github/agents/approaches/file-based-orchestration.md
+    - Ensure compliance with general guidelines, operational guidelines, and Directive
+      014
+    - Leverage agent profiles and /analysis-mode for task execution
+    - Initialize per AGENTS.md guidelines
+    - Read Manager Mike's work/collaboration/AGENT_STATUS.md
+    - Check work/inbox for tasks
+    - Execute top priority tasks
+    - Create comprehensive work logs
+    - Update collaboration trackers
+  issue_template_requirements:
+    format: GitHub Issue Template (Markdown with frontmatter)
+    frontmatter:
+      name: Run Orchestration Iteration
+      about: Execute an orchestration cycle to process pending tasks
+      title: '[Iteration] Run orchestration cycle - [DATE]'
+      labels:
+      - orchestration
+      - automation
+      - iteration
+      assignees:
+      - copilot
+    sections:
+    - Objective
+    - Context
+    - Tasks to Execute
+    - Execution Instructions
+    - Success Criteria
+    - Deliverables
+    - References
+  prompt_content:
+    objective: 'Execute an orchestration cycle to process pending tasks in the work
+      queue
+
+      following the file-based orchestration approach.
+
+      '
+    context_to_include:
+    - Current work queue status (inbox, assigned, done counts)
+    - File-based orchestration approach reference
+    - Collaboration artifacts location
+    - Agent profiles and directives
+    - Reasoning mode specification (/analysis-mode)
+    execution_instructions:
+      initialization:
+      - Initialize as Manager Mike per AGENTS.md guidelines
+      - Read current AGENT_STATUS.md for context
+      - Verify orchestration framework status
+      task_selection:
+      - Check work/inbox/ for pending tasks
+      - Run agent_orchestrator.py to assign tasks
+      - Identify top 3 priority tasks based on priority field and dependencies
+      - 'Consider: critical > high > medium > normal priority'
+      task_execution:
+      - Delegate tasks to appropriate custom agents
+      - Execute tasks following file-based orchestration lifecycle
+      - "Update task status: new \u2192 assigned \u2192 in_progress \u2192 done"
+      - Move completed tasks from assigned/<agent>/ to done/
+      - Create follow-up tasks in inbox/ if needed
+      documentation:
+      - Create work logs per Directive 014 for each task
+      - Update AGENT_STATUS.md with current state
+      - Create iteration summary by Manager Mike
+      - 'Capture metrics: duration, tokens, artifacts, success rate'
+      reporting:
+      - Commit changes incrementally with report_progress
+      - Update PR description with iteration results
+      - Post Manager Mike recap comment to PR
+    success_criteria:
+    - At least 1 task completed (or all remaining if <3)
+    - All work logs created per Directive 014
+    - AGENT_STATUS.md updated with current state
+    - Iteration summary created by Manager Mike
+    - Metrics captured and reported
+    - Framework health assessed
+    - No errors or validation failures
+    deliverables:
+    - Completed tasks moved to work/done/
+    - Work logs in work/logs/<agent>/
+    - Iteration summary in work/collaboration/
+    - Updated AGENT_STATUS.md
+    - Manager Mike recap comment
+    - Orchestrator run logs (if applicable)
+  template_structure:
+    markdown_format: "---\nname: Run Orchestration Iteration\nabout: Execute an orchestration\
+      \ cycle to process pending tasks\ntitle: '[Iteration] Run orchestration cycle\
+      \ - YYYY-MM-DD'\nlabels: orchestration, automation, iteration\nassignees: copilot\n\
+      ---\n\n## Objective\n\nExecute an orchestration cycle to process pending tasks\
+      \ in the work queue following the file-based orchestration approach.\n\n## Context\n\
+      \n- **Orchestration Framework**: Implemented and production-ready (PR #16)\n\
+      - **Approach**: File-based orchestration (`.github/agents/approaches/file-based-orchestration.md`)\n\
+      - **Work Directory**: `work/` (inbox, assigned, done, logs, collaboration)\n\
+      - **Agent Profiles**: `.github/agents/*.agent.md`\n- **Directives**: `.github/agents/directives/`\n\
+      - **Mode**: `/analysis-mode` for task execution\n\n## Current Status\n\n_To\
+      \ be filled by running:_\n```bash\necho \"Inbox: $(ls work/inbox/*.yaml 2>/dev/null\
+      \ | wc -l) tasks\"\necho \"Assigned: $(find work/assigned -name '*.yaml' 2>/dev/null\
+      \ | wc -l) tasks\"\necho \"Done: $(ls work/done/*.yaml 2>/dev/null | wc -l)\
+      \ tasks\"\n```\n\n## Execution Instructions\n\n### 1. Initialize\n- Initialize\
+      \ as Manager Mike per `AGENTS.md` guidelines\n- Read `work/collaboration/AGENT_STATUS.md`\
+      \ for current context\n- Verify orchestration framework operational status\n\
+      \n### 2. Task Selection\n- Check `work/inbox/` for pending tasks\n- Run `python\
+      \ work/scripts/agent_orchestrator.py` to assign tasks\n- Identify top 3 priority\
+      \ tasks:\n  - Priority order: critical > high > medium > normal\n  - Consider\
+      \ dependencies (tasks with satisfied dependencies first)\n  - Check POC/chain\
+      \ continuity (advance multi-agent chains)\n\n### 3. Task Execution\n- Delegate\
+      \ each task to appropriate custom agent\n- Follow file-based orchestration lifecycle:\n\
+      \  1. Update status: assigned \u2192 in_progress\n  2. Execute task per agent\
+      \ specialization\n  3. Create artifacts as specified\n  4. Update task YAML\
+      \ with result block\n  5. Update status: in_progress \u2192 done\n  6. Move\
+      \ task from `work/assigned/<agent>/` to `work/done/`\n  7. Create work log in\
+      \ `work/logs/<agent>/` per Directive 014\n\n### 4. Documentation & Reporting\n\
+      - Create work log for each completed task (Directive 014)\n- Update `work/collaboration/AGENT_STATUS.md`\n\
+      - Create iteration summary (Manager Mike)\n- Capture metrics: duration, tokens,\
+      \ artifacts, validation results\n- Commit changes with `report_progress` after\
+      \ each task\n- Update PR description with iteration summary\n- Post Manager\
+      \ Mike recap comment to PR\n\n## Success Criteria\n\n- [ ] At least 1 task completed\
+      \ (or all remaining if fewer than 3)\n- [ ] All work logs created per Directive\
+      \ 014\n- [ ] `AGENT_STATUS.md` updated with current iteration state\n- [ ] Iteration\
+      \ summary created by Manager Mike\n- [ ] Metrics captured and reported\n- [\
+      \ ] Framework health assessed (completion rate, validation success, etc.)\n\
+      - [ ] Zero validation errors or failures\n- [ ] All artifacts committed and\
+      \ pushed\n\n## Deliverables\n\n- **Completed Tasks**: Moved to `work/done/`\n\
+      - **Work Logs**: Created in `work/logs/<agent>/`\n- **Iteration Summary**: Added\
+      \ to `work/collaboration/`\n- **Updated Status**: `AGENT_STATUS.md` reflects\
+      \ current state\n- **Manager Recap**: Comment posted to PR\n- **Metrics Report**:\
+      \ Duration, tokens, artifacts, success rate\n\n## References\n\n- **File-Based\
+      \ Orchestration**: `.github/agents/approaches/file-based-orchestration.md`\n\
+      - **AGENTS.md**: Root orchestration protocol\n- **Directive 014**: Work Log\
+      \ Creation (`.github/agents/directives/014_worklog_creation.md`)\n- **ADR-009**:\
+      \ Orchestration Metrics Standard\n- **Agent Profiles**: `.github/agents/*.agent.md`\n\
+      - **Previous Iterations**: Check `work/collaboration/ITERATION_*_SUMMARY.md`\n\
+      \n## Example Prompt\n\n```\nExecute an orchestration cycle following file-based\
+      \ orchestration approach:\n\n1. Initialize as Manager Mike per AGENTS.md\n2.\
+      \ Read work/collaboration/AGENT_STATUS.md\n3. Run agent_orchestrator.py to assign\
+      \ pending tasks\n4. Execute top 3 priority tasks by delegating to custom agents\n\
+      5. Create work logs per Directive 014\n6. Update AGENT_STATUS.md and create\
+      \ iteration summary\n7. Post Manager Mike recap comment\n\nEnsure:\n- Tasks\
+      \ selected by priority (critical > high > medium)\n- All work logs Directive\
+      \ 014 compliant\n- Metrics captured per ADR-009\n- Incremental commits with\
+      \ report_progress\n- Framework health assessed\n```\n\n---\n\n_This issue template\
+      \ enables repeatable orchestration iterations with consistent execution patterns._\n"
+  technical_implementation:
+  - Create GitHub issue template in .github/ISSUE_TEMPLATE/
+  - Use proper YAML frontmatter format
+  - Structure content with clear sections
+  - Include executable bash examples
+  - Provide example prompt at end
+  - Add checkboxes for success criteria
+  - Reference all relevant documentation
+  acceptance_criteria:
+  - Issue template created in .github/ISSUE_TEMPLATE/run-iteration.md
+  - Contains YAML frontmatter with correct metadata
+  - Includes all required sections (Objective, Context, Instructions, etc.)
+  - Execution instructions are clear and actionable
+  - Success criteria defined with checkboxes
+  - References to framework documentation included
+  - Example prompt provided
+  - Template is reusable for future iterations
+  - Work log created per Directive 014
+  dependencies:
+  - File-based orchestration approach implementation
+  - Agent orchestrator script (work/scripts/agent_orchestrator.py)
+  - AGENTS.md root protocol
+  - Directive 014 work log standards
+  - Previous iteration summaries for reference
+created_at: '2025-11-23T22:04:00Z'
+created_by: orchestration-coordinator
+assigned_at: '2025-11-23T22:07:07.485224Z'
