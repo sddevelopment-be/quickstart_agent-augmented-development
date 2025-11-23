@@ -1,0 +1,22 @@
+id: "2025-11-23T2134-curator-add-github-issue-type-for-orch-task"
+agent: curator
+status: new
+
+title: "Create github issue type for orchestration task"
+
+artefacts:
+  - docs/architecture/async_orchestration_technical_design.md
+  - docs/HOW_TO_USE/multi-agent-orchestration.md
+
+context:
+  repo: "sddevelopment-be/quickstart_agent-augmented-development"
+  branch: "main"
+  notes:
+    - "Read the existing orchestration design document"
+    - "Draft a new github issue type specifically for orchestration tasks"
+    - "Ensure it captures necessary fields for orchestration workflows"
+    - "Adhere to directive 014 (worklog creation)"
+    - "Adhere to directive 015 (prompt refinement)"
+
+created_at: "2025-11-23T19:34:00Z"
+created_by: "stijn"
