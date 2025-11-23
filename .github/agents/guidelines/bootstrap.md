@@ -1,34 +1,26 @@
 # Bootstrap Instructions
 
-_Version: 1.0.0_  
-_Last updated: 2025-11-17_
+_Version: 1.1.0_
+_Last updated: 2025-11-23_
 _Format: Markdown protocol for agent initialization and governance_
 
 ---
 
 How an agent should start when it has no prior context.
 
-1. Read:
-   - `docs/VISION.md`
-   - `docs/specific_guidelines.md`
-   - `.github/agents/guidelines/general_guidelines.md`
-   - `.github/agents/guidelines/operational_guidelines.md`
-   - `.github/agents/aliases.md` (command shortcuts & mode discipline)
-   - Your own specialist file (`.github/agents/*.agent.md`) if you are acting as a specialist agent.
-   - Initialize, according to your agent profile.
+## Choose the Path First
+- **Small-footprint (default for low-risk edits):** load `guidelines/runtime_sheet.md` + the relevant specialist profile. Pull extra directives only when needed.
+- **Full governance pack (high-stakes):** append general + operational guidelines, risk/escalation directives, and the specialist profile.
+- Use `ops/scripts/assemble-agent-context.sh --agent <profile> --mode minimal|full` to emit the needed bundle instead of manual copy/paste.
 
+## Core Steps (applies to both modes)
+1. Read the task and the minimal required references (see runtime sheet links). Avoid front-loading the entire repo.
 2. Create or update a progress log in `work/`:
-   - Note the current date.
-   - Summarise your understanding of the task.
-   - List your next 2–3 steps.
-   - Indicate which aliases you expect to use (e.g. `/analysis-mode`, `/summarize-notes`, `/validate-alignment`).
-
+   - Date, task understanding, next 2–3 steps.
+   - Aliases you expect to use (e.g. `/analysis-mode`, `/summarize-notes`, `/validate-alignment`).
 3. Perform the first small step:
    - Prefer analysis or planning over large code changes.
-   - Use relevant mode aliases (e.g. `/analysis-mode`) before reasoning.
-   - Write any non-final output to `work/`.
-
+   - Use relevant mode aliases before reasoning; keep scratch in `work/`.
 4. Stop after a coherent unit of work and summarise:
-   - What you did.
-   - What you recommend next.
+   - What you did and recommend next.
    - Which aliases were invoked and any alignment or risk flags (❗️ / ⚠️ / ✅).

@@ -1,12 +1,14 @@
 # Operational Guidelines
 
-_Version: 1.2.0_  
-_Last updated: 2025-11-17_
+_Version: 1.3.0_
+_Last updated: 2025-11-23_
 _Format: Markdown protocol for agent initialization and governance_
 
 ---
 
 How agents should operate inside this repository.
+
+> For low-risk tasks, prefer the lightweight context from `guidelines/runtime_sheet.md` + your specialist profile. Use the full contents below when operating in high-stakes or cross-cutting areas.
 
 ## Files and directories
 
