@@ -1,7 +1,7 @@
 # Sequential Task Fixture - Agent handoff workflow
 # Used for testing next_agent handoff mechanism
 
-id: "2025-11-23T0900-test-agent-sequential-task"
+id: "test_task_sequential"
 agent: "test-agent"
 status: "new"
 title: "Sequential test task with handoff"

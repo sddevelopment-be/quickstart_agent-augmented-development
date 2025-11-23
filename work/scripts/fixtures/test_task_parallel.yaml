@@ -1,7 +1,7 @@
 # Parallel Task Fixture - Concurrent execution
 # Used for testing multiple agents working simultaneously
 
-id: "2025-11-23T1000-test-agent-parallel-task"
+id: "test_task_parallel"
 agent: "test-agent"
 status: "new"
 title: "Parallel test task for concurrent execution"
