@@ -162,6 +162,8 @@ The following optional/specific instruction sets are externalized for token effi
 | 011  | Risk & Escalation             | Markers, triggers, remediation procedures                       |
 | 012  | Common Operating Procedures   | Centralized behavioral norms (redundant for safety)             |
 | 013  | Tooling Setup & Fallbacks     | Installation commands, version requirements, fallback strategies|
+| 014  | Work Log Creation             | Standards for work logs with token count and context metrics    |
+| 015  | Store Prompts                 | Optional prompt documentation with SWOT analysis for improvement|
 
 Location: `.github/agents/directives/XXX_name.md` Example load pattern:
 
