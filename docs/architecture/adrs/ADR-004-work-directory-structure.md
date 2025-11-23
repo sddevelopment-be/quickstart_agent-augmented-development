@@ -1,8 +1,6 @@
-# Architecture Decision Records
+# ADR-004: Work Directory Structure and Conventions
 
-## ADR-004: Work Directory Structure and Conventions
-
-**status**: `Proposed`  
+**status**: `Accepted`  
 **date**: 2025-11-20
 
 ### Context
@@ -454,7 +452,7 @@ done
 
 **Related ADRs:**
 
-- [ADR-002: File-Based Asynchronous Agent Coordination](ADR-002-file-based-async-coordination.md)
+- [ADR-002: File-Based Asynchronous Agent Coordination](ADR-008-file-based-async-coordination.md)
 - [ADR-003: Task Lifecycle and State Management](ADR-003-task-lifecycle-state-management.md)
 - [ADR-005: Coordinator Agent Pattern](ADR-005-coordinator-agent-pattern.md)
 

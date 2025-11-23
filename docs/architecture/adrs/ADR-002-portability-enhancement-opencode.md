@@ -1,6 +1,4 @@
-# Architecture Decision Records
-
-## ADR-002: Adopt OpenCode Specification for Agent Portability
+# ADR-002: Adopt OpenCode Specification for Agent Portability
 
 **status**: `Accepted`  
 **date**: 2025-11-22
@@ -49,4 +47,5 @@ _References:_
 - [Agent Specialization Patterns](../agent_specialization_patterns.md)
 - [OpenCode Specification Validator](../../../ops/scripts/opencode-spec-validator.py)
 - [Agent to OpenCode Converter](../../../ops/scripts/convert-agents-to-opencode.py)
+
 

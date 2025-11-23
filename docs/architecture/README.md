@@ -19,27 +19,29 @@ The architecture documentation captures:
 |--------------------------------------------------------------------------------|---------------------------------------------------|--------------------------------------------|
 | [`architectural_vision.md`](architectural_vision.md)                           | High-level principles, layers, quality attributes | Architects, stakeholders, new contributors |
 | [`directive_system_architecture.md`](design/directive_system_architecture.md) | Technical details of modular directive system     | Developers, curators, automation agents    |
-| [`agent_specialization_patterns.md`](agent_specialization_patterns.md)         | Patterns for agent roles and collaboration        | Agent developers, architects               |
-| [`async_multiagent_orchestration.md`](async_multiagent_orchestration.md) | File-driven asynchronous multi-agent coordination | Architects, developers, automation agents |
+| [`agent_specialization_patterns.md`](patterns/agent_specialization_patterns.md)         | Patterns for agent roles and collaboration        | Agent developers, architects               |
+| [`async_multiagent_orchestration.md`](design/async_multiagent_orchestration.md) | File-driven asynchronous multi-agent coordination | Architects, developers, automation agents |
 
 ### Technical Designs
 
 | Document | Purpose | Audience |
 |----------|---------|----------|
-| [`async_orchestration_technical_design.md`](async_orchestration_technical_design.md) | Implementation details for async orchestration | Developers, build automation agents |
+| [`async_orchestration_technical_design.md`](design/async_orchestration_technical_design.md) | Implementation details for async orchestration | Developers, build automation agents |
 
 ### Architecture Decision Records (ADRs)
 
 Architecture Decision Records capture significant architectural decisions made in this project. Each ADR includes context, decision, rationale, consequences, and alternatives. They are stored in the [`adrs/`](./adrs/README.md) directory.
 
 
-| ADR                                                        | Title                                      | Status   | Date       |
-|------------------------------------------------------------|--------------------------------------------|----------|------------|
-| [ADR-001](adrs/ADR-001-modular-agent-directive-system.md)  | Modular Agent Directive System             | Accepted | 2025-11-17 |
-| [ADR-002](adrs/ADR-002-file-based-async-coordination.md)   | File-Based Asynchronous Agent Coordination | Proposed | 2025-11-20 |
-| [ADR-003](adrs/ADR-003-task-lifecycle-state-management.md) | Task Lifecycle and State Management        | Proposed | 2025-11-20 |
-| [ADR-004](adrs/ADR-004-work-directory-structure.md)        | Work Directory Structure and Conventions   | Proposed | 2025-11-20 |
-| [ADR-005](adrs/ADR-005-coordinator-agent-pattern.md)       | Coordinator Agent Pattern                  | Proposed | 2025-11-20 |
+| ADR                                                                  | Title                                        | Status    | Date       |
+|----------------------------------------------------------------------|----------------------------------------------|-----------|------------|
+| [ADR-001](adrs/ADR-001-modular-agent-directive-system.md)            | Modular Agent Directive System             | Accepted  | 2025-11-17 |
+| [ADR-002](adrs/ADR-008-file-based-async-coordination.md)             | File-Based Asynchronous Agent Coordination | Proposed  | 2025-11-20 |
+| [ADR-003](adrs/ADR-003-task-lifecycle-state-management.md)           | Task Lifecycle and State Management        | Accepted  | 2025-11-20 |
+| [ADR-004](adrs/ADR-004-work-directory-structure.md)                  | Work Directory Structure and Conventions   | Accepted  | 2025-11-20 |
+| [ADR-005](adrs/ADR-005-coordinator-agent-pattern.md)                 | Coordinator Agent Pattern                  | Accepted  | 2025-11-20 |
+| [ADR-006](adrs/ADR-006-adopt-three-layer-governance-model.md)        | Adopt Three-Layer Governance Model       | Accepted  | 2025-11-22 |
+| [ADR-007](adrs/ADR-007-repository-restructuring-layer-separation.md) | Repository Restructuring for Layer Separation | Rejected / Adapted | 2025-11-22 |
 
 ## Key Architectural Principles
 
@@ -200,12 +202,12 @@ Architecture Decision Records capture significant architectural decisions made i
 ## Questions?
 
 - **How do I understand the directive system?** → Read [`directive_system_architecture.md`](design/directive_system_architecture.md)
-- **How should agents collaborate?** → Read [`agent_specialization_patterns.md`](agent_specialization_patterns.md)
+- **How should agents collaborate?** → Read [`agent_specialization_patterns.md`](patterns/agent_specialization_patterns.md)
 - **What are the guiding principles?** → Read [`architectural_vision.md`](architectural_vision.md)
 - **Why was a decision made?** → Check ADRs in this directory
 - **How do I propose a change?** → See "Contributing to Architecture" above
-- **How does multi-agent orchestration work?** → Read [`async_multiagent_orchestration.md`](async_multiagent_orchestration.md)
-- **How do I implement the orchestration system?** → Read [`async_orchestration_technical_design.md`](async_orchestration_technical_design.md)
+- **How does multi-agent orchestration work?** → Read [`async_multiagent_orchestration.md`](design/async_multiagent_orchestration.md)
+- **How do I implement the orchestration system?** → Read [`async_orchestration_technical_design.md`](design/async_orchestration_technical_design.md)
 
 ---
 
