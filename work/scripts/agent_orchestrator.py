@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import shutil
 from collections import defaultdict
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Dict
 
@@ -35,7 +35,7 @@ ARCHIVE_RETENTION_DAYS = 30  # Archive tasks older than 30 days
 
 def log_event(message: str) -> None:
     """Append event to workflow log."""
-    timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
+    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
     log_file = COLLAB_DIR / "WORKFLOW_LOG.md"
     log_file.parent.mkdir(parents=True, exist_ok=True)
 
@@ -74,11 +74,11 @@ def assign_tasks() -> int:
                 continue
 
             dest = agent_dir / task_file.name
-            shutil.move(str(task_file), str(dest))
 
             task["status"] = "assigned"
-            task["assigned_at"] = datetime.utcnow().isoformat() + "Z"
+            task["assigned_at"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
             write_task(dest, task)
+            task_file.unlink()
 
             log_event(f"Assigned task {task['id']} to {agent}")
             tasks_assigned += 1
@@ -90,7 +90,7 @@ def assign_tasks() -> int:
 
 def log_handoff(from_agent: str, to_agent: str, artefacts: list[str], task_id: str) -> None:
     """Log agent handoff."""
-    timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M")
+    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
     handoff_log = COLLAB_DIR / "HANDOFFS.md"
     handoff_log.parent.mkdir(parents=True, exist_ok=True)
 
@@ -114,7 +114,7 @@ def process_completed_tasks() -> int:
             if not next_agent:
                 continue
 
-            followup_id = f"{datetime.utcnow().strftime('%Y-%m-%dT%H%M')}-{next_agent}-{task['id'].split('-')[-1]}"
+            followup_id = f"{datetime.now(timezone.utc).strftime('%Y-%m-%dT%H%M')}-{next_agent}-followup-{task['id']}"
             followup_file = INBOX_DIR / f"{followup_id}.yaml"
 
             if followup_file.exists():
@@ -131,7 +131,7 @@ def process_completed_tasks() -> int:
                     "previous_agent": task.get("agent"),
                     "notes": result.get("next_task_notes", []),
                 },
-                "created_at": datetime.utcnow().isoformat() + "Z",
+                "created_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
                 "created_by": "coordinator",
             }
 
@@ -146,7 +146,7 @@ def process_completed_tasks() -> int:
 
 def check_timeouts() -> int:
     """Flag tasks stuck in in_progress."""
-    timeout_cutoff = datetime.utcnow() - timedelta(hours=TIMEOUT_HOURS)
+    timeout_cutoff = datetime.now(timezone.utc) - timedelta(hours=TIMEOUT_HOURS)
     flagged = 0
 
     for agent_dir in ASSIGNED_DIR.iterdir():
@@ -238,7 +238,7 @@ def update_agent_status() -> None:
     status_file.parent.mkdir(parents=True, exist_ok=True)
     with open(status_file, "w", encoding="utf-8") as f:
         f.write("# Agent Status Dashboard\n\n")
-        f.write(f"_Last updated: {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')}_\n\n")
+        f.write(f"_Last updated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}_\n\n")
 
         for agent, info in sorted(status.items()):
             f.write(f"## {agent}\n\n")
@@ -247,7 +247,7 @@ def update_agent_status() -> None:
             f.write(f"- **In Progress**: {info['in_progress']} tasks\n")
 
             if info["last_seen"]:
-                last_seen = datetime.fromtimestamp(info["last_seen"])
+                last_seen = datetime.fromtimestamp(info["last_seen"], tz=timezone.utc)
                 f.write(f"- **Last seen**: {last_seen.strftime('%Y-%m-%d %H:%M:%S')}\n")
 
             f.write("\n")
@@ -255,7 +255,7 @@ def update_agent_status() -> None:
 
 def archive_old_tasks() -> int:
     """Move completed tasks to archive."""
-    cutoff = datetime.utcnow() - timedelta(days=ARCHIVE_RETENTION_DAYS)
+    cutoff = datetime.now(timezone.utc) - timedelta(days=ARCHIVE_RETENTION_DAYS)
     archived = 0
 
     for task_file in DONE_DIR.glob("*.yaml"):
@@ -263,7 +263,7 @@ def archive_old_tasks() -> int:
             task_date_str = task_file.name[:10]
             task_date = datetime.strptime(task_date_str, "%Y-%m-%d")
 
-            if task_date < cutoff:
+            if task_date.date() < cutoff.date():
                 year_month = task_date.strftime("%Y-%m")
                 archive_month = ARCHIVE_DIR / year_month
                 archive_month.mkdir(parents=True, exist_ok=True)
