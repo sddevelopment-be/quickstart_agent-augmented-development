@@ -38,7 +38,7 @@ for agent in "${agents[@]}"; do
 done
 
 # Add .gitkeep files so directories remain tracked when empty
-find "$WORK_DIR" -type d -not -path "*/.git" -exec sh -c 'touch "$1/.gitkeep"' _ {} \;
+find "$WORK_DIR" -type d -not -path "*/.git" -exec sh -c 'test -f "$1/.gitkeep" || touch "$1/.gitkeep"' _ {} \;
 
 ensure_file() {
   local path="$1"
