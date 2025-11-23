@@ -158,6 +158,18 @@
       "safetyCritical": false,
       "directive_version": "1.0.0",
       "status": "active"
+    },
+    {
+      "code": "014",
+      "slug": "worklog_creation",
+      "title": "Work Log Creation",
+      "file": "014_worklog_creation.md",
+      "purpose": "Standards for creating work logs documenting agent execution for framework tuning",
+      "dependencies": ["008", "012"],
+      "requiredInAgents": false,
+      "safetyCritical": false,
+      "directive_version": "1.0.0",
+      "status": "active"
     }
   ]
 }
