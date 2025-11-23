@@ -1,0 +1,127 @@
+@startgantt Orchestration Implementation Timeline
+
+title Orchestration Implementation Timeline\nPhased Approach with Dependencies
+
+printscale weekly
+
+<style>
+ganttDiagram {
+    timeline {
+        BackgroundColor lightgray
+    }
+    task {
+        BackgroundColor lightblue
+        LineColor blue
+    }
+    milestone {
+        BackgroundColor gold
+        LineColor darkgoldenrod
+    }
+    closed {
+        BackgroundColor lightgray
+    }
+}
+</style>
+
+[Phase 1: Core Infrastructure] as [P1] lasts 3 days
+[P1] is colored in #E1F5FF
+note bottom
+  Priority: CRITICAL
+  Effort: 2-3 workdays
+  Dependencies: None
+  
+  Deliverables:
+  - Directory structure
+  - Task YAML schema
+  - Validation scripts
+  - work/README.md
+end note
+
+then [P1 Complete] happens at [P1]'s end
+[P1 Complete] is colored in gold
+
+then [Phase 2: Coordinator Implementation] as [P2] lasts 4 days
+[P2] is colored in #FFF9E1
+note bottom
+  Priority: CRITICAL
+  Effort: 3-4 workdays
+  Dependencies: Phase 1
+  
+  Deliverables:
+  - agent_orchestrator.py
+  - Task assignment logic
+  - Workflow sequencing
+  - Timeout detection
+  - Coordinator profile
+end note
+
+then [P2 Complete] happens at [P2]'s end
+[P2 Complete] is colored in gold
+
+-- Critical Path Complete --
+
+[Phase 3: Agent Integration] as [P3] starts at [P2]'s end
+[P3] lasts 7 days
+[P3] is colored in #FFE082
+note bottom
+  Priority: HIGH
+  Effort: 5-7 workdays
+  Dependencies: Phase 2
+  
+  Deliverables:
+  - Agent profile updates
+  - Execution protocol
+  - End-to-end testing
+  - Handoff patterns doc
+end note
+
+then [P3 Complete] happens at [P3]'s end
+[P3 Complete] is colored in gold
+
+-- Optional Enhancements --
+
+[Phase 4: GitHub Actions] as [P4] starts at [P3]'s end
+[P4] lasts 3 days
+[P4] is colored in #E8F5E9
+note bottom
+  Priority: MEDIUM (Optional)
+  Effort: 2-3 workdays
+  Dependencies: Phase 3
+  
+  Deliverables:
+  - GH Actions workflows
+  - CI configuration
+  - Manual triggers
+  - CI setup documentation
+end note
+
+[Phase 5: Validation & Monitoring] as [P5] starts at [P2]'s end
+[P5] lasts 3 days
+[P5] is colored in #E8F5E9
+note bottom
+  Priority: MEDIUM (Optional)
+  Effort: 2-3 workdays
+  Dependencies: Phase 2
+  
+  Deliverables:
+  - Enhanced validation
+  - Monitoring dashboard
+  - Metrics collection
+  - Troubleshooting guide
+end note
+
+then [P4 Complete] happens at [P4]'s end
+[P4 Complete] is colored in lightgray
+
+then [P5 Complete] happens at [P5]'s end
+[P5 Complete] is colored in lightgray
+
+-- Timeline Summary --
+
+footer
+  Critical Path: Phase 1 → Phase 2 → Phase 3 (10-14 workdays / 2-3 weeks)
+  Optional Path: Phase 4, Phase 5 (4-6 workdays / 1 week)
+  Total Duration: 14-20 workdays (3-4 weeks)
+end footer
+
+@endgantt
