@@ -1,8 +1,6 @@
-# Architecture Decision Records
+# ADR-009: File-Based Asynchronous Agent Coordination
 
-## ADR-002: File-Based Asynchronous Agent Coordination
-
-**status**: `Proposed`  
+**status**: `Accepted`  
 **date**: 2025-11-20
 
 ### Context

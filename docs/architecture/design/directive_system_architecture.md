@@ -562,7 +562,7 @@ Directives reference templates from `docs/templates/`:
 
 - ADR-001 Modular Directive System: [`ADR-001-modular-agent-directive-system.md`](../adrs/ADR-001-modular-agent-directive-system.md)
 - Architectural Vision: [`architectural_vision.md`](../architectural_vision.md)
-- Agent Specialization Patterns: [`agent_specialization_patterns.md`](../agent_specialization_patterns.md)
+- Agent Specialization Patterns: [`agent_specialization_patterns.md`](../patterns/agent_specialization_patterns.md)
 - Core Specification: [`AGENTS.md`](/AGENTS.md)
 - Directive Manifest: [`.github/agents/directives/manifest.json`](/.github/agents/directives/manifest.json)
 - Validation Script: [`validation/validate_directives.sh`](/validation/validate_directives.sh)

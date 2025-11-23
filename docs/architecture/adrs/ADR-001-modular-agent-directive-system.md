@@ -1,6 +1,4 @@
-# Architecture Decision Records
-
-## ADR-001: Modular Agent Directive System
+# ADR-001: Modular Agent Directive System
 
 **status**: `Accepted`  
 **date**: 2025-11-17
