@@ -1,0 +1,94 @@
+id: 2025-11-23T1744-build-automation-ci-integration
+agent: build-automation
+status: new
+mode: /analysis-mode
+priority: high
+
+title: "Implement GitHub Actions CI/CD Integration"
+
+artefacts:
+  - .github/workflows/orchestration.yml
+  - .github/workflows/validation.yml
+  - .github/workflows/diagram-rendering.yml
+  - docs/HOW_TO_USE/ci-orchestration.md
+
+context:
+  repo: "sddevelopment-be/quickstart_agent-augmented-development"
+  branch: "main"
+  notes:
+    - "High-priority enhancement from post-PR-review assessment"
+    - "Reference: work/logs/architect/2025-11-23T1730-post-pr-review-orchestration-assessment.md Section 8.2"
+    - "Automate orchestration execution and validation in CI pipeline"
+    - "Reduce manual orchestration burden"
+    - "Catch validation failures before merge"
+
+  workflow_requirements:
+    orchestration_workflow:
+      trigger: "Schedule (hourly) + manual dispatch"
+      steps:
+        - "Checkout repository"
+        - "Set up Python environment"
+        - "Install dependencies (PyYAML)"
+        - "Run agent_orchestrator.py"
+        - "Commit and push changes (if any)"
+        - "Update status dashboard"
+        - "Notify on failures (GitHub Issues or Slack)"
+      permissions: "Contents: write, Issues: write"
+
+    validation_workflow:
+      trigger: "Pull request, push to main"
+      steps:
+        - "Checkout repository"
+        - "Validate work directory structure"
+        - "Validate all task YAML files (schema + naming)"
+        - "Run E2E test suite (if exists)"
+        - "Report validation results as PR check"
+      permissions: "Contents: read, Checks: write"
+
+    diagram_rendering_workflow:
+      trigger: "Pull request with .puml file changes"
+      steps:
+        - "Checkout repository"
+        - "Set up PlantUML (Java + PlantUML JAR)"
+        - "Compile all .puml files to SVG"
+        - "Check for compilation errors"
+        - "Optionally: Upload diagrams as artifacts"
+        - "Report rendering status as PR check"
+      permissions: "Contents: read, Checks: write"
+
+  technical_considerations:
+    - "Use GitHub Actions cache for Python dependencies"
+    - "Implement concurrency controls (cancel in-progress runs)"
+    - "Add timeout limits (orchestration: 5 min, validation: 2 min)"
+    - "Use secrets for any sensitive operations (if needed)"
+    - "Configure GITHUB_TOKEN permissions explicitly"
+    - "Add workflow status badges to README"
+
+  safety_requirements:
+    - "Validate orchestrator doesn't make destructive changes"
+    - "Review commit messages for clarity"
+    - "Implement dry-run mode for testing"
+    - "Add manual approval gate for production runs (optional)"
+
+  documentation:
+    - "How to trigger orchestration manually"
+    - "Understanding workflow run results"
+    - "Troubleshooting CI failures"
+    - "Configuring notification preferences"
+    - "Adjusting orchestration schedule"
+
+  acceptance_criteria:
+    - "All 3 workflows implemented and tested"
+    - "Orchestration runs successfully on schedule"
+    - "Validation catches schema violations in PRs"
+    - "Diagram rendering detects syntax errors"
+    - "Documentation explains workflow usage"
+    - "Status badges visible in README"
+
+  dependencies:
+    - "Orchestrator: work/scripts/agent_orchestrator.py"
+    - "Validation scripts: work/scripts/validate-*.py, validate-*.sh"
+    - "E2E tests: work/scripts/test_orchestration_e2e.py (if available)"
+
+created_at: "2025-11-23T17:44:00Z"
+created_by: "architect"

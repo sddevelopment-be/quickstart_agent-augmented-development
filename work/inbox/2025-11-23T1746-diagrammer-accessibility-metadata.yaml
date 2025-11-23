@@ -1,0 +1,84 @@
+id: 2025-11-23T1746-diagrammer-accessibility-metadata
+agent: diagrammer
+status: new
+mode: /creative-mode
+priority: high
+
+title: "Create Accessibility Metadata for Architecture Diagrams"
+
+artefacts:
+  - docs/architecture/diagrams/DESCRIPTIONS.md
+  - docs/architecture/diagrams/accessibility-audit.md
+
+context:
+  repo: "sddevelopment-be/quickstart_agent-augmented-development"
+  branch: "main"
+  notes:
+    - "High-priority gap from post-PR-review assessment"
+    - "Reference: work/logs/architect/2025-11-23T1730-post-pr-review-orchestration-assessment.md Section 7.2"
+    - "Diagrams currently lack textual descriptions for accessibility"
+    - "Need to provide inclusive documentation for vision-impaired users"
+    - "Improve SEO and context understanding for all users"
+
+  scope:
+    diagrams_to_document:
+      - "docs/architecture/diagrams/task-lifecycle-state-machine.puml"
+      - "docs/architecture/diagrams/workflow-sequential-flow.puml"
+      - "docs/architecture/diagrams/workflow-parallel-flow.puml"
+      - "docs/architecture/diagrams/workflow-convergent-flow.puml"
+      - "docs/architecture/diagrams/orchestration-phases-timeline.puml"
+      - "docs/architecture/diagrams/orchestration-workflow.puml"
+      - "All SVG files in docs/architecture/diagrams/"
+
+  deliverable_structure:
+    descriptions_file:
+      format: "Markdown table mapping diagram files to descriptions"
+      columns:
+        - "Diagram Filename"
+        - "Alt Text (Short, <125 chars)"
+        - "Long Description (Detailed, 2-4 paragraphs)"
+        - "Key Elements (Bulleted list)"
+        - "Related Documentation (Links)"
+
+    accessibility_audit:
+      - "Current state assessment"
+      - "Gaps identified"
+      - "Recommendations for improvement"
+      - "Future maintenance process"
+
+  description_guidelines:
+    alt_text:
+      - "Concise (<125 characters)"
+      - "Describes purpose/content at high level"
+      - "Example: 'State machine showing task lifecycle from new to done with error paths'"
+
+    long_description:
+      - "2-4 paragraphs explaining diagram"
+      - "Describe flow/structure/relationships"
+      - "Highlight key transitions and decision points"
+      - "Explain color coding or symbols used"
+
+    key_elements:
+      - "List major components/nodes/states"
+      - "Note important transitions/flows"
+      - "Identify entry and exit points"
+
+  integration_requirements:
+    - "Reference DESCRIPTIONS.md in README or diagram README"
+    - "Add alt-text to SVG files (if technically feasible)"
+    - "Update architecture documentation to link descriptions"
+    - "Provide guidance for future diagram additions"
+
+  acceptance_criteria:
+    - "All existing diagrams have alt-text and long descriptions"
+    - "Descriptions are clear and comprehensive"
+    - "Audit document identifies improvement areas"
+    - "Maintenance process documented"
+    - "Cross-references added to architecture docs"
+
+  dependencies:
+    - "Existing diagrams: docs/architecture/diagrams/*.puml and *.svg"
+    - "Architecture docs: docs/architecture/design/*.md"
+
+created_at: "2025-11-23T17:46:00Z"
+created_by: "architect"
