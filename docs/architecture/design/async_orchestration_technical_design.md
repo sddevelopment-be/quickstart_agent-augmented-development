@@ -68,7 +68,7 @@ The implementation consists of:
 
 1. **Task Schema**: YAML structure defining task format
 2. **Directory Setup**: Script to initialize `work/` structure
-3. **Coordinator**: Python script for task routing and monitoring
+3. **Agent Orchestrator**: Python script for task routing and monitoring
 4. **Agent Protocol**: Guidelines for agent implementation
 5. **Validation Tools**: Scripts to enforce consistency
 6. **GitHub Actions**: Optional CI integration
@@ -285,12 +285,12 @@ echo "4. Review docs/architecture/async_multiagent_orchestration.md"
 
 ### Coordinator Implementation
 
-**File: `work/scripts/coordinator.py`**
+**File: `work/scripts/agent_orchestrator.py`**
 
 ```python
 #!/usr/bin/env python3
 """
-Coordinator Agent - Multi-Agent Orchestration
+Agent Orchestrator - Multi-Agent Orchestration
 
 Responsibilities:
 - Assign tasks from inbox to agents
@@ -686,7 +686,7 @@ if __name__ == "__main__":
 
 ### Implementation Considerations
 
-**Coordinator Scheduling:**
+**Agent Orchestrator Scheduling:**
 
 - Run every 5 minutes via cron or GitHub Actions
 - Or run manually when needed

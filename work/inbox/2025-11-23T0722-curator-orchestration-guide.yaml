@@ -1,0 +1,43 @@
+id: 2025-11-23T0722-curator-orchestration-guide
+agent: curator
+status: new
+mode: /analysis-mode
+priority: high
+
+title: "Create user guide for multi-agent orchestration system"
+
+artefacts:
+  - docs/HOW_TO_USE/multi-agent-orchestration.md
+
+context:
+  repo: "sddevelopment-be/quickstart_agent-augmented-development"
+  branch: "copilot/update-agent-orchestration-names"
+  notes:
+    - "Target audience: End-users who want to leverage the orchestration system"
+    - "Cover: Creating tasks, understanding the workflow, monitoring progress"
+    - "Include practical examples and common use cases"
+    - "Reference technical docs but keep language accessible"
+    - "Collaborate with Writer-Editor for polish and clarity"
+    - "Source material:"
+    - "  - work/README.md (technical overview)"
+    - "  - docs/templates/task-descriptor.yaml (task template)"
+    - "  - docs/architecture/design/async_multiagent_orchestration.md (architecture)"
+  dependencies: []
+
+created_at: "2025-11-23T07:22:00Z"
+created_by: "architect"
+
+result:
+  summary: "Draft user guide created covering orchestration basics"
+  artefacts:
+    - docs/HOW_TO_USE/multi-agent-orchestration.md
+  next_agent: "writer-editor"
+  next_task_title: "Review and polish multi-agent orchestration user guide"
+  next_artefacts:
+    - docs/HOW_TO_USE/multi-agent-orchestration.md
+  next_task_notes:
+    - "Check for clarity and accessibility"
+    - "Ensure examples are easy to follow"
+    - "Verify consistency with other HOW_TO_USE guides"
+    - "Add any missing practical tips"
+  completed_at: "TBD"

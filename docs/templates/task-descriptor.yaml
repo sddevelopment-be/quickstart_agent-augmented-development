@@ -1,0 +1,202 @@
+# Task Descriptor Template
+# Version: 1.0.0
+# 
+# This template defines the structure for task files used in the asynchronous
+# multi-agent orchestration system. Tasks are created in work/inbox/ and 
+# processed by the Agent Orchestrator.
+#
+# File naming convention: YYYY-MM-DDTHHMM-<agent>-<slug>.yaml
+# Example: 2025-11-23T1430-structural-repomap.yaml
+
+# ============================================================================
+# REQUIRED FIELDS
+# ============================================================================
+
+# Unique task identifier (should match filename without .yaml extension)
+id: "YYYY-MM-DDTHHMM-agent-slug"
+
+# Target agent name (must match a directory under work/assigned/)
+# Valid agents: structural, lexical, curator, diagrammer, planning, coordinator,
+#               architect, translator, build-automation, backend-dev, frontend,
+#               writer-editor, synthesizer, researcher, bootstrap-bill, manager
+agent: "agent-name"
+
+# Current task status
+# Valid values: new | assigned | in_progress | done | error
+status: "new"
+
+# Artifacts this task will create or modify (relative to repo root)
+artefacts:
+  - "path/to/artifact1.md"
+  - "path/to/artifact2.md"
+
+# ============================================================================
+# OPTIONAL FIELDS
+# ============================================================================
+
+# Human-readable task title
+title: "Brief description of the task"
+
+# Reasoning mode for agent execution
+# Valid values: /analysis-mode | /creative-mode | /meta-mode
+mode: "/analysis-mode"
+
+# Priority level
+# Valid values: critical | high | normal | low
+priority: "normal"
+
+# Contextual information for the agent
+context:
+  repo: "owner/repository-name"
+  branch: "main"
+  notes:
+    - "Additional context note 1"
+    - "Additional context note 2"
+  dependencies: []  # List of task IDs this task depends on
+
+# ============================================================================
+# TIMESTAMPS (Auto-populated by system)
+# ============================================================================
+
+# ISO 8601 timestamp when task was created
+created_at: "YYYY-MM-DDTHH:MM:SSZ"
+
+# Creator identifier (human username or agent name)
+created_by: "username or agent"
+
+# ISO 8601 timestamp when task was assigned (populated by orchestrator)
+# assigned_at: "YYYY-MM-DDTHH:MM:SSZ"
+
+# ISO 8601 timestamp when agent started work (populated by agent)
+# started_at: "YYYY-MM-DDTHH:MM:SSZ"
+
+# ISO 8601 timestamp when task was completed (populated by agent)
+# completed_at: "YYYY-MM-DDTHH:MM:SSZ"
+
+# ============================================================================
+# RESULT OBJECT (Added by agent on successful completion)
+# ============================================================================
+
+# result:
+#   # Brief description of work completed
+#   summary: "Description of what was accomplished"
+#   
+#   # Actual artifacts created or modified
+#   artefacts:
+#     - "path/to/created/artifact1.md"
+#     - "path/to/modified/artifact2.md"
+#   
+#   # Optional: Agent to hand off to for follow-up work
+#   next_agent: "next-agent-name"
+#   
+#   # Optional: Title for follow-up task
+#   next_task_title: "Follow-up task description"
+#   
+#   # Optional: Artifacts for follow-up task
+#   next_artefacts:
+#     - "path/to/artifact.md"
+#   
+#   # Optional: Context notes for follow-up task
+#   next_task_notes:
+#     - "Additional context for next agent"
+#   
+#   # Completion timestamp
+#   completed_at: "YYYY-MM-DDTHH:MM:SSZ"
+
+# ============================================================================
+# ERROR OBJECT (Added by agent on failure)
+# ============================================================================
+
+# error:
+#   # Error description
+#   message: "Description of what went wrong"
+#   
+#   # Error timestamp
+#   timestamp: "YYYY-MM-DDTHH:MM:SSZ"
+#   
+#   # Agent that encountered the error
+#   agent: "agent-name"
+#   
+#   # Number of retry attempts
+#   retry_count: 0
+#   
+#   # Optional: Detailed error trace
+#   stacktrace: |
+#     Detailed error information...
+
+# ============================================================================
+# USAGE EXAMPLES
+# ============================================================================
+
+# Example 1: Simple structural analysis task
+# ---
+# id: "2025-11-23T1430-structural-repomap"
+# agent: "structural"
+# status: "new"
+# title: "Generate REPO_MAP and SURFACES for repository"
+# artefacts:
+#   - "docs/REPO_MAP.md"
+#   - "docs/SURFACES.md"
+# context:
+#   repo: "sddevelopment-be/quickstart_agent-augmented-development"
+#   branch: "main"
+#   notes:
+#     - "Initial structural pass"
+#     - "Focus on docs/, agents/, work/ directories"
+# created_at: "2025-11-23T14:30:00Z"
+# created_by: "stijn"
+
+# Example 2: Workflow with handoff
+# ---
+# id: "2025-11-23T1500-architect-adr-creation"
+# agent: "architect"
+# status: "new"
+# title: "Create ADR for API versioning strategy"
+# mode: "/analysis-mode"
+# priority: "high"
+# artefacts:
+#   - "docs/architecture/adrs/ADR-006-api-versioning.md"
+# context:
+#   repo: "sddevelopment-be/quickstart_agent-augmented-development"
+#   branch: "feature/api-design"
+#   notes:
+#     - "Consider REST and GraphQL versioning approaches"
+#     - "Reference existing ADRs for consistency"
+# created_at: "2025-11-23T15:00:00Z"
+# created_by: "planning-agent"
+# result:
+#   summary: "Created ADR-006 with versioning recommendations"
+#   artefacts:
+#     - "docs/architecture/adrs/ADR-006-api-versioning.md"
+#   next_agent: "writer-editor"
+#   next_task_title: "Review and polish ADR-006 for clarity"
+#   next_artefacts:
+#     - "docs/architecture/adrs/ADR-006-api-versioning.md"
+#   next_task_notes:
+#     - "Check for consistent terminology"
+#     - "Ensure examples are clear"
+#   completed_at: "2025-11-23T15:45:00Z"
+
+# ============================================================================
+# VALIDATION RULES
+# ============================================================================
+#
+# 1. ID Format: Must match filename (YYYY-MM-DDTHHMM-agent-slug)
+# 2. Agent Name: Must exist as directory under work/assigned/
+# 3. Status: Must be one of: new, assigned, in_progress, done, error
+# 4. Artefacts: Must be non-empty list of relative paths
+# 5. Timestamps: Must be valid ISO 8601 format with UTC timezone (Z suffix)
+# 6. Result: Only present when status is "done"
+# 7. Error: Only present when status is "error"
+#
+# Validation can be performed using: work/scripts/validate-task-schema.py
+
+# ============================================================================
+# RELATED DOCUMENTATION
+# ============================================================================
+#
+# - Architecture: docs/architecture/design/async_multiagent_orchestration.md
+# - Technical Design: docs/architecture/design/async_orchestration_technical_design.md
+# - ADR-002: File-Based Asynchronous Agent Coordination
+# - ADR-003: Task Lifecycle and State Management
+# - ADR-005: Coordinator Agent Pattern

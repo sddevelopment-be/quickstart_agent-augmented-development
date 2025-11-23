@@ -1,7 +1,10 @@
 # ADR-005: Coordinator Agent Pattern
 
 **status**: `Accepted`  
-**date**: 2025-11-20
+**date**: 2025-11-20  
+**updated**: 2025-11-23
+
+> **Implementation Note**: The Coordinator pattern described in this ADR is implemented as `agent_orchestrator.py` to more clearly convey its role in orchestrating multiple agents. The term "Coordinator" remains valid as a pattern name, while the implementation uses the more descriptive "Agent Orchestrator" naming.
 
 ### Context
 
@@ -216,8 +219,8 @@ def coordinator_loop():
 **Scheduling:**
 
 ```yaml
-# .github/workflows/coordinator.yml
-name: Coordinator Agent
+# .github/workflows/agent-orchestrator.yml
+name: Agent Orchestrator
 
 on:
   schedule:
@@ -225,19 +228,19 @@ on:
   workflow_dispatch:  # Manual trigger
 
 jobs:
-  coordinate:
+  orchestrate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Run Coordinator
+      - name: Run Agent Orchestrator
         run: |
-          python work/scripts/coordinator.py
+          python work/scripts/agent_orchestrator.py
       - name: Commit changes
         run: |
-          git config user.name "Coordinator Agent"
-          git config user.email "coordinator@sddevelopment.be"
+          git config user.name "Agent Orchestrator"
+          git config user.email "orchestrator@sddevelopment.be"
           git add work/
-          git commit -m "Coordinator: task routing and status update" || true
+          git commit -m "Agent Orchestrator: task routing and status update" || true
           git push
 ```
 
@@ -245,10 +248,10 @@ jobs:
 
 ```bash
 # Run manually
-python work/scripts/coordinator.py
+python work/scripts/agent_orchestrator.py
 
 # Or via cron (every 5 minutes)
-*/5 * * * * cd /path/to/repo && python work/scripts/coordinator.py
+*/5 * * * * cd /path/to/repo && python work/scripts/agent_orchestrator.py
 ```
 
 ### Task Assignment Logic

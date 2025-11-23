@@ -1,0 +1,26 @@
+id: 2025-11-23T0721-build-automation-orchestrator-impl
+agent: build-automation
+status: new
+mode: /analysis-mode
+priority: critical
+
+title: "Implement Agent Orchestrator base script"
+
+artefacts:
+  - work/scripts/agent_orchestrator.py
+
+context:
+  repo: "sddevelopment-be/quickstart_agent-augmented-development"
+  branch: "copilot/update-agent-orchestration-names"
+  notes:
+    - "Implement from Technical Design (async_orchestration_technical_design.md lines 288-586)"
+    - "Include all core functions: assign_tasks, process_completed_tasks, check_timeouts, detect_conflicts, update_agent_status, archive_old_tasks"
+    - "Ensure idempotent execution (safe to run multiple times)"
+    - "Add comprehensive logging to WORKFLOW_LOG.md"
+    - "Target completion time: <30 seconds per cycle"
+    - "Note: Script name updated from coordinator.py to agent_orchestrator.py for clarity"
+  dependencies:
+    - 2025-11-23T0720-build-automation-init-structure
+
+created_at: "2025-11-23T07:21:00Z"
+created_by: "architect"

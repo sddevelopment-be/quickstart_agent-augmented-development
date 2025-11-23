@@ -1,0 +1,24 @@
+id: 2025-11-23T0720-build-automation-init-structure
+agent: build-automation
+status: new
+mode: /analysis-mode
+priority: critical
+
+title: "Create work directory initialization script"
+
+artefacts:
+  - work/scripts/init-work-structure.sh
+
+context:
+  repo: "sddevelopment-be/quickstart_agent-augmented-development"
+  branch: "copilot/update-agent-orchestration-names"
+  notes:
+    - "Implement script from Technical Design (async_orchestration_technical_design.md lines 157-284)"
+    - "Ensure all agent directories are created under work/assigned/"
+    - "Add .gitkeep files to maintain directory structure"
+    - "Create initial collaboration artifacts (AGENT_STATUS, HANDOFFS, WORKFLOW_LOG)"
+    - "Note: Directory structure has been manually scaffolded; script ensures reproducibility"
+  dependencies: []
+
+created_at: "2025-11-23T07:20:00Z"
+created_by: "architect"

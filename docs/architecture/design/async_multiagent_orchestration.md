@@ -422,8 +422,17 @@ Agents can also be run locally via scripts that:
 - Attached: task-schema.yml (Task data model)
 - Attached: AGENT_STATUS.md (Status tracking template)
 
+## Implementation Notes
+
+### Agent Orchestrator vs. Coordinator
+The Coordinator pattern described in this architecture is implemented as `agent_orchestrator.py` to provide clearer naming that explicitly conveys its role in orchestrating multiple agents. The term "Coordinator" remains valid as an architectural pattern name.
+
+### Agent Validation Tools
+Note that any `agent.py` scripts encountered in the codebase are **validation proxies** used to test and validate the orchestration approach. They are not production agents. Real agents are defined as profiles in the `agents/*.agent.md` directory and executed through the orchestration system.
+
 ---
 
 _Maintained by: Architect Alphonso_  
-_Version: 1.0.0_  
-_Status: Proposed - Awaiting review and approval_
+_Version: 1.0.1_  
+_Status: Proposed - Awaiting review and approval_  
+_Last updated: 2025-11-23_
