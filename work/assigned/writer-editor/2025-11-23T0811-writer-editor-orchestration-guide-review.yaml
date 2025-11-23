@@ -18,6 +18,8 @@ context:
     - "Verify consistency with other HOW_TO_USE guides"
     - "Add any missing practical tips"
     - "Created by curator as handoff from task 2025-11-23T0722-curator-orchestration-guide"
+    - "Refer to architecture/design/async_multiagent_orchestration.md for context when needed"
+    - "Be sure to adhere to directive agents/directives/014_worklog_creation.md to validate orchestration efficiency"
   dependencies:
     - 2025-11-23T0722-curator-orchestration-guide
 

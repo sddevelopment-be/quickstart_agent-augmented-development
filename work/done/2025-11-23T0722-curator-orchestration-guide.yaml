@@ -1,6 +1,6 @@
 id: 2025-11-23T0722-curator-orchestration-guide
 agent: curator
-status: done
+status: new
 mode: /analysis-mode
 priority: high
 
@@ -26,11 +26,9 @@ context:
 
 created_at: "2025-11-23T07:22:00Z"
 created_by: "architect"
-assigned_at: "2025-11-23T08:11:00Z"
-started_at: "2025-11-23T08:11:00Z"
 
 result:
-  summary: "User guide created covering orchestration system fundamentals, task creation, lifecycle, common use cases, monitoring, and troubleshooting"
+  summary: "Draft user guide created covering orchestration basics"
   artefacts:
     - docs/HOW_TO_USE/multi-agent-orchestration.md
   next_agent: "writer-editor"
@@ -42,4 +40,6 @@ result:
     - "Ensure examples are easy to follow"
     - "Verify consistency with other HOW_TO_USE guides"
     - "Add any missing practical tips"
-  completed_at: "2025-11-23T08:11:00Z"
+    - "Refer to architecture/design/async_multiagent_orchestration.md for context when needed"
+    - "Be sure to adhere to directive agents/directives/014_worklog_creation.md to validate orchestration efficiency"
+  completed_at: "TBD"

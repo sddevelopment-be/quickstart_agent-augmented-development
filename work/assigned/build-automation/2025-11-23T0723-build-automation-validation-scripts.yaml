@@ -21,7 +21,9 @@ context:
     - "validate-task-naming.sh: Check filename conventions (YYYY-MM-DDTHHMM-agent-slug.yaml)"
     - "Scripts should exit with non-zero on validation failure"
     - "Provide clear error messages for debugging"
-    - "Reference: docs/templates/task-descriptor.yaml for schema"
+    - "Reference: docs/templates/agent-tasks/task-descriptor.yaml for schema"
+    - "Refer to architecture/design/async_multiagent_orchestration.md for context when needed"
+    - "Be sure to adhere to directive agents/directives/014_worklog_creation.md to validate orchestration efficiency"
   dependencies:
     - 2025-11-23T0720-build-automation-init-structure
 

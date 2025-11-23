@@ -16,9 +16,10 @@ context:
     - "Implement from Technical Design (async_orchestration_technical_design.md lines 288-586)"
     - "Include all core functions: assign_tasks, process_completed_tasks, check_timeouts, detect_conflicts, update_agent_status, archive_old_tasks"
     - "Ensure idempotent execution (safe to run multiple times)"
-    - "Add comprehensive logging to WORKFLOW_LOG.md"
     - "Target completion time: <30 seconds per cycle"
     - "Note: Script name updated from coordinator.py to agent_orchestrator.py for clarity"
+    - "Refer to architecture/design/async_multiagent_orchestration.md for context when needed"
+    - "Be sure to adhere to directive agents/directives/014_worklog_creation.md to validate orchestration efficiency"
   dependencies:
     - 2025-11-23T0720-build-automation-init-structure
 
