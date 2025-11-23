@@ -1,8 +1,10 @@
 id: 2025-11-23T1744-build-automation-ci-integration
 agent: build-automation
-status: new
+status: in_progress
 mode: /analysis-mode
 priority: high
+assigned_at: "2025-11-23T19:26:12Z"
+started_at: "2025-11-23T19:26:12Z"
 
 title: "Implement GitHub Actions CI/CD Integration"
 
