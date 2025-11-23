@@ -1,0 +1,61 @@
+id: 2025-11-23T1740-build-automation-e2e-test-harness
+agent: build-automation
+status: new
+mode: /analysis-mode
+priority: critical
+
+title: "Create End-to-End Orchestration Test Harness"
+
+artefacts:
+  - work/scripts/test_orchestration_e2e.py
+  - work/scripts/fixtures/test_task_simple.yaml
+  - work/scripts/fixtures/test_task_sequential.yaml
+  - work/scripts/fixtures/test_task_parallel.yaml
+  - work/scripts/fixtures/test_task_convergent.yaml
+  - docs/HOW_TO_USE/testing-orchestration.md
+
+context:
+  repo: "sddevelopment-be/quickstart_agent-augmented-development"
+  branch: "main"
+  notes:
+    - "Critical gap identified in post-PR-review assessment"
+    - "Reference: work/logs/architect/2025-11-23T1730-post-pr-review-orchestration-assessment.md Section 7.1"
+    - "Create automated test suite validating full orchestration lifecycle"
+    - "Tests must cover: task creation → assignment → processing → completion → archival"
+    - "Include all workflow patterns: sequential, parallel, convergent"
+    - "Validate error handling and recovery scenarios"
+    - "Test harness should be runnable in CI and locally"
+
+  test_scenarios:
+    - "Simple single-agent task (inbox → assigned → done)"
+    - "Sequential workflow (Agent A → Agent B via next_agent)"
+    - "Parallel workflow (Multiple agents working simultaneously)"
+    - "Convergent workflow (Multiple agents targeting shared artifacts)"
+    - "Timeout detection (Task stuck in in_progress)"
+    - "Conflict detection (Overlapping artifact targets)"
+    - "Archive execution (Old tasks moved to archive)"
+    - "Error handling (Invalid task schema, missing agent)"
+
+  technical_requirements:
+    - "Use pytest framework for test structure"
+    - "Create isolated test environment (temp work directories)"
+    - "Mock agent execution (simulated task processing)"
+    - "Validate file movements and state transitions"
+    - "Check dashboard updates (AGENT_STATUS, HANDOFFS, WORKFLOW_LOG)"
+    - "Measure orchestrator cycle time"
+    - "Clean up test artifacts after execution"
+
+  acceptance_criteria:
+    - "All 8 test scenarios pass"
+    - "Test suite runs in <60 seconds"
+    - "100% coverage of orchestrator functions"
+    - "Documentation explains how to run tests"
+    - "CI integration instructions provided"
+
+  dependencies:
+    - "Orchestrator: work/scripts/agent_orchestrator.py"
+    - "Validation scripts: validate-task-schema.py, validate-work-structure.sh"
+    - "Task template: docs/templates/agent-tasks/task-descriptor.yaml"
+
+created_at: "2025-11-23T17:40:00Z"
+created_by: "architect"
