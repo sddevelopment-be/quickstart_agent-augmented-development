@@ -51,8 +51,9 @@ References:
 
 ### Definition of Done
 
-- [ ] Task YAML schema defined and validated
-- [ ] Work directory structure created with `.gitkeep` files
+- [X] Task YAML schema defined and validated
+- [X] Work directory structure created with `.gitkeep` files
+- [ ] Proof-of-concept Executions to validate assumptions
 - [ ] Coordinator agent script implemented
 - [ ] Agent execution template provided
 - [ ] Validation scripts created (structure, schema, naming)
@@ -61,6 +62,10 @@ References:
 - [ ] Initial collaboration artifacts created (STATUS, HANDOFFS, WORKFLOW_LOG)
 
 ## Design
+
+![Orchestraction Flow Overview](../diagrams/Agent_Orchestration_Overview_workflow.svg)
+
+See also: [diagrams/orchestration-workflow.puml](../diagrams/orchestration-workflow.puml)
 
 ### Overview
 
