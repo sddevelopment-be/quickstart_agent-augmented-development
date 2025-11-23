@@ -2,27 +2,33 @@
 
 _Version: 1.0.0_  
 _Last updated: 2025-11-20_  
-_Status: Proposed_
+_Status: Accepted_
 
 ## Overview
 
-This document describes the **asynchronous, file-driven orchestration model** for coordinating multiple specialized agents within the repository. The design enables safe, transparent, and predictable multi-agent collaboration without requiring real-time communication, RPC frameworks, or hidden state management.
+This document describes the **asynchronous, file-driven orchestration model
+** for coordinating multiple specialized agents within the repository. The design enables safe, transparent, and predictable multi-agent collaboration without requiring real-time communication, RPC frameworks, or hidden state management.
 
 ## Core Principles
 
 ### Simplicity
+
 All workflows derive from file movements. No frameworks, no servers, no complex protocols—just files moving through directories.
 
 ### Transparency
+
 Every state transition is visible in Git. Every task has a readable YAML representation. Every agent action leaves an audit trail.
 
 ### Determinism
+
 No hidden API calls or opaque queues. Task execution is predictable and repeatable.
 
 ### Composability
+
 Each agent handles one domain. Complex workflows emerge naturally from simple handoffs via `next_agent` metadata.
 
 ### Traceability
+
 Every task leaves a complete audit trail from creation through completion or failure.
 
 ## System Architecture
@@ -91,19 +97,9 @@ created_by: "stijn"
 
 Tasks progress through a well-defined lifecycle:
 
-```
-┌─────┐     ┌──────────┐     ┌─────────────┐     ┌──────┐     ┌─────────┐
-│ new │ ──> │ assigned │ ──> │ in_progress │ ──> │ done │ ──> │ archive │
-└─────┘     └──────────┘     └─────────────┘     └──────┘     └─────────┘
-                                     │
-                                     │
-                                     v
-                                 ┌───────┐
-                                 │ error │
-                                 └───────┘
-```
+![Task Lifecycle Diagram](../diagrams/Task_Lifecycle_State_Machine.svg)
 
-**See also:** [Task Lifecycle State Machine Diagram](../diagrams/task-lifecycle-state-machine.puml)
+See also: [Task Lifecycle State Machine Diagram](../diagrams/task-lifecycle-state-machine.puml)
 
 #### 1. Creation (new)
 
@@ -173,9 +169,9 @@ The Coordinator is a **meta-agent** responsible for orchestration but not artifa
 - Assign tasks to appropriate agents by moving YAML files
 - Create follow-up tasks based on `next_agent` metadata
 - Maintain coordination artifacts:
-  - `work/collaboration/AGENT_STATUS.md`: Current agent states and capacities
-  - `work/collaboration/HANDOFFS.md`: Agent-to-agent transition log
-  - `work/collaboration/WORKFLOW_LOG.md`: System-wide orchestration events
+    - `work/collaboration/AGENT_STATUS.md`: Current agent states and capacities
+    - `work/collaboration/HANDOFFS.md`: Agent-to-agent transition log
+    - `work/collaboration/WORKFLOW_LOG.md`: System-wide orchestration events
 - Detect and resolve conflicts (e.g., multiple agents targeting same artifact)
 - Run `/validate-alignment` checks when needed
 - Escalate blocked or error states to humans
@@ -192,50 +188,31 @@ The Coordinator is a **meta-agent** responsible for orchestration but not artifa
 
 ## Workflow Patterns
 
+### Orchestration Flow Overview
+
+![Orchestraction Flow Overview](../diagrams/Agent_Orchestration_Overview_workflow.svg)
+
+See also: [diagrams/orchestration-workflow.puml](../diagrams/orchestration-workflow.puml)
+
 ### Simple Sequential Flow
 
-```
-Planning Agent → Creates task → work/inbox/
-                     ↓
-Coordinator → Assigns to Structural → work/assigned/structural/
-                     ↓
-Structural Agent → Generates artifacts → Completes task
-                     ↓ (next_agent: lexical)
-Coordinator → Creates lexical task → work/inbox/
-                     ↓
-Lexical Agent → Refines artifacts → Completes task
-```
+![Sequential Workflow Diagram](../diagrams/Simple_Sequential_Workflow.svg)
 
-**See also:** [Sequential Workflow Diagram](../diagrams/workflow-sequential-flow.puml)
+See also: [Simple Sequential Workflow Diagram](../diagrams/workflow-sequential-flow.puml)
 
 ### Parallel Execution Flow
 
 Multiple agents can work simultaneously on independent tasks:
 
-```
-Planning Agent → Creates 3 tasks → work/inbox/
-                     ↓
-Coordinator → Assigns tasks to different agents
-    ↓                    ↓                    ↓
-Structural         Architect            Diagrammer
-(REPO_MAP)         (ADR-005)            (workflow.puml)
-    ↓                    ↓                    ↓
-All complete → Coordinator aggregates results
-```
+![Parallel Workflow Diagram](../diagrams/Parallel_Execution_Workflow.svg)
 
-**See also:** [Parallel Workflow Diagram](../diagrams/workflow-parallel-flow.puml)
+See also: [Parallel Execution Workflow Diagram](../diagrams/workflow-parallel-flow.puml)
 
 ### Convergent Flow
 
 Multiple agents contribute to a synthesis task:
 
-```
-Structural Agent → REPO_MAP.md ──┐
-                                  ├──> Curator Agent
-Lexical Agent → LEX_REPORT.md ───┤    (validates consistency)
-                                  │
-Architect Agent → ADR-002.md ────┘
-```
+![Convergent Workflow Diagram](../diagrams/Convergent_Workflow.svg)
 
 **See also:** [Convergent Workflow Diagram](../diagrams/workflow-convergent-flow.puml)
 
@@ -260,19 +237,19 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      
+
       - name: Load context
         run: cat AGENTS.md
-      
+
       - name: Detect structural tasks
         run: |
           for task in work/assigned/structural/*.yaml; do
             echo "Processing: $task"
           done
-      
+
       - name: Execute agent logic
         run: ./agents/structural/run.sh
-      
+
       - name: Commit results
         run: |
           git config user.name "Structural Agent"
@@ -280,7 +257,7 @@ jobs:
           git add .
           git commit -m "Structural agent: completed task"
           git push
-      
+
       - name: Move to done
         run: mv work/assigned/structural/*.yaml work/done/
 ```
@@ -303,13 +280,13 @@ Agents can also be run locally via scripts that:
 
 ## Quality Attributes
 
-| Attribute | Target | Measurement |
-|-----------|--------|-------------|
-| **Transparency** | 100% git-visible state | All task files tracked in repo |
-| **Safety** | Zero silent failures | All errors logged in task YAML |
-| **Traceability** | Complete audit trail | Task history from creation to archive |
-| **Composability** | <5 min to add new agent | Create directory + profile |
-| **Recovery** | <1 min to revert task | Git revert task file |
+| Attribute         | Target                  | Measurement                           |
+|-------------------|-------------------------|---------------------------------------|
+| **Transparency**  | 100% git-visible state  | All task files tracked in repo        |
+| **Safety**        | Zero silent failures    | All errors logged in task YAML        |
+| **Traceability**  | Complete audit trail    | Task history from creation to archive |
+| **Composability** | <5 min to add new agent | Create directory + profile            |
+| **Recovery**      | <1 min to revert task   | Git revert task file                  |
 
 ## Security Considerations
 
@@ -389,24 +366,28 @@ Agents can also be run locally via scripts that:
 ## Future Enhancements
 
 ### Phase 1: Core Stability (Critical)
+
 - Task YAML schema validation
 - Automated Coordinator polling script
 - Basic conflict detection in Coordinator
 - Logging standardization
 
 ### Phase 2: Developer Experience (High)
+
 - Task creation CLI tool
 - Status dashboard (work/collaboration/STATUS.md generator)
 - Agent health monitoring
 - Retry mechanisms for failed tasks
 
 ### Phase 3: Advanced Orchestration (Medium)
+
 - Conditional workflows (if/then logic in tasks)
 - Task dependencies and DAG visualization
 - Priority-based scheduling
 - Parallel batch execution
 
 ### Phase 4: Integration (Low)
+
 - Slack/Discord notifications
 - GitHub Issues/Projects integration
 - Metrics and analytics
@@ -433,10 +414,15 @@ Agents can also be run locally via scripts that:
 ## Implementation Notes
 
 ### Agent Orchestrator vs. Coordinator
-The Coordinator pattern described in this architecture is implemented as `agent_orchestrator.py` to provide clearer naming that explicitly conveys its role in orchestrating multiple agents. The term "Coordinator" remains valid as an architectural pattern name.
+
+The Coordinator pattern described in this architecture is implemented as
+`agent_orchestrator.py` to provide clearer naming that explicitly conveys its role in orchestrating multiple agents. The term "Coordinator" remains valid as an architectural pattern name.
 
 ### Agent Validation Tools
-Note that any `agent.py` scripts encountered in the codebase are **validation proxies** used to test and validate the orchestration approach. They are not production agents. Real agents are defined as profiles in the `agents/*.agent.md` directory and executed through the orchestration system.
+
+Note that any `agent.py` scripts encountered in the codebase are **validation proxies
+** used to test and validate the orchestration approach. They are not production agents. Real agents are defined as profiles in the
+`agents/*.agent.md` directory and executed through the orchestration system.
 
 ---
 

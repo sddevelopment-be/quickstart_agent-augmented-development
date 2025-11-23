@@ -3,6 +3,7 @@
 title Orchestration Implementation Timeline\nPhased Approach with Dependencies
 
 printscale weekly
+Projectscale weekly zoom 15
 
 <style>
 ganttDiagram {
@@ -29,7 +30,7 @@ note bottom
   Priority: CRITICAL
   Effort: 2-3 workdays
   Dependencies: None
-  
+
   Deliverables:
   - Directory structure
   - Task YAML schema

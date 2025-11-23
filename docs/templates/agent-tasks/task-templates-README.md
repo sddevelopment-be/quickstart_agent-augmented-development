@@ -8,19 +8,19 @@ The task templates have been split into separate files for clarity and ease of u
 
 ### Core Templates
 
-| File | Purpose | When to Use |
-|------|---------|-------------|
-| **task-base.yaml** | Required fields only | Starting point for all tasks |
-| **task-context.yaml** | Optional context fields | Add details to guide agent execution |
-| **task-timestamps.yaml** | System-populated timestamps | Reference only - shows what system adds |
-| **task-result.yaml** | Result object structure | Reference only - agents add on completion |
-| **task-error.yaml** | Error object structure | Reference only - agents add on failure |
-| **task-examples.yaml** | Complete working examples | Copy and adapt for your use case |
+| File                     | Purpose                     | When to Use                               |
+|--------------------------|-----------------------------|-------------------------------------------|
+| **task-base.yaml**       | Required fields only        | Starting point for all tasks              |
+| **task-context.yaml**    | Optional context fields     | Add details to guide agent execution      |
+| **task-timestamps.yaml** | System-populated timestamps | Reference only - shows what system adds   |
+| **task-result.yaml**     | Result object structure     | Reference only - agents add on completion |
+| **task-error.yaml**      | Error object structure      | Reference only - agents add on failure    |
+| **task-examples.yaml**   | Complete working examples   | Copy and adapt for your use case          |
 
 ### Legacy Template
 
-| File | Purpose | Status |
-|------|---------|--------|
+| File                     | Purpose                      | Status                   |
+|--------------------------|------------------------------|--------------------------|
 | **task-descriptor.yaml** | Original monolithic template | Maintained for reference |
 
 ## Quick Start
@@ -33,19 +33,19 @@ The task templates have been split into separate files for clarity and ease of u
    ```
 
 2. **Update required fields**
-   - Set `id` to match filename (without .yaml)
-   - Set `agent` to target agent name
-   - List `artefacts` to be created/modified
+    - Set `id` to match filename (without .yaml)
+    - Set `agent` to target agent name
+    - List `artefacts` to be created/modified
 
 3. **Add optional context** (from task-context.yaml)
-   - Add `title` for human readability
-   - Set `mode` if needed (/analysis-mode, /creative-mode, /meta-mode)
-   - Set `priority` if urgent (critical, high, normal, low)
-   - Add `context` with repo, branch, notes
+    - Add `title` for human readability
+    - Set `mode` if needed (/analysis-mode, /creative-mode, /meta-mode)
+    - Set `priority` if urgent (critical, high, normal, low)
+    - Add `context` with repo, branch, notes
 
 4. **Add timestamps**
-   - Set `created_at` to current UTC time (YYYY-MM-DDTHH:MM:SSZ)
-   - Set `created_by` to your username or agent name
+    - Set `created_at` to current UTC time (YYYY-MM-DDTHH:MM:SSZ)
+    - Set `created_by` to your username or agent name
 
 5. **Commit and push**
    ```bash
@@ -59,6 +59,7 @@ The task templates have been split into separate files for clarity and ease of u
 ### task-base.yaml - Required Fields
 
 Minimal template with only required fields:
+
 - `id`: Unique identifier matching filename
 - `agent`: Target agent name
 - `status`: Always "new" for new tasks
@@ -69,6 +70,7 @@ Minimal template with only required fields:
 ### task-context.yaml - Optional Fields
 
 Additional context to guide agent execution:
+
 - `title`: Human-readable task description
 - `mode`: Reasoning mode for agent
 - `priority`: Task urgency level
@@ -79,6 +81,7 @@ Additional context to guide agent execution:
 ### task-timestamps.yaml - System Timestamps
 
 Timestamps automatically populated by the system:
+
 - `created_at`, `created_by`: Set by task creator
 - `assigned_at`: Set by Agent Orchestrator
 - `started_at`: Set by agent when starting
@@ -89,6 +92,7 @@ Timestamps automatically populated by the system:
 ### task-result.yaml - Completion Result
 
 Result object added by agent on successful completion:
+
 - `summary`: What was accomplished
 - `artefacts`: What was actually created/modified
 - `next_agent`: Optional handoff to another agent
@@ -100,6 +104,7 @@ Result object added by agent on successful completion:
 ### task-error.yaml - Error Information
 
 Error object added by agent on failure:
+
 - `message`: What went wrong
 - `timestamp`: When error occurred
 - `agent`: Which agent encountered error
@@ -111,6 +116,7 @@ Error object added by agent on failure:
 ### task-examples.yaml - Working Examples
 
 Five complete examples demonstrating:
+
 1. Simple documentation task
 2. Architecture task with handoff
 3. Visual design task (creative mode)
@@ -209,11 +215,11 @@ Validate using: `work/scripts/validate-task-schema.py` (when implemented)
 - **Architecture**: `docs/architecture/design/async_multiagent_orchestration.md`
 - **Technical Design**: `docs/architecture/design/async_orchestration_technical_design.md`
 - **Work Directory**: `work/README.md`
-- **ADRs**: 
-  - ADR-002: File-Based Asynchronous Agent Coordination
-  - ADR-003: Task Lifecycle and State Management
-  - ADR-004: Work Directory Structure
-  - ADR-005: Coordinator Agent Pattern
+- **ADRs**:
+    - ADR-002: File-Based Asynchronous Agent Coordination
+    - ADR-003: Task Lifecycle and State Management
+    - ADR-004: Work Directory Structure
+    - ADR-005: Coordinator Agent Pattern
 
 ## Questions?
 
