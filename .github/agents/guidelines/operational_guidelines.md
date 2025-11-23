@@ -19,6 +19,14 @@ How agents should operate inside this repository.
   - generated artifacts ready for human review
 - Prefer small, incremental changes over large rewrites.
 
+### Repository Structure Note
+
+**Important:** The `agents/` directory is a symlink to `.github/agents/`. Any changes made to files or directories under `agents/` will actually modify `.github/agents/` and vice versa. This means:
+- `agents/directives/` → `.github/agents/directives/` (same location)
+- `agents/approaches/` → `.github/agents/approaches/` (same location)
+- There is only ONE copy of each file, not duplicates
+- Edits to either path modify the same underlying file
+
 ## Rules
 
 - Do not modify files under `docs/` unless explicitly instructed.
