@@ -1,0 +1,75 @@
+id: 2025-11-23T1852-build-automation-ci-diagram-workflow
+agent: build-automation
+status: new
+mode: /analysis-mode
+priority: medium
+
+title: "GitHub Actions: PlantUML Diagram Rendering"
+
+artefacts:
+  - .github/workflows/diagram-rendering.yml
+  - docs/HOW_TO_USE/ci-diagram-rendering.md
+
+context:
+  repo: "sddevelopment-be/quickstart_agent-augmented-development"
+  branch: "main"
+  notes:
+    - "Subtask 1744c: Diagram rendering workflow from CI integration initiative"
+    - "Parent task: 2025-11-23T1744-build-automation-ci-integration"
+    - "Reference: work/logs/architect/2025-11-23T1730-post-pr-review-orchestration-assessment.md Section 8.2"
+    - "Create workflow to validate PlantUML diagrams compile without errors"
+    - "This subtask focuses ONLY on diagram-rendering.yml workflow"
+    - "Priority: medium (nice-to-have, not blocking orchestration)"
+
+  workflow_requirements:
+    trigger: "Pull request with .puml file changes"
+    steps:
+      - "Checkout repository"
+      - "Set up Java runtime for PlantUML"
+      - "Download PlantUML JAR (cache for reuse)"
+      - "Find all .puml files in repository"
+      - "Compile each .puml file to SVG"
+      - "Check for compilation errors"
+      - "Optionally: Upload rendered SVGs as workflow artifacts"
+      - "Report rendering status as PR check"
+    permissions: "Contents: read, Checks: write"
+
+  technical_considerations:
+    - "Use GitHub Actions cache for PlantUML JAR and Java setup"
+    - "Implement path filtering: only run if .puml files changed"
+    - "Add timeout limit: 3 minutes max"
+    - "Configure GITHUB_TOKEN permissions explicitly (read-only)"
+    - "Generate compilation report (list of files, success/failure per file)"
+    - "Gracefully handle missing Graphviz dependencies if needed"
+
+  diagram_compilation:
+    plantuml_version: "Latest stable (1.2023.x or newer)"
+    output_format: "SVG"
+    error_handling: "Report first error per file, continue to next file"
+    artifact_retention: "Store rendered SVGs for 7 days (optional)"
+
+  documentation_needs:
+    section: "Diagram Validation"
+    content:
+      - "How PlantUML diagram validation works in CI"
+      - "Understanding diagram compilation errors"
+      - "Testing diagrams locally before pushing"
+      - "PlantUML syntax resources and best practices"
+      - "Viewing rendered diagram artifacts (if enabled)"
+
+  acceptance_criteria:
+    - "diagram-rendering.yml workflow file created and syntactically valid"
+    - "Workflow triggers only on PRs with .puml file changes"
+    - "PlantUML setup with Java and JAR caching"
+    - "All .puml files compile successfully (or errors reported)"
+    - "Compilation errors fail the PR check"
+    - "Documentation explains how to fix diagram syntax errors"
+    - "Workflow completes in <3 minutes for typical diagram count"
+
+  dependencies:
+    - "Diagrams: docs/architecture/diagrams/*.puml (available, 5+ diagrams)"
+    - "Java runtime: Provided by GitHub Actions (ubuntu-latest includes Java)"
+    - "PlantUML JAR: Download from official repository"
+
+created_at: "2025-11-23T18:52:00Z"
+created_by: "manager"

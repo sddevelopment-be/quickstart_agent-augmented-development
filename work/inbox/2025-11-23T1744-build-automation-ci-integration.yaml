@@ -21,6 +21,12 @@ context:
     - "Automate orchestration execution and validation in CI pipeline"
     - "Reduce manual orchestration burden"
     - "Catch validation failures before merge"
+    - "⚠️ TASK SPLIT: This task has been divided into 3 parallel subtasks by Manager Mike"
+    - "Subtask 1850: Orchestration workflow (high priority)"
+    - "Subtask 1851: Validation workflow (high priority)"
+    - "Subtask 1852: Diagram rendering workflow (medium priority)"
+    - "Parent task 1744 serves as coordination/tracking container"
+    - "Recommendation: Mark this task as 'done' once all 3 subtasks complete"
 
   workflow_requirements:
     orchestration_workflow:

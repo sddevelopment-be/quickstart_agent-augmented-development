@@ -1,0 +1,73 @@
+id: 2025-11-23T1851-build-automation-ci-validation-workflow
+agent: build-automation
+status: new
+mode: /analysis-mode
+priority: high
+
+title: "GitHub Actions: Validation Workflow"
+
+artefacts:
+  - .github/workflows/validation.yml
+  - docs/HOW_TO_USE/ci-validation.md
+
+context:
+  repo: "sddevelopment-be/quickstart_agent-augmented-development"
+  branch: "main"
+  notes:
+    - "Subtask 1744b: Validation workflow from CI integration initiative"
+    - "Parent task: 2025-11-23T1744-build-automation-ci-integration"
+    - "Reference: work/logs/architect/2025-11-23T1730-post-pr-review-orchestration-assessment.md Section 8.2"
+    - "Create PR validation workflow to catch issues before merge"
+    - "This subtask focuses ONLY on validation.yml workflow"
+
+  workflow_requirements:
+    trigger: "Pull request, push to main"
+    steps:
+      - "Checkout repository"
+      - "Validate work directory structure (validate-work-structure.sh)"
+      - "Validate all task YAML files in work/ tree (validate-task-schema.py)"
+      - "Validate task naming conventions (validate-task-naming.sh)"
+      - "Run E2E test suite if available (work/scripts/test_orchestration_e2e.py)"
+      - "Report validation results as PR check status"
+    permissions: "Contents: read, Checks: write"
+
+  technical_considerations:
+    - "Use GitHub Actions cache for Python dependencies"
+    - "Implement concurrency controls (cancel-in-progress for same PR)"
+    - "Add timeout limit: 2 minutes max"
+    - "Configure GITHUB_TOKEN permissions explicitly (read-only for contents)"
+    - "Aggregate validation errors into single summary comment"
+    - "Fail workflow if any validation fails"
+
+  validation_checks:
+    - "Directory structure: All required directories exist (inbox, assigned, done, logs, collaboration)"
+    - "Task schema: All YAML files conform to task-descriptor schema"
+    - "Naming convention: All task files follow YYYY-MM-DDTHHMM-agent-slug.yaml pattern"
+    - "E2E tests: If test_orchestration_e2e.py exists, run it"
+    - "No duplicate task IDs across work/ tree"
+
+  documentation_needs:
+    section: "CI Validation"
+    content:
+      - "Understanding validation check results"
+      - "How to fix common validation failures (schema errors, naming issues)"
+      - "Troubleshooting validation workflow failures"
+      - "Running validation locally before pushing"
+      - "Validation check coverage (what's checked, what's not)"
+
+  acceptance_criteria:
+    - "validation.yml workflow file created and syntactically valid"
+    - "Workflow triggers on PRs and pushes to main"
+    - "All 3 validation scripts execute successfully"
+    - "E2E tests run if available (graceful skip if not present)"
+    - "PR check status reports pass/fail clearly"
+    - "Documentation explains validation failures and fixes"
+    - "Workflow completes in <2 minutes for typical repo state"
+
+  dependencies:
+    - "Validation scripts: work/scripts/validate-*.py, validate-*.sh (available)"
+    - "E2E tests: work/scripts/test_orchestration_e2e.py (optional, check if exists)"
+    - "Task schema: docs/templates/agent-tasks/task-descriptor.yaml (available)"
+
+created_at: "2025-11-23T18:51:00Z"
+created_by: "manager"
