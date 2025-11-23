@@ -1,13 +1,13 @@
 # Agent Status Dashboard
 
-_Last updated: 2025-11-23 20:56:42 UTC_
+_Last updated: 2025-11-23 21:05:46 UTC_
 
 ## architect
 
 - **Status**: Idle
 - **Assigned**: 3 tasks
 - **In Progress**: 0 tasks
-- **Last seen**: 2025-11-23 20:56:41
+- **Last seen**: 2025-11-23 21:05:46
 
 ## backend-dev
 
@@ -24,9 +24,9 @@ _Last updated: 2025-11-23 20:56:42 UTC_
 ## build-automation
 
 - **Status**: Idle
-- **Assigned**: 2 tasks
+- **Assigned**: 3 tasks
 - **In Progress**: 0 tasks
-- **Last seen**: 2025-11-23 20:56:41
+- **Last seen**: 2025-11-23 21:05:46
 
 ## coordinator
 
@@ -43,8 +43,9 @@ _Last updated: 2025-11-23 20:56:42 UTC_
 ## diagrammer
 
 - **Status**: Idle
-- **Assigned**: 0 tasks
+- **Assigned**: 1 tasks
 - **In Progress**: 0 tasks
+- **Last seen**: 2025-11-23 21:05:46
 
 ## frontend
 
@@ -115,7 +116,7 @@ _Last updated: 2025-11-23 20:56:42 UTC_
 ## writer-editor
 
 - **Status**: Idle
-- **Assigned**: 0 tasks
+- **Assigned**: 1 tasks
 - **In Progress**: 0 tasks
-- **Last seen**: 2025-11-23 20:54:53
+- **Last seen**: 2025-11-23 21:05:46
 

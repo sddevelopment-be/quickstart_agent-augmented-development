@@ -1,0 +1,75 @@
+id: 2025-11-23T2103-build-automation-copilot-tooling-workflow
+agent: build-automation
+status: assigned
+mode: /analysis-mode
+priority: high
+title: Create GitHub Copilot Tooling Setup Workflow
+artefacts:
+- .github/copilot/setup.sh
+- .github/workflows/copilot-setup.yml
+- docs/HOW_TO_USE/copilot-tooling-setup.md
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  notes:
+  - Implement GitHub Copilot custom tooling setup as per GitHub documentation
+  - 'Reference: https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent/customize-the-agent-environment#preinstalling-tools-or-dependencies-in-copilots-environment'
+  - Enable preinstallation of tools/dependencies in Copilot's environment
+  - Optimize agent execution with pre-configured tooling
+  - 'Consider repository-specific tools: rg, fd, ast-grep, jq, yq, fzf (per Directive
+    001)'
+  - Follow-up assessment task will be created for architect to evaluate value
+  requirements:
+    workflow_features:
+    - Automated tool installation in Copilot environment
+    - Pre-cache common dependencies (Python, Node.js packages)
+    - Setup repository-specific CLI tools (rg, fd, ast-grep, etc.)
+    - Configure environment variables for agent execution
+    - Validation step to ensure tools are available
+    setup_script_requirements:
+    - Idempotent installation (safe to run multiple times)
+    - Fast execution (<2 minutes for common tools)
+    - Error handling with clear diagnostics
+    - Version pinning for reproducibility
+    - Support for both Linux and macOS environments
+    documentation_requirements:
+    - Explanation of benefits for agent execution
+    - List of preinstalled tools and their purpose
+    - How to customize for derivative repositories
+    - Troubleshooting common setup issues
+    - Performance impact measurements
+  technical_design:
+  - Create .github/copilot/setup.sh for tool installation
+  - Implement GitHub Actions workflow for validation
+  - Use apt/brew for system tools, pip/npm for language packages
+  - Cache installation artifacts for faster runs
+  - Follow security best practices (verify checksums, use official sources)
+  - Integrate with existing CI/CD validation workflows
+  tools_to_preinstall:
+  - ripgrep (rg) - fast code search
+  - fd - fast file finder
+  - ast-grep - structural code search
+  - jq - JSON processor
+  - yq - YAML processor
+  - fzf - fuzzy finder
+  - Python packages from requirements.txt
+  - Repository-specific validation scripts
+  acceptance_criteria:
+  - .github/copilot/setup.sh script created and tested
+  - GitHub Actions workflow validates setup process
+  - All tools from Directive 001 available in Copilot environment
+  - Setup completes in <2 minutes
+  - Documentation explains purpose and customization
+  - Validation passes in CI/CD pipeline
+  - Follow-up architect assessment task created
+  next_steps:
+  - After completion, create assessment task for architect
+  - Architect will evaluate added value for this repository
+  - Architect will project benefits for downstream/derivative repositories
+  dependencies:
+  - 'Directive 001: CLI & Shell Tooling'
+  - 'GitHub Copilot documentation: customize-the-agent-environment'
+  - 'Existing CI/CD workflows: .github/workflows/'
+created_at: '2025-11-23T21:03:00Z'
+created_by: orchestration-coordinator
+assigned_at: '2025-11-23T21:05:46.832431Z'
