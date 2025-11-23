@@ -104,6 +104,11 @@ Reflections for framework improvement:
 ## Metadata
 
 - **Duration:** <time-spent>
+- **Token Count:** 
+  - Input tokens: <tokens-loaded-from-context>
+  - Output tokens: <tokens-generated-in-artifacts>
+  - Total tokens: <input + output>
+- **Context Size:** <files-loaded-with-estimates>
 - **Handoff To:** <next-agent> (if applicable)
 - **Related Tasks:** <task-ids> (if applicable)
 ```
@@ -174,6 +179,8 @@ Work logs MUST:
 - Follow naming convention
 - Reference specific directives used
 - Provide actionable lessons learned
+- Include token count metrics (input, output, total)
+- Include context size analysis (files loaded with estimates)
 - Be committed to Git alongside task completion
 
 Work logs SHOULD:

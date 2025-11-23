@@ -170,6 +170,18 @@
       "safetyCritical": false,
       "directive_version": "1.0.0",
       "status": "active"
+    },
+    {
+      "code": "015",
+      "slug": "store_prompts",
+      "title": "Store Prompts",
+      "file": "015_store_prompts.md",
+      "purpose": "Optional practice for documenting original task prompts with SWOT analysis to improve prompt quality",
+      "dependencies": ["014"],
+      "requiredInAgents": false,
+      "safetyCritical": false,
+      "directive_version": "1.0.0",
+      "status": "active"
     }
   ]
 }
