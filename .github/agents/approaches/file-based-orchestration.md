@@ -3,7 +3,8 @@
 **Approach Type:** Coordination Pattern  
 **Version:** 1.0.0  
 **Last Updated:** 2025-11-23  
-**Status:** Active
+**Status:** Active  
+**Target Location:** `.github/agents/approaches/file-based-orchestration.md`
 
 ## Overview
 
@@ -392,3 +393,4 @@ bash work/scripts/validate-work-structure.sh
 _Maintained by: Development team, Curator Claire & Architect Alphonso_  
 _For questions, see: `.github/agents/curator.agent.md` or `.github/agents/architect.agent.md`_
 
+**Note:** This file should be moved to `.github/agents/approaches/file-based-orchestration.md` once the approaches directory is created.
