@@ -1,7 +1,7 @@
 # Simple Task Fixture - Single agent workflow
 # Used for testing basic inbox → assigned → done flow
 
-id: "2025-11-23T0800-test-agent-simple-task"
+id: "test_task_simple"
 agent: "test-agent"
 status: "new"
 title: "Simple test task for validation"
