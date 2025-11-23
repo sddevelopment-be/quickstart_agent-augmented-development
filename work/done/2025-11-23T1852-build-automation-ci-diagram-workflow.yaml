@@ -2,7 +2,7 @@ id: 2025-11-23T1852-build-automation-ci-diagram-workflow
 agent: build-automation
 status: done
 mode: /analysis-mode
-priority: medium
+priority: normal
 assigned_at: "2025-11-23T19:32:23Z"
 started_at: "2025-11-23T19:32:23Z"
 
