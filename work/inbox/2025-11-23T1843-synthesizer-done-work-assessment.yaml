@@ -1,0 +1,83 @@
+id: 2025-11-23T1843-synthesizer-done-work-assessment
+agent: synthesizer
+status: new
+mode: /analysis-mode
+priority: high
+
+title: "Review and Assess All Completed Work Logs for Efficiency and Quality"
+
+artefacts:
+  - work/synthesizer/2025-11-23T1843-done-work-aggregate-report.md
+  - work/collaboration/EFFICIENCY_METRICS.md
+
+context:
+  repo: "sddevelopment-be/quickstart_agent-augmented-development"
+  branch: "copilot/continue-orchestration-framework-implementation"
+  notes:
+    - "Meta-task: Review all completed work in work/done/ and corresponding work/logs/"
+    - "Goal: Create aggregate report on efficiency, quality, and lessons learned"
+    - "Focus on orchestration framework implementation quality"
+    - "Identify patterns in agent collaboration effectiveness"
+    - "Surface insights for continuous improvement"
+    - "Adhere to Directive 014 for metrics regarding token usage and context size"
+
+  analysis_scope:
+    done_tasks:
+      - "work/done/*.yaml (all completed tasks)"
+    work_logs:
+      - "work/logs/**/*.md (all agent work logs)"
+    focus_areas:
+      - "Task completion efficiency (time from assigned to done)"
+      - "Quality of deliverables (artifact completeness, adherence to standards)"
+      - "Handoff effectiveness (clean transitions between agents)"
+      - "Directive compliance (especially Directive 014 metrics)"
+      - "Lessons learned patterns across agents"
+      - "Token usage and context size metrics per task"
+      - "Agent collaboration quality"
+
+  deliverables:
+    aggregate_report:
+      sections:
+        - "Executive Summary: Key findings and recommendations"
+        - "Efficiency Analysis: Time metrics, bottlenecks, optimization opportunities"
+        - "Quality Assessment: Deliverable completeness, standard adherence"
+        - "Handoff Analysis: Transition quality, dependency management"
+        - "Lessons Learned Synthesis: Common themes, best practices, anti-patterns"
+        - "Token Usage & Context Metrics: Compliance with Directive 014"
+        - "Recommendations: Actionable improvements for framework"
+      
+    efficiency_metrics:
+      description: "Centralized metrics dashboard for ongoing tracking"
+      metrics_to_track:
+        - "Average task completion time by agent"
+        - "Handoff latency (completed_at to next task created_at)"
+        - "Token usage statistics per agent/task"
+        - "Context size metrics"
+        - "Work log creation compliance rate"
+        - "Artifact quality indicators"
+
+  analysis_methodology:
+    - "Parse all done task YAML files for timestamps and metadata"
+    - "Extract efficiency metrics from work logs"
+    - "Identify successful patterns and anti-patterns"
+    - "Cross-reference task results with work log lessons learned"
+    - "Synthesize findings into coherent narrative"
+    - "Provide evidence-based recommendations"
+
+  success_criteria:
+    - "All done tasks reviewed (10+ tasks as of 2025-11-23)"
+    - "All work logs analyzed for lessons learned"
+    - "Aggregate report provides actionable insights"
+    - "Efficiency metrics dashboard established"
+    - "Token usage and context size data compiled (Directive 014)"
+    - "Recommendations are specific and implementable"
+    - "Report follows synthesizer voice and quality standards"
+
+  dependencies:
+    - "Done tasks: work/done/*.yaml"
+    - "Work logs: work/logs/**/*.md"
+    - "Directive 014: .github/agents/directives/014_worklog_creation.md"
+    - "Orchestration approach: agents/approaches/file-based-orchestration.md"
+
+created_at: "2025-11-23T18:43:00Z"
+created_by: "generic"

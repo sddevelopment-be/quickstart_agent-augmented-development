@@ -1,0 +1,73 @@
+id: 2025-11-23T1850-build-automation-ci-orchestration-workflow
+agent: build-automation
+status: new
+mode: /analysis-mode
+priority: high
+
+title: "GitHub Actions: Orchestration Workflow"
+
+artefacts:
+  - .github/workflows/orchestration.yml
+  - docs/HOW_TO_USE/ci-orchestration.md
+
+context:
+  repo: "sddevelopment-be/quickstart_agent-augmented-development"
+  branch: "main"
+  notes:
+    - "Subtask 1744a: Orchestration workflow from CI integration initiative"
+    - "Parent task: 2025-11-23T1744-build-automation-ci-integration"
+    - "Reference: work/logs/architect/2025-11-23T1730-post-pr-review-orchestration-assessment.md Section 8.2"
+    - "Create scheduled workflow to automate agent orchestrator execution"
+    - "Reduce manual orchestration burden via CI automation"
+    - "This subtask focuses ONLY on orchestration.yml workflow"
+
+  workflow_requirements:
+    trigger: "Schedule (hourly) + manual dispatch"
+    steps:
+      - "Checkout repository"
+      - "Set up Python 3.10+ environment"
+      - "Install dependencies (PyYAML)"
+      - "Run work/scripts/agent_orchestrator.py"
+      - "Commit and push changes (if any artifacts created)"
+      - "Update WORKFLOW_LOG.md with run results"
+      - "Notify on failures via GitHub Issues"
+    permissions: "Contents: write, Issues: write"
+    
+  technical_considerations:
+    - "Use GitHub Actions cache for Python dependencies"
+    - "Implement concurrency controls (cancel-in-progress for same branch)"
+    - "Add timeout limit: 5 minutes max"
+    - "Configure GITHUB_TOKEN permissions explicitly"
+    - "Add dry-run mode via workflow_dispatch input"
+    - "Use safe commit message: '[orchestrator] Auto-assign tasks'"
+
+  safety_requirements:
+    - "Validate orchestrator doesn't make destructive changes"
+    - "Review commit messages for clarity"
+    - "Implement dry-run mode for testing (workflow_dispatch input)"
+    - "Only commit if orchestrator reports success"
+
+  documentation_needs:
+    section: "Automated Orchestration"
+    content:
+      - "How to trigger orchestration manually (workflow_dispatch)"
+      - "Understanding workflow run results (logs, commits)"
+      - "Troubleshooting orchestration failures"
+      - "Adjusting orchestration schedule (cron syntax)"
+      - "Dry-run mode for testing"
+
+  acceptance_criteria:
+    - "orchestration.yml workflow file created and syntactically valid"
+    - "Workflow triggers on schedule (hourly) and manual dispatch"
+    - "Python environment setup with dependency caching"
+    - "Orchestrator runs successfully and commits results"
+    - "Dry-run mode available for testing"
+    - "Documentation explains workflow usage clearly"
+    - "Safety checks prevent destructive operations"
+
+  dependencies:
+    - "Orchestrator: work/scripts/agent_orchestrator.py (available)"
+    - "Agent template: 2025-11-23T1742-build-automation-agent-template (soft dependency)"
+
+created_at: "2025-11-23T18:50:00Z"
+created_by: "manager"

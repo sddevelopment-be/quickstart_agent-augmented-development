@@ -35,6 +35,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Directive 013: Tooling Setup & Fallbacks (install commands, version requirements, fallback strategies)
 - Redundancy rationale documentation in directive 012
 - Meta-version tracking in `AGENTS.md` (core_version, directive_set_version)
+- Work inbox task index (`work/inbox/INDEX.md`) tracking 10 open orchestration tasks
+- Manager agent work logs directory (`work/logs/manager/`)
+- Orchestration coordination tasks:
+  - Synthesizer done-work assessment task for efficiency analysis
+  - Architect synthesizer assessment review task for solution fitness evaluation
+  - Architect follow-up task lookup pattern assessment
+  - Build-automation CI/CD integration tasks (orchestration, validation, diagram workflows)
+- Manager Mike inbox review and coordination log (`work/logs/manager/2025-11-23T1845-inbox-review-coordination.md`)
 
 ### Changed
 
@@ -43,6 +51,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved token efficiency through lazy directive loading
 - Enhanced agent initialization protocol with validation checkpoints
 - Standardized integrity markers (✅ ⚠️ ❗️) across all agent communications
+- Updated `work/collaboration/AGENT_STATUS.md` with 4-phase execution plan and dependency graph
+- Split CI/CD integration task (1744) into 3 parallel subtasks for orchestration, validation, and diagram workflows
 
 ### Removed
 
