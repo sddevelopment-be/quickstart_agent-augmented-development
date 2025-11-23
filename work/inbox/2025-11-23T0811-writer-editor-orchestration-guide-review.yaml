@@ -1,0 +1,25 @@
+id: 2025-11-23T0811-writer-editor-orchestration-guide-review
+agent: writer-editor
+status: new
+mode: /analysis-mode
+priority: high
+
+title: "Review and polish multi-agent orchestration user guide"
+
+artefacts:
+  - docs/HOW_TO_USE/multi-agent-orchestration.md
+
+context:
+  repo: "sddevelopment-be/quickstart_agent-augmented-development"
+  branch: "copilot/update-agent-orchestration-names"
+  notes:
+    - "Check for clarity and accessibility"
+    - "Ensure examples are easy to follow"
+    - "Verify consistency with other HOW_TO_USE guides"
+    - "Add any missing practical tips"
+    - "Created by curator as handoff from task 2025-11-23T0722-curator-orchestration-guide"
+  dependencies:
+    - 2025-11-23T0722-curator-orchestration-guide
+
+created_at: "2025-11-23T08:11:00Z"
+created_by: "curator"
