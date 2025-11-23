@@ -329,7 +329,7 @@ def test_timeout_detection(temp_work_env: Path) -> None:
     # Set started_at to 3 hours ago (beyond 2 hour timeout)
     # Use format that orchestrator expects (with Z suffix)
     old_time = datetime.now(timezone.utc) - timedelta(hours=3)
-    task["started_at"] = old_time.strftime("%Y-%m-%dT%H:%M:%SZ")
+    task["started_at"] = old_time.isoformat().replace("+00:00", "Z")
     
     write_task(work_dir, "assigned/test-agent", task)
     
