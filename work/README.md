@@ -61,6 +61,8 @@ Tasks progress through the following states:
                                  └───────┘
 ```
 
+**See also:** [Task Lifecycle State Machine Diagram](../docs/architecture/diagrams/task-lifecycle-state-machine.puml)
+
 ### State Descriptions
 
 - **new**: Task created in `work/inbox/`, awaiting assignment

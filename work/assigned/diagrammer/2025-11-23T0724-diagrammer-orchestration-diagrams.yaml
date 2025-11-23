@@ -1,8 +1,9 @@
 id: 2025-11-23T0724-diagrammer-orchestration-diagrams
 agent: diagrammer
-status: new
+status: in_progress
 mode: /creative-mode
 priority: normal
+started_at: "2025-11-23T12:00:00Z"
 
 title: "Convert orchestration ASCII diagrams to PlantUML"
 

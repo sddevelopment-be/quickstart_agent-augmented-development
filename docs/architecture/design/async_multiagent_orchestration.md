@@ -103,6 +103,8 @@ Tasks progress through a well-defined lifecycle:
                                  └───────┘
 ```
 
+**See also:** [Task Lifecycle State Machine Diagram](../diagrams/task-lifecycle-state-machine.puml)
+
 #### 1. Creation (new)
 
 - Human or Planning agent creates YAML file in `work/inbox/`
@@ -204,6 +206,8 @@ Coordinator → Creates lexical task → work/inbox/
 Lexical Agent → Refines artifacts → Completes task
 ```
 
+**See also:** [Sequential Workflow Diagram](../diagrams/workflow-sequential-flow.puml)
+
 ### Parallel Execution Flow
 
 Multiple agents can work simultaneously on independent tasks:
@@ -219,6 +223,8 @@ Structural         Architect            Diagrammer
 All complete → Coordinator aggregates results
 ```
 
+**See also:** [Parallel Workflow Diagram](../diagrams/workflow-parallel-flow.puml)
+
 ### Convergent Flow
 
 Multiple agents contribute to a synthesis task:
@@ -230,6 +236,8 @@ Lexical Agent → LEX_REPORT.md ───┤    (validates consistency)
                                   │
 Architect Agent → ADR-002.md ────┘
 ```
+
+**See also:** [Convergent Workflow Diagram](../diagrams/workflow-convergent-flow.puml)
 
 ## Integration Points
 
