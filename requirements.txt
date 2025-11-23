@@ -1,0 +1,11 @@
+# Python dependencies for quickstart_agent-augmented-development
+# Required for validation workflow and orchestration scripts
+
+# YAML parsing (used by validation and orchestration scripts)
+PyYAML>=6.0
+
+# Testing framework (used by E2E tests)
+pytest>=7.0
+
+# JSON schema validation (optional, used by OpenCode validator)
+jsonschema>=4.0
