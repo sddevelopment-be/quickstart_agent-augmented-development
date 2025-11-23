@@ -1,0 +1,105 @@
+@startuml Convergent Workflow
+
+title Convergent Workflow\nMultiple Agents Contributing to Synthesis
+
+!define INBOX #E1F5FF
+!define ASSIGNED #FFF9E1
+!define PROCESSING #FFE082
+!define DONE #E8F5E9
+
+actor "Planning\nAgent" as Planning
+database "work/inbox/" as Inbox INBOX
+participant "Coordinator\nAgent" as Coordinator
+
+database "work/assigned/\nstructural/" as AssignedS ASSIGNED
+database "work/assigned/\nlexical/" as AssignedL ASSIGNED
+database "work/assigned/\narchitect/" as AssignedA ASSIGNED
+
+participant "Structural\nAgent" as Structural PROCESSING
+participant "Lexical\nAgent" as Lexical PROCESSING
+participant "Architect\nAgent" as Architect PROCESSING
+
+database "work/done/" as Done DONE
+
+database "work/assigned/\ncurator/" as AssignedC ASSIGNED
+participant "Curator\nAgent" as Curator PROCESSING
+
+== Step 1: Create Independent Tasks ==
+
+Planning -> Inbox: Create task-001 (structural)
+Planning -> Inbox: Create task-002 (lexical)
+Planning -> Inbox: Create task-003 (architect)
+
+note over Planning
+  Three independent tasks
+  All specify next_agent: curator
+end note
+
+== Step 2: Parallel Task Assignment ==
+
+Coordinator -> AssignedS: Assign task-001
+Coordinator -> AssignedL: Assign task-002
+Coordinator -> AssignedA: Assign task-003
+
+== Step 3: Parallel Artifact Generation ==
+
+par Generate Artifacts
+    Structural -> AssignedS: Pickup task
+    activate Structural
+    Structural -> Structural: Generate\nREPO_MAP.md
+    Structural -> Done: Complete with\nnext_agent: curator
+    deactivate Structural
+else
+    Lexical -> AssignedL: Pickup task
+    activate Lexical
+    Lexical -> Lexical: Generate\nLEX_REPORT.md
+    Lexical -> Done: Complete with\nnext_agent: curator
+    deactivate Lexical
+else
+    Architect -> AssignedA: Pickup task
+    activate Architect
+    Architect -> Architect: Create\nADR-002.md
+    Architect -> Done: Complete with\nnext_agent: curator
+    deactivate Architect
+end
+
+== Step 4: Handoff Creation ==
+
+Coordinator -> Done: Detect completed tasks\nwith next_agent: curator
+Coordinator -> Inbox: Create curator task-004
+note right
+  task-004.yaml:
+    agent: curator
+    status: new
+    artefacts: [
+      REPO_MAP.md,
+      LEX_REPORT.md,
+      ADR-002.md
+    ]
+    dependencies: [
+      task-001,
+      task-002,
+      task-003
+    ]
+    notes: "Validate consistency across\nstructural, lexical, and architecture artifacts"
+end note
+
+== Step 5: Convergent Validation ==
+
+Coordinator -> AssignedC: Assign curator task
+Curator -> AssignedC: Pickup synthesis task
+activate Curator
+Curator -> Curator: Cross-validate\nREPO_MAP.md\nLEX_REPORT.md\nADR-002.md
+Curator -> Curator: Generate\nDISCREPANCY_REPORT.md
+Curator -> Done: Complete validation
+deactivate Curator
+
+== Workflow Complete ==
+
+note over Planning, Done
+  Convergent workflow completed successfully
+  Three parallel agents → Single synthesis agent
+  Curator validated consistency across artifacts
+end note
+
+@enduml

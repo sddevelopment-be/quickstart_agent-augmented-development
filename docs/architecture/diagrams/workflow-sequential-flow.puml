@@ -1,0 +1,96 @@
+@startuml Simple Sequential Workflow
+
+title Simple Sequential Workflow\nAgent Handoff Pattern
+
+!define INBOX #E1F5FF
+!define ASSIGNED #FFF9E1
+!define PROCESSING #FFE082
+!define DONE #E8F5E9
+
+actor "Planning\nAgent" as Planning
+database "work/inbox/" as Inbox INBOX
+participant "Coordinator\nAgent" as Coordinator
+database "work/assigned/\nstructural/" as AssignedS ASSIGNED
+participant "Structural\nAgent" as Structural PROCESSING
+database "work/done/" as Done1 DONE
+database "work/inbox/" as Inbox2 INBOX
+database "work/assigned/\nlexical/" as AssignedL ASSIGNED
+participant "Lexical\nAgent" as Lexical PROCESSING
+database "work/done/" as Done2 DONE
+
+== Step 1: Initial Task Creation ==
+
+Planning -> Inbox: Create task YAML
+note right
+  task-001.yaml:
+    agent: structural
+    status: new
+    artefacts: [REPO_MAP.md]
+end note
+
+== Step 2: Assignment to First Agent ==
+
+Coordinator -> Inbox: Poll for new tasks
+Coordinator -> AssignedS: Move & assign task
+note right
+  Update status: assigned
+  Add assigned_at timestamp
+end note
+
+== Step 3: First Agent Execution ==
+
+Structural -> AssignedS: Poll & pickup task
+Structural -> Structural: Update status: in_progress
+activate Structural
+Structural -> Structural: Generate REPO_MAP.md
+Structural -> Done1: Complete with next_agent
+deactivate Structural
+note right
+  result:
+    summary: "REPO_MAP created"
+    artefacts: [REPO_MAP.md]
+    next_agent: lexical
+    next_task_title: "Refine REPO_MAP"
+end note
+
+== Step 4: Handoff to Second Agent ==
+
+Coordinator -> Done1: Detect next_agent
+Coordinator -> Inbox2: Create follow-up task
+note right
+  task-002.yaml:
+    agent: lexical
+    status: new
+    artefacts: [REPO_MAP.md]
+    dependencies: [task-001]
+    created_by: structural
+end note
+
+== Step 5: Assignment to Second Agent ==
+
+Coordinator -> Inbox2: Poll for new tasks
+Coordinator -> AssignedL: Move & assign task
+
+== Step 6: Second Agent Execution ==
+
+Lexical -> AssignedL: Poll & pickup task
+Lexical -> Lexical: Update status: in_progress
+activate Lexical
+Lexical -> Lexical: Refine REPO_MAP.md
+Lexical -> Done2: Complete (no next_agent)
+deactivate Lexical
+note right
+  result:
+    summary: "REPO_MAP refined"
+    artefacts: [REPO_MAP.md]
+    completed_at: timestamp
+end note
+
+== Workflow Complete ==
+
+note over Planning, Done2
+  Sequential workflow completed successfully
+  Two agents collaborated via coordinator handoff
+end note
+
+@enduml

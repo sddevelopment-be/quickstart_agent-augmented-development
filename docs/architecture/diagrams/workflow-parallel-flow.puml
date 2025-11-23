@@ -1,0 +1,104 @@
+@startuml Parallel Execution Workflow
+
+title Parallel Execution Workflow\nMultiple Independent Agents
+
+!define INBOX #E1F5FF
+!define ASSIGNED #FFF9E1
+!define PROCESSING #FFE082
+!define DONE #E8F5E9
+
+actor "Planning\nAgent" as Planning
+database "work/inbox/" as Inbox INBOX
+participant "Coordinator\nAgent" as Coordinator
+
+database "work/assigned/\nstructural/" as AssignedS ASSIGNED
+database "work/assigned/\narchitect/" as AssignedA ASSIGNED
+database "work/assigned/\ndiagrammer/" as AssignedD ASSIGNED
+
+participant "Structural\nAgent" as Structural PROCESSING
+participant "Architect\nAgent" as Architect PROCESSING
+participant "Diagrammer\nAgent" as Diagrammer PROCESSING
+
+database "work/done/" as Done DONE
+
+== Step 1: Batch Task Creation ==
+
+Planning -> Inbox: Create task-001.yaml
+note right
+  agent: structural
+  artefacts: [REPO_MAP.md]
+end note
+
+Planning -> Inbox: Create task-002.yaml
+note right
+  agent: architect
+  artefacts: [ADR-005.md]
+end note
+
+Planning -> Inbox: Create task-003.yaml
+note right
+  agent: diagrammer
+  artefacts: [workflow.puml]
+end note
+
+== Step 2: Parallel Assignment ==
+
+Coordinator -> Inbox: Poll for tasks
+Coordinator -> AssignedS: Assign task-001
+Coordinator -> AssignedA: Assign task-002
+Coordinator -> AssignedD: Assign task-003
+
+note over Coordinator
+  All three tasks assigned
+  simultaneously - no blocking
+end note
+
+== Step 3: Parallel Execution ==
+
+par Parallel Work
+    Structural -> AssignedS: Pickup task-001
+    activate Structural
+    Structural -> Structural: Generate\nREPO_MAP.md
+    Structural -> Done: Complete
+    deactivate Structural
+    note right
+      Duration: 15 min
+    end note
+else
+    Architect -> AssignedA: Pickup task-002
+    activate Architect
+    Architect -> Architect: Create\nADR-005.md
+    Architect -> Done: Complete
+    deactivate Architect
+    note right
+      Duration: 30 min
+    end note
+else
+    Diagrammer -> AssignedD: Pickup task-003
+    activate Diagrammer
+    Diagrammer -> Diagrammer: Create\nworkflow.puml
+    Diagrammer -> Done: Complete
+    deactivate Diagrammer
+    note right
+      Duration: 20 min
+    end note
+end
+
+== Step 4: Results Aggregation ==
+
+Coordinator -> Done: Check all tasks completed
+note over Coordinator
+  All three tasks done
+  No dependencies between them
+  Total time: 30 min (not 65 min)
+end note
+
+== Workflow Complete ==
+
+note over Planning, Done
+  Parallel workflow completed successfully
+  Three independent agents worked simultaneously
+  Throughput maximized by removing blocking
+end note
+
+@enduml

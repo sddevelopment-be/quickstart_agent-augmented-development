@@ -4,29 +4,6 @@ This directory contains PlantUML diagrams that visualize the asynchronous multi-
 
 ## Diagrams
 
-### orchestration-workflow.puml
-
-**Purpose:** Sequence diagram showing the complete workflow from task creation to archival.
-
-**Actors:**
-- Human (stakeholder)
-- Planning Agent (task creation)
-- Coordinator Agent (orchestration)
-- Structural Agent (domain work)
-- Lexical Agent (domain work)
-
-**Key Flows:**
-1. Task Creation: Human → Planning → inbox
-2. Task Assignment: Coordinator → assigned directories
-3. Task Execution: Agents process and complete tasks
-4. Workflow Sequencing: Coordinator creates follow-up tasks based on `next_agent`
-5. Archival: Old tasks moved to archive
-
-**Use Cases:**
-- Understanding end-to-end flow
-- Explaining system to new contributors
-- Identifying bottlenecks or failure points
-
 ### task-lifecycle-state-machine.puml
 
 **Purpose:** State machine diagram showing all possible task states and transitions.
@@ -53,6 +30,98 @@ This directory contains PlantUML diagrams that visualize the asynchronous multi-
 - Understanding task lifecycle
 - Debugging stuck tasks
 - Planning error recovery strategies
+
+### orchestration-workflow.puml
+
+**Purpose:** Sequence diagram showing the complete workflow from task creation to archival.
+
+**Actors:**
+- Human (stakeholder)
+- Planning Agent (task creation)
+- Coordinator Agent (orchestration)
+- Structural Agent (domain work)
+- Lexical Agent (domain work)
+
+**Key Flows:**
+1. Task Creation: Human → Planning → inbox
+2. Task Assignment: Coordinator → assigned directories
+3. Task Execution: Agents process and complete tasks
+4. Workflow Sequencing: Coordinator creates follow-up tasks based on `next_agent`
+5. Archival: Old tasks moved to archive
+
+**Use Cases:**
+- Understanding end-to-end flow
+- Explaining system to new contributors
+- Identifying bottlenecks or failure points
+
+### workflow-sequential-flow.puml
+
+**Purpose:** Sequence diagram illustrating agent handoff pattern with sequential execution.
+
+**Pattern:** Agent A completes → Coordinator creates follow-up → Agent B executes
+
+**Example Flow:**
+- Structural Agent generates REPO_MAP.md
+- Specifies `next_agent: lexical` in result block
+- Coordinator automatically creates follow-up task for Lexical Agent
+- Lexical Agent refines REPO_MAP.md
+
+**Use Cases:**
+- Understanding multi-step workflows
+- Designing agent handoff patterns
+- Explaining chained task execution
+
+### workflow-parallel-flow.puml
+
+**Purpose:** Sequence diagram showing multiple agents working simultaneously on independent tasks.
+
+**Pattern:** Multiple independent tasks assigned at once, executed in parallel
+
+**Example Flow:**
+- Planning Agent creates 3 independent tasks
+- Coordinator assigns to Structural, Architect, and Diagrammer agents
+- All three agents work simultaneously
+- Total time = longest task (not sum of all tasks)
+
+**Use Cases:**
+- Maximizing throughput
+- Understanding parallel execution benefits
+- Designing batch processing workflows
+
+### workflow-convergent-flow.puml
+
+**Purpose:** Sequence diagram demonstrating multiple agents contributing to a synthesis task.
+
+**Pattern:** Multiple agents complete independently → All handoff to single synthesis agent
+
+**Example Flow:**
+- Structural, Lexical, and Architect agents work in parallel
+- Each completes with `next_agent: curator`
+- Coordinator creates single curator task with all artifacts
+- Curator validates consistency across all outputs
+
+**Use Cases:**
+- Designing validation workflows
+- Implementing cross-agent consistency checks
+- Understanding convergent patterns
+
+### orchestration-phases-timeline.puml
+
+**Purpose:** Gantt chart showing implementation phases, dependencies, and timeline.
+
+**Phases:**
+1. **Phase 1: Core Infrastructure** (2-3 days, CRITICAL)
+2. **Phase 2: Coordinator Implementation** (3-4 days, CRITICAL)
+3. **Phase 3: Agent Integration** (5-7 days, HIGH)
+4. **Phase 4: GitHub Actions** (2-3 days, MEDIUM, Optional)
+5. **Phase 5: Validation & Monitoring** (2-3 days, MEDIUM, Optional)
+
+**Critical Path:** Phase 1 → Phase 2 → Phase 3 (10-14 workdays)
+
+**Use Cases:**
+- Planning implementation work
+- Understanding phase dependencies
+- Tracking progress against timeline
 
 ## Rendering Diagrams
 
