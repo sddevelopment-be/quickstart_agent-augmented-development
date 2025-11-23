@@ -6,6 +6,7 @@ REPO_ROOT=$(cd -- "$SCRIPT_DIR/../.." && pwd)
 cd "$REPO_ROOT"
 
 missing=0
+warnings=0
 required_dirs=(
   "work/inbox"
   "work/assigned"
@@ -26,6 +27,7 @@ for profile in .github/agents/*.agent.md; do
   agent_name=$(basename "$profile" .agent.md)
   if [[ ! -d "work/assigned/$agent_name" ]]; then
     echo "⚠️ Agent '$agent_name' missing directory under work/assigned/"
+    warnings=$((warnings + 1))
   fi
 done
 
@@ -34,4 +36,8 @@ if [[ "$missing" -ne 0 ]]; then
   exit 1
 fi
 
-echo "✅ Work directory structure valid"
+if [[ "$warnings" -gt 0 ]]; then
+  echo "⚠️ Work directory structure valid with $warnings warnings"
+else
+  echo "✅ Work directory structure valid"
+fi

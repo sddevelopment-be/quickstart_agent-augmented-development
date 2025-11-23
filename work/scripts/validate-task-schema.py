@@ -16,7 +16,7 @@ import argparse
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import yaml
 
@@ -29,21 +29,23 @@ ALLOWED_MODES = {"/analysis-mode", "/creative-mode", "/meta-mode"}
 ALLOWED_PRIORITIES = {"critical", "high", "normal", "low"}
 
 
-def load_task(path: Path) -> Dict[str, Any]:
+def load_task(path: Path) -> dict[str, Any]:
     with open(path, "r", encoding="utf-8") as f:
         return yaml.safe_load(f) or {}
 
 
 def is_iso8601(timestamp: str) -> bool:
+    if not timestamp.endswith('Z'):
+        return False
     try:
-        datetime.fromisoformat(timestamp.replace("Z", ""))
+        datetime.fromisoformat(timestamp[:-1])
         return True
     except ValueError:
         return False
 
 
-def validate_task_file(path: Path) -> List[str]:
-    errors: List[str] = []
+def validate_task_file(path: Path) -> list[str]:
+    errors: list[str] = []
     task = load_task(path)
 
     # id vs filename
@@ -96,7 +98,7 @@ def validate_task_file(path: Path) -> List[str]:
             if not result.get("summary"):
                 errors.append("result.summary is required when result is present")
             result_artefacts = result.get("artefacts")
-            if not isinstance(result_artefacts, list) or not all(isinstance(a, str) for a in result_artefacts or []):
+            if not isinstance(result_artefacts, list) or not all(isinstance(a, str) for a in result_artefacts):
                 errors.append("result.artefacts must be a list of strings")
             if "completed_at" in result and not is_iso8601(str(result["completed_at"])):
                 errors.append("result.completed_at must be ISO8601 with Z suffix when present")
