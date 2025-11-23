@@ -1,0 +1,68 @@
+id: 2025-11-23T1742-build-automation-agent-template
+agent: build-automation
+status: assigned
+mode: /analysis-mode
+priority: high
+title: Create Python Agent Execution Template
+artefacts:
+- work/scripts/agent_base.py
+- work/scripts/example_agent.py
+- docs/HOW_TO_USE/creating-agents.md
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  notes:
+  - High-priority gap from post-PR-review assessment
+  - 'Reference: work/logs/architect/2025-11-23T1730-post-pr-review-orchestration-assessment.md
+    Section 7.2'
+  - Need standardized agent implementation pattern to ensure consistency
+  - Template should enforce proper lifecycle hooks and error handling
+  - Reduce cognitive load for new agent development
+  template_requirements:
+    base_class_features:
+    - 'Standard lifecycle hooks: init, validate, execute, finalize'
+    - Automatic task loading from assigned/<agent>/ directory
+    - "Status transition enforcement (assigned \u2192 in_progress \u2192 done/error)"
+    - Result block generation with timing metrics
+    - Work log creation with standard sections
+    - Error handling with proper error status and messages
+    - next_agent handoff creation helper
+    - Artifact validation (files exist after execution)
+    configuration:
+    - Agent name from environment or config
+    - Work directory path configuration
+    - Mode support (/analysis-mode, /creative-mode, /meta-mode)
+    - Logging level control
+    example_implementation:
+    - Concrete agent demonstrating template usage
+    - 'Simple task: create markdown report from YAML data'
+    - Shows proper lifecycle hook implementation
+    - Demonstrates error handling
+  technical_design:
+  - Python 3.10+ with type hints
+  - Use Path objects for file operations
+  - Leverage existing YAML utilities from agent_orchestrator.py
+  - Include timing decorators for metrics capture
+  - Provide abstract methods for agent-specific logic
+  - Support both synchronous and async execution patterns
+  documentation_requirements:
+  - 'Step-by-step guide: Creating a new agent'
+  - Lifecycle hook documentation with examples
+  - Best practices for task processing
+  - Error handling patterns
+  - Testing your agent locally
+  - Integration with orchestrator
+  acceptance_criteria:
+  - Base class with all lifecycle hooks defined
+  - Example agent that runs successfully
+  - Documentation complete and clear
+  - Template reduces agent creation effort by >50%
+  - Enforces consistent status transitions
+  - Includes comprehensive error handling
+  dependencies:
+  - 'Orchestrator: work/scripts/agent_orchestrator.py'
+  - 'Task schema: docs/templates/agent-tasks/task-descriptor.yaml'
+  - 'Architecture: docs/architecture/design/async_multiagent_orchestration.md'
+created_at: '2025-11-23T17:42:00Z'
+created_by: architect
+assigned_at: '2025-11-23T20:56:41.881343Z'
