@@ -306,7 +306,7 @@ This architecture is successful when:
 - Modular Directive System ADR: [`ADR-001-modular-agent-directive-system.md`](adrs/ADR-001-modular-agent-directive-system.md)
 - Agent Audience Documentation: [`docs/audience/automation_agent.md`](/docs/audience/automation_agent.md)
 - Repository Vision: [`docs/VISION.md`](/docs/VISION.md)
-- Curator Assessment: [`work/curator/agentic_setup_reassessment.md`](/work/curator/agentic_setup_reassessment.md)
+- Curator Assessment: [`work/curator/agentic_setup_reassessment.md`](/work/logs/curator/agentic_setup_reassessment.md)
 
 ---
 

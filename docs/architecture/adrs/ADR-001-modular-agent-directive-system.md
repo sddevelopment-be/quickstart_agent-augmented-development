@@ -205,7 +205,7 @@ The following improvements are planned for subsequent iterations:
 - Directive Suite: [`.github/agents/directives/`](/.github/agents/directives/)
 - Directive Manifest: [`.github/agents/directives/manifest.json`](/.github/agents/directives/manifest.json)
 - Validation Tooling: [`validation/validate_directives.sh`](/validation/validate_directives.sh)
-- Curator Assessment: [`work/curator/agentic_setup_reassessment.md`](/work/curator/agentic_setup_reassessment.md)
+- Curator Assessment: [`work/curator/agentic_setup_reassessment.md`](/work/logs/curator/agentic_setup_reassessment.md)
 - Agent Audience Documentation: [`docs/audience/automation_agent.md`](/docs/audience/automation_agent.md)
 
 ### Acceptance Criteria
