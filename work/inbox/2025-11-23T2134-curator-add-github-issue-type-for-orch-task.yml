@@ -1,6 +1,7 @@
 id: "2025-11-23T2134-curator-add-github-issue-type-for-orch-task"
 agent: curator
 status: new
+priority: medium
 
 title: "Create github issue type for orchestration task"
 
