@@ -1,0 +1,20 @@
+# Convergent Task Fixture - Multiple agents targeting same artifact
+# Used for testing conflict detection when agents work on shared files
+
+id: "2025-11-23T1100-test-agent-convergent-task"
+agent: "test-agent"
+status: "new"
+title: "Convergent test task targeting shared artifact"
+
+artefacts:
+  - "test/output/shared_artifact.md"
+
+context:
+  repo: "test/repository"
+  branch: "main"
+  notes:
+    - "Test fixture for convergent workflow"
+    - "Multiple agents will target the same artifact"
+
+created_at: "2025-11-23T11:00:00Z"
+created_by: "test-harness"

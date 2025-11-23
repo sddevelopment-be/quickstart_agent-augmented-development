@@ -11,3 +11,7 @@ work/notes
 *.iml
 .DS_Store
 .vscode
+# Python test artifacts
+__pycache__/
+*.pyc
+.pytest_cache/
