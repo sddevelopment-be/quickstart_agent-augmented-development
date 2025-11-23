@@ -9,7 +9,7 @@ cd "$ROOT_DIR"
 
 echo "Initializing work directory structure under ${WORK_DIR}..."
 
-lifecycle_dirs=(inbox done archive logs collaboration scripts schemas assigned)
+lifecycle_dirs=(inbox done archive logs collaboration scripts schemas assigned notes)
 for dir in "${lifecycle_dirs[@]}"; do
   mkdir -p "$WORK_DIR/$dir"
 done
