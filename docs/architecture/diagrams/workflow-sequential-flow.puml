@@ -1,11 +1,12 @@
 @startuml Simple Sequential Workflow
 
-title Simple Sequential Workflow\nAgent Handoff Pattern
+title Simple Sequential Workflow\nAgent Handoff Pattern with Metrics
 
 !define INBOX #E1F5FF
 !define ASSIGNED #FFF9E1
 !define PROCESSING #FFE082
 !define DONE #E8F5E9
+!define METRICS #E8EAF6
 
 actor "Planning\nAgent" as Planning
 database "work/inbox/" as Inbox INBOX
@@ -31,6 +32,10 @@ end note
 == Step 2: Assignment to First Agent ==
 
 Coordinator -> Inbox: Poll for new tasks
+note right METRICS
+  **Timing:** 5min polling interval
+  **Latency:** <10s assignment time
+end note
 Coordinator -> AssignedS: Move & assign task
 note right
   Update status: assigned
@@ -42,6 +47,11 @@ end note
 Structural -> AssignedS: Poll & pickup task
 Structural -> Structural: Update status: in_progress
 activate Structural
+note right METRICS
+  **Duration:** ~15 minutes
+  **Tokens:** 12K in, 5K out
+  **Artifacts:** 1 created
+end note
 Structural -> Structural: Generate REPO_MAP.md
 Structural -> Done1: Complete with next_agent
 deactivate Structural
@@ -51,11 +61,19 @@ note right
     artefacts: [REPO_MAP.md]
     next_agent: lexical
     next_task_title: "Refine REPO_MAP"
+    metrics:
+      duration_minutes: 15
+      token_count: {input: 12000, output: 5000}
+      artifacts_created: 1
 end note
 
 == Step 4: Handoff to Second Agent ==
 
 Coordinator -> Done1: Detect next_agent
+note left METRICS
+  **Handoff Latency:** ~2 minutes
+  (completed_at → created_at)
+end note
 Coordinator -> Inbox2: Create follow-up task
 note right
   task-002.yaml:
@@ -76,6 +94,11 @@ Coordinator -> AssignedL: Move & assign task
 Lexical -> AssignedL: Poll & pickup task
 Lexical -> Lexical: Update status: in_progress
 activate Lexical
+note left METRICS
+  **Duration:** ~8 minutes
+  **Tokens:** 8K in, 3K out
+  **Artifacts:** 1 modified
+end note
 Lexical -> Lexical: Refine REPO_MAP.md
 Lexical -> Done2: Complete (no next_agent)
 deactivate Lexical
@@ -84,6 +107,10 @@ note right
     summary: "REPO_MAP refined"
     artefacts: [REPO_MAP.md]
     completed_at: timestamp
+    metrics:
+      duration_minutes: 8
+      token_count: {input: 8000, output: 3000}
+      artifacts_modified: 1
 end note
 
 == Workflow Complete ==
@@ -91,6 +118,12 @@ end note
 note over Planning, Done2
   Sequential workflow completed successfully
   Two agents collaborated via coordinator handoff
+  
+  **Total Metrics:**
+  - Duration: ~25 minutes (15 + 8 + 2 latency)
+  - Tokens: 28K total (20K in, 8K out)
+  - Artifacts: 1 created, 1 modified
+  - Handoff latency: 2 minutes
 end note
 
 @enduml

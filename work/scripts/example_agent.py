@@ -1,0 +1,247 @@
+#!/usr/bin/env python3
+"""
+Example Agent - Demonstrates AgentBase Usage
+
+This agent shows how to create a concrete implementation using the AgentBase
+template. It performs a simple task: creating a markdown report from YAML data.
+
+Task Requirements:
+- Input: YAML file path specified in task context
+- Output: Markdown report with formatted data
+- Demonstrates: validation, execution, error handling, work log creation
+"""
+
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+from typing import Any, Dict
+
+import yaml
+
+# Import the base class
+from agent_base import AgentBase, timing_decorator
+
+
+class ExampleAgent(AgentBase):
+    """
+    Example agent that creates markdown reports from YAML data.
+    
+    Task context expected fields:
+    - input_file: Path to YAML file to process
+    - output_file: Path to markdown report to create
+    - report_title: Optional title for the report
+    """
+    
+    def __init__(self, **kwargs):
+        """Initialize with agent name 'example'."""
+        super().__init__(agent_name="example", **kwargs)
+    
+    def validate_task(self, task: Dict[str, Any]) -> bool:
+        """
+        Validate that task has required fields and files exist.
+        
+        Required task fields:
+        - context.input_file: Input YAML file path
+        - context.output_file: Output markdown file path
+        """
+        context = task.get("context", {})
+        
+        # Check required fields
+        if "input_file" not in context:
+            raise ValueError("Task context missing 'input_file' field")
+        
+        if "output_file" not in context:
+            raise ValueError("Task context missing 'output_file' field")
+        
+        # Validate input file exists
+        input_file = Path(context["input_file"])
+        if not input_file.exists():
+            raise ValueError(f"Input file does not exist: {input_file}")
+        
+        # Validate input file is YAML
+        if input_file.suffix not in [".yaml", ".yml"]:
+            raise ValueError(f"Input file must be YAML: {input_file}")
+        
+        self._log(f"✅ Task validation passed")
+        return True
+    
+    def init_task(self, task: Dict[str, Any]) -> None:
+        """
+        Initialize task-specific state.
+        
+        Pre-loads the input YAML for validation.
+        """
+        context = task.get("context", {})
+        input_file = Path(context["input_file"])
+        
+        # Pre-load and validate YAML
+        try:
+            with open(input_file, "r", encoding="utf-8") as f:
+                self.input_data = yaml.safe_load(f)
+            
+            if not self.input_data:
+                raise ValueError("Input YAML is empty")
+            
+            self._log(f"Loaded input data from {input_file}")
+        except yaml.YAMLError as exc:
+            raise ValueError(f"Invalid YAML in input file: {exc}")
+    
+    @timing_decorator
+    def execute_task(self, task: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Execute the report generation task.
+        
+        Steps:
+        1. Read task context for paths and options
+        2. Load input YAML data (already done in init_task)
+        3. Generate markdown report
+        4. Write output file
+        5. Return result summary
+        """
+        context = task.get("context", {})
+        output_file = Path(context["output_file"])
+        report_title = context.get("report_title", "Data Report")
+        
+        self._log(f"Generating report: {report_title}")
+        
+        # Ensure output directory exists
+        output_file.parent.mkdir(parents=True, exist_ok=True)
+        
+        # Generate markdown content
+        markdown = self._generate_markdown_report(
+            data=self.input_data,
+            title=report_title,
+        )
+        
+        # Write output file
+        with open(output_file, "w", encoding="utf-8") as f:
+            f.write(markdown)
+        
+        self._log(f"Created report: {output_file}")
+        self.artifacts_created.append(str(output_file))
+        
+        # Validate artifact was created
+        existing, missing = self.validate_artifacts([str(output_file)])
+        if missing:
+            raise RuntimeError(f"Failed to create artifact: {output_file}")
+        
+        # Return result data
+        return {
+            "summary": f"Created markdown report '{report_title}' from YAML data",
+            "artifacts": self.artifacts_created,
+            # Optional: chain to another agent
+            # "next_agent": "writer-editor",
+            # "next_task_title": "Review and polish report",
+        }
+    
+    def _generate_markdown_report(self, data: Dict[str, Any], title: str) -> str:
+        """
+        Generate markdown content from YAML data.
+        
+        Args:
+            data: Dictionary loaded from YAML
+            title: Report title
+        
+        Returns:
+            Formatted markdown string
+        """
+        lines = [
+            f"# {title}",
+            "",
+            f"_Generated by {self.agent_name} agent_",
+            f"_Date: {self.current_task.get('started_at', 'N/A')}_",
+            "",
+            "## Data Summary",
+            "",
+        ]
+        
+        # Add top-level key-value pairs
+        for key, value in data.items():
+            if isinstance(value, dict):
+                lines.append(f"### {key}")
+                lines.append("")
+                for subkey, subvalue in value.items():
+                    lines.append(f"- **{subkey}**: {subvalue}")
+                lines.append("")
+            elif isinstance(value, list):
+                lines.append(f"### {key}")
+                lines.append("")
+                for item in value:
+                    if isinstance(item, dict):
+                        lines.append(f"- {', '.join(f'{k}: {v}' for k, v in item.items())}")
+                    else:
+                        lines.append(f"- {item}")
+                lines.append("")
+            else:
+                lines.append(f"**{key}**: {value}")
+                lines.append("")
+        
+        return "\n".join(lines)
+    
+    def finalize_task(self, success: bool) -> None:
+        """
+        Clean up after task execution.
+        
+        Args:
+            success: Whether task completed successfully
+        """
+        if success:
+            self._log("Task finalization complete")
+            
+            # Create work log
+            self.create_work_log(
+                title="Markdown Report Generation",
+                context=f"Task {self.current_task['id']} requested creation of a markdown report from YAML data.",
+                approach="Used AgentBase template to implement a simple YAML-to-Markdown converter. "
+                         "Validated input file existence and format, loaded data, generated structured "
+                         "markdown with hierarchical sections, and validated output creation.",
+                execution_steps=[
+                    "Validated task context for required fields (input_file, output_file)",
+                    "Verified input YAML file exists and is valid",
+                    "Pre-loaded YAML data in init_task hook",
+                    "Generated markdown structure with title and sections",
+                    "Wrote formatted output to specified file path",
+                    "Validated artifact creation",
+                    "Updated task status and created result block",
+                ],
+                outcomes=f"Successfully created markdown report with {len(self.artifacts_created)} artifact(s). "
+                         f"Output file created at: {self.artifacts_created[0] if self.artifacts_created else 'N/A'}",
+                lessons_learned="AgentBase template provides excellent scaffolding for task lifecycle management. "
+                                "The validate_task, init_task, execute_task, finalize_task pattern enforces "
+                                "separation of concerns and makes error handling straightforward. "
+                                "Timing decorator helps track performance. "
+                                "Artifact validation ensures outputs are actually created.",
+                directives_used={
+                    "general_guidelines": True,
+                    "operational_guidelines": True,
+                    "specific_directives": ["001", "014"],
+                    "agent_profile": self.agent_name,
+                    "reasoning_mode": self.mode,
+                },
+            )
+        else:
+            self._log("Task failed, skipping work log creation", level="WARNING")
+
+
+def main():
+    """
+    Main entry point for example agent.
+    
+    Usage:
+        python example_agent.py              # Process one task
+        python example_agent.py --continuous # Keep polling for tasks
+    """
+    continuous = "--continuous" in sys.argv
+    
+    agent = ExampleAgent(
+        work_dir=Path(__file__).parent.parent,  # work/ directory
+        mode="/analysis-mode",
+        log_level="INFO",
+    )
+    
+    agent.run(continuous=continuous)
+
+
+if __name__ == "__main__":
+    main()

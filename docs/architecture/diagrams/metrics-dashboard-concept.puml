@@ -1,0 +1,197 @@
+@startuml Metrics Dashboard Concept
+
+title ADR-009 Orchestration Metrics\nCapture Points and Quality Standards
+
+!define CAPTURE #E8F5E9
+!define VALIDATE #FFF9E1
+!define REPORT #E1F5FF
+!define QUALITY #FFE082
+
+skinparam componentStyle rectangle
+
+package "Task Lifecycle" {
+  [Task Start] as TaskStart CAPTURE
+  [Context Loading] as Context CAPTURE
+  [Artifact Generation] as Generate CAPTURE
+  [Artifact Validation] as Validate VALIDATE
+  [Task Completion] as Complete CAPTURE
+}
+
+package "Metrics Collection Points" {
+  database "duration_minutes" as Duration CAPTURE
+  note right of Duration
+    **Required Field**
+    Total task execution time
+    Start: task pickup
+    End: task moved to done/
+  end note
+  
+  database "token_count" as Tokens CAPTURE
+  note right of Tokens
+    **Required Fields**
+    - input: context loaded
+    - output: artifacts generated
+    - total: input + output
+  end note
+  
+  database "context_files_loaded" as Files CAPTURE
+  note right of Files
+    **Required Field**
+    Count of files read
+    for task context
+  end note
+  
+  database "artifacts_created\nartifacts_modified" as Artifacts CAPTURE
+  note right of Artifacts
+    **Required Fields**
+    - created: new files
+    - modified: edited files
+  end note
+  
+  database "per_artifact_timing" as PerArtifact CAPTURE
+  note right of PerArtifact
+    **Optional Field**
+    Breakdown per artifact:
+    - name
+    - action (created/modified/reused)
+    - duration_seconds
+  end note
+  
+  database "handoff_latency_seconds" as Handoff CAPTURE
+  note right of Handoff
+    **Optional Field**
+    Time between:
+    completed_at → next_task created_at
+  end note
+}
+
+package "Quality Standards" {
+  [Per-Artifact Validation] as ArtifactVal VALIDATE
+  note right of ArtifactVal
+    **Required: Integrity Markers**
+    ✅ Full validation
+    ⚠️ Partial validation
+    ❗️ Validation failed
+  end note
+  
+  [Tiered Work Logging] as Logging QUALITY
+  note right of Logging
+    **Core Tier (Required)**
+    - Context (3-5 sentences)
+    - Approach (key decisions)
+    - Execution Steps (5-10 items)
+    - Artifacts Created (with markers)
+    - Outcomes (success metrics)
+    - Metadata (duration, tokens, handoff)
+    
+    **Extended Tier (Optional)**
+    - Challenges & Blockers
+    - Research Notes
+    - Collaboration Notes
+    - Technical Details
+    
+    Target: 100-200 lines (Core)
+  end note
+  
+  [Accessibility Descriptions] as A11y QUALITY
+  note right of A11y
+    **Required: DESCRIPTIONS.md**
+    For all visual artifacts:
+    - Alt-text (<125 chars)
+    - Long description (2-4 paragraphs)
+    - Key elements list
+    - Related documentation links
+    - Updated timestamp
+  end note
+  
+  [Rendering Verification] as Render VALIDATE
+  note right of Render
+    **Required: Syntax Check**
+    Options:
+    1. CI integration (preferred)
+    2. Local script rendering
+    3. Manual verification
+    
+    Must mark ⚠️ if unverified
+  end note
+}
+
+package "Dashboard Output" {
+  [Task Result Block] as Result REPORT
+  note right of Result
+    **YAML Structure**
+    result:
+      summary: "Brief description"
+      artefacts: [list]
+      metrics:
+        duration_minutes: N
+        token_count: {input, output, total}
+        context_files_loaded: N
+        artifacts_created: N
+        artifacts_modified: N
+        per_artifact_timing: [optional]
+      completed_at: timestamp
+  end note
+  
+  [Work Log] as WorkLog REPORT
+  note right of WorkLog
+    **Markdown Structure**
+    - Context
+    - Approach
+    - Execution Steps
+    - Artifacts Created (with ✅/⚠️/❗️)
+    - Outcomes
+    - Metadata (matches result metrics)
+  end note
+  
+  [DESCRIPTIONS.md Entry] as Desc REPORT
+  note right of Desc
+    **Per Diagram**
+    ### diagram-name.puml
+    **Alt-text:** [summary]
+    **Description:** [detailed]
+    **Updated:** [timestamp]
+  end note
+}
+
+TaskStart --> Duration
+TaskStart --> Context
+Context --> Files
+Context --> Tokens
+Generate --> Artifacts
+Generate --> PerArtifact
+Validate --> ArtifactVal
+Validate --> Render
+Complete --> Handoff
+Complete --> Result
+
+Duration --> Result
+Tokens --> Result
+Files --> Result
+Artifacts --> Result
+PerArtifact --> Result
+
+ArtifactVal --> WorkLog
+Logging --> WorkLog
+A11y --> Desc
+Render --> WorkLog
+
+Result --> WorkLog : metadata consistency
+WorkLog --> Desc : artifact cross-reference
+
+legend bottom
+  **ADR-009 Compliance Requirements**
+  All orchestrated tasks MUST:
+  1. Include structured metrics block in task result
+  2. Provide per-artifact integrity markers (✅/⚠️/❗️)
+  3. Follow tiered work logging (Core tier minimum)
+  4. Add accessibility descriptions for visual artifacts
+  5. Validate diagram rendering or mark unverified
+  
+  **Purpose:** Enable benchmarking, quality assurance,
+  inclusive documentation, and framework tuning
+  
+  **Version:** 1.0.0 | **Reference:** ADR-009
+end legend
+
+@enduml
