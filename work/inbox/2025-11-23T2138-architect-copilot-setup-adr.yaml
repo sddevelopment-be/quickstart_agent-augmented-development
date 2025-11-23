@@ -1,0 +1,114 @@
+id: 2025-11-23T2138-architect-copilot-setup-adr
+agent: architect
+status: new
+mode: /analysis-mode
+priority: medium
+
+title: "Create Retrospective ADR for GitHub Copilot Tooling Setup"
+
+artefacts:
+  - docs/architecture/adrs/ADR-010-github-copilot-tooling-setup.md
+
+context:
+  repo: "sddevelopment-be/quickstart_agent-augmented-development"
+  branch: "main"
+  notes:
+    - "Retrospective ADR documenting decision to implement Copilot tooling setup"
+    - "Reference completed implementation: task 2025-11-23T2103-build-automation-copilot-tooling-workflow"
+    - "Created by DevOps Danny as follow-up to Copilot tooling implementation"
+    - "ADR should capture context, decision rationale, alternatives considered, and consequences"
+    - "Document why this approach was chosen and its impact on agent execution"
+
+  adr_requirements:
+    title: "GitHub Copilot Environment Tooling Pre-installation"
+    
+    status: "Accepted"
+    
+    context_section:
+      - "Agent execution often requires CLI tools (rg, fd, ast-grep, jq, yq, fzf)"
+      - "Repeated tool installation adds overhead (30-60s per agent invocation)"
+      - "GitHub Copilot supports environment customization via setup scripts"
+      - "Directive 001 specifies preferred CLI tools for SDD repositories"
+      - "Framework aims for reproducible, efficient agent execution"
+    
+    decision_section:
+      - "Pre-install CLI tools in Copilot environment using .github/copilot/setup.sh"
+      - "Validate setup via GitHub Actions workflow"
+      - "Pin tool versions for reproducibility"
+      - "Support both Linux and macOS platforms"
+      - "Document setup for derivative repositories"
+    
+    alternatives_considered:
+      - name: "Just-in-time installation"
+        rationale: "Install tools when needed per agent invocation"
+        rejected_reason: "Adds 30-60s overhead per invocation, unreliable in ephemeral environments"
+      
+      - name: "Docker-based environment"
+        rationale: "Package all tools in a Docker container"
+        rejected_reason: "Heavier overhead, not compatible with GitHub Copilot's execution model"
+      
+      - name: "Cloud-based tool hosting"
+        rationale: "Host tools on external server, download on demand"
+        rejected_reason: "Network dependency, security concerns, latency issues"
+      
+      - name: "Manual agent instructions"
+        rationale: "Document tools but let agents install as needed"
+        rejected_reason: "Inconsistent setup, increases agent complexity, error-prone"
+    
+    consequences:
+      positive:
+        - "30-60s time savings per agent invocation"
+        - "Consistent tool availability across all agents"
+        - "Reproducible environment (version pinning)"
+        - "Break-even after 2-3 agent invocations"
+        - "Reduced agent cognitive load (no installation logic needed)"
+        - "Better error diagnostics (tools always available)"
+      
+      negative:
+        - "One-time setup cost (~2 minutes)"
+        - "Maintenance burden for version updates"
+        - "Platform-specific logic (Linux vs macOS)"
+        - "CI/CD workflow dependency"
+      
+      neutral:
+        - "Requires documentation for derivative repositories"
+        - "Setup script must be idempotent"
+        - "Tool selection may evolve over time"
+    
+    related_decisions:
+      - "Directive 001: CLI & Shell Tooling"
+      - "ADR-009: Orchestration Metrics Standard (performance measurement)"
+      - "File-based orchestration approach (agent efficiency matters)"
+    
+    performance_data:
+      - "Setup time: <2 minutes (one-time)"
+      - "Time saved: 30-60s per invocation"
+      - "Example: Code refactoring 61% faster (140s → 55s)"
+      - "Example: File search 75% faster (20s → 5s)"
+
+  implementation_reference:
+    completed_task: "2025-11-23T2103-build-automation-copilot-tooling-workflow"
+    artifacts:
+      - ".github/copilot/setup.sh"
+      - ".github/workflows/copilot-setup.yml"
+      - "docs/HOW_TO_USE/copilot-tooling-setup.md"
+    work_log: "work/logs/build-automation/2025-11-23T2129-build-automation-copilot-tooling.md"
+
+  acceptance_criteria:
+    - "ADR-010 created with all standard sections"
+    - "Context clearly explains the problem and motivation"
+    - "Decision section describes what was implemented"
+    - "At least 3 alternatives documented with rejection rationale"
+    - "Consequences section balanced (positive, negative, neutral)"
+    - "Performance data included from implementation"
+    - "Related decisions cross-referenced"
+    - "Status set to 'Accepted'"
+    - "Work log created per Directive 014"
+
+  dependencies:
+    - "Task: 2025-11-23T2103-build-automation-copilot-tooling-workflow (COMPLETED)"
+    - "ADR template: docs/architecture/adrs/ (follow existing format)"
+    - "Directive 001: CLI & Shell Tooling"
+
+created_at: "2025-11-23T21:38:00Z"
+created_by: "build-automation"

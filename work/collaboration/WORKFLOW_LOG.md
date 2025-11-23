@@ -16,3 +16,5 @@ _No workflow events recorded yet._
 **2025-11-23 21:05:46 UTC** - Assigned task 2025-11-23T2103-build-automation-copilot-tooling-workflow to build-automation
 **2025-11-23 21:05:46 UTC** - Assigned task 2025-11-23T2104-architect-copilot-tooling-assessment to architect
 **2025-11-23 21:05:46 UTC** - Coordinator cycle: 4 assigned, 2 follow-ups, 0 timeouts, 0 conflicts, 0 archived
+**2025-11-23 21:26:00 UTC** - [example] Started task 2025-11-23T2122-example-integration-test
+**2025-11-23 21:26:00 UTC** - [example] Task 2025-11-23T2122-example-integration-test completed successfully

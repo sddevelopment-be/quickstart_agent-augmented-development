@@ -1,0 +1,300 @@
+name: Copilot Tooling Setup Validation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/copilot/**'
+      - '.github/workflows/copilot-setup.yml'
+  push:
+    branches: [main]
+    paths:
+      - '.github/copilot/**'
+      - '.github/workflows/copilot-setup.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+concurrency:
+  group: copilot-setup-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-setup:
+    name: Validate Copilot Setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      
+      - name: Cache tool installations
+        uses: actions/cache@v3
+        with:
+          path: |
+            /usr/local/bin
+            ~/.local/bin
+          key: ${{ runner.os }}-copilot-tools-v1-${{ hashFiles('.github/copilot/setup.sh') }}
+          restore-keys: |
+            ${{ runner.os }}-copilot-tools-v1-
+      
+      - name: Run setup script
+        id: setup
+        run: |
+          set -e
+          echo "Starting Copilot tooling setup..."
+          start_time=$(date +%s)
+          
+          bash .github/copilot/setup.sh
+          
+          end_time=$(date +%s)
+          duration=$((end_time - start_time))
+          
+          echo "setup_duration=${duration}" >> $GITHUB_OUTPUT
+          
+          if [ $duration -gt 120 ]; then
+            echo "⚠️ Setup took ${duration}s (target: <120s)" >> $GITHUB_STEP_SUMMARY
+            echo "setup_performance=warning" >> $GITHUB_OUTPUT
+          else
+            echo "✅ Setup completed in ${duration}s (target: <120s)" >> $GITHUB_STEP_SUMMARY
+            echo "setup_performance=success" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Verify tool availability
+        id: verify
+        run: |
+          echo "# Tool Verification Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Tool | Status | Version |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|--------|---------|" >> $GITHUB_STEP_SUMMARY
+          
+          all_available=true
+          
+          # Check ripgrep
+          if command -v rg >/dev/null 2>&1; then
+            version=$(rg --version | head -n1)
+            echo "| ripgrep (rg) | ✅ Available | \`${version}\` |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| ripgrep (rg) | ❌ Missing | - |" >> $GITHUB_STEP_SUMMARY
+            all_available=false
+          fi
+          
+          # Check fd
+          if command -v fd >/dev/null 2>&1; then
+            version=$(fd --version)
+            echo "| fd | ✅ Available | \`${version}\` |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| fd | ❌ Missing | - |" >> $GITHUB_STEP_SUMMARY
+            all_available=false
+          fi
+          
+          # Check jq
+          if command -v jq >/dev/null 2>&1; then
+            version=$(jq --version)
+            echo "| jq | ✅ Available | \`${version}\` |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| jq | ❌ Missing | - |" >> $GITHUB_STEP_SUMMARY
+            all_available=false
+          fi
+          
+          # Check yq
+          if command -v yq >/dev/null 2>&1; then
+            version=$(yq --version)
+            echo "| yq | ✅ Available | \`${version}\` |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| yq | ❌ Missing | - |" >> $GITHUB_STEP_SUMMARY
+            all_available=false
+          fi
+          
+          # Check fzf
+          if command -v fzf >/dev/null 2>&1; then
+            version=$(fzf --version)
+            echo "| fzf | ✅ Available | \`${version}\` |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| fzf | ❌ Missing | - |" >> $GITHUB_STEP_SUMMARY
+            all_available=false
+          fi
+          
+          # Check ast-grep
+          if command -v ast-grep >/dev/null 2>&1; then
+            version=$(ast-grep --version)
+            echo "| ast-grep | ✅ Available | \`${version}\` |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| ast-grep | ❌ Missing | - |" >> $GITHUB_STEP_SUMMARY
+            all_available=false
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "$all_available" = "true" ]; then
+            echo "verification_status=success" >> $GITHUB_OUTPUT
+            echo "## ✅ All tools verified successfully" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "verification_status=failure" >> $GITHUB_OUTPUT
+            echo "## ❌ Some tools are missing" >> $GITHUB_STEP_SUMMARY
+          fi
+      
+      - name: Test tool functionality
+        id: test
+        run: |
+          set -e
+          echo "# Functionality Tests" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Test ripgrep
+          echo "Testing ripgrep search..."
+          if echo "test content" | rg "test" >/dev/null 2>&1; then
+            echo "- ✅ ripgrep search works" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- ❌ ripgrep search failed" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+          
+          # Test fd
+          echo "Testing fd file finding..."
+          if fd --version >/dev/null 2>&1; then
+            echo "- ✅ fd file finding works" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- ❌ fd file finding failed" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+          
+          # Test jq
+          echo "Testing jq JSON processing..."
+          if echo '{"key":"value"}' | jq '.key' >/dev/null 2>&1; then
+            echo "- ✅ jq JSON processing works" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- ❌ jq JSON processing failed" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+          
+          # Test yq
+          echo "Testing yq YAML processing..."
+          if echo 'key: value' | yq '.key' >/dev/null 2>&1; then
+            echo "- ✅ yq YAML processing works" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- ❌ yq YAML processing failed" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+          
+          # Test fzf
+          echo "Testing fzf fuzzy finding..."
+          if echo -e "option1\noption2" | fzf -f "opt" >/dev/null 2>&1; then
+            echo "- ✅ fzf fuzzy finding works" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- ❌ fzf fuzzy finding failed" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+          
+          # Test ast-grep
+          echo "Testing ast-grep structural search..."
+          if ast-grep --version >/dev/null 2>&1; then
+            echo "- ✅ ast-grep structural search works" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- ❌ ast-grep structural search failed" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## ✅ All functionality tests passed" >> $GITHUB_STEP_SUMMARY
+      
+      - name: Performance summary
+        id: performance
+        if: always()
+        run: |
+          echo "# Performance Metrics" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Setup duration:** ${{ steps.setup.outputs.setup_duration }}s (target: <120s)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Performance status:** ${{ steps.setup.outputs.setup_performance }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.setup.outputs.setup_performance }}" = "success" ]; then
+            echo "✅ **Performance target met**" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ **Performance target exceeded** - Consider optimizing setup script" >> $GITHUB_STEP_SUMMARY
+          fi
+      
+      - name: Generate final summary
+        if: always()
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.verify.outputs.verification_status }}" = "success" ] && \
+             [ "${{ steps.setup.outputs.setup_performance }}" != "failure" ]; then
+            echo "## 🎉 Copilot tooling setup validated successfully!" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "All Directive 001 tools are installed and functional." >> $GITHUB_STEP_SUMMARY
+            echo "The environment is ready for agent-augmented development." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "## ⚠️ Validation completed with issues" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Please review the results above and address any failures." >> $GITHUB_STEP_SUMMARY
+          fi
+      
+      - name: Comment on PR
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const setupDuration = '${{ steps.setup.outputs.setup_duration }}';
+            const verificationStatus = '${{ steps.verify.outputs.verification_status }}';
+            const performanceStatus = '${{ steps.setup.outputs.setup_performance }}';
+            
+            let body = '## 🔧 Copilot Tooling Setup Validation\n\n';
+            
+            body += '### Performance\n';
+            body += `- **Setup duration:** ${setupDuration}s (target: <120s)\n`;
+            body += `- **Status:** ${performanceStatus === 'success' ? '✅ Target met' : '⚠️ Target exceeded'}\n\n`;
+            
+            body += '### Tool Verification\n';
+            body += `- **All tools available:** ${verificationStatus === 'success' ? '✅ Yes' : '❌ No'}\n\n`;
+            
+            if (verificationStatus === 'success' && performanceStatus === 'success') {
+              body += '### ✅ Validation passed!\n\n';
+              body += 'The Copilot tooling setup is working correctly and meets performance targets.\n';
+            } else {
+              body += '### ⚠️ Issues detected\n\n';
+              body += 'Please review the [workflow logs](' + context.payload.repository.html_url + '/actions/runs/' + context.runId + ') for details.\n';
+            }
+            
+            // Find existing comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            
+            const botComment = comments.find(comment => 
+              comment.user.type === 'Bot' && 
+              comment.body.includes('Copilot Tooling Setup Validation')
+            );
+            
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }
+      
+      - name: Fail if validation failed
+        if: steps.verify.outputs.verification_status == 'failure'
+        run: |
+          echo "❌ Tool verification failed - see summary above"
+          exit 1

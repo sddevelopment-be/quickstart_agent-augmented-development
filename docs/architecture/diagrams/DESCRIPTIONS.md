@@ -2,7 +2,7 @@
 
 **Purpose:** Provide textual descriptions of architectural diagrams for accessibility and inclusive documentation.  
 **Audience:** Vision-impaired users, screen reader users, and all stakeholders requiring text-based diagram interpretation.  
-**Last Updated:** 2025-11-23  
+**Last Updated:** 2025-11-23T21:13:00Z  
 **Maintained By:** Diagram Daisy (Diagrammer Agent)
 
 ---
@@ -124,32 +124,41 @@ Finally, the coordinator performs periodic maintenance by checking task age in t
 
 ---
 
-## 3. Simple Sequential Workflow
+## 3. Simple Sequential Workflow (with Metrics)
 
 ### File
 - **Source:** `workflow-sequential-flow.puml`
 - **Rendered:** `Simple_Sequential_Workflow.svg`
+- **Last Updated:** 2025-11-23T21:13:00Z
 
 ### Alt Text
-Sequential agent handoff pattern where Structural Agent completes work and automatically hands off to Lexical Agent.
+Sequential agent handoff pattern with timing, token usage, and artifact metrics annotations per ADR-009 standards.
 
 ### Long Description
 
-The Simple Sequential Workflow diagram demonstrates the most basic multi-agent collaboration pattern: two agents working in sequence with automatic handoff coordination. This pattern is fundamental to understanding how the orchestration system enables agent chaining without direct communication.
+The Simple Sequential Workflow diagram demonstrates the most basic multi-agent collaboration pattern: two agents working in sequence with automatic handoff coordination, enhanced with metrics visualization to illustrate ADR-009 orchestration standards. This pattern is fundamental to understanding how the orchestration system enables agent chaining without direct communication while maintaining performance observability.
 
-The workflow begins when a planning agent creates task-001.yaml in the inbox, specifying that the structural agent should generate a REPO_MAP.md artifact. The coordinator agent polls the inbox, discovers the new task, and assigns it to the structural agent by moving the file to `work/assigned/structural/` and updating the status to "assigned". The coordinator also adds an `assigned_at` timestamp for timeout tracking.
+The workflow begins when a planning agent creates task-001.yaml in the inbox, specifying that the structural agent should generate a REPO_MAP.md artifact. The coordinator agent polls the inbox with a 5-minute polling interval and assignment latency under 10 seconds. The coordinator discovers the new task and assigns it to the structural agent by moving the file to `work/assigned/structural/` and updating the status to "assigned", adding an `assigned_at` timestamp for timeout tracking.
 
-The structural agent polls its assigned directory, picks up task-001, and updates the status to "in_progress". After generating the REPO_MAP.md file, the structural agent completes the task by adding a result block to the YAML that includes three critical pieces of information: a summary of work completed, a list of artifacts created, and crucially, `next_agent: lexical` with a description of the follow-up work needed ("Refine REPO_MAP"). The structural agent then moves the task to `work/done/`.
+The structural agent polls its assigned directory, picks up task-001, and updates the status to "in_progress". The diagram now shows key performance metrics: duration of approximately 15 minutes, token usage of 12K input and 5K output tokens, and creation of 1 artifact. After generating the REPO_MAP.md file, the structural agent completes the task by adding a result block to the YAML that includes a summary of work completed, a list of artifacts created, and critically, `next_agent: lexical` with a description of the follow-up work needed ("Refine REPO_MAP"). The result block also contains the metrics structure per ADR-009: duration_minutes (15), token_count breakdown, and artifacts_created (1). The structural agent then moves the task to `work/done/`.
 
-This triggers the handoff mechanism. The coordinator detects that task-001 in the done directory has a `next_agent` field, so it automatically creates task-002.yaml in the inbox. This new task specifies the lexical agent, includes the REPO_MAP.md artifact as input context, declares a dependency on task-001, and notes that it was created by the structural agent. The coordinator then assigns task-002 to the lexical agent following the same assignment pattern.
+This triggers the handoff mechanism with measured latency. The coordinator detects that task-001 in the done directory has a `next_agent` field, introducing approximately 2 minutes of handoff latency (time between completed_at and next task created_at). The coordinator creates task-002.yaml in the inbox, specifying the lexical agent, including the REPO_MAP.md artifact as input context, declaring a dependency on task-001, and noting that it was created by the structural agent. The coordinator then assigns task-002 to the lexical agent following the same assignment pattern.
 
-The lexical agent polls its assigned directory, picks up task-002, updates status to "in_progress", refines the REPO_MAP.md file, and completes the task. Since no `next_agent` is specified in this result block, the workflow terminates. The diagram concludes by noting that the sequential workflow completed successfully with two agents collaborating via coordinator-mediated handoff, demonstrating the fire-and-forget asynchronous pattern.
+The lexical agent polls its assigned directory, picks up task-002, updates status to "in_progress", and exhibits different performance characteristics: duration of approximately 8 minutes, token usage of 8K input and 3K output tokens, and modification of 1 artifact. The lexical agent refines the REPO_MAP.md file and completes the task with a result block containing the same metrics structure. Since no `next_agent` is specified in this result block, the workflow terminates.
+
+The diagram concludes with aggregate metrics showing the complete sequential workflow: total duration of approximately 25 minutes (15 + 8 + 2 latency), total token usage of 28K (20K input, 8K output), 1 artifact created and 1 modified, and 2 minutes of handoff latency. This demonstrates the fire-and-forget asynchronous pattern with full observability per ADR-009 orchestration metrics standards.
 
 ### Key Elements
 
 **Agents in Sequence:**
 1. **Structural Agent**: Initial work (generate REPO_MAP.md)
+   - Duration: ~15 minutes
+   - Tokens: 12K input, 5K output
+   - Artifacts: 1 created
 2. **Lexical Agent**: Follow-up work (refine REPO_MAP.md)
+   - Duration: ~8 minutes
+   - Tokens: 8K input, 3K output
+   - Artifacts: 1 modified
 
 **Task Files:**
 - **task-001.yaml**: Initial task for structural agent
@@ -158,6 +167,7 @@ The lexical agent polls its assigned directory, picks up task-002, updates statu
 **Handoff Mechanism:**
 - Structural agent completes with `next_agent: lexical` field
 - Coordinator detects this field in done directory
+- Handoff latency: ~2 minutes (completed_at → created_at)
 - Coordinator creates task-002 with:
   - `agent: lexical`
   - `dependencies: [task-001]`
@@ -168,10 +178,17 @@ The lexical agent polls its assigned directory, picks up task-002, updates statu
 - Task-001: inbox → assigned/structural → done
 - Task-002: inbox → assigned/lexical → done
 
+**Metrics Per ADR-009:**
+- Total duration: ~25 minutes (15 + 8 + 2 latency)
+- Total tokens: 28K (20K input, 8K output)
+- Artifacts: 1 created, 1 modified
+- Handoff latency: 2 minutes
+- Coordinator polling: 5-minute interval, <10s assignment time
+
 **Timing:**
 - Non-blocking: Structural agent doesn't wait for lexical agent
 - Asynchronous: Lexical agent picks up task when available
-- Total duration: Sum of individual agent execution times plus polling delays
+- Measured: All timing captured in metrics block per ADR-009
 
 ### Related Documentation
 - [Async Multi-Agent Orchestration Architecture](../async_multiagent_orchestration.md)
@@ -359,6 +376,83 @@ The diagram footer summarizes the timeline: the critical path (Phase 1 → Phase
 - [Async Orchestration Technical Design](../design/async_orchestration_technical_design.md)
 - [Implementation Roadmap](../design/implementation-roadmap.md)
 - [Project Timeline and Milestones](../../../PROJECT_STATUS.md)
+
+---
+
+## 7. Metrics Dashboard Concept
+
+### File
+- **Source:** `metrics-dashboard-concept.puml`
+- **Rendered:** (Component diagram - typically viewed in PlantUML renderer)
+- **Last Updated:** 2025-11-23T21:13:00Z
+
+### Alt Text
+Component diagram showing ADR-009 metrics capture points, quality standards, and dashboard output structure.
+
+### Long Description
+
+The Metrics Dashboard Concept diagram visualizes the complete ADR-009 orchestration metrics and quality standards framework as an integrated system. This component diagram maps the relationship between task lifecycle stages, metrics collection points, quality standards enforcement, and dashboard output artifacts, providing a reference architecture for implementing ADR-009 compliance across all agents.
+
+The diagram is organized into four major packages that represent distinct concerns:
+
+**Task Lifecycle Package** defines the temporal flow of agent execution with five key stages: Task Start (when an agent picks up work), Context Loading (reading files for task context), Artifact Generation (creating or modifying deliverables), Artifact Validation (checking quality and correctness), and Task Completion (finalizing results and moving to done directory). Each stage is color-coded in green to indicate these are metrics capture points.
+
+**Metrics Collection Points Package** details the seven data elements required or recommended by ADR-009. Required fields include duration_minutes (total execution time from task pickup to completion), token_count (structured as input, output, and total token usage), context_files_loaded (count of files read), and artifacts_created/artifacts_modified (counts of deliverables by action type). Optional fields include per_artifact_timing (detailed breakdown with name, action, and duration_seconds for each artifact) and handoff_latency_seconds (time between completed_at and next_task created_at). Each metric has an associated note explaining its purpose and measurement methodology.
+
+**Quality Standards Package** defines the four quality assurance mechanisms mandated by ADR-009. Per-Artifact Validation requires explicit integrity markers (✅ for full validation, ⚠️ for partial validation, ❗️ for validation failure) to be applied to every artifact in work logs. Tiered Work Logging establishes a two-tier structure: Core Tier (required, containing Context, Approach, Execution Steps, Artifacts Created with markers, Outcomes, and Metadata, targeting 100-200 lines) and Extended Tier (optional, adding Challenges, Research Notes, Collaboration Notes, and Technical Details). Accessibility Descriptions mandate that all visual artifacts have entries in DESCRIPTIONS.md with alt-text (under 125 characters), long description (2-4 paragraphs), key elements list, related documentation links, and updated timestamp. Rendering Verification requires syntax checking through CI integration (preferred), local script rendering, or manual verification, with unverified diagrams marked with ⚠️.
+
+**Dashboard Output Package** shows the three artifact types that consume collected metrics and quality validations. Task Result Block is the YAML structure added to task files in the done directory, containing summary, artifacts list, structured metrics block, and completion timestamp. Work Log is the markdown narrative stored in work/logs/, structured with Context, Approach, Execution Steps, Artifacts Created (including integrity markers from validation), Outcomes, and Metadata (matching result metrics for consistency). DESCRIPTIONS.md Entry is the accessibility metadata for visual artifacts, structured with diagram filename, alt-text, detailed description, and updated timestamp.
+
+The diagram includes explicit data flow connections showing how lifecycle stages feed metrics collection (Task Start → duration tracking, Context Loading → files and tokens, Generation → artifacts and per-artifact timing, Validation → artifact markers and rendering checks, Completion → handoff latency and result block). Metrics flow into both the Task Result Block and Work Log, ensuring consistency. Quality standards feed their respective outputs (artifact validation to work log, logging structure to work log, accessibility to DESCRIPTIONS.md, rendering to work log). Finally, cross-connections show that result blocks provide metadata consistency to work logs, and work logs cross-reference DESCRIPTIONS.md entries for visual artifacts.
+
+The legend at the bottom summarizes ADR-009 compliance requirements: all orchestrated tasks must include structured metrics blocks, provide per-artifact integrity markers, follow tiered work logging with Core tier minimum, add accessibility descriptions for visual artifacts, and validate diagram rendering or mark unverified. The purpose is stated as enabling benchmarking, quality assurance, inclusive documentation, and framework tuning.
+
+### Key Elements
+
+**Metrics Capture Points (Required):**
+- **duration_minutes**: Total task execution time
+- **token_count**: Input, output, and total tokens
+- **context_files_loaded**: Count of files read
+- **artifacts_created**: Count of new files
+- **artifacts_modified**: Count of edited files
+
+**Metrics Capture Points (Optional):**
+- **per_artifact_timing**: Detailed breakdown per artifact (name, action, duration_seconds)
+- **handoff_latency_seconds**: Time between task completion and next task creation
+
+**Quality Validation Markers:**
+- ✅ Full validation: Artifact meets all quality criteria
+- ⚠️ Partial validation: Artifact created but has known limitations
+- ❗️ Validation failed: Artifact has errors requiring correction
+
+**Work Log Tiers:**
+- **Core Tier (Required)**: Context, Approach, Execution Steps, Artifacts Created, Outcomes, Metadata (100-200 lines)
+- **Extended Tier (Optional)**: Challenges, Research Notes, Collaboration Notes, Technical Details (additional 100-300 lines)
+
+**Accessibility Standards:**
+- Alt-text: <125 characters summary
+- Long description: 2-4 paragraphs narrative
+- Key elements: Structured list of components
+- Related documentation: Cross-references
+- Updated timestamp: Git-tracked freshness
+
+**Dashboard Outputs:**
+- **Task Result Block**: YAML structure in task file (done directory)
+- **Work Log**: Markdown narrative in work/logs/
+- **DESCRIPTIONS.md Entry**: Accessibility metadata for diagrams
+
+**Data Flow:**
+- Lifecycle stages → Metrics collection
+- Metrics → Result block + Work log
+- Quality standards → Work log + DESCRIPTIONS.md
+- Result block → Work log (metadata consistency)
+- Work log → DESCRIPTIONS.md (cross-reference)
+
+### Related Documentation
+- [ADR-009: Orchestration Metrics and Quality Standards](../adrs/ADR-009-orchestration-metrics-standard.md)
+- [Directive 014: Work Log Creation Standards](../../../.github/agents/directives/014_worklog_creation.md)
+- [File-Based Orchestration Approach](../../../.github/agents/approaches/file-based-orchestration.md)
+- [Task Lifecycle State Machine](#1-task-lifecycle-state-machine) (this document)
 
 ---
 
