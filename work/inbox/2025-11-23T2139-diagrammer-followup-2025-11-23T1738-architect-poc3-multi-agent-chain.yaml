@@ -1,0 +1,19 @@
+id: 2025-11-23T2139-diagrammer-followup-2025-11-23T1738-architect-poc3-multi-agent-chain
+agent: diagrammer
+status: new
+title: 'POC3: Update orchestration diagrams with metrics visualization'
+artefacts:
+- docs/architecture/diagrams/workflow-sequential-flow.puml
+- docs/architecture/diagrams/metrics-dashboard-concept.puml
+- docs/architecture/diagrams/DESCRIPTIONS.md
+context:
+  previous_task: 2025-11-23T1738-architect-poc3-multi-agent-chain
+  previous_agent: architect
+  notes:
+  - Update workflow-sequential-flow.puml with timing/metrics annotations
+  - Create metrics-dashboard-concept.puml visualizing ADR-009 capture points
+  - Add accessibility descriptions for both diagrams to DESCRIPTIONS.md
+  - Follow ADR-009 standards (metrics block, per-artifact validation, tiered logging)
+  - "Validate rendering or mark with \u26A0\uFE0F if unverified"
+created_at: '2025-11-23T21:39:20.239257Z'
+created_by: coordinator
