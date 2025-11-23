@@ -165,7 +165,7 @@ def check_timeouts() -> int:
                     log_event(f"⚠️ Task {task.get('id', task_file.name)} missing started_at; skipping timeout check")
                     continue
 
-                started_at = datetime.fromisoformat(str(started_at_raw).replace("Z", ""))
+                started_at = datetime.fromisoformat(str(started_at_raw).replace("Z", "+00:00"))
 
                 if started_at < timeout_cutoff:
                     log_event(f"⚠️ Task {task['id']} stalled (>{TIMEOUT_HOURS}h)")

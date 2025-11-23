@@ -1,0 +1,20 @@
+# Parallel Task Fixture - Concurrent execution
+# Used for testing multiple agents working simultaneously
+
+id: "2025-11-23T1000-test-agent-parallel-task"
+agent: "test-agent"
+status: "new"
+title: "Parallel test task for concurrent execution"
+
+artefacts:
+  - "test/output/parallel_artifact_1.md"
+
+context:
+  repo: "test/repository"
+  branch: "main"
+  notes:
+    - "Test fixture for parallel workflow"
+    - "Will run alongside other tasks"
+
+created_at: "2025-11-23T10:00:00Z"
+created_by: "test-harness"

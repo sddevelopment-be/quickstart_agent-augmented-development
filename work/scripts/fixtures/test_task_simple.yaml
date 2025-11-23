@@ -1,0 +1,20 @@
+# Simple Task Fixture - Single agent workflow
+# Used for testing basic inbox → assigned → done flow
+
+id: "2025-11-23T0800-test-agent-simple-task"
+agent: "test-agent"
+status: "new"
+title: "Simple test task for validation"
+
+artefacts:
+  - "test/output/simple_artifact.md"
+
+context:
+  repo: "test/repository"
+  branch: "main"
+  notes:
+    - "Test fixture for simple workflow"
+    - "Single agent, no handoff"
+
+created_at: "2025-11-23T08:00:00Z"
+created_by: "test-harness"
