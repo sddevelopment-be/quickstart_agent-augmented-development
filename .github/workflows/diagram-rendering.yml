@@ -130,7 +130,7 @@ jobs:
       
       - name: Upload rendered diagrams
         if: steps.find-files.outputs.has_diagrams == 'true' && always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: rendered-diagrams
           path: /tmp/diagram-output/*.svg
