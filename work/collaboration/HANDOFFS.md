@@ -15,3 +15,9 @@ Each handoff entry includes:
 ## Handoff History
 
 _No handoffs recorded yet._
+## 2025-11-23 20:56 - curator → writer-editor
+
+**Artefacts:** docs/HOW_TO_USE/multi-agent-orchestration.md
+**Task ID:** 2025-11-23T2056-writer-editor-followup-2025-11-23T0722-curator-orchestration-guide
+**Status:** Created
+
