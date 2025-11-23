@@ -391,4 +391,3 @@ bash work/scripts/validate-work-structure.sh
 
 _Maintained by: Development team, Curator Claire & Architect Alphonso_  
 _For questions, see: `.github/agents/curator.agent.md` or `.github/agents/architect.agent.md`_
-
