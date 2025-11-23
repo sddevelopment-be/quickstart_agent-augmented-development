@@ -55,9 +55,9 @@ This document outlines the implementation plan for the file-driven, asynchronous
 
 ---
 
-### Phase 2: Coordinator Implementation (CRITICAL)
+### Phase 2: Agent Orchestrator Implementation (CRITICAL)
 
-**Objective:** Implement Coordinator agent for task routing and monitoring
+**Objective:** Implement Agent Orchestrator for task routing and monitoring
 
 **Estimated effort:** 3-4 workdays  
 **Priority:** Critical  
@@ -67,27 +67,27 @@ This document outlines the implementation plan for the file-driven, asynchronous
 
 | Task ID | Description | Agent | Artifacts | Status |
 |---------|-------------|-------|-----------|--------|
-| ORCH-008 | Implement Coordinator base script | Build Automation | `work/scripts/coordinator.py` | Not Started |
-| ORCH-009 | Add task assignment logic | Build Automation | `coordinator.py` (assign_tasks) | Not Started |
-| ORCH-010 | Add workflow sequencing logic | Build Automation | `coordinator.py` (process_completed_tasks) | Not Started |
-| ORCH-011 | Add timeout detection | Build Automation | `coordinator.py` (check_timeouts) | Not Started |
-| ORCH-012 | Add conflict detection | Build Automation | `coordinator.py` (detect_conflicts) | Not Started |
-| ORCH-013 | Add status dashboard updates | Build Automation | `coordinator.py` (update_agent_status) | Not Started |
-| ORCH-014 | Add archive logic | Build Automation | `coordinator.py` (archive_old_tasks) | Not Started |
+| ORCH-008 | Implement Agent Orchestrator base script | Build Automation | `work/scripts/agent_orchestrator.py` | Not Started |
+| ORCH-009 | Add task assignment logic | Build Automation | `agent_orchestrator.py` (assign_tasks) | Not Started |
+| ORCH-010 | Add workflow sequencing logic | Build Automation | `agent_orchestrator.py` (process_completed_tasks) | Not Started |
+| ORCH-011 | Add timeout detection | Build Automation | `agent_orchestrator.py` (check_timeouts) | Not Started |
+| ORCH-012 | Add conflict detection | Build Automation | `agent_orchestrator.py` (detect_conflicts) | Not Started |
+| ORCH-013 | Add status dashboard updates | Build Automation | `agent_orchestrator.py` (update_agent_status) | Not Started |
+| ORCH-014 | Add archive logic | Build Automation | `agent_orchestrator.py` (archive_old_tasks) | Not Started |
 | ORCH-015 | Create Coordinator agent profile | Architect | `.github/agents/coordinator.agent.md` | Not Started |
-| ORCH-016 | Write Coordinator usage documentation | Writer-Editor | `docs/guides/coordinator-usage.md` | Not Started |
-| ORCH-017 | Test Coordinator with sample tasks | Build Automation | Test results | Not Started |
+| ORCH-016 | Write Agent Orchestrator usage documentation | Writer-Editor | `docs/guides/agent-orchestrator-usage.md` | Not Started |
+| ORCH-017 | Test Agent Orchestrator with sample tasks | Build Automation | Test results | Not Started |
 
 **Acceptance Criteria:**
 
-- [ ] Coordinator assigns tasks from inbox to agents
-- [ ] Coordinator creates follow-up tasks based on next_agent
-- [ ] Coordinator detects tasks stuck in in_progress >2 hours
-- [ ] Coordinator warns on artifact conflicts
-- [ ] Coordinator updates AGENT_STATUS.md
-- [ ] Coordinator logs events to WORKFLOW_LOG.md
-- [ ] Coordinator archives tasks older than 30 days
-- [ ] Coordinator completes cycle in <30 seconds
+- [ ] Agent Orchestrator assigns tasks from inbox to agents
+- [ ] Agent Orchestrator creates follow-up tasks based on next_agent
+- [ ] Agent Orchestrator detects tasks stuck in in_progress >2 hours
+- [ ] Agent Orchestrator warns on artifact conflicts
+- [ ] Agent Orchestrator updates AGENT_STATUS.md
+- [ ] Agent Orchestrator logs events to WORKFLOW_LOG.md
+- [ ] Agent Orchestrator archives tasks older than 30 days
+- [ ] Agent Orchestrator completes cycle in <30 seconds
 
 **Recommended Agent Assignment:**
 
@@ -149,7 +149,7 @@ This document outlines the implementation plan for the file-driven, asynchronous
 
 | Task ID | Description | Agent | Artifacts | Status |
 |---------|-------------|-------|-----------|--------|
-| ORCH-029 | Create Coordinator GitHub Actions workflow | Build Automation | `.github/workflows/coordinator.yml` | Not Started |
+| ORCH-029 | Create Agent Orchestrator GitHub Actions workflow | Build Automation | `.github/workflows/agent-orchestrator.yml` | Not Started |
 | ORCH-030 | Configure workflow permissions and secrets | Build Automation | Workflow config | Not Started |
 | ORCH-031 | Create optional per-agent workflows | Build Automation | `.github/workflows/agent-*.yml` | Not Started |
 | ORCH-032 | Test Coordinator workflow in CI | Build Automation | CI test results | Not Started |
@@ -158,8 +158,8 @@ This document outlines the implementation plan for the file-driven, asynchronous
 
 **Acceptance Criteria:**
 
-- [ ] Coordinator runs every 5 minutes via GitHub Actions
-- [ ] Coordinator can be manually triggered via workflow_dispatch
+- [ ] Agent Orchestrator runs every 5 minutes via GitHub Actions
+- [ ] Agent Orchestrator can be manually triggered via workflow_dispatch
 - [ ] Workflow has proper git permissions to commit results
 - [ ] Workflow logs are accessible and debuggable
 - [ ] Rate limits are monitored and respected
@@ -265,11 +265,11 @@ Phase 1 (Core Infrastructure)
 1. **Architect:** Review and approve architecture artifacts (ADRs, technical design)
 2. **Build Automation:** Begin Phase 1 implementation (directory setup, schemas)
 3. **Planning Agent:** Create initial task files for Phase 1 work
-4. **Coordinator:** Assign tasks to Build Automation agent
+4. **Agent Orchestrator:** Assign tasks to Build Automation agent (when implemented)
 
 ### Short-term Actions (Week 2-3)
 
-1. **Build Automation:** Complete Phase 1 and begin Phase 2 (Coordinator)
+1. **Build Automation:** Complete Phase 1 and begin Phase 2 (Agent Orchestrator)
 2. **Writer-Editor:** Document directory structure and usage patterns
 3. **Architect:** Create Coordinator agent profile
 4. **Planning Agent:** Monitor progress, adjust timeline as needed
