@@ -21,7 +21,7 @@ We will adopt the OpenCode specification as the canonical format for agent confi
 - **Extensibility:** OpenCode supports future enhancements and can accommodate new agent capabilities without breaking existing workflows.
 - **Alignment:** This approach aligns with the repository's architectural vision and specialization patterns, supporting clear boundaries and handoff protocols between agents.
 
-### Envisioned Consequences
+### Envisioned Consequences``
 
 - **Positive:**
   - Improved agent portability and reusability
@@ -46,7 +46,6 @@ We will adopt the OpenCode specification as the canonical format for agent confi
 ---
 
 _References:_
-- [Portability Enhancement Work Summary](../../../work/portability-enhancement-summary.md)
 - [Agent Specialization Patterns](../agent_specialization_patterns.md)
 - [OpenCode Specification Validator](../../../ops/scripts/opencode-spec-validator.py)
 - [Agent to OpenCode Converter](../../../ops/scripts/convert-agents-to-opencode.py)
