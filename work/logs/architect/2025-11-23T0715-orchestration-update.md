@@ -127,7 +127,7 @@ Tasks:
 - work/assigned/*/inbox directories
 - work/done/.gitkeep
 - work/archive/.gitkeep
-- work/schemas/.gitkeep
+- docs/templates/agent-tasks/.gitkeep
 - work/scripts/.gitkeep
 - docs/templates/task-descriptor.yaml
 - Optional: work/inbox/sample-tasks/*.yaml
@@ -152,7 +152,7 @@ Tasks:
   - `work/done/` - Completed tasks
   - `work/archive/` - Long-term retention
   - `work/logs/` - Agent execution logs
-  - `work/schemas/` - Task schema definitions
+  - `docs/templates/agent-tasks/` - Task schema definitions
   - `work/scripts/` - Orchestration utilities
   - `work/assigned/` with 16 agent subdirectories:
     - architect, backend-dev, bootstrap-bill, build-automation

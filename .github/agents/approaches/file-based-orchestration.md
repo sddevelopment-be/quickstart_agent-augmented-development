@@ -3,8 +3,7 @@
 **Approach Type:** Coordination Pattern  
 **Version:** 1.0.0  
 **Last Updated:** 2025-11-23  
-**Status:** Active  
-**Target Location:** `.github/agents/approaches/file-based-orchestration.md`
+**Status:** Active
 
 ## Overview
 
@@ -94,54 +93,19 @@ YYYY-MM-DDTHHMM-<agent>-<slug>.yaml
 
 ### Required Fields
 
-```yaml
-id: "YYYY-MM-DDTHHMM-agent-slug"  # Unique identifier
-agent: "agent-name"                 # Target agent
-status: "new"                       # Current state
-artefacts:                          # Files to create/modify
-  - "path/to/artifact.md"
-```
+see: [task-descriptor.yaml](/docs/templates/agent-tasks/task-descriptor.yaml)
 
 ### Optional Fields
 
-```yaml
-title: "Human-readable description"
-mode: "/analysis-mode"              # Reasoning mode
-priority: "high"                    # Task priority
-context:                            # Additional information
-  repo: "owner/repository"
-  branch: "main"
-  notes:
-    - "Context note 1"
-    - "Context note 2"
-  dependencies: []                  # Task IDs this depends on
-```
+see: [task-descriptor.yaml](/docs/templates/agent-tasks/task-descriptor.yaml)
 
 ### Timestamps (Auto-populated)
 
-```yaml
-created_at: "YYYY-MM-DDTHH:MM:SSZ"
-created_by: "username or agent"
-assigned_at: "YYYY-MM-DDTHH:MM:SSZ"  # When assigned
-started_at: "YYYY-MM-DDTHH:MM:SSZ"   # When agent started
-completed_at: "YYYY-MM-DDTHH:MM:SSZ" # When finished
-```
+see: [task-timestamps.yaml](/docs/templates/agent-tasks/task-timestamps.yaml)
 
 ### Result Block (Added on completion)
 
-```yaml
-result:
-  summary: "Brief description of work completed"
-  artefacts:
-    - "path/to/created/artifact.md"
-  next_agent: "next-agent-name"     # Optional: handoff
-  next_task_title: "Follow-up task"
-  next_artefacts:
-    - "path/to/artifact.md"
-  next_task_notes:
-    - "Context for next agent"
-  completed_at: "YYYY-MM-DDTHH:MM:SSZ"
-```
+see: [task-result.yaml](/docs/templates/agent-tasks/task-result.yaml)
 
 ## Implementation Steps
 
@@ -149,7 +113,7 @@ result:
 
 **Creating a Task:**
 
-1. Create YAML file in `work/inbox/` using the template
+1. Create YAML file in `work/inbox/` using the template in [/docs/templates/agent-tasks/task-base.yaml](/docs/templates/agent-tasks/task-base.yaml)
 2. Name it: `YYYY-MM-DDTHHMM-<agent>-<slug>.yaml`
 3. Specify target agent, artifacts, and context
 4. Commit and push to Git
@@ -425,7 +389,6 @@ bash work/scripts/validate-work-structure.sh
 
 ---
 
-_Maintained by: Curator Claire & Architect Alphonso_  
+_Maintained by: Development team, Curator Claire & Architect Alphonso_  
 _For questions, see: `.github/agents/curator.agent.md` or `.github/agents/architect.agent.md`_
 
-**Note:** This file should be moved to `.github/agents/approaches/file-based-orchestration.md` once the approaches directory is created.

@@ -51,8 +51,9 @@ References:
 
 ### Definition of Done
 
-- [ ] Task YAML schema defined and validated
-- [ ] Work directory structure created with `.gitkeep` files
+- [X] Task YAML schema defined and validated
+- [X] Work directory structure created with `.gitkeep` files
+- [ ] Proof-of-concept Executions to validate assumptions
 - [ ] Coordinator agent script implemented
 - [ ] Agent execution template provided
 - [ ] Validation scripts created (structure, schema, naming)
@@ -61,6 +62,10 @@ References:
 - [ ] Initial collaboration artifacts created (STATUS, HANDOFFS, WORKFLOW_LOG)
 
 ## Design
+
+![Orchestraction Flow Overview](../diagrams/Agent_Orchestration_Overview_workflow.svg)
+
+See also: [diagrams/orchestration-workflow.puml](../diagrams/orchestration-workflow.puml)
 
 ### Overview
 
@@ -76,7 +81,7 @@ The implementation consists of:
 
 ### Task YAML Schema
 
-**File: `work/schemas/task-schema.yaml`**
+**File: `docs/templates/agent-tasks/task-schema.yaml`**
 
 ```yaml
 # Task Schema Definition
@@ -278,7 +283,7 @@ echo "✅ Work directory structure initialized successfully"
 echo ""
 echo "Next steps:"
 echo "1. Review work/README.md"
-echo "2. Create task YAML schema in work/schemas/"
+echo "2. Create task YAML schema in docs/templates/agent-tasks/"
 echo "3. Implement Coordinator script in work/scripts/"
 echo "4. Review docs/architecture/async_multiagent_orchestration.md"
 ```

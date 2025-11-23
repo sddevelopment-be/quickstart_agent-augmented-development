@@ -102,7 +102,7 @@ end note
 note right of archived
   Location: work/archive/YYYY-MM/
   Status: done or error
-  Retention: 1 year
+  Retention: 1 year? (depends on filesize and policy)
 end note
 
 @enduml

@@ -32,7 +32,7 @@ This document outlines the implementation plan for the file-driven, asynchronous
 | Task ID | Description | Agent | Artifacts | Status |
 |---------|-------------|-------|-----------|--------|
 | ORCH-001 | Create work directory structure script | Build Automation | `work/scripts/init-work-structure.sh` | Not Started |
-| ORCH-002 | Define task YAML schema | Architect | `work/schemas/task-schema.yaml` | Not Started |
+| ORCH-002 | Define task YAML schema | Architect | `docs/templates/agent-tasks/task-schema.yaml` | Not Started |
 | ORCH-003 | Create task schema validation script | Build Automation | `work/scripts/validate-task-schema.py` | Not Started |
 | ORCH-004 | Create directory structure validation script | Build Automation | `work/scripts/validate-work-structure.sh` | Not Started |
 | ORCH-005 | Create task naming validation script | Build Automation | `work/scripts/validate-task-naming.sh` | Not Started |
@@ -184,7 +184,7 @@ This document outlines the implementation plan for the file-driven, asynchronous
 
 | Task ID | Description | Agent | Artifacts | Status |
 |---------|-------------|-------|-----------|--------|
-| ORCH-035 | Enhance schema validation with JSON Schema | Build Automation | `work/schemas/task-schema.json` | Not Started |
+| ORCH-035 | Enhance schema validation with JSON Schema | Build Automation | `docs/templates/agent-tasks/task-schema.json` | Not Started |
 | ORCH-036 | Create integrity check script (all validations) | Build Automation | `work/scripts/validate-all.sh` | Not Started |
 | ORCH-037 | Create monitoring dashboard generator | Build Automation | `work/scripts/generate-dashboard.py` | Not Started |
 | ORCH-038 | Add metrics collection (task counts, durations) | Build Automation | `work/scripts/collect-metrics.py` | Not Started |

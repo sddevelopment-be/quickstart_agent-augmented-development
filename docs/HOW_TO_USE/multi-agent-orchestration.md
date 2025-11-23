@@ -7,6 +7,7 @@ This guide explains how to leverage the multi-agent orchestration system to get 
 The orchestration system coordinates multiple specialized agents working together on different tasks. Each agent has a specific area of expertise (documentation, architecture, code structure, etc.), and tasks flow between agents automatically based on handoffs.
 
 **Key benefits:**
+
 - **Transparent:** All task states are visible in Git
 - **Asynchronous:** Agents work independently without blocking each other
 - **Traceable:** Complete audit trail from task creation to completion
@@ -18,23 +19,23 @@ The orchestration system coordinates multiple specialized agents working togethe
 
 First, identify which agent should handle your task:
 
-| Agent | Specialization | Use When You Need |
-|-------|---------------|------------------|
-| `structural` | Code organization | Repository maps, structure analysis |
-| `lexical` | Voice & style | Tone consistency, terminology |
-| `curator` | Documentation alignment | Structural consistency across docs |
-| `architect` | System design | ADRs, architecture decisions |
-| `diagrammer` | Visual diagrams | Architecture diagrams, flowcharts |
-| `writer-editor` | Content polish | Review, clarity, accessibility |
-| `planning` | Project planning | Roadmaps, feature planning |
-| `researcher` | Investigation | Research, analysis, exploration |
-| `translator` | Multi-language | Translation, internationalization |
-| `build-automation` | CI/CD | Build scripts, automation |
-| `backend-dev` | Backend code | API, database, server logic |
-| `frontend` | Frontend code | UI, UX, client-side code |
-| `synthesizer` | Integration | Combining multiple sources |
-| `bootstrap-bill` | Repository setup | Initial configuration |
-| `manager` | Coordination | Agent creation, oversight |
+| Agent              | Specialization          | Use When You Need                   |
+|--------------------|-------------------------|-------------------------------------|
+| `structural`       | Code organization       | Repository maps, structure analysis |
+| `lexical`          | Voice & style           | Tone consistency, terminology       |
+| `curator`          | Documentation alignment | Structural consistency across docs  |
+| `architect`        | System design           | ADRs, architecture decisions        |
+| `diagrammer`       | Visual diagrams         | Architecture diagrams, flowcharts   |
+| `writer-editor`    | Content polish          | Review, clarity, accessibility      |
+| `planning`         | Project planning        | Roadmaps, feature planning          |
+| `researcher`       | Investigation           | Research, analysis, exploration     |
+| `translator`       | Multi-language          | Translation, internationalization   |
+| `build-automation` | CI/CD                   | Build scripts, automation           |
+| `backend-dev`      | Backend code            | API, database, server logic         |
+| `frontend`         | Frontend code           | UI, UX, client-side code            |
+| `synthesizer`      | Integration             | Combining multiple sources          |
+| `bootstrap-bill`   | Repository setup        | Initial configuration               |
+| `manager`          | Coordination            | Agent creation, oversight           |
 
 ### 2. Create a Task File
 
@@ -72,12 +73,14 @@ created_by: "stijn"
 ```
 
 **Required fields:**
+
 - `id`: Unique identifier (matches filename without `.yaml`)
 - `agent`: Target agent name
 - `status`: Always `"new"` for new tasks
 - `artefacts`: List of files the agent should create or modify
 
 **Optional but helpful:**
+
 - `title`: Human-readable description
 - `context.notes`: Additional guidance for the agent
 - `priority`: `critical`, `high`, `normal`, or `low` (default: `normal`)
@@ -96,6 +99,7 @@ git push
 ### 5. Monitor Progress
 
 The Agent Orchestrator will:
+
 1. Move your task from `work/inbox/` to `work/assigned/<agent>/`
 2. The agent updates status to `in_progress` when it starts
 3. The agent completes work and moves the task to `work/done/`
@@ -253,10 +257,12 @@ ls -lt work/done/*.yaml | head -n 10
 **Symptoms:** Task hasn't moved to `in_progress` after expected time.
 
 **Possible causes:**
+
 - Agent orchestrator isn't running
 - Agent has crashed or isn't watching the directory
 
 **Solutions:**
+
 1. Check if the orchestrator is running (manual execution or cron/GitHub Actions)
 2. Review agent logs in `work/logs/`
 3. Manually trigger the agent if needed
@@ -266,10 +272,12 @@ ls -lt work/done/*.yaml | head -n 10
 **Symptoms:** Task status shows `in_progress` but no completion.
 
 **Possible causes:**
+
 - Agent timed out (default: 2 hours)
 - Agent encountered an unexpected error
 
 **Solutions:**
+
 1. Check `WORKFLOW_LOG.md` for timeout warnings
 2. Review the task YAML for any `error` block
 3. May need to manually reset task to `assigned` status
@@ -279,6 +287,7 @@ ls -lt work/done/*.yaml | head -n 10
 **Symptoms:** Task status is `error` with error details.
 
 **Solutions:**
+
 1. Read the error message in the task YAML
 2. Address the underlying issue (missing context, unclear requirements, etc.)
 3. Create a new task with corrected information
@@ -288,6 +297,7 @@ ls -lt work/done/*.yaml | head -n 10
 **Symptoms:** Agent completed with `next_agent` but no new task appeared.
 
 **Solutions:**
+
 1. Verify the orchestrator ran after task completion
 2. Check `WORKFLOW_LOG.md` for orchestrator errors
 3. Manually create the follow-up task if needed
@@ -385,6 +395,7 @@ Instead, create separate tasks or use handoffs.
 ### 5. Check Existing Work First
 
 Before creating a task:
+
 1. Check if similar work exists in `work/done/`
 2. Review agent output directories
 3. Search Git history for related changes
