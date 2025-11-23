@@ -1,12 +1,14 @@
 # General Agent Guidelines
 
-_Version: 1.0.0_  
-_Last updated: 2025-11-17_
+_Version: 1.1.0_
+_Last updated: 2025-11-23_
 _Format: Markdown protocol for agent initialization and governance_
 
 ---
 
 These guidelines apply to all agents in this repository.
+
+> For runtime brevity, reference `guidelines/runtime_sheet.md` and link back here instead of pasting full sections into prompts unless the task is high-stakes.
 
 ## Behaviour
 

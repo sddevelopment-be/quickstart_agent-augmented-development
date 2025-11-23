@@ -6,7 +6,26 @@ This directory contains automation scripts for repository operations and portabi
 
 ### `scripts/`
 
-Scripts for converting and validating agent configurations.
+Scripts for converting and validating agent configurations, plus lightweight context assembly helpers.
+
+#### `assemble-agent-context.sh`
+
+Emits a minimal or full agent context bundle (runtime sheet, aliases, specialist profile, and optional directives) to STDOUT to avoid manual copy/paste.
+
+**Usage:**
+```bash
+ops/scripts/assemble-agent-context.sh --agent backend-dev --mode minimal --directives 001 006
+```
+
+**Options:**
+- `--agent <name|path>` - Specialist profile basename (e.g., `backend-dev`) or explicit path.
+- `--mode minimal|full` - Minimal includes runtime sheet + profile + aliases; full adds general and operational guidelines.
+- `--directives <codes>` - Space-separated directive codes to inline via `.github/agents/load_directives.sh`.
+- `--no-aliases` - Skip alias inclusion.
+
+Use `--mode full` for high-stakes work that requires full governance; default `minimal` keeps tokens lean for low-risk edits.
+
+Tip: `.github/agents/load_directives.sh --list` shows available directive codes before assembling a bundle.
 
 #### `opencode-spec-validator.py`
 
