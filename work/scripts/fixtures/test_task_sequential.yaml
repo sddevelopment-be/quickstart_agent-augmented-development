@@ -1,0 +1,20 @@
+# Sequential Task Fixture - Agent handoff workflow
+# Used for testing next_agent handoff mechanism
+
+id: "2025-11-23T0900-test-agent-sequential-task"
+agent: "test-agent"
+status: "new"
+title: "Sequential test task with handoff"
+
+artefacts:
+  - "test/output/sequential_artifact.md"
+
+context:
+  repo: "test/repository"
+  branch: "main"
+  notes:
+    - "Test fixture for sequential workflow"
+    - "Will hand off to test-agent-2"
+
+created_at: "2025-11-23T09:00:00Z"
+created_by: "test-harness"
