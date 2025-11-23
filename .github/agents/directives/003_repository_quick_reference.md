@@ -1,13 +1,18 @@
 # 003 Repository Quick Reference Directive
 
 Key Directories:
-- `content/`, `layouts/`, `static/` — Hugo site structure
-- Build/config: `config.yaml`, `data/`, `resources/`, `netlify.toml`
-- Tooling/source: `src/`, `assets/`, optional `code/`
-- Dependencies: `package.json`, `go.mod`
-- Generated (do not edit): `public/`, `.hugo_build.lock`
+- `.github/agents/` — Agent profiles, directives, approaches, guidelines
+- `work/` — Orchestration workspace (inbox, assigned, done, logs, collaboration)
+- `docs/` — Documentation (templates, architecture, HOW_TO_USE guides)
+- `validation/` — Validation scripts and test artifacts
+- `ops/` — Operational scripts and utilities
+- Generated (do not edit): `.git/`, `__pycache__/`, `.pytest_cache/`
 - Templates: `docs/templates/`, org-wide: `sddevelopment-be/templates/` (requires access / local clone)
-- Draft incubation: `tmp/`
 
-Version Requirement: Hugo 0.152.2 extended (SCSS support).
+Dependencies: `requirements.txt` (Python packages)
+
+---
+
+_Version: 1.0.0_  
+_Last Updated: 2025-11-23_
 

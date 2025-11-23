@@ -1,6 +1,6 @@
 # 007 Agent Declaration Directive
 
-Source Section (originally AGENTS.md §18)
+Source Section: Referenced in AGENTS.md (Agent Specification Document)
 
 Declaration Text:
 ```
@@ -10,3 +10,8 @@ in Operational v1.2.0, Strategic v1.0.0, Command v1.1.0, and Bootstrap v1.0.0.
 ```
 
 Enforcement: Failure to declare invalidates operational authority; must be renewed after rehydration events.
+
+---
+
+_Version: 1.0.0_  
+_Last Updated: 2025-11-23_
