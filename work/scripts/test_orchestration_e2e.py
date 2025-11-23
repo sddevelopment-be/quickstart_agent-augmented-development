@@ -22,7 +22,6 @@ Test scenarios:
 from __future__ import annotations
 
 import sys
-import tempfile
 import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
