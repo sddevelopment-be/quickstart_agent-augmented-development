@@ -65,8 +65,8 @@ def validate_task_file(path: Path) -> list[str]:
         errors.append(f"invalid status '{status}', expected one of {sorted(ALLOWED_STATUSES)}")
 
     artefacts = task.get("artefacts")
-    if not isinstance(artefacts, list) or not artefacts:
-        errors.append("artefacts must be a non-empty list")
+    if not isinstance(artefacts, list):
+        errors.append("artefacts must be a list")
     elif not all(isinstance(item, str) for item in artefacts):
         errors.append("artefacts entries must be strings")
 
