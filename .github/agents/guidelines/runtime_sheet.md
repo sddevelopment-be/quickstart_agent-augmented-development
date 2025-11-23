@@ -25,7 +25,7 @@ If the task is high-risk, append the full governance pack: general + operational
 ## Token Discipline
 - Prefer links and section references over inlining entire guidelines in the prompt.
 - Drop non-essential sections when the task scope is narrow.
-- Keep transient reasoning in `work/` instead of the prompt transcript.
+- Keep transient reasoning in `work/notes` instead of the prompt transcript.
 
 ## Scripted Context Assembly
 - Use `ops/scripts/assemble-agent-context.sh --agent backend-dev --mode minimal` to emit the above bundle plus the specialist profile.

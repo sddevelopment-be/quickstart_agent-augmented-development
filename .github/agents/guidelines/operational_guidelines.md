@@ -38,6 +38,13 @@ How agents should operate inside this repository.
 - When in doubt, ask for clarification rather than making assumptions.
 - If you are a specialist agent: NEVER exceed your specific role's scope.
 
+## Token Discipline
+
+- Prefer links and section references over inlining entire guidelines in the prompt.
+- Drop non-essential sections when the task scope is narrow.
+- Keep transient reasoning in `work/notes` instead of the prompt transcript.
+
+
 ## Style Guidelines
 
 - Reuse existing templates and patterns (`docs/templates/`) whenever possible.
