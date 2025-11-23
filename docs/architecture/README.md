@@ -194,7 +194,7 @@ Architecture Decision Records capture significant architectural decisions made i
 - Core Specification: [`AGENTS.md`](/AGENTS.md)
 - Repository Vision: [`docs/VISION.md`](/docs/VISION.md)
 - Agent Audience Documentation: [`docs/audience/automation_agent.md`](/docs/audience/automation_agent.md)
-- Curator Assessment: [`work/curator/agentic_setup_reassessment.md`](/work/curator/agentic_setup_reassessment.md)
+- Curator Assessment: [`work/curator/agentic_setup_reassessment.md`](/work/logs/curator/agentic_setup_reassessment.md)
 - Directive Suite: [`.github/agents/directives/`](/.github/agents/directives/)
 - Templates: [`docs/templates/architecture/`](../templates/architecture/)
 - Orchestration Implementation Plan: [`work/collaboration/orchestration-implementation-plan.md`](/work/collaboration/orchestration-implementation-plan.md)
