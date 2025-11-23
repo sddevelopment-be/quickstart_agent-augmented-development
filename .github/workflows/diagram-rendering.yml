@@ -1,0 +1,264 @@
+name: PlantUML Diagram Validation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '**.puml'
+      - 'docs/architecture/diagrams/**'
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+concurrency:
+  group: diagram-rendering-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  render-diagrams:
+    name: Validate PlantUML Diagrams
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      
+      - name: Cache PlantUML JAR
+        id: cache-plantuml
+        uses: actions/cache@v3
+        with:
+          path: ~/.plantuml
+          key: plantuml-jar-${{ runner.os }}-v1.2023.13
+          restore-keys: |
+            plantuml-jar-${{ runner.os }}-
+      
+      - name: Download PlantUML JAR
+        if: steps.cache-plantuml.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/.plantuml
+          wget -q https://github.com/plantuml/plantuml/releases/download/v1.2023.13/plantuml-1.2023.13.jar -O ~/.plantuml/plantuml.jar
+          echo "PlantUML JAR downloaded successfully"
+      
+      - name: Verify PlantUML setup
+        run: |
+          java -jar ~/.plantuml/plantuml.jar -version
+      
+      - name: Find PlantUML files
+        id: find-files
+        run: |
+          echo "Finding all .puml files..."
+          puml_files=$(find . -name "*.puml" -type f | sort)
+          
+          if [ -z "$puml_files" ]; then
+            echo "No .puml files found"
+            echo "has_diagrams=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          echo "Found diagrams:"
+          echo "$puml_files"
+          
+          # Count files
+          file_count=$(echo "$puml_files" | wc -l)
+          echo "diagram_count=$file_count" >> $GITHUB_OUTPUT
+          echo "has_diagrams=true" >> $GITHUB_OUTPUT
+          
+          # Save file list for next step
+          echo "$puml_files" > /tmp/puml_files.txt
+      
+      - name: Compile diagrams
+        id: compile
+        if: steps.find-files.outputs.has_diagrams == 'true'
+        run: |
+          set +e  # Don't exit on first error
+          
+          echo "Compiling PlantUML diagrams to SVG..."
+          
+          compilation_failed=0
+          success_count=0
+          fail_count=0
+          
+          mkdir -p /tmp/diagram-output
+          
+          while IFS= read -r file; do
+            echo "----------------------------------------"
+            echo "Compiling: $file"
+            
+            # Compile to SVG in temp directory
+            if java -jar ~/.plantuml/plantuml.jar -tsvg -o /tmp/diagram-output "$file" 2>&1 | tee /tmp/compile_output.txt; then
+              echo "✅ Success: $file"
+              success_count=$((success_count + 1))
+            else
+              echo "❌ Failed: $file"
+              echo "Error output:"
+              cat /tmp/compile_output.txt
+              compilation_failed=1
+              fail_count=$((fail_count + 1))
+              
+              # Save error details
+              echo "File: $file" >> /tmp/compilation_errors.txt
+              cat /tmp/compile_output.txt >> /tmp/compilation_errors.txt
+              echo "" >> /tmp/compilation_errors.txt
+            fi
+          done < /tmp/puml_files.txt
+          
+          echo "----------------------------------------"
+          echo "Compilation summary:"
+          echo "  Success: $success_count"
+          echo "  Failed: $fail_count"
+          
+          echo "success_count=$success_count" >> $GITHUB_OUTPUT
+          echo "fail_count=$fail_count" >> $GITHUB_OUTPUT
+          
+          if [ $compilation_failed -eq 1 ]; then
+            echo "compilation_status=failure" >> $GITHUB_OUTPUT
+            exit 1
+          else
+            echo "compilation_status=success" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Upload rendered diagrams
+        if: steps.find-files.outputs.has_diagrams == 'true' && always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: rendered-diagrams
+          path: /tmp/diagram-output/*.svg
+          retention-days: 7
+          if-no-files-found: ignore
+      
+      - name: Generate summary
+        if: always()
+        run: |
+          echo "# PlantUML Diagram Validation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.find-files.outputs.has_diagrams }}" = "false" ]; then
+            echo "⚠️ No PlantUML diagrams found in this PR" >> $GITHUB_STEP_SUMMARY
+            exit 0
+          fi
+          
+          diagram_count="${{ steps.find-files.outputs.diagram_count }}"
+          success_count="${{ steps.compile.outputs.success_count }}"
+          fail_count="${{ steps.compile.outputs.fail_count }}"
+          
+          echo "**Total diagrams:** $diagram_count" >> $GITHUB_STEP_SUMMARY
+          echo "**Successful:** $success_count ✅" >> $GITHUB_STEP_SUMMARY
+          echo "**Failed:** $fail_count ❌" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.compile.outputs.compilation_status }}" = "success" ]; then
+            echo "## ✅ All diagrams compiled successfully" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Rendered SVG diagrams are available as workflow artifacts for 7 days." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "## ❌ Some diagrams failed to compile" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Compilation Errors:" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            if [ -f /tmp/compilation_errors.txt ]; then
+              cat /tmp/compilation_errors.txt >> $GITHUB_STEP_SUMMARY
+            else
+              echo "Error details not available" >> $GITHUB_STEP_SUMMARY
+            fi
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          fi
+      
+      - name: Comment on PR
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const hasDiagrams = '${{ steps.find-files.outputs.has_diagrams }}' === 'true';
+            
+            if (!hasDiagrams) {
+              console.log('No diagrams to report on');
+              return;
+            }
+            
+            const diagramCount = '${{ steps.find-files.outputs.diagram_count }}';
+            const successCount = '${{ steps.compile.outputs.success_count }}';
+            const failCount = '${{ steps.compile.outputs.fail_count }}';
+            const compilationStatus = '${{ steps.compile.outputs.compilation_status }}';
+            
+            let body = '## 🎨 PlantUML Diagram Validation\n\n';
+            
+            body += `**Diagrams processed:** ${diagramCount}\n\n`;
+            
+            body += '| Status | Count |\n';
+            body += '|--------|-------|\n';
+            body += `| ✅ Successful | ${successCount} |\n`;
+            body += `| ❌ Failed | ${failCount} |\n`;
+            body += '\n';
+            
+            if (compilationStatus === 'success') {
+              body += '### ✅ All diagrams compiled successfully!\n\n';
+              body += 'Rendered SVG diagrams are available as [workflow artifacts](' + context.payload.repository.html_url + '/actions/runs/' + context.runId + ') for 7 days.\n\n';
+              body += '**What this means:**\n';
+              body += '- Your PlantUML syntax is valid\n';
+              body += '- Diagrams will render correctly in documentation\n';
+              body += '- Ready to merge from a diagram perspective\n';
+            } else {
+              body += '### ❌ Some diagrams failed to compile\n\n';
+              body += 'Please review the [workflow logs](' + context.payload.repository.html_url + '/actions/runs/' + context.runId + ') for detailed error messages.\n\n';
+              body += '**Common PlantUML issues:**\n';
+              body += '- Missing `@startuml` or `@enduml` tags\n';
+              body += '- Invalid syntax (check arrow types, brackets, quotes)\n';
+              body += '- Unclosed blocks (if, loop, alt, etc.)\n';
+              body += '- Invalid color names or hex codes\n';
+              body += '- Unsupported diagram types or features\n\n';
+              body += '**Testing locally:**\n';
+              body += '```bash\n';
+              body += '# Install PlantUML\n';
+              body += 'wget https://github.com/plantuml/plantuml/releases/download/v1.2023.13/plantuml-1.2023.13.jar\n\n';
+              body += '# Compile diagram\n';
+              body += 'java -jar plantuml-1.2023.13.jar -tsvg your-diagram.puml\n';
+              body += '```\n\n';
+              body += '**Resources:**\n';
+              body += '- [PlantUML Language Reference](https://plantuml.com/guide)\n';
+              body += '- [PlantUML Online Editor](https://www.plantuml.com/plantuml/uml/)\n';
+            }
+            
+            // Find existing comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            
+            const botComment = comments.find(comment => 
+              comment.user.type === 'Bot' && 
+              comment.body.includes('PlantUML Diagram Validation')
+            );
+            
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }
+      
+      - name: Fail if compilation failed
+        if: steps.compile.outputs.compilation_status == 'failure'
+        run: |
+          echo "❌ Diagram compilation failed - see summary above"
+          exit 1
