@@ -1,0 +1,53 @@
+# Task Timestamps Template
+# Version: 1.0.0
+#
+# This template documents timestamp fields that are auto-populated by the system.
+# These fields track task lifecycle progression.
+
+# ============================================================================
+# TIMESTAMP FIELDS (Auto-populated by system)
+# ============================================================================
+
+# ISO 8601 timestamp when task was created
+# Populated by: Human or planning agent
+created_at: "YYYY-MM-DDTHH:MM:SSZ"
+
+# Creator identifier (human username or agent name)
+# Populated by: Human or planning agent
+created_by: "username or agent"
+
+# ISO 8601 timestamp when task was assigned
+# Populated by: Agent Orchestrator
+assigned_at: "YYYY-MM-DDTHH:MM:SSZ"
+
+# ISO 8601 timestamp when agent started work
+# Populated by: Assigned agent
+started_at: "YYYY-MM-DDTHH:MM:SSZ"
+
+# ISO 8601 timestamp when task was completed
+# Populated by: Assigned agent
+completed_at: "YYYY-MM-DDTHH:MM:SSZ"
+
+# ============================================================================
+# USAGE
+# ============================================================================
+#
+# When creating a task:
+# - Set created_at to current UTC time
+# - Set created_by to your username or "agent-name"
+# - Leave other timestamps blank (commented out or omitted)
+#
+# The system will populate remaining timestamps as the task progresses:
+# - assigned_at: When orchestrator moves task to work/assigned/<agent>/
+# - started_at: When agent updates status to "in_progress"
+# - completed_at: When agent updates status to "done"
+#
+# Example initial task:
+#   id: "2025-11-23T1430-structural-repomap"
+#   agent: "structural"
+#   status: "new"
+#   artefacts: ["docs/REPO_MAP.md"]
+#   created_at: "2025-11-23T14:30:00Z"
+#   created_by: "stijn"
+#
+# See: docs/templates/task-base.yaml for required fields
