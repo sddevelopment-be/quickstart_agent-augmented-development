@@ -1,0 +1,43 @@
+# Task: Create Framework Installation Script
+# Version: 1.0.0
+
+id: "2025-11-24T1955-build-automation-install-script"
+agent: "build-automation"
+status: "new"
+title: "Implement framework_install.sh Script"
+priority: "high"
+
+artefacts:
+  - "scripts/framework_install.sh"
+  - "scripts/tests/test_framework_install.sh"
+  - "docs/HOW_TO_USE/framework-installation.md"
+
+context:
+  notes:
+    - "Implements ADR-013 installation workflow"
+    - "Detects first-time installs by checking for .framework_meta.yml"
+    - "Copies files only when absent in target repo (never overwrites)"
+    - "Creates .framework_meta.yml with version, timestamp, source release"
+    - "Generates installation report: NEW/SKIPPED summary"
+    - "Must handle spaces in paths, use POSIX-compliant shell"
+    - "Never touches local/** directories"
+  
+  references:
+    - "docs/architecture/adrs/ADR-013-zip-distribution.md"
+    - "docs/architecture/design/distribution_of_releases_technical_design.md"
+  
+  dependencies:
+    - "2025-11-24T1954-build-automation-packaging-pipeline (for MANIFEST.yml format)"
+  
+  quality_criteria:
+    - "POSIX-compliant (shellcheck validation)"
+    - "Handles edge cases: spaces in paths, missing directories"
+    - "Test suite covers: new install, already installed, partial install"
+    - "Clear documentation with examples"
+
+metadata:
+  created_at: "2025-11-24T19:55:00Z"
+  created_by: "manager"
+  estimated_effort: "1 day"
+  related_adrs:
+    - "ADR-013"

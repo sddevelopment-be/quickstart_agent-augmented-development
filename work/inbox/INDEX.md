@@ -1,13 +1,13 @@
 # Work Inbox Task Index
 
-**Generated:** 2025-11-23T18:41:00Z  
+**Generated:** 2025-11-24T20:01:00Z  
 **Status:** Current open tasks awaiting assignment
 
 ## Overview
 
 This index tracks all tasks currently in the inbox awaiting assignment by the Agent Orchestrator.
 
-## Open Tasks (10)
+## Open Tasks (17)
 
 ### 1. POC3: Multi-Agent Chain Validation
 - **Task ID:** `2025-11-23T1738-architect-poc3-multi-agent-chain`
@@ -138,24 +138,133 @@ This index tracks all tasks currently in the inbox awaiting assignment by the Ag
   - docs/templates/agent-tasks/follow-up-lookup-table-example.yaml
   - work/logs/architect/2025-11-23T1846-follow-up-lookup-assessment.md
 
+### 11. Create Framework Packaging Pipeline
+- **Task ID:** `2025-11-24T1954-build-automation-packaging-pipeline`
+- **Agent:** build-automation
+- **Priority:** critical
+- **Status:** new
+- **Created:** 2025-11-24T19:54:00Z
+- **Created By:** manager
+- **Title:** Create Framework Packaging Pipeline and Release Scripts
+- **Description:** Implements ADR-013 zip-based distribution with CI/CD pipeline, MANIFEST.yml generation, and release artifacts
+- **Artifacts:**
+  - scripts/framework_package.sh
+  - META/MANIFEST.yml
+  - .github/workflows/release-packaging.yml
+  - docs/HOW_TO_USE/release-process.md
+
+### 12. Implement Framework Installation Script
+- **Task ID:** `2025-11-24T1955-build-automation-install-script`
+- **Agent:** build-automation
+- **Priority:** high
+- **Status:** new
+- **Created:** 2025-11-24T19:55:00Z
+- **Created By:** manager
+- **Title:** Implement framework_install.sh Script
+- **Description:** First-time installation logic with .framework_meta.yml tracking, never overwrites existing files
+- **Artifacts:**
+  - scripts/framework_install.sh
+  - scripts/tests/test_framework_install.sh
+  - docs/HOW_TO_USE/framework-installation.md
+
+### 13. Implement Framework Upgrade Script
+- **Task ID:** `2025-11-24T1956-build-automation-upgrade-script`
+- **Agent:** build-automation
+- **Priority:** high
+- **Status:** new
+- **Created:** 2025-11-24T19:56:00Z
+- **Created By:** manager
+- **Title:** Implement framework_upgrade.sh Script with Conflict Detection
+- **Description:** Upgrade workflow with --dry-run support, conflict detection via .framework-new files, checksums
+- **Artifacts:**
+  - scripts/framework_upgrade.sh
+  - scripts/tests/test_framework_upgrade.sh
+  - docs/HOW_TO_USE/framework-upgrades.md
+
+### 14. Create Framework Guardian Agent Profile
+- **Task ID:** `2025-11-24T1957-architect-framework-guardian-profile`
+- **Agent:** architect
+- **Priority:** high
+- **Status:** new
+- **Created:** 2025-11-24T19:57:00Z
+- **Created By:** manager
+- **Title:** Design and Document Framework Guardian Agent Profile
+- **Description:** Implements ADR-014 with Audit and Upgrade modes, templates for reports and upgrade plans
+- **Artifacts:**
+  - .github/agents/framework-guardian.agent.md
+  - docs/templates/framework/TEMPLATE_AUDIT_REPORT.md
+  - docs/templates/framework/TEMPLATE_FRAMEWORK_UPDATE_PLAN.md
+  - docs/HOW_TO_USE/framework-guardian.md
+
+### 15. Implement Framework Guardian Workflows
+- **Task ID:** `2025-11-24T1958-backend-dev-guardian-implementation`
+- **Agent:** backend-dev
+- **Priority:** high
+- **Status:** new
+- **Created:** 2025-11-24T19:58:00Z
+- **Created By:** manager
+- **Title:** Implement Framework Guardian Agent Audit and Upgrade Workflows
+- **Description:** Python implementation with CLI, reads manifests and upgrade reports, outputs structured reports
+- **Artifacts:**
+  - work/scripts/framework_guardian.py
+  - work/scripts/tests/test_framework_guardian.py
+  - validation/FRAMEWORK_AUDIT_REPORT.md
+  - validation/FRAMEWORK_UPGRADE_PLAN.md
+
+### 16. Polish Release Documentation
+- **Task ID:** `2025-11-24T1959-writer-editor-release-documentation`
+- **Agent:** writer-editor
+- **Priority:** medium
+- **Status:** new
+- **Created:** 2025-11-24T19:59:00Z
+- **Created By:** manager
+- **Title:** Polish and Complete Release/Distribution User Documentation
+- **Description:** End-user documentation covering download, install, upgrade, Guardian usage, troubleshooting
+- **Artifacts:**
+  - docs/HOW_TO_USE/framework-releases.md
+  - docs/HOW_TO_USE/upgrading-framework.md
+  - docs/HOW_TO_USE/troubleshooting-upgrades.md
+  - META/RELEASE_NOTES_TEMPLATE.md
+  - META/UPGRADE_NOTES_TEMPLATE.md
+
+### 17. Integration Test Release Pipeline
+- **Task ID:** `2025-11-24T2000-build-automation-integration-testing`
+- **Agent:** build-automation
+- **Priority:** high
+- **Status:** new
+- **Created:** 2025-11-24T20:00:00Z
+- **Created By:** manager
+- **Title:** Create Integration Tests for Full Release/Upgrade Workflow
+- **Description:** E2E tests covering new install, upgrades with/without conflicts, Guardian modes
+- **Artifacts:**
+  - scripts/tests/integration_test_release_workflow.sh
+  - scripts/tests/fixtures/test_project_v1/
+  - scripts/tests/fixtures/test_project_v2/
+  - docs/HOW_TO_USE/testing-releases.md
+
 ## Task Summary by Agent
 
-- **architect:** 3 tasks (1 critical, 2 high, 1 normal)
-- **build-automation:** 6 tasks (all high priority - 3 original + 3 subtasks)
-- **synthesizer:** 1 task (high priority)
+- **architect:** 5 tasks (1 critical, 3 high, 1 normal)
+- **build-automation:** 10 tasks (2 critical, 8 high)
+- **backend-dev:** 1 task (1 high)
+- **writer-editor:** 1 task (1 medium)
+- **synthesizer:** 1 task (1 high)
+- **curator:** 1 task (status TBD)
 
 ## Task Summary by Priority
 
-- **critical:** 1 task
-- **high:** 8 tasks
+- **critical:** 2 tasks
+- **high:** 13 tasks
+- **medium:** 1 task
 - **normal:** 1 task
 
 ## Notes
 
-- All tasks were created by architect on 2025-11-23
-- Build automation tasks are focused on template creation, CI/CD integration, and performance validation
-- Architect task is a multi-agent chain POC testing handoff reliability
-- These tasks represent high-priority gaps identified in post-PR-review orchestration assessment
+- Original 10 tasks created by architect on 2025-11-23
+- 7 new tasks for Release/Distribution feature created by manager on 2025-11-24
+- Release/Distribution tasks implement ADR-013 (Zip Distribution) and ADR-014 (Framework Guardian)
+- Build automation has highest workload (10 tasks total)
+- See work/collaboration/RELEASE_DISTRIBUTION_FEATURE_PLAN.md for detailed feature plan
 
 ## Related Documentation
 

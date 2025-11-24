@@ -1,0 +1,49 @@
+# Task: Implement Framework Guardian Agent Logic
+# Version: 1.0.0
+
+id: "2025-11-24T1958-backend-dev-guardian-implementation"
+agent: "backend-dev"
+status: "new"
+title: "Implement Framework Guardian Agent Audit and Upgrade Workflows"
+priority: "high"
+
+artefacts:
+  - "work/scripts/framework_guardian.py"
+  - "work/scripts/tests/test_framework_guardian.py"
+  - "validation/FRAMEWORK_AUDIT_REPORT.md"
+  - "validation/FRAMEWORK_UPGRADE_PLAN.md"
+
+context:
+  notes:
+    - "Implements ADR-014 Framework Guardian workflows"
+    - "Read inputs: META/MANIFEST.yml, .framework_meta.yml, upgrade-report.txt, *.framework-new"
+    - "Audit mode: detect missing/outdated/misplaced files, output to validation/FRAMEWORK_AUDIT_REPORT.md"
+    - "Upgrade mode: classify conflicts, propose patches, recommend moving customizations to local/"
+    - "Use templates from docs/templates/framework/"
+    - "CLI interface: --mode audit|upgrade --target <repo_path> --release <version>"
+    - "Output structured Markdown tables for compliance"
+    - "Include ❗️ markers for missing critical data"
+  
+  references:
+    - "docs/architecture/adrs/ADR-014-framework-guardian-agent.md"
+    - "docs/architecture/design/distribution_of_releases_technical_design.md"
+    - ".github/agents/framework-guardian.agent.md"
+  
+  dependencies:
+    - "2025-11-24T1954-build-automation-packaging-pipeline (for MANIFEST.yml format)"
+    - "2025-11-24T1956-build-automation-upgrade-script (for upgrade-report.txt format)"
+    - "2025-11-24T1957-architect-framework-guardian-profile (for agent spec and templates)"
+  
+  quality_criteria:
+    - "Python code follows repository standards"
+    - "Test coverage >80% for both audit and upgrade modes"
+    - "Handles missing files gracefully with clear error messages"
+    - "Output matches template structure exactly"
+    - "CLI is well-documented with --help"
+
+metadata:
+  created_at: "2025-11-24T19:58:00Z"
+  created_by: "manager"
+  estimated_effort: "2-3 days"
+  related_adrs:
+    - "ADR-014"

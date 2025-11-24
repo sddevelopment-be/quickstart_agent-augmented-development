@@ -1,0 +1,48 @@
+# Task: End-to-End Integration Testing of Release Pipeline
+# Version: 1.0.0
+
+id: "2025-11-24T2000-build-automation-integration-testing"
+agent: "build-automation"
+status: "new"
+title: "Create Integration Tests for Full Release/Upgrade Workflow"
+priority: "high"
+
+artefacts:
+  - "scripts/tests/integration_test_release_workflow.sh"
+  - "scripts/tests/fixtures/test_project_v1/"
+  - "scripts/tests/fixtures/test_project_v2/"
+  - "docs/HOW_TO_USE/testing-releases.md"
+
+context:
+  notes:
+    - "Create end-to-end tests validating the complete workflow"
+    - "Test scenarios: new install, upgrade with no conflicts, upgrade with conflicts"
+    - "Validate: packaging → install → modify → upgrade → Guardian audit → Guardian upgrade plan"
+    - "Use test fixtures: mock projects at v1 and v2"
+    - "Verify: MANIFEST.yml checksums, .framework_meta.yml updates, .framework-new generation"
+    - "Test Guardian outputs match templates"
+    - "Run on CI to catch regressions"
+  
+  references:
+    - "docs/architecture/design/distribution_of_releases_technical_design.md"
+  
+  dependencies:
+    - "2025-11-24T1954-build-automation-packaging-pipeline"
+    - "2025-11-24T1955-build-automation-install-script"
+    - "2025-11-24T1956-build-automation-upgrade-script"
+    - "2025-11-24T1958-backend-dev-guardian-implementation"
+  
+  quality_criteria:
+    - "Tests cover all major workflows and edge cases"
+    - "Tests run in CI pipeline automatically"
+    - "Clear test output with pass/fail indicators"
+    - "Fixtures are well-documented and reusable"
+    - "Tests detect common user errors"
+
+metadata:
+  created_at: "2025-11-24T20:00:00Z"
+  created_by: "manager"
+  estimated_effort: "1-1.5 days"
+  related_adrs:
+    - "ADR-013"
+    - "ADR-014"
