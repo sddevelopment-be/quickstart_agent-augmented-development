@@ -10,6 +10,8 @@ Automatically converts agent markdown files from `.github/agents/` to OpenCode J
 |------|---------|
 | `ops/scripts/opencode-spec-validator.py` | Validates OpenCode JSON configs |
 | `ops/scripts/convert-agents-to-opencode.py` | Converts agent markdown to JSON |
+| `ops/scripts/github-issue-helpers.sh` | Common Bash helpers for `gh issue create` |
+| `ops/scripts/create-github-issue.sh` | CLI wrapper for reusable issue creation |
 | `.github/workflows/reusable-config-mapping.yml` | Automates conversion on changes |
 | `opencode-config.json` | Generated OpenCode configuration |
 
@@ -65,6 +67,31 @@ python3 ops/scripts/opencode-spec-validator.py ops/test-data/invalid-config.json
 python3 ops/scripts/convert-agents-to-opencode.py --validate
 # Should convert 15 agents and pass validation
 ```
+
+## GitHub Issue Automation
+
+The operations toolbox also exposes reusable GitHub issue helpers that power `work/scripts/create-follow-up-issues.sh` and any bespoke automation.
+
+### Create from Markdown
+```bash
+ops/scripts/create-github-issue.sh \
+  --repo sddevelopment-be/quickstart_agent-augmented-development \
+  --title "Documentation & Tooling Enhancements (Issue #8 Follow-Up)" \
+  --body-file work/collaboration/GITHUB_ISSUE_9_DOCUMENTATION_TOOLING.md \
+  --label documentation --label tooling --assignee Copilot
+```
+
+### Pipe Generated Content
+```bash
+cat <<'EOF' | ops/scripts/create-github-issue.sh \
+  --repo owner/repo \
+  --title "Automated follow-up" \
+  --label automation --label enhancement
+Please triage the follow-up work that dropped out of the last iteration.
+EOF
+```
+
+Both examples lean on `ops/scripts/github-issue-helpers.sh` for dependency checks, CSV parsing for labels/assignees, and consistent logging before calling `gh issue create`.
 
 ## Current Status
 
