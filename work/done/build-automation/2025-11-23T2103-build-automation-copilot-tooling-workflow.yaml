@@ -76,7 +76,7 @@ assigned_at: '2025-11-23T21:05:46.832431Z'
 result:
   completed_at: '2025-11-23T21:29:40Z'
   summary: Created GitHub Copilot tooling setup workflow with idempotent installation script, validation workflow, and comprehensive documentation. All Directive 001 tools (rg, fd, ast-grep, jq, yq, fzf) are now preinstalled via .github/copilot/setup.sh with <2min performance target.
-  artifacts:
+  artefacts:
   - .github/copilot/setup.sh
   - .github/workflows/copilot-setup.yml
   - docs/HOW_TO_USE/copilot-tooling-setup.md

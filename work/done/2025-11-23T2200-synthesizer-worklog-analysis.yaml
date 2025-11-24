@@ -19,13 +19,9 @@ result:
     quick wins vs strategic investments, and 4-phase implementation roadmap.
     Top recommendations: automated rendering verification, agent template adoption,
     metrics automation, cross-reference validation, dependency graph visualization.
-  artifacts:
-  - path: docs/architecture/synthesis/worklog-improvement-analysis.md
-    description: Comprehensive 44KB synthesis with 12 sections
-    validation: All 41 logs analyzed, 23 improvements extracted, framework health 92/100
-  - path: work/logs/synthesizer/2025-11-23T2257-worklog-analysis-synthesis.md
-    description: Work log per Directive 014 Core tier
-    validation: Complete audit trail with methodology and findings
+  artefacts:
+  - docs/architecture/synthesis/worklog-improvement-analysis.md (44KB synthesis; 41 logs analyzed, 23 improvements, framework health 92/100)
+  - work/logs/synthesizer/2025-11-23T2257-worklog-analysis-synthesis.md (Directive 014-compliant work log covering methodology and findings)
   metrics:
     duration_minutes: 69
     token_count:

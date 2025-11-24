@@ -33,7 +33,7 @@ created_by: orchestration-coordinator
 assigned_at: '2025-11-24T04:50:00Z'
 result:
   summary: "POC3 Phase 4 complete: Synthesis document and ADR-009 polished for clarity with 12 targeted edits. Terminology standardized (artifacts), readability improved in dense sections, cross-references verified. Zero semantic changes—technical accuracy preserved."
-  artifacts:
+  artefacts:
   - docs/architecture/synthesis/poc3-orchestration-metrics-synthesis.md
   - docs/architecture/adrs/ADR-009-orchestration-metrics-standard.md
   - work/logs/writer-editor/2025-11-24T0502-poc3-synthesis-clarity-refinement.md
