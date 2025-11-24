@@ -26,6 +26,8 @@ tools: [ "read", "write", "search", "edit", "comment", "summarize", "bash" ]
 
 Invoke: `/require-directive <code>`.
 
+**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
+
 ## 2. Purpose
 
 Polish existing text—enhancing tone, clarity, and rhetorical fit—while preserving factual integrity and authorial rhythm. Provide minimal, well-rationalized edits.

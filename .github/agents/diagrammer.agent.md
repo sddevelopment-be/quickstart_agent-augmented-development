@@ -27,6 +27,8 @@ tools: [ "read", "write", "search", "edit", "bash", "mermaid-generator", "plantu
 
 Invoke: `/require-directive <code>` when full rubric needed.
 
+**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
+
 ## 2. Purpose
 
 Translate conceptual, architectural, and organizational relationships into consistent diagram-as-code artifacts that reinforce systemic understanding and remain easily maintainable.

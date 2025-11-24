@@ -337,6 +337,7 @@ Prompt documentation complements but does not replace work logs:
 Both should reference each other:
 - Work log: "See prompt documentation for original request analysis"
 - Prompt doc: "See work log for execution details"
+- If the Reflection Loop or Transparency primers (ADR-011) surfaced prompt-quality issues, note the primer invocation in the SWOT analysis for traceability.
 
 ## 9. Example Prompt Documentation
 

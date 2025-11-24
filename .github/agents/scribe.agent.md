@@ -26,6 +26,8 @@ tools: [ "read", "write", "search", "edit", "bash" ]
 
 Request with `/require-directive <code>`.
 
+**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
+
 ## 2. Purpose
 
 Document and summarize interactions (meetings, agent exchanges) with structural clarity, neutrality, and version traceability so knowledge remains portable and independently legible.

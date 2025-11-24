@@ -28,6 +28,10 @@ tools: [ "read", "write", "search", "edit", "bash", "plantuml", "MultiEdit", "ma
 
 (See `./directives/XXX_*.md` for full text; load on demand with `/require-directive <code>`)
 
+**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
+
+**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
+
 ## 2. Purpose
 
 Clarify and decompose complex socio-technical systems, surfacing trade-offs and decision rationale. Provide architecture patterns and interfaces that improve shared understanding and traceability without drifting into low-level implementation.

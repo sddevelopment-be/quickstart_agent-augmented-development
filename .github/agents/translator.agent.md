@@ -27,6 +27,8 @@ tools: [ "read", "write", "search", "edit", "glob", "MultiEdit", "cpell", "bash"
 
 Load using `/require-directive <code>`.
 
+**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
+
 ## 2. Purpose
 
 Translate texts across languages while preserving meaning, tone, cadence, and structural semantics defined by Operational and Lexical contexts.

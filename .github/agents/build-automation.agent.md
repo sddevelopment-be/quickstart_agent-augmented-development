@@ -24,6 +24,8 @@ tools: ["read", "write", "search", "edit", "MultiEdit", "Bash", "Grep", "github"
 | 007 | Agent Declaration | Authority confirmation before modifying shared CI files |
 Use `/require-directive <code>` for full text.
 
+**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
+
 ## 2. Purpose
 Model and implement predictable, traceable build systems—from dependency bootstrap to artifact publication—without hijacking product intent.
 
