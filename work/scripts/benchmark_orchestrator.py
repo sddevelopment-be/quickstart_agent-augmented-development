@@ -127,6 +127,10 @@ def create_synthetic_task(task_id: str, agent: str, status: str = "new") -> dict
 
 def setup_benchmark_environment(num_inbox: int, num_assigned: int, num_done: int) -> dict[str, int]:
     """Create synthetic task files for benchmarking."""
+    # Safety check: ensure we're only deleting in /tmp
+    if not str(TEST_WORK_DIR).startswith("/tmp/"):
+        raise ValueError(f"TEST_WORK_DIR must be in /tmp for safety: {TEST_WORK_DIR}")
+    
     if TEST_WORK_DIR.exists():
         shutil.rmtree(TEST_WORK_DIR)
 
@@ -190,6 +194,9 @@ def run_orchestrator_cycle() -> dict[str, Any]:
     metrics: dict[str, float] = {}
 
     # Override global directories temporarily
+    # NOTE: This approach uses global variable manipulation because agent_orchestrator
+    # uses module-level globals. Future refactoring should consider passing directories
+    # as parameters to orchestrator functions for better testability.
     import agent_orchestrator
 
     original_dirs = {
@@ -260,15 +267,19 @@ def validate_task_performance(num_tasks: int) -> dict[str, float]:
 
     for task_file in task_files:
         start = time.perf_counter()
-        # Simple validation: load YAML and check basic structure
+        # Validation: load YAML and check required structure per task schema
         try:
             with open(task_file, "r", encoding="utf-8") as f:
                 task = yaml.safe_load(f)
-                # Basic checks
-                _ = task.get("id")
-                _ = task.get("agent")
-                _ = task.get("status")
-                _ = task.get("artefacts", [])
+                # Validate required fields exist and have correct types
+                if not isinstance(task.get("id"), str):
+                    raise ValueError("id must be a string")
+                if not isinstance(task.get("agent"), str):
+                    raise ValueError("agent must be a string")
+                if not isinstance(task.get("status"), str):
+                    raise ValueError("status must be a string")
+                if not isinstance(task.get("artefacts"), list):
+                    raise ValueError("artefacts must be a list")
         except Exception:
             pass
         validation_times.append(time.perf_counter() - start)
@@ -505,7 +516,7 @@ def generate_markdown_report(
         lines.append("")
         lines.append(f"**Requirement:** {nfr_data['requirement']}")
         lines.append("")
-        
+
         details = nfr_data.get("details", {})
         
         # NFR6 has a different structure (single test)
