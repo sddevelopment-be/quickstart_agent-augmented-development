@@ -1,0 +1,31 @@
+id: 2025-11-24T1951-architect-primer-directive-validation
+agent: architect
+status: new
+priority: normal
+title: Validate primer-aligned alias and directive updates
+
+artefacts:
+  - docs/architecture/adrs/ADR-011-command-alias-primer-alignment.md
+  - agents/aliases.md
+  - agents/directives/010_mode_protocol.md
+  - agents/directives/011_risk_and_escalation.md
+  - agents/directives/014_work_log_creation.md
+  - agents/directives/015_store_prompts.md
+  - agents/*.agent.md
+
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  dependency_summary: Ensure curator implementation matches ADR-011 intent.
+  notes:
+    - Review Curator Claire’s updates once task `2025-11-24T1945-curator-primer-alias-directive-alignment` is completed.
+    - Confirm primer → alias mapping is correctly represented in aliases file and directives, including exceptions/heuristics.
+    - Verify each specialist profile references the new directive section rather than duplicating content.
+    - Update ADR-011 consequences or addenda if reviewer feedback uncovers additional governance needs.
+    - Recommend additional tooling/linting requirements if gaps remain after documentation updates.
+
+dependencies:
+  - 2025-11-24T1945-curator-primer-alias-directive-alignment
+
+created_at: '2025-11-24T19:51:00Z'
+created_by: architect-alphonso

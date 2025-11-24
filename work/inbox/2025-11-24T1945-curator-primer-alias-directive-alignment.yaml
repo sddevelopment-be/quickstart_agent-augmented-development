@@ -1,0 +1,39 @@
+id: 2025-11-24T1945-curator-primer-alias-directive-alignment
+agent: curator
+status: new
+priority: normal
+title: Update alias overview and directives with primer-aligned usage rules
+
+artefacts:
+  - agents/aliases.md
+  - agents/directives/010_mode_protocol.md
+  - agents/directives/011_risk_and_escalation.md
+  - agents/directives/014_work_log_creation.md
+  - agents/directives/015_store_prompts.md
+  - agents/architect.agent.md
+  - agents/backend-dev.agent.md
+  - agents/curator.agent.md
+
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  reference_adr: docs/architecture/adrs/ADR-011-command-alias-primer-alignment.md
+  notes:
+    - Translate the five primers (Context Check, Progressive Refinement, Trade-Off Navigation, Transparency & Error Signaling, Reflection Loop) into explicit alias instructions.
+    - Extend `agents/aliases.md` with a section that lists each primer, the command sequence it requires, and logging/integrity expectations.
+    - Update relevant directives (start with Mode Protocol + Risk/Escalation; touch others if they describe alias usage) so the primer rules are codified.
+    - Ensure specialist agent profiles reference the new directive section rather than duplicating instructions.
+    - Coordinate any additional directive files needed for primer guidance; cross-link to the ADR in changelog entries.
+  content_to_include:
+    - Canonical mapping between primers and commands (`/validate-alignment`, `/fast-draft`, `/precision-pass`, `/analysis-mode`, `/meta-mode`, integrity markers).
+    - Exceptions/heuristics for trivial tasks to avoid ceremony overload.
+    - Guidance for logging primer usage in work logs or task notes.
+  handoff_notes:
+    - Flag if new directive numbers are required so architect agents can follow up with ADR addenda.
+    - Notify Architect Alphonso once updates land to propagate into future ADR templates.
+
+dependencies:
+  - docs/architecture/adrs/ADR-011-command-alias-primer-alignment.md
+
+created_at: '2025-11-24T19:45:00Z'
+created_by: architect-alphonso
