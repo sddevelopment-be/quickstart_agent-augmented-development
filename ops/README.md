@@ -109,7 +109,8 @@ _github_issue::create \
 ```
 
 - `_github_issue::body_from_source "<fallback>" "<file>"` lets you keep a default body in the script while preferring the canonical markdown file if it exists.
-- `_github_issue::create` normalizes comma-separated labels/assignees into repeated `gh --label/--assignee` arguments and logs the action for observability.
+- `_github_issue::create` normalizes comma-separated labels/assignees into repeated `gh --label/--assignee` arguments, warns about missing repository labels, and logs the action for observability.
+- Missing labels trigger a warning recommending the forthcoming `gh label sync` helper so mismatched metadata can be resolved before retrying.
 
 #### `create-github-issue.sh`
 

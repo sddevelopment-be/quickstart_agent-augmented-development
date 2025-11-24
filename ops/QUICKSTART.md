@@ -92,6 +92,7 @@ EOF
 ```
 
 Both examples lean on `ops/scripts/github-issue-helpers.sh` for dependency checks, CSV parsing for labels/assignees, and consistent logging before calling `gh issue create`.
+If any requested labels are missing from the repository, the helper warns and suggests running the upcoming `gh label sync` utility before retrying.
 
 ## Current Status
 
