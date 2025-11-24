@@ -165,7 +165,7 @@ Execute tasks 1-3 in parallel as they have no dependencies:
 
 ### Total Cycle Estimate
 **Duration:** 5-7 hours across 2 phases  
-**Agents:** 4 (curator, architect, build-automation, synthesizer, writer-editor)  
+**Agents:** 5 (curator, architect, build-automation, synthesizer, writer-editor)  
 **Deliverables:** 7 artifacts (1 directive, 2 ADRs, 2 templates/scripts, 1 metrics report, 1 persona)
 
 ---
