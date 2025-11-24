@@ -15,7 +15,7 @@ description: 'Capture architectural lessons and process improvements from ADR-01
 
   '
 artefacts:
-- .github/agents/directives/016_locality_of_change.md
+- .github/agents/approaches/locality-of-change.md
 - work/logs/curator/
 context:
   repo: sddevelopment-be/quickstart_agent-augmented-development
@@ -42,6 +42,8 @@ result:
     and principle preservation. Includes decision framework, anti-patterns, agent-specific
     application guidance, and integration with existing directives.
   artifacts:
-  - .github/agents/directives/016_locality_of_change.md
+  - .github/agents/approaches/locality-of-change.md
   - work/logs/curator/2025-11-24T1757-curator-locality-of-change-directive.md
+  notes: Approach document moved to approaches section per PR feedback. Follow-up task
+    created for condensed directive version.
   completion_timestamp: '2025-11-24T17:57:00Z'

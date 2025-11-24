@@ -191,11 +191,13 @@ This task was assigned via the file-based orchestration system to capture archit
 
 ## Artifacts Created
 
-1. **`.github/agents/directives/016_locality_of_change.md`** (6,972 characters)
-   - New directive capturing architectural discipline principles
+1. **`.github/agents/approaches/locality-of-change.md`** (6,972 characters)
+   - Approach document capturing architectural discipline principles
    - 11 sections with protocols, frameworks, examples, and guidance
    - Assigned to: architect, build-automation, curator
    - Status: Active, Version 1.0.0
+   - **Note:** Originally created as directive, moved to approaches section per PR feedback (2025-11-24).
+     Follow-up task created for condensed directive version.
 
 2. **`work/logs/curator/2025-11-24T1757-curator-locality-of-change-directive.md`** (this file)
    - Comprehensive work log per Directive 014 standards
