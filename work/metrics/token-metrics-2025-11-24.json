@@ -1,0 +1,269 @@
+{
+  "report_metadata": {
+    "generated_at": "2025-11-24T18:30:34.520334Z",
+    "report_date": "2025-11-24",
+    "total_tasks_analyzed": 21,
+    "date_range": {
+      "start": "2025-11-23",
+      "end": "2025-11-24"
+    }
+  },
+  "aggregate_metrics": {
+    "total_input_tokens": 862852,
+    "total_output_tokens": 273720,
+    "total_tokens": 1142072,
+    "total_duration_minutes": 120,
+    "average_input_tokens_per_task": 41088.19,
+    "average_output_tokens_per_task": 13034.29,
+    "average_total_tokens_per_task": 54384.38
+  },
+  "per_agent_metrics": {
+    "architect": {
+      "task_count": 7,
+      "total_input_tokens": 294327,
+      "total_output_tokens": 119800,
+      "total_tokens": 419627,
+      "average_tokens_per_task": 59946.71
+    },
+    "build-automation": {
+      "task_count": 4,
+      "total_input_tokens": 62525,
+      "total_output_tokens": 40020,
+      "total_tokens": 102545,
+      "average_tokens_per_task": 25636.25
+    },
+    "curator": {
+      "task_count": 4,
+      "total_input_tokens": 108500,
+      "total_output_tokens": 51700,
+      "total_tokens": 160200,
+      "average_tokens_per_task": 40050.0
+    },
+    "diagrammer": {
+      "task_count": 1,
+      "total_input_tokens": 28500,
+      "total_output_tokens": 6200,
+      "total_tokens": 34700,
+      "average_tokens_per_task": 34700.0
+    },
+    "generic": {
+      "task_count": 1,
+      "total_input_tokens": 110000,
+      "total_output_tokens": 12000,
+      "total_tokens": 122000,
+      "average_tokens_per_task": 122000.0
+    },
+    "manager": {
+      "task_count": 2,
+      "total_input_tokens": 92000,
+      "total_output_tokens": 20500,
+      "total_tokens": 112500,
+      "average_tokens_per_task": 56250.0
+    },
+    "synthesizer": {
+      "task_count": 1,
+      "total_input_tokens": 145000,
+      "total_output_tokens": 18500,
+      "total_tokens": 163500,
+      "average_tokens_per_task": 163500.0
+    },
+    "writer-editor": {
+      "task_count": 1,
+      "total_input_tokens": 22000,
+      "total_output_tokens": 5000,
+      "total_tokens": 27000,
+      "average_tokens_per_task": 27000.0
+    }
+  },
+  "task_metrics": [
+    {
+      "agent": "architect",
+      "task_id": "2025-11-23T0927",
+      "date": "2025-11-23",
+      "total_tokens": 5500,
+      "source_file": "architect/2025-11-23T0927-orchestration-poc-review.md"
+    },
+    {
+      "agent": "architect",
+      "task_id": "2025-11-23T2058",
+      "date": "2025-11-23",
+      "input_tokens": 34500,
+      "output_tokens": 13800,
+      "total_tokens": 48300,
+      "source_file": "architect/2025-11-23T2058-poc3-execution-report.md"
+    },
+    {
+      "agent": "manager",
+      "task_id": "2025-11-23T2106",
+      "date": "2025-11-23",
+      "input_tokens": 52000,
+      "output_tokens": 8500,
+      "total_tokens": 60500,
+      "source_file": "manager/2025-11-23T2106-orchestration-cycle-execution.md"
+    },
+    {
+      "agent": "diagrammer",
+      "task_id": "2025-11-23T2113",
+      "date": "2025-11-23",
+      "input_tokens": 28500,
+      "output_tokens": 6200,
+      "total_tokens": 34700,
+      "source_file": "diagrammer/2025-11-23T2113-poc3-diagram-updates.md"
+    },
+    {
+      "agent": "build-automation",
+      "task_id": "2025-11-23T2126",
+      "date": "2025-11-23",
+      "input_tokens": 25,
+      "output_tokens": 20,
+      "total_tokens": 45,
+      "source_file": "build-automation/2025-11-23T2126-build-automation-agent-template.md"
+    },
+    {
+      "agent": "build-automation",
+      "task_id": "2025-11-23T2129",
+      "date": "2025-11-23",
+      "input_tokens": 30000,
+      "output_tokens": 31000,
+      "total_tokens": 61000,
+      "source_file": "build-automation/2025-11-23T2129-build-automation-copilot-tooling.md"
+    },
+    {
+      "agent": "build-automation",
+      "task_id": "2025-11-23T2204",
+      "date": "2025-11-23",
+      "input_tokens": 6500,
+      "output_tokens": 1500,
+      "total_tokens": 8000,
+      "source_file": "build-automation/2025-11-23T2204-run-iteration-issue-template.md"
+    },
+    {
+      "agent": "architect",
+      "task_id": "2025-11-23T2223",
+      "date": "2025-11-23",
+      "input_tokens": 64827,
+      "output_tokens": 20000,
+      "total_tokens": 84827,
+      "source_file": "architect/2025-11-23T2223-implementation-review.md"
+    },
+    {
+      "agent": "curator",
+      "task_id": "2025-11-23T2246",
+      "date": "2025-11-23",
+      "input_tokens": 50000,
+      "output_tokens": 30000,
+      "total_tokens": 80000,
+      "source_file": "curator/2025-11-23T2246-directives-approaches-review.md"
+    },
+    {
+      "agent": "synthesizer",
+      "task_id": "2025-11-23T2257",
+      "date": "2025-11-23",
+      "input_tokens": 145000,
+      "output_tokens": 18500,
+      "total_tokens": 163500,
+      "source_file": "synthesizer/2025-11-23T2257-worklog-analysis-synthesis.md"
+    },
+    {
+      "agent": "manager",
+      "task_id": "2025-11-24T0452",
+      "date": "2025-11-24",
+      "input_tokens": 40000,
+      "output_tokens": 12000,
+      "total_tokens": 52000,
+      "source_file": "manager/2025-11-24T0452-iteration-3-executive-summary.md"
+    },
+    {
+      "agent": "curator",
+      "task_id": "2025-11-24T0457",
+      "date": "2025-11-24",
+      "input_tokens": 8500,
+      "output_tokens": 4200,
+      "total_tokens": 12700,
+      "source_file": "curator/2025-11-24T0457-curator-changelog-update.md"
+    },
+    {
+      "agent": "writer-editor",
+      "task_id": "2025-11-24T0502",
+      "date": "2025-11-24",
+      "input_tokens": 22000,
+      "output_tokens": 5000,
+      "total_tokens": 27000,
+      "source_file": "writer-editor/2025-11-24T0502-poc3-synthesis-clarity-refinement.md"
+    },
+    {
+      "agent": "architect",
+      "task_id": "2025-11-24T0516",
+      "date": "2025-11-24",
+      "input_tokens": 80000,
+      "output_tokens": 7000,
+      "total_tokens": 87000,
+      "source_file": "architect/2025-11-24T0516-synthesizer-assessment-review.md"
+    },
+    {
+      "agent": "curator",
+      "task_id": "2025-11-24T0522",
+      "date": "2025-11-24",
+      "input_tokens": 32000,
+      "output_tokens": 8500,
+      "total_tokens": 40500,
+      "source_file": "curator/2025-11-24T0522-poc3-final-validation-worklog.md"
+    },
+    {
+      "agent": "generic",
+      "task_id": "2025-11-24T0601",
+      "date": "2025-11-24",
+      "input_tokens": 110000,
+      "output_tokens": 12000,
+      "total_tokens": 122000,
+      "source_file": "generic/2025-11-24T0601-validation-fix-orchestrator-disable.md"
+    },
+    {
+      "agent": "architect",
+      "task_id": "2025-11-24T0829",
+      "date": "2025-11-24",
+      "input_tokens": 50000,
+      "output_tokens": 56000,
+      "total_tokens": 106000,
+      "source_file": "architect/2025-11-24T0829-architect-copilot-tooling-assessment.md"
+    },
+    {
+      "agent": "architect",
+      "task_id": "2025-11-24T1210",
+      "date": "2025-11-24",
+      "duration_minutes": 120,
+      "input_tokens": 35000,
+      "output_tokens": 8000,
+      "total_tokens": 43000,
+      "context_files": 15,
+      "source_file": "architect/2025-11-24T1210-follow-up-lookup-assessment.md"
+    },
+    {
+      "agent": "curator",
+      "task_id": "2025-11-24T1757",
+      "date": "2025-11-24",
+      "input_tokens": 18000,
+      "output_tokens": 9000,
+      "total_tokens": 27000,
+      "source_file": "curator/2025-11-24T1757-curator-locality-of-change-directive.md"
+    },
+    {
+      "agent": "build-automation",
+      "task_id": "2025-11-24T1802",
+      "date": "2025-11-24",
+      "input_tokens": 26000,
+      "output_tokens": 7500,
+      "total_tokens": 33500,
+      "source_file": "build-automation/2025-11-24T1802-build-automation-template-improvements.md"
+    },
+    {
+      "agent": "architect",
+      "task_id": "2025-11-24T1813",
+      "date": "2025-11-24",
+      "input_tokens": 30000,
+      "output_tokens": 15000,
+      "total_tokens": 45000,
+      "source_file": "architect/2025-11-24T1813-architect-agent-specific-iteration-templates-adr.md"
+    }
+  ]
+}
