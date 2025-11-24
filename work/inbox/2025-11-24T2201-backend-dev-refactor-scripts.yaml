@@ -1,0 +1,56 @@
+id: "2025-11-24T2201-backend-dev-refactor-scripts"
+agent: "backend-dev"
+status: "new"
+title: "Refactor framework scripts for improved maintainability"
+priority: "medium"
+
+artefacts:
+  - "scripts/framework_package.sh"
+  - "scripts/framework_install.sh"
+  - "scripts/framework_upgrade.sh"
+  - "work/logs/backend-dev/2025-11-24T2201-refactor-assessment.md"
+
+context:
+  notes:
+    - "Code is well-tested (install: 7/7, upgrade: 7/7 tests passing)"
+    - "Apply good practices for shell scripting maintainability"
+    - "Focus: readability, modularity, error handling, documentation"
+    - "Extract common functions (checksum calculation, file operations, reporting)"
+    - "Improve variable naming and consistency"
+    - "Add inline documentation for complex logic"
+    - "Consider creating shared library file for common functions"
+    - "Preserve POSIX compliance and test coverage"
+  
+  references:
+    - "scripts/tests/test_framework_install.sh"
+    - "scripts/tests/test_framework_upgrade.sh"
+    - "docs/architecture/adrs/ADR-013-zip-distribution.md"
+  
+  dependencies:
+    - "2025-11-24T1954-build-automation-packaging-pipeline (complete)"
+    - "2025-11-24T1955-build-automation-install-script (complete)"
+    - "2025-11-24T1956-build-automation-upgrade-script (complete)"
+  
+  quality_criteria:
+    - "All existing tests must continue to pass (100%)"
+    - "Shellcheck validation must pass"
+    - "POSIX compliance maintained"
+    - "No breaking changes to public interface"
+    - "Improved code readability and maintainability"
+    - "Document refactoring decisions in work log"
+
+  refactoring_opportunities:
+    - "Extract checksum calculation to shared function"
+    - "Standardize error message formatting"
+    - "Create common reporting functions"
+    - "Consolidate file operation patterns"
+    - "Improve argument parsing consistency"
+    - "Add function-level documentation headers"
+    - "Consider creating scripts/lib/common.sh for shared code"
+
+metadata:
+  created_at: '2025-11-24T22:01:00Z'
+  created_by: manager
+  estimated_effort: 0.5-1 day
+  related_adrs:
+    - ADR-013
