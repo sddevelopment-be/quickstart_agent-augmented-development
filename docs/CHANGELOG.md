@@ -55,6 +55,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated `work/collaboration/AGENT_STATUS.md` with 4-phase execution plan and dependency graph
 - Split CI/CD integration task (1744) into 3 parallel subtasks for orchestration, validation, and diagram workflows
 - Orchestration workflow no longer auto-runs on `main`; manual dispatch is required to respect branch protection rules (added `if: github.ref != 'refs/heads/main'`).
+- Consolidated duplicate root changelog entries into `docs/CHANGELOG.md` to keep one canonical history source.
 
 ### Removed
 
