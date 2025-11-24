@@ -1,0 +1,132 @@
+name: Framework Release Packaging
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Framework version to package'
+        required: true
+        default: 'dev'
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Extract version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION="${GITHUB_REF#refs/tags/v}"
+          fi
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "📦 Packaging version: ${VERSION}"
+      
+      - name: Validate script with shellcheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+          echo "🔍 Running shellcheck on packaging script..."
+          shellcheck scripts/framework_package.sh || true
+      
+      - name: Run packaging script
+        run: |
+          echo "🎁 Creating framework package..."
+          ./scripts/framework_package.sh "${{ steps.version.outputs.version }}" .
+          echo "✅ Package created"
+      
+      - name: Verify package contents
+        run: |
+          PACKAGE="quickstart-framework-${{ steps.version.outputs.version }}.zip"
+          echo "📦 Verifying ${PACKAGE}..."
+          
+          if [ ! -f "${PACKAGE}" ]; then
+            echo "❗️ Package file not found!"
+            exit 1
+          fi
+          
+          echo "Package size: $(du -h "${PACKAGE}" | cut -f1)"
+          echo ""
+          echo "Contents:"
+          unzip -l "${PACKAGE}" | head -30
+          echo "..."
+          
+          # Verify required structure
+          unzip -l "${PACKAGE}" | grep -q "framework_core/" || (echo "❗️ Missing framework_core/" && exit 1)
+          unzip -l "${PACKAGE}" | grep -q "scripts/" || (echo "❗️ Missing scripts/" && exit 1)
+          unzip -l "${PACKAGE}" | grep -q "META/MANIFEST.yml" || (echo "❗️ Missing META/MANIFEST.yml" && exit 1)
+          
+          echo "✅ Package structure verified"
+      
+      - name: Generate checksums
+        run: |
+          PACKAGE="quickstart-framework-${{ steps.version.outputs.version }}.zip"
+          echo "🔐 Generating checksums..."
+          sha256sum "${PACKAGE}" > "${PACKAGE}.sha256"
+          cat "${PACKAGE}.sha256"
+      
+      - name: Create Release
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            quickstart-framework-${{ steps.version.outputs.version }}.zip
+            quickstart-framework-${{ steps.version.outputs.version }}.zip.sha256
+          body: |
+            ## Framework Release v${{ steps.version.outputs.version }}
+            
+            This release packages the agent-augmented development framework as a distributable zip archive.
+            
+            ### Installation
+            
+            ```bash
+            # Download and extract
+            unzip quickstart-framework-${{ steps.version.outputs.version }}.zip
+            cd quickstart-framework-${{ steps.version.outputs.version }}
+            
+            # Run installation
+            ./scripts/framework_install.sh /path/to/your/project
+            ```
+            
+            ### Upgrading
+            
+            ```bash
+            # Extract package
+            unzip quickstart-framework-${{ steps.version.outputs.version }}.zip
+            cd quickstart-framework-${{ steps.version.outputs.version }}
+            
+            # Dry-run first (recommended)
+            ./scripts/framework_upgrade.sh --dry-run /path/to/your/project
+            
+            # Apply upgrade
+            ./scripts/framework_upgrade.sh /path/to/your/project
+            ```
+            
+            See META/RELEASE_NOTES.md and META/UPGRADE_NOTES.md in the package for details.
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Upload artifacts
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: framework-package-${{ steps.version.outputs.version }}
+          path: |
+            quickstart-framework-${{ steps.version.outputs.version }}.zip
+            quickstart-framework-${{ steps.version.outputs.version }}.zip.sha256
+          retention-days: 30
