@@ -64,11 +64,12 @@ def validate_task_file(path: Path) -> list[str]:
     if status not in ALLOWED_STATUSES:
         errors.append(f"invalid status '{status}', expected one of {sorted(ALLOWED_STATUSES)}")
 
-    artefacts = task.get("artefacts")
+    # Accept both "artefacts" (British English) and "artifacts" (American English) as aliases
+    artefacts = task.get("artefacts") or task.get("artifacts")
     if not isinstance(artefacts, list):
-        errors.append("artefacts must be a list")
+        errors.append("artefacts/artifacts must be a list")
     elif not all(isinstance(item, str) for item in artefacts):
-        errors.append("artefacts entries must be strings")
+        errors.append("artefacts/artifacts entries must be strings")
 
     mode = task.get("mode")
     if mode is not None and mode not in ALLOWED_MODES:
@@ -97,9 +98,10 @@ def validate_task_file(path: Path) -> list[str]:
         else:
             if not result.get("summary"):
                 errors.append("result.summary is required when result is present")
-            result_artefacts = result.get("artefacts")
+            # Accept both "artefacts" (British English) and "artifacts" (American English) as aliases
+            result_artefacts = result.get("artefacts") or result.get("artifacts")
             if not isinstance(result_artefacts, list) or not all(isinstance(a, str) for a in result_artefacts):
-                errors.append("result.artefacts must be a list of strings")
+                errors.append("result.artefacts/artifacts must be a list of strings")
             if "completed_at" in result and not is_iso8601(str(result["completed_at"])):
                 errors.append("result.completed_at must be ISO8601 with Z suffix when present")
     elif result is not None:

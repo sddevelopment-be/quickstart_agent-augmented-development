@@ -47,7 +47,7 @@ _Manual alternative:_
 ```bash
 echo "Inbox: $(ls work/inbox/*.yaml 2>/dev/null | wc -l) tasks"
 echo "Assigned: $(find work/assigned -name '*.yaml' 2>/dev/null | wc -l) tasks"
-echo "Done: $(ls work/done/*.yaml 2>/dev/null | wc -l) tasks"
+echo "Done: $(find work/done -name '*.yaml' 2>/dev/null | wc -l) tasks"
 ```
 
 ## Execution Instructions
@@ -73,7 +73,8 @@ echo "Done: $(ls work/done/*.yaml 2>/dev/null | wc -l) tasks"
   3. Create artifacts as specified
   4. Update task YAML with result block
   5. Update status: in_progress → done
-  6. Move task from `work/assigned/<agent>/` to `work/done/`
+  6. Move task from `work/assigned/<agent>/` to `work/done/<agent>/`
+     - **Important:** Tasks must be moved to the agent-specific subdirectory, not directly to `work/done/` root
   7. Create work log in `work/logs/<agent>/` per Directive 014
 
 ### 4. Documentation & Reporting
@@ -100,7 +101,7 @@ _Note: These checkboxes can be auto-populated by orchestrator post-execution usi
 
 ## Deliverables
 
-- **Completed Tasks**: Moved to `work/done/`
+- **Completed Tasks**: Moved to `work/done/<agent>/` subdirectories
 - **Work Logs**: Created in `work/logs/<agent>/`
 - **Iteration Summary**: Added to `work/collaboration/`
 - **Updated Status**: `AGENT_STATUS.md` reflects current state

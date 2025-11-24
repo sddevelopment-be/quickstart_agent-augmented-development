@@ -199,7 +199,9 @@ When completing an orchestrated task:
 
 1. Update task YAML with `result` block (brief summary)
 2. Create detailed work log in `work/logs/`
-3. Move task to `work/done/`
+3. Move task to `work/done/<agent-slug>/`
+   - **Important:** Tasks must be moved to the agent-specific subdirectory under `work/done/`, not directly to `work/done/` root
+   - Example: A curator task goes to `work/done/curator/`, not `work/done/`
 4. Create handoff task (if applicable)
 5. Commit all changes together
 
