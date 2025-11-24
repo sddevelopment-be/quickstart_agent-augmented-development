@@ -1,12 +1,19 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Script to create GitHub follow-up issues for Issue #8
 # This script should be run by a user with GitHub permissions
 
-set -e
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+# shellcheck disable=SC1091
+source "$REPO_ROOT/ops/scripts/github-issue-helpers.sh"
 
 REPO="sddevelopment-be/quickstart_agent-augmented-development"
 ISSUE_9_FILE="work/collaboration/GITHUB_ISSUE_9_DOCUMENTATION_TOOLING.md"
 ISSUE_10_FILE="work/collaboration/GITHUB_ISSUE_10_POST_IMPLEMENTATION_ANALYSIS.md"
+ISSUE_9_LABELS="documentation,tooling,enhancement,mixed-collaboration"
+ISSUE_10_LABELS="enhancement,mixed-collaboration"
 
 echo "Creating Follow-Up Issues for Issue #8"
 echo "========================================"
@@ -14,7 +21,7 @@ echo ""
 
 # Issue #9: Documentation & Tooling Enhancements
 echo "Creating Issue #9: Documentation & Tooling Enhancements..."
-ISSUE_9_BODY=$(cat <<'EOF'
+ISSUE_9_DEFAULT_BODY=$(cat <<'EOF'
 Complete remaining documentation polish and tooling assessment tasks to enhance the already production-ready orchestration framework delivered in Issue #8.
 
 ## Context
@@ -84,19 +91,21 @@ All task files are in `work/inbox/` ready for coordinator assignment.
 EOF
 )
 
-gh issue create \
-  --repo "$REPO" \
-  --title "Documentation & Tooling Enhancements (Issue #8 Follow-Up)" \
-  --body "$ISSUE_9_BODY" \
-  --label "documentation,tooling,enhancement,mixed-collaboration" \
-  --assignee "Copilot"
+ISSUE_9_BODY="$(_github_issue::body_from_source "$ISSUE_9_DEFAULT_BODY" "$REPO_ROOT/$ISSUE_9_FILE")"
+
+_github_issue::create \
+  "$REPO" \
+  "Documentation & Tooling Enhancements (Issue #8 Follow-Up)" \
+  "$ISSUE_9_BODY" \
+  "$ISSUE_9_LABELS" \
+  "Copilot"
 
 echo "✅ Issue #9 created"
 echo ""
 
 # Issue #10: Post-Implementation Analysis
 echo "Creating Issue #10: Post-Implementation Analysis..."
-ISSUE_10_BODY=$(cat <<'EOF'
+ISSUE_10_DEFAULT_BODY=$(cat <<'EOF'
 Complete additional architectural analysis and iteration automation enhancements for the orchestration framework delivered in Issue #8.
 
 ## Context
@@ -170,12 +179,15 @@ All task files are in `work/inbox/` ready for coordinator assignment.
 EOF
 )
 
-gh issue create \
-  --repo "$REPO" \
-  --title "Post-Implementation Analysis (Issue #8 Follow-Up)" \
-  --body "$ISSUE_10_BODY" \
-  --label "analysis,architecture,enhancement,automation" \
-  --assignee "Copilot"
+echo "Calling GH issue creation!"
+
+ISSUE_10_BODY="$(_github_issue::body_from_source "$ISSUE_10_DEFAULT_BODY" "$REPO_ROOT/$ISSUE_10_FILE")"
+
+_github_issue::create \
+  "$REPO" \
+  "Post-Implementation Analysis (Issue #8 Follow-Up)" \
+  "$ISSUE_10_BODY" \
+  "$ISSUE_10_LABELS"
 
 echo "✅ Issue #10 created"
 echo ""
