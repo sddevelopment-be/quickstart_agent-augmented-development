@@ -16,6 +16,8 @@ Architecture Decision Records (ADRs) are concise documents that capture importan
 | [ADR-009](ADR-009-orchestration-metrics-standard.md)            | Orchestration Metrics and Quality Standards   | 2025-11-23 | Accepted           | Establishes mandatory metrics capture and quality standards for orchestrated agent tasks.      |
 | [ADR-010](ADR-010-github-copilot-tooling-setup.md)              | GitHub Copilot Tooling Setup                  | 2025-11-23 | Accepted           | Defines environment setup and tooling installation for GitHub Copilot Workspace agents.        |
 | [ADR-011](ADR-011-follow-up-task-lookup-pattern.md)             | Follow-Up Task Lookup Pattern                 | 2025-11-24 | Rejected           | Rejects centralized lookup table for handoffs; recommends agent profile enhancement instead.   |
+| [ADR-011](ADR-011-command-alias-primer-alignment.md)            | Primer → Command Alias Alignment              | 2025-11-24 | Accepted           | Formalizes the mapping between solutioning primers and command aliases via directives.        |
+| [ADR-012](ADR-012-test-driven-defaults.md)                      | Default to ATDD + TDD                         | 2025-11-24 | Accepted           | Establishes ATDD + TDD (with limited exceptions) as the standard coding approach.             |
 
 
 > Uniqueness Guarantee: Each ADR number in the table above maps to exactly one canonical ADR file. Historical superseded ADRs MUST NOT be edited except to archive them (recommended future path:

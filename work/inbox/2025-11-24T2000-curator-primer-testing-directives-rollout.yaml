@@ -1,0 +1,32 @@
+id: 2025-11-24T2000-curator-primer-testing-directives-rollout
+agent: curator
+status: new
+priority: normal
+title: Integrate ATDD/TDD directives into alias + profile updates
+
+artefacts:
+  - agents/aliases.md
+  - agents/directives/016_acceptance_test_driven_development.md
+  - agents/directives/017_test_driven_development.md
+  - agents/*.agent.md
+
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  reference_adr:
+    - docs/architecture/adrs/ADR-011-command-alias-primer-alignment.md
+    - docs/architecture/adrs/ADR-012-test-driven-defaults.md
+  notes:
+    - After completing task `2025-11-24T1945-curator-primer-alias-directive-alignment`, extend the work to embed ATDD/TDD expectations.
+    - Cross-link the new directives (016, 017) inside `agents/aliases.md` wherever test-related commands are referenced.
+    - Ensure specialist profiles reference directives 016/017 when describing development practices.
+    - If new tutorial content or cheatsheets are needed, outline them and coordinate with Architect Alphonso.
+  handoff_notes:
+    - Update CHANGELOG and manifest references if required.
+    - Notify Architect Alphonso once integrated so validation task `2025-11-24T1951-architect-primer-directive-validation` has full context.
+
+dependencies:
+  - 2025-11-24T1945-curator-primer-alias-directive-alignment
+
+created_at: '2025-11-24T20:00:00Z'
+created_by: architect-alphonso
