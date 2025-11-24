@@ -26,7 +26,7 @@ ASSIGNED_DIR = WORK_DIR / "assigned"
 
 ALLOWED_STATUSES = {"new", "assigned", "in_progress", "done", "error"}
 ALLOWED_MODES = {"/analysis-mode", "/creative-mode", "/meta-mode"}
-ALLOWED_PRIORITIES = {"critical", "high", "normal", "low"}
+ALLOWED_PRIORITIES = {"critical", "high", "medium", "normal", "low"}
 
 
 def load_task(path: Path) -> dict[str, Any]:
