@@ -1,0 +1,106 @@
+{
+  "generated_at": "2025-11-24T18:44:38.303482Z",
+  "iterations": [
+    {
+      "iteration": 2,
+      "date": "2025-11-23",
+      "duration_minutes": 16,
+      "tasks_completed": 3,
+      "tasks_target": 3,
+      "completion_rate": 100.0,
+      "agents_utilized": 2,
+      "artifacts_created": 8,
+      "work_logs_generated": 3,
+      "validation_success_rate": 100.0,
+      "errors": 0,
+      "framework_health_score": null,
+      "architectural_alignment": null,
+      "avg_duration_per_task": 5.33,
+      "agent_breakdown": {
+        "Diagrammer": 1,
+        "Build-Automation": 2
+      }
+    },
+    {
+      "iteration": 3,
+      "date": "2025-11-24",
+      "duration_minutes": 350,
+      "tasks_completed": 5,
+      "tasks_target": 5,
+      "completion_rate": 100.0,
+      "agents_utilized": 5,
+      "artifacts_created": 13,
+      "work_logs_generated": 5,
+      "validation_success_rate": 100.0,
+      "errors": 0,
+      "framework_health_score": 92.0,
+      "architectural_alignment": 98.9,
+      "avg_duration_per_task": 70.0,
+      "agent_breakdown": {
+        "Synthesizer Sam": 2,
+        "Architect Alphonso": 1,
+        "Bootstrap Bill": 1,
+        "Curator Claire": 1
+      }
+    }
+  ],
+  "agent_summary": {
+    "Diagrammer": {
+      "total_tasks": 1,
+      "total_tokens": 0,
+      "iterations_active": [
+        2
+      ],
+      "avg_duration_per_task": 0.0
+    },
+    "Build-Automation": {
+      "total_tasks": 2,
+      "total_tokens": 0,
+      "iterations_active": [
+        2
+      ],
+      "avg_duration_per_task": 0.0
+    },
+    "Synthesizer Sam": {
+      "total_tasks": 2,
+      "total_tokens": 0,
+      "iterations_active": [
+        3
+      ],
+      "avg_duration_per_task": 0.0
+    },
+    "Architect Alphonso": {
+      "total_tasks": 1,
+      "total_tokens": 0,
+      "iterations_active": [
+        3
+      ],
+      "avg_duration_per_task": 0.0
+    },
+    "Bootstrap Bill": {
+      "total_tasks": 1,
+      "total_tokens": 0,
+      "iterations_active": [
+        3
+      ],
+      "avg_duration_per_task": 0.0
+    },
+    "Curator Claire": {
+      "total_tasks": 1,
+      "total_tokens": 0,
+      "iterations_active": [
+        3
+      ],
+      "avg_duration_per_task": 0.0
+    }
+  },
+  "trends": {
+    "insights": [
+      "\u2192 Completion rate stable at 100%",
+      "\u26a0\ufe0f Task duration increasing: 5.3m \u2192 70.0m per task",
+      "\u2705 Zero errors across all iterations",
+      "\ud83d\udcca 6 unique agents utilized across iterations",
+      "\ud83c\udfc6 Most active agent: Build-Automation (2 tasks)"
+    ]
+  }
+}
