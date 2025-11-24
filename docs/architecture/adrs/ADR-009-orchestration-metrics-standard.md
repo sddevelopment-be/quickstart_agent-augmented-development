@@ -12,7 +12,7 @@ After completing POC1 (Curator) and POC2 (Diagrammer) for the file-based orchest
 1. **Benchmark performance**: Without standardized metrics capture, we cannot compare agent efficiency or identify bottlenecks
 2. **Validate artifact quality**: Missing per-artifact integrity markers reduce validation granularity
 3. **Maintain accessibility**: Diagrams lack alt-text descriptions, reducing inclusivity
-4. **Scale work logs**: No tiering guidance leads to inconsistent verbosity (440 lines for POC1 vs concise POC2)
+4. **Scale work logs**: No tiering guidance leads to inconsistent verbosity—440 lines for POC1 versus a concise POC2
 5. **Verify rendering**: Diagram syntax correctness remains unvalidated until human review
 
 ### Evidence from POC Executions
@@ -40,7 +40,7 @@ The orchestration framework must support:
 - Efficient communication through tiered logging
 - Pre-commit verification through automated checks
 
-Without standardized practices, these concerns remain unmet, limiting production readiness for multi-agent chains (POC3 and beyond).
+Without standardized practices, these concerns remain unmet. This limits production readiness for multi-agent chains (POC3 and beyond).
 
 ## Decision
 
@@ -55,7 +55,7 @@ All agents completing orchestrated tasks MUST include a `metrics` block in task 
 ```yaml
 result:
   summary: "Brief description of work completed"
-  artefacts:
+  artifacts:
     - "path/to/artifact.md"
   metrics:
     duration_minutes: 22
@@ -172,69 +172,49 @@ Visual artifacts MUST be validated for syntax correctness before task completion
 
 ### Why Structured Metrics?
 
-**Problem:** Ad-hoc metrics (POC1: estimated timing; POC2: informal notes) prevent:
-- Performance benchmarking across agents
-- Bottleneck identification in multi-agent chains
-- Token efficiency optimization
-- Comparative analysis of approach effectiveness
+**Problem:** Ad-hoc metrics prevent performance benchmarking, bottleneck identification, token efficiency optimization, and comparative analysis.
 
-**Solution:** Standardized metrics block enables:
-- Data-driven framework tuning
-- Agent performance profiling
-- Predictable resource planning
-- Evidence-based process improvements
+POC1 used estimated timing; POC2 relied on informal notes. Neither approach supports systematic improvement.
 
-**Trade-off:** Slight overhead to capture metrics (~30 seconds per task) justified by long-term optimization value.
+**Solution:** A standardized metrics block enables data-driven framework tuning, agent performance profiling, predictable resource planning, and evidence-based process improvements.
+
+**Trade-off:** Capturing metrics adds ~30 seconds per task. This overhead is justified by long-term optimization value.
 
 ### Why Per-Artifact Validation?
 
-**Problem:** POC2 used single overall success marker, obscuring which artifacts were fully validated vs. assumed correct.
+**Problem:** POC2 used a single overall success marker. This obscured which artifacts were fully validated versus assumed correct.
 
-**Solution:** Explicit per-artifact markers surface:
-- Validation confidence levels
-- Incomplete work requiring follow-up
-- Handoff risk areas for next agent
+**Solution:** Explicit per-artifact markers surface validation confidence levels, incomplete work requiring follow-up, and handoff risk areas for the next agent.
 
-**Trade-off:** More verbose artifact lists, but critical for multi-artifact quality assurance.
+**Trade-off:** Artifact lists become more verbose, but this detail is critical for multi-artifact quality assurance.
 
 ### Why Tiered Logging?
 
-**Problem:** POC1 produced 440-line log for single deliverable (excessive); POC2 was concise but lacked deep rationale for complex decisions. No guidance led to inconsistency.
+**Problem:** POC1 produced a 440-line log for a single deliverable (excessive). POC2 was concise but lacked deep rationale for complex decisions. Without guidance, inconsistency is inevitable.
 
-**Solution:** Core/Extended tiers balance:
+**Solution:** Core/Extended tiers balance competing needs:
 - **Auditability**: Core tier ensures minimum traceability
 - **Efficiency**: Simple tasks avoid unnecessary verbosity
 - **Depth**: Complex tasks can expand with Extended tier
 - **Consistency**: Clear guidelines reduce variance
 
-**Trade-off:** Agents must decide tier appropriateness, but guidelines minimize ambiguity.
+**Trade-off:** Agents must decide tier appropriateness. However, explicit guidelines minimize ambiguity.
 
 ### Why Accessibility Standards?
 
-**Problem:** POC2 diagrams lack alt-text, limiting:
-- Screen reader usability
-- Non-visual understanding
-- Search/discovery capability
-- Compliance with accessibility standards
+**Problem:** POC2 diagrams lack alt-text. This limits screen reader usability, non-visual understanding, search/discovery capability, and compliance with accessibility standards.
 
-**Solution:** Centralized descriptions registry ensures:
-- Consistent accessibility metadata
-- Discoverability via single file
-- Maintenance simplicity
-- Git-tracked evolution
+**Solution:** A centralized descriptions registry ensures consistent accessibility metadata, discoverability via a single file, maintenance simplicity, and git-tracked evolution.
 
-**Trade-off:** Additional work per diagram (~5 minutes), but mandatory for inclusive documentation.
+**Trade-off:** Each diagram requires ~5 minutes of additional work. This is mandatory for inclusive documentation.
 
 ### Why Rendering Verification?
 
-**Problem:** Diagram syntax errors discovered only during manual review or CI failure, delaying feedback loop.
+**Problem:** Diagram syntax errors are discovered only during manual review or CI failure. This delays the feedback loop.
 
-**Solution:** Pre-commit or agent-time rendering catches:
-- Syntax errors immediately
-- Layout issues before merge
-- Semantic drift from intent
+**Solution:** Pre-commit or agent-time rendering catches syntax errors immediately, layout issues before merge, and semantic drift from intent.
 
-**Trade-off:** Requires PlantUML tooling or CI setup, but prevents downstream failures.
+**Trade-off:** Requires PlantUML tooling or CI setup. However, this prevents downstream failures.
 
 ## Envisioned Consequences
 
