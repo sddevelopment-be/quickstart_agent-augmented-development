@@ -1,17 +1,17 @@
 # Using the Multi-Agent Orchestration System
 
-This guide explains how to use the multi-agent orchestration system to delegate work within this repository. The system enables you to create tasks that are automatically assigned to specialized agents, which complete the work asynchronously.
+This guide explains how to use the multi-agent orchestration system to delegate work within this repository. The system enables you to create tasks that are automatically assigned to specialized agents, which complete the work asynchronously—no coordination overhead required.
 
 ## What is Multi-Agent Orchestration?
 
-The orchestration system coordinates multiple specialized agents working together on different tasks. Each agent focuses on a specific area of expertise—documentation, architecture, code structure, and more. Tasks flow between agents automatically through handoffs, creating seamless collaborative workflows.
+The orchestration system coordinates multiple specialized agents working together on different tasks. Each agent focuses on a specific area of expertise—documentation, architecture, code structure, and more. Tasks flow between agents automatically through **handoffs** (explicit transfers from one agent to the next), creating seamless collaborative workflows.
 
 **Key benefits:**
 
-- **Transparent:** All task states are visible in Git
+- **Transparent:** All task states are visible in Git—no hidden queues
 - **Asynchronous:** Agents work independently without blocking each other
 - **Traceable:** Complete audit trail from task creation to completion
-- **Simple:** Just create a YAML file describing the work needed
+- **Simple:** Just create a YAML file describing what you need
 
 ## Quick Start: Creating Your First Task
 
@@ -39,7 +39,7 @@ First, identify which agent should handle your task:
 
 ### 2. Create a Task File
 
-Create a new YAML file in the `work/inbox/` directory following this naming pattern:
+Create a new YAML file in the `work/inbox/` directory. Use this naming pattern:
 
 ```
 YYYY-MM-DDTHHMM-<agent>-<short-description>.yaml
@@ -47,7 +47,9 @@ YYYY-MM-DDTHHMM-<agent>-<short-description>.yaml
 
 **Example:** `2025-11-23T1430-structural-repomap.yaml`
 
-### 3. Use the Task Template
+The timestamp helps keep tasks chronologically ordered, while the agent name ensures clear routing.
+
+### 3. Write the Task Descriptor
 
 Here's a minimal task example:
 
@@ -74,8 +76,8 @@ created_by: "stijn"
 
 **Required fields:**
 
-- `id`: Unique identifier (matches filename without `.yaml`)
-- `agent`: Target agent name
+- `id`: Unique identifier (must match filename without `.yaml`)
+- `agent`: Target agent name (see table in step 1)
 - `status`: Always `"new"` for new tasks
 - `artefacts`: List of files the agent should create or modify
 
@@ -98,13 +100,13 @@ git push
 
 ### 5. Monitor Progress
 
-The Agent Orchestrator will:
+The orchestration system automatically:
 
-1. Move your task from `work/inbox/` to `work/assigned/<agent>/`
-2. The agent updates status to `in_progress` when it starts
-3. The agent completes work and moves the task to `work/done/`
+1. Moves your task from `work/inbox/` to `work/assigned/<agent>/`
+2. Updates status to `in_progress` when the agent starts
+3. Moves completed tasks to `work/done/`
 
-Check task progress by viewing the YAML file:
+Track task progress by viewing the YAML file:
 
 ```bash
 # See where your task is
@@ -114,9 +116,9 @@ find work/ -name "2025-11-23T1430-structural-repomap.yaml"
 cat work/assigned/structural/2025-11-23T1430-structural-repomap.yaml
 ```
 
-## Understanding Task Lifecycle
+## Understanding the Task Lifecycle
 
-Tasks move through these stages:
+Every task moves through a well-defined sequence of stages:
 
 ```
 ┌─────┐     ┌──────────┐     ┌─────────────┐     ┌──────┐
@@ -126,11 +128,11 @@ Tasks move through these stages:
    └───────────────> error <────────┘
 ```
 
-- **new:** Task created in `work/inbox/`, waiting for orchestrator
-- **assigned:** Moved to `work/assigned/<agent>/`, ready for agent pickup
-- **in_progress:** Agent is actively working on it
-- **done:** Completed successfully, moved to `work/done/`
-- **error:** Failed and needs human intervention
+- **new:** Task created in `work/inbox/`, awaiting orchestrator pickup
+- **assigned:** Moved to `work/assigned/<agent>/`, ready for the agent
+- **in_progress:** Agent is actively working on the task
+- **done:** Completed successfully and moved to `work/done/`
+- **error:** Failed—requires human review and intervention
 
 ## Common Use Cases
 
@@ -175,9 +177,9 @@ created_at: "2025-11-23T16:00:00Z"
 created_by: "stijn"
 ```
 
-### Scenario 3: Multi-Agent Workflow
+### Scenario 3: Multi-Agent Workflow (Handoffs)
 
-Chain multiple agents together using handoffs. When the first agent completes its work, it automatically creates a task for the next agent.
+Chain multiple agents together using **handoffs**—when the first agent completes its work, it signals the orchestrator to create a follow-up task for the next agent.
 
 **Initial task (architect creates ADR):**
 
@@ -192,7 +194,7 @@ created_at: "2025-11-23T17:00:00Z"
 created_by: "stijn"
 ```
 
-When the architect completes the task, it adds handoff metadata to the `result` section:
+When the architect completes the task, it adds handoff metadata to the `result` section to signal the next step:
 
 ```yaml
 result:
@@ -209,7 +211,7 @@ result:
   completed_at: "2025-11-23T17:45:00Z"
 ```
 
-The orchestrator automatically creates a new task for the writer-editor.
+The orchestrator detects the `next_agent` field and automatically creates a new task for the writer-editor agent.
 
 ## Monitoring the System
 
@@ -254,59 +256,65 @@ ls -lt work/done/*.yaml | head -n 10
 
 ### Task Stuck in "assigned"
 
-**Symptoms:** Task hasn't moved to `in_progress` after the expected time.
+**Symptom:** Task hasn't moved to `in_progress` after the expected time.
 
-**Possible causes:**
+**Common causes:**
 
-- Agent orchestrator isn't running
-- Agent has stopped or isn't monitoring the directory
+- Agent orchestrator isn't running (check manual execution, cron, or GitHub Actions)
+- Agent has stopped or isn't monitoring its directory
+- Agent startup error (check `work/logs/<agent>/`)
 
 **Solutions:**
 
-1. Verify the orchestrator is running (check manual execution, cron, or GitHub Actions)
-2. Review agent logs in `work/logs/`
+1. Verify the orchestrator process is active
+2. Review agent logs in `work/logs/<agent>/` for error messages
 3. Manually trigger the agent if necessary
+4. Check the agent's assigned directory permissions
 
 ### Task Stuck in "in_progress"
 
-**Symptoms:** Task status shows `in_progress` but no completion.
+**Symptom:** Task status shows `in_progress` but hasn't completed.
 
-**Possible causes:**
+**Common causes:**
 
 - Agent timed out (default: 2 hours)
 - Agent encountered an unexpected error
+- Agent is still working on a large task
 
 **Solutions:**
 
 1. Check `WORKFLOW_LOG.md` for timeout warnings
-2. Review the task YAML for any `error` block
-3. May need to manually reset task to `assigned` status
+2. Review the task YAML for any `error` block added by the agent
+3. Check agent logs in `work/logs/<agent>/` for the latest activity
+4. If needed, manually reset task status to `assigned` and restart
 
 ### Task Failed with Error
 
-**Symptoms:** Task status is `error` with error details.
+**Symptom:** Task status is `error` with error details in the YAML.
 
 **Solutions:**
 
-1. Read the error message in the task YAML
-2. Address the underlying issue (missing context, unclear requirements, etc.)
+1. Read the `error.message` field in the task YAML for specifics
+2. Address the root cause (missing context, unclear requirements, invalid artifacts)
 3. Create a new task with corrected information
+4. Consider adding more context notes to prevent similar failures
 
 ### No Follow-up Task Created
 
-**Symptoms:** Agent completed with `next_agent` specified, but no new task appeared.
+**Symptom:** Agent completed with `next_agent` specified, but no new task appeared in the inbox.
 
 **Solutions:**
 
-1. Verify the orchestrator ran after task completion
-2. Check `WORKFLOW_LOG.md` for orchestrator errors
-3. Manually create the follow-up task if necessary
+1. Verify the orchestrator ran after task completion (check recent commits or logs)
+2. Inspect `WORKFLOW_LOG.md` for orchestrator errors or warnings
+3. Verify handoff was logged in `HANDOFFS.md`
+4. Manually create the follow-up task if the orchestrator failed
 
 ## Advanced Features
 
 ### Task Dependencies
 
-Specify prerequisite tasks that must complete before yours begins:
+Specify prerequisite tasks that must complete before your task begins:
 
 ```yaml
 context:
@@ -315,7 +323,7 @@ context:
     - 2025-11-23T1500-lexical-analysis
 ```
 
-The orchestrator won't assign your task until all dependencies complete.
+The orchestrator won't assign your task until all dependencies are marked `done`.
 
 ### Priority Levels
 
@@ -330,7 +338,7 @@ priority: low       # Background work
 
 ### Reasoning Modes
 
-Guide how agents approach the task:
+Guide how agents approach the task (based on the SDD Agent Framework):
 
 ```yaml
 mode: /analysis-mode  # Default: analytical, structured
@@ -340,9 +348,9 @@ mode: /meta-mode      # Self-reflective, process-focused
 
 ## Best Practices
 
-### 1. Be Specific with Artifacts
+### 1. Be Specific About Artifacts
 
-List exact files you want created or modified:
+Always list exact file paths the agent should create or modify:
 
 ```yaml
 artefacts:
@@ -362,9 +370,9 @@ context:
     - "Include code examples"
 ```
 
-### 3. Use Clear Task IDs
+### 3. Use Consistent Task IDs
 
-Follow the naming convention for easy identification:
+Follow the naming convention for easy identification and sorting:
 
 ```
 YYYY-MM-DDTHHMM-<agent>-<description>
@@ -392,13 +400,13 @@ artefacts:
 
 For multiple deliverables, create separate tasks or use handoffs to chain them together.
 
-### 5. Check Existing Work First
+### 5. Check for Existing Work
 
-Before creating a task:
+Before creating a new task, verify it's not duplicating existing work:
 
-1. Check if similar work exists in `work/done/`
-2. Review agent output directories
-3. Search Git history for related changes
+1. Search `work/done/` for similar completed tasks
+2. Review agent output directories for recent artifacts
+3. Search Git history for related changes (`git log --all --grep="keyword"`)
 
 ## Getting Help
 
