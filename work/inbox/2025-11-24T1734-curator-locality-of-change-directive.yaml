@@ -1,0 +1,36 @@
+id: "2025-11-24T1734-curator-locality-of-change-directive"
+agent: curator
+status: new
+priority: medium
+mode: /analysis-mode
+
+title: "Create 'Locality of Change / Avoid Gold Plating' Directive"
+
+description: |
+  Capture architectural lessons and process improvements from ADR-011 analysis
+  into a new directive that guides agents to avoid premature optimization and
+  gold plating. Focus on principles: measure problem severity before designing
+  solutions, preserve core principles, and favor simple alternatives.
+
+artefacts:
+  - .github/agents/directives/016_locality_of_change.md
+  - work/logs/curator/
+
+context:
+  repo: "sddevelopment-be/quickstart_agent-augmented-development"
+  branch: "copilot/post-implementation-analysis-enhancements"
+  source: "work/logs/architect/2025-11-24T1210-follow-up-lookup-assessment.md lines 426-435"
+  notes:
+    - "Extract key lessons from ADR-011 architectural assessment"
+    - "Focus on 'don't add complexity to solve problems that don't exist'"
+    - "Include 'measure problem severity before designing solutions'"
+    - "Emphasize 'simple alternatives often achieve 80% of benefits at 20% of cost'"
+    - "Pattern analysis should always precede pattern prescription"
+    - "Include 'do nothing' as baseline option in trade-off deliberation"
+    - "Document decisions in work log per Directive 014"
+    - "Assign to relevant agents (architect, build-automation, curator)"
+
+dependencies: []
+
+created_at: "2025-11-24T17:34:00Z"
+created_by: "copilot-comment-followup"
