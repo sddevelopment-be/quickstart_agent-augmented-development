@@ -4,7 +4,24 @@ about: Execute an orchestration cycle to process pending tasks
 title: '[Iteration] Run orchestration cycle - YYYY-MM-DD'
 labels: orchestration, automation, iteration
 assignees: copilot
+version: 1.1.0
 ---
+
+## Configuration Parameters (Optional)
+
+_Customize iteration behavior by setting these parameters:_
+
+- **max_tasks**: Maximum number of tasks to process (default: 3)
+- **agent_focus**: Target specific agent(s) (e.g., `build-automation`, `curator`)
+- **priority_threshold**: Minimum priority level (e.g., `high`, `medium`)
+- **mode**: Execution mode (default: `/analysis-mode`)
+
+**Example:** To process up to 5 high-priority build-automation tasks:
+```yaml
+max_tasks: 5
+agent_focus: build-automation
+priority_threshold: high
+```
 
 ## Objective
 
@@ -21,7 +38,12 @@ Execute an orchestration cycle to process pending tasks in the work queue follow
 
 ## Current Status
 
-_To be filled by running:_
+_To be filled by running `work/scripts/template-status-checker.sh` or manually:_
+```bash
+bash work/scripts/template-status-checker.sh
+```
+
+_Manual alternative:_
 ```bash
 echo "Inbox: $(ls work/inbox/*.yaml 2>/dev/null | wc -l) tasks"
 echo "Assigned: $(find work/assigned -name '*.yaml' 2>/dev/null | wc -l) tasks"
@@ -64,6 +86,8 @@ echo "Done: $(ls work/done/*.yaml 2>/dev/null | wc -l) tasks"
 - Post Manager Mike recap comment to PR
 
 ## Success Criteria
+
+_Note: These checkboxes can be auto-populated by orchestrator post-execution using `work/scripts/template-status-checker.sh --validate`_
 
 - [ ] At least 1 task completed (or all remaining if fewer than 3)
 - [ ] All work logs created per Directive 014
@@ -116,3 +140,11 @@ Ensure:
 ---
 
 _This issue template enables repeatable orchestration iterations with consistent execution patterns._
+
+## Template Metadata
+
+- **Version:** 1.1.0
+- **Last Updated:** 2025-11-24
+- **Changelog:**
+  - v1.1.0: Added version tracking, optional parameters, status automation script, validation guidance
+  - v1.0.0: Initial template creation

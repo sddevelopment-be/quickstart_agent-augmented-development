@@ -1,0 +1,33 @@
+id: 2025-11-24T1738-build-automation-iteration-metrics-dashboard
+agent: build-automation
+status: assigned
+priority: low
+mode: /analysis-mode
+title: Build Iteration Metrics Dashboard and Aggregation Script
+description: 'Create aggregation script to analyze iteration summaries and surface
+  trends
+
+  such as completion rate, average duration, and common failures. This enables
+
+  data-driven decisions about orchestration framework performance.
+
+  '
+artefacts:
+- work/scripts/aggregate-iteration-metrics.py
+- work/metrics/iteration-trends.md
+- work/logs/build-automation/
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: copilot/post-implementation-analysis-enhancements
+  source: work/logs/build-automation/2025-11-23T2204-run-iteration-issue-template.md
+    line 239
+  notes:
+  - Analyze iteration summaries from work/collaboration/ITERATION_*_SUMMARY.md
+  - 'Surface trends: completion rate, average duration, common failures'
+  - Generate markdown report with visualizations (ASCII charts acceptable)
+  - Make script reusable for ongoing monitoring
+  - Document decisions in work log per Directive 014
+dependencies: []
+created_at: '2025-11-24T17:38:00Z'
+created_by: copilot-comment-followup
+assigned_at: '2025-11-24T17:56:16.898053Z'

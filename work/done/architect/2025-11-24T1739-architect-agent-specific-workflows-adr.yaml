@@ -1,0 +1,65 @@
+id: 2025-11-24T1739-architect-agent-specific-workflows-adr
+agent: architect
+status: done
+started_at: '2025-11-24T18:13:26Z'
+priority: medium
+mode: /analysis-mode
+title: Create ADR for Agent-Specific Iteration Templates
+description: 'Assess feasibility and design patterns for agent-specific iteration
+  templates
+
+  (e.g., documentation sprint, test automation cycle). Document decision on
+
+  whether to create specialized templates and provide implementation guidance.
+
+  '
+artefacts:
+- docs/architecture/adrs/ADR-013-agent-specific-iteration-templates.md
+- work/logs/architect/
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: copilot/post-implementation-analysis-enhancements
+  source: work/logs/build-automation/2025-11-23T2204-run-iteration-issue-template.md
+    line 243
+  notes:
+  - Evaluate need for specialized iteration templates per agent type
+  - 'Consider: documentation sprint, test automation cycle, refactoring cycle'
+  - Assess benefits vs. maintenance overhead
+  - Provide design patterns if adopting
+  - Create follow-up tasks for implementation if approved
+  - Document decisions in ADR-013 and work log per Directive 014
+dependencies: []
+created_at: '2025-11-24T17:39:00Z'
+created_by: copilot-comment-followup
+assigned_at: '2025-11-24T17:56:16.856211Z'
+result:
+  summary: 'Completed comprehensive ADR-013 rejecting agent-specific iteration templates.
+    Decision based on evidence (100% success rate with generic templates), architectural
+    alignment (preserves simplicity/autonomy/emergence), and cost-benefit analysis
+    (5 vs 40+ templates). Recommended lightweight alternatives: agent profile enhancements,
+    expanded task examples, workflow pattern documentation. Clear data-driven revisit
+    conditions established.'
+  artefacts:
+  - docs/architecture/adrs/ADR-013-agent-specific-iteration-templates.md
+  - work/logs/architect/2025-11-24T1813-architect-agent-specific-iteration-templates-adr.md
+  decision: rejected
+  rationale:
+  - Generic templates working exceptionally well (100% completion rate, zero failures)
+  - High maintenance cost (40+ specialized templates vs 5 generic)
+  - Architectural misalignment (violates simplicity, autonomy, emergence principles)
+  - Premature optimization (framework only 1 week old)
+  - Template selection complexity (multi-level decision tree)
+  - Simpler alternatives exist (profile guidance, expanded examples)
+  alternatives_provided:
+  - Enhanced agent profile guidance (immediate action)
+  - Expanded task examples in task-examples.yaml (immediate action)
+  - Workflow pattern documentation (supplementary)
+  - Task context enrichment (future consideration)
+  - Do nothing (viable baseline)
+  revisit_conditions:
+  - Template-related failure rate exceeds 5%
+  - Agent feedback indicates template inadequacy
+  - Framework scales to 25+ agents
+  - 100+ tasks per agent type completed (pattern maturity)
+  - Compliance requirements mandate standardization
+  completed_at: '2025-11-24T18:26:00Z'

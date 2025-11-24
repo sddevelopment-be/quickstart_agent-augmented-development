@@ -77,3 +77,31 @@ _No handoffs recorded yet._
 **Task ID:** 2025-11-23T2207-writer-editor-followup-2025-11-23T0722-curator-orchestration-guide
 **Status:** Created
 
+
+## 2025-11-24 17:56 - diagrammer → synthesizer
+
+**Artefacts:** docs/architecture/synthesis/poc3-orchestration-metrics-synthesis.md
+**Task ID:** 2025-11-24T1756-synthesizer-followup-2025-11-23T2100-diagrammer-poc3-diagram-updates
+**Status:** Created
+
+
+## 2025-11-24 17:56 - synthesizer → writer-editor
+
+**Artefacts:** docs/architecture/synthesis/poc3-orchestration-metrics-synthesis.md
+**Task ID:** 2025-11-24T1756-writer-editor-followup-2025-11-23T2117-synthesizer-poc3-aggregate-metrics
+**Status:** Created
+
+
+## 2025-11-24 17:56 - architect → diagrammer
+
+**Artefacts:** docs/architecture/diagrams/workflow-sequential-flow.puml, docs/architecture/diagrams/metrics-dashboard-concept.puml, docs/architecture/diagrams/DESCRIPTIONS.md
+**Task ID:** 2025-11-24T1756-diagrammer-followup-2025-11-23T1738-architect-poc3-multi-agent-chain
+**Status:** Created
+
+
+## 2025-11-24 17:56 - curator → writer-editor
+
+**Artefacts:** docs/HOW_TO_USE/multi-agent-orchestration.md
+**Task ID:** 2025-11-24T1756-writer-editor-followup-2025-11-23T0722-curator-orchestration-guide
+**Status:** Created
+
