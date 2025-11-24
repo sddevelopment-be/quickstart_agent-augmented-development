@@ -18,6 +18,8 @@ Architecture Decision Records (ADRs) are concise documents that capture importan
 | [ADR-011](ADR-011-follow-up-task-lookup-pattern.md)             | Follow-Up Task Lookup Pattern                 | 2025-11-24 | Rejected           | Rejects centralized lookup table for handoffs; recommends agent profile enhancement instead.   |
 | [ADR-011](ADR-011-command-alias-primer-alignment.md)            | Primer → Command Alias Alignment              | 2025-11-24 | Accepted           | Formalizes the mapping between solutioning primers and command aliases via directives.        |
 | [ADR-012](ADR-012-test-driven-defaults.md)                      | Default to ATDD + TDD                         | 2025-11-24 | Accepted           | Establishes ATDD + TDD (with limited exceptions) as the standard coding approach.             |
+| [ADR-013](ADR-013-zip-distribution.md)                          | Zip-Based Framework Distribution              | 2025-11-24 | Accepted           | Packages releases as portable zips with scripts + manifests to protect core/local boundaries. |
+| [ADR-014](ADR-014-framework-guardian-agent.md)                  | Framework Guardian Agent                      | 2025-11-24 | Accepted           | Introduces a maintenance specialist that audits installs and guides upgrades.                 |
 
 
 > Uniqueness Guarantee: Each ADR number in the table above maps to exactly one canonical ADR file. Historical superseded ADRs MUST NOT be edited except to archive them (recommended future path:
