@@ -73,7 +73,7 @@ context:
     - "Example: File search 75% faster (20s \u2192 5s)"
   implementation_reference:
     completed_task: 2025-11-23T2103-build-automation-copilot-tooling-workflow
-    artifacts:
+    artefacts:
     - .github/copilot/setup.sh
     - .github/workflows/copilot-setup.yml
     - docs/HOW_TO_USE/copilot-tooling-setup.md
