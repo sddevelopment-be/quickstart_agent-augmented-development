@@ -26,6 +26,8 @@ agent: "agent-name"
 status: "new"
 
 # Artifacts this task will create or modify (relative to repo root)
+# Note: Both "artefacts" (British English) and "artifacts" (American English) 
+# are accepted as aliases. Use whichever spelling you prefer.
 artefacts:
   - "path/to/artifact1.md"
   - "path/to/artifact2.md"
@@ -82,6 +84,7 @@ created_by: "username or agent"
 #   summary: "Description of what was accomplished"
 #   
 #   # Actual artifacts created or modified
+#   # Note: Both "artefacts" and "artifacts" spellings are accepted
 #   artefacts:
 #     - "path/to/created/artifact1.md"
 #     - "path/to/modified/artifact2.md"
@@ -184,7 +187,7 @@ created_by: "username or agent"
 # 1. ID Format: Must match filename (YYYY-MM-DDTHHMM-agent-slug)
 # 2. Agent Name: Must exist as directory under work/assigned/
 # 3. Status: Must be one of: new, assigned, in_progress, done, error
-# 4. Artefacts: Must be non-empty list of relative paths
+# 4. Artefacts/Artifacts: Must be non-empty list of relative paths (both spellings accepted)
 # 5. Timestamps: Must be valid ISO 8601 format with UTC timezone (Z suffix)
 # 6. Result: Only present when status is "done"
 # 7. Error: Only present when status is "error"

@@ -49,6 +49,7 @@ work/
   assigned/           # Tasks assigned to specific agents
     <agent-name>/     # One directory per agent
   done/               # Completed tasks with results
+    <agent-slug>/     # One directory per agent for completed tasks
   archive/            # Long-term task retention (by month)
   logs/               # Agent execution logs
   collaboration/      # Cross-agent coordination artifacts
@@ -77,9 +78,11 @@ Tasks progress through well-defined states:
 - **new**: Task created in `work/inbox/`, awaiting assignment
 - **assigned**: Task moved to `work/assigned/<agent>/`, awaiting agent pickup
 - **in_progress**: Agent has started work on the task
-- **done**: Task completed successfully, moved to `work/done/`
+- **done**: Task completed successfully, moved to `work/done/<agent-slug>/`
 - **error**: Task failed, requires human intervention
 - **archive**: Old completed tasks, organized by month in `work/archive/`
+
+**Note:** Completed tasks should be placed in `work/done/<agent-slug>/` subdirectories, not directly in `work/done/`. Files found directly under `work/done/` are there by mistake or for legacy reasons.
 
 ## Task File Format
 
@@ -148,7 +151,8 @@ see: [task-result.yaml](/docs/templates/agent-tasks/task-result.yaml)
    - Next agent for handoff (if applicable)
    - Completion timestamp
 2. Update `status: done`
-3. Move task file from `work/assigned/<my-name>/` to `work/done/`
+3. Move task file from `work/assigned/<my-name>/` to `work/done/<my-name>/`
+   - **Important:** Tasks must go into the agent-specific subdirectory under `work/done/`, not directly into `work/done/` root
 4. Create work log in `work/logs/` (see Directive 014)
 5. Commit all changes together
 
@@ -177,7 +181,7 @@ see: [task-result.yaml](/docs/templates/agent-tasks/task-result.yaml)
 
 **Handoff Processing:**
 
-1. Scan `work/done/` for tasks with `result.next_agent`
+1. Scan `work/done/<agent>/` subdirectories for tasks with `result.next_agent`
 2. For each handoff:
    - Create new task YAML in `work/inbox/`
    - Copy `next_task_title`, `next_artefacts`, `next_task_notes`
@@ -288,7 +292,7 @@ Example from Curator profile:
 - Update status to `in_progress` when starting work
 - Perform structural consistency audits as specified in task
 - Write discrepancy reports to `work/curator/`
-- Update task with `result` block and move to `work/done/`
+- Update task with `result` block and move to `work/done/curator/`
 - Create work log in `work/logs/` documenting approach
 - Common handoffs: writer-editor (for polish), synthesizer (for integration)
 ```
@@ -310,7 +314,7 @@ bash work/scripts/validate-work-structure.sh
 **Task Lifecycle:**
 - New tasks must be in `work/inbox/`
 - Assigned tasks must be in `work/assigned/<agent>/`
-- Completed tasks must be in `work/done/`
+- Completed tasks must be in `work/done/<agent>/` subdirectories (not directly in `work/done/`)
 - Task files must not duplicate across directories
 
 **Naming Convention:**
