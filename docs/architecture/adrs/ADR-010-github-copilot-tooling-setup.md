@@ -110,7 +110,7 @@ Specifically:
 - Creates race conditions in parallel agent execution
 - Installation failures become task failures
 
-**Example:** A 5-minute task becomes 6-6.5 minutes, a 20% efficiency loss. With 15 agent invocations per week, this wastes 12.5 minutes weekly (10.8 hours annually).
+**Example:** A 5-minute task becomes 6-6.5 minutes, a 20% efficiency loss. With 15 agent invocations per week averaging 1.5 minutes overhead, this wastes 22.5 minutes weekly (19.5 hours annually: 15 × 1.5 × 52 ÷ 60).
 
 ### Alternative 2: Docker-Based Environment
 
