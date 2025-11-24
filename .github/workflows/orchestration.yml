@@ -3,6 +3,7 @@ name: Agent Orchestration
 on:
   schedule:
     # Run hourly at minute 0
+    # Note: Only runs on branches where direct push is allowed (not main)
     - cron: '0 * * * *'
   workflow_dispatch:
     inputs:
@@ -25,6 +26,8 @@ jobs:
     name: Run Agent Orchestrator
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    # Disable on main branch - repository policy disallows direct pushes
+    if: github.ref != 'refs/heads/main'
     
     steps:
       - name: Checkout repository
