@@ -1,13 +1,13 @@
 # Agent Status Dashboard
 
-_Last updated: 2025-11-23 22:07:07 UTC_
+_Last updated: 2025-11-24 05:25:00 UTC_
 
 ## architect
 
 - **Status**: Idle
-- **Assigned**: 5 tasks
+- **Assigned**: 3 tasks
 - **In Progress**: 0 tasks
-- **Last seen**: 2025-11-23 22:07:07
+- **Last seen**: 2025-11-24 05:19:41
 
 ## backend-dev
 
@@ -18,9 +18,9 @@ _Last updated: 2025-11-23 22:07:07 UTC_
 ## bootstrap-bill
 
 - **Status**: Idle
-- **Assigned**: 1 tasks
+- **Assigned**: 0 tasks
 - **In Progress**: 0 tasks
-- **Last seen**: 2025-11-23 22:07:07
+- **Last seen**: 2025-11-23 22:35:00
 
 ## build-automation
 
@@ -40,7 +40,7 @@ _Last updated: 2025-11-23 22:07:07 UTC_
 - **Status**: Idle
 - **Assigned**: 1 tasks
 - **In Progress**: 0 tasks
-- **Last seen**: 2025-11-23 22:07:07
+- **Last seen**: 2025-11-24 05:25:00
 
 ## diagrammer
 
@@ -66,6 +66,7 @@ _Last updated: 2025-11-23 22:07:07 UTC_
 - **Status**: Idle
 - **Assigned**: 0 tasks
 - **In Progress**: 0 tasks
+- **Last seen**: 2025-11-24 04:55:00
 
 ## planning
 
@@ -100,9 +101,9 @@ _Last updated: 2025-11-23 22:07:07 UTC_
 ## synthesizer
 
 - **Status**: Idle
-- **Assigned**: 3 tasks
+- **Assigned**: 1 tasks
 - **In Progress**: 0 tasks
-- **Last seen**: 2025-11-23 22:07:07
+- **Last seen**: 2025-11-23 23:00:00
 
 ## test-agent
 
@@ -119,7 +120,7 @@ _Last updated: 2025-11-23 22:07:07 UTC_
 ## writer-editor
 
 - **Status**: Idle
-- **Assigned**: 3 tasks
+- **Assigned**: 1 tasks
 - **In Progress**: 0 tasks
-- **Last seen**: 2025-11-23 22:07:07
+- **Last seen**: 2025-11-24 05:05:00
 
