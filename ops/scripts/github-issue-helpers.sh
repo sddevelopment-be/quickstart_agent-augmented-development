@@ -85,10 +85,45 @@ _github_issue::create() {
 
   if [[ -n "$labels" ]]; then
     IFS=',' read -ra _labels <<< "$labels"
-    for label in "${_labels[@]}"; do
-      label="$(_github_issue::trim "$label")"
-      [[ -n "$label" ]] && cmd+=("--label" "$label")
+
+    local -a requested_labels=()
+    for raw_label in "${_labels[@]}"; do
+      local trimmed="$(_github_issue::trim "$raw_label")"
+      [[ -n "$trimmed" ]] && requested_labels+=("$trimmed")
     done
+
+    if ((${#requested_labels[@]})); then
+      local -a repo_labels=()
+      if mapfile -t repo_labels < <(gh label list --repo "$repo" --limit 400 --json name --jq '.[].name' 2>/dev/null); then
+        declare -A repo_label_map=()
+        for repo_label in "${repo_labels[@]}"; do
+          local key
+          key="$(printf '%s' "$repo_label" | tr '[:upper:]' '[:lower:]')"
+          repo_label_map["$key"]=1
+        done
+
+        local -a missing_labels=()
+        for label in "${requested_labels[@]}"; do
+          local lookup
+          lookup="$(printf '%s' "$label" | tr '[:upper:]' '[:lower:]')"
+          if [[ -n "${repo_label_map[$lookup]:-}" ]]; then
+            cmd+=("--label" "$label")
+          else
+            missing_labels+=("$label")
+          fi
+        done
+
+        if ((${#missing_labels[@]})); then
+          _github_issue::log "warning: labels missing in $repo -> ${missing_labels[*]}"
+          _github_issue::log "warning: sync repository labels (e.g., run the upcoming gh label sync helper) before re-running."
+        fi
+      else
+        _github_issue::log "warning: unable to verify labels for $repo (gh label list failed); continuing without validation."
+        for label in "${requested_labels[@]}"; do
+          cmd+=("--label" "$label")
+        done
+      fi
+    fi
   fi
 
   if [[ -n "$assignees" ]]; then
