@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **GitHub Issue Automation Helpers** - Introduced reusable `ops/scripts/github-issue-helpers.sh` + `create-github-issue.sh` wrappers and refactored the follow-up issue script to standardize `gh issue create` usage.
+
 ### Changed
 
 - **Orchestration Workflow** - Disabled automatic execution on main branch
