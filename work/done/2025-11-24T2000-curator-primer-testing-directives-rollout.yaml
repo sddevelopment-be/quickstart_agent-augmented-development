@@ -1,6 +1,7 @@
 id: 2025-11-24T2000-curator-primer-testing-directives-rollout
 agent: curator
-status: new
+status: done
+mode: /analysis-mode
 priority: normal
 title: Integrate ATDD/TDD directives into alias + profile updates
 
@@ -30,3 +31,18 @@ dependencies:
 
 created_at: '2025-11-24T20:00:00Z'
 created_by: architect-alphonso
+
+result:
+  summary: >
+    Added ATDD/TDD workflow section to agents/aliases.md referencing directives 016/017, injected a repo-wide
+    test-first requirement into every specialist profile, and documented the change in docs/CHANGELOG.md.
+  artefacts:
+    - agents/aliases.md
+    - agents/directives/016_acceptance_test_driven_development.md
+    - agents/directives/017_test_driven_development.md
+    - agents/*.agent.md
+    - docs/CHANGELOG.md
+  next_agent: architect
+  next_task_title: Validate primer-aligned alias and directive updates
+  next_task_id: 2025-11-24T1951-architect-primer-directive-validation.yaml
+  completed_at: '2025-11-24T20:40:00Z'

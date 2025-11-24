@@ -12,6 +12,7 @@ Escalation Triggers:
 - Divergence between Operational and Strategic guidance
 - Multi-agent artifact conflict (two agents editing same file set)
 - Version mismatch in governance layers (see 006)
+- Failure to execute Transparency & Error Signaling primer (see ADR-011) when a risk is discovered
 
 Procedure:
 1. Flag with marker
@@ -22,3 +23,6 @@ Procedure:
 Timeout Handling:
 - If no response after reasonable cycles (context-specific), downgrade or archive with clear note.
 
+Primer Integration:
+- Each ❗️/⚠️ event must reference the active primer in the log or artifact (e.g., “Transparency primer invoked — ❗️ blocking conflict”).
+- When `/meta-mode` reflection changes direction, log the resolution path and associated integrity marker.

@@ -44,6 +44,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Build-automation CI/CD integration tasks (orchestration, validation, diagram workflows)
 - Manager Mike inbox review and coordination log (`work/logs/manager/2025-11-23T1845-inbox-review-coordination.md`)
 - GitHub Issue Automation Helpers (`ops/scripts/github-issue-helpers.sh` and `ops/scripts/create-github-issue.sh`) plus the updated follow-up issue script that consumes them for consistent `gh issue create` usage.
+- ADR-011 formalizing the Solutioning Primer → command alias mapping plus curator/architect review workflow.
+- ADR-012 establishing ATDD + TDD as the default coding approach (with throw-away script exceptions).
+- Directives 016 (ATDD) and 017 (TDD) describing acceptance-test-first and red/green/refactor cadences.
+- Architecture synthesis notes for primer references, gold plating, batch scripting, test boundaries, and fail-fast alignment.
 
 ### Changed
 
@@ -56,6 +60,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Split CI/CD integration task (1744) into 3 parallel subtasks for orchestration, validation, and diagram workflows
 - Orchestration workflow no longer auto-runs on `main`; manual dispatch is required to respect branch protection rules (added `if: github.ref != 'refs/heads/main'`).
 - Consolidated duplicate root changelog entries into `docs/CHANGELOG.md` to keep one canonical history source.
+- Agents/aliases and directives (010/011/014/015) now codify primer execution matrices per ADR-011, and all specialist profiles reference both the primer requirements and directives 016/017.
+- Specialist agent definitions now include test-first requirements and links back to directives 016/017 for any executable work.
+- Simplified `agents/aliases.md` back to a command-shorthand catalogue; all primer/test-driven guidance now lives exclusively inside directives 010, 016, and 017.
 
 ### Removed
 
