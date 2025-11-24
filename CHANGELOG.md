@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **Orchestration Workflow** - Disabled automatic execution on main branch
+  - Added branch filter: `if: github.ref != 'refs/heads/main'`
+  - Ensures compliance with repository policy disallowing direct pushes to main
+  - Workflow still available via manual dispatch for testing
+
+### Fixed
+
+- **Task Naming Validation Pattern** - Updated `work/scripts/validate-task-naming.sh` regex pattern to properly handle orchestrator-generated follow-up task filenames
+  - Previous pattern required exactly two slug components, causing validation failures for follow-up tasks with embedded parent task IDs
+  - New pattern allows flexible slug structure including embedded ISO timestamps (e.g., `T1738`)
+  - Maintains validation of lowercase-only slugs (except T in timestamps), no trailing hyphens, proper date format
+  - All 39 existing task files now pass validation
+  - Related: File-based orchestration framework (ADR-002, ADR-003, ADR-004)
+
 ### [Iteration 3] - 2025-11-23
 
 **Status:** ✅ **PRODUCTION READY** - Framework approved for production deployment
