@@ -26,6 +26,8 @@ tools: [ "read", "write", "search", "edit", "bash", "grep", "awk", "github", "cu
 
 Load with `/require-directive <code>`.
 
+**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
+
 ## 2. Purpose
 
 Route tasks to the most appropriate specialized agent, maintain a clear status map of in‑flight work, and prevent conflicting edits. Provide lightweight coordination signals without adding project-management theatre.

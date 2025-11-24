@@ -26,6 +26,8 @@ tools: [ "read", "write", "search", "edit", "Bash", "Grep" ]
 
 Request with `/require-directive <code>`.
 
+**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
+
 ## 2. Purpose
 
 Evaluate and calibrate writing style compliance (tone, rhythm, formatting) while preserving authorial voice. Provide precise, low-noise deltas and rule-grounded diagnostics.

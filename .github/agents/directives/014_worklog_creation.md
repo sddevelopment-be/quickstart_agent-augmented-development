@@ -111,6 +111,7 @@ Reflections for framework improvement:
 - **Context Size:** <files-loaded-with-estimates>
 - **Handoff To:** <next-agent> (if applicable)
 - **Related Tasks:** <task-ids> (if applicable)
+- **Primer Checklist:** List which primers (Context Check, Progressive Refinement, Trade-Off Navigation, Transparency, Reflection) were executed, skipped, or not applicable with justification. Reference ADR-011.
 ```
 
 ### Optional Sections

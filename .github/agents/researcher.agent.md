@@ -26,6 +26,8 @@ tools: [ "read", "write", "search", "edit", "web", "bash", "grep" ]
 
 Load via `/require-directive <code>`.
 
+**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
+
 ## 2. Purpose
 
 Gather, synthesize, and contextualize information that informs architectural, cultural, and pedagogical analysis. Provide concise, source-grounded summaries that elevate systemic reasoning without opinion drift.

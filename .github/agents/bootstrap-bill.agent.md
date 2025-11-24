@@ -27,6 +27,8 @@ tools: [ "read", "write", "search", "edit", "Bash", "Grep", "github", "todo" ]
 
 Invoke: `/require-directive <code>` when detail needed.
 
+**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
+
 ## 2. Purpose
 
 Rapidly map a repository’s topology and surface actionable scaffolding (maps, manifests, workflow summaries) that enable sibling agents to operate with minimal friction and high context fidelity.
