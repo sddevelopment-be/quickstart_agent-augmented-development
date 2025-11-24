@@ -40,3 +40,30 @@ metadata:
   related_adrs:
   - ADR-014
 assigned_at: '2025-11-24T21:16:08.095499Z'
+status: done
+completed_at: '2025-11-24T21:51:00Z'
+result:
+  summary: |
+    Created complete Framework Guardian agent profile and templates:
+    - Agent profile with two operating modes (Audit/Upgrade)
+    - Comprehensive audit report template
+    - Detailed upgrade plan template
+    - Complete usage documentation
+  artifacts_created:
+    - .github/agents/framework-guardian.agent.md (9.5KB, complete profile)
+    - docs/templates/framework/TEMPLATE_AUDIT_REPORT.md (audit template)
+    - docs/templates/framework/TEMPLATE_FRAMEWORK_UPDATE_PLAN.md (upgrade template)
+    - docs/HOW_TO_USE/framework-guardian.md (8.7KB, usage guide)
+  quality_checks:
+    - Follows established agent profile format
+    - Clear specialization boundaries (framework maintenance only)
+    - Explicit guardrails (never overwrite automatically)
+    - Mode definitions with entry/exit criteria
+    - Templates match technical design requirements
+  features:
+    - Two modes: Audit and Upgrade
+    - Strict context loading order
+    - Never overwrites files automatically
+    - Preserves local customizations
+    - Generates actionable reports
+    - CLI and task-based invocation patterns
