@@ -1,0 +1,49 @@
+id: 2025-11-24T1737-build-automation-template-improvements
+agent: build-automation
+status: done
+priority: medium
+mode: /analysis-mode
+title: Implement Issue Template Improvements (Versioning, Parameters, Automation)
+description: 'Enhance the run-iteration.md issue template with improvements identified
+  in
+
+  the work log: template versioning, parameter flexibility, status automation,
+
+  and validation automation. Focus on making templates more maintainable and
+
+  self-service friendly.
+
+  '
+artefacts:
+- .github/ISSUE_TEMPLATE/run-iteration.md (updated)
+- work/scripts/template-status-checker.sh (new)
+- work/logs/build-automation/
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: copilot/post-implementation-analysis-enhancements
+  source: work/logs/build-automation/2025-11-23T2204-run-iteration-issue-template.md
+    lines 219-225
+  notes:
+  - Add version field to YAML frontmatter for template evolution tracking
+  - Support optional parameters (max tasks, specific agent focus, priority threshold)
+  - Consider pre-computing status with orchestrator script
+  - Explore auto-population of success criteria checkboxes
+  - Document decisions in work log per Directive 014
+  - Coordinate with curator if structural changes needed
+dependencies: []
+created_at: '2025-11-24T17:37:00Z'
+created_by: copilot-comment-followup
+assigned_at: '2025-11-24T17:56:16.861891Z'
+result:
+  summary: Successfully enhanced run-iteration.md template (v1.1.0) with version tracking,
+    optional parameters (max_tasks, agent_focus, priority_threshold, mode), and created
+    template-status-checker.sh automation script with status/validate/JSON modes.
+    All deliverables tested and documented per Directive 014.
+  artifacts:
+  - .github/ISSUE_TEMPLATE/run-iteration.md (updated to v1.1.0)
+  - work/scripts/template-status-checker.sh (new, 241 lines, executable)
+  - work/logs/build-automation/2025-11-24T1802-build-automation-template-improvements.md
+  completed_at: '2025-11-24T18:09:23Z'
+  duration: 285s
+  validation: All script modes tested successfully (status, validate, JSON, help).
+    Zero breaking changes. Backward compatible.
