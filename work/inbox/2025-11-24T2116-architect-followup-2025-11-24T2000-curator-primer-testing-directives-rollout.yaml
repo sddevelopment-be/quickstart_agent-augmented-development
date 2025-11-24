@@ -1,0 +1,15 @@
+id: 2025-11-24T2116-architect-followup-2025-11-24T2000-curator-primer-testing-directives-rollout
+agent: architect
+status: new
+title: Validate primer-aligned alias and directive updates
+artefacts:
+- agents/aliases.md
+- agents/directives/016_acceptance_test_driven_development.md
+- agents/directives/017_test_driven_development.md
+- agents/*.agent.md
+context:
+  previous_task: 2025-11-24T2000-curator-primer-testing-directives-rollout
+  previous_agent: curator
+  notes: []
+created_at: '2025-11-24T21:16:08.217028Z'
+created_by: coordinator
