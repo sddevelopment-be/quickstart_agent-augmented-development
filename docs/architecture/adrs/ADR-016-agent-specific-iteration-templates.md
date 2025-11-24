@@ -1,4 +1,4 @@
-# ADR-013: Agent-Specific Iteration Templates
+# ADR-016: Agent-Specific Iteration Templates
 
 **status**: `Rejected`  
 **date**: 2025-11-24  
@@ -520,7 +520,7 @@ If future evidence challenges this decision, the conditions for revisiting provi
 - **ADR-004:** Work Directory Structure
 - **ADR-005:** Coordinator Agent Pattern
 - **ADR-008:** File-Based Async Coordination (Core Principles)
-- **ADR-011:** Follow-Up Task Lookup Pattern (similar rejection rationale)
+- **ADR-015:** Follow-Up Task Lookup Pattern (similar rejection rationale)
 - **Directive 014:** Work Log Creation (pattern capture mechanism)
 - **Source Reference:** `work/logs/build-automation/2025-11-23T2204-run-iteration-issue-template.md` (line 243)
 - **Task Templates:** `docs/templates/agent-tasks/task-templates-README.md`

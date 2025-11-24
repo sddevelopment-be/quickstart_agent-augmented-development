@@ -77,7 +77,7 @@ This Improvement Cycle addresses **7 follow-up tasks** identified during the Pos
 - **ID:** `2025-11-24T1739-architect-agent-specific-workflows-adr`
 - **Agent:** architect
 - **Effort:** 2-3 hours
-- **Deliverable:** `docs/architecture/adrs/ADR-013-agent-specific-iteration-templates.md`
+- **Deliverable:** `docs/architecture/adrs/ADR-016-agent-specific-iteration-templates.md`
 - **Source:** Build-automation work log line 243
 - **Objective:** Assess feasibility of specialized iteration templates (documentation sprint, test cycle, etc.)
 - **Evaluation Areas:**

@@ -201,11 +201,11 @@ Rejecting specialized templates while recommending lightweight alternatives prov
 - Supplementary documentation: Alternative 2 (workflow patterns)
 - Clear action plan without specialized templates
 
-### Step 5: ADR-013 Creation (18:16-18:20)
+### Step 5: ADR-016 Creation (18:16-18:20)
 
 **Actions:**
-- Created `docs/architecture/adrs/ADR-013-agent-specific-iteration-templates.md`
-- Structured following ADR-011 pattern (similar rejection decision)
+- Created `docs/architecture/adrs/ADR-016-agent-specific-iteration-templates.md`
+- Structured following ADR-015 pattern (similar rejection decision)
 - Sections included:
   - Context: Current state and proposed specialized templates
   - Decision: Rejection with clear rationale
@@ -268,7 +268,7 @@ Rejecting specialized templates while recommending lightweight alternatives prov
 
 ## Artifacts Created
 
-1. **`docs/architecture/adrs/ADR-013-agent-specific-iteration-templates.md`** - Comprehensive ADR documenting:
+1. **`docs/architecture/adrs/ADR-016-agent-specific-iteration-templates.md`** - Comprehensive ADR documenting:
    - Rejection decision for agent-specific templates
    - 6-dimensional rationale (success, cost, architecture, maturity, complexity, alternatives)
    - 5 considered alternatives with analysis

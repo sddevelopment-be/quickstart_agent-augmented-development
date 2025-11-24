@@ -134,7 +134,7 @@ This index tracks all tasks currently in the inbox awaiting assignment by the Ag
 - **Title:** Assess Feasibility and Value of Follow-Up Task Lookup Table Pattern
 - **Description:** Architectural exploration of whether a centralized lookup table for suggested follow-ups would improve agentic workflow consistency
 - **Artifacts:**
-  - docs/architecture/adrs/ADR-011-follow-up-task-lookup-pattern.md
+  - docs/architecture/adrs/ADR-015-follow-up-task-lookup-pattern.md
   - docs/templates/agent-tasks/follow-up-lookup-table-example.yaml
   - work/logs/architect/2025-11-23T1846-follow-up-lookup-assessment.md
 

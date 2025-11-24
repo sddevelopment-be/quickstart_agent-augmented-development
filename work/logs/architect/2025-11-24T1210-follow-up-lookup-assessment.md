@@ -391,7 +391,7 @@ Add "Common Handoff Patterns" section to agent profiles:
 
 ## Artifacts Created
 
-- `docs/architecture/adrs/ADR-011-follow-up-task-lookup-pattern.md` - Decision record with full rationale
+- `docs/architecture/adrs/ADR-015-follow-up-task-lookup-pattern.md` - Decision record with full rationale
 - `work/logs/architect/2025-11-24T1210-follow-up-lookup-assessment.md` - This work log
 
 **Note:** No example lookup table created, as pattern was rejected. Including an example would suggest viability contrary to recommendation.

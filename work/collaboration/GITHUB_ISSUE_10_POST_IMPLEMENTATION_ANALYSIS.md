@@ -54,7 +54,7 @@ This follow-up issue tracks **2 analysis/enhancement tasks** that provide deeper
 - Compare with current handoff mechanism
 - Provide implementation recommendation
 
-**Deliverable:** `docs/architecture/adrs/ADR-011-follow-up-task-lookup-pattern.md`
+**Deliverable:** `docs/architecture/adrs/ADR-015-follow-up-task-lookup-pattern.md`
 
 **Context:**
 - Current handoff mechanism uses `next_agent` field in task results

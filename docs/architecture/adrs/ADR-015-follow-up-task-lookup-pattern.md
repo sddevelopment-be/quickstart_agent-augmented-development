@@ -1,4 +1,4 @@
-# ADR-011: Follow-Up Task Lookup Pattern
+# ADR-015: Follow-Up Task Lookup Pattern
 
 **status**: `Rejected`  
 **date**: 2025-11-24  
