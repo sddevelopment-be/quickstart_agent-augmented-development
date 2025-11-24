@@ -1,10 +1,10 @@
 # Using the Multi-Agent Orchestration System
 
-This guide explains how to leverage the multi-agent orchestration system to get work done in this repository. The system allows you to create tasks that are automatically assigned to specialized agents, which then complete the work asynchronously.
+This guide explains how to use the multi-agent orchestration system to delegate work within this repository. The system enables you to create tasks that are automatically assigned to specialized agents, which complete the work asynchronously.
 
 ## What is Multi-Agent Orchestration?
 
-The orchestration system coordinates multiple specialized agents working together on different tasks. Each agent has a specific area of expertise (documentation, architecture, code structure, etc.), and tasks flow between agents automatically based on handoffs.
+The orchestration system coordinates multiple specialized agents working together on different tasks. Each agent focuses on a specific area of expertise—documentation, architecture, code structure, and more. Tasks flow between agents automatically through handoffs, creating seamless collaborative workflows.
 
 **Key benefits:**
 
@@ -177,7 +177,7 @@ created_by: "stijn"
 
 ### Scenario 3: Multi-Agent Workflow
 
-Chain multiple agents together using handoffs. The first agent completes its work and automatically creates a task for the next agent.
+Chain multiple agents together using handoffs. When the first agent completes its work, it automatically creates a task for the next agent.
 
 **Initial task (architect creates ADR):**
 
@@ -192,7 +192,7 @@ created_at: "2025-11-23T17:00:00Z"
 created_by: "stijn"
 ```
 
-When the architect completes the task, it adds a handoff in the `result` section:
+When the architect completes the task, it adds handoff metadata to the `result` section:
 
 ```yaml
 result:
@@ -254,18 +254,18 @@ ls -lt work/done/*.yaml | head -n 10
 
 ### Task Stuck in "assigned"
 
-**Symptoms:** Task hasn't moved to `in_progress` after expected time.
+**Symptoms:** Task hasn't moved to `in_progress` after the expected time.
 
 **Possible causes:**
 
 - Agent orchestrator isn't running
-- Agent has crashed or isn't watching the directory
+- Agent has stopped or isn't monitoring the directory
 
 **Solutions:**
 
-1. Check if the orchestrator is running (manual execution or cron/GitHub Actions)
+1. Verify the orchestrator is running (check manual execution, cron, or GitHub Actions)
 2. Review agent logs in `work/logs/`
-3. Manually trigger the agent if needed
+3. Manually trigger the agent if necessary
 
 ### Task Stuck in "in_progress"
 
@@ -294,19 +294,19 @@ ls -lt work/done/*.yaml | head -n 10
 
 ### No Follow-up Task Created
 
-**Symptoms:** Agent completed with `next_agent` but no new task appeared.
+**Symptoms:** Agent completed with `next_agent` specified, but no new task appeared.
 
 **Solutions:**
 
 1. Verify the orchestrator ran after task completion
 2. Check `WORKFLOW_LOG.md` for orchestrator errors
-3. Manually create the follow-up task if needed
+3. Manually create the follow-up task if necessary
 
 ## Advanced Features
 
 ### Task Dependencies
 
-Specify tasks that must complete before yours starts:
+Specify prerequisite tasks that must complete before yours begins:
 
 ```yaml
 context:
@@ -315,7 +315,7 @@ context:
     - 2025-11-23T1500-lexical-analysis
 ```
 
-The orchestrator won't assign your task until dependencies are done.
+The orchestrator won't assign your task until all dependencies complete.
 
 ### Priority Levels
 
@@ -374,7 +374,7 @@ YYYY-MM-DDTHHMM-<agent>-<description>
 
 ### 4. One Task, One Focus
 
-Keep tasks focused on a single deliverable:
+Keep each task focused on a single deliverable:
 
 ```yaml
 # Good: Single focused task
@@ -390,7 +390,7 @@ artefacts:
   - docs/DIAGRAM.png
 ```
 
-Instead, create separate tasks or use handoffs.
+For multiple deliverables, create separate tasks or use handoffs to chain them together.
 
 ### 5. Check Existing Work First
 
