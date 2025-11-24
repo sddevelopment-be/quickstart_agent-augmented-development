@@ -255,6 +255,8 @@ From `docs/HOW_TO_USE/copilot-tooling-setup.md`:
 | Portability | 10% | 4 | 0.4 |
 | **Total** | 100% | - | **4.5 / 5** |
 
+_Calculation: (30% × 5) + (20% × 3) + (20% × 5) + (20% × 5) + (10% × 4) = 1.5 + 0.6 + 1.0 + 1.0 + 0.4 = 4.5_
+
 **Recommendation: ADOPT**
 
 **Rationale:**

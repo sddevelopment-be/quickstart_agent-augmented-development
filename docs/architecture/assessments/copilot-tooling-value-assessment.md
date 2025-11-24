@@ -186,7 +186,7 @@ Break-Even Point: 120 / 64 = 1.875 ≈ 2 invocations
 - Documentation already written (zero marginal cost)
 - Total portfolio setup cost: ~10 hours one-time
 
-**Portfolio ROI: 1,170% first year** (117 hours saved / 10 hours invested)
+**Portfolio ROI: 1,170% return first year** (117 hours saved / 10 hours invested = 11.7x return on investment)
 
 ---
 
