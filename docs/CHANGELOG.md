@@ -43,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Architect follow-up task lookup pattern assessment
   - Build-automation CI/CD integration tasks (orchestration, validation, diagram workflows)
 - Manager Mike inbox review and coordination log (`work/logs/manager/2025-11-23T1845-inbox-review-coordination.md`)
+- GitHub Issue Automation Helpers (`ops/scripts/github-issue-helpers.sh` and `ops/scripts/create-github-issue.sh`) plus the updated follow-up issue script that consumes them for consistent `gh issue create` usage.
 
 ### Changed
 
@@ -53,6 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Standardized integrity markers (✅ ⚠️ ❗️) across all agent communications
 - Updated `work/collaboration/AGENT_STATUS.md` with 4-phase execution plan and dependency graph
 - Split CI/CD integration task (1744) into 3 parallel subtasks for orchestration, validation, and diagram workflows
+- Orchestration workflow no longer auto-runs on `main`; manual dispatch is required to respect branch protection rules (added `if: github.ref != 'refs/heads/main'`).
 
 ### Removed
 
@@ -60,8 +62,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-> Bug fixes and issues resolved
+- Task naming validation script now accepts orchestrator-generated follow-up filenames with embedded timestamps, eliminating false positives and keeping all 39 task files valid.
 
 ### Security
 
 > Vulnerabilities addressed and security improvements
+
+## [Iteration 3] - 2025-11-23
+
+**Status:** ✅ **PRODUCTION READY** — Framework approved for production deployment
+
+This iteration delivered a production-grade orchestration framework with full architectural validation, health scoring, and documentation coverage across five specialized agents.
+
+**Key Metrics**
+- Architectural alignment: 98.9% (267/270 points)
+- Framework health score: 92/100 (Excellent)
+- Task completion rate: 100% (5/5 tasks)
+- Production readiness: Approved
+
+### Added
+- POC3 Metrics Synthesis (`docs/architecture/synthesis/poc3-orchestration-metrics-synthesis.md`) with comprehensive ADR-009 validation, accessibility audit, and cross-artifact traceability.
+- Architecture assessment reports (`docs/architecture/assessments/implementation-progress-review.md`, `docs/architecture/recommendations/architecture-alignment-report.md`) capturing ADR-by-ADR scoring and recommendations.
+- Repository mapping suite (`REPO_MAP.md`, `docs/SURFACES.md`, `docs/WORKFLOWS.md`, `docs/DEPENDENCIES.md`) totaling 73KB of structure documentation.
+- Work log analysis synthesis (`work/synthesizer/worklog-analysis-synthesis.md`) covering 41 work logs, 23 improvements, and a 4-phase roadmap.
+- Iteration 3 executive summary (`work/collaboration/ITERATION_3_SUMMARY.md`) with consolidated metrics and recommendations.
+
+### Changed
+- `work/collaboration/AGENT_STATUS.md` updated to reflect active agents and assignments for the iteration.
+
+### Fixed
+- Directive 003 replaced Hugo assumptions with the actual repo structure and added version metadata.
+- Directive 007 removed a stale §18 reference, clarified requirements, and added version metadata.
+- Directive review audit (`work/logs/curator/2025-11-23T2246-directives-approaches-review-report.md`) resolved the remaining medium/high findings.
+- Removed five duplicate task files to keep orchestration tracking accurate.
+
+### Framework Milestones
+- ADR-002, ADR-003, ADR-004, ADR-005, ADR-009 all scored 10/10.
+- Performance target exceeded (orchestrator cycles <10s vs <30s goal).
+- Observability, maintainability, and security standards met with 95%+ documentation coverage.
+
+**Recommendation:** Deploy to production; future improvements enhance rather than fix.
+
+## Previous Iterations
+
+### [Iteration 2] - 2025-11-22
+- Multi-agent orchestration demonstrations
+- POC2 execution and validation
+- Initial agent coordination patterns
+
+### [Iteration 1] - 2025-11-21
+- File-based orchestration framework foundation
+- Initial agent profiles and directives
+- POC1 single-agent validation
