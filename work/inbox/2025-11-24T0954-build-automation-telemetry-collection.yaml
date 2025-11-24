@@ -1,0 +1,42 @@
+id: 2025-11-24T0954-build-automation-telemetry-collection
+agent: build-automation
+status: new
+priority: low
+title: Add telemetry collection to track tool usage patterns
+
+artefacts:
+  - .github/copilot/setup.sh
+  - work/scripts/collect-tool-metrics.sh
+  - docs/HOW_TO_USE/copilot-tooling-setup.md
+
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  source_assessment: docs/architecture/assessments/copilot-tooling-value-assessment.md
+  notes:
+    - Optimization opportunity from section 5.2 of assessment
+    - Track which tools are actually used by agents
+    - Inform future tool selection decisions
+    - Timeline: Q1 2026
+    - Effort: 4-6 hours
+
+  telemetry_requirements:
+    - Non-invasive collection (no PII, no sensitive data)
+    - Track tool invocation counts
+    - Measure execution time per tool
+    - Record tool version usage
+    - Optional/opt-in functionality
+    - Privacy-preserving aggregation
+
+  implementation_notes:
+    - Add lightweight wrapper functions around tool commands
+    - Store metrics in local work/metrics/ directory
+    - Provide aggregation script for analysis
+    - Document privacy considerations
+    - Make telemetry opt-in with environment variable
+
+dependencies:
+  - 2025-11-24T0955-manager-tooling-enhancements-coordination
+
+created_at: '2025-11-24T09:54:00Z'
+created_by: copilot

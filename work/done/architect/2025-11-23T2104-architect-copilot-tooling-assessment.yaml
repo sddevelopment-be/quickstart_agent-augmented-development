@@ -85,7 +85,7 @@ assigned_at: '2025-11-23T21:05:46.839545Z'
 result:
   completed_at: '2025-11-24T08:29:49Z'
   summary: 'Comprehensive value assessment completed with data-driven recommendation: ADOPT GitHub Copilot tooling setup. Analysis shows 48-61% reduction in agent task execution time, portfolio-level ROI of 1,170%, and strong alignment with SDD framework principles. Security hardening (checksum verification) and version management documentation identified as immediate priorities. Assessment document (44KB) includes quantified benefits, risk mitigation strategies, derivative repository guidance, and tiered action plan.'
-  artifacts:
+  artefacts:
   - docs/architecture/assessments/copilot-tooling-value-assessment.md
   - work/logs/architect/2025-11-24T0829-architect-copilot-tooling-assessment.md
   key_findings:
