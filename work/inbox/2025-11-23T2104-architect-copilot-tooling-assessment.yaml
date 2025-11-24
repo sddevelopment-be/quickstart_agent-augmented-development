@@ -2,7 +2,7 @@ id: 2025-11-23T2104-architect-copilot-tooling-assessment
 agent: architect
 status: assigned
 mode: /analysis-mode
-priority: medium
+priority: normal
 title: Assess GitHub Copilot Tooling Setup Value and Benefits
 artefacts:
 - docs/architecture/assessments/copilot-tooling-value-assessment.md

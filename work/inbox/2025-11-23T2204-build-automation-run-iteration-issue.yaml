@@ -2,7 +2,7 @@ id: 2025-11-23T2204-build-automation-run-iteration-issue
 agent: build-automation
 status: assigned
 mode: /analysis-mode
-priority: medium
+priority: normal
 title: Create 'Run Iteration' GitHub Issue Template for Orchestration Automation
 artefacts:
 - .github/ISSUE_TEMPLATE/run-iteration.md

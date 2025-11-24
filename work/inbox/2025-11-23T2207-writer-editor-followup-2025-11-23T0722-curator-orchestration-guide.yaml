@@ -1,7 +1,7 @@
 id: 2025-11-23T2207-writer-editor-followup-2025-11-23T0722-curator-orchestration-guide
 agent: writer-editor
 status: assigned
-priority: medium
+priority: normal
 title: Review and polish multi-agent orchestration user guide
 artefacts:
 - docs/HOW_TO_USE/multi-agent-orchestration.md

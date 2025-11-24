@@ -176,7 +176,7 @@ result:
     Applied 2 high-priority fixes immediately (directive 003 content, directive 007 reference).
     Identified 0 critical issues, 2 high-priority items (both fixed), 7 medium-priority improvements, 5 low-priority suggestions.
     Overall assessment: Excellent framework health with strong implementation alignment validated against work logs.
-  artifacts:
+  artefacts:
     - work/logs/curator/2025-11-23T2246-directives-approaches-review-report.md
     - work/logs/curator/2025-11-23T2246-directives-approaches-review.md
     - .github/agents/directives/003_repository_quick_reference.md (updated)

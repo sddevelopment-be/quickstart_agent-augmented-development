@@ -2,7 +2,7 @@ id: 2025-11-23T2138-architect-copilot-setup-adr
 agent: architect
 status: assigned
 mode: /analysis-mode
-priority: medium
+priority: normal
 title: Create Retrospective ADR for GitHub Copilot Tooling Setup
 artefacts:
 - docs/architecture/adrs/ADR-010-github-copilot-tooling-setup.md
