@@ -24,6 +24,8 @@ from typing import Any, Dict, List, Optional
 
 import yaml
 
+from task_utils import read_task, write_task, log_event, get_utc_timestamp
+
 
 class AgentBase(ABC):
     """
@@ -87,21 +89,16 @@ class AgentBase(ABC):
     
     def _log_event(self, message: str) -> None:
         """Append event to workflow log."""
-        timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
         log_file = self.collaboration_dir / "WORKFLOW_LOG.md"
-        
-        with open(log_file, "a", encoding="utf-8") as f:
-            f.write(f"\n**{timestamp}** - [{self.agent_name}] {message}")
+        log_event(f"[{self.agent_name}] {message}", log_file)
     
     def read_task(self, task_file: Path) -> Dict[str, Any]:
         """Load task YAML."""
-        with open(task_file, "r", encoding="utf-8") as f:
-            return yaml.safe_load(f) or {}
+        return read_task(task_file)
     
     def write_task(self, task_file: Path, task: Dict[str, Any]) -> None:
         """Save task YAML."""
-        with open(task_file, "w", encoding="utf-8") as f:
-            yaml.dump(task, f, default_flow_style=False, sort_keys=False)
+        write_task(task_file, task)
     
     def find_assigned_tasks(self) -> List[Path]:
         """Find all tasks assigned to this agent."""
@@ -125,7 +122,7 @@ class AgentBase(ABC):
         self.current_task["status"] = status
         
         if status == "in_progress" and "started_at" not in self.current_task:
-            self.current_task["started_at"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+            self.current_task["started_at"] = get_utc_timestamp()
         
         if additional_fields:
             self.current_task.update(additional_fields)
@@ -178,7 +175,7 @@ class AgentBase(ABC):
         result = {
             "summary": summary,
             "artefacts": artifacts or self.artifacts_created,
-            "completed_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "completed_at": get_utc_timestamp(),
         }
         
         if next_agent:
@@ -211,7 +208,7 @@ class AgentBase(ABC):
         """
         error = {
             "message": error_message,
-            "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "timestamp": get_utc_timestamp(),
             "agent": self.agent_name,
             "retry_count": retry_count,
         }

@@ -525,12 +525,12 @@ def test_orchestrator_function_coverage(temp_work_env: Path) -> None:
     """Verify all major orchestrator functions are exercised."""
     work_dir = temp_work_env
     
-    # Test log_event
-    orchestrator.log_event("Test event")
+    # Test _log_event
+    orchestrator._log_event("Test event")
     workflow_log = work_dir / "collaboration" / "WORKFLOW_LOG.md"
     assert workflow_log.exists()
     
-    # Test read_task / write_task
+    # Test read_task / write_task (via task_utils)
     task = create_task("2025-11-23T1800-test-coverage", "test-agent")
     task_file = write_task(work_dir, "inbox", task)
     read_task_data = orchestrator.read_task(task_file)
