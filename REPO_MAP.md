@@ -145,6 +145,7 @@ docs/
 │   └── synthesis/        # Cross-cutting analysis
 │       └── poc3-orchestration-metrics-synthesis.md
 ├── audience/             # Audience-specific documentation
+├── ideation/             # Early-stage exploration and concept artifacts
 ├── planning/             # Project planning artifacts
 ├── styleguides/          # Writing and coding style guides
 └── templates/            # Document and artifact templates
