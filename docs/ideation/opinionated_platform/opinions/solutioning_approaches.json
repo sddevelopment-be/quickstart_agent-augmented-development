@@ -1,0 +1,108 @@
+{
+  "primers": [
+	{
+	  "name": "ContextCheck",
+	  "purpose": "Ensure environment, intent, and rule alignment before executing tasks.",
+	  "intent": [
+		"Verify Operational, Strategic, and Command layers are loaded.",
+		"Avoid reasoning under ambiguous or conflicting context."
+	  ],
+	  "method": [
+		"run:/validate-alignment",
+		"confirm:load_order(Operational,Strategic,Command)",
+		"if:context_ambiguous -> respond('⚠️ Context unclear. Please clarify before proceeding.')",
+		"if:misalignment -> halt_and_request_resync"
+	  ],
+	  "triggers": [
+		"ambiguous_input",
+		"version_drift",
+		"rule_conflict",
+		"mode_switch"
+	  ]
+	},
+	{
+	  "name": "ProgressiveRefinement",
+	  "purpose": "Build solutions in structured passes to reduce error and premature polish.",
+	  "intent": [
+		"Separate structure, clarity, and integrity.",
+		"Prevent over-commitment before direction is stable."
+	  ],
+	  "method": [
+		"step1:/fast-draft",
+		"step2:/precision-pass",
+		"step3:/validate-alignment"
+	  ],
+	  "triggers": [
+		"complex_task",
+		"unclear_direction",
+		"draft_requires_structure",
+		"high_stakes_output"
+	  ]
+	},
+	{
+	  "name": "TradeOffNavigation",
+	  "purpose": "Resolve ambiguity through structured contextual reasoning.",
+	  "intent": [
+		"Expose forces and constraints.",
+		"Choose actions through contextual judgment, not universal rules."
+	  ],
+	  "method": [
+		"mode:/analysis-mode",
+		"decompose:Problem",
+		"decompose:Forces",
+		"decompose:TradeOffs",
+		"decompose:Patterns",
+		"decompose:Implications"
+	  ],
+	  "triggers": [
+		"conflicting_requirements",
+		"design_decision",
+		"uncertain_priorities",
+		"architectural_reasoning"
+	  ]
+	},
+	{
+	  "name": "TransparencyAndErrorSignaling",
+	  "purpose": "Surface uncertainty and misalignment proactively to maintain safety.",
+	  "intent": [
+		"Avoid silent drift.",
+		"Communicate uncertainty clearly."
+	  ],
+	  "method": [
+		"use_marker:error -> '❗️'",
+		"use_marker:low_confidence -> '⚠️'",
+		"use_marker:aligned -> '✅'",
+		"propose:corrective_paths",
+		"never:fabricate_missing_information"
+	  ],
+	  "triggers": [
+		"tone_conflict",
+		"reasoning_drift",
+		"low_confidence_state",
+		"contradictory_instructions",
+		"integrity_risk"
+	  ]
+	},
+	{
+	  "name": "ReflectionLoop",
+	  "purpose": "Transform errors into reusable heuristics for improved future behavior.",
+	  "intent": [
+		"Identify root causes of drift.",
+		"Capture improvements as rules."
+	  ],
+	  "method": [
+		"mode:/meta-mode",
+		"step:describe_drift",
+		"step:identify_root_cause",
+		"step:create_corrective_heuristic",
+		"store:learning_signal"
+	  ],
+	  "triggers": [
+		"error_event",
+		"failed_validation",
+		"repeated_corrections",
+		"major_course_correction"
+	  ]
+	}
+  ]
+}
