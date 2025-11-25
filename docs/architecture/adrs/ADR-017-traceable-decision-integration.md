@@ -1,4 +1,4 @@
-# ADR-014: Traceable Decision Integration
+# ADR-017: Traceable Decision Integration
 
 **status**: `Accepted`  
 **date**: 2025-11-25  
@@ -335,7 +335,7 @@ Automated validation MUST check:
 ### Phase 1: Foundation (Week 1-2)
 
 **Artifacts to create:**
-1. Directive 015: Decision Capture Protocols
+1. Directive 018: Decision Capture Protocols
    - Decision marker format specification
    - Linking convention guidelines
    - Flow-aware capture timing recommendations
@@ -351,7 +351,7 @@ Automated validation MUST check:
    - Task YAML template with `decision_rationale` block
 
 **Acceptance criteria:**
-- ✅ Directive 015 created and added to manifest
+- ✅ Directive 018 created and added to manifest
 - ✅ All agent profiles reference decision capture requirements
 - ✅ Templates available in `.github/agents/templates/`
 
@@ -442,7 +442,7 @@ Automated validation MUST check:
 
 This ADR is considered successfully implemented when:
 
-- ✅ Directive 015 (Decision Capture Protocols) exists and is referenced by agent profiles
+- ✅ Directive 018 (Decision Capture Protocols) exists and is referenced by agent profiles
 - ✅ Decision marker format is standardized and documented in directive
 - ✅ Task YAML schema includes `decision_rationale` block
 - ✅ Work log template includes decision traceability section
@@ -452,12 +452,12 @@ This ADR is considered successfully implemented when:
 - ✅ Pilot tasks show >70% decision marker adoption in architectural commits
 - ✅ Pilot tasks demonstrate measurable improvement in agent suggestion acceptance (target: >75%)
 - ✅ Link validation integrated into CI or pre-commit workflow
-- ✅ ADR README updated to include ADR-014
+- ✅ ADR README updated to include ADR-017
 
 **Current Status:** ADR drafted, awaiting directive creation and tooling implementation.
 
 **Next Steps:**
-1. Create Directive 015: Decision Capture Protocols
+1. Create Directive 018: Decision Capture Protocols
 2. Update agent profiles to reference decision capture requirements
 3. Implement validation tooling (link checker, decision debt calculator)
 4. Execute pilot tasks with full traceability

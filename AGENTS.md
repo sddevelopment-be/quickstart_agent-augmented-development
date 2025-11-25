@@ -164,6 +164,9 @@ The following optional/specific instruction sets are externalized for token effi
 | 013  | Tooling Setup & Fallbacks     | Installation commands, version requirements, fallback strategies|
 | 014  | Work Log Creation             | Standards for work logs with token count and context metrics    |
 | 015  | Store Prompts                 | Optional prompt documentation with SWOT analysis for improvement|
+| 016  | Acceptance Test Driven Dev    | ATDD workflow and acceptance test requirements (ADR-012)        |
+| 017  | Test Driven Development       | TDD workflow and unit test requirements (ADR-012)               |
+| 018  | Traceable Decisions           | Decision capture protocols and traceability (ADR-017)           |
 
 Location: `.github/agents/directives/XXX_name.md` Example load pattern:
 
