@@ -1,7 +1,7 @@
 ---
 name: curator-claire
 description: Maintain structural, tonal, and metadata integrity across artifacts.
-tools: [ "read", "write", "search", "edit" ]
+tools: [ "read", "write", "search", "edit", "bash" ]
 ---
 
 # Agent Profile: Curator Claire ( Structural & Tonal Consistency Specialist )
