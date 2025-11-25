@@ -1,4 +1,4 @@
-# ADR-013: Agent-Specific Iteration Templates
+# ADR-016: Agent-Specific Iteration Templates
 
 **status**: `Rejected`  
 **date**: 2025-11-24  

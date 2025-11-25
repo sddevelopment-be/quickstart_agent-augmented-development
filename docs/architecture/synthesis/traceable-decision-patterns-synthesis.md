@@ -162,7 +162,7 @@ Retrospective Refinement
 - Create ADR formalizing decision patterns
 - Define directive 015 with capture protocols
 - Develop decision marker templates
-- Update existing directives to reference ADR-014
+- Update existing directives to reference ADR-017
 
 **Phase 2: Tooling (Week 3-4)**
 - Implement automated link validation
@@ -190,7 +190,7 @@ Retrospective Refinement
 
 **Inline Marker (for code/docs):**
 ```markdown
-<!-- DECISION-MARKER: ADR-014 -->
+<!-- DECISION-MARKER: ADR-017 -->
 **Decision:** Use file-based coordination for agent handoffs
 **Rationale:** Git-native, transparent, no infrastructure dependencies
 **Alternatives:** Message queue (rejected: operational complexity), API (rejected: network dependency)
@@ -215,7 +215,7 @@ task:
   id: "poc3-structural-mapping"
   status: "done"
   decision_rationale:
-    adr: "ADR-014"
+    adr: "ADR-017"
     justification: "Traceable decision patterns require explicit linking"
     alternatives_considered: ["inline comments only", "separate decision log"]
     chosen_because: "Integrated with task lifecycle, visible to agents"
@@ -319,7 +319,7 @@ Track over 3-month adoption period:
 
 ---
 
-## 8. Recommendations for ADR-014
+## 8. Recommendations for ADR-017
 
 The following elements should be formalized in the decision record:
 
@@ -416,7 +416,7 @@ Ready for formalization with:
 **Document Version:** 1.0.0  
 **Last Updated:** 2025-11-25T12:19:00Z  
 **Maintained By:** Architect Alphonso  
-**Next Step:** Create ADR-014 formalizing traceable decision patterns  
+**Next Step:** Create ADR-017 formalizing traceable decision patterns  
 **Status:** Ready for ADR drafting
 
 ---
