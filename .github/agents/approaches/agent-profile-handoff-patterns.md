@@ -3,7 +3,7 @@
 **Purpose:** Guide for documenting common handoff patterns in agent profiles as recommended by ADR-011.
 
 **Last Updated:** 2025-11-24  
-**Related ADR:** ADR-011 (Follow-Up Task Lookup Pattern - Rejected)
+**Related ADR:** ADR-015 (Follow-Up Task Lookup Pattern - Rejected)
 
 ## Overview
 
@@ -282,7 +282,7 @@ Add this section to each agent profile (`.github/agents/<agent-name>.agent.md`):
 
 ## References
 
-- **ADR-011:** Follow-Up Task Lookup Pattern (Rejected)
+- **ADR-015:** Follow-Up Task Lookup Pattern (Rejected)
 - **ADR-008:** File-Based Asynchronous Coordination
 - **File-Based Orchestration Approach:** `.github/agents/approaches/file-based-orchestration.md`
 - **Agent Profiles:** `.github/agents/*.agent.md`
@@ -290,4 +290,4 @@ Add this section to each agent profile (`.github/agents/<agent-name>.agent.md`):
 ---
 
 _Maintained by: Curator Claire & Architect Alphonso_  
-_For questions, see: ADR-011 or file-based-orchestration.md_
+_For questions, see: ADR-015 or file-based-orchestration.md_
