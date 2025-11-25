@@ -7,7 +7,7 @@
 
 ## Overview
 
-This approach describes how to systematically capture architectural decisions throughout the development lifecycle, integrating decision rationale with artifacts to preserve "why" knowledge for future contributors and AI agents. It implements the traceable decision patterns established in ADR-014.
+This approach describes how to systematically capture architectural decisions throughout the development lifecycle, integrating decision rationale with artifacts to preserve "why" knowledge for future contributors and AI agents. It implements the traceable decision patterns established in ADR-017.
 
 ## Core Principles
 
@@ -312,7 +312,7 @@ Agent: "Found 5 decision markers related to coordination patterns.
 ### Inline Marker (Full Format)
 
 ```markdown
-<!-- DECISION-MARKER: ADR-014 -->
+<!-- DECISION-MARKER: ADR-017 -->
 **Decision:** Use file-based coordination for agent handoffs
 **Rationale:** Git-native, transparent, no infrastructure dependencies
 **Alternatives:** Message queue (rejected: operational complexity), API (rejected: network dependency)
@@ -325,7 +325,7 @@ Agent: "Found 5 decision markers related to coordination patterns.
 ### Inline Marker (Minimal)
 
 ```markdown
-<!-- DECISION: ADR-014 - File-based coordination chosen for Git-native transparency -->
+<!-- DECISION: ADR-017 - File-based coordination chosen for Git-native transparency -->
 ```
 
 ### Commit Message Format
@@ -345,7 +345,7 @@ task:
   id: "2025-11-25T1200-architect-coordination"
   status: "done"
   decision_rationale:
-    adr: "ADR-014"
+    adr: "ADR-017"
     justification: "Traceable decision patterns require explicit linking"
     alternatives_considered: ["inline comments only", "separate decision log"]
     chosen_because: "Integrated with task lifecycle, visible to agents"
@@ -583,7 +583,7 @@ python work/scripts/calculate-decision-debt.py work/logs/
 
 ## References
 
-- **Authoritative ADR:** [ADR-014: Traceable Decision Integration](../../../docs/architecture/adrs/ADR-014-traceable-decision-integration.md)
+- **Authoritative ADR:** [ADR-017: Traceable Decision Integration](../../../docs/architecture/adrs/ADR-017-traceable-decision-integration.md)
 - **Synthesis:** [Traceable Decision Patterns Synthesis](../../../docs/architecture/synthesis/traceable-decision-patterns-synthesis.md)
 - **Source Ideation:**
   - [Structured Knowledge Sharing](../../../docs/ideation/tracability/structured_knowledge_sharing.md)
@@ -591,7 +591,7 @@ python work/scripts/calculate-decision-debt.py work/logs/
 - **Directives:**
   - 004: Documentation & Context Files
   - 008: Artifact Templates
-  - 016: Traceable Decisions (implementing directive)
+  - 018: Traceable Decisions (implementing directive)
 - **Related ADRs:**
   - ADR-001: Modular Agent Directive System
   - ADR-003: Task Lifecycle and State Management

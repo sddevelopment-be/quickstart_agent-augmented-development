@@ -156,6 +156,53 @@ When adding ideation artifacts:
 - Work Directory: [`work/README.md`](../../work/README.md)
 - Templates: [`docs/templates/`](../templates/)
 
+## Current Ideation Status (2025-11-25)
+
+### Active Ideation
+
+#### `tracability/`
+**Status:** ✅ Captured in ADR-017 (Traceable Decision Integration)
+
+- `structured_knowledge_sharing.md` - Organizational knowledge sharing patterns
+- `personal_productivity_flow.md` - Individual contributor workflow patterns
+
+**Related Artifacts:**
+- ADR-017: Traceable Decision Integration
+- Synthesis: `docs/architecture/synthesis/traceable-decision-patterns-synthesis.md`
+- Directive 018: Traceable Decisions
+- Approach: `agents/approaches/decision-first-development.md`
+
+#### `portability_testing/`
+**Status:** 🔄 Not yet formalized into ADR
+
+- `portability_testing.md` - Main protocol description
+- `test_protocol.md` - Step-by-step testing procedure
+- `meta_agents.md` - Multi-agent portability testing
+- `issue_template.md` - GitHub issue template
+
+**Next Steps:** Consider moving to `docs/HOW_TO_USE/` or `validation/` as operational documentation
+
+#### `opinionated_platform/`
+**Status:** 📚 Reference material (intentionally kept as source principles)
+
+Contains foundational principles that guide framework design. These remain as reference materials rather than being "captured" since they represent ongoing design philosophy.
+
+**Related to:**
+- ADR-011: Command Alias Primer Alignment (solutioning_primer)
+- ADR-012: Default to ATDD + TDD (testing_pyramid, quad_A_test_structure)
+- Various directives incorporate these principles
+
+#### `2025-11-25-video-transcription-documentation-pipeline.md`
+**Status:** 🆕 New exploration, not yet synthesized
+
+### Recently Captured (2025-11-25)
+
+**distribution_of_releases/** - Fully captured and removed
+
+- ✅ Captured in ADR-013 (Zip Distribution) and ADR-014 (Framework Guardian)
+- ✅ Templates moved to `docs/templates/automation/`
+- ✅ Ideation files removed after formalization
+
 ---
 
 _Maintained by: Curator, Researcher, Architect agents_  
