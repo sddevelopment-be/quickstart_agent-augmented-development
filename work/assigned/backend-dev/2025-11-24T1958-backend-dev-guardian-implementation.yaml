@@ -24,9 +24,10 @@ context:
   - docs/architecture/design/distribution_of_releases_technical_design.md
   - .github/agents/framework-guardian.agent.md
   dependencies:
-  - 2025-11-24T1954-build-automation-packaging-pipeline (for MANIFEST.yml format)
-  - 2025-11-24T1956-build-automation-upgrade-script (for upgrade-report.txt format)
-  - 2025-11-24T1957-architect-framework-guardian-profile (for agent spec and templates)
+  - 2025-11-24T1954-build-automation-packaging-pipeline (for MANIFEST.yml format - complete)
+  - 2025-11-24T1956-build-automation-upgrade-script (for upgrade-report.txt format - complete)
+  - 2025-11-24T1957-architect-framework-guardian-profile (for agent spec and templates - complete)
+  - 2025-11-25T0606-curator-guard-clause-directive (for code style standards - REQUIRED)
   quality_criteria:
   - Python code follows repository standards
   - Test coverage >80% for both audit and upgrade modes

@@ -30,6 +30,7 @@ context:
     - "2025-11-24T1954-build-automation-packaging-pipeline (complete)"
     - "2025-11-24T1955-build-automation-install-script (complete)"
     - "2025-11-24T1956-build-automation-upgrade-script (complete)"
+    - "2025-11-25T0606-curator-guard-clause-directive (for code style standards - REQUIRED)"
   
   quality_criteria:
     - "All existing tests must continue to pass (100%)"

@@ -21,10 +21,12 @@ context:
   references:
   - docs/architecture/design/distribution_of_releases_technical_design.md
   dependencies:
-  - 2025-11-24T1954-build-automation-packaging-pipeline
-  - 2025-11-24T1955-build-automation-install-script
-  - 2025-11-24T1956-build-automation-upgrade-script
-  - 2025-11-24T1958-backend-dev-guardian-implementation
+  - 2025-11-24T1954-build-automation-packaging-pipeline (complete)
+  - 2025-11-24T1955-build-automation-install-script (complete)
+  - 2025-11-24T1956-build-automation-upgrade-script (complete)
+  - 2025-11-24T1958-backend-dev-guardian-implementation (REQUIRED)
+  - 2025-11-25T0606-curator-guard-clause-directive (REQUIRED)
+  - 2025-11-24T2116-architect-followup-2025-11-24T2000-curator-primer-testing-directives-rollout (REQUIRED)
   quality_criteria:
   - Tests cover all major workflows and edge cases
   - Tests run in CI pipeline automatically
