@@ -1,6 +1,7 @@
 id: 2025-11-24T2116-curator-followup-2025-11-24T1945-curator-primer-alias-directive-alignment
 agent: curator
 status: new
+priority: critical
 title: Integrate ATDD/TDD directives into alias + profile updates
 artefacts:
 - agents/aliases.md

@@ -1,0 +1,47 @@
+id: "2025-11-25T0609-build-automation-workflow-modularization"
+agent: "build-automation"
+status: "new"
+priority: "low"
+title: "Extract Reusable GitHub Actions Workflow Components"
+
+artefacts:
+  - ".github/workflows/reusable-shellcheck.yml"
+  - ".github/workflows/reusable-test-runner.yml"
+  - "docs/HOW_TO_USE/github-actions-reuse.md"
+
+context:
+  notes:
+    - "Current workflows have duplicated patterns"
+    - "Extract common steps for reuse across workflows"
+    - "Leverage GitHub Actions reusable workflows feature"
+    - "Focus on: shellcheck, test execution, artifact handling"
+  
+  requirements:
+    - "Reusable workflow for shell script validation"
+    - "Reusable workflow for running test suites"
+    - "Documentation on using reusable workflows"
+    - "Update existing workflows to use new components"
+  
+  benefits:
+    - "Reduce duplication in workflow definitions"
+    - "Easier maintenance of common patterns"
+    - "Consistent testing approach"
+  
+  references:
+    - ".github/workflows/release-packaging.yml"
+    - "work/done/build-automation/2025-11-24T1954-build-automation-packaging-pipeline.yaml"
+  
+  dependencies:
+    - "2025-11-24T1954-build-automation-packaging-pipeline (complete)"
+  
+  quality_criteria:
+    - "At least 2 reusable workflow components"
+    - "Existing workflows updated to use components"
+    - "Documentation with examples"
+    - "No breaking changes to existing CI/CD"
+
+metadata:
+  created_at: '2025-11-25T06:09:00Z'
+  created_by: copilot
+  estimated_effort: 0.5-1 day
+  source_comment: "Comment 2558643209 on packaging task"

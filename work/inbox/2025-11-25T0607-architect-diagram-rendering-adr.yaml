@@ -1,0 +1,42 @@
+id: "2025-11-25T0607-architect-diagram-rendering-adr"
+agent: "architect"
+status: "new"
+priority: "medium"
+title: "Create ADR for Diagram Rendering Workflow with Docker"
+
+artefacts:
+  - "docs/architecture/adrs/ADR-017-diagram-rendering-automation.md"
+  - "work/logs/architect/2025-11-25T0607-diagram-rendering-assessment.md"
+
+context:
+  notes:
+    - "Assess need for automated diagram rendering workflow"
+    - "Reference sddevelopment-be/document-generation stack"
+    - "Consider docker/podman for consistent rendering environment"
+    - "Evaluate PlantUML, Mermaid, and other diagram-as-code tools"
+    - "Determine CI/CD integration approach"
+  
+  requirements:
+    - "ADR documenting diagram rendering strategy"
+    - "Analysis of docker-compose based approach"
+    - "Comparison with existing tools in repository"
+    - "Cost-benefit analysis of automation vs manual"
+  
+  references:
+    - "https://github.com/sddevelopment-be/document-generation"
+    - "work/assigned/diagrammer/2025-11-24T1756-diagrammer-followup-2025-11-23T1738-architect-poc3-multi-agent-chain.yaml"
+  
+  dependencies:
+    - None
+  
+  quality_criteria:
+    - "Complete ADR following established template"
+    - "Technical feasibility assessment"
+    - "Integration plan if approved"
+    - "Alternative approaches considered"
+
+metadata:
+  created_at: '2025-11-25T06:07:00Z'
+  created_by: copilot
+  estimated_effort: 1 day
+  source_comment: "Comment 2558631880 on diagrammer task"

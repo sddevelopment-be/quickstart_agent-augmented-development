@@ -1,0 +1,49 @@
+id: "2025-11-25T0606-curator-guard-clause-directive"
+agent: "curator"
+status: "new"
+priority: "high"
+title: "Add Guard Clause Directive to Coding Standards"
+
+artefacts:
+  - ".github/agents/directives/018_code_structure_style.md"
+  - ".github/agents/directives/manifest.json"
+
+context:
+  notes:
+    - "Create new directive for preferred code structure styles"
+    - "Include guard clause pattern for validation checks"
+    - "Integrate with existing TDD/ATDD directives (016, 017)"
+    - "Document with examples comparing nested vs guard clause style"
+    - "Reference in coding agent profiles (backend-dev, build-automation)"
+  
+  requirements:
+    - "Prefer guard clause style for validation checks"
+    - "Example: Early return on failure conditions"
+    - "Avoid deep nesting in conditional logic"
+    - "Improve code readability and maintainability"
+  
+  references:
+    - ".github/agents/directives/016_acceptance_test_driven_development.md"
+    - ".github/agents/directives/017_test_driven_development.md"
+    - "scripts/tests/test_framework_install.sh (refactored examples)"
+  
+  dependencies:
+    - "2025-11-24T2116-curator-followup-2025-11-24T1945-curator-primer-alias-directive-alignment"
+  
+  blocks:
+    - "2025-11-24T1958-backend-dev-guardian-implementation"
+    - "2025-11-24T2000-build-automation-integration-testing"
+    - "2025-11-24T2201-backend-dev-refactor-scripts"
+    - "All future coding tasks should reference this directive"
+  
+  quality_criteria:
+    - "Clear examples of guard clause vs nested if-else"
+    - "Integration with TDD/ATDD workflow"
+    - "Referenced in relevant agent profiles"
+    - "Added to directive manifest"
+
+metadata:
+  created_at: '2025-11-25T06:06:00Z'
+  created_by: copilot
+  estimated_effort: 0.5 days
+  source_comment: "Comment 2558604597 on test_framework_install.sh"

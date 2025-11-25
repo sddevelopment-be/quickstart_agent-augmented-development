@@ -63,18 +63,15 @@ test_start "New installation in empty directory"
 setup_test_package
 mkdir -p "${TEST_DIR}/target1"
 cd "${TEST_DIR}/package"
-if sh "${INSTALL_SCRIPT}" "${TEST_DIR}/target1" > /dev/null 2>&1; then
-    if [ -f "${TEST_DIR}/target1/.framework_meta.yml" ]; then
-        if [ -f "${TEST_DIR}/target1/.github/test.txt" ]; then
-            test_pass
-        else
-            test_fail "File not copied"
-        fi
-    else
-        test_fail "Meta file not created"
-    fi
-else
+
+if ! sh "${INSTALL_SCRIPT}" "${TEST_DIR}/target1" > /dev/null 2>&1; then
     test_fail "Script exited with error"
+elif [ ! -f "${TEST_DIR}/target1/.framework_meta.yml" ]; then
+    test_fail "Meta file not created"
+elif [ ! -f "${TEST_DIR}/target1/.github/test.txt" ]; then
+    test_fail "File not copied"
+else
+    test_pass
 fi
 
 # Test 2: Detect existing installation
@@ -109,14 +106,13 @@ mkdir -p "${TEST_DIR}/package/framework_core/deep/nested/path"
 echo "deep file" > "${TEST_DIR}/package/framework_core/deep/nested/path/file.txt"
 mkdir -p "${TEST_DIR}/target3"
 cd "${TEST_DIR}/package"
-if sh "${INSTALL_SCRIPT}" "${TEST_DIR}/target3" > /dev/null 2>&1; then
-    if [ -f "${TEST_DIR}/target3/deep/nested/path/file.txt" ]; then
-        test_pass
-    else
-        test_fail "Deep file not created"
-    fi
-else
+
+if ! sh "${INSTALL_SCRIPT}" "${TEST_DIR}/target3" > /dev/null 2>&1; then
     test_fail "Script exited with error"
+elif [ ! -f "${TEST_DIR}/target3/deep/nested/path/file.txt" ]; then
+    test_fail "Deep file not created"
+else
+    test_pass
 fi
 
 # Test 5: Report file generation

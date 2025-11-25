@@ -1,0 +1,49 @@
+id: "2025-11-25T0608-architect-scheduling-feature-design"
+agent: "architect"
+status: "new"
+priority: "medium"
+title: "Design Rudimentary Scheduling Feature for Recurring Tasks"
+
+artefacts:
+  - "docs/architecture/adrs/ADR-018-task-scheduling-framework.md"
+  - "docs/architecture/design/task_scheduling_technical_design.md"
+  - "docs/templates/tasks/TEMPLATE_RECURRING_TASK.yaml"
+
+context:
+  notes:
+    - "Framework currently lacks ability to schedule recurring tasks"
+    - "Many tasks need regular execution (audits, documentation updates)"
+    - "Design simple scheduling mechanism compatible with file-based orchestration"
+    - "Consider cron-like patterns vs relative scheduling"
+    - "Integration with existing task workflow"
+  
+  requirements:
+    - "Recurring task specification format"
+    - "Scheduling metadata (frequency, next execution)"
+    - "Orchestrator integration for scheduled task generation"
+    - "Simple interval-based scheduling (daily, weekly, monthly)"
+  
+  use_cases:
+    - "Regular framework audits (monthly)"
+    - "Documentation refresh (quarterly)"
+    - "Dependency updates (weekly)"
+    - "Performance assessments (quarterly)"
+  
+  references:
+    - "work/collaboration/RELEASE_DISTRIBUTION_IMPLEMENTATION_STATUS.md"
+    - "work/scripts/agent_orchestrator.py"
+  
+  dependencies:
+    - None
+  
+  quality_criteria:
+    - "ADR with scheduling strategy"
+    - "Technical design for implementation"
+    - "Template for recurring task definition"
+    - "Backward compatibility with existing tasks"
+
+metadata:
+  created_at: '2025-11-25T06:08:00Z'
+  created_by: copilot
+  estimated_effort: 1-2 days
+  source_comment: "Comment 2558639964 on status report"

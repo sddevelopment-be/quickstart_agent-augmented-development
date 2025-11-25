@@ -1,0 +1,54 @@
+id: "2025-11-25T0610-build-automation-work-init-enhancement"
+agent: "build-automation"
+status: "new"
+priority: "high"
+title: "Enhance Work Directory Initialization Script"
+
+artefacts:
+  - "scripts/init_work_structure.sh"
+  - "scripts/tests/test_init_work_structure.sh"
+  - "docs/HOW_TO_USE/work-directory-setup.md"
+
+context:
+  notes:
+    - "Enhance existing rudimentary work initialization script"
+    - "CRITICAL: Never overwrite existing work structures"
+    - "Create standard directory structure (inbox, assigned, done, archive, logs, collaboration)"
+    - "Add .gitkeep files and README.md templates"
+    - "Detect existing structure and skip gracefully"
+  
+  requirements:
+    - "POSIX-compliant shell script"
+    - "Idempotent - safe to run multiple times"
+    - "Creates work directory scaffolding"
+    - "Generates README.md templates for each subdirectory"
+    - "Never overwrites existing files"
+    - "Test suite covering all scenarios"
+  
+  directory_structure:
+    - "work/inbox/ - New tasks awaiting assignment"
+    - "work/assigned/{agent}/ - Tasks currently being worked on"
+    - "work/done/{agent}/ - Completed tasks"
+    - "work/archive/ - Archived historical tasks"
+    - "work/logs/{agent}/ - Agent work logs"
+    - "work/collaboration/ - Cross-agent artifacts"
+  
+  references:
+    - "docs/HOW_TO_USE/release-process.md (line 76 comment)"
+    - "scripts/framework_install.sh (for safe file handling patterns)"
+  
+  dependencies:
+    - "2025-11-24T1955-build-automation-install-script (complete)"
+  
+  quality_criteria:
+    - "Shellcheck validated"
+    - "Test suite with 100% pass rate"
+    - "Idempotent - can run repeatedly safely"
+    - "Creates all required directories"
+    - "Documentation explains structure"
+
+metadata:
+  created_at: '2025-11-25T06:10:00Z'
+  created_by: copilot
+  estimated_effort: 0.5 days
+  source_comment: "Comment 2558579294 on release-process.md"
