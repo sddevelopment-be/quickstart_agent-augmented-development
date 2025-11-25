@@ -1,0 +1,221 @@
+@startuml Video Transcription Documentation Pipeline
+
+title Video Transcription to Documentation Pipeline\nAgent-Augmented Documentation Workflow
+
+!define VIDEO #FFE5E5
+!define TRANSCRIPT #FFF9E1
+!define ANALYSIS #E1F5FF
+!define DRAFT #F3E5F5
+!define REVIEW #FFF3E0
+!define DONE #E8F5E9
+
+actor "Content\nCreator" as Creator
+participant "Video\nRecording" as Video VIDEO
+database "Recordings\nStorage" as Storage VIDEO
+participant "Transcription\nService" as Transcriber
+database "Transcripts/" as TranscriptDB TRANSCRIPT
+participant "Analyzer\nAgent" as Analyzer ANALYSIS
+participant "Writer\nAgent" as Writer DRAFT
+participant "Curator/\nArchitect" as Reviewer REVIEW
+database "docs/" as Docs DONE
+actor "Consumers" as Users
+
+== Stage 1: Video Ingestion ==
+
+Creator -> Video: Record meeting/demo/presentation
+note right
+  Content types:
+  - Architecture meetings
+  - Product demos
+  - Knowledge sharing
+  - Brainstorming sessions
+end note
+
+Video -> Storage: Upload video file
+note right
+  Metadata captured:
+  - Duration
+  - Participants
+  - Date/time
+  - Topic/title
+  - Unique ID
+end note
+
+== Stage 2: Transcription ==
+
+Storage -> Transcriber: Submit for transcription
+activate Transcriber
+note right
+  Transcription options:
+  - Whisper (local)
+  - AssemblyAI (API)
+  - Google Speech-to-Text
+  
+  Features:
+  - Timestamps
+  - Speaker diarization
+  - Confidence scores
+end note
+
+Transcriber -> Transcriber: Process audio\nGenerate timestamps\nIdentify speakers
+Transcriber -> TranscriptDB: Save raw transcript
+deactivate Transcriber
+
+note over TranscriptDB
+  raw/2025-11-25-meeting.txt:
+  
+  [00:00:05] Speaker A: Let's discuss the architecture...
+  [00:02:15] Speaker B: We need to consider scalability...
+  [00:05:30] Speaker A: The key trade-off is between...
+  
+  Confidence: 94%
+end note
+
+== Stage 3: Content Analysis ==
+
+TranscriptDB -> Analyzer: Trigger analysis task
+activate Analyzer
+note right
+  work/inbox/transcribe-XXX.yaml:
+    agent: analyzer
+    artifacts: [transcript.txt]
+    task: extract-structure
+end note
+
+Analyzer -> Analyzer: Segment transcript\nExtract key topics\nIdentify decisions\nFind action items
+note left
+  Analysis outputs:
+  - Section boundaries
+  - Topic tags
+  - Decision markers
+  - Action items
+  - Technical terms
+  - Questions raised
+end note
+
+Analyzer -> TranscriptDB: Save structured outline
+note over TranscriptDB
+  processed/2025-11-25-meeting-structured.md:
+  
+  ## Topics Discussed
+  - Architecture approach [00:00:05-00:08:30]
+  - Scalability considerations [00:08:35-00:15:20]
+  - Trade-off analysis [00:15:25-00:25:00]
+  
+  ## Decisions Made
+  - [DECISION] Use event-driven architecture [00:22:15]
+    Rationale: Better scalability, clearer boundaries
+  
+  ## Action Items
+  - [ ] Draft ADR for event architecture (Speaker A)
+  - [ ] Research message queue options (Speaker B)
+end note
+
+deactivate Analyzer
+
+== Stage 4: Documentation Generation ==
+
+Analyzer -> Writer: Handoff with structured content
+activate Writer
+note right
+  next_agent: writer
+  output_format: [ADR, notes, tasks]
+end note
+
+Writer -> Writer: Generate documentation\nApply templates\nInsert references
+note left
+  Multi-format generation:
+  - ADR draft (if decision)
+  - Meeting notes
+  - Task YAML files
+  - Glossary updates
+  - FAQ entries
+end note
+
+Writer -> Docs: Create draft artifacts
+note over Docs
+  docs/architecture/adrs/ADR-XXX-draft.md:
+  
+  # ADR-XXX: Event-Driven Architecture
+  
+  **Source:** [Meeting Recording](recordings/2025-11-25.mp4)
+  **Transcript:** [Full transcript](transcripts/...)
+  
+  ## Context
+  [Extracted from meeting discussion at 00:05:30]
+  
+  ## Decision
+  [Decision point from timestamp 00:22:15]
+  
+  ## Consequences
+  [Trade-offs discussed at 00:15:25]
+end note
+
+deactivate Writer
+
+== Stage 5: Review and Refinement ==
+
+Writer -> Reviewer: Request review
+activate Reviewer
+note right
+  work/inbox/review-XXX.yaml:
+    agent: architect
+    task: review-and-refine
+    artifacts: [ADR-XXX-draft.md]
+end note
+
+Reviewer -> Reviewer: Validate accuracy\nCheck completeness\nAdd cross-links\nRefine structure
+note left
+  Review checklist:
+  ✓ Technical accuracy
+  ✓ Complete rationale
+  ✓ Proper formatting
+  ✓ Cross-references
+  ✓ Timestamp links work
+end note
+
+Reviewer -> Docs: Finalize documentation
+note over Docs
+  Final structure:
+  - ADR approved & numbered
+  - Cross-links added
+  - Related docs updated
+  - Source video archived
+  - Traceability complete
+end note
+
+deactivate Reviewer
+
+== Stage 6: Integration and Consumption ==
+
+Docs -> Users: Documentation available
+note right
+  Consumption modes:
+  - Browse docs site
+  - Search for concepts
+  - Follow timestamp links
+  - Reference in decisions
+  - Training materials
+end note
+
+Users -> Storage: [Optional] View source video
+note left
+  Deep dive via:
+  - Timestamp references
+  - Context verification
+  - Additional details
+end note
+
+== Metrics Collection ==
+
+note over Storage, Docs
+  **Pipeline Metrics:**
+  - Processing time: Video → Published docs
+  - Accuracy: Transcript confidence scores
+  - Coverage: % of videos documented
+  - Time savings: vs. manual documentation
+  - Usage: References to generated docs
+  - Quality: Review feedback scores
+end note
+
+@enduml
