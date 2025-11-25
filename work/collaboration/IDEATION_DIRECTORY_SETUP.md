@@ -217,9 +217,44 @@ This task demonstrates effective multi-agent patterns:
 
 ---
 
+## Validation Checklist
+
+Before marking complete, verify:
+
+- [ ] Directory `docs/ideation/` exists
+- [ ] File `docs/ideation/README.md` exists
+- [ ] README content matches `/tmp/ideation-readme.md` (5,099 bytes)
+- [ ] REPO_MAP.md shows ideation reference (commit: da3bf05) ✅
+- [ ] README cross-references work correctly
+- [ ] File permissions are appropriate (readable by all)
+- [ ] Git tracking confirmed (`git ls-files docs/ideation/README.md`)
+
+## Quick Deploy Commands
+
+```bash
+# Verify source file exists
+ls -lh /tmp/ideation-readme.md
+
+# Create directory and deploy
+mkdir -p docs/ideation
+cp /tmp/ideation-readme.md docs/ideation/README.md
+
+# Verify deployment
+cat docs/ideation/README.md | head -10
+ls -lh docs/ideation/
+
+# Commit and push
+git add docs/ideation/README.md
+git commit -m "Create docs/ideation directory with README (curator handoff completion)"
+git push
+```
+
+---
+
 **Handoff To:** Build Automation Agent or Human Operator  
 **Action Required:** Execute Option 1 or 2 above  
-**Validation:** Confirm `docs/ideation/README.md` exists and matches prepared content  
+**Validation:** Complete checklist above  
 **Completion:** Update this document with ✅ status and close associated GitHub issue
 
-_Prepared by Curator Claire in alignment with repository governance standards._
+_Prepared by Curator Claire in alignment with repository governance standards._  
+_All documentation work complete. Directory creation requires bash capability._
