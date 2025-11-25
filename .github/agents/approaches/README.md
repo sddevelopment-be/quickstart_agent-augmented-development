@@ -9,6 +9,7 @@ This directory contains an overview of agentic approaches. These are description
 | Approach | Description | Agent(s) | Version |
 |----------|-------------|----------|---------|
 | [file-based-orchestration.md](file-based-orchestration.md) | File-based asynchronous agent coordination pattern using YAML tasks and directory state machines | All agents | 1.0.0 |
+| [decision-first-development.md](decision-first-development.md) | Step-by-step workflow for capturing architectural decisions during development with flow-aware timing | All agents | 1.0.0 |
 
 ## Usage
 

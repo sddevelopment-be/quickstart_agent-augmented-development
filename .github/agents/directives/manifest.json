@@ -182,6 +182,18 @@
       "safetyCritical": false,
       "directive_version": "1.0.0",
       "status": "active"
+    },
+    {
+      "code": "016",
+      "slug": "traceable_decisions",
+      "title": "Traceable Decisions",
+      "file": "016_traceable_decisions.md",
+      "purpose": "Decision traceability and rationale capture for agent-generated artifacts",
+      "dependencies": ["004", "008"],
+      "requiredInAgents": false,
+      "safetyCritical": false,
+      "directive_version": "1.0.0",
+      "status": "active"
     }
   ]
 }
