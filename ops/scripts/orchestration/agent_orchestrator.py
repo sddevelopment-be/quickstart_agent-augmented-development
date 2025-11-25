@@ -21,6 +21,8 @@ from typing import Any, Dict
 
 import yaml
 
+from task_utils import read_task, write_task, log_event, get_utc_timestamp, update_task_status
+
 # Configuration
 WORK_DIR = Path("work")
 INBOX_DIR = WORK_DIR / "inbox"
@@ -33,26 +35,10 @@ TIMEOUT_HOURS = 2  # Flag tasks in_progress for > 2 hours
 ARCHIVE_RETENTION_DAYS = 30  # Archive tasks older than 30 days
 
 
-def log_event(message: str) -> None:
+def _log_event(message: str) -> None:
     """Append event to workflow log."""
-    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
     log_file = COLLAB_DIR / "WORKFLOW_LOG.md"
-    log_file.parent.mkdir(parents=True, exist_ok=True)
-
-    with open(log_file, "a", encoding="utf-8") as f:
-        f.write(f"\n**{timestamp}** - {message}")
-
-
-def read_task(task_file: Path) -> Dict[str, Any]:
-    """Load task YAML."""
-    with open(task_file, "r", encoding="utf-8") as f:
-        return yaml.safe_load(f) or {}
-
-
-def write_task(task_file: Path, task: Dict[str, Any]) -> None:
-    """Save task YAML."""
-    with open(task_file, "w", encoding="utf-8") as f:
-        yaml.dump(task, f, default_flow_style=False, sort_keys=False)
+    log_event(message, log_file)
 
 
 def assign_tasks() -> int:
@@ -65,12 +51,12 @@ def assign_tasks() -> int:
             agent = task.get("agent")
 
             if not agent:
-                log_event(f"⚠️ Task {task_file.name} missing 'agent' field")
+                _log_event(f"⚠️ Task {task_file.name} missing 'agent' field")
                 continue
 
             agent_dir = ASSIGNED_DIR / agent
             if not agent_dir.exists():
-                log_event(f"❗️ Unknown agent: {agent}")
+                _log_event(f"❗️ Unknown agent: {agent}")
                 continue
 
             dest = agent_dir / task_file.name
@@ -80,10 +66,10 @@ def assign_tasks() -> int:
             write_task(dest, task)
             task_file.unlink()
 
-            log_event(f"Assigned task {task['id']} to {agent}")
+            _log_event(f"Assigned task {task['id']} to {agent}")
             tasks_assigned += 1
         except Exception as exc:  # noqa: BLE001
-            log_event(f"❗️ Error assigning {task_file.name}: {exc}")
+            _log_event(f"❗️ Error assigning {task_file.name}: {exc}")
 
     return tasks_assigned
 
@@ -139,7 +125,7 @@ def process_completed_tasks() -> int:
             log_handoff(task.get("agent", "unknown"), next_agent, followup.get("artefacts", []), followup_id)
             followups_created += 1
         except Exception as exc:  # noqa: BLE001
-            log_event(f"❗️ Error processing {task_file.name}: {exc}")
+            _log_event(f"❗️ Error processing {task_file.name}: {exc}")
 
     return followups_created
 
@@ -162,16 +148,16 @@ def check_timeouts() -> int:
 
                 started_at_raw = task.get("started_at")
                 if not started_at_raw:
-                    log_event(f"⚠️ Task {task.get('id', task_file.name)} missing started_at; skipping timeout check")
+                    _log_event(f"⚠️ Task {task.get('id', task_file.name)} missing started_at; skipping timeout check")
                     continue
 
                 started_at = datetime.fromisoformat(str(started_at_raw).replace("Z", "+00:00"))
 
                 if started_at < timeout_cutoff:
-                    log_event(f"⚠️ Task {task['id']} stalled (>{TIMEOUT_HOURS}h)")
+                    _log_event(f"⚠️ Task {task['id']} stalled (>{TIMEOUT_HOURS}h)")
                     flagged += 1
             except Exception as exc:  # noqa: BLE001
-                log_event(f"❗️ Error checking timeout for {task_file.name}: {exc}")
+                _log_event(f"❗️ Error checking timeout for {task_file.name}: {exc}")
 
     return flagged
 
@@ -192,12 +178,12 @@ def detect_conflicts() -> int:
                     for artifact in task.get("artefacts", []):
                         artifact_map[str(artifact)].append(task.get("id", task_file.name))
             except Exception as exc:  # noqa: BLE001
-                log_event(f"❗️ Error checking conflicts for {task_file.name}: {exc}")
+                _log_event(f"❗️ Error checking conflicts for {task_file.name}: {exc}")
 
     conflicts = 0
     for artifact, task_ids in artifact_map.items():
         if len(task_ids) > 1:
-            log_event(f"⚠️ Conflict: {artifact} targeted by {task_ids}")
+            _log_event(f"⚠️ Conflict: {artifact} targeted by {task_ids}")
             conflicts += 1
 
     return conflicts
@@ -272,7 +258,7 @@ def archive_old_tasks() -> int:
                 shutil.move(str(task_file), str(dest))
                 archived += 1
         except Exception as exc:  # noqa: BLE001
-            log_event(f"❗️ Error archiving {task_file.name}: {exc}")
+            _log_event(f"❗️ Error archiving {task_file.name}: {exc}")
 
     return archived
 
@@ -298,7 +284,7 @@ def main() -> None:
     print(f"   - Conflicts detected: {conflicts}")
     print(f"   - Archived: {archived} tasks")
 
-    log_event(
+    _log_event(
         "Coordinator cycle: "
         f"{assigned} assigned, {followups} follow-ups, "
         f"{timeouts} timeouts, {conflicts} conflicts, {archived} archived"
