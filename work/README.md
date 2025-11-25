@@ -106,11 +106,11 @@ The Agent Orchestrator assigns tasks, creates follow-ups, and monitors system he
 
 **Manual execution:**
 ```bash
-python work/scripts/agent_orchestrator.py
+python ops/scripts/orchestration/agent_orchestrator.py
 ```
 
 **Automated execution:**
-- Via cron: `*/5 * * * * cd /path/to/repo && python work/scripts/agent_orchestrator.py`
+- Via cron: `*/5 * * * * cd /path/to/repo && python ops/scripts/orchestration/agent_orchestrator.py`
 - Via GitHub Actions: See `.github/workflows/agent-orchestrator.yml`
 
 ### Processing Tasks as an Agent
@@ -183,13 +183,13 @@ Validate task files and directory structure:
 
 ```bash
 # Validate task YAML schema
-python work/scripts/validate-task-schema.py work/inbox/task.yaml
+python validation/validate-task-schema.py work/inbox/task.yaml
 
 # Validate directory structure
-bash work/scripts/validate-work-structure.sh
+bash validation/validate-work-structure.sh
 
 # Validate all (when implemented)
-bash work/scripts/validate-all.sh
+bash validation/validate-all.sh
 ```
 
 ## Monitoring
@@ -214,7 +214,7 @@ Old completed tasks are automatically moved to `work/archive/<YYYY-MM>/` after 3
 Manual archival:
 ```bash
 # Archive tasks older than specified date
-python work/scripts/archive-tasks.py --before 2025-10-01
+python ops/scripts/planning/archive-tasks.py --before 2025-10-01
 ```
 
 ## Design Principles
@@ -255,7 +255,7 @@ python work/scripts/archive-tasks.py --before 2025-10-01
 ### Agent Orchestrator not running
 - Check cron or GitHub Actions configuration
 - Verify Python dependencies installed
-- Run manually to diagnose: `python work/scripts/agent_orchestrator.py`
+- Run manually to diagnose: `python ops/scripts/orchestration/agent_orchestrator.py`
 
 ## Support
 

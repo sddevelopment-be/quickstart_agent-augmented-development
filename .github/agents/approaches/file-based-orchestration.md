@@ -303,12 +303,12 @@ Use these checks to ensure correct implementation:
 
 **Task YAML Validation:**
 ```bash
-python work/scripts/validate-task-schema.py work/inbox/task.yaml
+python validation/validate-task-schema.py work/inbox/task.yaml
 ```
 
 **Directory Structure:**
 ```bash
-bash work/scripts/validate-work-structure.sh
+bash validation/validate-work-structure.sh
 ```
 
 **Task Lifecycle:**
