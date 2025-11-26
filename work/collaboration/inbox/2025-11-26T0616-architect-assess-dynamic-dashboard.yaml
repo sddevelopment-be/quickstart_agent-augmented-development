@@ -1,0 +1,21 @@
+id: 2025-11-26T0616-architect-assess-dynamic-dashboard
+agent: architect
+status: new
+title: "Assess creating dynamic dashboard via stateless webservice"
+priority: low
+artefacts:
+  - docs/architecture/adrs/ADR-XXX-dynamic-dashboard-assessment.md (new)
+context:
+  repo: "sddevelopment-be/quickstart_agent-augmented-development"
+  branch: "copilot/restructure-work-directory"
+  notes:
+    - "Assess feasibility of creating dynamic dashboard"
+    - "Dashboard would be a simple stateless webservice"
+    - "Pulls information from repository or local machine"
+    - "Displays real-time orchestration status to users"
+    - "Consider: implementation effort, maintenance cost, value proposition"
+    - "Document decision in ADR format"
+    - "Include trade-offs: static files vs dynamic service"
+  pr_comment: "https://github.com/sddevelopment-be/quickstart_agent-augmented-development/pull/.../files#r2563371914"
+created_at: "2025-11-26T06:16:00Z"
+created_by: "curator-claire"

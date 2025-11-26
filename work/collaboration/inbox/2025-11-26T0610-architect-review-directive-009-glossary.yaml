@@ -1,0 +1,20 @@
+id: 2025-11-26T0610-architect-review-directive-009-glossary
+agent: architect
+status: new
+title: "Review Directive 009 and consider shared glossary creation"
+priority: normal
+artefacts:
+  - .github/agents/directives/009_role_capabilities.md
+  - data/glossary.toml or data/glossary.json or data/glossary.md (new, if created)
+context:
+  repo: "sddevelopment-be/quickstart_agent-augmented-development"
+  branch: "copilot/restructure-work-directory"
+  notes:
+    - "Review Directive 009 (Role Capabilities) and the available agent profiles"
+    - "Consider creating a shared glossary (markdown, YAML, or JSON format)"
+    - "Glossary would help agents understand terminology consistently"
+    - "If creating glossary, place in data/ directory"
+    - "Update Directive 009 to reference glossary if created"
+  pr_comment: "https://github.com/sddevelopment-be/quickstart_agent-augmented-development/pull/.../files#r2563266489"
+created_at: "2025-11-26T06:10:00Z"
+created_by: "curator-claire"

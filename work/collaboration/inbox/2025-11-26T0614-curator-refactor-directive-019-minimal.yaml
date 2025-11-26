@@ -1,0 +1,24 @@
+id: 2025-11-26T0614-curator-refactor-directive-019-minimal
+agent: curator
+status: new
+title: "Refactor Directive 019 to minimal format with approach references"
+priority: critical
+artefacts:
+  - .github/agents/directives/019_file_based_collaboration.md
+  - .github/agents/approaches/file_based_collaboration/ (new directory)
+  - .github/agents/approaches/file_based_collaboration/README.md (overview)
+  - .github/agents/approaches/file_based_collaboration/*.md (one file per step)
+context:
+  repo: "sddevelopment-be/quickstart_agent-augmented-development"
+  branch: "copilot/restructure-work-directory"
+  notes:
+    - "HIGHLY verbose directive - will lead to bad token discipline"
+    - "Extract step-by-step information to .github/agents/approaches/file_based_collaboration/"
+    - "Use headers as natural splits - create one file per step"
+    - "Add general overview in README-style page with references to different steps"
+    - "Directive should tell agents to adhere to approach and point to automation scripts"
+    - "Keep it minimal - explicitly tell agents to load only task-phase relevant information"
+    - "Allows agents to keep only currently needed information in memory"
+  pr_comment: "https://github.com/sddevelopment-be/quickstart_agent-augmented-development/pull/.../files#r2563338839"
+created_at: "2025-11-26T06:14:00Z"
+created_by: "curator-claire"
