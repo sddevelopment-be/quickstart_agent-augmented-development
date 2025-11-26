@@ -1,3 +1,5 @@
+# The following information is to be interpreted literally
+
 # 004 Documentation & Context Files Directive
 
 Bootstrap Artefacts:

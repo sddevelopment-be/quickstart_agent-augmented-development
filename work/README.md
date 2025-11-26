@@ -1,7 +1,7 @@
 # Work Directory - Multi-Agent Orchestration
 
-_Version: 1.0.0_  
-_Last updated: 2025-11-23_
+_Version: 1.1.0_  
+_Last updated: 2025-11-26_
 
 This directory contains the file-based orchestration system for coordinating multiple specialized agents in an asynchronous, transparent, and Git-native manner.
 
@@ -19,30 +19,38 @@ The work directory implements a task-based workflow where:
 
 ```
 work/
-  inbox/              # New tasks awaiting assignment
-  assigned/           # Tasks assigned to specific agents
-    architect/        # Tasks for Architect agent
-    backend-dev/      # Tasks for Backend Developer agent
-    bootstrap-bill/   # Tasks for Bootstrap agent
-    build-automation/ # Tasks for Build/CI agents
-    coordinator/      # Meta-orchestration tasks
-    curator/          # Tasks for Curator agent
-    diagrammer/       # Tasks for Diagrammer agent
-    frontend/         # Tasks for Frontend agent
-    lexical/          # Tasks for Lexical agent
-    manager/          # Tasks for Manager agent
-    planning/         # Tasks for Planning agent
-    researcher/       # Tasks for Researcher agent
-    structural/       # Tasks for Structural agent
-    synthesizer/      # Tasks for Synthesizer agent
-    translator/       # Tasks for Translator agent
-    writer-editor/    # Tasks for Writer-Editor agent
-  done/               # Completed tasks with results
-  archive/            # Long-term task retention (by month)
-  logs/               # Agent execution logs (optional)
-  collaboration/      # Cross-agent coordination artifacts
-  schemas/            # Task YAML schema definitions
-  scripts/            # Utility scripts for orchestration
+  collaboration/          # Orchestration and task coordination
+    inbox/                # New tasks awaiting assignment
+    assigned/             # Tasks assigned to specific agents
+      architect/          # Tasks for Architect agent
+      backend-dev/        # Tasks for Backend Developer agent
+      bootstrap-bill/     # Tasks for Bootstrap agent
+      build-automation/   # Tasks for Build/CI agents
+      coordinator/        # Meta-orchestration tasks
+      curator/            # Tasks for Curator agent
+      diagrammer/         # Tasks for Diagrammer agent
+      frontend/           # Tasks for Frontend agent
+      lexical/            # Tasks for Lexical agent
+      manager/            # Tasks for Manager agent
+      planning/           # Tasks for Planning agent
+      researcher/         # Tasks for Researcher agent
+      structural/         # Tasks for Structural agent
+      synthesizer/        # Tasks for Synthesizer agent
+      translator/         # Tasks for Translator agent
+      writer-editor/      # Tasks for Writer-Editor agent
+    done/                 # Completed tasks (organized by agent)
+    archive/              # Long-term task retention (by month)
+    *.md                  # Cross-agent coordination artifacts
+  reports/                # Agent outputs, logs, and metrics
+    logs/                 # Agent execution logs
+    synthesizer/          # Synthesizer aggregation reports
+    benchmarks/           # Performance benchmarks
+    metrics/              # Token usage and iteration metrics
+  external_memory/        # Inter-agent context sharing
+  notes/                  # Persistent project notes
+  planning/               # Planning artifacts
+  schemas/                # Task YAML schema definitions
+  scripts/                # Utility scripts for orchestration
 ```
 
 ## Task Lifecycle
@@ -65,25 +73,25 @@ Tasks progress through the following states:
 
 ### State Descriptions
 
-- **new**: Task created in `work/inbox/`, awaiting assignment
-- **assigned**: Task moved to `work/assigned/<agent>/`, awaiting agent pickup
+- **new**: Task created in `work/collaboration/inbox/`, awaiting assignment
+- **assigned**: Task moved to `work/collaboration/assigned/<agent>/`, awaiting agent pickup
 - **in_progress**: Agent has started work on the task
-- **done**: Task completed successfully, moved to `work/done/`
+- **done**: Task completed successfully, moved to `work/collaboration/done/<agent>/`
 - **error**: Task failed, requires human intervention
-- **archive**: Old completed tasks, organized by month in `work/archive/`
+- **archive**: Old completed tasks, organized by month in `work/collaboration/archive/`
 
 ## Quick Start
 
 ### Creating a Task
 
-1. Create a YAML file in `work/inbox/` using the template at `docs/templates/task-descriptor.yaml`
+1. Create a YAML file in `work/collaboration/inbox/` using the template at `docs/templates/task-descriptor.yaml`
 2. Name the file: `YYYY-MM-DDTHHMM-<agent>-<slug>.yaml`
 3. Specify the target agent, artifacts, and context
 
 Example:
 ```bash
 # Create a task for the structural agent
-cat > work/inbox/2025-11-23T1500-structural-repomap.yaml <<EOF
+cat > work/collaboration/inbox/2025-11-23T1500-structural-repomap.yaml <<EOF
 id: 2025-11-23T1500-structural-repomap
 agent: structural
 status: new
@@ -117,13 +125,13 @@ python ops/scripts/orchestration/agent_orchestrator.py
 
 Agents poll their assigned directory and process tasks:
 
-1. Read task from `work/assigned/<agent-name>/*.yaml`
+1. Read task from `work/collaboration/assigned/<agent-name>/*.yaml`
 2. Update status to `in_progress`
 3. Perform specialized work
 4. Update artifacts
 5. Add `result` block to task YAML
 6. Update status to `done`
-7. Move task to `work/done/`
+7. Move task to `work/collaboration/done/<agent-name>/`
 
 ## Collaboration Artifacts
 
@@ -175,7 +183,7 @@ result:
   completed_at: "2025-11-23T15:30:00Z"
 ```
 
-The Agent Orchestrator automatically creates the follow-up task in `work/inbox/`.
+The Agent Orchestrator automatically creates the follow-up task in `work/collaboration/inbox/`.
 
 ## Validation
 
@@ -183,7 +191,7 @@ Validate task files and directory structure:
 
 ```bash
 # Validate task YAML schema
-python validation/validate-task-schema.py work/inbox/task.yaml
+python validation/validate-task-schema.py work/collaboration/inbox/task.yaml
 
 # Validate directory structure
 bash validation/validate-work-structure.sh
@@ -209,13 +217,38 @@ tail -n 100 work/collaboration/WORKFLOW_LOG.md
 
 ## Archival
 
-Old completed tasks are automatically moved to `work/archive/<YYYY-MM>/` after 30 days (configurable).
+Old completed tasks are automatically moved to `work/collaboration/archive/<YYYY-MM>/` after 30 days (configurable).
 
 Manual archival:
 ```bash
 # Archive tasks older than specified date
 python ops/scripts/planning/archive-tasks.py --before 2025-10-01
 ```
+
+## Reports and Outputs
+
+All agent outputs, logs, and metrics are consolidated in the `work/reports/` directory:
+
+- **logs/**: Agent execution logs organized by agent name
+- **synthesizer/**: Aggregation reports from the Synthesizer agent
+- **benchmarks/**: Performance benchmark results
+- **metrics/**: Token usage and iteration metrics
+
+Human reviewers can consult this directory to track progress, audit decisions, and analyze system performance.
+
+See `work/reports/README.md` for detailed information.
+
+## External Memory
+
+The `work/external_memory/` directory provides shared space for agents to:
+- Offload working notes temporarily
+- Share intermediate artifacts with other agents
+- Store partial results for later retrieval
+- Preserve state across multiple invocations
+
+This helps agents manage their limited context windows effectively.
+
+See `work/external_memory/README.md` for usage guidelines.
 
 ## Design Principles
 
@@ -224,6 +257,7 @@ python ops/scripts/planning/archive-tasks.py --before 2025-10-01
 3. **Determinism**: Predictable, repeatable task execution
 4. **Composability**: Complex workflows emerge from simple handoffs
 5. **Traceability**: Complete audit trail from creation to archive
+6. **Organization**: Clear separation between orchestration, outputs, and ephemeral state
 
 ## Related Documentation
 

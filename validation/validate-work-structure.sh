@@ -8,11 +8,13 @@ cd "$REPO_ROOT"
 missing=0
 warnings=0
 required_dirs=(
-  "work/inbox"
-  "work/assigned"
-  "work/done"
-  "work/archive"
   "work/collaboration"
+  "work/collaboration/inbox"
+  "work/collaboration/assigned"
+  "work/collaboration/done"
+  "work/collaboration/archive"
+  "work/reports"
+  "work/external_memory"
 )
 
 for dir in "${required_dirs[@]}"; do
@@ -25,8 +27,8 @@ done
 for profile in .github/agents/*.agent.md; do
   [[ -e "$profile" ]] || continue
   agent_name=$(basename "$profile" .agent.md)
-  if [[ ! -d "work/assigned/$agent_name" ]]; then
-    echo "⚠️ Agent '$agent_name' missing directory under work/assigned/"
+  if [[ ! -d "work/collaboration/assigned/$agent_name" ]]; then
+    echo "⚠️ Agent '$agent_name' missing directory under work/collaboration/assigned/"
     warnings=$((warnings + 1))
   fi
 done

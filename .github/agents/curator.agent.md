@@ -1,3 +1,5 @@
+# The following information is to be interpreted literally
+
 ---
 name: curator-claire
 description: Maintain structural, tonal, and metadata integrity across artifacts.

@@ -1,3 +1,5 @@
+# The following information is to be interpreted literally
+
 ---
 name: frontend-freddy
 description: Integrate design, technical architecture, and usability reasoning for coherent front-end systems.

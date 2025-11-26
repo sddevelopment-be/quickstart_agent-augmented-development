@@ -1,3 +1,5 @@
+# The following information is to be interpreted literally
+
 # 018 Traceable Decisions Directive
 
 Purpose: Instruct agents on decision traceability and rationale capture to maintain architectural context throughout the development lifecycle.

@@ -1,3 +1,5 @@
+# The following information is to be interpreted literally
+
 ---
 name: scribe-sally
 description: Maintain traceable, neutral documentation integrity.

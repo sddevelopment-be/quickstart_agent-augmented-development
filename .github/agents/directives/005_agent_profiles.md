@@ -1,3 +1,5 @@
+# The following information is to be interpreted literally
+
 # 005 Agent Profiles Directive
 
 Location: `.github/agents/*.agent.md`

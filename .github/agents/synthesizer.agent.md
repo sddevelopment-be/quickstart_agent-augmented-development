@@ -1,3 +1,5 @@
+# The following information is to be interpreted literally
+
 ---
 name: synthesizer-sam
 description: Integrate multi-agent outputs into coherent, context-aligned insight systems.

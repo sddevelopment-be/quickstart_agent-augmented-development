@@ -1,3 +1,5 @@
+# The following information is to be interpreted literally
+
 ---
 name: diagram-daisy
 description: Transform conceptual and architectural structures into clear, semantically aligned diagrams.

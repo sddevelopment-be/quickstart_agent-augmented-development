@@ -1,3 +1,5 @@
+# The following information is to be interpreted literally
+
 # 003 Repository Quick Reference Directive
 
 Key Directories:

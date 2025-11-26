@@ -1,3 +1,5 @@
+# The following information is to be interpreted literally
+
 # 008 Artifact Templates Directive
 
 Purpose: Central reference to template locations to prevent duplication and drift.
