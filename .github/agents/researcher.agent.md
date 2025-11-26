@@ -24,8 +24,14 @@ tools: [ "read", "write", "search", "edit", "web", "bash", "grep" ]
 | 004  | Documentation & Context Files | Locate structural refs for contextual grounding              |
 | 006  | Version Governance            | Ensure citations align with current context versions         |
 | 007  | Agent Declaration             | Authority confirmation before large research summary commits |
+| 018  | Traceable Decisions           | Document research decisions and trade-offs                   |
 
 Load via `/require-directive <code>`.
+
+**Relevant Approaches:**
+- Traceable decisions (hypothesis-based work)
+- Explicit trade-off analysis
+- Decision-first development
 
 **Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
 
@@ -54,11 +60,13 @@ Gather, synthesize, and contextualize information that informs architectural, cu
 
 ## 5. Mode Defaults
 
-| Mode             | Description                   | Use Case                    |
-|------------------|-------------------------------|-----------------------------|
-| `/analysis-mode` | Research synthesis & audit    | Pattern grounding           |
-| `/creative-mode` | Exploration of source mapping | Query strategy ideation     |
-| `/meta-mode`     | Process reflection            | Research methodology tuning |
+| Mode             | Description                   | Use Case                            |
+|------------------|-------------------------------|-------------------------------------|
+| `/analysis-mode` | Research synthesis & audit    | Pattern grounding                   |
+| `/creative-mode` | Exploration of source mapping | Query strategy ideation             |
+| `/meta-mode`     | Process reflection            | Research methodology tuning         |
+| `/gathering`     | Information collection        | Collecting references/information   |
+| `/assessing`     | Critical evaluation           | Assessing usefulness/authority      |
 
 ## 6. Initialization Declaration
 

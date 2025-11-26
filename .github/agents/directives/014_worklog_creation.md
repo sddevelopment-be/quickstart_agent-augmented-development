@@ -6,7 +6,7 @@ Purpose: Define standards for creating work logs that document agent execution f
 ## 1. When to Create a Work Log
 
 Agents MUST create a work log when:
-- Completing a task from the file-based orchestration system (`work/assigned/`)
+- Completing a task from the file-based orchestration system (`work/collaboration/assigned/`)
 - Performing multi-step coordination with other agents
 - Encountering novel or ambiguous situations requiring creative problem-solving
 - Implementing new patterns or approaches not previously documented
@@ -21,16 +21,16 @@ Agents MAY create work logs for:
 
 All work logs MUST be stored in:
 ```
-work/logs/YYYY-MM-DDTHHMM-<agent>-<slug>.md
+work/reports/logs/<agent-name>/YYYY-MM-DDTHHMM-<description>.md
 ```
 
 **Naming Convention:**
+- `<agent-name>`: Agent subdirectory (lowercase, hyphenated)
 - `YYYY-MM-DD`: Date in ISO 8601 format
 - `THHMM`: Time in 24-hour format
-- `<agent>`: Agent name (lowercase, hyphenated)
-- `<slug>`: Short description (lowercase, hyphenated, max 50 chars)
+- `<description>`: Short description (lowercase, hyphenated, max 50 chars)
 
-**Example:** `work/logs/2025-11-23T0811-curator-orchestration-guide.md`
+**Example:** `work/reports/logs/curator/2025-11-23T0811-orchestration-guide.md`
 
 ## 3. Work Log Structure
 
