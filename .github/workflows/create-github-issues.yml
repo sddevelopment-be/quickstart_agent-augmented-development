@@ -1,0 +1,179 @@
+name: Create GitHub Issues from Agent Plans
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Issue creation mode'
+        required: true
+        type: choice
+        options:
+          - all
+          - housekeeping
+          - tasks
+        default: 'all'
+      dry_run:
+        description: 'Dry run (show what would be created without creating)'
+        required: false
+        type: boolean
+        default: false
+
+# Restrict to repository owners/admins only
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  create-issues:
+    name: Create GitHub Issues
+    runs-on: ubuntu-latest
+    
+    # Only allow repository owners/collaborators to run
+    if: github.event_name == 'workflow_dispatch'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      
+      - name: Setup GitHub CLI
+        run: |
+          # GitHub CLI is pre-installed on ubuntu-latest
+          gh --version
+      
+      - name: Validate permissions
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Validating user permissions..."
+          ACTOR="${{ github.actor }}"
+          REPO="${{ github.repository }}"
+          
+          # Check if user has write access
+          PERMISSION=$(gh api /repos/$REPO/collaborators/$ACTOR/permission --jq '.permission')
+          
+          if [[ "$PERMISSION" != "admin" && "$PERMISSION" != "write" ]]; then
+            echo "❌ Error: User $ACTOR does not have sufficient permissions"
+            echo "   Required: admin or write access"
+            echo "   Current: $PERMISSION"
+            exit 1
+          fi
+          
+          echo "✓ User $ACTOR has $PERMISSION permission"
+      
+      - name: Display execution plan
+        run: |
+          echo "════════════════════════════════════════════════════════"
+          echo "  GitHub Issues Creation Plan"
+          echo "════════════════════════════════════════════════════════"
+          echo ""
+          echo "Mode:     ${{ inputs.mode }}"
+          echo "Dry Run:  ${{ inputs.dry_run }}"
+          echo "Actor:    ${{ github.actor }}"
+          echo "Repo:     ${{ github.repository }}"
+          echo ""
+          
+          case "${{ inputs.mode }}" in
+            all)
+              echo "Will create:"
+              echo "  • Housekeeping and Refactoring epic (6 issues)"
+              echo "  • POC3 Multi-Agent Chain epic (4 issues)"
+              echo "  • Documentation and Directives epic (4 issues)"
+              echo "  • Build Automation and CI/CD epic (5 issues)"
+              echo "  • Architectural Assessments epic (3 issues)"
+              echo "  • Curator Quality Tasks epic (3 issues)"
+              echo ""
+              echo "Total: 6 epics + 25+ child issues"
+              ;;
+            housekeeping)
+              echo "Will create:"
+              echo "  • Housekeeping and Refactoring epic"
+              echo "  • 6 child issues for directive refactoring"
+              ;;
+            tasks)
+              echo "Will create:"
+              echo "  • 5 epics covering all open/assigned tasks"
+              echo "  • 20+ child issues"
+              ;;
+          esac
+          echo ""
+      
+      - name: List available agent scripts
+        run: |
+          echo "Available agent scripts:"
+          bash ops/scripts/planning/create-github-issues.sh --list
+      
+      - name: Execute issue creation
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Executing issue creation..."
+          echo ""
+          
+          DRY_RUN_FLAG=""
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            DRY_RUN_FLAG="--dry-run"
+            echo "🔍 DRY RUN MODE - No issues will be created"
+          fi
+          
+          bash ops/scripts/planning/create-github-issues.sh \
+            --${{ inputs.mode }} \
+            $DRY_RUN_FLAG
+      
+      - name: Summary
+        if: always()
+        run: |
+          echo ""
+          echo "════════════════════════════════════════════════════════"
+          echo "  Execution Summary"
+          echo "════════════════════════════════════════════════════════"
+          echo ""
+          
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            echo "✓ Dry run completed successfully"
+            echo ""
+            echo "To create issues for real:"
+            echo "  1. Re-run this workflow without dry-run option"
+            echo "  2. Or run locally: bash ops/scripts/planning/create-github-issues.sh --${{ inputs.mode }}"
+          else
+            echo "✓ Issues created successfully"
+            echo ""
+            echo "Next steps:"
+            echo "  1. Review created issues: https://github.com/${{ github.repository }}/issues"
+            echo "  2. Agents can process tasks from work/collaboration/"
+            echo "  3. Update issue status as work progresses"
+          fi
+          echo ""
+      
+      - name: Post workflow summary
+        if: always()
+        run: |
+          cat >> $GITHUB_STEP_SUMMARY << 'EOF'
+          ## GitHub Issues Creation Workflow
+          
+          **Mode:** `${{ inputs.mode }}`  
+          **Dry Run:** `${{ inputs.dry_run }}`  
+          **Triggered by:** @${{ github.actor }}
+          
+          ### Execution Details
+          
+          The workflow orchestrated agent-generated planning scripts to create GitHub issues.
+          
+          **Script Structure:**
+          ```
+          workflow (create-github-issues.yml)
+            → scaffold (create-github-issues.sh)
+              → agent-scripts/
+                  • create_housekeeping_issues.sh (by Planning Petra)
+                  • create_all_task_issues.sh (by Planning Petra)
+              → shared helpers (github-issue-helpers.sh)
+          ```
+          
+          ### Links
+          
+          - [View Issues](https://github.com/${{ github.repository }}/issues)
+          - [Agent Scripts](https://github.com/${{ github.repository }}/tree/main/ops/scripts/planning/agent-scripts)
+          - [Work Directory](https://github.com/${{ github.repository }}/tree/main/work/collaboration)
+          
+          EOF
