@@ -1,5 +1,4 @@
-# The following information is to be interpreted literally
-
+<!-- The following information is to be interpreted literally -->
 # 006 Version Governance Directive
 
 | Layer                 | Current Version | Responsibility  | Filename                                      |

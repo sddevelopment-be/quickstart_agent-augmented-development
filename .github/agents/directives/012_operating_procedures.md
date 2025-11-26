@@ -1,5 +1,4 @@
-# The following information is to be interpreted literally
-
+<!-- The following information is to be interpreted literally -->
 # 012 Common Operating Procedures Directive
 
 Purpose: Centralize repeated behavioral norms WITHOUT removing them from individual agent profiles (redundancy is intentional for safety and predictability).

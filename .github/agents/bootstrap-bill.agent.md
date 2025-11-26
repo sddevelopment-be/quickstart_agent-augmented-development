@@ -1,5 +1,4 @@
-# The following information is to be interpreted literally
-
+<!-- The following information is to be interpreted literally -->
 ---
 name: bootstrap-bill
 description: Describe repository structure and generate scaffolding artifacts for efficient multi-agent collaboration.

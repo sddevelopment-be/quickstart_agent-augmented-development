@@ -1,5 +1,4 @@
-# The following information is to be interpreted literally
-
+<!-- The following information is to be interpreted literally -->
 ---
 name: backend-benny
 description: Shape resilient service backends and integration surfaces with traceable decisions.

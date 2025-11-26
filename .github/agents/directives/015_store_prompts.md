@@ -1,5 +1,4 @@
-# The following information is to be interpreted literally
-
+<!-- The following information is to be interpreted literally -->
 # 015 Store Prompts Directive
 
 Purpose: Define optional practice for documenting original task prompts with SWOT analysis to help users improve prompt quality and effectiveness over time.

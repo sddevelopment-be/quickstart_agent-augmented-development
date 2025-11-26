@@ -1,5 +1,4 @@
-# The following information is to be interpreted literally
-
+<!-- The following information is to be interpreted literally -->
 # 014 Work Log Creation Directive
 
 Purpose: Define standards for creating work logs that document agent execution for agentic framework tuning and continuous improvement.
