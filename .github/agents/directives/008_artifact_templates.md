@@ -5,10 +5,14 @@ Purpose: Central reference to template locations to prevent duplication and drif
 
 Template Locations:
 - Architecture: `docs/templates/architecture/`
-- Lexical: `docs/templates/lexical/`
+- Lexical: `docs/templates/LEX/`
+- Structure: `docs/templates/structure/`
 - Planning: `docs/planning/` (PLAN_OVERVIEW, NEXT_BATCH, DEPENDENCIES, AGENT_TASKS)
-- Synthesis: `work/synthesizer/` for draft integration artifacts
-- Curator Reports: `work/curator/` discrepancy & validation outputs
+- Task Descriptor: `docs/templates/task-descriptor.yaml`
+- Agent Reports: `work/reports/` for logs, metrics, benchmarks
+- Synthesis: `work/reports/synthesizer/` for aggregation artifacts
+- Curator Reports: `work/reports/logs/curator/` discrepancy & validation outputs
+- External Memory: `work/external_memory/` for temporary inter-agent context
 
 Usage Guidance:
 - Always check for an existing template before proposing a new one.

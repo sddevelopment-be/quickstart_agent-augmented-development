@@ -4,7 +4,8 @@
 Purpose: Enforce small, verifiable coding increments that protect design quality and cleanliness.
 
 Scope:
-- Applies after an acceptance scenario exists (per Directive 016) and continues through implementation/refinement.
+- Applies to all executable code (implementation, refactoring, bug fixes).
+- Can be used in isolation or after acceptance scenario exists (per Directive 016).
 - Exception: trivial shell utilities or disposable scripts noted per ADR-012.
 
 Cycle:
@@ -24,4 +25,8 @@ Tooling:
 
 Alignment Checks:
 - If code changes cannot be driven through TDD (legacy tangles, external limitations), document the impediment, create safety nets (characterization tests), and notify an architect for remediation planning.
+
+---
+
+**CRITICAL: This way of working is not optional. Tests are to be written before any code is crafted.**
 

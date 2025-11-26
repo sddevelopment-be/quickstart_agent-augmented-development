@@ -3,8 +3,13 @@
 
 Key Directories:
 - `.github/agents/` — Agent profiles, directives, approaches, guidelines
-- `work/` — Orchestration workspace (inbox, assigned, done, logs, collaboration)
+- `work/` — Orchestration workspace (see work/README.md for structure)
+  - `work/collaboration/` — Task orchestration (inbox, assigned, done, archive)
+  - `work/reports/` — Agent outputs (logs, metrics, benchmarks)
+  - `work/external_memory/` — Inter-agent context sharing
 - `docs/` — Documentation (templates, architecture, HOW_TO_USE guides)
+  - `docs/templates/LEX/` — Lexical guidelines and terminology
+  - `docs/templates/structure/` — Structural templates and patterns
 - `validation/` — Validation scripts and test artifacts
 - `ops/` — Operational scripts and utilities
 - Generated (do not edit): `.git/`, `__pycache__/`, `.pytest_cache/`

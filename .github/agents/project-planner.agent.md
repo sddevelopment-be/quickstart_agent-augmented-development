@@ -27,8 +27,6 @@ tools: [ "read", "write", "search", "edit", "bash", "todo", "github" ]
 
 Invoke with `/require-directive <code>`.
 
-**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
-
 ## 2. Purpose
 
 Provide adaptable execution scaffolds—milestones, batches, dependency maps, and decision checkpoints—that keep multi-agent work aligned with strategic outcomes while remaining resilient to change.

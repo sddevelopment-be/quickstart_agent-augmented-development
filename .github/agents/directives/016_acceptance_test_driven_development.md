@@ -16,7 +16,8 @@ Workflow:
 
 Documentation:
 - Store acceptance specs with accompanying README or annotations describing inputs/outputs.
-- Record links to the acceptance test files inside `work/logs` or ADRs for traceability.
+- Store requirement files in `docs/architecture/requirements/`
+- Record links to the acceptance test files inside `work/reports/logs/<agent>/` or ADRs for traceability.
 
 Integrity Rules:
 - Failing acceptance test must exist before implementation begins; document the failure state in the task log.

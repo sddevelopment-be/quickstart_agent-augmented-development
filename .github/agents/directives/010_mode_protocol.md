@@ -7,6 +7,11 @@ Modes:
 - `/analysis-mode`: Diagnostic, decomposition, validation.
 - `/creative-mode`: Option generation, exploratory reframing, pattern ideation.
 - `/meta-mode`: Reflection, process alignment, governance calibration.
+- `/planning`: Strategic planning, task decomposition, dependency mapping.
+- `/programming`: Code implementation, test-driven development, refactoring.
+- `/error-handling`: Debugging, error analysis, remediation strategies.
+- `/gathering`: Information collection, research, reference accumulation.
+- `/assessing`: Critical evaluation, quality assessment, trade-off analysis.
 
 Transition Notation:
 - Always annotate transition explicitly: `[mode: analysis → creative]`.
