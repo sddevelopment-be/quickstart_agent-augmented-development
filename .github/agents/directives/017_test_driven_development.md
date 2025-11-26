@@ -1,5 +1,4 @@
-# The following information is to be interpreted literally
-
+<!-- The following information is to be interpreted literally -->
 # 017 Test Driven Development Directive
 
 Purpose: Enforce small, verifiable coding increments that protect design quality and cleanliness.

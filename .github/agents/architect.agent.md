@@ -1,5 +1,4 @@
-# The following information is to be interpreted literally
-
+<!-- The following information is to be interpreted literally -->
 ---
 name: architect-alphonso
 description: Clarify complex systems with contextual trade-offs.

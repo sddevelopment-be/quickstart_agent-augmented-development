@@ -1,5 +1,4 @@
-# The following information is to be interpreted literally
-
+<!-- The following information is to be interpreted literally -->
 ---
 name: manager-mike
 description: Coordinate multi-agent workflows, routing decisions, and status traceability.

@@ -1,5 +1,4 @@
-# The following information is to be interpreted literally
-
+<!-- The following information is to be interpreted literally -->
 # 009 Role Capabilities Directive
 
 Purpose: Define allowed operational verbs per specialist to reduce overlap and prevent scope creep.

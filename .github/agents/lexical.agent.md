@@ -1,5 +1,4 @@
-# The following information is to be interpreted literally
-
+<!-- The following information is to be interpreted literally -->
 ---
 name: lexical-larry
 description: Ensure writing adheres to style rules with minimal, voice-preserving edits.

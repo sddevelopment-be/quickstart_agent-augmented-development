@@ -1,5 +1,4 @@
-# The following information is to be interpreted literally
-
+<!-- The following information is to be interpreted literally -->
 ---
 name: translator-tanya
 description: Preserve authorial tone and rhythm during accurate cross-language translation.

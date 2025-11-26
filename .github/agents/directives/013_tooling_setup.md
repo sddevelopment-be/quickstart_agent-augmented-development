@@ -1,5 +1,4 @@
-# The following information is to be interpreted literally
-
+<!-- The following information is to be interpreted literally -->
 # 013 Tooling Setup & Fallbacks
 
 > **Purpose:** Installation commands, version requirements, and fallback strategies for core development tools

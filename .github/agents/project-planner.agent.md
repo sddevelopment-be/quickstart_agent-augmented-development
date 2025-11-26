@@ -1,5 +1,4 @@
-# The following information is to be interpreted literally
-
+<!-- The following information is to be interpreted literally -->
 ---
 name: planning-petra
 description: Translate strategic intent into executable, assumption-aware plans and cadences.

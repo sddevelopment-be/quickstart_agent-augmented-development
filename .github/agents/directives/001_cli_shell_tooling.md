@@ -1,5 +1,4 @@
-# The following information is to be interpreted literally
-
+<!-- The following information is to be interpreted literally -->
 # 001 CLI and Shell Tooling Directive
 
 Use this rubric for shell operations:
