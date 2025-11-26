@@ -1,0 +1,20 @@
+id: 2025-11-26T0613-curator-refactor-directive-018-verbosity
+agent: curator
+status: new
+title: "Refactor Directive 018 to reduce verbosity and extract sub-directives"
+priority: high
+artefacts:
+  - .github/agents/directives/018_traceable_decisions.md
+  - .github/agents/directives/traceable_decisions/ (new subdirectory with specifics)
+context:
+  repo: "sddevelopment-be/quickstart_agent-augmented-development"
+  branch: "copilot/restructure-work-directory"
+  notes:
+    - "Directive 018 is highly verbose"
+    - "Consider extracting specifics into sub-directives in directives/traceable_decisions/"
+    - "Create table in main directive informing agents when to load/use each sub-directive"
+    - "Consider adding new directory structure: directives/traceable_decisions/"
+    - "Keep main directive as overview with references"
+  pr_comment: "https://github.com/sddevelopment-be/quickstart_agent-augmented-development/pull/.../files#r2563326044"
+created_at: "2025-11-26T06:13:00Z"
+created_by: "curator-claire"

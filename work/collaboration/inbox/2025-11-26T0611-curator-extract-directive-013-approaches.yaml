@@ -1,0 +1,20 @@
+id: 2025-11-26T0611-curator-extract-directive-013-approaches
+agent: curator
+status: new
+title: "Extract verbose content from Directive 013 to approaches directory"
+priority: high
+artefacts:
+  - .github/agents/directives/013_tooling_setup.md
+  - .github/agents/approaches/tooling_setup/ (new directory with extracted content)
+context:
+  repo: "sddevelopment-be/quickstart_agent-augmented-development"
+  branch: "copilot/restructure-work-directory"
+  notes:
+    - "Directive 013 is highly verbose with detailed approach descriptions"
+    - "Extract detailed approach descriptions into .github/agents/approaches/tooling_setup/"
+    - "Keep directive minimal - just references to approaches"
+    - "Make explicit that agents only pull in referenced information when needed"
+    - "Structure allows agents to load only task-relevant information"
+  pr_comment: "https://github.com/sddevelopment-be/quickstart_agent-augmented-development/pull/.../files#r2563281925"
+created_at: "2025-11-26T06:11:00Z"
+created_by: "curator-claire"
