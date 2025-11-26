@@ -1,3 +1,5 @@
+# The following information is to be interpreted literally
+
 # 007 Agent Declaration Directive
 
 Source Section: Referenced in AGENTS.md (Agent Specification Document)

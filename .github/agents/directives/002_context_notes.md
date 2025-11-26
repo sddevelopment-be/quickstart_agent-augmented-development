@@ -1,3 +1,5 @@
+# The following information is to be interpreted literally
+
 # 002 Context Notes Directive
 
 - Specialized profiles in `.github/agents/` may refine tone/modes.

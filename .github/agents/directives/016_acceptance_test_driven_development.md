@@ -1,3 +1,5 @@
+# The following information is to be interpreted literally
+
 # 016 Acceptance Test Driven Development Directive
 
 Purpose: Normalize acceptance-test-first behaviour so user-visible intent anchors every change.

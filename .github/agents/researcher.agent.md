@@ -1,3 +1,5 @@
+# The following information is to be interpreted literally
+
 ---
 name: researcher-ralph
 description: Deliver grounded, verifiable insights for systemic reasoning.

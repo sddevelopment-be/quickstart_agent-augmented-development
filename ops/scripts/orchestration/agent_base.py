@@ -63,16 +63,18 @@ class AgentBase(ABC):
         self.log_level = log_level
         
         # Directory paths
-        self.assigned_dir = self.work_dir / "assigned" / agent_name
-        self.done_dir = self.work_dir / "done"
-        self.logs_dir = self.work_dir / "logs" / agent_name
         self.collaboration_dir = self.work_dir / "collaboration"
+        self.assigned_dir = self.collaboration_dir / "assigned" / agent_name
+        self.done_dir = self.collaboration_dir / "done" / agent_name
+        self.reports_dir = self.work_dir / "reports"
+        self.logs_dir = self.reports_dir / "logs" / agent_name
         
         # Ensure directories exist
+        self.collaboration_dir.mkdir(parents=True, exist_ok=True)
         self.assigned_dir.mkdir(parents=True, exist_ok=True)
         self.done_dir.mkdir(parents=True, exist_ok=True)
+        self.reports_dir.mkdir(parents=True, exist_ok=True)
         self.logs_dir.mkdir(parents=True, exist_ok=True)
-        self.collaboration_dir.mkdir(parents=True, exist_ok=True)
         
         # Task tracking
         self.current_task: Optional[Dict[str, Any]] = None

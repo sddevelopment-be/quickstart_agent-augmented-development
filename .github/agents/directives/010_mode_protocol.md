@@ -1,3 +1,5 @@
+# The following information is to be interpreted literally
+
 # 010 Mode Protocol Directive
 
 Purpose: Standardize mode transitions across agents for consistent reasoning traceability.

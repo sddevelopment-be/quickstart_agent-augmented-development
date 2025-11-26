@@ -25,11 +25,11 @@ from task_utils import read_task, write_task, log_event, get_utc_timestamp, upda
 
 # Configuration
 WORK_DIR = Path("work")
-INBOX_DIR = WORK_DIR / "inbox"
-ASSIGNED_DIR = WORK_DIR / "assigned"
-DONE_DIR = WORK_DIR / "done"
-ARCHIVE_DIR = WORK_DIR / "archive"
 COLLAB_DIR = WORK_DIR / "collaboration"
+INBOX_DIR = COLLAB_DIR / "inbox"
+ASSIGNED_DIR = COLLAB_DIR / "assigned"
+DONE_DIR = COLLAB_DIR / "done"
+ARCHIVE_DIR = COLLAB_DIR / "archive"
 
 TIMEOUT_HOURS = 2  # Flag tasks in_progress for > 2 hours
 ARCHIVE_RETENTION_DAYS = 30  # Archive tasks older than 30 days
@@ -91,7 +91,7 @@ def process_completed_tasks() -> int:
     """Create follow-up tasks based on next_agent."""
     followups_created = 0
 
-    for task_file in DONE_DIR.glob("*.yaml"):
+    for task_file in DONE_DIR.glob("**/*.yaml"):
         try:
             task = read_task(task_file)
             result = task.get("result", {})
@@ -244,7 +244,7 @@ def archive_old_tasks() -> int:
     cutoff = datetime.now(timezone.utc) - timedelta(days=ARCHIVE_RETENTION_DAYS)
     archived = 0
 
-    for task_file in DONE_DIR.glob("*.yaml"):
+    for task_file in DONE_DIR.glob("**/*.yaml"):
         try:
             task_date_str = task_file.name[:10]
             task_date = datetime.strptime(task_date_str, "%Y-%m-%d")

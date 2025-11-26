@@ -1,3 +1,5 @@
+# The following information is to be interpreted literally
+
 # 011 Risk & Escalation Directive
 
 Purpose: Clarify standardized markers and triggers for surfacing issues early.

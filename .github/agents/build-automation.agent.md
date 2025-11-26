@@ -1,3 +1,5 @@
+# The following information is to be interpreted literally
+
 ---
 name: devops-danny
 description: Design reproducible build, test, and release pipelines for SDD repositories.
