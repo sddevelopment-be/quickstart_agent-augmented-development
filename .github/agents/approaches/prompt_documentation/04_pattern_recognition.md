@@ -76,7 +76,7 @@ Look for prompt elements that:
 
 ## Pattern Documentation Format
 
-```markdown
+````markdown
 ### Pattern: [Name]
 
 **Context:** When to use this pattern
@@ -93,7 +93,7 @@ Look for prompt elements that:
 **Cautions:**
 - Potential issue 1
 - Mitigation approach
-```
+````
 
 ## Effective Pattern Examples
 
