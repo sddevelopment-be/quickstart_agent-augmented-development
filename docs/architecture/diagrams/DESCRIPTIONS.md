@@ -386,7 +386,7 @@ The diagram footer summarizes the timeline: the critical path (Phase 1 → Phase
 - **Source:** `metrics-dashboard-concept.puml`
 - **Rendered:** `Metrics_Dashboard_Concept.svg`
 - **Last Updated:** 2025-11-27T08:02:23Z
-- **Rendering Status:** ✅ Validated - Successfully rendered with PlantUML v1.2023.13
+- **Rendering Status:** ⚠️ Partial - Syntax validated with PlantUML v1.2023.13, but full rendering requires Graphviz. Legend and text elements render correctly. CI pipeline with Graphviz will generate complete visualization.
 
 ### Alt Text
 Component diagram showing ADR-009 metrics capture points, quality standards, and dashboard output structure.
