@@ -185,22 +185,10 @@
     },
     {
       "code": "016",
-      "slug": "traceable_decisions",
-      "title": "Traceable Decisions",
-      "file": "016_traceable_decisions.md",
-      "purpose": "Decision traceability and rationale capture for agent-generated artifacts",
-      "dependencies": ["004", "008"],
-      "requiredInAgents": false,
-      "safetyCritical": false,
-      "directive_version": "1.0.0",
-      "status": "active"
-    },
-    {
-      "code": "017",
       "slug": "acceptance_test_driven_development",
       "title": "Acceptance Test Driven Development",
-      "file": "017_acceptance_test_driven_development.md",
-      "purpose": "Mandates acceptance-test-first behaviour linking stakeholder scenarios to automated checks",
+      "file": "016_acceptance_test_driven_development.md",
+      "purpose": "ATDD workflow and acceptance test requirements (ADR-012)",
       "dependencies": ["012"],
       "requiredInAgents": false,
       "safetyCritical": true,
@@ -208,14 +196,38 @@
       "status": "active"
     },
     {
-      "code": "018",
+      "code": "017",
       "slug": "test_driven_development",
       "title": "Test Driven Development",
-      "file": "018_test_driven_development.md",
-      "purpose": "Defines Red-Green-Refactor cadence and test-structure rules for implementation work",
+      "file": "017_test_driven_development.md",
+      "purpose": "TDD workflow and unit test requirements (ADR-012)",
       "dependencies": ["016"],
       "requiredInAgents": false,
       "safetyCritical": true,
+      "directive_version": "1.0.0",
+      "status": "active"
+    },
+    {
+      "code": "018",
+      "slug": "traceable_decisions",
+      "title": "Traceable Decisions",
+      "file": "018_traceable_decisions.md",
+      "purpose": "Decision capture protocols and traceability (ADR-017)",
+      "dependencies": ["004", "008"],
+      "requiredInAgents": false,
+      "safetyCritical": false,
+      "directive_version": "1.0.0",
+      "status": "active"
+    },
+    {
+      "code": "019",
+      "slug": "file_based_collaboration",
+      "title": "File-Based Collaboration",
+      "file": "019_file_based_collaboration.md",
+      "purpose": "Multi-agent orchestration through file-based task workflows",
+      "dependencies": ["012", "014", "009"],
+      "requiredInAgents": false,
+      "safetyCritical": false,
       "directive_version": "1.0.0",
       "status": "active"
     }
