@@ -1,5 +1,8 @@
 # SD Development: AI-Augmented Workflow Starter Repo
 
+_Version: 1.0.0_  
+_Last updated: 2025-11-27_
+
 This repository is a starter layout for AI-augmented / agentic workflows.
 
 It gives you:
