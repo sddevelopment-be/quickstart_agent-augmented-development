@@ -180,7 +180,7 @@
       "dependencies": ["014"],
       "requiredInAgents": false,
       "safetyCritical": false,
-      "directive_version": "1.0.0",
+      "directive_version": "1.1.0",
       "status": "active"
     },
     {
