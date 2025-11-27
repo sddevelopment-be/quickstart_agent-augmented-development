@@ -15,34 +15,18 @@ Purpose: Centralize repeated behavioral norms WITHOUT removing them from individ
 
 ## 2. Redundancy Rationale
 
-This directive **intentionally duplicates** behavioral norms found in individual agent profiles and other directives. This redundancy serves critical safety and operational purposes:
+This directive **intentionally duplicates** behavioral norms found in individual agent profiles and other directives. This redundancy serves critical safety and operational purposes.
 
-### Cognitive Priming
-- Agents may load context in different orders or with partial directive sets
-- Repetition ensures critical norms are reinforced regardless of load sequence
-- Cognitive anchoring: seeing a behavioral rule multiple times increases adherence
+**Key Points:**
+- Repetition reinforces critical norms regardless of context loading order
+- Protection against partial context loss or fragmentation
+- Ensures consistency across different agent specializations
+- Simplifies validation and audit processes
+- Supports recovery and session rehydration
 
-### Defense Against Partial Context Loss
-- LLM context windows can be truncated or fragmented
-- If an agent profile is partially loaded or corrupted, safety-critical behaviors remain accessible
-- Fallback mechanism: if specific directive is unavailable, this catch-all ensures baseline behavior
+**Design Decision:** We accept the ~200-300 token overhead in exchange for increased reliability and safety.
 
-### Consistency Across Agent Specializations
-- Different agents may operate in vastly different domains (code, documentation, architecture)
-- Centralizing shared norms ensures uniform behavior despite role differences
-- Cross-agent collaboration depends on predictable, consistent operational protocols
-
-### Validation and Audit Trail
-- Having a single source of truth for behavioral norms simplifies validation
-- Human reviewers can reference this directive to check agent conformity
-- Automated tools can verify agent outputs against centralized behavioral standards
-
-### Recovery and Rehydration
-- When agents restart or rehydrate from previous sessions, loading this directive provides quick behavioral calibration
-- Acts as a "sanity check" reference point for resumed operations
-- Ensures continuity of behavioral norms across session boundaries
-
-**Design Decision:** We accept the token cost of repetition in exchange for increased reliability and safety. The ~200-300 token overhead is justified by the reduction in misalignment risk.
+**For detailed rationale:** See `agents/approaches/operating_procedures/01_redundancy_rationale.md`
 
 ## 3. Non-Removal Clause
 
