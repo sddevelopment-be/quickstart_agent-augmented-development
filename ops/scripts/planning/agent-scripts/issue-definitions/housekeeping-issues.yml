@@ -1,0 +1,296 @@
+---
+# Housekeeping child issues
+# These reference the housekeeping epic
+
+- type: issue
+  taskset: housekeeping
+  epic_ref: housekeeping-epic
+  title: "Refactor Directive 012: Operating Procedures"
+  labels: housekeeping,refactoring,directives,token-efficiency
+  assignee: ""
+  priority: high
+  body: |
+    ## Description
+    
+    Extract verbose operational procedure content from Directive 012 into modular approaches/templates to improve token efficiency.
+    
+    ## Context
+    
+    - Parent Epic: Housekeeping and Refactoring
+    - Task file: `work/collaboration/inbox/2025-11-26T0645-refactor-directive-012-operating-procedures.yaml`
+    - Related: Directive 019 refactoring (completed, commit 4c648e4)
+    
+    ## Goals
+    
+    1. Identify verbose content in `agents/directives/012_operating_procedures.md`
+    2. Extract to modular approach files in `agents/approaches/`
+    3. Update directive with references instead of inline content
+    4. Target: 50%+ token reduction
+    
+    ## Acceptance Criteria
+    
+    - [ ] Verbose content extracted to approach files
+    - [ ] Directive updated with cross-references
+    - [ ] Token count reduced by 50%+
+    - [ ] All existing references still valid
+    - [ ] Tests pass (if applicable)
+    
+    ## Deliverables
+    
+    - Updated `012_operating_procedures.md` with reduced token count
+    - New approach files in `agents/approaches/`
+    - Refactoring notes documenting changes
+    
+    ## Priority & Timeline
+    
+    - **Priority:** High
+    - **Effort:** 2-3 hours
+    - **Timeline:** Week 1
+    
+    ---
+    
+    _Created from: work/collaboration/inbox/2025-11-26T0645-refactor-directive-012-operating-procedures.yaml_
+
+- type: issue
+  taskset: housekeeping
+  epic_ref: housekeeping-epic
+  title: "Create Shared Glossary for Agent Framework"
+  labels: housekeeping,documentation,consistency
+  assignee: ""
+  priority: normal
+  body: |
+    ## Description
+    
+    Create centralized glossary file to improve consistency across agent documentation and reduce repetition.
+    
+    ## Context
+    
+    - Parent Epic: Housekeeping and Refactoring
+    - Task file: `work/collaboration/inbox/2025-11-26T0645-create-shared-glossary.yaml`
+    
+    ## Goals
+    
+    1. Collect common terms used across directives and agent profiles
+    2. Create `agents/GLOSSARY.md` with standardized definitions
+    3. Update directives to reference glossary instead of inline definitions
+    4. Improve cross-linking between documents
+    
+    ## Acceptance Criteria
+    
+    - [ ] Glossary file created with all common terms
+    - [ ] At least 20 terms defined with clear descriptions
+    - [ ] Directives updated with glossary references
+    - [ ] README updated to reference glossary
+    
+    ## Deliverables
+    
+    - `agents/GLOSSARY.md`
+    - Updated directives with glossary cross-references
+    - Documentation update notes
+    
+    ## Priority & Timeline
+    
+    - **Priority:** Normal
+    - **Effort:** 3-4 hours
+    - **Timeline:** Week 1-2
+    
+    ---
+    
+    _Created from: work/collaboration/inbox/2025-11-26T0645-create-shared-glossary.yaml_
+
+- type: issue
+  taskset: housekeeping
+  epic_ref: housekeeping-epic
+  title: "Implement Metric Capture Script"
+  labels: housekeeping,observability,automation,metrics
+  assignee: ""
+  priority: normal
+  body: |
+    ## Description
+    
+    Create automation script to capture ADR-009 metrics during agent execution for observability.
+    
+    ## Context
+    
+    - Parent Epic: Housekeeping and Refactoring
+    - Task file: `work/collaboration/inbox/2025-11-26T0645-implement-metric-capture-script.yaml`
+    - Related: ADR-009 Orchestration Metrics Standard
+    
+    ## Goals
+    
+    1. Create script to extract metrics from work logs
+    2. Support ADR-009 metric types (duration, token_usage, handoff_count, etc.)
+    3. Output to structured format (JSON/CSV)
+    4. Enable aggregation and trend analysis
+    
+    ## Acceptance Criteria
+    
+    - [ ] Script parses work logs and extracts ADR-009 metrics
+    - [ ] Outputs valid JSON/CSV format
+    - [ ] Handles missing/incomplete metrics gracefully
+    - [ ] Documentation includes usage examples
+    - [ ] Script tested with sample logs
+    
+    ## Deliverables
+    
+    - `ops/scripts/capture-metrics.sh` or Python equivalent
+    - Documentation in `ops/README.md`
+    - Sample output files
+    - Usage examples
+    
+    ## Priority & Timeline
+    
+    - **Priority:** Normal
+    - **Effort:** 4-6 hours
+    - **Timeline:** Week 2
+    
+    ---
+    
+    _Created from: work/collaboration/inbox/2025-11-26T0645-implement-metric-capture-script.yaml_
+
+- type: issue
+  taskset: housekeeping
+  epic_ref: housekeeping-epic
+  title: "Create Dashboard Generation Script"
+  labels: housekeeping,observability,automation,visualization
+  assignee: ""
+  priority: normal
+  body: |
+    ## Description
+    
+    Create script to generate dashboard markdown files from captured metrics for easy visualization.
+    
+    ## Context
+    
+    - Parent Epic: Housekeeping and Refactoring
+    - Task file: `work/collaboration/inbox/2025-11-26T0645-create-dashboard-generation-script.yaml`
+    - Depends on: Metric capture script
+    
+    ## Goals
+    
+    1. Read metric data from capture script output
+    2. Generate markdown dashboard with charts/tables
+    3. Support trend visualization over time
+    4. Auto-update on new data
+    
+    ## Acceptance Criteria
+    
+    - [ ] Script reads metric data files
+    - [ ] Generates markdown with tables and charts
+    - [ ] Updates existing dashboard files
+    - [ ] Supports multiple dashboard types (summary, detail, trends)
+    - [ ] Documentation includes examples
+    
+    ## Deliverables
+    
+    - `ops/scripts/generate-dashboard.sh` or Python equivalent
+    - Sample dashboard files
+    - Documentation in `ops/README.md`
+    
+    ## Priority & Timeline
+    
+    - **Priority:** Normal
+    - **Effort:** 4-6 hours
+    - **Timeline:** Week 2-3
+    
+    ---
+    
+    _Created from: work/collaboration/inbox/2025-11-26T0645-create-dashboard-generation-script.yaml_
+
+- type: issue
+  taskset: housekeeping
+  epic_ref: housekeeping-epic
+  title: "Assess Multi-Repository Orchestration Patterns"
+  labels: housekeeping,architecture,assessment
+  assignee: ""
+  priority: low
+  body: |
+    ## Description
+    
+    Architectural assessment of patterns and infrastructure needed for multi-repository orchestration scenarios.
+    
+    ## Context
+    
+    - Parent Epic: Housekeeping and Refactoring
+    - Task file: `work/collaboration/inbox/2025-11-26T0645-assess-multi-repo-orchestration.yaml`
+    - Type: Research/Assessment
+    
+    ## Goals
+    
+    1. Analyze requirements for multi-repo orchestration
+    2. Document patterns and approaches
+    3. Identify infrastructure needs
+    4. Propose recommendations as ADR
+    
+    ## Acceptance Criteria
+    
+    - [ ] Assessment document created
+    - [ ] Patterns documented with pros/cons
+    - [ ] Infrastructure requirements identified
+    - [ ] ADR proposed (if recommendations made)
+    - [ ] Review by Architect Alphonso
+    
+    ## Deliverables
+    
+    - Assessment document in `docs/architecture/`
+    - ADR if recommendations made
+    - Discussion notes
+    
+    ## Priority & Timeline
+    
+    - **Priority:** Low (future planning)
+    - **Effort:** 6-8 hours
+    - **Timeline:** Week 3 or defer to next iteration
+    
+    ---
+    
+    _Created from: work/collaboration/inbox/2025-11-26T0645-assess-multi-repo-orchestration.yaml_
+
+- type: issue
+  taskset: housekeeping
+  epic_ref: housekeeping-epic
+  title: "Create Documentation Template Library"
+  labels: housekeeping,documentation,templates
+  assignee: ""
+  priority: normal
+  body: |
+    ## Description
+    
+    Create reusable documentation templates to improve consistency and reduce agent token overhead.
+    
+    ## Context
+    
+    - Parent Epic: Housekeeping and Refactoring  
+    - Task file: `work/collaboration/inbox/2025-11-26T0645-create-documentation-templates.yaml`
+    
+    ## Goals
+    
+    1. Create template library in `docs/templates/`
+    2. Include templates for: ADRs, work logs, assessments, reports
+    3. Document template usage patterns
+    4. Update agent directives to reference templates
+    
+    ## Acceptance Criteria
+    
+    - [ ] Template files created in `docs/templates/`
+    - [ ] At least 5 core templates included
+    - [ ] Usage documentation added
+    - [ ] Directives updated with template references
+    - [ ] Sample outputs included
+    
+    ## Deliverables
+    
+    - Template files in `docs/templates/`
+    - `docs/templates/README.md` with usage guide
+    - Updated directives
+    
+    ## Priority & Timeline
+    
+    - **Priority:** Normal
+    - **Effort:** 3-4 hours
+    - **Timeline:** Week 1-2
+    
+    ---
+    
+    _Created from: work/collaboration/inbox/2025-11-26T0645-create-documentation-templates.yaml_
+

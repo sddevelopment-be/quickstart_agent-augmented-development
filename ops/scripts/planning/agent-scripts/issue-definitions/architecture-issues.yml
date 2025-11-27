@@ -1,0 +1,115 @@
+---
+# Architectural Assessments and Strategic Planning child issues
+
+- type: issue
+  taskset: architecture
+  epic_ref: architecture-epic
+  title: "Assess agentic framework efficiency trends"
+  labels: architecture,architect,assessment
+  assignee: ""
+  priority: low
+  body: |
+    ## Description
+    
+    Review aggregated token metrics and assess whether the agentic framework is improving in quality-to-cost ratio over time.
+    
+    ## Context
+    
+    - Task file: `work/collaboration/assigned/architect/2025-11-24T1736-architect-framework-efficiency-assessment.yaml`
+    - Status: assigned
+    - Depends on synthesizer token metrics task
+    - Priority: low
+    
+    ## Acceptance Criteria
+    
+    - [ ] Analyze token usage trends over time
+    - [ ] Compare early vs recent task efficiency
+    - [ ] Assess framework overhead trends
+    - [ ] Provide actionable recommendations
+    - [ ] Document in ADR-012
+    - [ ] Work log created per Directive 014
+    
+    ## Deliverables
+    
+    - `docs/architecture/adrs/ADR-012-framework-efficiency-trends.md`
+    - Work log
+    
+    **Agent:** architect  
+    **Priority:** low  
+    **Status:** assigned  
+    **Depends on:** Synthesizer token metrics aggregation
+
+- type: issue
+  taskset: architecture
+  epic_ref: architecture-epic
+  title: "Document version policy and governance"
+  labels: architecture,architect,governance
+  assignee: ""
+  priority: normal
+  body: |
+    ## Description
+    
+    Create comprehensive documentation of version policy and governance for the project.
+    
+    ## Context
+    
+    - Task file: `work/collaboration/assigned/architect/2025-11-24T0950-architect-version-policy-documentation.yaml`
+    - Status: assigned
+    - Governance documentation
+    
+    ## Acceptance Criteria
+    
+    - [ ] Document version numbering scheme
+    - [ ] Define release process
+    - [ ] Specify governance roles
+    - [ ] Clarify deprecation policy
+    - [ ] Document change management
+    - [ ] Work log created
+    
+    ## Deliverables
+    
+    - Version policy documentation
+    - Governance guide
+    - Work log
+    
+    **Agent:** architect  
+    **Priority:** normal  
+    **Status:** assigned
+
+- type: issue
+  taskset: architecture
+  epic_ref: architecture-epic
+  title: "Coordinate tooling enhancements across agents"
+  labels: management,manager,coordination
+  assignee: ""
+  priority: normal
+  body: |
+    ## Description
+    
+    Meta-task to coordinate tooling enhancements and ensure consistency across agent implementations.
+    
+    ## Context
+    
+    - Task file: `work/collaboration/assigned/manager/2025-11-24T0955-manager-tooling-enhancements-coordination.yaml`
+    - Status: assigned
+    - Cross-agent coordination
+    
+    ## Acceptance Criteria
+    
+    - [ ] Review all tooling enhancement tasks
+    - [ ] Identify dependencies and conflicts
+    - [ ] Create coordination plan
+    - [ ] Assign priorities
+    - [ ] Track completion
+    - [ ] Work log created
+    
+    ## Deliverables
+    
+    - Coordination plan
+    - Task tracking document
+    - Work log
+    
+    **Agent:** manager  
+    **Priority:** normal  
+    **Status:** assigned
+

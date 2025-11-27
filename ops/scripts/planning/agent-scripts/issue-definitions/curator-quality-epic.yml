@@ -1,0 +1,50 @@
+---
+# Curator Quality and Maintenance Tasks Epic
+type: epic
+taskset: curator-quality
+title: "Epic: Curator Quality and Maintenance Tasks"
+labels: epic,curator,quality
+assignee: ""
+priority: normal
+
+body: |
+  # Curator Quality and Maintenance Tasks Epic
+
+  ## Overview
+
+  Curator-led quality improvements including changelog clarity, best practices guides, and maintenance checklist templates.
+
+  ## Context
+
+  - Multiple curator tasks assigned for quality improvements
+  - Need for better documentation and maintenance processes
+  - Tooling best practices documentation
+
+  ## Goals
+
+  - **Clarity**: Improve changelog readability and usefulness
+  - **Best Practices**: Document tooling setup best practices
+  - **Maintenance**: Create reusable maintenance checklist templates
+  - **Quality**: Ensure consistency and completeness
+
+  ## Scope
+
+  Includes changelog improvements, best practices documentation, and maintenance template creation.
+
+  ## Success Criteria
+
+  - [ ] Changelog clarity improved
+  - [ ] Tooling best practices documented
+  - [ ] Maintenance checklist templates created
+  - [ ] All documentation reviewed and validated
+
+  ## Timeline
+
+  **Target:** 1-2 weeks  
+  **Priority:** Normal (quality improvements)
+
+  ---
+
+  _Created by: Planning Petra_  
+  _Date: 2025-11-26_
+

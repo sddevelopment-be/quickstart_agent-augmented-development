@@ -1,0 +1,142 @@
+---
+# Documentation and Directives child issues
+
+- type: issue
+  taskset: documentation
+  epic_ref: documentation-epic
+  title: "Create condensed locality of change directive"
+  labels: documentation,curator,directives
+  assignee: ""
+  priority: normal
+  body: |
+    ## Description
+    
+    Create a condensed version of the locality of change directive for better token efficiency and agent comprehension.
+    
+    ## Context
+    
+    - Task file: `work/collaboration/inbox/2025-11-24T1908-curator-locality-of-change-condensed-directive.yaml`
+    - Created: 2025-11-24
+    - Part of directive optimization efforts
+    
+    ## Acceptance Criteria
+    
+    - [ ] Review existing locality of change guidance
+    - [ ] Create condensed directive version
+    - [ ] Maintain core principles and practices
+    - [ ] Improve token efficiency
+    - [ ] Update cross-references
+    
+    ## Deliverables
+    
+    - Condensed directive file
+    - Work log documenting changes
+    
+    **Agent:** curator  
+    **Priority:** normal
+
+- type: issue
+  taskset: documentation
+  epic_ref: documentation-epic
+  title: "Validate primer directive implementation"
+  labels: documentation,architect,directives
+  assignee: ""
+  priority: normal
+  body: |
+    ## Description
+    
+    Review and validate the primer directive to ensure proper implementation and effectiveness.
+    
+    ## Context
+    
+    - Task file: `work/collaboration/inbox/2025-11-24T1951-architect-primer-directive-validation.yaml`
+    - Created: 2025-11-24
+    - Architectural validation task
+    
+    ## Acceptance Criteria
+    
+    - [ ] Review primer directive documentation
+    - [ ] Validate implementation against requirements
+    - [ ] Test with sample scenarios
+    - [ ] Document findings and recommendations
+    - [ ] Create ADR if changes needed
+    
+    ## Deliverables
+    
+    - Validation report
+    - ADR (if applicable)
+    - Work log
+    
+    **Agent:** architect  
+    **Priority:** normal
+
+- type: issue
+  taskset: documentation
+  epic_ref: documentation-epic
+  title: "Validate and refactor documentation structure"
+  labels: documentation,curator
+  assignee: ""
+  priority: normal
+  body: |
+    ## Description
+    
+    General validation and refactoring task for documentation structure to ensure consistency and quality.
+    
+    ## Context
+    
+    - Task file: `work/collaboration/inbox/2025-11-25T1837-curator-validate-refactor.yaml`
+    - Created: 2025-11-25
+    - General quality improvement
+    
+    ## Acceptance Criteria
+    
+    - [ ] Review documentation structure
+    - [ ] Identify inconsistencies
+    - [ ] Refactor for improved organization
+    - [ ] Update cross-references
+    - [ ] Verify accessibility
+    
+    ## Deliverables
+    
+    - Refactored documentation
+    - Validation report
+    - Work log
+    
+    **Agent:** curator  
+    **Priority:** normal
+
+- type: issue
+  taskset: documentation
+  epic_ref: documentation-epic
+  title: "Update documentation for new script organization"
+  labels: documentation,writer-editor
+  assignee: ""
+  priority: normal
+  body: |
+    ## Description
+    
+    Update documentation to reflect new script organization and locations after automation script rework.
+    
+    ## Context
+    
+    - Task file: `work/collaboration/inbox/2025-11-25T1838-writer-editor-update-docs.yaml`
+    - Branch: copilot/rework-automation-scripts
+    - Created: 2025-11-25
+    
+    ## Acceptance Criteria
+    
+    - [ ] Update HOW_TO_USE guide with new script locations
+    - [ ] Document task_utils.py module if needed
+    - [ ] Update CONTRIBUTING.md for new paths
+    - [ ] Verify code examples use correct paths
+    - [ ] Ensure clarity for new contributors
+    
+    ## Deliverables
+    
+    - `docs/HOW_TO_USE/multi-agent-orchestration.md` (updated)
+    - `docs/CONTRIBUTING.md` (updated if needed)
+    - Work log
+    
+    **Agent:** writer-editor  
+    **Priority:** normal
+

@@ -1,0 +1,144 @@
+---
+# POC3 child issues
+
+- type: issue
+  taskset: poc3
+  epic_ref: poc3-epic
+  title: "POC3: Update orchestration diagrams with metrics visualization"
+  labels: poc,diagrams,diagrammer,high-priority
+  assignee: ""
+  priority: high
+  body: |
+    ## Description
+    
+    Update workflow diagrams with timing/metrics annotations and create metrics dashboard concept visualization.
+    
+    ## Context
+    
+    - Task file: `work/collaboration/inbox/2025-11-24T1756-diagrammer-followup-2025-11-23T1738-architect-poc3-multi-agent-chain.yaml`
+    - Follow-up from architect POC3 multi-agent chain task
+    - Part of POC3 validation
+    
+    ## Acceptance Criteria
+    
+    - [ ] Update `workflow-sequential-flow.puml` with timing/metrics annotations
+    - [ ] Create `metrics-dashboard-concept.puml` visualizing ADR-009 capture points
+    - [ ] Add accessibility descriptions to `DESCRIPTIONS.md`
+    - [ ] Follow ADR-009 standards (metrics block, per-artifact validation)
+    - [ ] Validate rendering or mark with ⚠️ if unverified
+    
+    ## Deliverables
+    
+    - `docs/architecture/diagrams/workflow-sequential-flow.puml` (updated)
+    - `docs/architecture/diagrams/metrics-dashboard-concept.puml` (new)
+    - `docs/architecture/diagrams/DESCRIPTIONS.md` (updated)
+    
+    **Agent:** diagrammer  
+    **Priority:** high
+
+- type: issue
+  taskset: poc3
+  epic_ref: poc3-epic
+  title: "POC3: Synthesize diagram updates and aggregate metrics"
+  labels: poc,synthesizer,high-priority
+  assignee: ""
+  priority: high
+  body: |
+    ## Description
+    
+    Synthesize information from completed POC3 diagram updates and create aggregate metrics report.
+    
+    ## Context
+    
+    - Task file: `work/collaboration/inbox/2025-11-24T1756-synthesizer-followup-2025-11-23T2100-diagrammer-poc3-diagram-updates.yaml`
+    - Depends on diagrammer POC3 diagram updates completion
+    - Part of POC3 validation chain
+    
+    ## Acceptance Criteria
+    
+    - [ ] Review completed diagram updates
+    - [ ] Synthesize key findings from POC3 chain
+    - [ ] Create aggregate metrics report
+    - [ ] Document lessons learned
+    - [ ] Prepare summary for writer-editor review
+    
+    ## Deliverables
+    
+    - Synthesis report in `work/reports/synthesizer/`
+    - Aggregate metrics document
+    - Work log
+    
+    **Agent:** synthesizer  
+    **Priority:** high  
+    **Depends on:** Diagrammer POC3 task completion
+
+- type: issue
+  taskset: poc3
+  epic_ref: poc3-epic
+  title: "POC3: Review and polish orchestration guide documentation"
+  labels: poc,documentation,writer-editor,high-priority
+  assignee: ""
+  priority: high
+  body: |
+    ## Description
+    
+    Review orchestration guide following POC3 validation and polish documentation for clarity and completeness.
+    
+    ## Context
+    
+    - Task file: `work/collaboration/inbox/2025-11-24T1756-writer-editor-followup-2025-11-23T0722-curator-orchestration-guide.yaml`
+    - Part of POC3 validation chain
+    - Ensures documentation quality before production
+    
+    ## Acceptance Criteria
+    
+    - [ ] Review orchestration guide documentation
+    - [ ] Polish for clarity and accessibility
+    - [ ] Ensure consistency with POC3 findings
+    - [ ] Update examples if needed
+    - [ ] Verify cross-references
+    
+    ## Deliverables
+    
+    - Updated orchestration guide documentation
+    - Work log documenting changes
+    
+    **Agent:** writer-editor  
+    **Priority:** high
+
+- type: issue
+  taskset: poc3
+  epic_ref: poc3-epic
+  title: "POC3: Review aggregate metrics synthesis"
+  labels: poc,documentation,writer-editor
+  assignee: ""
+  priority: normal
+  body: |
+    ## Description
+    
+    Review synthesizer's aggregate metrics report from POC3 and provide editorial feedback.
+    
+    ## Context
+    
+    - Task file: `work/collaboration/inbox/2025-11-24T1756-writer-editor-followup-2025-11-23T2117-synthesizer-poc3-aggregate-metrics.yaml`
+    - Part of POC3 documentation validation
+    - Final review before curator validation
+    
+    ## Acceptance Criteria
+    
+    - [ ] Review aggregate metrics report
+    - [ ] Provide editorial feedback
+    - [ ] Ensure clarity and accessibility
+    - [ ] Verify metric interpretations
+    - [ ] Polish for final presentation
+    
+    ## Deliverables
+    
+    - Editorial review notes
+    - Polished metrics report (if changes needed)
+    - Work log
+    
+    **Agent:** writer-editor  
+    **Priority:** normal  
+    **Depends on:** Synthesizer POC3 metrics task
+

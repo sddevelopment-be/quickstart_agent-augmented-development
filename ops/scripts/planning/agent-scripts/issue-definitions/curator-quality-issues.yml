@@ -1,0 +1,112 @@
+---
+# Curator Quality and Maintenance child issues
+
+- type: issue
+  taskset: curator-quality
+  epic_ref: curator-quality-epic
+  title: "Improve changelog clarity and structure"
+  labels: curator,documentation,quality
+  assignee: ""
+  priority: normal
+  body: |
+    ## Description
+    
+    Review and improve changelog for better clarity, structure, and usefulness to contributors.
+    
+    ## Context
+    
+    - Task file: `work/collaboration/assigned/curator/2025-11-24T0805-curator-changelog-clarity.yaml`
+    - Status: assigned
+    - Quality improvement
+    
+    ## Acceptance Criteria
+    
+    - [ ] Review current changelog structure
+    - [ ] Identify clarity issues
+    - [ ] Restructure for better readability
+    - [ ] Add missing categories if needed
+    - [ ] Ensure consistency
+    - [ ] Work log created
+    
+    ## Deliverables
+    
+    - `CHANGELOG.md` (improved)
+    - Work log
+    
+    **Agent:** curator  
+    **Priority:** normal  
+    **Status:** assigned
+
+- type: issue
+  taskset: curator-quality
+  epic_ref: curator-quality-epic
+  title: "Create tooling setup best practices guide"
+  labels: curator,documentation,tooling
+  assignee: ""
+  priority: normal
+  body: |
+    ## Description
+    
+    Document best practices for tooling setup to help agents and contributors set up development environments consistently.
+    
+    ## Context
+    
+    - Task file: `work/collaboration/assigned/curator/2025-11-24T0951-curator-tooling-best-practices-guide.yaml`
+    - Status: assigned
+    - Documentation task
+    
+    ## Acceptance Criteria
+    
+    - [ ] Document recommended tooling
+    - [ ] Provide setup instructions
+    - [ ] Include troubleshooting tips
+    - [ ] Add verification steps
+    - [ ] Reference Directive 013
+    - [ ] Work log created
+    
+    ## Deliverables
+    
+    - Tooling best practices guide
+    - Work log
+    
+    **Agent:** curator  
+    **Priority:** normal  
+    **Status:** assigned
+
+- type: issue
+  taskset: curator-quality
+  epic_ref: curator-quality-epic
+  title: "Create maintenance checklist templates"
+  labels: curator,templates,maintenance
+  assignee: ""
+  priority: normal
+  body: |
+    ## Description
+    
+    Create reusable maintenance checklist templates to standardize routine maintenance tasks.
+    
+    ## Context
+    
+    - Task file: `work/collaboration/assigned/curator/2025-11-24T0952-curator-maintenance-checklist-templates.yaml`
+    - Status: assigned
+    - Template creation
+    
+    ## Acceptance Criteria
+    
+    - [ ] Identify common maintenance tasks
+    - [ ] Create checklist templates
+    - [ ] Document usage instructions
+    - [ ] Provide examples
+    - [ ] Store in templates directory
+    - [ ] Work log created
+    
+    ## Deliverables
+    
+    - Maintenance checklist templates
+    - Usage documentation
+    - Work log
+    
+    **Agent:** curator  
+    **Priority:** normal  
+    **Status:** assigned
+
