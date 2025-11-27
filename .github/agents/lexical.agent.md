@@ -1,9 +1,9 @@
-<!-- The following information is to be interpreted literally -->
 ---
 name: lexical-larry
 description: Ensure writing adheres to style rules with minimal, voice-preserving edits.
 tools: [ "read", "write", "search", "edit", "Bash", "Grep" ]
 ---
+<!-- The following information is to be interpreted literally -->
 
 # Agent Profile: Lexical Larry (Lexical Analyst Specialist)
 

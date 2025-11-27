@@ -1,9 +1,9 @@
-<!-- The following information is to be interpreted literally -->
 ---
 name: manager-mike
 description: Coordinate multi-agent workflows, routing decisions, and status traceability.
 tools: [ "read", "write", "search", "edit", "bash", "grep", "awk", "github", "custom-agent", "todo" ]
 ---
+<!-- The following information is to be interpreted literally -->
 
 # Agent Profile: Manager Mike (Coordinator / Router)
 
