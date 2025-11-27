@@ -5,12 +5,12 @@
 > **Date Accepted:** 2025-11-22  
 > **Authors:** Architect Alphonso  
 > **Supersedes:** None  
-> **Depends On:** [ADR-001](./ADR-001-modular-agent-directive-system.md), [ADR-007](./ADR-007-portability-enhancement-opencode.md)  
+> **Depends On:** [ADR-001](./ADR-001-modular-agent-directive-system.md), [ADR-002](./ADR-002-portability-enhancement-opencode.md)  
 > **Tags:** governance, layering, directives, portability
 
 ---
 ## 1. Context
-Growth in agent specialization and directive complexity has introduced coupling between strategic vision artifacts, operational guidelines, and execution-level directives. ADR-001 established modular directives; ADR-007 emphasized portability. Without a stratified governance model, change control and version integrity are at risk, increasing semantic drift and reducing portability reliability.
+Growth in agent specialization and directive complexity has introduced coupling between strategic vision artifacts, operational guidelines, and execution-level directives. ADR-001 established modular directives; ADR-002 emphasized portability. Without a stratified governance model, change control and version integrity are at risk, increasing semantic drift and reducing portability reliability.
 
 ## 2. Decision
 Adopt a formal Three-Layer Governance Model:

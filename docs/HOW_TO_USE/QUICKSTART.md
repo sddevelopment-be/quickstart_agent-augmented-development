@@ -54,8 +54,8 @@ This repository includes four main guardrail documents that define how agents sh
 
 When you create a new repository from this template:
 
-1. Update `docs/VISION.md` to describe what this repo is trying to achieve. Use the template in [docs/templates/project](docs/templates/project/VISION.md) as a baseline.
-2. Update `docs/specific_guidelines.md` with any hard rules or constraints. Use the template in [docs/templates/project](docs/templates/project/specific_guidelines.md) as a baseline.
+1. Update `docs/VISION.md` to describe what this repo is trying to achieve. Use the template in [docs/templates/project](../templates/project/VISION.md) as a baseline.
+2. Update `docs/specific_guidelines.md` with any hard rules or constraints. Use the template in [docs/templates/project](../templates/project/specific_guidelines.md) as a baseline.
 3. Review the specialists in `.github/agents/*.agent.md`:
    - Delete ones you will not use.
    - Rename or adjust their responsibilities.

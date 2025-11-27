@@ -351,7 +351,7 @@ Target coverage metrics:
 - [Orchestration Architecture](../architecture/design/async_multiagent_orchestration.md)
 - [Technical Design](../architecture/design/async_orchestration_technical_design.md)
 - [Task Schema](../templates/agent-tasks/task-descriptor.yaml)
-- [ADR-002: File-Based Async Coordination](../architecture/adrs/ADR-002-file-based-async-coordination.md)
+- [ADR-008: File-Based Async Coordination](../architecture/adrs/ADR-008-file-based-async-coordination.md)
 - [ADR-003: Task Lifecycle Management](../architecture/adrs/ADR-003-task-lifecycle-state-management.md)
 
 ## Contributing

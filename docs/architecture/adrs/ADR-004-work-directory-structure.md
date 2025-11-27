@@ -208,7 +208,7 @@ cat > work/README.md <<'EOF'
 This directory contains the file-based orchestration system for coordinating
 multiple specialized agents.
 
-See docs/architecture/async_multiagent_orchestration.md for details.
+See docs/architecture/design/async_multiagent_orchestration.md for details.
 EOF
 ```
 
@@ -458,5 +458,5 @@ done
 
 **References:**
 
-- [Async Multi-Agent Orchestration Architecture](async_multiagent_orchestration.md)
+- [Async Multi-Agent Orchestration Architecture](../design/async_multiagent_orchestration.md)
 - Issue #8: Asynchronous Multi-Agent Orchestration (File-Driven Model)
