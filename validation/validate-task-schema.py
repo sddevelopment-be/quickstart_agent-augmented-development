@@ -20,10 +20,6 @@ from typing import Any
 
 import yaml
 
-REPO_ROOT = Path(__file__).resolve().parents[0]
-WORK_DIR = REPO_ROOT / "work"
-ASSIGNED_DIR = WORK_DIR / "assigned"
-
 ALLOWED_STATUSES = {"new", "assigned", "in_progress", "done", "error"}
 ALLOWED_MODES = {"/analysis-mode", "/creative-mode", "/meta-mode"}
 ALLOWED_PRIORITIES = {"critical", "high", "medium", "normal", "low"}
@@ -55,10 +51,6 @@ def validate_task_file(path: Path) -> list[str]:
     agent = task.get("agent")
     if not agent:
         errors.append("missing required field: agent")
-    else:
-        agent_dir = ASSIGNED_DIR / agent
-        if not agent_dir.exists():
-            errors.append(f"agent directory does not exist: {agent_dir}")
 
     status = task.get("status")
     if status not in ALLOWED_STATUSES:
