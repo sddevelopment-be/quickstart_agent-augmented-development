@@ -1,7 +1,9 @@
 <!-- The following information is to be interpreted literally -->
 # 019 File-Based Collaboration Framework Directive
 
-Purpose: Guide agents in participating in the asynchronous file-based orchestration system for multi-agent collaboration.
+**Purpose:** Guide agents in participating in the asynchronous file-based orchestration system for multi-agent collaboration.
+
+**Core Concepts:** See [Orchestration](../GLOSSARY.md#orchestration), [Task Lifecycle](../GLOSSARY.md#task-lifecycle), [Handoff](../GLOSSARY.md#handoff), and [Work Log](../GLOSSARY.md#work-log) in the glossary.
 
 ## Core Principle
 

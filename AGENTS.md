@@ -145,7 +145,9 @@ On state loss or restart:
 
 ## 8. Extended Directives Index
 
-The following optional/specific instruction sets are externalized for token efficiency. Load only as needed:
+The following optional/specific instruction sets are externalized for token efficiency. Load only as needed.
+
+**Terminology Reference:** See [agents/GLOSSARY.md](agents/GLOSSARY.md) for standardized definitions of terms used throughout this framework.
 
 | Code | Directive                     | Purpose                                                         |
 |------|-------------------------------|-----------------------------------------------------------------|

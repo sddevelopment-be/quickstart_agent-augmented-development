@@ -1,7 +1,9 @@
 <!-- The following information is to be interpreted literally -->
 # 010 Mode Protocol Directive
 
-Purpose: Standardize mode transitions across agents for consistent reasoning traceability.
+**Purpose:** Standardize mode transitions across agents for consistent reasoning traceability.
+
+**Core Concepts:** See [Mode](../GLOSSARY.md#mode), [Mode Transition](../GLOSSARY.md#mode-transition), and [Primer](../GLOSSARY.md#primer) in the glossary.
 
 Modes:
 - `/analysis-mode`: Diagnostic, decomposition, validation.
@@ -20,12 +22,14 @@ Transition Notation:
 Mode Misuse Indicators:
 - Creative drift while unresolved factual gaps remain → flag ⚠️ and revert to analysis.
 - Meta-mode used to justify speculative output → flag ❗️ and re-align.
+- See [Integrity Symbol](../GLOSSARY.md#integrity-symbol) for marker definitions.
 
 Minimum Artifacts:
 - Long multi-step tasks: include a Mode Summary block at completion listing transitions.
 
 Alignment Checks:
 - After any meta-mode reflection leading to changes in approach, re-run `/validate-alignment`.
+- See [Alignment](../GLOSSARY.md#alignment) and [Validation](../GLOSSARY.md#validation) for protocols.
 
 ---
 

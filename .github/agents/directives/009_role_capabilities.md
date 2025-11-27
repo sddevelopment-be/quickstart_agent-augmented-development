@@ -1,7 +1,9 @@
 <!-- The following information is to be interpreted literally -->
 # 009 Role Capabilities Directive
 
-Purpose: Define allowed operational verbs per specialist to reduce overlap and prevent scope creep.
+**Purpose:** Define allowed operational verbs per specialist to reduce overlap and prevent scope creep.
+
+**Core Concept:** See [Specialization](../GLOSSARY.md#specialization) in the glossary for foundational definition.
 
 Canonical Verbs:
 - Audit: Curator, Lexical, Manager
@@ -18,7 +20,10 @@ Conflict Prevention:
 
 Escalation Rules:
 - When encountering ambiguous responsibilities: reference Context Notes (002) then flag with ⚠️ if unresolved.
+- See [Escalation](../GLOSSARY.md#escalation) and [Integrity Symbol](../GLOSSARY.md#integrity-symbol) for protocols.
 
 Extension:
 - New roles must declare verbs and map them to existing categories; avoid introducing redundant synonyms.
+
+**Related Terms:** [Agent Profile](../GLOSSARY.md#agent-profile), [Collaboration Contract](../GLOSSARY.md#collaboration-contract)
 

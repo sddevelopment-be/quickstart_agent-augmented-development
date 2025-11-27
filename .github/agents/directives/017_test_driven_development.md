@@ -1,11 +1,13 @@
 <!-- The following information is to be interpreted literally -->
 # 017 Test Driven Development Directive
 
-Purpose: Enforce small, verifiable coding increments that protect design quality and cleanliness.
+**Purpose:** Enforce small, verifiable coding increments that protect design quality and cleanliness.
+
+**Core Concept:** See [TDD](../GLOSSARY.md#tdd-test-driven-development) in the glossary for foundational definition.
 
 Scope:
 - Applies to all executable code (implementation, refactoring, bug fixes).
-- Can be used in isolation or after acceptance scenario exists (per Directive 016).
+- Can be used in isolation or after acceptance scenario exists (per Directive 016, see [ATDD](../GLOSSARY.md#atdd-acceptance-test-driven-development)).
 - Exception: trivial shell utilities or disposable scripts noted per ADR-012.
 
 Cycle:
@@ -15,7 +17,7 @@ Cycle:
 4. Repeat the cycle, ensuring each pass remains within minutes.
 
 Guidelines:
-- Prefer fast, isolated tests at the base of the Testing Pyramid; escalate to integration layers only when behaviour demands.
+- Prefer fast, isolated tests at the base of the [Testing Pyramid](../GLOSSARY.md#testing-pyramid); escalate to integration layers only when behaviour demands.
 - Keep assertions focused; multiple expectations per test are acceptable only when describing one cohesive behaviour.
 - Use descriptive test names and include task IDs for traceability.
 
