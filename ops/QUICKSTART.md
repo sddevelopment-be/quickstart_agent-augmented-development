@@ -75,30 +75,42 @@ python3 ops/scripts/convert-agents-to-opencode.py --validate
 
 ## GitHub Issue Automation
 
-Planning scripts use a 3-tier architecture (API → Logic → Helpers) for easy issue tracker swapping. See `ops/scripts/planning/README.md` for details.
+**Data-Driven Approach:** Issues are defined in YAML files and created via a generic engine.
 
-### Create from Markdown
-
-```bash
-ops/scripts/planning/github-helpers/create-github-issue.sh \
-  --repo sddevelopment-be/quickstart_agent-augmented-development \
-  --title "Documentation & Tooling Enhancements (Issue #8 Follow-Up)" \
-  --body-file work/collaboration/GITHUB_ISSUE_9_DOCUMENTATION_TOOLING.md \
-  --label documentation --label tooling --assignee Copilot
-```
-
-### Pipe Generated Content
+### Quick Start
 
 ```bash
-cat <<'EOF' | ops/scripts/planning/github-helpers/create-github-issue.sh \
-  --repo owner/repo \
-  --title "Automated follow-up" \
-  --label automation --label enhancement
-Please triage the follow-up work that dropped out of the last iteration.
-EOF
+# List available issue tasksets
+ops/scripts/planning/create-issues-from-definitions.sh --list-tasksets
+
+# Preview issues before creating
+ops/scripts/planning/create-issues-from-definitions.sh --taskset housekeeping --dry-run
+
+# Create issues for a specific taskset
+export GH_TOKEN="your_token"
+ops/scripts/planning/create-issues-from-definitions.sh --taskset housekeeping
+
+# Create all issues
+ops/scripts/planning/create-issues-from-definitions.sh
 ```
 
-The `github-helpers/` directory provides the GitHub-specific implementation. To use a different issue tracker, replace this directory with an equivalent implementation (e.g., `jira-helpers/`, `gitlab-helpers/`).
+### Available Tasksets
+
+- `housekeeping` - Technical debt reduction (6 issues)
+- `poc3` - POC3 validation (4 issues)
+- `documentation` - Documentation improvements (4 issues)
+- `build-cicd` - Build automation (5 issues)
+- `architecture` - Architectural planning (3 issues)
+- `curator-quality` - Quality improvements (3 issues)
+- `followup` - Follow-up tasks (2 issues)
+
+### Architecture
+
+**3-Tier Design:** API → YAML Data → GitHub Helpers
+
+The `github-helpers/` layer can be swapped for other issue trackers (Jira, GitLab, Linear).
+
+See `ops/scripts/planning/README.md` for complete documentation.
 
 ## Current Status
 

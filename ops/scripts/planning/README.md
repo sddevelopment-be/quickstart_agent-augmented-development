@@ -10,49 +10,63 @@
 ```
 ops/scripts/planning/
 ├── README.md                          # This file
-├── create-github-issues.sh            # Main orchestration (API layer)
-├── create-issues-from-definitions.sh  # Data-driven issue creation engine
-├── create-follow-up-issues.sh         # Follow-up task creation (specific logic)
+├── create-issues-from-definitions.sh  # Main API: Data-driven issue creation engine
 ├── aggregate-iteration-metrics.py     # Metrics aggregation
 ├── init-work-structure.sh             # Work directory initialization
-├── github-helpers/                    # Shared helper layer (abstraction for issue tracker)
+├── github-helpers/                    # Tier 3: Issue tracker abstraction layer
 │   ├── github-issue-helpers.sh        # GitHub-specific helper functions
 │   └── create-github-issue.sh         # GitHub issue creation CLI wrapper
 └── agent-scripts/                     # Agent-generated content
-    ├── issue-definitions/             # YAML issue definitions (data-driven)
-    │   ├── housekeeping-epic.yml      # Housekeeping epic definition
-    │   ├── housekeeping-issues.yml    # Housekeeping child issues
-    │   └── ...                        # Additional taskset definitions
-    ├── README-housekeeping-issues.md  # Legacy documentation
-    ├── create_housekeeping_issues.sh  # Legacy script (to be deprecated)
-    └── create_all_task_issues.sh      # Legacy script (to be deprecated)
+    ├── issue-definitions/             # Tier 2: YAML issue definitions (data layer)
+    │   ├── architecture-epic.yml      # Architecture epic + issues
+    │   ├── architecture-issues.yml
+    │   ├── build-cicd-epic.yml        # Build/CI-CD epic + issues
+    │   ├── build-cicd-issues.yml
+    │   ├── curator-quality-epic.yml   # Curator quality epic + issues
+    │   ├── curator-quality-issues.yml
+    │   ├── documentation-epic.yml     # Documentation epic + issues
+    │   ├── documentation-issues.yml
+    │   ├── followup-issues.yml        # Follow-up issues (no epic)
+    │   ├── housekeeping-epic.yml      # Housekeeping epic + issues
+    │   ├── housekeeping-issues.yml
+    │   ├── poc3-epic.yml              # POC3 epic + issues
+    │   └── poc3-issues.yml
+    ├── legacy/                        # Deprecated bash scripts (reference only)
+    │   ├── README.md                  # Deprecation notice
+    │   ├── create_housekeeping_issues.sh
+    │   └── create_all_task_issues.sh
+    ├── IMPLEMENTATION_SUMMARY.md      # Technical implementation guide
+    ├── MIGRATION_COMPLETE.md          # Migration completion report
+    └── README-housekeeping-issues.md  # Legacy documentation
 ```
 
-## Workflow Architecture (3-Tier Design)
+## Architecture (3-Tier Design)
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ Tier 1: API Layer (Orchestration)                           │
-│  - GitHub Workflow (create-github-issues.yml)               │
-│  - create-github-issues.sh (main orchestration)             │
+│ Tier 1: API Layer                                           │
+│  - create-issues-from-definitions.sh (main API)             │
+│  - Parses YAML, filters by taskset, orchestrates creation   │
 └─────────────────────────────────────────────────────────────┘
                            ↓
 ┌─────────────────────────────────────────────────────────────┐
-│ Tier 2: Specific Logic (Planning Scripts)                   │
-│  - create-follow-up-issues.sh                               │
-│  - agent-scripts/create_housekeeping_issues.sh              │
-│  - agent-scripts/create_all_task_issues.sh                  │
+│ Tier 2: Data Layer (YAML Definitions)                       │
+│  - agent-scripts/issue-definitions/*.yml                    │
+│  - Pure data: epics and issues as structured YAML           │
+│  - Taskset-based organization for filtering                 │
 └─────────────────────────────────────────────────────────────┘
                            ↓
 ┌─────────────────────────────────────────────────────────────┐
-│ Tier 3: Shared Helpers (Tracker Abstraction)                │
-│  - github-helpers/github-issue-helpers.sh                   │
+│ Tier 3: Helper Layer (Tracker Abstraction)                  │
 │  - github-helpers/create-github-issue.sh                    │
+│  - github-helpers/github-issue-helpers.sh                   │
 │  - GitHub CLI (gh)                                          │
 └─────────────────────────────────────────────────────────────┘
 
-This design allows easy swapping of issue trackers by replacing Tier 3
-with alternative implementations (e.g., Jira, GitLab, Linear helpers).
+**Benefits:**
+- Tier 3 can be swapped (GitHub → Jira, GitLab, Linear, etc.)
+- Tier 2 is pure data (easy for agents to generate)
+- Tier 1 is reusable logic (one engine for all tasksets)
 ```
 
 ## Data-Driven Issue Creation
@@ -147,85 +161,60 @@ Instead of writing bash scripts, agents should create YAML definition files:
 
 **Permissions:** Only repository owners/admins can execute
 
-### Via Command Line (Local Execution)
+### Command Line Usage
 
 ```bash
 # Set GitHub token
 export GH_TOKEN="your_github_token"
 
+# List available tasksets
+ops/scripts/planning/create-issues-from-definitions.sh --list-tasksets
+
+# Preview issues (dry run)
+ops/scripts/planning/create-issues-from-definitions.sh --taskset housekeeping --dry-run
+
+# Create issues for a specific taskset
+ops/scripts/planning/create-issues-from-definitions.sh --taskset housekeeping
+
+# Create multiple tasksets
+ops/scripts/planning/create-issues-from-definitions.sh --taskset housekeeping,poc3
+
 # Create all issues
-bash ops/scripts/planning/create-github-issues.sh --all
-
-# Create only housekeeping issues
-bash ops/scripts/planning/create-github-issues.sh --housekeeping
-
-# Create only task issues
-bash ops/scripts/planning/create-github-issues.sh --tasks
-
-# Dry run to preview
-bash ops/scripts/planning/create-github-issues.sh --all --dry-run
-
-# List available agent scripts
-bash ops/scripts/planning/create-github-issues.sh --list
-
-# Run a specific agent script
-bash ops/scripts/planning/create-github-issues.sh --script create_housekeeping_issues.sh
+ops/scripts/planning/create-issues-from-definitions.sh
 ```
 
-## Scaffolding Script Features
+## Main API: create-issues-from-definitions.sh
 
-**File:** `create-github-issues.sh`
+**File:** `create-issues-from-definitions.sh`
 
 **Features:**
-- Orchestrates multiple agent-generated scripts
-- Validates prerequisites (GH_TOKEN, GitHub CLI)
-- Provides dry-run capability
+- Data-driven: reads YAML definitions instead of bash scripts
+- Taskset filtering: create specific subsets of issues
+- Dry-run capability: preview before creating
+- Epic tracking: automatically links child issues to parent epics
 - Color-coded output for readability
-- Error handling and logging
-- Lists available agent scripts
-- Flexible execution modes
+- No external dependencies (uses grep/awk for YAML parsing)
 
 **Options:**
 ```
---all               Create all issues from all agent scripts
---housekeeping      Create housekeeping and refactoring issues only
---tasks             Create issues for all open/assigned tasks
---script <name>     Run a specific agent script by name
---list              List available agent scripts
---dry-run           Show what would be executed without running
+--taskset <name>    Create issues for specific taskset(s) (comma-separated)
+--dry-run           Preview what would be created without creating
+--repo <owner/name> Override repository
+--list-tasksets     List available tasksets and exit
 -h, --help          Show help message
 ```
 
-## Agent Scripts
+## For Agents: Creating Issue Definitions
 
-### Subdirectory: `agent-scripts/`
+Instead of writing bash scripts, agents should create YAML definition files in `agent-scripts/issue-definitions/`.
 
-Agent-generated planning scripts are stored here for easy discovery and organization.
+### Creating New Issues
 
-**Current Scripts:**
-
-1. **create_housekeeping_issues.sh** (by Planning Petra)
-   - Creates: 1 epic + 6 child issues
-   - Focus: Directive refactoring, token efficiency, infrastructure
-   - Priority: 3 high, 2 normal, 1 low
-   - Timeline: 2-3 weeks
-
-2. **create_all_task_issues.sh** (by Planning Petra)
-   - Creates: 5 epics + 20+ child issues
-   - Coverage: All open/assigned repository tasks
-   - Includes: POC3, Documentation, Build/CI-CD, Architecture, Quality
-   - Timeline: 3-4 weeks total
-
-### Adding New Agent Scripts
-
-When agents create new planning scripts:
-
-1. Place script in `agent-scripts/` directory
-2. Make it executable: `chmod +x agent-scripts/your-script.sh`
-3. Add description comment at top of script
-4. Script should call issue creation via `$REPO_ROOT/ops/scripts/planning/github-helpers/create-github-issue.sh`
-5. Test with scaffolding script: `./create-github-issues.sh --script your-script.sh`
-6. Document in this README if it's a permanent addition
+1. Create YAML file in `agent-scripts/issue-definitions/`
+2. Name format: `{taskset}-epic.yml` and `{taskset}-issues.yml`
+3. Follow the YAML format (see Data-Driven Issue Creation section above)
+4. Set proper permissions: `chmod 644 your-file.yml`
+5. Test with dry-run: `create-issues-from-definitions.sh --taskset your-taskset --dry-run`
 
 ## Tier 3: GitHub Helpers (Tracker Abstraction Layer)
 
@@ -376,7 +365,7 @@ gh auth login
 **Solution:** Ensure you're running from repository root or use full path:
 ```bash
 cd /path/to/quickstart_agent-augmented-development
-bash ops/scripts/planning/create-github-issues.sh --all
+ops/scripts/planning/create-issues-from-definitions.sh --list-tasksets
 ```
 
 ### "gh: command not found"
@@ -399,6 +388,14 @@ brew install gh
 
 ## Version History
 
+- **v2.0.0** (2025-11-27): Data-driven migration by DevOps Danny
+  - ✅ Migrated all 27 issues + 6 epics to YAML definitions
+  - ✅ Created generic issue creation engine
+  - ✅ Deprecated legacy bash scripts
+  - ✅ Implemented 3-tier architecture (API → Data → Helpers)
+  - ✅ Removed `create-github-issues.sh` and `create-follow-up-issues.sh`
+  - See `agent-scripts/MIGRATION_COMPLETE.md` for details
+
 - **v1.0.0** (2025-11-26): Initial implementation by DevOps Danny
   - Created scaffolding architecture
   - Implemented GitHub workflow
@@ -408,4 +405,4 @@ brew install gh
 ---
 
 **Maintained by:** DevOps Danny (Build Automation Specialist)  
-**Last Updated:** 2025-11-26
+**Last Updated:** 2025-11-27

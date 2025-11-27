@@ -94,39 +94,38 @@ python3 ops/scripts/convert-agents-to-opencode.py \
 
 **Location:** `scripts/planning/`
 
-3-tier architecture for planning workflows and issue management. The abstraction layer (`github-helpers/`) enables easy swapping between issue trackers.
+**Main API:** `create-issues-from-definitions.sh` - Data-driven issue creation engine
 
-**Usage:**
+**Architecture:** 3-tier design (API → YAML Data → GitHub Helpers)
+
+**Quick Start:**
 ```bash
-#!/usr/bin/env bash
-source ops/scripts/planning/github-helpers/github-issue-helpers.sh
+# List available tasksets
+ops/scripts/planning/create-issues-from-definitions.sh --list-tasksets
 
-BODY="$(_github_issue::body_from_file work/collaboration/ISSUE_BODY.md)"
-_github_issue::create \
-  "sddevelopment-be/quickstart_agent-augmented-development" \
-  "Automation request" \
-  "$BODY" \
-  "automation,ops" \
-  "Copilot"
+# Preview issues (dry run)
+ops/scripts/planning/create-issues-from-definitions.sh --taskset housekeeping --dry-run
+
+# Create issues
+export GH_TOKEN="your_token"
+ops/scripts/planning/create-issues-from-definitions.sh --taskset housekeeping
+
+# Create all issues
+ops/scripts/planning/create-issues-from-definitions.sh
 ```
 
-**Creating Issues:**
-```bash
-# From a local file
-ops/scripts/planning/github-helpers/create-github-issue.sh \
-  --repo sddevelopment-be/quickstart_agent-augmented-development \
-  --title "Document iteration automation" \
-  --body-file work/collaboration/GITHUB_ISSUE_10_POST_IMPLEMENTATION_ANALYSIS.md \
-  --label automation --label enhancement --assignee Copilot
+**Available Tasksets:**
+- `housekeeping` - Technical debt and refactoring (6 issues + 1 epic)
+- `poc3` - POC3 validation tasks (4 issues + 1 epic)
+- `documentation` - Documentation improvements (4 issues + 1 epic)
+- `build-cicd` - Build automation and CI/CD (5 issues + 1 epic)
+- `architecture` - Architectural assessments (3 issues + 1 epic)
+- `curator-quality` - Quality and maintenance (3 issues + 1 epic)
+- `followup` - Follow-up tasks (2 issues)
 
-# Or pipe a generated body via STDIN
-generate_body | ops/scripts/planning/github-helpers/create-github-issue.sh \
-  --repo owner/repo \
-  --title "Generated issue from pipeline" \
-  --label pipeline
-```
+**For Agents:** Create YAML definitions in `scripts/planning/agent-scripts/issue-definitions/` instead of bash scripts.
 
-See `scripts/planning/README.md` for details on the 3-tier architecture and how to swap issue trackers.
+See `scripts/planning/README.md` for complete documentation.
 
 ### `test-data/`
 
