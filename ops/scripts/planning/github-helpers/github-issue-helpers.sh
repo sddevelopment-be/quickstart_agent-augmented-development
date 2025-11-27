@@ -17,11 +17,12 @@ _github_issue::require_cli() {
   fi
 }
 
-# Trim leading/trailing whitespace
+# Trim leading/trailing whitespace and remove all quotes
 _github_issue::trim() {
   local value="${1-}"
   # shellcheck disable=SC2001
-  value="$(printf '%s' "$value" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+  # Remove leading/trailing whitespace, then remove all single and double quotes
+  value="$(printf '%s' "$value" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e 's/["'\'']//g')"
   printf '%s' "$value"
 }
 
@@ -129,13 +130,20 @@ _github_issue::create() {
   if [[ -n "$assignees" ]]; then
     IFS=',' read -ra _assignees <<< "$assignees"
     for user in "${_assignees[@]}"; do
-      user="$(_github_issue::trim "$user")"
-      [[ -n "$user" ]] && cmd+=("--assignee" "$user")
+      user=$(_github_issue::trim $user)
+      # Only add assignee if non-empty after trimming
+      if [[ -n "$user" ]]; then
+#        _github_issue::log "TRIMMED ASSIGNEE: '$user'"
+        cmd+=("--assignee" "$user")
+      fi
     done
   fi
 
   if [[ -n "$milestone" ]]; then
-    cmd+=("--milestone" "$milestone")
+    milestone="$(_github_issue::trim "$milestone")"
+    if [[ -n "$milestone" ]]; then
+      cmd+=("--milestone" "$milestone")
+    fi
   fi
 
   if [[ "$draft" == "true" ]]; then
@@ -143,5 +151,6 @@ _github_issue::create() {
   fi
 
   _github_issue::log "Creating issue '$title' in $repo"
+#  _github_issue::log "COMMAND: ${cmd[*]}"
   "${cmd[@]}"
 }
