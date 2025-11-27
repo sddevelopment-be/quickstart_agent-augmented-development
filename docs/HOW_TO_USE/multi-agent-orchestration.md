@@ -39,7 +39,7 @@ First, identify which agent should handle your task:
 
 ### 2. Create a Task File
 
-Create a new YAML file in the `work/inbox/` directory. Use this naming pattern:
+Create a new YAML file in the `work/collaboration/inbox/` directory. Use this naming pattern:
 
 ```
 YYYY-MM-DDTHHMM-<agent>-<short-description>.yaml
@@ -60,7 +60,7 @@ status: new
 
 title: "Generate repository map for current state"
 
-artefacts:
+artifacts:
   - docs/REPO_MAP.md
 
 context:
@@ -79,7 +79,7 @@ created_by: "stijn"
 - `id`: Unique identifier (must match filename without `.yaml`)
 - `agent`: Target agent name (see table in step 1)
 - `status`: Always `"new"` for new tasks
-- `artefacts`: List of files the agent should create or modify
+- `artifacts`: List of files the agent should create or modify
 
 **Optional but helpful:**
 
@@ -93,7 +93,7 @@ created_by: "stijn"
 Once you've created the task file:
 
 ```bash
-git add work/inbox/2025-11-23T1430-structural-repomap.yaml
+git add work/collaboration/inbox/2025-11-23T1430-structural-repomap.yaml
 git commit -m "Add task: Generate repository map"
 git push
 ```
@@ -102,18 +102,22 @@ git push
 
 The orchestration system automatically:
 
-1. Moves your task from `work/inbox/` to `work/assigned/<agent>/`
+1. Moves your task from `work/collaboration/inbox/` to `work/collaboration/assigned/<agent>/`
 2. Updates status to `in_progress` when the agent starts
-3. Moves completed tasks to `work/done/`
+3. Moves completed tasks to `work/collaboration/done/<agent>/`
+4. Creates a work log in `work/reports/logs/<agent>/` documenting the execution
 
 Track task progress by viewing the YAML file:
 
 ```bash
 # See where your task is
-find work/ -name "2025-11-23T1430-structural-repomap.yaml"
+find work/collaboration/ -name "2025-11-23T1430-structural-repomap.yaml"
 
 # View task details
-cat work/assigned/structural/2025-11-23T1430-structural-repomap.yaml
+cat work/collaboration/assigned/structural/2025-11-23T1430-structural-repomap.yaml
+
+# View work log after completion
+cat work/reports/logs/structural/2025-11-23T1430-structural-repomap.md
 ```
 
 ## Understanding the Task Lifecycle
@@ -128,10 +132,10 @@ Every task moves through a well-defined sequence of stages:
    └───────────────> error <────────┘
 ```
 
-- **new:** Task created in `work/inbox/`, awaiting orchestrator pickup
-- **assigned:** Moved to `work/assigned/<agent>/`, ready for the agent
+- **new:** Task created in `work/collaboration/inbox/`, awaiting orchestrator pickup
+- **assigned:** Moved to `work/collaboration/assigned/<agent>/`, ready for the agent
 - **in_progress:** Agent is actively working on the task
-- **done:** Completed successfully and moved to `work/done/`
+- **done:** Completed successfully and moved to `work/collaboration/done/<agent>/` with work log in `work/reports/logs/<agent>/`
 - **error:** Failed—requires human review and intervention
 
 ## Common Use Cases
@@ -145,7 +149,7 @@ id: 2025-11-23T1500-curator-doc-audit
 agent: curator
 status: new
 title: "Audit documentation for structural consistency"
-artefacts:
+artifacts:
   - docs/audit-report.md
 context:
   notes:
@@ -166,7 +170,7 @@ status: new
 mode: /analysis-mode
 priority: high
 title: "Create ADR for database selection"
-artefacts:
+artifacts:
   - docs/architecture/adrs/ADR-006-database-selection.md
 context:
   notes:
@@ -188,7 +192,7 @@ id: 2025-11-23T1700-architect-adr-api
 agent: architect
 status: new
 title: "Create ADR for API design"
-artefacts:
+artifacts:
   - docs/architecture/adrs/ADR-007-api-design.md
 created_at: "2025-11-23T17:00:00Z"
 created_by: "stijn"
@@ -199,11 +203,20 @@ When the architect completes the task, it adds handoff metadata to the `result` 
 ```yaml
 result:
   summary: "Created ADR-007 with API design recommendations"
-  artefacts:
+  artifacts:
     - docs/architecture/adrs/ADR-007-api-design.md
+  metrics:
+    duration_minutes: 15
+    token_count:
+      input: 8500
+      output: 4200
+      total: 12700
+    context_files_loaded: 5
+    artifacts_created: 1
+    artifacts_modified: 0
   next_agent: "writer-editor"
   next_task_title: "Review and polish ADR-007"
-  next_artefacts:
+  next_artifacts:
     - docs/architecture/adrs/ADR-007-api-design.md
   next_task_notes:
     - "Check technical terminology clarity"
@@ -243,13 +256,16 @@ tail -n 100 work/collaboration/WORKFLOW_LOG.md
 
 ```bash
 # All new tasks waiting for assignment
-ls work/inbox/*.yaml
+ls work/collaboration/inbox/*.yaml
 
 # All tasks in progress
-find work/assigned -name "*.yaml"
+find work/collaboration/assigned -name "*.yaml"
 
 # Recently completed tasks
-ls -lt work/done/*.yaml | head -n 10
+find work/collaboration/done -name "*.yaml" -type f | xargs ls -lt | head -n 10
+
+# View work logs for completed tasks
+ls -lt work/reports/logs/*/*.md | head -n 10
 ```
 
 ## Troubleshooting
@@ -267,7 +283,7 @@ ls -lt work/done/*.yaml | head -n 10
 **Solutions:**
 
 1. Verify the orchestrator process is active
-2. Review agent logs in `work/logs/<agent>/` for error messages
+2. Review agent logs in `work/reports/logs/<agent>/` for error messages
 3. Manually trigger the agent if necessary
 4. Check the agent's assigned directory permissions
 
@@ -285,7 +301,7 @@ ls -lt work/done/*.yaml | head -n 10
 
 1. Check `WORKFLOW_LOG.md` for timeout warnings
 2. Review the task YAML for any `error` block added by the agent
-3. Check agent logs in `work/logs/<agent>/` for the latest activity
+3. Check agent logs in `work/reports/logs/<agent>/` for the latest activity
 4. If needed, manually reset task status to `assigned` and restart
 
 ### Task Failed with Error
@@ -309,6 +325,58 @@ ls -lt work/done/*.yaml | head -n 10
 2. Inspect `WORKFLOW_LOG.md` for orchestrator errors or warnings
 3. Verify handoff was logged in `HANDOFFS.md`
 4. Manually create the follow-up task if the orchestrator failed
+
+## Understanding Metrics and Work Logs
+
+The orchestration system captures comprehensive metrics and creates detailed work logs for every task. This helps track performance, improve efficiency, and maintain transparency.
+
+### Metrics Captured
+
+When agents complete tasks, they automatically capture the following metrics in the result block (per **ADR-009: Orchestration Metrics and Quality Standards**):
+
+**Required Metrics:**
+- `duration_minutes`: Total execution time from task start to completion
+- `token_count`: Input, output, and total tokens processed
+- `context_files_loaded`: Number of files loaded for context
+- `artifacts_created`: Count of new files created
+- `artifacts_modified`: Count of existing files modified
+
+**Optional Metrics:**
+- `per_artifact_timing`: Detailed breakdown per artifact
+- `handoff_latency_seconds`: Time between task completion and next task creation
+
+**Example metrics block in task result:**
+
+```yaml
+result:
+  summary: "Documentation audit completed"
+  artifacts:
+    - docs/audit-report.md
+  metrics:
+    duration_minutes: 12
+    token_count:
+      input: 15000
+      output: 3500
+      total: 18500
+    context_files_loaded: 8
+    artifacts_created: 1
+    artifacts_modified: 0
+  completed_at: "2025-11-24T10:30:00Z"
+```
+
+### Work Logs
+
+Every completed task generates a detailed work log in `work/reports/logs/<agent>/` (per **Directive 014: Work Log Creation**). Work logs document:
+
+- **Context**: What prompted the work
+- **Approach**: Decision-making rationale
+- **Execution Steps**: Chronological actions taken
+- **Artifacts Created**: Files produced with validation markers (✅/⚠️/❗️)
+- **Outcomes**: Results and deliverables
+- **Lessons Learned**: Insights for framework improvement
+- **Metadata**: Duration, token counts, handoffs
+
+Work logs provide transparency, enable continuous improvement, and serve as training data for refining the orchestration framework.
 
 ## Advanced Features
 
@@ -353,7 +421,7 @@ mode: /meta-mode      # Self-reflective, process-focused
 Always list exact file paths the agent should create or modify:
 
 ```yaml
-artefacts:
+artifacts:
   - docs/REPO_MAP.md          # Good: specific path
   - "update documentation"     # Bad: vague
 ```
@@ -387,12 +455,12 @@ Keep each task focused on a single deliverable:
 ```yaml
 # Good: Single focused task
 title: "Generate repository structure map"
-artefacts:
+artifacts:
   - docs/REPO_MAP.md
 
 # Bad: Multiple unrelated items
 title: "Generate map and write guide and create diagram"
-artefacts:
+artifacts:
   - docs/REPO_MAP.md
   - docs/GUIDE.md
   - docs/DIAGRAM.png
@@ -404,9 +472,10 @@ For multiple deliverables, create separate tasks or use handoffs to chain them t
 
 Before creating a new task, verify it's not duplicating existing work:
 
-1. Search `work/done/` for similar completed tasks
+1. Search `work/collaboration/done/` for similar completed tasks
 2. Review agent output directories for recent artifacts
-3. Search Git history for related changes (`git log --all --grep="keyword"`)
+3. Review work logs in `work/reports/logs/` for related work
+4. Search Git history for related changes (`git log --all --grep="keyword"`)
 
 ## Getting Help
 
@@ -416,6 +485,8 @@ Before creating a new task, verify it's not duplicating existing work:
 - **Work Directory Overview:** `work/README.md`
 - **Architecture:** `docs/architecture/design/async_multiagent_orchestration.md`
 - **Technical Design:** `docs/architecture/design/async_orchestration_technical_design.md`
+- **Metrics Standard:** `docs/architecture/adrs/ADR-009-orchestration-metrics-standard.md`
+- **Work Log Directive:** `.github/agents/directives/014_worklog_creation.md`
 
 ### Architecture Decision Records
 
@@ -423,6 +494,7 @@ Before creating a new task, verify it's not duplicating existing work:
 - **ADR-003:** Task Lifecycle and State Management
 - **ADR-004:** Work Directory Structure
 - **ADR-005:** Coordinator Agent Pattern
+- **ADR-009:** Orchestration Metrics and Quality Standards
 
 ### Agent Profiles
 
@@ -430,6 +502,6 @@ See `.github/agents/*.agent.md` for detailed agent capabilities and specializati
 
 ---
 
-_Last updated: 2025-11-23_  
-_Maintained by: Curator Claire_  
-_For questions about this guide, see: `.github/agents/curator.agent.md`_
+_Last updated: 2025-11-27_  
+_Maintained by: Curator Claire & Editor Eddy_  
+_For questions about this guide, see: `.github/agents/curator.agent.md` and `.github/agents/writer-editor.agent.md`_
