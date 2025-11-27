@@ -26,7 +26,7 @@ This directive **intentionally duplicates** behavioral norms found in individual
 
 **Design Decision:** We accept the ~200-300 token overhead in exchange for increased reliability and safety.
 
-**For detailed rationale:** See `agents/approaches/operating_procedures/01_redundancy_rationale.md`
+**For detailed rationale:** See `.github/agents/approaches/operating_procedures/01_redundancy_rationale.md`
 
 ## 3. Non-Removal Clause
 
