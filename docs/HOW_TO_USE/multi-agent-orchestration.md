@@ -6,6 +6,13 @@ This guide explains how to use the multi-agent orchestration system to delegate 
 
 The orchestration system coordinates multiple specialized agents working together on different tasks. Each agent focuses on a specific area of expertise—documentation, architecture, code structure, and more. Tasks flow between agents automatically through **handoffs** (explicit transfers from one agent to the next), creating seamless collaborative workflows.
 
+Think of it as a file-based workflow where:
+- You create a task by writing a YAML file
+- The orchestrator assigns it to the right agent
+- The agent completes the work and updates the file
+- If needed, the agent hands off to another agent
+- All activity is tracked in Git with full transparency
+
 **Key benefits:**
 
 - **Transparent:** All task states are visible in Git—no hidden queues
@@ -51,7 +58,7 @@ The timestamp helps keep tasks chronologically ordered, while the agent name ens
 
 ### 3. Write the Task Descriptor
 
-Here's a minimal task example:
+A task descriptor is a YAML file that tells the orchestration system what work needs to be done. Here's a minimal example:
 
 ```yaml
 id: 2025-11-23T1430-structural-repomap
@@ -183,7 +190,14 @@ created_by: "stijn"
 
 ### Scenario 3: Multi-Agent Workflow (Handoffs)
 
-Chain multiple agents together using **handoffs**—when the first agent completes its work, it signals the orchestrator to create a follow-up task for the next agent.
+Chain multiple agents together using **handoffs**. A handoff occurs when one agent completes its work and signals the orchestrator to create a follow-up task for another agent. This enables complex workflows without manual coordination.
+
+**How it works:**
+1. First agent completes its task
+2. Agent adds `next_agent` field to the result block
+3. Orchestrator detects the handoff signal
+4. Orchestrator creates a new task for the next agent
+5. Second agent picks up and continues the workflow
 
 **Initial task (architect creates ADR):**
 
@@ -224,7 +238,7 @@ result:
   completed_at: "2025-11-23T17:45:00Z"
 ```
 
-The orchestrator detects the `next_agent` field and automatically creates a new task for the writer-editor agent.
+The orchestrator detects the `next_agent` field and automatically creates a new task for the writer-editor agent. The handoff is logged in `work/collaboration/HANDOFFS.md` for tracking and transparency.
 
 ## Monitoring the System
 
@@ -366,17 +380,21 @@ result:
 
 ### Work Logs
 
-Every completed task generates a detailed work log in `work/reports/logs/<agent>/` (per **Directive 014: Work Log Creation**). Work logs document:
+Every completed task generates a detailed work log in `work/reports/logs/<agent>/` (per **Directive 014: Work Log Creation**). Work logs are markdown files that provide narrative documentation of the agent's execution process.
 
-- **Context**: What prompted the work
-- **Approach**: Decision-making rationale
-- **Execution Steps**: Chronological actions taken
-- **Artifacts Created**: Files produced with validation markers (✅/⚠️/❗️)
-- **Outcomes**: Results and deliverables
-- **Lessons Learned**: Insights for framework improvement
-- **Metadata**: Duration, token counts, handoffs
+**What work logs contain:**
 
-Work logs provide transparency, enable continuous improvement, and serve as training data for refining the orchestration framework.
+- **Context**: What prompted the work and initial conditions
+- **Approach**: Decision-making rationale and alternatives considered
+- **Execution Steps**: Chronological log of actions taken
+- **Artifacts Created**: Files produced with validation markers (✅ validated, ⚠️ partial, ❗️ issue)
+- **Outcomes**: Results achieved and deliverables completed
+- **Lessons Learned**: Actionable insights for framework improvement
+- **Metadata**: Execution duration, token counts, context size, handoffs initiated
+
+**Why work logs matter:**
+
+Work logs provide transparency into agent reasoning, enable continuous improvement of the orchestration framework, and serve as training examples for future agent development. They complement the brief task result blocks with detailed narratives of how work was accomplished.
 
 ## Advanced Features
 
@@ -481,7 +499,7 @@ Before creating a new task, verify it's not duplicating existing work:
 
 ### Reference Documentation
 
-- **Task Template:** `docs/templates/task-descriptor.yaml`
+- **Task Templates:** `docs/templates/agent-tasks/` (task-descriptor.yaml, task-examples.yaml, task-result.yaml)
 - **Work Directory Overview:** `work/README.md`
 - **Architecture:** `docs/architecture/design/async_multiagent_orchestration.md`
 - **Technical Design:** `docs/architecture/design/async_orchestration_technical_design.md`
