@@ -24,6 +24,7 @@ tools: [ "read", "write", "search", "edit", "bash", "grep", "awk", "github", "cu
 | 004  | Documentation & Context Files | Reference planning & workflow docs                      |
 | 006  | Version Governance            | Detect version mismatches before routing                |
 | 007  | Agent Declaration             | Authority confirmation before multi-agent orchestration |
+| 018  | Documentation Level Framework | Create project documentation at appropriate abstraction levels |
 
 Load with `/require-directive <code>`.
 

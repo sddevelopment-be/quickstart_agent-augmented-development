@@ -24,6 +24,7 @@ tools: [ "read", "write", "search", "edit", "bash", "todo", "github" ]
 | 004  | Documentation & Context Files | Link plans to authoritative workflow refs               |
 | 006  | Version Governance            | Check version alignment before milestone updates        |
 | 007  | Agent Declaration             | Authority confirmation before publishing plan artefacts |
+| 018  | Documentation Level Framework | Document plans and roadmaps at stable architectural level |
 
 Invoke with `/require-directive <code>`.
 

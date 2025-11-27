@@ -18,20 +18,23 @@ tools: [ "read", "write", "search", "edit", "bash", "plantuml", "MultiEdit", "ma
 
 ## Directive References (Externalized)
 
-| Code | Directive                     | Usage Rationale                                          |
-|------|-------------------------------|----------------------------------------------------------|
-| 001  | CLI & Shell Tooling           | Repo/file discovery, structural scans                    |
-| 002  | Context Notes                 | Resolving profile precedence & shorthand ambiguity       |
-| 003  | Repository Quick Reference    | Fast topology recall for decomposition                   |
-| 004  | Documentation & Context Files | Locate existing maps/templates before new ADRs           |
-| 006  | Version Governance            | Validate architecture decisions against versioned layers |
-| 007  | Agent Declaration             | Ensure authority confirmation prior to ADR emission      |
+| Code | Directive                     | Usage Rationale                                                                   |
+|------|-------------------------------|-----------------------------------------------------------------------------------|
+| 001  | CLI & Shell Tooling           | Repo/file discovery, structural scans                                             |
+| 002  | Context Notes                 | Resolving profile precedence & shorthand ambiguity                                |
+| 003  | Repository Quick Reference    | Fast topology recall for decomposition                                            |
+| 004  | Documentation & Context Files | Locate existing maps/templates before new ADRs                                    |
+| 006  | Version Governance            | Validate architecture decisions against versioned layers                          |
+| 007  | Agent Declaration             | Ensure authority confirmation prior to ADR emission                               |
+| 018  | Documentation Level Framework | Choose appropriate detail levels for ADRs and architecture docs to minimize drift |
 
 (See `./directives/XXX_*.md` for full text; load on demand with `/require-directive <code>`)
 
-**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
+**Primer Requirement:
+** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
 
-**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
+**Test-First Requirement:
+** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
 
 ## 2. Purpose
 

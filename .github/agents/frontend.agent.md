@@ -25,6 +25,7 @@ tools: [ "read", "write", "search", "edit", "MultiEdit", "Bash", "Grep", "Node",
 | 004  | Documentation & Context Files | Link UI patterns to documented workflows                |
 | 006  | Version Governance            | Confirm versions before altering shared components      |
 | 007  | Agent Declaration             | Authority confirmation prior to design system evolution |
+| 018  | Documentation Level Framework | Document frontend components at appropriate abstraction levels |
 
 Use `/require-directive <code>` as needed.
 

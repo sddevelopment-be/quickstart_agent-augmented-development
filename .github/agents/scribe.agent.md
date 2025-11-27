@@ -24,6 +24,7 @@ tools: [ "read", "write", "search", "edit", "bash" ]
 | 004  | Documentation & Context Files | Link summaries to existing structural references         |
 | 006  | Version Governance            | Confirm version tags in summaries when relevant          |
 | 007  | Agent Declaration             | Authority confirmation before broad documentation sweeps |
+| 018  | Documentation Level Framework | Apply appropriate detail levels when creating meeting notes and reports |
 
 Request with `/require-directive <code>`.
 

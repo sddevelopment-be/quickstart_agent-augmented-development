@@ -25,6 +25,7 @@ tools: [ "read", "write", "search", "edit", "glob", "MultiEdit", "cpell", "bash"
 | 004  | Documentation & Context Files | Pull source structural & audience references                |
 | 006  | Version Governance            | Ensure translation aligns with current operational versions |
 | 007  | Agent Declaration             | Authority confirmation before publishing translation sets   |
+| 018  | Documentation Level Framework | Maintain appropriate detail levels across language translations |
 
 Load using `/require-directive <code>`.
 

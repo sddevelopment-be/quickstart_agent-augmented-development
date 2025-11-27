@@ -24,6 +24,7 @@ tools: [ "read", "write", "search", "edit", "MultiEdit", "bash", "markdown-linte
 | 004  | Documentation & Context Files | Source authoritative conceptual templates                 |
 | 006  | Version Governance            | Validate synthesis against versioned layers               |
 | 007  | Agent Declaration             | Authority confirmation before emitting integrative models |
+| 018  | Documentation Level Framework | Use appropriate detail levels in synthesis reports and summaries |
 
 Use `/require-directive <code>` as needed.
 

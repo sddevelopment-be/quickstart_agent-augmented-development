@@ -7,38 +7,24 @@
 
 ## Directory Structure
 
+**Organization:** 3-tier architecture (API → Data → Helpers)
+
 ```
 ops/scripts/planning/
-├── README.md                          # This file
-├── create-issues-from-definitions.sh  # Main API: Data-driven issue creation engine
-├── aggregate-iteration-metrics.py     # Metrics aggregation
-├── init-work-structure.sh             # Work directory initialization
-├── github-helpers/                    # Tier 3: Issue tracker abstraction layer
-│   ├── github-issue-helpers.sh        # GitHub-specific helper functions
-│   └── create-github-issue.sh         # GitHub issue creation CLI wrapper
-└── agent-scripts/                     # Agent-generated content
-    ├── issue-definitions/             # Tier 2: YAML issue definitions (data layer)
-    │   ├── architecture-epic.yml      # Architecture epic + issues
-    │   ├── architecture-issues.yml
-    │   ├── build-cicd-epic.yml        # Build/CI-CD epic + issues
-    │   ├── build-cicd-issues.yml
-    │   ├── curator-quality-epic.yml   # Curator quality epic + issues
-    │   ├── curator-quality-issues.yml
-    │   ├── documentation-epic.yml     # Documentation epic + issues
-    │   ├── documentation-issues.yml
-    │   ├── followup-issues.yml        # Follow-up issues (no epic)
-    │   ├── housekeeping-epic.yml      # Housekeeping epic + issues
-    │   ├── housekeeping-issues.yml
-    │   ├── poc3-epic.yml              # POC3 epic + issues
-    │   └── poc3-issues.yml
-    ├── legacy/                        # Deprecated bash scripts (reference only)
-    │   ├── README.md                  # Deprecation notice
-    │   ├── create_housekeeping_issues.sh
-    │   └── create_all_task_issues.sh
-    ├── IMPLEMENTATION_SUMMARY.md      # Technical implementation guide
-    ├── MIGRATION_COMPLETE.md          # Migration completion report
-    └── README-housekeeping-issues.md  # Legacy documentation
+├── create-issues-from-definitions.sh  # Main API (Tier 1)
+├── github-helpers/                    # Issue tracker abstraction (Tier 3)
+├── agent-scripts/
+│   ├── issue-definitions/             # YAML issue definitions (Tier 2)
+└── [supporting scripts and documentation]
 ```
+
+**Key Locations:**
+- **Main API:** `create-issues-from-definitions.sh`
+- **Issue Definitions:** `agent-scripts/issue-definitions/*.yml`
+- **Helper Functions:** `github-helpers/`
+- **Documentation:** `README.md`, `agent-scripts/IMPLEMENTATION_SUMMARY.md`
+
+> **Note:** See directory listing for complete file inventory. The file system is the source of truth.
 
 ## Architecture (3-Tier Design)
 
@@ -147,21 +133,6 @@ Instead of writing bash scripts, agents should create YAML definition files:
 
 ## Usage
 
-### Via GitHub Workflow (Recommended for Humans)
-
-1. Go to repository Actions tab
-2. Select "Create GitHub Issues from Agent Plans"
-3. Click "Run workflow"
-4. Choose mode:
-   - **all**: Create all issues from all scripts
-   - **housekeeping**: Create housekeeping epic only
-   - **tasks**: Create task-tracking issues only
-5. Optionally enable dry-run to preview
-6. Click "Run workflow"
-
-**Permissions:** Only repository owners/admins can execute
-
-### Command Line Usage
 
 ```bash
 # Set GitHub token
@@ -265,30 +236,6 @@ To use a different issue tracker, replace the `github-helpers/` directory with a
 
 Tier 2 scripts would remain unchanged as long as the interface stays consistent.
 
-## GitHub Workflow
-
-**File:** `.github/workflows/create-github-issues.yml`
-
-**Trigger:** Manual (workflow_dispatch)  
-**Permissions:** Repository owners/admins only
-
-**Workflow Steps:**
-1. Checkout repository
-2. Validate user permissions (admin/write required)
-3. Display execution plan
-4. List available agent scripts
-5. Execute scaffolding script with selected mode
-6. Generate workflow summary
-
-**Inputs:**
-- `mode`: all | housekeeping | tasks
-- `dry_run`: boolean (preview without creating)
-
-**Security:**
-- Validates user has admin or write permission
-- Uses GITHUB_TOKEN for authentication
-- Only runs on manual trigger
-- Permission check prevents unauthorized execution
 
 ## Integration with Repository
 
@@ -317,32 +264,30 @@ Agent execution logs referenced from:
 
 ## Maintenance
 
-### Updating Agent Scripts
+### Adding New Issue Definitions
 
-When Petra or other agents create new planning scripts:
-1. Scripts are automatically placed in `agent-scripts/` by agents
-2. Scaffolding script auto-discovers them
-3. No workflow changes needed
-
-### Workflow Updates
-
-The workflow is designed to be stable. Updates needed only for:
-- Permission model changes
-- New execution modes
-- Enhanced validation requirements
+When agents create new issues:
+1. Create YAML files in `agent-scripts/issue-definitions/`
+2. Follow naming convention: `{taskset}-epic.yml`, `{taskset}-issues.yml`
+3. Use `--list-tasksets` to verify detection
+4. Test with `--dry-run` before creating
 
 ### Testing
 
 ```bash
-# Test scaffolding script
-ops/scripts/planning/create-github-issues.sh --list
-ops/scripts/planning/create-github-issues.sh --all --dry-run
+# List available tasksets
+ops/scripts/planning/create-issues-from-definitions.sh --list-tasksets
 
-# Test specific agent script
-ops/scripts/planning/create-github-issues.sh --script create_housekeeping_issues.sh --dry-run
+# Dry run (preview without creating)
+ops/scripts/planning/create-issues-from-definitions.sh --taskset housekeeping --dry-run
 
-# Validate workflow (requires act or GitHub Actions)
-gh workflow run create-github-issues.yml -f mode=housekeeping -f dry_run=true
+# Test all tasksets
+ops/scripts/planning/create-issues-from-definitions.sh --dry-run
+
+# Validate YAML syntax
+for f in agent-scripts/issue-definitions/*.yml; do 
+  grep -q "^type:" "$f" && echo "✓ $f" || echo "✗ $f"
+done
 ```
 
 ## Troubleshooting

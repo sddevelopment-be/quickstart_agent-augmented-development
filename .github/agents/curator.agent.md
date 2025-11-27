@@ -18,18 +18,21 @@ tools: [ "read", "write", "search", "edit", "bash" ]
 
 ## Directive References (Externalized)
 
-| Code | Directive                     | Curatorial Use                                         |
-|------|-------------------------------|--------------------------------------------------------|
-| 002  | Context Notes                 | Resolve profile precedence & shorthand normalization   |
-| 004  | Documentation & Context Files | Locate authoritative structural templates              |
-| 006  | Version Governance            | Verify layer versions before global consistency passes |
-| 007  | Agent Declaration             | Affirm authority prior to large-scale normalization    |
+| Code | Directive                     | Curatorial Use                                                          |
+|------|-------------------------------|-------------------------------------------------------------------------|
+| 002  | Context Notes                 | Resolve profile precedence & shorthand normalization                    |
+| 004  | Documentation & Context Files | Locate authoritative structural templates                               |
+| 006  | Version Governance            | Verify layer versions before global consistency passes                  |
+| 007  | Agent Declaration             | Affirm authority prior to large-scale normalization                     |
+| 018  | Documentation Level Framework | Maintain READMEs and docs at appropriate detail levels to prevent drift |
 
 Load directives selectively: `/require-directive <code>`.
 
-**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
+**Primer Requirement:
+** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
 
-**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
+**Test-First Requirement:
+** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
 
 ## 2. Purpose
 

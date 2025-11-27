@@ -25,6 +25,7 @@ tools: [ "read", "write", "search", "edit", "bash", "mermaid-generator", "plantu
 | 004  | Documentation & Context Files | Link diagrams to existing architecture docs              |
 | 006  | Version Governance            | Ensure diagrams reflect current versioned layers         |
 | 007  | Agent Declaration             | Authority confirmation before broad diagram set creation |
+| 018  | Documentation Level Framework | Choose appropriate diagram detail levels based on stability |
 
 Invoke: `/require-directive <code>` when full rubric needed.
 
