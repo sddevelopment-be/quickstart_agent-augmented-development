@@ -1,7 +1,9 @@
 <!-- The following information is to be interpreted literally -->
 # 008 Artifact Templates Directive
 
-Purpose: Central reference to template locations to prevent duplication and drift.
+**Purpose:** Central reference to template locations to prevent duplication and drift.
+
+**Core Concepts:** See [Template](../GLOSSARY.md#template) and [Artifact](../GLOSSARY.md#artifact) in the glossary.
 
 Template Locations:
 - Architecture: `docs/templates/architecture/`
@@ -23,5 +25,7 @@ Usage Guidance:
     - Example usage
 
 Versioning:
-- Major structural changes require updating Version Governance directive (006) if they alter process assumptions.
+- Major structural changes require updating [Version Governance](../GLOSSARY.md#version-governance) directive (006) if they alter process assumptions.
+
+**Related Terms:** [Work Log](../GLOSSARY.md#work-log)
 

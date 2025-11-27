@@ -1,12 +1,14 @@
 <!-- The following information is to be interpreted literally -->
 # 014 Work Log Creation Directive
 
-Purpose: Define standards for creating work logs that document agent execution for agentic framework tuning and continuous improvement.
+**Purpose:** Define standards for creating work logs that document agent execution for agentic framework tuning and continuous improvement.
+
+**Core Concept:** See [Work Log](../GLOSSARY.md#work-log) in the glossary for foundational definition.
 
 ## 1. When to Create a Work Log
 
 Agents MUST create a work log when:
-- Completing a task from the file-based orchestration system (`work/collaboration/assigned/`)
+- Completing a task from the file-based [orchestration](../GLOSSARY.md#orchestration) system (`work/collaboration/assigned/`)
 - Performing multi-step coordination with other agents
 - Encountering novel or ambiguous situations requiring creative problem-solving
 - Implementing new patterns or approaches not previously documented
