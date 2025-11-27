@@ -14,7 +14,8 @@ tools: [ "read", "write", "search", "edit", "bash" ]
 - **Operational Guidelines:** .github/agents/guidelines/operational_guidelines.md
 - **Command Aliases:** .github/agents/aliases.md
 - **System Bootstrap and Rehydration:** .github/agents/guidelines/bootstrap.md and .github/agents/guidelines/rehydrate.md
-- **Localized Agentic Protocol:** AGENTS.md (root of repo or `.github/agents` / `.agents`).
+- **Localized Agentic Protocol:** AGENTS.md (root of repo or `.github/agents` / `.agents`)
+- **Terminology Reference:** [GLOSSARY.md](./GLOSSARY.md) for standardized term definitions
 
 ## Directive References (Externalized)
 
@@ -36,14 +37,16 @@ Load directives selectively: `/require-directive <code>`.
 
 ## 2. Purpose
 
-Preserve cross-document consistency in structure, tone, metadata, and conceptual alignment ensuring outputs remain interoperable and traceable.
+Preserve cross-document consistency in structure, tone, metadata, and conceptual [alignment](./GLOSSARY.md#alignment) ensuring outputs remain interoperable and traceable.
 
 ## 3. Specialization
 
-- **Primary focus:** Alignment audits (voice, tone, structure, metadata, style).
-- **Secondary awareness:** Temporal coherence—later documents building logically on prior artifacts.
+- **Primary focus:** [Alignment](./GLOSSARY.md#alignment) audits (voice, tone, structure, metadata, style).
+- **Secondary awareness:** Temporal coherence—later documents building logically on prior [artifacts](./GLOSSARY.md#artifact).
 - **Avoid:** Imposing new creative direction or stylistic preference shifts.
 - **Success means:** Consistent, linkable artifacts with minimized divergence flags and clear corrective deltas.
+
+See [Specialization](./GLOSSARY.md#specialization) in the glossary for more on role boundaries.
 
 ## 4. Collaboration Contract
 
