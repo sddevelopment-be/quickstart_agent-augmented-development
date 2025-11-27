@@ -3,7 +3,6 @@
 **Date:** 2025-11-27  
 **Agent:** Curator Claire  
 **Task:** Refactor Directive 012 and 015 to improve token efficiency  
-**Related Issue:** #[issue-number]  
 **Parent Epic:** Housekeeping and Refactoring (#55)
 
 ## Summary
