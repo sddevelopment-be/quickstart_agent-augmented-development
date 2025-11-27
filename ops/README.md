@@ -90,6 +90,77 @@ The CSV output provides a flat table with one row per task, suitable for:
 - Sample outputs: `work/reports/metrics/sample-metrics.{json,csv}`
 - Usage examples: `ops/scripts/METRICS_USAGE_EXAMPLES.md`
 
+#### `generate-dashboard.py`
+
+Generates markdown dashboard files from metrics data captured by `capture-metrics.py`. Supports multiple dashboard types for easy visualization of metrics trends and agent activity.
+
+**Usage:**
+```bash
+python3 ops/scripts/generate-dashboard.py [options]
+```
+
+**Options:**
+- `--input PATH` - Input metrics JSON file (default: `work/reports/metrics/metrics.json`)
+- `--dashboard-type TYPE` - Dashboard type to generate: `summary`, `detail`, `trends`, or `all` (default: `all`)
+- `--output-dir DIR` - Output directory for dashboards (default: `work/reports/dashboards`)
+- `--output-file PATH` - Output file path (use `-` for stdout, overrides `--output-dir`)
+- `--update` - Update existing dashboard files
+- `--verbose` - Enable verbose logging
+
+**Dashboard Types:**
+
+1. **Summary Dashboard** (`summary-dashboard.md`)
+   - Overall statistics (total tasks, agents, duration, tokens)
+   - Top agents by task count with ASCII bar charts
+   - Recent activity table (last 10 tasks)
+
+2. **Detail Dashboard** (`detail-dashboard.md`)
+   - Per-agent metrics breakdown
+   - Task completion counts and averages
+   - Duration and token usage per agent
+   - Recent tasks for each agent
+   - Artifacts summary
+
+3. **Trends Dashboard** (`trends-dashboard.md`)
+   - Daily activity trends with metrics table
+   - Agent activity timeline with visual charts
+   - Token usage trends over time
+   - ASCII visualizations for trend patterns
+
+**Examples:**
+```bash
+# Generate all dashboard types from latest metrics
+python3 ops/scripts/capture-metrics.py --output-file /tmp/metrics.json
+python3 ops/scripts/generate-dashboard.py --input /tmp/metrics.json
+
+# Generate only summary dashboard to stdout
+python3 ops/scripts/generate-dashboard.py --dashboard-type summary --output-file -
+
+# Generate specific dashboard type to custom location
+python3 ops/scripts/generate-dashboard.py --dashboard-type trends --output-dir docs/metrics/
+
+# Update existing dashboards with new data
+python3 ops/scripts/generate-dashboard.py --update --verbose
+```
+
+**Output Features:**
+- Markdown format compatible with GitHub rendering
+- ASCII bar charts for visual trend representation
+- Unicode symbols (█ ░) for progress bars
+- Sortable tables with key metrics
+- Timestamp tracking for data freshness
+- Auto-creates output directories
+
+**Sample Dashboards:**
+- `work/reports/dashboards/summary-dashboard.md` - Quick overview
+- `work/reports/dashboards/detail-dashboard.md` - Detailed breakdowns
+- `work/reports/dashboards/trends-dashboard.md` - Historical trends
+
+**Related:**
+- `capture-metrics.py` - Source data generator
+- ADR-009: Orchestration Metrics and Quality Standards
+- Sample outputs: `work/reports/dashboards/`
+
 #### `opencode-spec-validator.py`
 
 Validates JSON configuration files against the OpenCode agent specification.
