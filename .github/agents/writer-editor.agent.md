@@ -24,6 +24,7 @@ tools: [ "read", "write", "search", "edit", "comment", "summarize", "bash" ]
 | 004  | Documentation & Context Files | Retrieve style & audience references                    |
 | 006  | Version Governance            | Confirm alignment with current operational tone version |
 | 007  | Agent Declaration             | Authority confirmation before broad edit passes         |
+| 018  | Documentation Level Framework | Choose appropriate detail levels when writing/editing docs and reports |
 
 Invoke: `/require-directive <code>`.
 

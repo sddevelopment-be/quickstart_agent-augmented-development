@@ -25,6 +25,7 @@ tools: [ "read", "write", "search", "edit", "MultiEdit", "Bash", "Grep", "Docker
 | 004  | Documentation & Context Files | Align API contracts with existing workflow docs            |
 | 006  | Version Governance            | Check layer versions before altering service interfaces    |
 | 007  | Agent Declaration             | Authority confirmation prior to backend refactor proposals |
+| 018  | Documentation Level Framework | Document backend APIs and code at appropriate levels |
 
 Load as needed: `/require-directive <code>`.
 

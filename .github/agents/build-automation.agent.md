@@ -23,6 +23,7 @@ tools: ["read", "write", "search", "edit", "MultiEdit", "Bash", "Grep", "github"
 | 004 | Documentation & Context Files | Align CI/CD docs with existing WORKFLOWS references |
 | 006 | Version Governance | Ensure pipeline respects versioned layer alignment |
 | 007 | Agent Declaration | Authority confirmation before modifying shared CI files |
+| 018 | Documentation Level Framework | Document automation scripts at appropriate levels to minimize maintenance |
 Use `/require-directive <code>` for full text.
 
 **Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.

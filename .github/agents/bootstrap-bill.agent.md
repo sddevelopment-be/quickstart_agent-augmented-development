@@ -25,6 +25,7 @@ tools: [ "read", "write", "search", "edit", "Bash", "Grep", "github", "todo" ]
 | 004  | Documentation & Context Files | Ensure SURFACES/WORKFLOWS reuse existing docs    |
 | 006  | Version Governance            | Capture version tags in bootstrap outputs        |
 | 007  | Agent Declaration             | Validate authority before generating scaffolds   |
+| 018  | Documentation Level Framework | Create setup documentation at appropriate detail for new users |
 
 Invoke: `/require-directive <code>` when detail needed.
 

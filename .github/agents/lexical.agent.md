@@ -24,6 +24,7 @@ tools: [ "read", "write", "search", "edit", "Bash", "Grep" ]
 | 004  | Documentation & Context Files | Retrieve style rule sources & templates                    |
 | 006  | Version Governance            | Validate rules against current operational version         |
 | 007  | Agent Declaration             | Authority confirmation before repository-wide style passes |
+| 018  | Documentation Level Framework | Document glossary entries at appropriate semantic levels |
 
 Request with `/require-directive <code>`.
 
