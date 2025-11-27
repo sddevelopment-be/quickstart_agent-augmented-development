@@ -445,5 +445,5 @@ def update_agent_status():
 
 **References:**
 
-- [Async Multi-Agent Orchestration Architecture](async_multiagent_orchestration.md)
+- [Async Multi-Agent Orchestration Architecture](../design/async_multiagent_orchestration.md)
 - Issue #8: Asynchronous Multi-Agent Orchestration (File-Driven Model)

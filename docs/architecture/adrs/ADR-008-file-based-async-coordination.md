@@ -150,5 +150,5 @@ No databases, no running services, no APIs—just files moving through directori
 
 **References:**
 
-- [Async Multi-Agent Orchestration Architecture](async_multiagent_orchestration.md)
+- [Async Multi-Agent Orchestration Architecture](../design/async_multiagent_orchestration.md)
 - Issue #8: Asynchronous Multi-Agent Orchestration (File-Driven Model)

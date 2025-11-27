@@ -5,7 +5,7 @@
 
 ### Context
 
-The agent-augmented development repository aims to maximize the portability, reusability, and automation-readiness of its agent stack. Previously, agent configurations were maintained in markdown files with YAML frontmatter, which limited interoperability, validation, and integration with external tools. As the number of specialized agents grew, the need for a vendor-neutral, schema-validated, and automation-friendly configuration format became critical. This decision is made in the context of ongoing efforts to standardize agent specialization patterns ([agent_specialization_patterns.md](../agent_specialization_patterns.md)) and to support robust CI/CD workflows.
+The agent-augmented development repository aims to maximize the portability, reusability, and automation-readiness of its agent stack. Previously, agent configurations were maintained in markdown files with YAML frontmatter, which limited interoperability, validation, and integration with external tools. As the number of specialized agents grew, the need for a vendor-neutral, schema-validated, and automation-friendly configuration format became critical. This decision is made in the context of ongoing efforts to standardize agent specialization patterns ([agent_specialization_patterns.md](../patterns/agent_specialization_patterns.md)) and to support robust CI/CD workflows.
 
 ### Decision
 
@@ -44,7 +44,7 @@ We will adopt the OpenCode specification as the canonical format for agent confi
 ---
 
 _References:_
-- [Agent Specialization Patterns](../agent_specialization_patterns.md)
+- [Agent Specialization Patterns](../patterns/agent_specialization_patterns.md)
 - [OpenCode Specification Validator](../../../ops/scripts/opencode-spec-validator.py)
 - [Agent to OpenCode Converter](../../../ops/scripts/convert-agents-to-opencode.py)
 
