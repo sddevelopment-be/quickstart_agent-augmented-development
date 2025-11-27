@@ -254,6 +254,18 @@
       "safetyCritical": false,
       "directive_version": "1.0.0",
       "status": "active"
-    }
+    },
+	{
+	  "code": "021",
+	  "slug": "locality_of_change",
+	  "title": "Locality of Change",
+	  "file": "021_locality_of_change.md",
+	  "purpose": "Problem severity measurement and premature optimization avoidance",
+	  "dependencies": ["011", "012", "014"],
+	  "requiredInAgents": false,
+	  "safetyCritical": true,
+	  "directive_version": "1.0.0",
+	  "status": "active"
+	}
   ]
 }

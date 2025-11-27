@@ -12,6 +12,7 @@ This directory contains an overview of agentic approaches. These are description
 | [decision-first-development.md](decision-first-development.md) | Step-by-step workflow for capturing architectural decisions during development with flow-aware timing | All agents | 1.0.0 |
 | [tooling-setup-best-practices.md](tooling-setup-best-practices.md) | Best practices for tool selection, configuration, and maintenance in agent-augmented development environments | All agents | 1.0.0 |
 | [target-audience-fit.md](target-audience-fit.md) | Workflow for applying persona-driven communication (“Target Audience Personas”) to any artifact | Writing-focused agents | 1.0.0 |
+| [locality-of-change.md](locality-of-change.md) | Comprehensive guide to avoiding premature optimization through problem measurement and severity assessment | All agents | 1.0.0 |
 
 ## Usage
 

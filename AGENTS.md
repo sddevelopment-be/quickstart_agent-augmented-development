@@ -170,6 +170,7 @@ The following optional/specific instruction sets are externalized for token effi
 | 017  | Test Driven Development       | TDD workflow and unit test requirements (ADR-012)               |
 | 018  | Traceable Decisions           | Decision capture protocols and traceability (ADR-017)           |
 | 019  | File-Based Collaboration      | Multi-agent orchestration through file-based task workflows     |
+| 020  | Locality of Change            | Problem severity measurement and premature optimization avoidance|
 
 Location: `.github/agents/directives/XXX_name.md` Example load pattern:
 

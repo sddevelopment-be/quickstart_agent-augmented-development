@@ -1,6 +1,10 @@
-# 016 Locality of Change / Avoiding Gold Plating Directive
+# Locality of Change / Avoiding Gold Plating - Comprehensive Approach
 
-Purpose: Guide agents to avoid premature optimization and unnecessary complexity by measuring problem severity before designing solutions, favoring simple alternatives, and maintaining architectural discipline.
+**Purpose:** Guide agents to avoid premature optimization and unnecessary complexity by measuring problem severity before designing solutions, favoring simple alternatives, and maintaining architectural discipline.
+
+**Quick Reference:** For condensed guidance, see [Directive 020](../directives/020_locality_of_change.md)
+
+---
 
 ## 1. Core Principle
 

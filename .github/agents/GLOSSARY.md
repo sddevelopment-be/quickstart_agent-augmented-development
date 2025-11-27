@@ -97,6 +97,12 @@ Standardized markers used to signal alignment status or confidence levels:
 **Reference:** AGENTS.md Section 3, Directive 011  
 **Related:** Alignment, Escalation
 
+### Locality of Change
+A design principle emphasizing that changes should be measured against actual problems, not hypothetical concerns. Agents must verify problem existence, quantify severity, and prefer simple solutions over architectural enhancements. Discourages gold plating, premature abstraction, and complexity creep.
+
+**Reference:** Directive 020, `.github/agents/approaches/locality-of-change.md`  
+**Related:** Risk, Escalation, Alignment
+
 ### Mode
 An operational state that governs an agent's reasoning approach and output style. Standard modes include:
 - `/analysis-mode` - Diagnostic, decomposition, validation
