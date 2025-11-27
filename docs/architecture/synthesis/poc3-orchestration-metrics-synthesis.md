@@ -60,7 +60,9 @@ ADR-009 mandates **5 required** and **2 optional** metrics fields. The following
 | `per_artifact_timing` | Detailed breakdown per artifact | Shown conceptually via separate agent timing annotations | "per_artifact_timing" component with structure `{name, action, duration_seconds}` | ✅ Consistent |
 | `handoff_latency_seconds` | Time between completed_at → next_task created_at | Explicitly annotated: "~2 minutes handoff latency" | "handoff_latency_seconds" component with calculation note | ✅ Consistent |
 
-**Finding:** All seven metrics fields from ADR-009 are represented in both diagrams. The sequential flow diagram demonstrates metrics in operational context with concrete values. The dashboard diagram provides architectural structure as a generic framework.
+**Finding:** All seven metrics fields from ADR-009 are represented in both diagrams:
+- The sequential flow diagram demonstrates metrics in operational context with concrete values
+- The dashboard diagram provides architectural structure as a generic framework
 
 ---
 
@@ -146,6 +148,8 @@ The metrics dashboard diagram visualizes how data flows from lifecycle stages th
 
 ### Task Lifecycle → Metrics Collection
 
+The dashboard diagram's data flow correctly triggers metrics at appropriate lifecycle stages:
+
 | Lifecycle Stage (ADR-009 Implicit) | Metrics Triggered | Dashboard Flow | Validation |
 |------------------------------------|-------------------|----------------|------------|
 | Task Start (agent picks up work) | `duration_minutes` start timer | TaskStart → Duration | ✅ Correct trigger point |
@@ -178,7 +182,7 @@ The `workflow-sequential-flow.puml` diagram serves as a **reference implementati
 
 ### Metrics Annotations
 
-The diagram demonstrates ADR-009 metrics through color-coded annotations (METRICS package in purple):
+The diagram demonstrates ADR-009 metrics through annotations grouped in the METRICS package (visually distinguished in purple for sighted users):
 
 1. **Coordinator Timing (Step 2):**
    - Polling interval: 5 minutes
@@ -278,7 +282,7 @@ Comprehensive review for missing, conflicting, or ambiguous elements:
 2. **Handoff latency calculation:** Sequential flow diagram demonstrates concrete example with timestamps
 3. **Per-artifact timing granularity:** Dashboard shows optional field with `duration_seconds` precision (not minutes)
 
-### Potential Enhancements (Beyond ADR-009 Scope)
+### Future Considerations (Beyond Current Scope)
 
 While not gaps, the following could strengthen future iterations:
 
@@ -372,12 +376,14 @@ This synthesis provides:
 - **Inclusive Documentation:** Vision-impaired stakeholders can understand metrics framework through DESCRIPTIONS.md
 - **Evidence Base:** Writer-Editor and Curator have validated mappings for refinement and governance
 
-### Recommendations for Writer-Editor
+### Observations for Future Refinement
 
-1. **Clarity Pass on ADR-009:** Simplify complex sentences in Section 1 "Context" and Section 2 "Decision" by splitting dense paragraphs
-2. **Terminology Consistency:** Standardize "artifacts" vs. "artefacts" spelling (ADR-009 uses "artefacts" in YAML examples but "artifacts" in prose)
-3. **Dashboard Diagram Labels:** Review lengthy component notes to condense without losing information
-4. **DESCRIPTIONS.md Expansion:** Consider adding a navigation guide or table of contents for future diagram additions
+The following observations may inform future iterations, though they do not affect the current synthesis validity:
+
+1. **ADR-009 Clarity:** Some dense paragraphs in Section 1 "Context" and Section 2 "Decision" could benefit from subdivision
+2. **Terminology Consistency:** "artifacts" vs. "artefacts" spelling varies between ADR-009's YAML examples and prose text
+3. **Dashboard Diagram Labels:** Some component notes are comprehensive but lengthy; consider if condensation aids readability
+4. **DESCRIPTIONS.md Navigation:** As diagram collection grows, a navigation guide or table of contents may improve discoverability
 
 ### Handoff Notes
 
@@ -391,6 +397,8 @@ This synthesis provides:
 ## Metadata
 
 **Synthesis Approach:** Systematic requirement-to-implementation tracing with bidirectional validation
+
+**Synthesis Type:** Requirements traceability analysis
 
 **Analysis Methodology:**
 1. Extract normative statements from ADR-009
