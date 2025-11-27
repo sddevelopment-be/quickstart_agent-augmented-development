@@ -88,6 +88,7 @@ The CSV output provides a flat table with one row per task, suitable for:
 **Related:**
 - ADR-009: Orchestration Metrics and Quality Standards (`docs/architecture/adrs/ADR-009-orchestration-metrics-standard.md`)
 - Sample outputs: `work/reports/metrics/sample-metrics.{json,csv}`
+- Usage examples: `ops/scripts/METRICS_USAGE_EXAMPLES.md`
 
 #### `opencode-spec-validator.py`
 
