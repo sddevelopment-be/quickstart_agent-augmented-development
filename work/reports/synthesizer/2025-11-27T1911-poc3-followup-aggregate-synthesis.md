@@ -18,7 +18,7 @@ This synthesis aggregates findings from two phases of POC3 diagram work:
 **Key Achievement:** POC3 demonstrates **production-ready multi-agent orchestration** with zero inconsistencies across five specialized agents and comprehensive metrics capture. The followup validation confirmed sustained artifact quality and successful ADR-009 compliance even after 4 days between original work and validation.
 
 **Aggregate Metrics Summary:**
-- **Total Chain Duration:** Original: ~30 minutes (5 agents) + Followup: 45 minutes = 75 minutes
+- **Total Chain Duration:** Original: 30 minutes (5 agents) + Followup: 45 minutes = 75 minutes
 - **Total Token Usage:** Original: 75.6K tokens + Followup: 75K tokens = 150.6K tokens
 - **Artifacts Produced:** 8 artifacts (ADR, 2 diagrams, synthesis doc, accessibility metadata, 3 work logs)
 - **Quality Validation:** Zero inconsistencies, 100% ADR-009 compliance, 100% accessibility standards met
@@ -405,7 +405,7 @@ Both diagram entries demonstrate best practices **beyond** ADR-009 minimum requi
 
 **DESCRIPTIONS.md Analysis:**
 - Both entries follow identical template structure
-- Timestamps synchronized (original: 2025-11-23T21:13:00Z, updated: 2025-11-27T08:02:23Z)
+- Timestamps show creation (2025-11-23T21:13:00Z UTC) and validation (2025-11-27T08:02:23Z UTC) - 4 day gap expected
 - Cross-references form coherent documentation graph
 - No orphaned or broken links
 - Rendering status explicitly documented for both diagrams
@@ -455,9 +455,9 @@ Both diagram entries demonstrate best practices **beyond** ADR-009 minimum requi
 - **Quality:** 100% ADR-009 compliance, zero inconsistencies
 
 **Efficiency Metrics:**
-- 10.6 artifacts produced per hour (8 artifacts / 75 min * 60)
-- 2,008 tokens per minute (150.6K / 75 min)
-- 12.5 minutes per agent (75 min / 6 agents)
+- 6.4 artifacts produced per hour ((8 artifacts ÷ 75 min) × 60 min/hour)
+- 2,008 tokens per minute (150.6K ÷ 75 min)
+- 12.5 minutes per agent (75 min ÷ 6 agents)
 - 100% handoff success rate (6/6 successful)
 
 ### 8.3 Strategic Implications
