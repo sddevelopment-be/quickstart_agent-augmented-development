@@ -28,6 +28,12 @@ The architecture documentation captures:
 |----------|---------|----------|
 | [`async_orchestration_technical_design.md`](design/async_orchestration_technical_design.md) | Implementation details for async orchestration | Developers, build automation agents |
 
+### Assessments
+
+| Document | Purpose | Audience |
+|----------|---------|----------|
+| [`multi-repository-orchestration-patterns.md`](assessments/multi-repository-orchestration-patterns.md) | Analysis of multi-repo coordination patterns and infrastructure requirements | Architects, platform teams, DevOps |
+
 ### Architecture Decision Records (ADRs)
 
 Architecture Decision Records capture significant architectural decisions made in this project. Each ADR includes context, decision, rationale, consequences, and alternatives. They are stored in the [`adrs/`](./adrs/README.md) directory.
@@ -42,6 +48,7 @@ Architecture Decision Records capture significant architectural decisions made i
 | [ADR-005](adrs/ADR-005-coordinator-agent-pattern.md)                 | Coordinator Agent Pattern                  | Accepted  | 2025-11-20 |
 | [ADR-006](adrs/ADR-006-adopt-three-layer-governance-model.md)        | Adopt Three-Layer Governance Model       | Accepted  | 2025-11-22 |
 | [ADR-007](adrs/ADR-007-repository-restructuring-layer-separation.md) | Repository Restructuring for Layer Separation | Rejected / Adapted | 2025-11-22 |
+| [ADR-018](adrs/ADR-018-multi-repository-orchestration-strategy.md)   | Multi-Repository Orchestration Strategy    | Proposed  | 2025-11-27 |
 
 ## Key Architectural Principles
 
