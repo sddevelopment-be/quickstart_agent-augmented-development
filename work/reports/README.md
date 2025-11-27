@@ -10,7 +10,24 @@ reports/
   synthesizer/    # Synthesizer aggregation reports
   benchmarks/     # Performance benchmarks and results
   metrics/        # Token usage and iteration metrics
+  POC3-EXECUTIVE-SUMMARY.md  # POC3 validation executive summary
 ```
+
+## Featured Reports
+
+### POC3 Multi-Agent Chain Validation
+
+**Executive Summary**: [`POC3-EXECUTIVE-SUMMARY.md`](POC3-EXECUTIVE-SUMMARY.md)  
+**Detailed Assessment**: [`logs/architect/2025-11-27T2004-poc3-validation-assessment.md`](logs/architect/2025-11-27T2004-poc3-validation-assessment.md)
+
+**Key Findings**:
+- ✅ Production-ready for sequential workflows (85/100 readiness)
+- 100% handoff success rate (6/6 handoffs)
+- 74% efficiency improvement vs. single-agent approach
+- Zero rework required across 5-agent chain
+- 150.6K tokens tracked with comprehensive ADR-009 metrics
+
+**Chain**: Architect → Diagrammer → Synthesizer → Writer-Editor → Curator
 
 ## Directory Descriptions
 
