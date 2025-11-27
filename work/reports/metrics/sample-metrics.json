@@ -1,0 +1,942 @@
+{
+  "extracted_at": "2025-11-27T20:10:10.065704Z",
+  "metrics_count": 96,
+  "metrics": [
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/manager/2025-11-24T0452-iteration-3-executive-summary.md",
+      "agent": "manager",
+      "timestamp": "2025-11-24T0452",
+      "task_id": "iteration-3-executive-summary",
+      "artifacts_created": 2,
+      "artifacts_modified": 0
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/manager/2025-11-23T2106-orchestration-cycle-execution.md",
+      "agent": "manager",
+      "timestamp": "2025-11-23T2106",
+      "task_id": "orchestration-cycle-execution"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/manager/2025-11-23T1845-inbox-review-coordination.md",
+      "agent": "manager",
+      "timestamp": "2025-11-23T1845",
+      "task_id": "N/A"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/synthesizer/2025-11-27T1911-poc3-followup-synthesis-worklog.md",
+      "agent": "synthesizer",
+      "timestamp": "2025-11-27T1911",
+      "task_id": "2025-11-24T1756-synthesizer-followup-2025-11-23T2100-diagrammer-poc3-diagram-updates",
+      "duration_minutes": 45
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/synthesizer/2025-11-23T2257-worklog-analysis-synthesis.md",
+      "agent": "synthesizer",
+      "timestamp": "2025-11-23T2257",
+      "task_id": "2025-11-23T2200-synthesizer-worklog-analysis",
+      "duration_minutes": 65,
+      "artifacts_created": 2,
+      "artifacts_modified": 0
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/synthesizer/2025-11-24T1830-token-metrics-aggregation.md",
+      "agent": "synthesizer",
+      "timestamp": "2025-11-24T1830",
+      "task_id": "2025-11-24T1735-synthesizer-token-metrics-aggregation",
+      "duration_minutes": 15
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/synthesizer/2025-11-23T2220-poc3-orchestration-metrics-synthesis.md",
+      "agent": "synthesizer",
+      "timestamp": "2025-11-23T2220",
+      "task_id": "2025-11-23T2117-synthesizer-poc3-aggregate-metrics",
+      "duration_minutes": 3,
+      "token_input": 27403,
+      "token_output": 6858,
+      "token_total": 34261,
+      "context_files_loaded": 5,
+      "artifacts_created": 1,
+      "artifacts_modified": 0,
+      "next_agent": "writer-editor",
+      "handoff_count": 1
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/synthesizer/2025-11-23T1921-synthesizer-done-work-assessment.md",
+      "agent": "synthesizer",
+      "timestamp": "2025-11-23T1921",
+      "task_id": "2025-11-23T1843-synthesizer-done-work-assessment"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/curator/2025-11-24T0457-curator-changelog-update.md",
+      "agent": "curator",
+      "timestamp": "2025-11-24T0457",
+      "task_id": "changelog-update-iteration-3"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/curator/2025-11-23T0811-curator-orchestration-guide.md",
+      "agent": "curator",
+      "timestamp": "2025-11-23T0811",
+      "task_id": "2025-11-23T0722-curator-orchestration-guide"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/curator/2025-11-23T2246-directives-approaches-review-report.md",
+      "agent": "curator",
+      "timestamp": "2025-11-23T2246",
+      "task_id": "2025-11-23T2159-curator-directives-approaches-review"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/curator/2025-11-23T2246-directives-approaches-review.md",
+      "agent": "curator",
+      "timestamp": "2025-11-23T2246",
+      "task_id": "2025-11-23T2159-curator-directives-approaches-review"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/curator/2025-11-24T0522-poc3-final-validation-report.md",
+      "agent": "curator",
+      "timestamp": "2025-11-24T0522",
+      "task_id": "2025-11-24T0520-curator-poc3-final-validation"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/curator/2025-11-27T1916-create-shared-glossary.md",
+      "agent": "curator",
+      "timestamp": "2025-11-27T1916",
+      "task_id": "create-shared-glossary"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/curator/2025-11-24T1757-curator-locality-of-change-directive.md",
+      "agent": "curator",
+      "timestamp": "2025-11-24T1757",
+      "task_id": "2025-11-24T1734-curator-locality-of-change-directive"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/curator/2025-11-24T0522-poc3-final-validation-worklog.md",
+      "agent": "curator",
+      "timestamp": "2025-11-24T0522",
+      "task_id": "2025-11-24T0520-curator-poc3-final-validation",
+      "context_files_loaded": 6,
+      "artifacts_created": 2,
+      "artifacts_modified": 1
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/curator/2025-11-26T0635-directive-019-refactoring.md",
+      "agent": "curator",
+      "timestamp": "2025-11-26T0635",
+      "task_id": "2025-11-26T0614-curator-refactor-directive-019-minimal"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/generic/2025-11-23T1854-orchestration-framework-continuation.md",
+      "agent": "generic",
+      "timestamp": "2025-11-23T1854",
+      "task_id": "meta-task"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/generic/2025-11-24T0601-validation-fix-orchestrator-disable.md",
+      "agent": "generic",
+      "timestamp": "2025-11-24T0601",
+      "task_id": "Validation",
+      "duration_minutes": 35
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/writer-editor/2025-11-24T0821-writer-editor-orchestration-guide-polish.md",
+      "agent": "writer-editor",
+      "timestamp": "2025-11-24T0821",
+      "task_id": "2025-11-23T2207-writer-editor-followup-2025-11-23T0722-curator-orchestration-guide"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/writer-editor/2025-11-24T1834-writer-editor-agentic-framework-persona.md",
+      "agent": "writer-editor",
+      "timestamp": "2025-11-24T1834",
+      "task_id": "2025-11-24T1740-writer-editor-agentic-framework-persona"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/writer-editor/2025-11-23T0811-writer-editor-orchestration-guide-review.md",
+      "agent": "writer-editor",
+      "timestamp": "2025-11-23T0811",
+      "task_id": "2025-11-23T0811-writer-editor-orchestration-guide-review"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/writer-editor/2025-11-27T1933-poc3-metrics-editorial-review.md",
+      "agent": "writer-editor",
+      "timestamp": "2025-11-27T1933",
+      "task_id": "2025-11-24T1756-writer-editor-followup-2025-11-23T2117-synthesizer-poc3-aggregate-metrics"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/writer-editor/2025-11-24T0502-poc3-synthesis-clarity-refinement.md",
+      "agent": "writer-editor",
+      "timestamp": "2025-11-24T0502",
+      "task_id": "2025-11-24T0450-writer-editor-poc3-synthesis-clarity",
+      "duration_minutes": 3,
+      "context_files_loaded": 3,
+      "artifacts_created": 0,
+      "artifacts_modified": 2
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/writer-editor/2025-11-27T1911-orchestration-guide-review.md",
+      "agent": "writer-editor",
+      "timestamp": "2025-11-27T1911",
+      "task_id": "2025-11-24T1756-writer-editor-followup-2025-11-23T0722-curator-orchestration-guide",
+      "duration_minutes": 48
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/prompts/2025-11-23T2011-copilot-fix-pr16-validation-prompt.md",
+      "agent": "prompts",
+      "timestamp": "2025-11-23T2011",
+      "task_id": "N/A"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/prompts/2025-11-23T1921-synthesizer-done-work-assessment-prompt.md",
+      "agent": "prompts",
+      "timestamp": "2025-11-23T1921",
+      "task_id": "2025-11-23T1843-synthesizer-done-work-assessment"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/prompts/2025-11-24T0740-devops-danny-github-issue-helpers-prompt.md",
+      "agent": "prompts",
+      "timestamp": "2025-11-24T0740",
+      "task_id": "github-issue-helpers"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/build-automation/2025-11-23T2204-run-iteration-issue-template.md",
+      "agent": "build-automation",
+      "timestamp": "2025-11-23T2204",
+      "task_id": "2025-11-23T2204-build-automation-run-iteration-issue"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/build-automation/2025-11-23T1454-build-automation-init-structure.md",
+      "agent": "build-automation",
+      "timestamp": "2025-11-23T1454",
+      "task_id": "2025-11-23T0720-build-automation-init-structure"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/build-automation/2025-11-27T0745-data-driven-issue-migration.md",
+      "agent": "build-automation",
+      "timestamp": "2025-11-27T0745",
+      "task_id": "Planning"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/build-automation/2025-11-23T1930-build-automation-validation-workflow.md",
+      "agent": "build-automation",
+      "timestamp": "2025-11-23T1930",
+      "task_id": "2025-11-23T1851-build-automation-ci-validation-workflow"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/build-automation/2025-11-23T2126-build-automation-agent-template.md",
+      "agent": "build-automation",
+      "timestamp": "2025-11-23T2126",
+      "task_id": "2025-11-23T1742-build-automation-agent-template"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/build-automation/2025-11-23T1933-build-automation-diagram-workflow.md",
+      "agent": "build-automation",
+      "timestamp": "2025-11-23T1933",
+      "task_id": "2025-11-23T1852-build-automation-ci-diagram-workflow"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/build-automation/2025-11-23T1512-build-automation-validation-scripts.md",
+      "agent": "build-automation",
+      "timestamp": "2025-11-23T1512",
+      "task_id": "2025-11-23T0723-build-automation-validation-scripts"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/build-automation/2025-11-23T1510-build-automation-orchestrator-impl.md",
+      "agent": "build-automation",
+      "timestamp": "2025-11-23T1510",
+      "task_id": "2025-11-23T0721-build-automation-orchestrator-impl"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/build-automation/2025-11-23T1936-build-automation-ci-integration-complete.md",
+      "agent": "build-automation",
+      "timestamp": "2025-11-23T1936",
+      "task_id": "2025-11-23T1744-build-automation-ci-integration"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/build-automation/2025-11-23T1928-build-automation-orchestration-workflow.md",
+      "agent": "build-automation",
+      "timestamp": "2025-11-23T1928",
+      "task_id": "2025-11-23T1850-build-automation-ci-orchestration-workflow"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/build-automation/2025-11-23T1740-e2e-test-harness.md",
+      "agent": "build-automation",
+      "timestamp": "2025-11-23T1740",
+      "task_id": "2025-11-23T1740-build-automation-e2e-test-harness"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/build-automation/2025-11-23T2129-build-automation-copilot-tooling.md",
+      "agent": "build-automation",
+      "timestamp": "2025-11-23T2129",
+      "task_id": "2025-11-23T2103-build-automation-copilot-tooling-workflow"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/build-automation/2025-11-24T1839-iteration-metrics-dashboard.md",
+      "agent": "build-automation",
+      "timestamp": "2025-11-24T1839",
+      "task_id": "2025-11-24T1738-build-automation-iteration-metrics-dashboard"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/build-automation/2025-11-24T1802-build-automation-template-improvements.md",
+      "agent": "build-automation",
+      "timestamp": "2025-11-24T1802",
+      "task_id": "2025-11-24T1737-build-automation-template-improvements"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/architect/2025-11-23-implementation-progress-review.md",
+      "agent": "architect",
+      "timestamp": null,
+      "task_id": "2025-11-23T2117-synthesizer-poc3-aggregate-metrics"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/architect/2025-11-24-copilot-tooling-value-assessment.md",
+      "agent": "architect",
+      "timestamp": null,
+      "task_id": "2025-11-23T2104-architect-copilot-tooling-assessment"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/architect/2025-11-23T0715-orchestration-update.md",
+      "agent": "architect",
+      "timestamp": "2025-11-23T0715",
+      "task_id": "2025-11-23T0715-orchestration-update"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/architect/2025-11-24T0843-architect-copilot-setup-adr.md",
+      "agent": "architect",
+      "timestamp": "2025-11-24T0843",
+      "task_id": "2025-11-23T2138-architect-copilot-setup-adr"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/architect/2025-11-24T1813-architect-agent-specific-iteration-templates-adr.md",
+      "agent": "architect",
+      "timestamp": "2025-11-24T1813",
+      "task_id": "2025-11-24T1739-architect-agent-specific-workflows-adr"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/architect/2025-11-23T0927-orchestration-poc-review.md",
+      "agent": "architect",
+      "timestamp": "2025-11-23T0927",
+      "task_id": "N/A"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/architect/2025-11-23T2223-implementation-review.md",
+      "agent": "architect",
+      "timestamp": "2025-11-23T2223",
+      "task_id": "2025-11-23T2158-architect-implementation-review",
+      "duration_minutes": 145,
+      "artifacts_created": 3,
+      "artifacts_modified": 0
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/architect/2025-11-23T2058-poc3-execution-report.md",
+      "agent": "architect",
+      "timestamp": "2025-11-23T2058",
+      "task_id": "2025-11-23T1738-architect-poc3-multi-agent-chain"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/architect/2025-11-24T0516-synthesizer-assessment-review.md",
+      "agent": "architect",
+      "timestamp": "2025-11-24T0516",
+      "task_id": "2025-11-23T1844-architect-synthesizer-assessment-review",
+      "context_files_loaded": 8,
+      "artifacts_created": 1,
+      "artifacts_modified": 0
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/architect/2025-11-24T1210-follow-up-lookup-assessment.md",
+      "agent": "architect",
+      "timestamp": "2025-11-24T1210",
+      "task_id": "2025-11-23T1846-architect-follow-up-lookup-assessment"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/architect/2025-11-24T0829-architect-copilot-tooling-assessment.md",
+      "agent": "architect",
+      "timestamp": "2025-11-24T0829",
+      "task_id": "2025-11-23T2104-architect-copilot-tooling-assessment"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/diagrammer/2025-11-23T0724-orchestration-diagrams.md",
+      "agent": "diagrammer",
+      "timestamp": "2025-11-23T0724",
+      "task_id": "2025-11-23T0724-diagrammer-orchestration-diagrams"
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/diagrammer/2025-11-23T2113-poc3-diagram-updates.md",
+      "agent": "diagrammer",
+      "timestamp": "2025-11-23T2113",
+      "task_id": "2025-11-23T2100-diagrammer-poc3-diagram-updates",
+      "duration_minutes": 5
+    },
+    {
+      "source_type": "work_log",
+      "source_file": "work/reports/logs/diagrammer/2025-11-23T1746-diagrammer-accessibility-metadata.md",
+      "agent": "diagrammer",
+      "timestamp": "2025-11-23T1746",
+      "task_id": "2025-11-23T1746-diagrammer-accessibility-metadata"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/synthesizer/2025-11-23T2117-synthesizer-poc3-aggregate-metrics.yaml",
+      "task_id": "2025-11-23T2117-synthesizer-poc3-aggregate-metrics",
+      "agent": "synthesizer",
+      "status": "done",
+      "duration_minutes": 3,
+      "token_input": 27403,
+      "token_output": 6858,
+      "token_total": 34261,
+      "context_files_loaded": 5,
+      "artifacts_created": 1,
+      "artifacts_modified": 0,
+      "per_artifact_count": 1,
+      "per_artifact_total_seconds": 120,
+      "completed_at": "2025-11-23T22:20:40Z",
+      "created_at": "2025-11-23T21:17:34Z",
+      "next_agent": "writer-editor",
+      "handoff_count": 1
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/synthesizer/2025-11-23T1843-synthesizer-done-work-assessment.yaml",
+      "task_id": "2025-11-23T1843-synthesizer-done-work-assessment",
+      "agent": "synthesizer",
+      "status": "done",
+      "completed_at": "2025-11-23T19:27:14Z",
+      "created_at": "2025-11-23T18:43:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/synthesizer/2025-11-24T1735-synthesizer-token-metrics-aggregation.yaml",
+      "task_id": "2025-11-24T1735-synthesizer-token-metrics-aggregation",
+      "agent": "synthesizer",
+      "status": "done",
+      "created_at": "2025-11-24T17:35:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/synthesizer/2025-11-24T1756-synthesizer-followup-2025-11-23T2100-diagrammer-poc3-diagram-updates.yaml",
+      "task_id": "2025-11-24T1756-synthesizer-followup-2025-11-23T2100-diagrammer-poc3-diagram-updates",
+      "agent": "synthesizer",
+      "status": "done",
+      "duration_minutes": 45,
+      "token_input": 85000,
+      "token_output": 30000,
+      "token_total": 115000,
+      "context_files_loaded": 13,
+      "artifacts_created": 2,
+      "artifacts_modified": 0,
+      "per_artifact_count": 2,
+      "per_artifact_total_seconds": 1200,
+      "created_at": "2025-11-24T17:56:16.915264Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/synthesizer/2025-11-23T2200-synthesizer-worklog-analysis.yaml",
+      "task_id": "2025-11-23T2200-synthesizer-worklog-analysis",
+      "agent": "synthesizer",
+      "status": "done",
+      "duration_minutes": 69,
+      "token_input": 145000,
+      "token_output": 18500,
+      "token_total": 163500,
+      "context_files_loaded": 67,
+      "created_at": "2025-11-23T22:00:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/curator/2025-11-24T1734-curator-locality-of-change-directive.yaml",
+      "task_id": "2025-11-24T1734-curator-locality-of-change-directive",
+      "agent": "curator",
+      "status": "done",
+      "created_at": "2025-11-24T17:34:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/curator/2025-11-26T0614-curator-refactor-directive-019-minimal.yaml",
+      "task_id": "2025-11-26T0614-curator-refactor-directive-019-minimal",
+      "agent": "curator",
+      "status": "done",
+      "completed_at": "2025-11-26T06:35:00Z",
+      "created_at": "2025-11-26T06:14:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/curator/2025-11-24T1945-curator-primer-alias-directive-alignment.yaml",
+      "task_id": "2025-11-24T1945-curator-primer-alias-directive-alignment",
+      "agent": "curator",
+      "status": "done",
+      "completed_at": "2025-11-24T20:25:00Z",
+      "created_at": "2025-11-24T19:45:00Z",
+      "next_agent": "curator",
+      "handoff_count": 1
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/curator/2025-11-23T0722-curator-orchestration-guide.yaml",
+      "task_id": "2025-11-23T0722-curator-orchestration-guide",
+      "agent": "curator",
+      "status": "done",
+      "completed_at": "2025-11-23T07:30:00Z",
+      "created_at": "2025-11-23T07:22:00Z",
+      "next_agent": "writer-editor",
+      "handoff_count": 1
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/curator/2025-11-24T2000-curator-primer-testing-directives-rollout.yaml",
+      "task_id": "2025-11-24T2000-curator-primer-testing-directives-rollout",
+      "agent": "curator",
+      "status": "done",
+      "completed_at": "2025-11-24T20:40:00Z",
+      "created_at": "2025-11-24T20:00:00Z",
+      "next_agent": "architect",
+      "handoff_count": 1
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/curator/2025-11-23T2159-curator-directives-approaches-review.yaml",
+      "task_id": "2025-11-23T2159-curator-directives-approaches-review",
+      "agent": "curator",
+      "status": "done",
+      "created_at": "2025-11-23T21:59:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/curator/2025-11-24T0520-curator-poc3-final-validation.yaml",
+      "task_id": "2025-11-24T0520-curator-poc3-final-validation",
+      "agent": "curator",
+      "status": "done",
+      "duration_minutes": 22,
+      "token_input": 32000,
+      "token_output": 8500,
+      "token_total": 40500,
+      "context_files_loaded": 6,
+      "artifacts_created": 2,
+      "artifacts_modified": 1,
+      "per_artifact_count": 3,
+      "per_artifact_total_seconds": 1320,
+      "completed_at": "2025-11-24T05:44:00Z",
+      "created_at": "2025-11-24T05:20:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/writer-editor/2025-11-23T2207-writer-editor-followup-2025-11-23T0722-curator-orchestration-guide.yaml",
+      "task_id": "2025-11-23T2207-writer-editor-followup-2025-11-23T0722-curator-orchestration-guide",
+      "agent": "writer-editor",
+      "status": "done",
+      "created_at": "2025-11-23T22:07:07.522953Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/writer-editor/2025-11-24T1756-writer-editor-followup-2025-11-23T0722-curator-orchestration-guide.yaml",
+      "task_id": "2025-11-24T1756-writer-editor-followup-2025-11-23T0722-curator-orchestration-guide",
+      "agent": "writer-editor",
+      "status": "done",
+      "duration_minutes": 48,
+      "token_input": 29000,
+      "token_output": 6800,
+      "token_total": 35800,
+      "context_files_loaded": 6,
+      "artifacts_created": 1,
+      "artifacts_modified": 1,
+      "completed_at": "2025-11-27T19:59:00Z",
+      "created_at": "2025-11-24T17:56:16.942915Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/writer-editor/2025-11-24T0450-writer-editor-poc3-synthesis-clarity.yaml",
+      "task_id": "2025-11-24T0450-writer-editor-poc3-synthesis-clarity",
+      "agent": "writer-editor",
+      "status": "done",
+      "duration_minutes": 3,
+      "token_input": 22000,
+      "token_output": 5000,
+      "token_total": 27000,
+      "context_files_loaded": 3,
+      "artifacts_created": 1,
+      "artifacts_modified": 2,
+      "per_artifact_count": 2,
+      "per_artifact_total_seconds": 180,
+      "completed_at": "2025-11-24T05:05:08Z",
+      "created_at": "2025-11-24T04:50:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/writer-editor/2025-11-24T1740-writer-editor-agentic-framework-persona.yaml",
+      "task_id": "2025-11-24T1740-writer-editor-agentic-framework-persona",
+      "agent": "writer-editor",
+      "status": "done",
+      "completed_at": "2025-11-24T18:36:40Z",
+      "created_at": "2025-11-24T17:40:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/writer-editor/2025-11-23T0811-writer-editor-orchestration-guide-review.yaml",
+      "task_id": "2025-11-23T0811-writer-editor-orchestration-guide-review",
+      "agent": "writer-editor",
+      "status": "done",
+      "completed_at": "2025-11-24T05:10:49Z",
+      "created_at": "2025-11-23T08:11:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/build-automation/2025-11-23T1744-build-automation-ci-integration.yaml",
+      "task_id": "2025-11-23T1744-build-automation-ci-integration",
+      "agent": "build-automation",
+      "status": "done",
+      "completed_at": "2025-11-23T19:36:39Z",
+      "created_at": "2025-11-23T17:44:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/build-automation/2025-11-23T1740-build-automation-e2e-test-harness.yaml",
+      "task_id": "2025-11-23T1740-build-automation-e2e-test-harness",
+      "agent": "build-automation",
+      "status": "done",
+      "completed_at": "2025-11-23T17:50:00Z",
+      "created_at": "2025-11-23T17:40:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/build-automation/2025-11-23T1850-build-automation-ci-orchestration-workflow.yaml",
+      "task_id": "2025-11-23T1850-build-automation-ci-orchestration-workflow",
+      "agent": "build-automation",
+      "status": "done",
+      "completed_at": "2025-11-23T19:27:42Z",
+      "created_at": "2025-11-23T18:50:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/build-automation/2025-11-23T1851-build-automation-ci-validation-workflow.yaml",
+      "task_id": "2025-11-23T1851-build-automation-ci-validation-workflow",
+      "agent": "build-automation",
+      "status": "done",
+      "completed_at": "2025-11-23T19:30:41Z",
+      "created_at": "2025-11-23T18:51:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/build-automation/2025-11-23T1748-build-automation-performance-benchmark.yaml",
+      "task_id": "2025-11-23T1748-build-automation-performance-benchmark",
+      "agent": "build-automation",
+      "status": "done",
+      "created_at": "2025-11-23T17:48:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/build-automation/2025-11-23T0721-build-automation-orchestrator-impl.yaml",
+      "task_id": "2025-11-23T0721-build-automation-orchestrator-impl",
+      "agent": "build-automation",
+      "status": "done",
+      "completed_at": "2025-11-23T15:10:22Z",
+      "created_at": "2025-11-23T07:21:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/build-automation/2025-11-23T1852-build-automation-ci-diagram-workflow.yaml",
+      "task_id": "2025-11-23T1852-build-automation-ci-diagram-workflow",
+      "agent": "build-automation",
+      "status": "done",
+      "completed_at": "2025-11-23T19:33:30Z",
+      "created_at": "2025-11-23T18:52:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/build-automation/2025-11-24T1737-build-automation-template-improvements.yaml",
+      "task_id": "2025-11-24T1737-build-automation-template-improvements",
+      "agent": "build-automation",
+      "status": "done",
+      "completed_at": "2025-11-24T18:09:23Z",
+      "created_at": "2025-11-24T17:37:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/build-automation/2025-11-23T0720-build-automation-init-structure.yaml",
+      "task_id": "2025-11-23T0720-build-automation-init-structure",
+      "agent": "build-automation",
+      "status": "done",
+      "created_at": "2025-11-23T07:20:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/build-automation/2025-11-23T1742-build-automation-agent-template.yaml",
+      "task_id": "2025-11-23T1742-build-automation-agent-template",
+      "agent": "build-automation",
+      "status": "done",
+      "completed_at": "2025-11-23T21:26:27.549124Z",
+      "created_at": "2025-11-23T17:42:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/build-automation/2025-11-23T2103-build-automation-copilot-tooling-workflow.yaml",
+      "task_id": "2025-11-23T2103-build-automation-copilot-tooling-workflow",
+      "agent": "build-automation",
+      "status": "done",
+      "completed_at": "2025-11-23T21:29:40Z",
+      "created_at": "2025-11-23T21:03:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/build-automation/2025-11-23T0723-build-automation-validation-scripts.yaml",
+      "task_id": "2025-11-23T0723-build-automation-validation-scripts",
+      "agent": "build-automation",
+      "status": "done",
+      "completed_at": "2025-11-23T15:12:22Z",
+      "created_at": "2025-11-23T07:23:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/build-automation/2025-11-24T1738-build-automation-iteration-metrics-dashboard.yaml",
+      "task_id": "2025-11-24T1738-build-automation-iteration-metrics-dashboard",
+      "agent": "build-automation",
+      "status": "done",
+      "completed_at": "2025-11-24T18:44:46Z",
+      "created_at": "2025-11-24T17:38:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/architect/2025-11-23T1738-architect-poc3-multi-agent-chain.yaml",
+      "task_id": "2025-11-23T1738-architect-poc3-multi-agent-chain",
+      "agent": "architect",
+      "status": "done",
+      "duration_minutes": 3,
+      "token_input": 34500,
+      "token_output": 13800,
+      "token_total": 48300,
+      "context_files_loaded": 8,
+      "artifacts_created": 3,
+      "artifacts_modified": 1,
+      "per_artifact_count": 3,
+      "per_artifact_total_seconds": 165,
+      "completed_at": "2025-11-23T21:00:54Z",
+      "created_at": "2025-11-23T17:38:00Z",
+      "next_agent": "diagrammer",
+      "handoff_count": 1
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/architect/2025-11-23T2138-architect-copilot-setup-adr.yaml",
+      "task_id": "2025-11-23T2138-architect-copilot-setup-adr",
+      "agent": "architect",
+      "status": "done",
+      "created_at": "2025-11-23T21:38:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/architect/2025-11-23T2158-architect-implementation-review.yaml",
+      "task_id": "2025-11-23T2158-architect-implementation-review",
+      "agent": "architect",
+      "status": "done",
+      "duration_minutes": 145,
+      "token_input": 64827,
+      "token_output": 20000,
+      "token_total": 84827,
+      "context_files_loaded": 23,
+      "artifacts_created": 3,
+      "artifacts_modified": 0,
+      "per_artifact_count": 3,
+      "per_artifact_total_seconds": 4200,
+      "completed_at": "2025-11-23T22:59:00Z",
+      "created_at": "2025-11-23T21:58:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/architect/2025-11-24T1739-architect-agent-specific-workflows-adr.yaml",
+      "task_id": "2025-11-24T1739-architect-agent-specific-workflows-adr",
+      "agent": "architect",
+      "status": "done",
+      "completed_at": "2025-11-24T18:26:00Z",
+      "created_at": "2025-11-24T17:39:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/architect/2025-11-23T2104-architect-copilot-tooling-assessment.yaml",
+      "task_id": "2025-11-23T2104-architect-copilot-tooling-assessment",
+      "agent": "architect",
+      "status": "done",
+      "duration_minutes": 250,
+      "token_input": 50000,
+      "token_output": 56000,
+      "token_total": 106000,
+      "completed_at": "2025-11-24T08:29:49Z",
+      "created_at": "2025-11-23T21:04:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/architect/2025-11-23T1844-architect-synthesizer-assessment-review.yaml",
+      "task_id": "2025-11-23T1844-architect-synthesizer-assessment-review",
+      "agent": "architect",
+      "status": "done",
+      "duration_minutes": 45,
+      "token_input": 80000,
+      "token_output": 7000,
+      "token_total": 87000,
+      "context_files_loaded": 8,
+      "artifacts_created": 1,
+      "artifacts_modified": 0,
+      "completed_at": "2025-11-24T05:19:41Z",
+      "created_at": "2025-11-23T18:44:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/diagrammer/2025-11-23T2100-diagrammer-poc3-diagram-updates.yaml",
+      "task_id": "2025-11-23T2100-diagrammer-poc3-diagram-updates",
+      "agent": "diagrammer",
+      "status": "done",
+      "duration_minutes": 5,
+      "token_input": 28500,
+      "token_output": 6200,
+      "token_total": 34700,
+      "context_files_loaded": 6,
+      "artifacts_created": 2,
+      "artifacts_modified": 1,
+      "per_artifact_count": 3,
+      "per_artifact_total_seconds": 270,
+      "completed_at": "2025-11-23T21:18:01Z",
+      "created_at": "2025-11-23T21:00:28Z",
+      "next_agent": "synthesizer",
+      "handoff_count": 1
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/diagrammer/2025-11-24T1756-diagrammer-followup-2025-11-23T1738-architect-poc3-multi-agent-chain.yaml",
+      "task_id": "2025-11-24T1756-diagrammer-followup-2025-11-23T1738-architect-poc3-multi-agent-chain",
+      "agent": "diagrammer",
+      "status": "done",
+      "duration_minutes": 45,
+      "token_input": 60000,
+      "token_output": 15000,
+      "token_total": 75000,
+      "context_files_loaded": 7,
+      "artifacts_created": 1,
+      "artifacts_modified": 1,
+      "created_at": "2025-11-24T17:56:16.926148Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/diagrammer/2025-11-23T1746-diagrammer-accessibility-metadata.yaml",
+      "task_id": "2025-11-23T1746-diagrammer-accessibility-metadata",
+      "agent": "diagrammer",
+      "status": "done",
+      "completed_at": "2025-11-23T19:00:00Z",
+      "created_at": "2025-11-23T17:46:00Z"
+    },
+    {
+      "source_type": "task_file",
+      "source_file": "work/collaboration/done/diagrammer/2025-11-23T0724-diagrammer-orchestration-diagrams.yaml",
+      "task_id": "2025-11-23T0724-diagrammer-orchestration-diagrams",
+      "agent": "diagrammer",
+      "status": "done",
+      "completed_at": "2025-11-23T12:04:00Z",
+      "created_at": "2025-11-23T07:24:00Z"
+    }
+  ],
+  "summary": {
+    "total_tasks": 96,
+    "agents": {
+      "manager": {
+        "count": 3,
+        "total_duration": 0,
+        "total_tokens": 0
+      },
+      "synthesizer": {
+        "count": 10,
+        "total_duration": 245,
+        "total_tokens": 347022
+      },
+      "curator": {
+        "count": 16,
+        "total_duration": 22,
+        "total_tokens": 40500
+      },
+      "generic": {
+        "count": 2,
+        "total_duration": 35,
+        "total_tokens": 0
+      },
+      "writer-editor": {
+        "count": 11,
+        "total_duration": 102,
+        "total_tokens": 62800
+      },
+      "prompts": {
+        "count": 3,
+        "total_duration": 0,
+        "total_tokens": 0
+      },
+      "build-automation": {
+        "count": 27,
+        "total_duration": 0,
+        "total_tokens": 0
+      },
+      "architect": {
+        "count": 17,
+        "total_duration": 588,
+        "total_tokens": 326127
+      },
+      "diagrammer": {
+        "count": 7,
+        "total_duration": 55,
+        "total_tokens": 109700
+      }
+    },
+    "totals": {
+      "duration_minutes": 1047,
+      "token_total": 886149,
+      "artifacts_created": 28,
+      "artifacts_modified": 10,
+      "handoffs": 7
+    }
+  }
+}

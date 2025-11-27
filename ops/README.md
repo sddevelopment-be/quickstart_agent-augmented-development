@@ -27,6 +27,68 @@ Use `--mode full` for high-stakes work that requires full governance; default `m
 
 Tip: `.github/agents/load_directives.sh --list` shows available directive codes before assembling a bundle.
 
+#### `capture-metrics.py`
+
+Extracts ADR-009 orchestration metrics from work logs and task YAML files for observability and performance analysis.
+
+**Usage:**
+```bash
+python3 ops/scripts/capture-metrics.py [options]
+```
+
+**Options:**
+- `--work-dir PATH` - Path to work directory (default: `work/`)
+- `--output-format FMT` - Output format: `json` or `csv` (default: `json`)
+- `--output-file PATH` - Output file path (default: stdout)
+- `--include-logs` - Include metrics from work logs (default: enabled)
+- `--include-tasks` - Include metrics from task YAML files (default: enabled)
+- `--verbose` - Enable verbose logging
+
+**ADR-009 Metrics Extracted:**
+- `duration_minutes` - Total task execution time
+- `token_count` - Input, output, and total token usage (input/output/total)
+- `context_files_loaded` - Number of files read for context
+- `artifacts_created` - Count of new files created
+- `artifacts_modified` - Count of files modified
+- `per_artifact_timing` - Detailed breakdown for multi-artifact tasks
+- `handoff_count` - Number of agent handoffs
+
+**Examples:**
+```bash
+# Extract metrics to JSON (default)
+python3 ops/scripts/capture-metrics.py --output-file work/reports/metrics/metrics.json
+
+# Extract metrics to CSV for spreadsheet analysis
+python3 ops/scripts/capture-metrics.py --output-format csv --output-file metrics.csv
+
+# Verbose mode to see processing details
+python3 ops/scripts/capture-metrics.py --verbose
+
+# Extract only from work logs
+python3 ops/scripts/capture-metrics.py --include-logs --output-file logs-only.json
+```
+
+**Output Format - JSON:**
+The JSON output includes:
+- `extracted_at` - Timestamp of extraction
+- `metrics_count` - Total number of metrics collected
+- `metrics` - Array of individual task metrics with all ADR-009 fields
+- `summary` - Aggregated statistics including:
+  - Total tasks per agent
+  - Total duration and token usage per agent
+  - Overall totals across all agents
+
+**Output Format - CSV:**
+The CSV output provides a flat table with one row per task, suitable for:
+- Import into spreadsheet applications
+- Time series analysis
+- Trend visualization
+- Performance benchmarking
+
+**Related:**
+- ADR-009: Orchestration Metrics and Quality Standards (`docs/architecture/adrs/ADR-009-orchestration-metrics-standard.md`)
+- Sample outputs: `work/reports/metrics/sample-metrics.{json,csv}`
+
 #### `opencode-spec-validator.py`
 
 Validates JSON configuration files against the OpenCode agent specification.
