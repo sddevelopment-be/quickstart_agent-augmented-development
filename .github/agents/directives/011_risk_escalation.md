@@ -1,7 +1,9 @@
 <!-- The following information is to be interpreted literally -->
 # 011 Risk & Escalation Directive
 
-Purpose: Clarify standardized markers and triggers for surfacing issues early.
+**Purpose:** Clarify standardized markers and triggers for surfacing issues early.
+
+**Core Concepts:** See [Integrity Symbol](../GLOSSARY.md#integrity-symbol) and [Escalation](../GLOSSARY.md#escalation) in the glossary.
 
 Markers:
 - ❗️ Critical integrity breach (policy, ethical, structural contradiction)
@@ -11,9 +13,9 @@ Markers:
 Escalation Triggers:
 - Unverifiable source or citation required for decision baseline
 - Divergence between Operational and Strategic guidance
-- Multi-agent artifact conflict (two agents editing same file set)
-- Version mismatch in governance layers (see 006)
-- Failure to execute Transparency & Error Signaling primer (see ADR-011) when a risk is discovered
+- Multi-agent [artifact](../GLOSSARY.md#artifact) conflict (two agents editing same file set)
+- Version mismatch in governance layers (see [Version Governance](../GLOSSARY.md#version-governance) and 006)
+- Failure to execute Transparency & Error Signaling [primer](../GLOSSARY.md#primer) (see ADR-011) when a risk is discovered
 
 Procedure:
 1. Flag with marker

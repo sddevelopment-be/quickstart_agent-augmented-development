@@ -10,7 +10,8 @@ It gives you:
 For further tips and tricks on using AI agents in your projects, take a look at:
 
 - [Augmented Coding Patterns](https://lexler.github.io/augmented-coding-patterns//) by [@lexler](https://github.com/lexler)
-- the [Agents.md](https://agents.md/) specification.
+- the [Agents.md](https://agents.md/) specification
+- [Agent Framework Glossary](agents/GLOSSARY.md) for standardized terminology definitions
 
 ## Using this Repository with an AI Agent
 
