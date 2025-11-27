@@ -90,14 +90,16 @@ python3 ops/scripts/convert-agents-to-opencode.py \
   --validate
 ```
 
-#### `github-issue-helpers.sh`
+#### Planning & Issue Workflows
 
-Shared Bash helpers for any workflow that needs to open GitHub issues via the `gh` CLI. Functions cover CLI discovery, CSV parsing for labels/assignees, and safe body loading from either inline text or companion files (e.g., `/work/collaboration/*.md`).
+**Location:** `scripts/planning/`
+
+3-tier architecture for planning workflows and issue management. The abstraction layer (`github-helpers/`) enables easy swapping between issue trackers.
 
 **Usage:**
 ```bash
 #!/usr/bin/env bash
-source ops/scripts/github-issue-helpers.sh
+source ops/scripts/planning/github-helpers/github-issue-helpers.sh
 
 BODY="$(_github_issue::body_from_file work/collaboration/ISSUE_BODY.md)"
 _github_issue::create \
@@ -108,31 +110,23 @@ _github_issue::create \
   "Copilot"
 ```
 
-- `_github_issue::body_from_source "<fallback>" "<file>"` lets you keep a default body in the script while preferring the canonical markdown file if it exists.
-- `_github_issue::create` normalizes comma-separated labels/assignees into repeated `gh --label/--assignee` arguments, warns about missing repository labels, and logs the action for observability.
-- Missing labels trigger a warning recommending the forthcoming `gh label sync` helper so mismatched metadata can be resolved before retrying.
-
-#### `create-github-issue.sh`
-
-Thin CLI wrapper around the helpers for ad-hoc automation or CI usage.
-
-**Usage:**
+**Creating Issues:**
 ```bash
 # From a local file
-ops/scripts/create-github-issue.sh \
+ops/scripts/planning/github-helpers/create-github-issue.sh \
   --repo sddevelopment-be/quickstart_agent-augmented-development \
   --title "Document iteration automation" \
   --body-file work/collaboration/GITHUB_ISSUE_10_POST_IMPLEMENTATION_ANALYSIS.md \
   --label automation --label enhancement --assignee Copilot
 
 # Or pipe a generated body via STDIN
-generate_body | ops/scripts/create-github-issue.sh \
+generate_body | ops/scripts/planning/github-helpers/create-github-issue.sh \
   --repo owner/repo \
   --title "Generated issue from pipeline" \
   --label pipeline
 ```
 
-Flags mirror the native `gh issue create` parameters but make it easy to compose automation without repeating parsing/validation logic.
+See `scripts/planning/README.md` for details on the 3-tier architecture and how to swap issue trackers.
 
 ### `test-data/`
 

@@ -1,6 +1,8 @@
 <!-- The following information is to be interpreted literally -->
 # 001 CLI and Shell Tooling Directive
 
+**BYPASS CHECK:** FIRST, check whether a `work/LOCAL_ENV.md` file exists in the repository root. If it does, read its contents and follow any specific instructions or constraints outlined there regarding CLI and shell tooling usage. If no such file exists, proceed with the standard directives below.
+
 Use this rubric for shell operations:
 - Find files: `fd`
 - Find text: `rg` (ripgrep)
@@ -16,7 +18,15 @@ Preference: If `ast-grep` is available, use it for structural queries; otherwise
 
 ## Dealing with Unreliable Tooling
 
+**IMPORTANT:**
 Terminal interaction can be unreliable in agent-based workflows. When you suspect flaky terminal behavior:
+
+**Confirmation steps:**
+1. create a new file in the repository's `tmp` directory
+2. attempt to interact with that file via the terminal
+3. if interaction fails or is inconsistent, proceed with the remediation technique below and attempt to interact with the file again
+4. if interaction is successful, continue with your task using the remediation technique
+5. when the current micro task is complete, make note of the issue in the `work/LOCAL_ENV.md` file for future reference
 
 **Remediation Technique:**
 1. Create a shell script in `tmp/remediation/` at the repository root

@@ -1,0 +1,63 @@
+---
+# Housekeeping and Refactoring Epic
+type: epic
+taskset: housekeeping
+title: "Epic: Housekeeping and Refactoring"
+labels: epic,housekeeping,refactoring,technical-debt
+assignee: ""
+priority: high
+
+body: |
+  # Housekeeping and Refactoring Epic
+
+  ## Overview
+
+  This epic tracks ongoing housekeeping and refactoring work to improve the agent framework's maintainability, token efficiency, and developer experience.
+
+  ## Context
+
+  Following the work directory restructuring, several follow-up tasks were identified to:
+  1. Reduce token consumption in verbose directives
+  2. Improve consistency across agent documentation
+  3. Enhance observability and monitoring capabilities
+  4. Assess future improvements to the orchestration system
+
+  ## Goals
+
+  - **Token Efficiency**: Extract verbose directive content into modular approaches/templates
+  - **Consistency**: Create shared glossaries and improve cross-references
+  - **Observability**: Implement metric capture and dashboard capabilities
+  - **Future Planning**: Assess architectural improvements
+
+  ## Scope
+
+  This epic includes refactoring existing directives, creating supporting infrastructure, and architectural assessments. It does NOT include new feature development.
+
+  ## Success Criteria
+
+  - [ ] All verbose directives refactored with 50%+ token reduction
+  - [ ] Shared glossary created and integrated
+  - [ ] Metric capture scripts operational
+  - [ ] Dashboard files automatically generated
+  - [ ] Architectural assessments documented as ADRs
+
+  ## Related Work
+
+  - Work directory restructuring PR
+  - Directive 019 refactoring (completed as template, commit 4c648e4)
+
+  ## Timeline
+
+  **Target:** Complete within 2-3 weeks  
+  **Priority:** High (technical debt reduction)
+
+  ## Child Issues
+
+  Will be created and linked below.
+
+  ---
+
+  _Created by: Planning Petra_  
+  _Date: 2025-11-26_  
+  _Task files: work/collaboration/inbox/2025-11-26T06*.yaml_
+

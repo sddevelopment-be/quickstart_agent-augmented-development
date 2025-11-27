@@ -43,7 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Architect follow-up task lookup pattern assessment
   - Build-automation CI/CD integration tasks (orchestration, validation, diagram workflows)
 - Manager Mike inbox review and coordination log (`work/logs/manager/2025-11-23T1845-inbox-review-coordination.md`)
-- GitHub Issue Automation Helpers (`ops/scripts/github-issue-helpers.sh` and `ops/scripts/create-github-issue.sh`) plus the updated follow-up issue script that consumes them for consistent `gh issue create` usage.
+3-- GitHub Issue Automation with 3-tier architecture (`ops/scripts/planning/github-helpers/`) enabling easy issue tracker swapping.
 - ADR-011 formalizing the Solutioning Primer → command alias mapping plus curator/architect review workflow.
 - ADR-012 establishing ATDD + TDD as the default coding approach (with throw-away script exceptions).
 - Directives 016 (ATDD) and 017 (TDD) describing acceptance-test-first and red/green/refactor cadences.
