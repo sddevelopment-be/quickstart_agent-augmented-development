@@ -171,3 +171,129 @@
     {"audience": "ai_power_user", "rationale": "Verbose change log without quick user-facing summary or upgrade steps."}
   ]
 }
+{
+  "path": "docs/HOW_TO_USE/README.md",
+  "audiences": [
+    {"audience": "software_engineer", "fit": "high", "rationale": "Index of practical guides and next-step navigation for engineers standing up the framework."},
+    {"audience": "agentic-framework-core-team", "fit": "medium", "rationale": "Ensures discoverability of how-to content that supports framework maintenance."},
+    {"audience": "process_architect", "fit": "medium", "rationale": "Shows where operational guides live for process rollout."},
+    {"audience": "tech_coach", "fit": "medium", "rationale": "Provides a teaching path for training others on the repo."}
+  ],
+  "potential_misses": [
+    {"audience": "line_manager", "rationale": "No outcome/ROI framing—pure navigation."},
+    {"audience": "ai_power_user", "rationale": "Assumes repo contributor context rather than general assistant usage."}
+  ]
+}
+{
+  "path": "docs/HOW_TO_USE/QUICKSTART.md",
+  "audiences": [
+    {"audience": "software_engineer", "fit": "high", "rationale": "Step-by-step setup for using agents, issue templates, and guardrails."},
+    {"audience": "agentic-framework-core-team", "fit": "high", "rationale": "Defines how new repos should assemble guardrails and specialists."},
+    {"audience": "process_architect", "fit": "medium", "rationale": "Describes how guardrail docs combine, useful for process definition."},
+    {"audience": "automation_agent", "fit": "medium", "rationale": "Provides the initialization/combination rules agents must follow."}
+  ],
+  "potential_misses": [
+    {"audience": "line_manager", "rationale": "Lacks business value and risk context."},
+    {"audience": "nontech_educator", "rationale": "Assumes technical familiarity with repos and agent setup."}
+  ]
+}
+{
+  "path": "docs/HOW_TO_USE/multi-agent-orchestration.md",
+  "audiences": [
+    {"audience": "process_architect", "fit": "high", "rationale": "Explains task lifecycle, handoffs, and orchestration patterns central to process design."},
+    {"audience": "agentic-framework-core-team", "fit": "high", "rationale": "Documents how the orchestration system is intended to operate and be improved."},
+    {"audience": "automation_agent", "fit": "high", "rationale": "Details how agents are selected and how tasks flow through queues and logs."},
+    {"audience": "software_engineer", "fit": "medium", "rationale": "Gives actionable instructions for creating and monitoring tasks."}
+  ],
+  "potential_misses": [
+    {"audience": "line_manager", "rationale": "No high-level success metrics or business framing."},
+    {"audience": "ai_power_user", "rationale": "Requires repo write access and YAML editing; heavy operational detail."}
+  ]
+}
+{
+  "path": "docs/HOW_TO_USE/creating-agents.md",
+  "audiences": [
+    {"audience": "software_engineer", "fit": "high", "rationale": "Provides code template and lifecycle for building new agents with AgentBase."},
+    {"audience": "agentic-framework-core-team", "fit": "medium", "rationale": "Supports expanding or refining the agent catalog consistently."},
+    {"audience": "process_architect", "fit": "medium", "rationale": "Explains structure and lifecycle hooks to align new agents with governance."},
+    {"audience": "automation_agent", "fit": "medium", "rationale": "Clarifies task expectations and lifecycle enforced by AgentBase."}
+  ],
+  "potential_misses": [
+    {"audience": "ai_power_user", "rationale": "Code-heavy instructions; not aimed at non-developer assistant users."},
+    {"audience": "nontech_educator", "rationale": "Assumes Python and orchestration familiarity."}
+  ]
+}
+{
+  "path": "docs/HOW_TO_USE/ci-orchestration.md",
+  "audiences": [
+    {"audience": "software_engineer", "fit": "high", "rationale": "Describes CI workflows, triggers, and configuration needed to run orchestration."},
+    {"audience": "process_architect", "fit": "medium", "rationale": "Shows automation hooks to embed in governance processes."},
+    {"audience": "automation_agent", "fit": "medium", "rationale": "Highlights expectations from CI (timeouts, permissions, dry-run)."}
+  ],
+  "potential_misses": [
+    {"audience": "line_manager", "rationale": "Operational detail without business impact context."},
+    {"audience": "ai_power_user", "rationale": "CI-specific; not actionable for general assistant usage."}
+  ]
+}
+{
+  "path": "docs/HOW_TO_USE/copilot-tooling-setup.md",
+  "audiences": [
+    {"audience": "software_engineer", "fit": "high", "rationale": "Provides installation steps, benefits, and validation for CLI tooling."},
+    {"audience": "automation_agent", "fit": "medium", "rationale": "Sets tool availability expectations for agent execution environments."},
+    {"audience": "agentic-framework-core-team", "fit": "medium", "rationale": "Supports maintaining consistent tool baselines across the framework."},
+    {"audience": "ai_power_user", "fit": "medium", "rationale": "Explains why preinstalled tools improve assistant responsiveness."}
+  ],
+  "potential_misses": [
+    {"audience": "line_manager", "rationale": "No cost/benefit summary for leadership audiences."},
+    {"audience": "nontech_educator", "rationale": "Assumes CLI familiarity and developer environment access."}
+  ]
+}
+{
+  "path": "docs/HOW_TO_USE/testing-orchestration.md",
+  "audiences": [
+    {"audience": "software_engineer", "fit": "high", "rationale": "Outlines pytest-based E2E scenarios and commands to validate orchestration."},
+    {"audience": "agentic-framework-core-team", "fit": "medium", "rationale": "Lists validation coverage for framework reliability."},
+    {"audience": "automation_agent", "fit": "medium", "rationale": "Clarifies expected behaviors and fixtures used in tests."}
+  ],
+  "potential_misses": [
+    {"audience": "line_manager", "rationale": "Testing depth without executive summary of outcomes."},
+    {"audience": "ai_power_user", "rationale": "Requires running code/tests; not oriented to end-user prompting."}
+  ]
+}
+{
+  "path": "docs/HOW_TO_USE/ISSUE_TEMPLATES_GUIDE.md",
+  "audiences": [
+    {"audience": "process_architect", "fit": "high", "rationale": "Explains structured issue templates that drive task routing and governance."},
+    {"audience": "agentic-framework-core-team", "fit": "medium", "rationale": "Provides template ownership and routing logic for maintaining the system."},
+    {"audience": "software_engineer", "fit": "medium", "rationale": "Shows how to submit tasks via templates for agent execution."},
+    {"audience": "line_manager", "fit": "medium", "rationale": "Highlights delegation mechanics that support oversight."}
+  ],
+  "potential_misses": [
+    {"audience": "ai_power_user", "rationale": "Template-driven GitHub workflow may be too repo-specific."}
+  ]
+}
+{
+  "path": "docs/architecture/README.md",
+  "audiences": [
+    {"audience": "agentic-framework-core-team", "fit": "high", "rationale": "Index of architecture docs and ADRs critical for framework stewardship."},
+    {"audience": "process_architect", "fit": "high", "rationale": "Maps where to find patterns, designs, and ADRs for governance."},
+    {"audience": "software_engineer", "fit": "medium", "rationale": "Provides navigation to technical designs impacting implementation."},
+    {"audience": "line_manager", "fit": "medium", "rationale": "Includes status of major decisions and links to rationale."}
+  ],
+  "potential_misses": [
+    {"audience": "ai_power_user", "rationale": "Architecture index is too deep for general assistant operators."}
+  ]
+}
+{
+  "path": "docs/architecture/architectural_vision.md",
+  "audiences": [
+    {"audience": "agentic-framework-core-team", "fit": "high", "rationale": "States architectural principles and layer responsibilities guiding framework evolution."},
+    {"audience": "process_architect", "fit": "high", "rationale": "Defines layers and design decisions needed for process and template alignment."},
+    {"audience": "line_manager", "fit": "medium", "rationale": "Contains high-level goals and success metrics but minimal business translation."},
+    {"audience": "software_engineer", "fit": "medium", "rationale": "Gives context for why the architecture is structured and constraints to respect."}
+  ],
+  "potential_misses": [
+    {"audience": "ai_power_user", "rationale": "Conceptual architecture without end-user prompts or examples."},
+    {"audience": "automation_agent", "rationale": "Human-facing framing; few direct execution instructions."}
+  ]
+}
