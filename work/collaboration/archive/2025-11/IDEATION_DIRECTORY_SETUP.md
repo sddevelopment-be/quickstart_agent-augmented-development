@@ -12,6 +12,8 @@
 ❗️ **Directory creation blocked:** Requires bash/mkdir capability not available to Curator agent  
 📋 **Handoff required:** Build automation agent or manual intervention needed
 
+> **2025-11-?? Update:** The ideation workspace has since moved under `work/notes/ideation/` to reflect its exploratory nature. This log is preserved for historical context, so references to `docs/ideation/` describe the original target.
+
 ## Completed Work
 
 ### 1. Repository Map Updated ✅

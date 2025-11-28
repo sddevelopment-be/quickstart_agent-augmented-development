@@ -45,12 +45,12 @@ However, none of these ADRs explicitly require **linking decisions to artifacts*
 
 Two exploratory documents have investigated this problem space:
 
-1. **Structured Knowledge Sharing** ([docs/ideation/tracability/structured_knowledge_sharing.md](../../ideation/tracability/structured_knowledge_sharing.md))
+1. **Structured Knowledge Sharing** ([work/notes/ideation/tracability/structured_knowledge_sharing.md](../../../work/notes/ideation/tracability/structured_knowledge_sharing.md))
    - Proposes a taxonomy of decision artifacts (ideation → synthesis → ADR → directives)
    - Defines forward/backward linking mechanisms
    - Establishes discovery patterns for humans and agents
 
-2. **Personal Productivity Flow** ([docs/ideation/tracability/personal_productivity_flow.md](../../ideation/tracability/personal_productivity_flow.md))
+2. **Personal Productivity Flow** ([work/notes/ideation/tracability/personal_productivity_flow.md](../../../work/notes/ideation/tracability/personal_productivity_flow.md))
    - Identifies flow state types (deep creation, collaboration, reflection)
    - Proposes flow-aware decision capture timing
    - Addresses cognitive load concerns with deferred documentation

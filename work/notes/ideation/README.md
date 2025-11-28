@@ -3,7 +3,7 @@
 _Version: 1.0.0_  
 _Last updated: 2025-11-25_
 
-This directory contains ideation artifacts—early-stage exploration, brainstorming outputs, concept sketches, and preliminary analysis that inform architectural decisions and feature development.
+This directory contains ideation artifacts—early-stage exploration, brainstorming outputs, concept sketches, and preliminary analysis that inform architectural decisions and feature development. It now lives under `work/notes/` to emphasize that everything here is provisional until promoted into the long-term `docs/` tree.
 
 ## Overview
 
@@ -32,7 +32,7 @@ The ideation directory serves as a structured workspace for:
 - ❌ Approved architectural designs (use `docs/architecture/design/`)
 - ❌ Production documentation (use appropriate `docs/` subdirectories)
 - ❌ Active project tasks (use `work/` orchestration system)
-- ❌ Meeting notes or logs (use `work/notes/` or `work/collaboration/`)
+- ❌ Meeting notes or logs (keep them in other `work/notes/` subdirectories or `work/collaboration/`)
 
 ## Workflow
 
@@ -41,7 +41,7 @@ The ideation directory serves as a structured workspace for:
 Typical artifact evolution:
 
 ```
-docs/ideation/         →  docs/architecture/adrs/     →  docs/architecture/design/
+work/notes/ideation/   →  docs/architecture/adrs/     →  docs/architecture/design/
 (exploration)             (decision capture)             (detailed implementation)
 ```
 
@@ -71,7 +71,7 @@ Examples:
 As the repository grows, consider organizing by theme:
 
 ```
-docs/ideation/
+work/notes/ideation/
   features/           # Feature-level ideation
   architecture/       # System-level exploration
   workflows/          # Process and workflow concepts
@@ -85,7 +85,7 @@ docs/ideation/
 | `docs/architecture/adrs/` | Ideation informs ADRs; ADRs reference ideation artifacts for rationale |
 | `docs/architecture/design/` | Design documents elaborate on ideas vetted through ideation |
 | `docs/planning/` | Planning may spawn ideation tasks; ideation feeds planning refinement |
-| `work/notes/` | Informal notes may migrate to ideation when structure is needed |
+| Other `work/notes/` subdirectories | Informal notes may start there before getting structured here |
 
 ## Agent Involvement
 
@@ -151,10 +151,10 @@ When adding ideation artifacts:
 
 ## Related Documentation
 
-- Architecture Overview: [`docs/architecture/README.md`](../architecture/README.md)
-- Project Vision: [`docs/VISION.md`](../VISION.md)
-- Work Directory: [`work/README.md`](../../work/README.md)
-- Templates: [`docs/templates/`](../templates/)
+- Architecture Overview: [`docs/architecture/README.md`](../../docs/architecture/README.md)
+- Project Vision: [`docs/VISION.md`](../../docs/VISION.md)
+- Work Directory: [`work/README.md`](../../README.md)
+- Templates: [`docs/templates/`](../../docs/templates/)
 
 ## Current Ideation Status (2025-11-25)
 

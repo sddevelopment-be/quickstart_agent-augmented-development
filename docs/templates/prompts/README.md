@@ -245,8 +245,8 @@ Clear context. Bootstrap as <Agent Name>. When ready:
 
 ## Related Documentation
 
-- [Issue Templates Guide](../../docs/HOW_TO_USE/ISSUE_TEMPLATES_GUIDE.md) - GitHub issue-based agent workflows
-- [Quickstart Guide](../../docs/HOW_TO_USE/QUICKSTART.md) - General agent usage
+- [Issue Templates Guide](../../HOW_TO_USE/ISSUE_TEMPLATES_GUIDE.md) - GitHub issue-based agent workflows
+- [Quickstart Guide](../../HOW_TO_USE/QUICKSTART.md) - General agent usage
 - [Agent Profiles](../../agents/) - Specialist agent definitions
 - [Directives](../../agents/directives/) - Operational directives
 - [Templates](../../docs/templates/) - Output templates for agents
@@ -275,7 +275,7 @@ Clear context. Bootstrap as <Agent Name>. When ready:
 **Agent doesn't respond:**
 
 - Use exact agent name from profile
-- Try issue template workflow instead (see [ISSUE_TEMPLATES_GUIDE.md](../../docs/HOW_TO_USE/ISSUE_TEMPLATES_GUIDE.md))
+- Try issue template workflow instead (see [ISSUE_TEMPLATES_GUIDE.md](../../HOW_TO_USE/ISSUE_TEMPLATES_GUIDE.md))
 
 ---
 

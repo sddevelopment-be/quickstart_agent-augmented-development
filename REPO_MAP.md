@@ -145,7 +145,6 @@ docs/
 │   └── synthesis/        # Cross-cutting analysis
 │       └── poc3-orchestration-metrics-synthesis.md
 ├── audience/             # Audience-specific documentation
-├── ideation/             # Early-stage exploration and concept artifacts
 ├── planning/             # Project planning artifacts
 ├── styleguides/          # Writing and coding style guides
 └── templates/            # Document and artifact templates
@@ -164,6 +163,8 @@ docs/
     ├── project/          # Project management templates
     └── structure/        # Directory structure templates
 ```
+
+> Ideation artifacts now live in `work/notes/ideation/` to keep exploratory material separate from finalized docs.
 
 #### Key Documentation Additions (Recent)
 
@@ -230,7 +231,10 @@ work/
 │   ├── WORKFLOW_LOG.md
 │   ├── orchestration-implementation-plan.md
 │   └── orchestration-architecture-summary.md
-├── notes/                # Informal planning notes
+├── notes/                # Informal planning notes + ideation space
+│   ├── external_memory/
+│   ├── ideation/         # Early-stage exploration and concept artifacts
+│   └── tmp/
 ├── planning/             # Structured planning artifacts
 ├── schemas/              # Task YAML JSON schemas (placeholder)
 ├── scripts/              # Orchestration automation
@@ -245,6 +249,8 @@ work/
 │   └── validate-work-structure.sh
 └── synthesizer/          # Synthesizer agent working space
 ```
+
+> `work/notes/ideation/` is now the canonical home for exploratory ideation material before it graduates into docs/.
 
 #### Orchestration Framework
 

@@ -31,7 +31,7 @@ A structured approach to capturing, linking, and surfacing architectural and ope
 
 | Artifact Type | Purpose | Location | Audience |
 |--------------|---------|----------|----------|
-| **Ideation documents** | Explore problem space, evaluate options | `docs/ideation/` | Architects, planners |
+| **Ideation documents** | Explore problem space, evaluate options | `work/notes/ideation/` | Architects, planners |
 | **ADRs** | Formalize architectural decisions with rationale | `docs/architecture/adrs/` | All contributors |
 | **Synthesis documents** | Distill patterns from multiple explorations | `docs/architecture/synthesis/` | Agents, senior engineers |
 | **Directives** | Encode operational decisions as agent guidance | `.github/agents/directives/` | Agents primarily |
@@ -42,7 +42,7 @@ A structured approach to capturing, linking, and surfacing architectural and ope
 ```
 Problem identified
     ↓
-Ideation exploration (docs/ideation/)
+Ideation exploration (work/notes/ideation/)
     ↓
 Synthesis of findings (docs/architecture/synthesis/)
     ↓
@@ -77,9 +77,9 @@ Use consistent markdown linking patterns:
 ```markdown
 ## Context
 
-This approach implements [ADR-008: File-Based Async Coordination](../../docs/architecture/adrs/ADR-008-file-based-async-coordination.md).
+This approach implements [ADR-008: File-Based Async Coordination](../../../../docs/architecture/adrs/ADR-008-file-based-async-coordination.md).
 
-Initial exploration in [2025-11-20-coordination-patterns.md](../../docs/ideation/architecture/2025-11-20-coordination-patterns.md).
+Initial exploration in [2025-11-20-coordination-patterns.md](../architecture/2025-11-20-coordination-patterns.md).
 ```
 
 ## Knowledge Discovery Patterns
@@ -150,9 +150,9 @@ A successful knowledge sharing system demonstrates:
 ## Related Documents
 
 - [Ideation Directory README](../README.md)
-- [Architecture Overview](../../architecture/README.md)
-- [ADR Index](../../architecture/adrs/README.md)
-- [Agent Directive System](../../../.github/agents/directives/README.md)
+- [Architecture Overview](../../../../docs/architecture/README.md)
+- [ADR Index](../../../../docs/architecture/adrs/README.md)
+- [Agent Directive System](../../../../.github/agents/directives/README.md)
 
 ---
 

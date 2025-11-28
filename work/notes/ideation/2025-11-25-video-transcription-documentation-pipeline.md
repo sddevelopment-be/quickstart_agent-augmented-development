@@ -201,7 +201,7 @@ See [`docs/architecture/diagrams/transcript_usage.puml`](../architecture/diagram
    - Concerns raised
    - Follow-up actions
 4. Agent generates:
-   - Ideation document (in `docs/ideation/`)
+   - Ideation document (in `work/notes/ideation/`)
    - Task breakdown YAML files
    - Concept sketch diagrams
 5. Facilitator reviews and organizes

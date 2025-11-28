@@ -222,7 +222,7 @@ Phase 1 (Core Infrastructure)
         └─→ Phase 5 (Validation and Monitoring)
 ```
 
-**See also:** [Orchestration Phases Timeline Diagram](../../docs/architecture/diagrams/orchestration-phases-timeline.puml)
+**See also:** [Orchestration Phases Timeline Diagram](../../../docs/architecture/diagrams/orchestration-phases-timeline.puml)
 
 **Critical Path:** Phase 1 → Phase 2 → Phase 3  
 **Optional Enhancements:** Phase 4, Phase 5

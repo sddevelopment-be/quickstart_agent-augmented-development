@@ -5,7 +5,9 @@ output/
 # e.g. keep logs, ignore junk
 work/**/*.tmp
 work/**/*.bak
-work/notes
+work/notes/*
+!work/notes/ideation/
+!work/notes/ideation/**
 
 .idea
 *.iml

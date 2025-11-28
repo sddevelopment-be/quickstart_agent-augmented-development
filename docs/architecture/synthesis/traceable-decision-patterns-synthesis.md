@@ -206,7 +206,7 @@ feat: implement async task routing
 
 Decision: File-based coordination (ADR-008)
 Rationale: Git-native, transparent, no new dependencies
-Context: Exploration in docs/ideation/architecture/2025-11-20-coordination-patterns.md
+Context: Exploration in work/notes/ideation/architecture/2025-11-20-coordination-patterns.md
 ```
 
 **Task YAML Schema Extension:**
