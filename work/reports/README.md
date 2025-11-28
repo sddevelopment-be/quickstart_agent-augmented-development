@@ -17,7 +17,7 @@ reports/
 
 ### POC3 Multi-Agent Chain Validation
 
-**Executive Summary**: [`POC3-EXECUTIVE-SUMMARY.md`](POC3-EXECUTIVE-SUMMARY.md)  
+**Executive Summary**: [`POC3-EXECUTIVE-SUMMARY.md`](exec_summaries/POC3-EXECUTIVE-SUMMARY.md)  
 **Detailed Assessment**: [`logs/architect/2025-11-27T2004-poc3-validation-assessment.md`](logs/architect/2025-11-27T2004-poc3-validation-assessment.md)
 
 **Key Findings**:

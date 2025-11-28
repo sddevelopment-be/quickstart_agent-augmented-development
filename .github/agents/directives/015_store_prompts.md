@@ -20,9 +20,10 @@ Agents SHOULD store prompt documentation when:
 
 ## 2. Prompt Documentation Location
 
-All prompt documentation MUST be stored in:
+All prompt documentation MUST be stored in [`work/report/logs/prompts`](/work/reports/logs/prompts) following the naming convention:
+
 ```
-work/logs/prompts/YYYY-MM-DDTHHMM-<agent>-<slug>-prompt.md
+work/reports/logs/prompts/YYYY-MM-DDTHHMM-<agent>-<slug>-prompt.md
 ```
 
 **Naming Convention:**

@@ -1,22 +1,23 @@
 <!-- The following information is to be interpreted literally -->
 # 004 Documentation & Context Files Directive
 
-Bootstrap Artefacts:
+## Bootstrap Artefacts
+
 - `docs/VISION.md`
-- `agents/guidelines/*.md`
+- `.github/agents/guidelines/*.md`
+- `.github/agents/aliases.md`
 
-Repository structure:
-- `docs/structure/REPO_MAP.md`
-- `docs/structure/SURFACES.md`
-- `docs/structure/CONTEXT_LINKS.md`
-- `docs/structure/WORKFLOWS.md`
+## Repository Structure References
 
-Detailed References:
-- `docs/references/.repo-structure.md`
-- `docs/references/.repo_overview.md`
+- `REPO_MAP.md` (root) — canonical overview of directories (use `REPO_MAP.json` if present for machine-readable structure).
+- `docs/SURFACES.md` — surface taxonomy.
+- `docs/WORKFLOWS.md` — workflow catalog.
+- `docs/planning/`, `docs/architecture/` — deeper design/ADR context.
 
-Agent Profiles:
-- `.github/agents/*.agent.md`
+## Agent System References
 
-Purpose: Provide canonical lookup set for structural or procedural clarification requests.
+- `.github/agents/*.agent.md` — role profiles.
+- `.github/agents/directives/*.md` — directive catalog (see `manifest.json` for metadata).
+- `.github/agents/approaches/` — operational playbooks.
 
+**Purpose:** Provide the canonical lookup set for structural/procedural clarification requests while keeping references aligned with the current `.github/agents` layout and repository maps.

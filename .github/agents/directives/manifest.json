@@ -230,6 +230,18 @@
       "safetyCritical": false,
       "directive_version": "1.0.0",
       "status": "active"
+    },
+    {
+      "code": "020",
+      "slug": "lenient_adherence",
+      "title": "Lenient Adherence",
+      "file": "020_lenient_adherence.md",
+      "purpose": "Defines five leniency levels (0–4) for template compliance",
+      "dependencies": ["004", "008"],
+      "requiredInAgents": false,
+      "safetyCritical": false,
+      "directive_version": "1.0.0",
+      "status": "active"
     }
   ]
 }
