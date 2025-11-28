@@ -1,0 +1,92 @@
+[
+  {
+    "path": "README.md",
+    "audiences": [
+      {
+        "audience": "process_architect",
+        "fit": "high",
+        "rationale": "Defines repo intent and how to configure shared workspaces (docs/work/output) so process owners can establish guardrails."
+      },
+      {
+        "audience": "ai_power_user",
+        "fit": "medium",
+        "rationale": "Offers quickstart steps for attaching AI assistants and tuning agents, matching power users seeking predictable behavior."
+      },
+      {
+        "audience": "automation_agent",
+        "fit": "medium",
+        "rationale": "Outlines structural expectations (bootstrap order, directories) that automation agents must honor to stay aligned."
+      }
+    ],
+    "potential_misses": [
+      {
+        "audience": "line_manager",
+        "rationale": "Lacks success metrics or executive summary that managers typically expect before approving workflows."
+      },
+      {
+        "audience": "nontech_educator",
+        "rationale": "Does not translate concepts into non-technical explanations or instructional framing."
+      }
+    ]
+  },
+  {
+    "path": "AGENTS.md",
+    "audiences": [
+      {
+        "audience": "agentic-framework-core-team",
+        "fit": "high",
+        "rationale": "Defines the layered governance stack, directives, and validation rituals that framework maintainers steward."
+      },
+      {
+        "audience": "automation_agent",
+        "fit": "high",
+        "rationale": "Specifies runtime behavior, tone, commands, and safety markers that automation agents must follow at startup."
+      },
+      {
+        "audience": "process_architect",
+        "fit": "medium",
+        "rationale": "Explains instruction hierarchy, sandboxing, and command practices relevant to tailoring operational processes."
+      }
+    ],
+    "potential_misses": [
+      {
+        "audience": "ai_power_user",
+        "rationale": "Dense governance depth with few practical examples may be difficult for solo power users to apply."
+      },
+      {
+        "audience": "line_manager",
+        "rationale": "Lacks high-level KPIs or rollout summaries managers rely on for oversight."
+      }
+    ]
+  },
+  {
+    "path": "docs/VISION.md",
+    "audiences": [
+      {
+        "audience": "process_architect",
+        "fit": "high",
+        "rationale": "Captures the problem statement, scope, and desired outcomes needed to design workflows."
+      },
+      {
+        "audience": "line_manager",
+        "fit": "medium",
+        "rationale": "Highlights business outcomes (token efficiency, maintainability) tied to managerial approval."
+      },
+      {
+        "audience": "tech_coach",
+        "fit": "medium",
+        "rationale": "Frames how agents collaborate and what success looks like, informing enablement plans."
+      }
+    ],
+    "potential_misses": [
+      {
+        "audience": "software_engineer",
+        "rationale": "Does not break vision goals into actionable engineering tasks or architecture diagrams."
+      },
+      {
+        "audience": "automation_agent",
+        "rationale": "Remains purely strategic and omits operational instructions automation agents rely on."
+      }
+    ]
+  }
+]
