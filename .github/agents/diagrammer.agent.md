@@ -30,6 +30,8 @@ tools: [ "read", "write", "search", "edit", "bash", "mermaid-generator", "plantu
 
 Invoke: `/require-directive <code>` when full rubric needed.
 
+**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
+
 ## 2. Purpose
 
 Translate conceptual, architectural, and organizational relationships into consistent diagram-as-code artifacts that reinforce systemic understanding and remain easily maintainable.

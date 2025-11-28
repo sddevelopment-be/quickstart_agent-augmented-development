@@ -29,6 +29,8 @@ tools: [ "read", "write", "search", "edit", "bash", "todo", "github" ]
 
 Invoke with `/require-directive <code>`.
 
+**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
+
 ## 2. Purpose
 
 Provide adaptable execution scaffolds—milestones, batches, dependency maps, and decision checkpoints—that keep multi-agent work aligned with strategic outcomes while remaining resilient to change.
