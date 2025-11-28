@@ -47,27 +47,27 @@ If 5+ boxes cannot be checked, pause and reassess the problem framing.
 - Cumulative effect degrades simplicity principle
 - System becomes harder to understand and maintain
 
-## Integration with Directives
-
-- **Directive 011 (Risk & Escalation):** Use ⚠️ when uncertain about problem severity; flag ❗️ if proposed solution violates core principles
-- **Directive 012 (Operating Procedures):** "Ask clarifying questions when uncertainty >30%" applies to problem assessment
-- **Directive 014 (Work Logs):** Document problem evidence, severity analysis, and alternative evaluation in logs
-- **ADRs:** Cross-reference architectural decisions to ensure new proposals align with established direction
-
 ## Application Guidance
 
-**For All Agents:**
+### For All Agents
 - Question requirements that add significant complexity
 - Request evidence of problem severity before implementation
 - Advocate for "do nothing" when current state is adequate
 - Favor organic emergence over premature prescription
 
-**For Architects & Build-Automation:**
+### For Architects & Build-Automation
 - Use this directive during ADR creation and design reviews
 - Apply before adding new CI steps, tooling layers, or automation
 - Validate that proposed solutions address measured problems
 
-**For Curators:**
+### For Curators
 - Reference when auditing consistency across artifacts
 - Flag proposals that violate locality of change principles
 - Suggest simpler alternatives during review cycles
+
+## Integration with Directives
+
+- **[Directive 011](./011_risk_escalation.md) (Risk & Escalation):** Use ⚠️ when uncertain about problem severity; flag ❗️ if proposed solution violates core principles
+- **[Directive 012](./012_operating_procedures.md) (Operating Procedures):** "Ask clarifying questions when uncertainty >30%" applies to problem assessment
+- **[Directive 014](./014_worklog_creation.md) (Work Logs):** Document problem evidence, severity analysis, and alternative evaluation in logs
+- **ADRs:** Cross-reference architectural decisions (see `docs/architecture/decisions/`) to ensure new proposals align with established direction

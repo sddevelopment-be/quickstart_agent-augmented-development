@@ -56,6 +56,10 @@ results:
     - "Condensed directive: 73 lines (56% reduction)"
     - "Preserved: 7-point decision checklist, 3 anti-pattern categories"
     - "Cross-references: 7 files updated (directive, AGENTS.md, manifest, glossary, approaches README, approach doc, work log)"
+    - "Token usage: ~5,900 input tokens, ~5,500 output tokens"
+    - "Time spent: ~25 minutes"
+    - "Complexity: Medium (condensation + cross-reference updates)"
+    - "Model: GitHub Copilot (GPT-4 based)"
   validation:
     - "Format consistency verified against existing directives"
     - "Cross-references validated across all updated files"
