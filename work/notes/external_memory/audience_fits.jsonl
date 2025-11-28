@@ -297,3 +297,116 @@
     {"audience": "automation_agent", "rationale": "Human-facing framing; few direct execution instructions."}
   ]
 }
+{
+  "path": "docs/architecture/adrs/ADR-001-modular-agent-directive-system.md",
+  "audiences": [
+    {"audience": "agentic-framework-core-team", "fit": "high", "rationale": "Establishes modular directive system replacing monolithic governance."},
+    {"audience": "process_architect", "fit": "high", "rationale": "Defines separation-of-concerns and loading strategy for governance artifacts."},
+    {"audience": "software_engineer", "fit": "medium", "rationale": "Explains rationale behind directive structure that affects implementation and context assembly."}
+  ],
+  "potential_misses": [
+    {"audience": "line_manager", "rationale": "No business framing; focuses on token efficiency and maintainability mechanics."}
+  ]
+}
+{
+  "path": "docs/architecture/adrs/ADR-002-portability-enhancement-opencode.md",
+  "audiences": [
+    {"audience": "agentic-framework-core-team", "fit": "high", "rationale": "Commits to OpenCode spec as canonical source for agent configs."},
+    {"audience": "process_architect", "fit": "high", "rationale": "Impacts configuration governance and schema validation for agents."},
+    {"audience": "software_engineer", "fit": "medium", "rationale": "Provides reasoning for JSON/OpenCode tooling that affects pipelines."}
+  ],
+  "potential_misses": [
+    {"audience": "line_manager", "rationale": "Technical portability decision without outcome summary."}
+  ]
+}
+{
+  "path": "docs/architecture/adrs/ADR-003-task-lifecycle-state-management.md",
+  "audiences": [
+    {"audience": "process_architect", "fit": "high", "rationale": "Defines five-state lifecycle and transitions central to orchestration."},
+    {"audience": "agentic-framework-core-team", "fit": "high", "rationale": "Core lifecycle standard for framework consistency."},
+    {"audience": "automation_agent", "fit": "medium", "rationale": "Specifies states agents must enforce when updating tasks."},
+    {"audience": "software_engineer", "fit": "medium", "rationale": "Impacts implementation of orchestrator scripts and task handling."}
+  ],
+  "potential_misses": [
+    {"audience": "line_manager", "rationale": "No operational KPI/benefit summary."}
+  ]
+}
+{
+  "path": "docs/architecture/adrs/ADR-004-work-directory-structure.md",
+  "audiences": [
+    {"audience": "process_architect", "fit": "high", "rationale": "Sets canonical work directory layout and conventions."},
+    {"audience": "agentic-framework-core-team", "fit": "high", "rationale": "Governance for task storage and discovery."},
+    {"audience": "automation_agent", "fit": "medium", "rationale": "Explains directory expectations agents must honor."},
+    {"audience": "software_engineer", "fit": "medium", "rationale": "Guides tooling and orchestrator behaviors tied to paths."}
+  ],
+  "potential_misses": [
+    {"audience": "line_manager", "rationale": "Technical structure without managerial framing."}
+  ]
+}
+{
+  "path": "docs/architecture/adrs/ADR-005-coordinator-agent-pattern.md",
+  "audiences": [
+    {"audience": "agentic-framework-core-team", "fit": "high", "rationale": "Defines coordinator/orchestrator responsibilities and rationale."},
+    {"audience": "process_architect", "fit": "high", "rationale": "Clarifies coordination pattern and handoff mechanics."},
+    {"audience": "automation_agent", "fit": "medium", "rationale": "Explains orchestrator expectations for task routing and conflict detection."},
+    {"audience": "software_engineer", "fit": "medium", "rationale": "Informs implementation of orchestration scripts and monitoring."}
+  ],
+  "potential_misses": [
+    {"audience": "line_manager", "rationale": "Pattern rationale lacks business impact narrative."}
+  ]
+}
+{
+  "path": "docs/architecture/adrs/ADR-006-adopt-three-layer-governance-model.md",
+  "audiences": [
+    {"audience": "agentic-framework-core-team", "fit": "high", "rationale": "Introduces three-layer governance model and metadata requirements."},
+    {"audience": "process_architect", "fit": "high", "rationale": "Defines layering boundaries and required metadata for artifacts."},
+    {"audience": "software_engineer", "fit": "medium", "rationale": "Provides context for versioning and artifact classification affecting development."}
+  ],
+  "potential_misses": [
+    {"audience": "line_manager", "rationale": "Layering decision lacks executive summary of value."}
+  ]
+}
+{
+  "path": "docs/architecture/adrs/ADR-007-repository-restructuring-layer-separation.md",
+  "audiences": [
+    {"audience": "agentic-framework-core-team", "fit": "high", "rationale": "Documents rejected/adapted restructuring proposal tied to governance layers."},
+    {"audience": "process_architect", "fit": "high", "rationale": "Explains considered structural changes and rationale for rejection."}
+  ],
+  "potential_misses": [
+    {"audience": "software_engineer", "rationale": "Limited direct implementation guidance; mostly governance context."},
+    {"audience": "line_manager", "rationale": "No business outcome translation."}
+  ]
+}
+{
+  "path": "docs/architecture/adrs/ADR-008-file-based-async-coordination.md",
+  "audiences": [
+    {"audience": "agentic-framework-core-team", "fit": "high", "rationale": "Justifies file-based async coordination over external services."},
+    {"audience": "process_architect", "fit": "high", "rationale": "Establishes coordination mechanism shaping workflows and tooling."},
+    {"audience": "software_engineer", "fit": "medium", "rationale": "Explains design trade-offs impacting orchestrator implementation."}
+  ],
+  "potential_misses": [
+    {"audience": "line_manager", "rationale": "No cost/benefit framing beyond technical simplicity."}
+  ]
+}
+{
+  "path": "docs/architecture/adrs/ADR-009-orchestration-metrics-standard.md",
+  "audiences": [
+    {"audience": "agentic-framework-core-team", "fit": "high", "rationale": "Sets metrics and quality standards for orchestration outputs."},
+    {"audience": "process_architect", "fit": "high", "rationale": "Guides measurement and accessibility requirements for workflows."},
+    {"audience": "software_engineer", "fit": "medium", "rationale": "Provides metrics and validation expectations influencing implementation."}
+  ],
+  "potential_misses": [
+    {"audience": "line_manager", "rationale": "Metrics focus on technical execution without business translation."}
+  ]
+}
+{
+  "path": "docs/architecture/adrs/ADR-010-github-copilot-tooling-setup.md",
+  "audiences": [
+    {"audience": "agentic-framework-core-team", "fit": "high", "rationale": "Codifies decision to preinstall CLI tools in Copilot environments."},
+    {"audience": "software_engineer", "fit": "high", "rationale": "Details tool requirements and rationale affecting developer workflows."},
+    {"audience": "process_architect", "fit": "medium", "rationale": "Shows how tooling standardization supports governance objectives."}
+  ],
+  "potential_misses": [
+    {"audience": "line_manager", "rationale": "Technical tooling choice without executive summary."}
+  ]
+}
