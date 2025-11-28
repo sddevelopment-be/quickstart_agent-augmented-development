@@ -31,6 +31,8 @@ tools: [ "read", "write", "search", "edit", "glob", "MultiEdit", "cpell", "bash"
 
 Load using `/require-directive <code>`.
 
+**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
+
 ## 2. Purpose
 
 Translate texts across languages while preserving meaning, tone, cadence, and structural semantics defined by Operational and Lexical contexts.

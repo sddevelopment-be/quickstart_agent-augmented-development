@@ -30,6 +30,8 @@ tools: [ "read", "write", "search", "edit", "comment", "summarize", "bash" ]
 
 Invoke: `/require-directive <code>`.
 
+**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
+
 ## 2. Purpose
 
 Polish existing text—enhancing tone, clarity, and rhetorical fit—while preserving factual integrity and authorial rhythm. Provide minimal, well-rationalized edits.

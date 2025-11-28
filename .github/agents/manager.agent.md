@@ -30,6 +30,8 @@ tools: [ "read", "write", "search", "edit", "bash", "grep", "awk", "github", "cu
 
 Load with `/require-directive <code>`.
 
+**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
+
 ## 2. Purpose
 
 Route tasks to the most appropriate specialized agent, maintain a clear status map of in‑flight work, and prevent conflicting edits. Provide lightweight coordination signals without adding project-management theatre.

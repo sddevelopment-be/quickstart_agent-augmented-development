@@ -29,6 +29,8 @@ tools: [ "read", "write", "search", "edit", "Bash", "Grep" ]
 
 Request with `/require-directive <code>`.
 
+**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
+
 ## 2. Purpose
 
 Evaluate and calibrate writing style compliance (tone, rhythm, formatting) while preserving authorial voice. Provide precise, low-noise deltas and rule-grounded diagnostics.

@@ -31,6 +31,8 @@ tools: [ "read", "write", "search", "edit", "Bash", "Grep", "github", "todo" ]
 
 Invoke: `/require-directive <code>` when detail needed.
 
+**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
+
 **Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
 
 ## 2. Purpose

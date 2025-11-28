@@ -30,6 +30,8 @@ tools: [ "read", "write", "search", "edit", "bash" ]
 
 Request with `/require-directive <code>`.
 
+**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
+
 ## 2. Purpose
 
 Document and summarize interactions (meetings, agent exchanges) with structural clarity, neutrality, and version traceability so knowledge remains portable and independently legible.

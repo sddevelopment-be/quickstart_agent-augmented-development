@@ -30,6 +30,8 @@ tools: [ "read", "write", "search", "edit", "MultiEdit", "bash", "markdown-linte
 
 Use `/require-directive <code>` as needed.
 
+**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
+
 ## 2. Purpose
 
 Merge and reconcile insights from multiple agents and sources into coherent narratives or conceptual models that elevate shared understanding without abstraction drift.

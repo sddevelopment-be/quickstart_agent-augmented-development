@@ -29,6 +29,8 @@ tools: [ "read", "write", "search", "edit", "web", "bash", "grep" ]
 
 Load via `/require-directive <code>`.
 
+**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
+
 **Relevant Approaches:**
 
 - Traceable decisions (hypothesis-based work)
