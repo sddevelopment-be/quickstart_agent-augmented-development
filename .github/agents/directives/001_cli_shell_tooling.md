@@ -22,11 +22,11 @@ Preference: If `ast-grep` is available, use it for structural queries; otherwise
 Terminal interaction can be unreliable in agent-based workflows. When you suspect flaky terminal behavior:
 
 **Confirmation steps:**
-1. create a new file in the repository's `tmp` directory
+1. create a new file in the repository's `work/notes/tmp` directory
 2. attempt to interact with that file via the terminal
 3. if interaction fails or is inconsistent, proceed with the remediation technique below and attempt to interact with the file again
 4. if interaction is successful, continue with your task using the remediation technique
-5. when the current micro task is complete, make note of the issue in the `work/LOCAL_ENV.md` file for future reference
+5. when the current micro task is complete, make note of the issue in the `work/external_memory/LOCAL_ENV.md` file for future reference
 
 **Remediation Technique:**
 1. Create a shell script in `tmp/remediation/` at the repository root

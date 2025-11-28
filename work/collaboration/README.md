@@ -6,6 +6,8 @@ This directory contains the file-based orchestration system for multi-agent coor
 
 Enable transparent, asynchronous, Git-native collaboration between specialized agents through task files that move through a defined lifecycle.
 
+> Full workflow guidance lives in [`agents/approaches/work-directory-orchestration.md`](../../agents/approaches/work-directory-orchestration.md).
+
 ## Structure
 
 ```
@@ -74,6 +76,7 @@ The Agent Orchestrator (`ops/scripts/orchestration/agent_orchestrator.py`) autom
 ## Related Documentation
 
 - `work/README.md`: Complete work directory documentation
+- `agents/approaches/work-directory-orchestration.md`: Detailed lifecycle + troubleshooting guide
 - `docs/architecture/adrs/ADR-002-file-based-async-coordination.md`: Design rationale
 - `docs/architecture/adrs/ADR-003-task-lifecycle-state-management.md`: State management
 - `docs/architecture/adrs/ADR-004-work-directory-structure.md`: Directory structure
