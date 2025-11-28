@@ -1,0 +1,41 @@
+id: 2025-11-28T2030-curator-complete-primer-profile-rollout
+agent: curator
+status: new
+priority: high
+title: Complete primer requirement rollout to remaining agent profiles
+
+artefacts:
+  - agents/bootstrap-bill.agent.md
+  - agents/build-automation.agent.md
+  - agents/diagrammer.agent.md
+  - agents/frontend.agent.md
+  - agents/lexical.agent.md
+  - agents/manager.agent.md
+  - agents/project-planner.agent.md
+  - agents/researcher.agent.md
+  - agents/scribe.agent.md
+  - agents/synthesizer.agent.md
+  - agents/translator.agent.md
+  - agents/writer-editor.agent.md
+
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  dependency_summary: Complete ADR-011 implementation by adding primer requirement to all agent profiles.
+  notes:
+    - Architect validation (2025-11-28T2004) identified 12 profiles missing primer requirement
+    - Only 3 of 15 profiles (20%) currently include the requirement
+    - This creates inconsistent behavior across agent ecosystem
+    - All profiles must include identical primer requirement text for consistency
+    - Reference existing implementations in architect.agent.md, backend-dev.agent.md, curator.agent.md
+    - Insert after directive references table, before Purpose section
+    - Use exact text: "**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014."
+    - For coding agents (frontend, diagrammer if applicable), also add test-first requirement
+    - Validate all updates before committing
+    - Create work log documenting the systematic rollout
+
+dependencies:
+  - 2025-11-24T1951-architect-primer-directive-validation
+
+created_at: '2025-11-28T20:30:00Z'
+created_by: architect-alphonso
