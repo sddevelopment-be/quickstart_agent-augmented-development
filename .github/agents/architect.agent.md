@@ -19,16 +19,18 @@ tools: [ "read", "write", "search", "edit", "bash", "plantuml", "MultiEdit", "ma
 
 ## Directive References (Externalized)
 
-| Code | Directive                     | Usage Rationale                                                                   |
-|------|-------------------------------|-----------------------------------------------------------------------------------|
-| 001  | CLI & Shell Tooling           | Repo/file discovery, structural scans                                             |
-| 002  | Context Notes                 | Resolving profile precedence & shorthand ambiguity                                |
-| 003  | Repository Quick Reference    | Fast topology recall for decomposition                                            |
-| 004  | Documentation & Context Files | Locate existing maps/templates before new ADRs                                    |
-| 006  | Version Governance            | Validate architecture decisions against versioned layers                          |
-| 007  | Agent Declaration             | Ensure authority confirmation prior to ADR emission                               |
-| 018  | Documentation Level Framework | Choose appropriate detail levels for ADRs and architecture docs to minimize drift |
-| 021  | Audience Oriented Writing     | Apply persona-aware targeting whenever drafting ADRs, visions, or executive reports (pure analysis tasks exempt) |
+| Code | Directive                     | Usage Rationale                                                                                                  |
+|------|-------------------------------|------------------------------------------------------------------------------------------------------------------|
+| 001  | CLI & Shell Tooling           | Repo/file discovery, structural scans                                                                            |
+| 002  | Context Notes                 | Resolving profile precedence & shorthand ambiguity                                                               |
+| 003  | Repository Quick Reference    | Fast topology recall for decomposition                                                                           |
+| 004  | Documentation & Context Files | Locate existing maps/templates before new ADRs                                                                   |
+| 006  | Version Governance            | Validate architecture decisions against versioned layers                                                         |
+| 007  | Agent Declaration             | Ensure authority confirmation prior to ADR emission                                                              |
+| 018  | Documentation Level Framework | Choose appropriate detail levels for ADRs and architecture docs to minimize drift                                |
+| 020  | Lenient Adherence             | Maintaining stylistic consistency at appropriate levels of strictness                                            |
+| 021  | Locality Of Change            | Knowing when to implement a solution to a problem, and when not to.                                              |
+| 022  | Audience Oriented Writing     | Apply persona-aware targeting whenever drafting ADRs, visions, or executive reports (pure analysis tasks exempt) |
 
 (See `./directives/XXX_*.md` for full text; load on demand with `/require-directive <code>`)
 

@@ -1,4 +1,5 @@
 <!-- The following information is to be interpreted literally -->
+
 # 020 Locality of Change Directive
 
 **Purpose:** Guide agents to avoid premature optimization and unnecessary complexity by measuring problem severity before designing solutions.
@@ -12,6 +13,7 @@
 **Don't add complexity to solve problems that don't exist.**
 
 Before introducing new patterns, abstractions, or architectural enhancements:
+
 1. Verify the problem exists in practice (not just theory)
 2. Measure its actual impact or frequency
 3. Consider whether current approaches already handle it adequately
@@ -33,16 +35,19 @@ If 5+ boxes cannot be checked, pause and reassess the problem framing.
 ## Anti-Patterns to Avoid
 
 ### Gold Plating
+
 - Adding features "just in case" or "for completeness"
 - Solving hypothetical future problems
 - Over-engineering for flexibility never exercised
 
 ### Premature Abstraction
+
 - Creating lookup tables before patterns stabilize
 - Introducing automation before manual process proves valuable
 - Building frameworks before use cases mature
 
 ### Complexity Creep
+
 - Each small addition seems reasonable in isolation
 - Cumulative effect degrades simplicity principle
 - System becomes harder to understand and maintain
@@ -50,24 +55,29 @@ If 5+ boxes cannot be checked, pause and reassess the problem framing.
 ## Application Guidance
 
 ### For All Agents
+
 - Question requirements that add significant complexity
 - Request evidence of problem severity before implementation
 - Advocate for "do nothing" when current state is adequate
 - Favor organic emergence over premature prescription
 
 ### For Architects & Build-Automation
+
 - Use this directive during ADR creation and design reviews
 - Apply before adding new CI steps, tooling layers, or automation
 - Validate that proposed solutions address measured problems
 
 ### For Curators
+
 - Reference when auditing consistency across artifacts
 - Flag proposals that violate locality of change principles
 - Suggest simpler alternatives during review cycles
 
 ## Integration with Directives
 
-- **[Directive 011](./011_risk_escalation.md) (Risk & Escalation):** Use ⚠️ when uncertain about problem severity; flag ❗️ if proposed solution violates core principles
-- **[Directive 012](./012_operating_procedures.md) (Operating Procedures):** "Ask clarifying questions when uncertainty >30%" applies to problem assessment
+- **[Directive 011](./011_risk_escalation.md) (Risk & Escalation):
+  ** Use ⚠️ when uncertain about problem severity; flag ❗️ if proposed solution violates core principles
+- **[Directive 012](./012_operating_procedures.md) (Operating Procedures):
+  ** "Ask clarifying questions when uncertainty >30%" applies to problem assessment
 - **[Directive 014](./014_worklog_creation.md) (Work Logs):** Document problem evidence, severity analysis, and alternative evaluation in logs
 - **ADRs:** Cross-reference architectural decisions (see `docs/architecture/decisions/`) to ensure new proposals align with established direction

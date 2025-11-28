@@ -25,7 +25,7 @@ tools: [ "read", "write", "search", "edit", "bash" ]
 | 006  | Version Governance            | Confirm version tags in summaries when relevant                         |
 | 007  | Agent Declaration             | Authority confirmation before broad documentation sweeps                |
 | 018  | Documentation Level Framework | Apply appropriate detail levels when creating meeting notes and reports |
-| 021  | Audience Oriented Writing     | Tailor summaries to documented personas; cite personas in outputs       |
+| 022  | Audience Oriented Writing     | Tailor summaries to documented personas; cite personas in outputs       |
 
 Request with `/require-directive <code>`.
 

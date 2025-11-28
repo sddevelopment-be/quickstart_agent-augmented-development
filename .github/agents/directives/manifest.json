@@ -243,18 +243,6 @@
       "directive_version": "1.0.0",
       "status": "active"
     },
-    {
-      "code": "021",
-      "slug": "audience_oriented_writing",
-      "title": "Audience Oriented Writing",
-      "file": "021_audience_oriented_writing.md",
-      "purpose": "Ensure all written artifacts target the correct personas using the Target-Audience Fit approach",
-      "dependencies": ["002", "004"],
-      "requiredInAgents": false,
-      "safetyCritical": false,
-      "directive_version": "1.0.0",
-      "status": "active"
-    },
 	{
 	  "code": "021",
 	  "slug": "locality_of_change",
@@ -266,6 +254,18 @@
 	  "safetyCritical": true,
 	  "directive_version": "1.0.0",
 	  "status": "active"
-	}
+	},
+    {
+      "code": "022",
+      "slug": "audience_oriented_writing",
+      "title": "Audience Oriented Writing",
+      "file": "022_audience_oriented_writing.md",
+      "purpose": "Ensure all written artifacts target the correct personas using the Target-Audience Fit approach",
+      "dependencies": ["002", "004"],
+      "requiredInAgents": false,
+      "safetyCritical": false,
+      "directive_version": "1.0.0",
+      "status": "active"
+    }
   ]
 }

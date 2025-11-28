@@ -24,7 +24,7 @@ description: |
   Target length: 1-2 pages vs the current 7KB approach document.
 
 artefacts:
-  - .github/agents/directives/020_locality_of_change.md
+  - .github/agents/directives/021_locality_of_change.md
   - work/reports/logs/curator/2025-11-27T2036-locality-of-change-condensed-directive.md
   - AGENTS.md (updated)
   - .github/agents/directives/manifest.json (updated)
