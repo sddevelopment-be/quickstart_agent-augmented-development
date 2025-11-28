@@ -22,6 +22,7 @@ tools: [ "read", "write", "search", "edit", "MultiEdit", "Bash", "Grep", "Docker
 | Code | Directive                     | Backend Application                                        |
 |------|-------------------------------|------------------------------------------------------------|
 | 001  | CLI & Shell Tooling           | Structural search, log & config inspection                 |
+| 002  | Context Notes                 | Resolve profile precedence & shorthand before modifying shared modules |
 | 003  | Repository Quick Reference    | Confirm service/data directories & config loci             |
 | 004  | Documentation & Context Files | Align API contracts with existing workflow docs            |
 | 006  | Version Governance            | Check layer versions before altering service interfaces    |

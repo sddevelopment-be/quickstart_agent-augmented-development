@@ -21,6 +21,7 @@ tools: [ "read", "write", "search", "edit", "MultiEdit", "Bash", "Grep", "Node",
 | Code | Directive                     | Front-End Application                                   |
 |------|-------------------------------|---------------------------------------------------------|
 | 001  | CLI & Shell Tooling           | Component/file pattern discovery                        |
+| 002  | Context Notes                 | Resolve shorthand & persona precedence before UI revisions |
 | 003  | Repository Quick Reference    | Identify layout/static asset boundaries                 |
 | 004  | Documentation & Context Files | Link UI patterns to documented workflows                |
 | 006  | Version Governance            | Confirm versions before altering shared components      |

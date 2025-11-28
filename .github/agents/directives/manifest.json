@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generated_at": "2025-11-24T19:55:00Z",
+  "generated_at": "2025-11-28T12:45:00Z",
   "description": "Manifest of externalized agent directives for agent-augmented development",
   "directives": [
     {

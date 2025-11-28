@@ -31,7 +31,7 @@ Load only the step relevant to your current need:
 
 ## Location
 
-All prompt documentation in: `work/logs/prompts/YYYY-MM-DDTHHMM-<agent>-<slug>-prompt.md`
+All prompt documentation in: `work/reports/logs/prompts/YYYY-MM-DDTHHMM-<agent>-<slug>-prompt.md`
 
 ## Integration
 

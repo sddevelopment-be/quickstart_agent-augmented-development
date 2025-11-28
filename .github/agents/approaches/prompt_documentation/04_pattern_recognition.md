@@ -204,7 +204,7 @@ Prerequisites: Python 3.11+, pandas installed
 
 ### For Task Creators Using Documentation
 
-1. Review prompt documentation in `work/logs/prompts/`
+1. Review prompt documentation in `work/reports/logs/prompts/`
 2. Identify patterns relevant to your task type
 3. Apply effective patterns to new prompts
 4. Avoid documented anti-patterns

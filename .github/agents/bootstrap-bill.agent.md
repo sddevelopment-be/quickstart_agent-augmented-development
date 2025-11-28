@@ -22,6 +22,7 @@ tools: [ "read", "write", "search", "edit", "Bash", "Grep", "github", "todo" ]
 | Code | Directive                     | Bootstrap Use                                    |
 |------|-------------------------------|--------------------------------------------------|
 | 001  | CLI & Shell Tooling           | Efficient file & text enumeration during mapping |
+| 002  | Context Notes                 | Resolve shorthand/precedence when interpreting mixed agent guidance |
 | 003  | Repository Quick Reference    | Baseline directory roles for REPO_MAP output     |
 | 004  | Documentation & Context Files | Ensure SURFACES/WORKFLOWS reuse existing docs    |
 | 006  | Version Governance            | Capture version tags in bootstrap outputs        |

@@ -20,6 +20,7 @@ tools: ["read", "write", "search", "edit", "MultiEdit", "Bash", "Grep", "github"
 | Code | Directive | DevOps Application |
 |------|-----------|--------------------|
 | 001 | CLI & Shell Tooling | Pipeline script generation & artifact inspection |
+| 002 | Context Notes | Interpret shorthand + precedence rules across participating agents before orchestration |
 | 003 | Repository Quick Reference | Confirm build inputs & outputs directories |
 | 004 | Documentation & Context Files | Align CI/CD docs with existing WORKFLOWS references |
 | 006 | Version Governance | Ensure pipeline respects versioned layer alignment |
