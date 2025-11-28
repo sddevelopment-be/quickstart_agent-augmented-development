@@ -27,18 +27,17 @@ pip install pytest pytest-timeout
 ### Running Tests
 
 ```bash
-# Run all tests
-cd work/scripts
-python3 test_orchestration_e2e.py
+# Run all tests from repository root
+python3 validation/test_orchestration_e2e.py
 
 # Or use pytest directly
-pytest test_orchestration_e2e.py -v
+pytest validation/test_orchestration_e2e.py -v
 
 # Run specific test
-pytest test_orchestration_e2e.py::test_simple_task_flow -v
+pytest validation/test_orchestration_e2e.py::test_simple_task_flow -v
 
 # Run with coverage report (if pytest-cov installed)
-pytest test_orchestration_e2e.py --cov=agent_orchestrator --cov-report=html
+pytest validation/test_orchestration_e2e.py --cov=ops.scripts.orchestration.agent_orchestrator --cov-report=html
 ```
 
 ## Test Scenarios
@@ -57,7 +56,7 @@ The test harness includes 8 comprehensive scenarios:
 - Timestamp population (assigned_at, started_at, completed_at)
 - Result object creation
 
-**Fixture:** `work/scripts/fixtures/test_task_simple.yaml`
+**Fixture:** `validation/fixtures/test_task_simple.yaml`
 
 ### 2. Sequential Workflow (Agent Handoff)
 
@@ -71,7 +70,7 @@ The test harness includes 8 comprehensive scenarios:
 - Handoff logging to `HANDOFFS.md`
 - Multi-stage workflow coordination
 
-**Fixture:** `work/scripts/fixtures/test_task_sequential.yaml`
+**Fixture:** `validation/fixtures/test_task_sequential.yaml`
 
 ### 3. Parallel Workflow
 
@@ -85,7 +84,7 @@ The test harness includes 8 comprehensive scenarios:
 - Independent task processing
 - No interference between parallel workflows
 
-**Fixture:** `work/scripts/fixtures/test_task_parallel.yaml`
+**Fixture:** `validation/fixtures/test_task_parallel.yaml`
 
 ### 4. Convergent Workflow (Conflict Detection)
 
@@ -98,7 +97,7 @@ The test harness includes 8 comprehensive scenarios:
 - Warning logged to `WORKFLOW_LOG.md`
 - System continues operating despite conflicts
 
-**Fixture:** `work/scripts/fixtures/test_task_convergent.yaml`
+**Fixture:** `validation/fixtures/test_task_convergent.yaml`
 
 ### 5. Timeout Detection
 
@@ -111,7 +110,7 @@ The test harness includes 8 comprehensive scenarios:
 - Timeout warnings logged to `WORKFLOW_LOG.md`
 - Stalled task identification
 
-**Configuration:** `TIMEOUT_HOURS = 2` in `agent_orchestrator.py`
+**Configuration:** `TIMEOUT_HOURS = 2` in `ops/scripts/orchestration/agent_orchestrator.py`
 
 ### 6. Archive Execution
 
@@ -125,7 +124,7 @@ The test harness includes 8 comprehensive scenarios:
 - Task files moved correctly
 - Original files removed from `done/`
 
-**Configuration:** `ARCHIVE_RETENTION_DAYS = 30` in `agent_orchestrator.py`
+**Configuration:** `ARCHIVE_RETENTION_DAYS = 30` in `ops/scripts/orchestration/agent_orchestrator.py`
 
 ### 7. Error Handling - Invalid Schema
 
@@ -245,14 +244,12 @@ jobs:
       
       - name: Run orchestration tests
         run: |
-          cd work/scripts
-          pytest test_orchestration_e2e.py -v --tb=short
+          pytest validation/test_orchestration_e2e.py -v --tb=short
       
       - name: Check test coverage
         run: |
           pip install pytest-cov
-          cd work/scripts
-          pytest test_orchestration_e2e.py --cov=agent_orchestrator --cov-report=term
+          pytest validation/test_orchestration_e2e.py --cov=ops.scripts.orchestration.agent_orchestrator --cov-report=term
 ```
 
 ### Pre-commit Hook
@@ -261,8 +258,7 @@ Add to `.git/hooks/pre-commit`:
 
 ```bash
 #!/bin/bash
-cd work/scripts
-pytest test_orchestration_e2e.py --tb=short -q
+pytest validation/test_orchestration_e2e.py --tb=short -q
 if [ $? -ne 0 ]; then
     echo "Orchestration tests failed. Commit aborted."
     exit 1
@@ -293,7 +289,7 @@ fi
 
 **Issue:** Fixture path errors
 
-**Solution:** Run tests from `work/scripts/` directory or use absolute paths
+**Solution:** Run tests from repository root directory or use absolute paths
 
 ### Debugging
 
@@ -306,21 +302,21 @@ pytest test_orchestration_e2e.py -v -s
 Run specific test with debugging:
 
 ```bash
-pytest test_orchestration_e2e.py::test_simple_task_flow -v -s --pdb
+pytest validation/test_orchestration_e2e.py::test_simple_task_flow -v -s --pdb
 ```
 
 Print orchestrator internal state:
 
 ```python
 # Add to test
-import agent_orchestrator
+from ops.scripts.orchestration import agent_orchestrator
 print(f"WORK_DIR: {agent_orchestrator.WORK_DIR}")
 print(f"INBOX_DIR: {agent_orchestrator.INBOX_DIR}")
 ```
 
 ## Test Fixtures
 
-Test fixtures are located in `work/scripts/fixtures/`:
+Test fixtures are located in `validation/fixtures/`:
 
 - `test_task_simple.yaml` - Basic single-agent task
 - `test_task_sequential.yaml` - Multi-stage workflow with handoff
@@ -360,7 +356,7 @@ When adding new orchestrator features:
 
 1. Add corresponding test scenario
 2. Update this documentation
-3. Ensure all tests pass: `pytest test_orchestration_e2e.py -v`
+3. Ensure all tests pass: `pytest validation/test_orchestration_e2e.py -v`
 4. Maintain <60 second test suite execution time
 5. Keep test coverage at 100% for critical functions
 
@@ -369,6 +365,6 @@ When adding new orchestrator features:
 For issues or questions:
 
 1. Check [Troubleshooting](#troubleshooting) section
-2. Review test output: `pytest test_orchestration_e2e.py -v -s`
+2. Review test output: `pytest validation/test_orchestration_e2e.py -v -s`
 3. Consult architecture documentation
 4. Open issue with test failure details

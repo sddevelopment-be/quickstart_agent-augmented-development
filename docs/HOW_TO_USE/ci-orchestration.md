@@ -169,7 +169,7 @@ work/
   scripts/
 ```
 
-**Fix:** Run `bash work/scripts/init-work-structure.sh`
+**Fix:** Run `bash ops/scripts/planning/init-work-structure.sh`
 
 **2. Task YAML Schema**
 
@@ -195,7 +195,7 @@ Examples:
 
 **4. E2E Tests (Optional)**
 
-Runs `work/scripts/test_orchestration_e2e.py` if it exists.
+Runs `validation/test_orchestration_e2e.py` if it exists.
 
 Validates:
 - Task assignment logic
@@ -211,19 +211,19 @@ Before pushing changes, run validation locally:
 
 ```bash
 # Structure check
-bash work/scripts/validate-work-structure.sh
+bash validation/validate-work-structure.sh
 
 # Schema validation (single file)
-python work/scripts/validate-task-schema.py work/inbox/my-task.yaml
+python validation/validate-task-schema.py work/collaboration/inbox/my-task.yaml
 
 # Schema validation (all files)
-find work/ -name "*.yaml" -type f -exec python work/scripts/validate-task-schema.py {} \;
+find work/collaboration/ -name "*.yaml" -type f -exec python validation/validate-task-schema.py {} \;
 
 # Naming convention
-bash work/scripts/validate-task-naming.sh
+bash validation/validate-task-naming.sh
 
 # E2E tests
-python -m pytest work/scripts/test_orchestration_e2e.py -v
+python -m pytest validation/test_orchestration_e2e.py -v
 ```
 
 ### Troubleshooting
@@ -245,7 +245,7 @@ python -m pytest work/scripts/test_orchestration_e2e.py -v
 **Problem:** Too many false positives
 
 **Solution:**
-- Review schema definition in `work/scripts/validate-task-schema.py`
+- Review schema definition in `validation/validate-task-schema.py`
 - Adjust required fields vs optional fields
 - Update validation logic if too strict
 
@@ -490,7 +490,8 @@ Or delete the workflow file (will stop running but preserve history).
 - **Multi-Agent Orchestration:** `docs/HOW_TO_USE/multi-agent-orchestration.md`
 - **Testing Orchestration:** `docs/HOW_TO_USE/testing-orchestration.md`
 - **File-Based Orchestration Approach:** `.github/agents/approaches/file-based-orchestration.md`
-- **Orchestrator Script:** `work/scripts/agent_orchestrator.py`
+- **Orchestrator Script:** `ops/scripts/orchestration/agent_orchestrator.py`
+- **Task Utilities:** `ops/scripts/orchestration/task_utils.py`
 
 ## Support
 
@@ -502,7 +503,7 @@ Or delete the workflow file (will stop running but preserve history).
 **Questions:**
 - See `.github/agents/build-automation.agent.md` for DevOps Danny profile
 - Check `work/collaboration/WORKFLOW_LOG.md` for orchestration history
-- Review `work/logs/` for detailed agent execution logs
+- Review `work/reports/logs/` for detailed agent execution logs
 
 ---
 

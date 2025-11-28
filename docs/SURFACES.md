@@ -110,7 +110,7 @@ created_by: "stijn"
 
 **Validation:**
 ```bash
-python work/scripts/validate-task-schema.py work/inbox/task-file.yaml
+python validation/validate-task-schema.py work/collaboration/inbox/task-file.yaml
 ```
 
 ### Task Status Surface
@@ -153,12 +153,12 @@ error:
 
 ### Agent Orchestrator
 
-**Primary Surface:** `work/scripts/agent_orchestrator.py`
+**Primary Surface:** `ops/scripts/orchestration/agent_orchestrator.py`
 
 **Invocation:**
 ```bash
 # Manual execution
-python work/scripts/agent_orchestrator.py
+python ops/scripts/orchestration/agent_orchestrator.py
 
 # Via GitHub Actions
 # Trigger: .github/workflows/orchestration.yml
@@ -175,7 +175,7 @@ python work/scripts/agent_orchestrator.py
 
 ### Agent Base Interface
 
-**Primary Surface:** `work/scripts/agent_base.py`
+**Primary Surface:** `ops/scripts/orchestration/agent_base.py`
 
 **Abstract Methods (Must Implement):**
 
@@ -207,7 +207,7 @@ if __name__ == "__main__":
     agent.run()  # Poll assigned/my-agent/ directory
 ```
 
-**Reference:** `work/scripts/example_agent.py`
+**Reference:** `ops/scripts/orchestration/example_agent.py`
 
 ### Handoff Interface
 
@@ -242,12 +242,12 @@ result:
 
 ### Task Schema Validation
 
-**Surface:** `work/scripts/validate-task-schema.py`
+**Surface:** `validation/validate-task-schema.py`
 
 **Usage:**
 ```bash
 # Validate single task
-python work/scripts/validate-task-schema.py work/inbox/task.yaml
+python validation/validate-task-schema.py work/collaboration/inbox/task.yaml
 
 # Exit codes:
 #   0 = Valid
@@ -262,22 +262,22 @@ python work/scripts/validate-task-schema.py work/inbox/task.yaml
 
 ### Task Naming Validation
 
-**Surface:** `work/scripts/validate-task-naming.sh`
+**Surface:** `validation/validate-task-naming.sh`
 
 **Usage:**
 ```bash
-bash work/scripts/validate-task-naming.sh work/inbox/task-file.yaml
+bash validation/validate-task-naming.sh work/collaboration/inbox/task-file.yaml
 
 # Validates: YYYY-MM-DDTHHMM-<agent>-<slug>.yaml
 ```
 
 ### Work Structure Validation
 
-**Surface:** `work/scripts/validate-work-structure.sh`
+**Surface:** `validation/validate-work-structure.sh`
 
 **Usage:**
 ```bash
-bash work/scripts/validate-work-structure.sh
+bash validation/validate-work-structure.sh
 
 # Checks:
 # - All agent directories exist
@@ -378,7 +378,7 @@ cp docs/templates/agent-tasks/task-descriptor.yaml work/inbox/2025-11-23T1600-my
 **Actions:**
 1. Checkout repository
 2. Install Python dependencies
-3. Run `work/scripts/agent_orchestrator.py`
+3. Run `ops/scripts/orchestration/agent_orchestrator.py`
 4. Commit state changes
 5. Push updates
 

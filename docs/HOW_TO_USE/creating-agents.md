@@ -65,15 +65,15 @@ if __name__ == "__main__":
 ### 2. Create Agent Directory
 
 ```bash
-mkdir -p work/assigned/my-agent
-mkdir -p work/logs/my-agent
+mkdir -p work/collaboration/assigned/my-agent
+mkdir -p work/reports/logs/my-agent
 ```
 
 ### 3. Test Your Agent
 
 ```bash
 # Create test task
-cat > work/assigned/my-agent/2025-11-23T1500-my-agent-test.yaml << EOF
+cat > work/collaboration/assigned/my-agent/2025-11-23T1500-my-agent-test.yaml << EOF
 id: 2025-11-23T1500-my-agent-test
 agent: my-agent
 status: assigned
@@ -87,7 +87,7 @@ created_by: developer
 EOF
 
 # Run agent
-python work/scripts/my_agent.py
+python ops/scripts/my_agent.py
 ```
 
 ## AgentBase Lifecycle
@@ -440,7 +440,7 @@ def finalize_task(self, success: bool) -> None:
         )
 ```
 
-**Work Log Location:** `work/logs/<agent-name>/YYYY-MM-DDTHHMM-<agent>-<slug>.md`
+**Work Log Location:** `work/reports/logs/<agent-name>/YYYY-MM-DDTHHMM-<agent>-<slug>.md`
 
 ## Testing Your Agent
 
@@ -507,21 +507,21 @@ created_by: developer
 EOF
 
 # Run agent
-python work/scripts/my_agent.py
+python ops/scripts/my_agent.py
 
 # Check results
-cat work/done/test-task.yaml
-cat work/logs/my-agent/*.md
+cat work/collaboration/done/my-agent/test-task.yaml
+cat work/reports/logs/my-agent/*.md
 ```
 
 ### 3. Continuous Mode Testing
 
 ```bash
 # Start agent in continuous mode
-python work/scripts/my_agent.py --continuous &
+python ops/scripts/my_agent.py --continuous &
 
 # Add tasks
-cp test-task.yaml work/assigned/my-agent/
+cp test-task.yaml work/collaboration/assigned/my-agent/
 
 # Watch logs
 tail -f work/collaboration/WORKFLOW_LOG.md
@@ -563,7 +563,7 @@ pkill -f my_agent.py
 
 ## Integration with Orchestrator
 
-The orchestrator (`agent_orchestrator.py`) handles:
+The orchestrator (`ops/scripts/orchestration/agent_orchestrator.py`) handles:
 - Moving tasks from inbox to assigned/
 - Creating follow-up tasks from `next_agent`
 - Monitoring for timeouts
@@ -571,10 +571,10 @@ The orchestrator (`agent_orchestrator.py`) handles:
 - Archiving old completed tasks
 
 **Your agent must:**
-- Poll `work/assigned/<agent-name>/` directory
+- Poll `work/collaboration/assigned/<agent-name>/` directory
 - Process tasks with `status: assigned`
 - Update status to `in_progress` when starting
-- Update status to `done` and move to `work/done/` on success
+- Update status to `done` and move to `work/collaboration/done/` on success
 - Update status to `error` and stay in assigned/ on failure
 
 **AgentBase handles all of this automatically.**
@@ -628,7 +628,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run Agent
-        run: python work/scripts/my_agent.py
+        run: python ops/scripts/my_agent.py
       - name: Commit Results
         run: |
           git config user.name "agent-bot"
@@ -699,10 +699,10 @@ for agent in agents:
 **Problem:** Agent can't find tasks.
 
 **Solutions:**
-- Check directory: `ls work/assigned/<agent-name>/`
+- Check directory: `ls work/collaboration/assigned/<agent-name>/`
 - Verify task status is "assigned"
 - Check agent name matches directory
-- Run orchestrator to assign tasks: `python work/scripts/agent_orchestrator.py`
+- Run orchestrator to assign tasks: `python ops/scripts/orchestration/agent_orchestrator.py`
 
 ### "Task validation failed"
 
@@ -736,7 +736,7 @@ for agent in agents:
 
 ## Example: Complete Agent Implementation
 
-See `work/scripts/example_agent.py` for a complete working example that:
+See `ops/scripts/orchestration/example_agent.py` for a complete working example that:
 - Validates task requirements
 - Loads YAML data
 - Generates markdown report
@@ -759,7 +759,7 @@ items:
 EOF
 
 # Create task
-cat > work/assigned/example/test-task.yaml << EOF
+cat > work/collaboration/assigned/example/test-task.yaml << EOF
 id: test-task
 agent: example
 status: assigned
@@ -775,17 +775,18 @@ created_by: developer
 EOF
 
 # Run
-python work/scripts/example_agent.py
+python ops/scripts/orchestration/example_agent.py
 
 # Check results
 cat /tmp/test-report.md
-cat work/logs/example/*.md
+cat work/reports/logs/example/*.md
 ```
 
 ## References
 
-- **AgentBase Source:** `work/scripts/agent_base.py`
-- **Example Agent:** `work/scripts/example_agent.py`
+- **AgentBase Source:** `ops/scripts/orchestration/agent_base.py`
+- **Example Agent:** `ops/scripts/orchestration/example_agent.py`
+- **Task Utils:** `ops/scripts/orchestration/task_utils.py` - Common task file operations
 - **Task Schema:** `docs/templates/agent-tasks/task-descriptor.yaml`
 - **File-Based Orchestration:** `.github/agents/approaches/file-based-orchestration.md`
 - **Directive 014:** `.github/agents/directives/014_worklog_creation.md`
