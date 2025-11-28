@@ -1,0 +1,110 @@
+{
+  "path": "README.md",
+  "audiences": [
+    {
+      "audience": "agentic-framework-core-team",
+      "fit": "high",
+      "rationale": "Introduces the starter layout, governance separation (docs/work/output), and links to agent instructions used to evolve the framework."
+    },
+    {
+      "audience": "software_engineer",
+      "fit": "medium",
+      "rationale": "Gives quickstart usage for attaching agents and handling generated artifacts without deep architecture detail."
+    },
+    {
+      "audience": "process_architect",
+      "fit": "medium",
+      "rationale": "Shows the intended workflow separation and references to guideline files useful for process setup."
+    },
+    {
+      "audience": "automation_agent",
+      "fit": "medium",
+      "rationale": "Provides initialization steps and boundaries for agent behavior at a high level."
+    }
+  ],
+  "potential_misses": [
+    {
+      "audience": "line_manager",
+      "rationale": "Lacks outcome-oriented benefits and risks; mostly operational instructions."
+    },
+    {
+      "audience": "nontech_educator",
+      "rationale": "Assumes comfort with repo workflows and offers no educational framing."
+    }
+  ]
+}
+{
+  "path": "AGENTS.md",
+  "audiences": [
+    {
+      "audience": "agentic-framework-core-team",
+      "fit": "high",
+      "rationale": "Defines the layered governance model, initialization order, and role of directives—core to framework maintenance."
+    },
+    {
+      "audience": "automation_agent",
+      "fit": "high",
+      "rationale": "Specifies how agents must initialize, validate alignment, and operate within constraints."
+    },
+    {
+      "audience": "process_architect",
+      "fit": "medium",
+      "rationale": "Documents the governance stack and instruction hierarchy relevant to process design."
+    },
+    {
+      "audience": "software_engineer",
+      "fit": "medium",
+      "rationale": "Provides enough operational context to run agents but assumes familiarity with the framework."
+    }
+  ],
+  "potential_misses": [
+    {
+      "audience": "line_manager",
+      "rationale": "No high-level value/ROI summary; heavy on procedural details."
+    },
+    {
+      "audience": "ai_power_user",
+      "rationale": "Dense directive language may obscure practical tips for general assistant users."
+    }
+  ]
+}
+{
+  "path": "docs/VISION.md",
+  "audiences": [
+    {
+      "audience": "agentic-framework-core-team",
+      "fit": "high",
+      "rationale": "States repository vision, scope, and outcomes that guide framework evolution."
+    },
+    {
+      "audience": "process_architect",
+      "fit": "high",
+      "rationale": "Outlines desired outcomes, in-scope areas, and constraints for process design."
+    },
+    {
+      "audience": "line_manager",
+      "fit": "medium",
+      "rationale": "Provides problem statement and success criteria but little executive-level summarization."
+    },
+    {
+      "audience": "software_engineer",
+      "fit": "medium",
+      "rationale": "Gives context on goals and constraints impacting implementation choices."
+    },
+    {
+      "audience": "ai_power_user",
+      "fit": "low",
+      "rationale": "High-level vision with few actionable steps for individual assistant tuning."
+    }
+  ],
+  "potential_misses": [
+    {
+      "audience": "nontech_educator",
+      "rationale": "No pedagogy or teaching examples; assumes familiarity with software workflows."
+    },
+    {
+      "audience": "automation_agent",
+      "rationale": "Vision is human-facing; lacks explicit agent-facing hooks."
+    }
+  ]
+}
