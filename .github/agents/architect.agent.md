@@ -19,26 +19,24 @@ tools: [ "read", "write", "search", "edit", "bash", "plantuml", "MultiEdit", "ma
 
 ## Directive References (Externalized)
 
-| Code | Directive                     | Usage Rationale                                                                                                  |
-|------|-------------------------------|------------------------------------------------------------------------------------------------------------------|
-| 001  | CLI & Shell Tooling           | Repo/file discovery, structural scans                                                                            |
-| 002  | Context Notes                 | Resolving profile precedence & shorthand ambiguity                                                               |
-| 003  | Repository Quick Reference    | Fast topology recall for decomposition                                                                           |
-| 004  | Documentation & Context Files | Locate existing maps/templates before new ADRs                                                                   |
-| 006  | Version Governance            | Validate architecture decisions against versioned layers                                                         |
-| 007  | Agent Declaration             | Ensure authority confirmation prior to ADR emission                                                              |
-| 018  | Documentation Level Framework | Choose appropriate detail levels for ADRs and architecture docs to minimize drift                                |
-| 020  | Lenient Adherence             | Maintaining stylistic consistency at appropriate levels of strictness                                            |
-| 021  | Locality Of Change            | Knowing when to implement a solution to a problem, and when not to.                                              |
-| 022  | Audience Oriented Writing     | Apply persona-aware targeting whenever drafting ADRs, visions, or executive reports (pure analysis tasks exempt) |
+| Code | Directive                                                                      | Usage Rationale                                                                                                  |
+|------|--------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
+| 001  | [CLI & Shell Tooling](directives/001_cli_shell_tooling.md)                     | Repo/file discovery, structural scans                                                                            |
+| 002  | [Context Notes](directives/002_context_notes.md)                               | Resolving profile precedence & shorthand ambiguity                                                               |
+| 003  | [Repository Quick Reference](directives/003_repository_quick_reference.md)     | Fast topology recall for decomposition                                                                           |
+| 004  | [Documentation & Context Files](directives/004_documentation_context_files.md) | Locate existing maps/templates before new ADRs                                                                   |
+| 006  | [Version Governance](directives/006_version_governance.md)                     | Validate architecture decisions against versioned layers                                                         |
+| 007  | [Agent Declaration](directives/007_agent_declaration.md)                       | Ensure authority confirmation prior to ADR emission                                                              |
+| 018  | [Documentation Level Framework](directives/018_traceable_decisions.md)         | Choose appropriate detail levels for ADRs and architecture docs to minimize drift                                |
+| 020  | [Lenient Adherence](directives/020_lenient_adherence.md)                       | Maintaining stylistic consistency at appropriate levels of strictness                                            |
+| 021  | [Locality Of Change](directives/021_locality_of_change.md)                     | Knowing when to implement a solution to a problem, and when not to.                                              |
+| 022  | [Audience Oriented Writing](directives/022_audience_oriented_writing.md)       | Apply persona-aware targeting whenever drafting ADRs, visions, or executive reports (pure analysis tasks exempt) |
 
 (See `./directives/XXX_*.md` for full text; load on demand with `/require-directive <code>`)
 
-**Primer Requirement:
-** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
+**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
 
-**Test-First Requirement:
-** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
+**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
 
 ## 2. Purpose
 

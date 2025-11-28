@@ -1,4 +1,5 @@
 <!-- The following information is to be interpreted literally -->
+
 # 006 Version Governance Directive
 
 **Purpose:** Track and manage versions of context layers and governance documents to ensure agents operate against stable, known versions.
@@ -21,5 +22,6 @@ Rules:
 - Changes must be explicit and confirmed.
 - On detected version delta: pause, request confirmation, then re-run `/validate-alignment`.
 
-**Related Terms:** [Alignment](../GLOSSARY.md#alignment), [Validation](../GLOSSARY.md#validation), [Bootstrap](../GLOSSARY.md#bootstrap), [Rehydration](../GLOSSARY.md#rehydration)
+**Related Terms:
+** [Alignment](../GLOSSARY.md#alignment), [Validation](../GLOSSARY.md#validation), [Bootstrap](../GLOSSARY.md#bootstrap), [Rehydration](../GLOSSARY.md#rehydration)
 

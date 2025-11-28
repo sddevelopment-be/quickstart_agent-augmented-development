@@ -3,6 +3,7 @@ name: manager-mike
 description: Coordinate multi-agent workflows, routing decisions, and status traceability.
 tools: [ "read", "write", "search", "edit", "bash", "grep", "awk", "github", "custom-agent", "todo" ]
 ---
+
 <!-- The following information is to be interpreted literally -->
 
 # Agent Profile: Manager Mike (Coordinator / Router)
@@ -18,18 +19,16 @@ tools: [ "read", "write", "search", "edit", "bash", "grep", "awk", "github", "cu
 
 ## Directive References (Externalized)
 
-| Code | Directive                     | Coordination Use                                        |
-|------|-------------------------------|---------------------------------------------------------|
-| 002  | Context Notes                 | Resolve precedence & shorthand in hand-offs             |
-| 004  | Documentation & Context Files | Reference planning & workflow docs                      |
-| 006  | Version Governance            | Detect version mismatches before routing                |
-| 007  | Agent Declaration             | Authority confirmation before multi-agent orchestration |
-| 018  | Documentation Level Framework | Create project documentation at appropriate abstraction levels |
-| 021  | Audience Oriented Writing     | When issuing reports/updates, align tone to personas; skip for pure routing/analysis |
+| Code | Directive                                                                      | Coordination Use                                                                     |
+|------|--------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|
+| 002  | [Context Notes](directives/002_context_notes.md)                               | Resolve precedence & shorthand in hand-offs                                          |
+| 004  | [Documentation & Context Files](directives/004_documentation_context_files.md) | Reference planning & workflow docs                                                   |
+| 006  | [Version Governance](directives/006_version_governance.md)                     | Detect version mismatches before routing                                             |
+| 007  | [Agent Declaration](directives/007_agent_declaration.md)                       | Authority confirmation before multi-agent orchestration                              |
+| 018  | [Documentation Level Framework](directives/018_traceable_decisions.md)         | Create project documentation at appropriate abstraction levels                       |
+| 022  | [Audience Oriented Writing](directives/022_audience_oriented_writing.md)       | When issuing reports/updates, align tone to personas; skip for pure routing/analysis |
 
 Load with `/require-directive <code>`.
-
-**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
 
 ## 2. Purpose
 

@@ -1,4 +1,5 @@
 <!-- The following information is to be interpreted literally -->
+
 # 018 Traceable Decisions Directive
 
 Purpose: Instruct agents on decision traceability and rationale capture to maintain architectural context throughout the development lifecycle.
@@ -6,6 +7,7 @@ Purpose: Instruct agents on decision traceability and rationale capture to maint
 ## 1. Scope and Applicability
 
 This directive is **optional** and **not safety-critical**. Load it when:
+
 - Working on tasks with architectural implications
 - Creating or modifying documentation in `docs/architecture/`
 - Implementing features that establish new patterns or conventions
@@ -25,6 +27,7 @@ Before proposing architectural changes, agents MUST:
 5. **Reference in Plan:** Include ADR references when proposing approach
 
 **Example:**
+
 ```
 [Agent performing task: "Implement agent handoff protocol"]
 
@@ -40,6 +43,7 @@ Step 5: Reference in proposal: "Per ADR-008, will use file-based handoff..."
 When making architectural choices during artifact creation, agents MUST add decision markers:
 
 **Full Format (for significant decisions):**
+
 ```markdown
 <!-- DECISION-MARKER: ADR-NNN -->
 **Decision:** [Brief statement of what was decided]
@@ -52,11 +56,13 @@ When making architectural choices during artifact creation, agents MUST add deci
 ```
 
 **Minimal Format (for referencing existing decisions):**
+
 ```markdown
 <!-- DECISION: ADR-NNN - [One-line rationale] -->
 ```
 
 **When to Add Markers:**
+
 - Establishing new patterns or conventions
 - Choosing between alternative implementations
 - Applying architectural decisions from ADRs
@@ -64,6 +70,7 @@ When making architectural choices during artifact creation, agents MUST add deci
 - Implementing critical design choices
 
 **When NOT to Add Markers:**
+
 - Trivial implementation details
 - Standard patterns already well-documented
 - Obvious choices requiring no justification
@@ -83,6 +90,7 @@ Context: [Link to ideation/synthesis if applicable]
 ```
 
 **Example:**
+
 ```
 feat: add decision rationale to task schema
 
@@ -150,6 +158,7 @@ This decision impacts:
 When creating artifacts governed by ADRs, reference decisions in headers:
 
 **Markdown files:**
+
 ```markdown
 # Agent Handoff Protocol
 
@@ -160,6 +169,7 @@ When creating artifacts governed by ADRs, reference decisions in headers:
 ```
 
 **Code files (Python example):**
+
 ```python
 """
 Agent coordination module implementing file-based handoffs.
@@ -170,6 +180,7 @@ Related: ADR-003 (Task Lifecycle State Management)
 ```
 
 **YAML files:**
+
 ```yaml
 # Task schema definition
 # Governed by: ADR-003 (Task Lifecycle)
@@ -232,16 +243,19 @@ Agents MUST adapt decision capture behavior to human flow state:
 ### 5.1 Deep Creation Flow
 
 **Detection signals:**
+
 - Long periods without agent interaction
 - Rapid code commits without pauses
 - Human not requesting decision documentation
 
 **Agent Behavior:**
+
 - Passive: Don't interrupt for decision capture
 - Defer: Note decisions for later synthesis
 - Support: Answer questions without proactive suggestions
 
 **Example:**
+
 ```
 [Human commits 5 files in 10 minutes without messages]
 Agent: [Silently tracks potential decision points]
@@ -252,16 +266,19 @@ Agent: [Waits for human to initiate interaction]
 ### 5.2 Agent Collaboration Flow
 
 **Detection signals:**
+
 - Active back-and-forth with agent
 - Human asking "should we..." or "what about..."
 - Iterative refinement of approach
 
 **Agent Behavior:**
+
 - Active: Suggest decision markers in real-time
 - Template: Offer formatted decision marker templates
 - Validate: Check marker format and ADR references
 
 **Example:**
+
 ```
 Human: "Should we use file-based or API coordination?"
 Agent: "Checking ADR-008... File-based coordination is established pattern.
@@ -273,16 +290,19 @@ Agent: [Adds formatted marker with ADR reference]
 ### 5.3 Reflection/Synthesis Flow
 
 **Detection signals:**
+
 - Human reviewing multiple files
 - Explicit request for synthesis or documentation
 - Batch updates to decision markers
 
 **Agent Behavior:**
+
 - Summarize: Extract decision patterns from session
 - Suggest: Recommend ADR creation if 3+ related markers
 - Draft: Create synthesis documents linking decisions
 
 **Example:**
+
 ```
 Agent: "Found 5 decision markers related to coordination patterns.
         Decision debt ratio: 35% (above 20% threshold).
@@ -306,6 +326,7 @@ Agents MUST validate decision traceability before completing tasks:
 ### 6.2 Link Validation
 
 Check that:
+
 - ADR numbers exist in `docs/architecture/adrs/`
 - Cross-references between ADRs are valid
 - Synthesis documents link to source ideation
@@ -314,12 +335,14 @@ Check that:
 ### 6.3 Format Validation
 
 Decision markers MUST include:
+
 - ADR reference (if formalized decision)
 - Decision statement (what was decided)
 - Rationale (why this choice)
 - Date (when decided)
 
 Optional but recommended:
+
 - Alternatives (options rejected)
 - Consequences (trade-offs accepted)
 - Status (implemented/proposed/deprecated)
@@ -352,13 +375,16 @@ Agents should be able to respond to these queries:
 To manage context window efficiently:
 
 **Always Load:**
+
 - `docs/architecture/adrs/README.md` (ADR index)
 
 **Load if Task-Relevant:**
+
 - ADRs matching task keywords (top 3 by relevance)
 - Synthesis documents referenced by relevant ADRs
 
 **Load on Request:**
+
 - Full ideation document history
 - Older ADRs not referenced by recent decisions
 - Decision markers from unrelated code areas
@@ -368,18 +394,21 @@ To manage context window efficiently:
 ### 8.1 Dependencies
 
 This directive builds on:
+
 - **004 (Documentation & Context Files):** Defines canonical document locations
 - **008 (Artifact Templates):** Provides templates for decision markers
 
 ### 8.2 Related Directives
 
 Works with:
+
 - **012 (Operating Procedures):** Decision capture is part of standard workflow
 - **014 (Work Log Creation):** Work logs include decision context
 
 ### 8.3 Conflicts
 
 If conflicts arise:
+
 - **Priority 1:** Safety-critical directives (001, 002, 003, 006, 007, 009, 010, 011, 012)
 - **Priority 2:** This directive (016, optional)
 - **Resolution:** Flag conflict in work log, request human guidance
@@ -501,6 +530,7 @@ decision_debt:
   adrs_referenced: 3
   debt_ratio: 0.0  # Marker documents implementation detail, ADR not needed
 ```
+
 ```
 
 ## 10. Non-Compliance
@@ -529,6 +559,7 @@ If architectural decisions ARE made without traceability:
 ## 11. Maintenance
 
 This directive should be updated when:
+
 - ADR-014 is revised with new decision marker formats
 - New decision artifact types are introduced
 - Validation tooling changes requirements

@@ -1,4 +1,5 @@
 <!-- The following information is to be interpreted literally -->
+
 # 004 Documentation & Context Files Directive
 
 ## Bootstrap Artefacts
@@ -20,4 +21,5 @@
 - `.github/agents/directives/*.md` — directive catalog (see `manifest.json` for metadata).
 - `.github/agents/approaches/` — operational playbooks.
 
-**Purpose:** Provide the canonical lookup set for structural/procedural clarification requests while keeping references aligned with the current `.github/agents` layout and repository maps.
+**Purpose:** Provide the canonical lookup set for structural/procedural clarification requests while keeping references aligned with the current
+`.github/agents` layout and repository maps.

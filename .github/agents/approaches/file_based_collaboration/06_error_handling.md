@@ -8,9 +8,9 @@ When a task cannot be completed due to errors, blockers, or issues beyond your c
 
 1. Update `status` to `"error"` in the task YAML
 2. Add `error` block with:
-   - `message`: Clear description of the problem
-   - `details`: Technical specifics, stack traces, or context
-   - `failed_at`: ISO 8601 timestamp
+    - `message`: Clear description of the problem
+    - `details`: Technical specifics, stack traces, or context
+    - `failed_at`: ISO 8601 timestamp
 3. Leave task in `work/collaboration/assigned/<your-agent-name>/`
 4. Log detailed error information in `work/reports/logs/<your-agent-name>/`
 

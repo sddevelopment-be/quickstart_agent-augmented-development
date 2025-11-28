@@ -12,23 +12,29 @@ This approach describes how to systematically capture architectural decisions th
 ## Core Principles
 
 ### 1. Decision Visibility
+
 Every architectural decision should be discoverable and traceable from ideation through implementation.
 
 ### 2. Flow State Respect
+
 Decision capture timing should adapt to individual productivity rhythms—defer when deep in creation, collaborate when iterating with agents, formalize during reflection.
 
 ### 3. Bidirectional Linking
+
 Decisions reference affected artifacts; artifacts reference governing decisions. No orphaned rationale.
 
 ### 4. Progressive Fidelity
+
 Start with lightweight markers, evolve to synthesis documents, formalize as ADRs when patterns stabilize.
 
 ### 5. Agent Awareness
+
 AI agents check relevant ADRs before proposing changes and include decision references in generated artifacts.
 
 ## When to Use This Approach
 
 **Use decision-first development when:**
+
 - Making architectural choices that will affect multiple components
 - Evaluating trade-offs between alternative implementations
 - Establishing conventions or patterns for the codebase
@@ -36,6 +42,7 @@ AI agents check relevant ADRs before proposing changes and include decision refe
 - Onboarding new contributors who need to understand rationale
 
 **Do NOT use this approach when:**
+
 - Making trivial implementation details (e.g., variable naming)
 - Implementing well-established patterns already documented
 - Working on experimental prototypes not intended for production
@@ -48,17 +55,20 @@ AI agents check relevant ADRs before proposing changes and include decision refe
 **Objective:** Investigate problem space and evaluate options.
 
 **Activities:**
+
 - Research alternative approaches
 - Document trade-offs and constraints
 - Capture assumptions and unknowns
 - Sketch potential solutions
 
 **Artifacts:**
+
 - Ideation documents in `docs/ideation/<topic>/`
 - Exploration notes with alternatives considered
 - Proof-of-concept code (if applicable)
 
 **Decision Markers:**
+
 ```markdown
 <!-- EXPLORATION-NOTE: ADR pending -->
 **Problem:** [Statement of problem being explored]
@@ -71,17 +81,20 @@ AI agents check relevant ADRs before proposing changes and include decision refe
 **Objective:** Integrate multiple exploration threads into coherent patterns.
 
 **Activities:**
+
 - Map related ideation documents
 - Identify recurring themes
 - Assess architectural compatibility
 - Evaluate implementation costs
 
 **Artifacts:**
+
 - Synthesis documents in `docs/architecture/synthesis/`
 - Pattern integration analysis
 - Recommendations for formalization
 
 **Decision Markers:**
+
 ```markdown
 **Pattern Identified:** [Name of recurring pattern]
 **Source Ideations:** [Links to exploration documents]
@@ -93,17 +106,20 @@ AI agents check relevant ADRs before proposing changes and include decision refe
 **Objective:** Document architectural decision with full rationale.
 
 **Activities:**
+
 - Draft ADR using standard template
 - Reference source ideation and synthesis
 - List affected artifacts and directives
 - Define acceptance criteria
 
 **Artifacts:**
+
 - ADR in `docs/architecture/adrs/ADR-NNN-<title>.md`
 - Updates to ADR README index
 - Cross-references to related ADRs
 
 **Decision Markers:**
+
 ```markdown
 <!-- DECISION-MARKER: ADR-NNN -->
 **Decision:** [Brief statement of what was decided]
@@ -120,17 +136,20 @@ AI agents check relevant ADRs before proposing changes and include decision refe
 **Objective:** Apply decision in artifacts with clear traceability.
 
 **Activities:**
+
 - Add decision markers to code/documentation
 - Reference ADRs in commit messages
 - Update directives if behavioral changes needed
 - Link artifacts to governing decisions
 
 **Artifacts:**
+
 - Code files with decision markers
 - Documentation with ADR references
 - Updated directives (if applicable)
 
 **Commit Message Format:**
+
 ```
 <type>: <subject>
 
@@ -141,6 +160,7 @@ Context: [Link to synthesis/ideation if applicable]
 ```
 
 **Inline Marker (code/docs):**
+
 ```markdown
 <!-- DECISION-MARKER: ADR-NNN -->
 **Decision:** [What was decided]
@@ -155,11 +175,13 @@ Context: [Link to synthesis/ideation if applicable]
 ### Deep Creation Flow
 
 **Characteristics:**
+
 - Uninterrupted focus on implementation
 - High cognitive load from problem-solving
 - Momentum-driven progress
 
 **Decision Capture Strategy:**
+
 ```
 1. Add lightweight markers in code (<!-- TODO: DECISION -->) 
 2. Defer formal documentation to session-end
@@ -168,11 +190,13 @@ Context: [Link to synthesis/ideation if applicable]
 ```
 
 **Agent Behavior:**
+
 - Passive background support only
 - No decision-related interruptions
 - Capture context for later synthesis
 
 **Example:**
+
 ```python
 # TODO: DECISION - Why async here? 
 # Related to coordination pattern from ideation/2025-11-20.md
@@ -183,11 +207,13 @@ async def process_task():
 ### Agent Collaboration Flow
 
 **Characteristics:**
+
 - Iterative refinement with AI assistance
 - Active back-and-forth on approach
 - Real-time decision-making
 
 **Decision Capture Strategy:**
+
 ```
 1. Agent suggests decision markers during iteration
 2. Use templates for consistent format
@@ -196,12 +222,14 @@ async def process_task():
 ```
 
 **Agent Behavior:**
+
 - Active co-creation with templates
 - Suggest relevant ADRs to check
 - Validate decision marker format
 - Add decision rationale to task results
 
 **Example Interaction:**
+
 ```
 Human: "Should we use file-based or API coordination?"
 Agent: "Checking ADR-008... File-based coordination is established pattern.
@@ -213,11 +241,13 @@ Agent: [Adds formatted decision marker with ADR-008 reference]
 ### Reflection/Synthesis Flow
 
 **Characteristics:**
+
 - Dedicated time for documentation
 - Lower cognitive load from active coding
 - Big-picture thinking mode
 
 **Decision Capture Strategy:**
+
 ```
 1. Review accumulated markers from creation sessions
 2. Draft formal ADRs from patterns
@@ -226,12 +256,14 @@ Agent: [Adds formatted decision marker with ADR-008 reference]
 ```
 
 **Agent Behavior:**
+
 - Summarize decision patterns
 - Suggest when markers should become ADRs
 - Draft synthesis documents from related decisions
 - Validate cross-references
 
 **Example:**
+
 ```
 Agent: "Found 5 decision markers related to coordination patterns.
         Decision debt ratio: 35% (above 20% threshold).
@@ -503,6 +535,7 @@ Each agent profile should specify:
 Use these checks to ensure correct implementation:
 
 **Decision Marker Format:**
+
 ```bash
 # Validate marker syntax
 rg 'DECISION-MARKER: ADR-\d+' --count docs/
@@ -512,6 +545,7 @@ rg 'TODO: DECISION' --count
 ```
 
 **ADR Linking:**
+
 ```bash
 # Verify ADR cross-references are valid
 python work/scripts/validate-adr-links.py
@@ -521,12 +555,14 @@ rg '^<!-- ADR' docs/ --count
 ```
 
 **Decision Debt:**
+
 ```bash
 # Calculate current debt ratio
 python work/scripts/calculate-decision-debt.py work/logs/
 ```
 
 **Quality Standards:**
+
 - All ADRs have unique numbers
 - ADR cross-references are valid (no broken links)
 - New artifacts in `docs/` reference at least one ADR
@@ -540,11 +576,13 @@ python work/scripts/calculate-decision-debt.py work/logs/
 **Symptoms:** Too many markers, signal-to-noise ratio degrading.
 
 **Causes:**
+
 - Marking implementation details instead of architectural decisions
 - Not promoting markers to ADRs when patterns stabilize
 - Over-documenting obvious choices
 
 **Solutions:**
+
 1. Review markers monthly, archive implementation details
 2. Promote recurring patterns to ADRs
 3. Reserve markers for non-obvious decisions
@@ -555,11 +593,13 @@ python work/scripts/calculate-decision-debt.py work/logs/
 **Symptoms:** Links to non-existent ADRs in decision markers.
 
 **Causes:**
+
 - ADR numbers changed during reorganization
 - Marker references ADR not yet created
 - Typos in ADR numbers
 
 **Solutions:**
+
 1. Run link validation script
 2. Update markers to reference correct ADRs
 3. Create missing ADRs if decisions are critical
@@ -570,12 +610,14 @@ python work/scripts/calculate-decision-debt.py work/logs/
 **Symptoms:** All markers promoted to ADRs, but contributors still can't find rationale.
 
 **Causes:**
+
 - ADRs not linked from artifacts
 - Missing synthesis documents
 - ADR README not maintained
 - Search keywords don't match actual decisions
 
 **Solutions:**
+
 1. Add ADR references to artifact headers
 2. Create synthesis docs linking related ADRs
 3. Update ADR README with better categorization
@@ -586,24 +628,24 @@ python work/scripts/calculate-decision-debt.py work/logs/
 - **Authoritative ADR:** [ADR-017: Traceable Decision Integration](../../../docs/architecture/adrs/ADR-017-traceable-decision-integration.md)
 - **Synthesis:** [Traceable Decision Patterns Synthesis](../../../docs/architecture/synthesis/traceable-decision-patterns-synthesis.md)
 - **Source Ideation:**
-  - [Structured Knowledge Sharing](../../../docs/ideation/tracability/structured_knowledge_sharing.md)
-  - [Personal Productivity Flow](../../../docs/ideation/tracability/personal_productivity_flow.md)
+    - [Structured Knowledge Sharing](../../../docs/ideation/tracability/structured_knowledge_sharing.md)
+    - [Personal Productivity Flow](../../../docs/ideation/tracability/personal_productivity_flow.md)
 - **Directives:**
-  - 004: Documentation & Context Files
-  - 008: Artifact Templates
-  - 018: Traceable Decisions (implementing directive)
+    - 004: Documentation & Context Files
+    - 008: Artifact Templates
+    - 018: Traceable Decisions (implementing directive)
 - **Related ADRs:**
-  - ADR-001: Modular Agent Directive System
-  - ADR-003: Task Lifecycle and State Management
-  - ADR-004: Work Directory Structure
-  - ADR-008: File-Based Async Coordination
-  - ADR-009: Orchestration Metrics Standard
+    - ADR-001: Modular Agent Directive System
+    - ADR-003: Task Lifecycle and State Management
+    - ADR-004: Work Directory Structure
+    - ADR-008: File-Based Async Coordination
+    - ADR-009: Orchestration Metrics Standard
 
 ## Change Log
 
-| Version | Date       | Changes                                      |
-|---------|------------|----------------------------------------------|
-| 1.0.0   | 2025-11-25 | Initial approach documentation               |
+| Version | Date       | Changes                        |
+|---------|------------|--------------------------------|
+| 1.0.0   | 2025-11-25 | Initial approach documentation |
 
 ---
 

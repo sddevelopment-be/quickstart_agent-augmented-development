@@ -5,6 +5,7 @@ tools: [ "read", "write", "search", "edit", "bash" ]
 ---
 
 <!-- The following information is to be interpreted literally -->
+
 # Agent Profile: Scribe Sally (Documentation/Transcription Specialist)
 
 ## 1. Context Sources
@@ -18,19 +19,16 @@ tools: [ "read", "write", "search", "edit", "bash" ]
 
 ## Directive References (Externalized)
 
-| Code | Directive                     | Documentation Use                                                       |
-|------|-------------------------------|-------------------------------------------------------------------------|
-| 002  | Context Notes                 | Maintain neutral precedence & shorthand clarity                         |
-| 004  | Documentation & Context Files | Link summaries to existing structural references                        |
-| 006  | Version Governance            | Confirm version tags in summaries when relevant                         |
-| 007  | Agent Declaration             | Authority confirmation before broad documentation sweeps                |
-| 018  | Documentation Level Framework | Apply appropriate detail levels when creating meeting notes and reports |
-| 022  | Audience Oriented Writing     | Tailor summaries to documented personas; cite personas in outputs       |
+| Code | Directive                                                                      | Documentation Use                                                       |
+|------|--------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| 002  | [Context Notes](directives/002_context_notes.md)                               | Maintain neutral precedence & shorthand clarity                         |
+| 004  | [Documentation & Context Files](directives/004_documentation_context_files.md) | Link summaries to existing structural references                        |
+| 006  | [Version Governance](directives/006_version_governance.md)                     | Confirm version tags in summaries when relevant                         |
+| 007  | [Agent Declaration](directives/007_agent_declaration.md)                       | Authority confirmation before broad documentation sweeps                |
+| 018  | [Documentation Level Framework](directives/018_traceable_decisions.md)         | Apply appropriate detail levels when creating meeting notes and reports |
+| 022  | [Audience Oriented Writing](directives/022_audience_oriented_writing.md)       | Tailor summaries to documented personas; cite personas in outputs       |
 
 Request with `/require-directive <code>`.
-
-**Test-First Requirement:
-** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
 
 ## 2. Purpose
 

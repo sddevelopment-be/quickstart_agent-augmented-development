@@ -1,13 +1,16 @@
 <!-- The following information is to be interpreted literally -->
+
 # 019 File-Based Collaboration Framework Directive
 
 **Purpose:** Guide agents in participating in the asynchronous file-based orchestration system for multi-agent collaboration.
 
-**Core Concepts:** See [Orchestration](../GLOSSARY.md#orchestration), [Task Lifecycle](../GLOSSARY.md#task-lifecycle), [Handoff](../GLOSSARY.md#handoff), and [Work Log](../GLOSSARY.md#work-log) in the glossary.
+**Core Concepts:
+** See [Orchestration](../GLOSSARY.md#orchestration), [Task Lifecycle](../GLOSSARY.md#task-lifecycle), [Handoff](../GLOSSARY.md#handoff), and [Work Log](../GLOSSARY.md#work-log) in the glossary.
 
 ## Core Principle
 
-All inter-agent coordination happens through YAML task files in `work/collaboration/` that move through a defined lifecycle: **new → assigned → in_progress → done → archive**.
+All inter-agent coordination happens through YAML task files in `work/collaboration/` that move through a defined lifecycle: **new → assigned →
+in_progress → done → archive**.
 
 ## Agent Responsibilities
 
@@ -22,6 +25,7 @@ All inter-agent coordination happens through YAML task files in `work/collaborat
 **CRITICAL:** Load only the step relevant to your current task phase to maintain token discipline.
 
 See `.github/agents/approaches/file_based_collaboration/README.md` for:
+
 - Complete task lifecycle overview
 - Step-by-step procedures (one file per step)
 - Delegation patterns
@@ -45,6 +49,7 @@ See `.github/agents/approaches/file_based_collaboration/README.md` for:
 ## Integration
 
 This directive complements:
+
 - **012 Common Operating Procedures**: General behavioral norms
 - **014 Work Log Creation**: Logging standards
 - **009 Role Capabilities**: Understanding specialization boundaries

@@ -1,4 +1,5 @@
 <!-- The following information is to be interpreted literally -->
+
 # 015 Store Prompts Directive
 
 Purpose: Define optional practice for documenting original task prompts with SWOT analysis to help users improve prompt quality and effectiveness over time.
@@ -6,6 +7,7 @@ Purpose: Define optional practice for documenting original task prompts with SWO
 ## 1. When to Store Prompts
 
 Agents MAY store prompt documentation when:
+
 - Completing complex or novel orchestration tasks
 - Encountering ambiguous or unclear task requirements
 - Identifying patterns in prompt quality that impact execution
@@ -13,6 +15,7 @@ Agents MAY store prompt documentation when:
 - The task required significant interpretation or clarification
 
 Agents SHOULD store prompt documentation when:
+
 - The prompt could serve as a learning example for future task creators
 - Significant improvements to the prompt structure are identified
 - The task execution revealed gaps in the original prompt
@@ -27,6 +30,7 @@ work/reports/logs/prompts/YYYY-MM-DDTHHMM-<agent>-<slug>-prompt.md
 ```
 
 **Naming Convention:**
+
 - `YYYY-MM-DD`: Date in ISO 8601 format
 - `THHMM`: Time in 24-hour format
 - `<agent>`: Agent name (lowercase, hyphenated)
@@ -40,6 +44,7 @@ work/reports/logs/prompts/YYYY-MM-DDTHHMM-<agent>-<slug>-prompt.md
 **CRITICAL:** Load only the step relevant to your current documentation phase to maintain token discipline.
 
 See `.github/agents/approaches/prompt_documentation/README.md` for:
+
 - Complete documentation structure template
 - SWOT analysis guidelines
 - Improvement suggestion framework
@@ -60,16 +65,19 @@ See `.github/agents/approaches/prompt_documentation/README.md` for:
 Prompt documentation complements but does not replace work logs:
 
 **Work Log (Directive 014):**
+
 - Documents what agent did and why
 - Focuses on execution and outcomes
 - Required for orchestrated tasks
 
 **Prompt Documentation (Directive 015):**
+
 - Documents what human asked and how to improve
 - Focuses on request quality and clarity
 - Optional but recommended for learning
 
 Both should reference each other:
+
 - Work log: "See prompt documentation for original request analysis"
 - Prompt doc: "See work log for execution details"
 - If the Reflection Loop or Transparency primers (ADR-011) surfaced prompt-quality issues, note the primer invocation in the SWOT analysis for traceability.
@@ -77,18 +85,21 @@ Both should reference each other:
 ## 6. Benefits
 
 ### For Individual Agents
+
 - Learn from experience
 - Improve interpretation skills
 - Build pattern recognition
 - Reduce clarification overhead
 
 ### For Task Creators
+
 - Improve prompt writing skills
 - Understand agent perspective
 - Create more effective tasks
 - Reduce execution errors
 
 ### For Framework
+
 - Build prompt template library
 - Identify systemic issues
 - Evolve best practices
@@ -101,6 +112,7 @@ See: `work/reports/logs/prompts/2025-11-23T1921-synthesizer-done-work-assessment
 ## 8. Validation Criteria
 
 Prompt documentation SHOULD:
+
 - Include verbatim copy of original prompt
 - Provide balanced SWOT analysis (not just criticism)
 - Offer concrete, actionable improvements
@@ -109,6 +121,7 @@ Prompt documentation SHOULD:
 - Be committed to Git for future reference
 
 Prompt documentation SHOULD NOT:
+
 - Criticize the task creator personally
 - Focus only on negatives
 - Provide vague suggestions ("make it better")
@@ -118,6 +131,7 @@ Prompt documentation SHOULD NOT:
 ## 9. Non-Compliance
 
 Since prompt documentation is optional (MAY/SHOULD):
+
 - Agents are not penalized for skipping it
 - Recommended but not enforced
 - Encouraged for learning tasks

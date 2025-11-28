@@ -10,6 +10,7 @@
 This approach describes best practices for setting up, configuring, and maintaining development tooling to support agent-augmented development. It provides a framework for tool selection, configuration patterns, and maintenance strategies that ensure consistent, secure, and performant development environments.
 
 **Related Resources:**
+
 - **Directive 013:** [Tooling Setup & Fallbacks](./../directives/013_tooling_setup.md) — Installation commands and fallback strategies
 - **Directive 001:** [CLI & Shell Tooling](./../directives/001_cli_shell_tooling.md) — Tool usage patterns
 - **Source Assessment:** [Copilot Tooling Value Assessment](../../../work/reports/logs/architect/2025-11-24-copilot-tooling-value-assessment.md)
@@ -17,23 +18,29 @@ This approach describes best practices for setting up, configuring, and maintain
 ## Core Principles
 
 ### 1. Tool Selection Rigor
+
 Choose tools based on measurable criteria: usage frequency, performance improvement, maintenance activity, and security posture.
 
 ### 2. Configuration Consistency
+
 Establish reproducible environments through version pinning, platform-aware setup scripts, and documented configuration patterns.
 
 ### 3. Proactive Maintenance
+
 Schedule regular reviews to update versions, audit security, assess performance, and align with evolving agent needs.
 
 ### 4. Graceful Degradation
+
 Provide fallback strategies for every tool to ensure agents can operate even when preferred tools are unavailable.
 
 ### 5. Documentation Discipline
+
 Keep setup instructions, troubleshooting guides, and version tables synchronized with actual tooling state.
 
 ## When to Use This Approach
 
 **Use tooling setup best practices when:**
+
 - Establishing a new development environment for agent-augmented work
 - Evaluating tools for addition to the standard toolkit
 - Configuring CI/CD environments for consistent agent execution
@@ -42,6 +49,7 @@ Keep setup instructions, troubleshooting guides, and version tables synchronized
 - Creating derivative repositories from templates
 
 **Do NOT use this approach when:**
+
 - Working with experimental or one-off tools not intended for standardization
 - Setting up tools outside the agent execution context
 - Making temporary workarounds that shouldn't become precedents
@@ -61,6 +69,7 @@ Answer these questions to determine if a tool justifies inclusion:
 - **ROI Threshold:** Does installation overhead + maintenance cost < cumulative time saved?
 
 **Example Evaluation:**
+
 ```markdown
 Tool: ripgrep (rg)
 - Frequency: ~80% of agent tasks involve code search
@@ -79,6 +88,7 @@ Evaluate tool maturity and community health:
 - **Versioning Clarity:** Follows semantic versioning with clear changelogs
 
 **Red Flags:**
+
 - No commits in >12 months
 - Multiple unresolved critical issues
 - Frequent API breaking changes
@@ -94,6 +104,7 @@ Assess supply chain and runtime security:
 - **Dependency Tree:** Minimal external dependencies (reduces attack surface)
 
 **Security Checklist:**
+
 ```markdown
 - [ ] Tool distributed through official channels (apt, brew, GitHub releases)
 - [ ] Download URLs use HTTPS exclusively
@@ -113,6 +124,7 @@ Benchmark against alternatives and measure overhead:
 - **Startup Overhead:** Negligible impact on agent cold-start time
 
 **Benchmark Template:**
+
 ```bash
 # Measure tool performance
 time rg "pattern" .  # Test tool
@@ -184,6 +196,7 @@ echo "${YQ_SHA256} yq_linux_amd64" | sha256sum --check
 ```
 
 **When to Pin:**
+
 - AST-based tools where syntax changes affect parsing
 - YAML/JSON processors with query language variations
 - Tools with breaking changes in minor versions
@@ -201,6 +214,7 @@ sudo apt install -y ripgrep fd-find jq
 ```
 
 **When to Auto-Update:**
+
 - Search tools with stable CLI interfaces (rg, fd)
 - Standard utilities with POSIX compatibility (jq)
 - Tools with strong backward compatibility commitments
@@ -216,6 +230,7 @@ wget "https://github.com/tool/releases/download/${LATEST}/tool-binary"
 ```
 
 **When to Track Latest:**
+
 - Experimental tools in early adoption phase
 - Tools where new features directly impact agent capabilities
 - Development tools not used in production scripts
@@ -428,9 +443,9 @@ Schedule and execute these reviews every 3 months:
   ```
 
 - [ ] Review changelog for breaking changes
-  - API modifications affecting agent scripts
-  - CLI flag deprecations or changes
-  - Performance regressions noted
+    - API modifications affecting agent scripts
+    - CLI flag deprecations or changes
+    - Performance regressions noted
 
 - [ ] Test new version in staging environment
   ```bash
@@ -470,14 +485,14 @@ Schedule and execute these reviews every 3 months:
   ```
 
 - [ ] Review supply chain security advisories
-  - GitHub Security Advisories
-  - Tool-specific security mailing lists
-  - Dependency vulnerabilities (if applicable)
+    - GitHub Security Advisories
+    - Tool-specific security mailing lists
+    - Dependency vulnerabilities (if applicable)
 
 - [ ] Update security documentation
-  - Document new vulnerabilities (if any)
-  - Update mitigation strategies
-  - Refresh security checklist in Directive 013
+    - Document new vulnerabilities (if any)
+    - Update mitigation strategies
+    - Refresh security checklist in Directive 013
 
 **Security Status:**
 | Tool | CVE Check | Checksum | Advisories | Status |
@@ -500,9 +515,9 @@ Schedule and execute these reviews every 3 months:
   ```
 
 - [ ] Review tool usage logs
-  - Identify frequently-used tools (keep)
-  - Identify rarely-used tools (candidates for removal)
-  - Look for missing tools agents request repeatedly
+    - Identify frequently-used tools (keep)
+    - Identify rarely-used tools (candidates for removal)
+    - Look for missing tools agents request repeatedly
 
 - [ ] Benchmark against baseline metrics
   ```bash
@@ -527,10 +542,12 @@ Schedule and execute these reviews every 3 months:
 - [ ] Sync README with any new tools or removed tools
 
 **Documentation Updates:**
+
 - [x] Updated yq version in Directive 013
 - [x] Added Windows WSL2 troubleshooting note
 - [x] Fixed broken link to assessment document
 - [ ] Pending: Add ast-grep advanced patterns guide
+
 ```
 
 #### Quarterly Review Checklist Summary
@@ -581,9 +598,9 @@ Conduct a comprehensive assessment once per year:
   ```
 
 - [ ] Assess new tools in ecosystem
-  - Research emerging alternatives to current tools
-  - Evaluate tools gaining popularity in agent community
-  - Consider tools that address current pain points
+    - Research emerging alternatives to current tools
+    - Evaluate tools gaining popularity in agent community
+    - Consider tools that address current pain points
 
 - [ ] Identify deprecated or unused tools
   ```bash
@@ -616,15 +633,15 @@ Conduct a comprehensive assessment once per year:
   ```
 
 - [ ] Analyze cross-repository tool usage patterns
-  - Which tools are universally adopted?
-  - Which tools are customized per repository?
-  - Are there repository-type patterns? (e.g., backend vs. frontend)
+    - Which tools are universally adopted?
+    - Which tools are customized per repository?
+    - Are there repository-type patterns? (e.g., backend vs. frontend)
 
 - [ ] Identify common customizations
-  - Tool version differences
-  - Platform-specific additions
-  - Optional tool variations
-  
+    - Tool version differences
+    - Platform-specific additions
+    - Optional tool variations
+
   **Insight:** If >50% of derivatives customize the same aspect, consider standardizing
 
 - [ ] Calculate actual ROI vs. projected
@@ -645,6 +662,7 @@ Conduct a comprehensive assessment once per year:
   ```
 
 **Ecosystem Insights:**
+
 - Adoption lower than projected (12 vs. 15 repos)
 - Time savings higher than projected (+20%)
 - Backend repos benefit most (30 hrs/year)
@@ -655,19 +673,19 @@ Conduct a comprehensive assessment once per year:
 **Optimization Opportunities:**
 
 - [ ] Prioritize improvements based on usage data
-  1. Add Windows WSL support (requested by 4 derivative repos)
-  2. Improve ast-grep performance (bottleneck in 30% of tasks)
-  3. Add tool version validation pre-flight checks
+    1. Add Windows WSL support (requested by 4 derivative repos)
+    2. Improve ast-grep performance (bottleneck in 30% of tasks)
+    3. Add tool version validation pre-flight checks
 
 - [ ] Plan platform expansion
-  - Windows native support? (WSL sufficient for now)
-  - Container-based environments? (Docker/Podman support)
-  - Cloud shell environments? (GCP/AWS CloudShell compatibility)
+    - Windows native support? (WSL sufficient for now)
+    - Container-based environments? (Docker/Podman support)
+    - Cloud shell environments? (GCP/AWS CloudShell compatibility)
 
 - [ ] Design next-generation features
-  - **Intelligent tool selection:** Auto-detect repository type, install relevant subset
-  - **Usage analytics:** Track tool invocation frequency, optimize installations
-  - **On-demand installation:** Lazy-load tools only when needed by specific agents
+    - **Intelligent tool selection:** Auto-detect repository type, install relevant subset
+    - **Usage analytics:** Track tool invocation frequency, optimize installations
+    - **On-demand installation:** Lazy-load tools only when needed by specific agents
 
 - [ ] Update roadmap
   ```markdown
@@ -686,6 +704,7 @@ Conduct a comprehensive assessment once per year:
 | P1 | Version validation | Low | Medium | ✅ Approved |
 | P2 | Intelligent selection | High | Medium | 🔄 Research phase |
 | P3 | Usage analytics | Medium | Low | ⏸️ Deferred |
+
 ```
 
 ## Integration with Orchestration Framework
@@ -781,6 +800,7 @@ For orchestrated batch operations, tooling setup provides compounding benefits:
 **Symptom:** `command not found: fd` after installation
 
 **Diagnosis:**
+
 ```bash
 # Check if tool is installed
 which fd
@@ -792,6 +812,7 @@ echo $PATH
 ```
 
 **Solutions:**
+
 1. Add tool location to PATH:
    ```bash
    export PATH="/usr/local/bin:$PATH"
@@ -813,6 +834,7 @@ echo $PATH
 **Symptom:** Tool behavior differs from expected (API changes, broken scripts)
 
 **Diagnosis:**
+
 ```bash
 # Check installed version
 tool --version
@@ -822,6 +844,7 @@ tool --version
 ```
 
 **Solutions:**
+
 1. Update to compatible version:
    ```bash
    # Remove old version
@@ -844,6 +867,7 @@ tool --version
 **Symptom:** Installation script fails with platform-specific errors
 
 **Diagnosis:**
+
 ```bash
 # Identify platform
 uname -s
@@ -857,6 +881,7 @@ tail -n 50 /var/log/setup-errors.log
 **Solutions:**
 
 For **Debian/Ubuntu fd-find issue:**
+
 ```bash
 # fdfind binary, not fd
 sudo apt install fd-find
@@ -864,6 +889,7 @@ sudo ln -s $(which fdfind) /usr/local/bin/fd
 ```
 
 For **macOS Homebrew path issue:**
+
 ```bash
 # Initialize Homebrew environment
 if [[ -f /opt/homebrew/bin/brew ]]; then
@@ -872,6 +898,7 @@ fi
 ```
 
 For **Permission denied errors:**
+
 ```bash
 # Ensure correct ownership
 sudo chown -R $USER:$USER /usr/local/bin
@@ -887,6 +914,7 @@ export PATH="$HOME/.local/bin:$PATH"
 **Symptom:** SHA256 checksum mismatch during binary download
 
 **Diagnosis:**
+
 ```bash
 # Download failed or file corrupted
 sha256sum downloaded_file
@@ -894,6 +922,7 @@ sha256sum downloaded_file
 ```
 
 **Solutions:**
+
 1. Re-download from official source:
    ```bash
    rm downloaded_file
@@ -972,7 +1001,8 @@ Use this for rapid validation of tooling setup decisions:
 - **Directive 013:** [Tooling Setup & Fallbacks](./../directives/013_tooling_setup.md) — Installation instructions
 - **Directive 011:** [Risk & Escalation](./../directives/011_risk_escalation.md) — How to escalate tool unavailability
 - **ADR-012:** Testing Requirements (Directive 016, 017)
-- **Assessment:** [Copilot Tooling Value Assessment](../../../work/reports/logs/architect/2025-11-24-copilot-tooling-value-assessment.md) — Data-driven analysis supporting these practices
+- **Assessment:
+  ** [Copilot Tooling Value Assessment](../../../work/reports/logs/architect/2025-11-24-copilot-tooling-value-assessment.md) — Data-driven analysis supporting these practices
 
 ---
 

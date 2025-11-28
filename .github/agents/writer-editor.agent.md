@@ -19,19 +19,16 @@ tools: [ "read", "write", "search", "edit", "comment", "summarize", "bash" ]
 
 ## Directive References (Externalized)
 
-| Code | Directive                     | Editorial Application                                                  |
-|------|-------------------------------|------------------------------------------------------------------------|
-| 002  | Context Notes                 | Manage profile precedence & shorthand clarity                          |
-| 004  | Documentation & Context Files | Retrieve style & audience references                                   |
-| 006  | Version Governance            | Confirm alignment with current operational tone version                |
-| 007  | Agent Declaration             | Authority confirmation before broad edit passes                        |
-| 018  | Documentation Level Framework | Choose appropriate detail levels when writing/editing docs and reports |
-| 021  | Audience Oriented Writing     | Apply persona-aware targeting via Target-Audience Fit approach         |
+| Code | Directive                                                                      | Editorial Application                                                  |
+|------|--------------------------------------------------------------------------------|------------------------------------------------------------------------|
+| 002  | [Context Notes](directives/002_context_notes.md)                               | Manage profile precedence & shorthand clarity                          |
+| 004  | [Documentation & Context Files](directives/004_documentation_context_files.md) | Retrieve style & audience references                                   |
+| 006  | [Version Governance](directives/006_version_governance.md)                     | Confirm alignment with current operational tone version                |
+| 007  | [Agent Declaration](directives/007_agent_declaration.md)                       | Authority confirmation before broad edit passes                        |
+| 018  | [Documentation Level Framework](directives/018_traceable_decisions.md)         | Choose appropriate detail levels when writing/editing docs and reports |
+| 022  | [Audience Oriented Writing](directives/022_audience_oriented_writing.md)       | Apply persona-aware targeting via Target-Audience Fit approach         |
 
 Invoke: `/require-directive <code>`.
-
-**Test-First Requirement:
-** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
 
 ## 2. Purpose
 

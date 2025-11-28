@@ -19,13 +19,13 @@ tools: [ "read", "write", "search", "edit", "bash", "todo", "github" ]
 
 ## Directive References (Externalized)
 
-| Code | Directive                     | Planning Application                                      |
-|------|-------------------------------|-----------------------------------------------------------|
-| 002  | Context Notes                 | Clarify profile precedence during assignment              |
-| 004  | Documentation & Context Files | Link plans to authoritative workflow refs                 |
-| 006  | Version Governance            | Check version alignment before milestone updates          |
-| 007  | Agent Declaration             | Authority confirmation before publishing plan artefacts   |
-| 018  | Documentation Level Framework | Document plans and roadmaps at stable architectural level |
+| Code | Directive                                                                      | Planning Application                                      |
+|------|--------------------------------------------------------------------------------|-----------------------------------------------------------|
+| 002  | [Context Notes](directives/002_context_notes.md)                               | Clarify profile precedence during assignment              |
+| 004  | [Documentation & Context Files](directives/004_documentation_context_files.md) | Link plans to authoritative workflow refs                 |
+| 006  | [Version Governance](directives/006_version_governance.md)                     | Check version alignment before milestone updates          |
+| 007  | [Agent Declaration](directives/007_agent_declaration.md)                       | Authority confirmation before publishing plan artefacts   |
+| 018  | [Documentation Level Framework](directives/018_traceable_decisions.md)         | Document plans and roadmaps at stable architectural level |
 
 Invoke with `/require-directive <code>`.
 

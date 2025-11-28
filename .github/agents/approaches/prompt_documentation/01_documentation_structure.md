@@ -11,6 +11,7 @@ work/reports/logs/prompts/YYYY-MM-DDTHHMM-<agent>-<slug>-prompt.md
 ```
 
 **Convention:**
+
 - `YYYY-MM-DD`: ISO 8601 date
 - `THHMM`: 24-hour time
 - `<agent>`: Agent name (lowercase, hyphenated)
@@ -78,17 +79,20 @@ What could go wrong:
 ### Version 2.0: Enhanced Prompt
 
 ```
+
 <improved version incorporating SWOT findings>
 ```
 
 ### Improvements Explained
 
 **1. [Improvement Category]:**
+
 - What changed: <specific change>
 - Why: <rationale>
 - Impact: <expected benefit>
 
 **2. [Next Improvement]:**
+
 - What changed: <specific change>
 - Why: <rationale>
 - Impact: <expected benefit>
@@ -114,6 +118,7 @@ What could go wrong:
 ## Recommendations for Similar Prompts
 
 For [task type] tasks, future prompts should:
+
 1. Include explicit success criteria
 2. Define custom metrics upfront
 3. State handoff expectations clearly
@@ -125,6 +130,7 @@ For [task type] tasks, future prompts should:
 **Date:** YYYY-MM-DDTHH:MM:SSZ
 **Purpose:** Future reference for prompt improvement
 **Related:** Task <task-id> (completed)
+
 ```
 
 ## Optional Sections

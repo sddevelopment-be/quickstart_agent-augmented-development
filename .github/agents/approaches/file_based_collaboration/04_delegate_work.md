@@ -42,16 +42,16 @@ The Agent Orchestrator automatically creates the follow-up task in `work/collabo
 
 ## Common Delegation Patterns
 
-| When You Need... | Delegate To... |
-|------------------|----------------|
-| Architecture decisions | `architect` |
-| Code implementation | `backend-dev`, `frontend` |
-| Diagram creation | `diagrammer` |
-| Documentation writing | `writer-editor` |
-| Structural consistency | `curator` |
-| Data aggregation | `synthesizer` |
-| Terminology validation | `lexical` |
-| Repository mapping | `bootstrap-bill` |
+| When You Need...       | Delegate To...            |
+|------------------------|---------------------------|
+| Architecture decisions | `architect`               |
+| Code implementation    | `backend-dev`, `frontend` |
+| Diagram creation       | `diagrammer`              |
+| Documentation writing  | `writer-editor`           |
+| Structural consistency | `curator`                 |
+| Data aggregation       | `synthesizer`             |
+| Terminology validation | `lexical`                 |
+| Repository mapping     | `bootstrap-bill`          |
 
 ## Next Steps
 
