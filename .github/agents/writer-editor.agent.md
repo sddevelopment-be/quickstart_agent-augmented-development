@@ -26,6 +26,7 @@ tools: [ "read", "write", "search", "edit", "comment", "summarize", "bash" ]
 | 006  | Version Governance            | Confirm alignment with current operational tone version                |
 | 007  | Agent Declaration             | Authority confirmation before broad edit passes                        |
 | 018  | Documentation Level Framework | Choose appropriate detail levels when writing/editing docs and reports |
+| 021  | Audience Oriented Writing     | Apply persona-aware targeting via Target-Audience Fit approach         |
 
 Invoke: `/require-directive <code>`.
 

@@ -25,6 +25,7 @@ tools: [ "read", "write", "search", "edit", "MultiEdit", "bash", "markdown-linte
 | 006  | Version Governance            | Validate synthesis against versioned layers               |
 | 007  | Agent Declaration             | Authority confirmation before emitting integrative models |
 | 018  | Documentation Level Framework | Use appropriate detail levels in synthesis reports and summaries |
+| 021  | Audience Oriented Writing     | Map synthesis outputs to explicit personas & signpost sections |
 
 Use `/require-directive <code>` as needed.
 

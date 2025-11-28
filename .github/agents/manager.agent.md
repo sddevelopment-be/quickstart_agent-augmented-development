@@ -25,6 +25,7 @@ tools: [ "read", "write", "search", "edit", "bash", "grep", "awk", "github", "cu
 | 006  | Version Governance            | Detect version mismatches before routing                |
 | 007  | Agent Declaration             | Authority confirmation before multi-agent orchestration |
 | 018  | Documentation Level Framework | Create project documentation at appropriate abstraction levels |
+| 021  | Audience Oriented Writing     | When issuing reports/updates, align tone to personas; skip for pure routing/analysis |
 
 Load with `/require-directive <code>`.
 

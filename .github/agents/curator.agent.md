@@ -26,6 +26,7 @@ tools: [ "read", "write", "search", "edit", "bash" ]
 | 006  | Version Governance            | Verify layer versions before global consistency passes                  |
 | 007  | Agent Declaration             | Affirm authority prior to large-scale normalization                     |
 | 018  | Documentation Level Framework | Maintain READMEs and docs at appropriate detail levels to prevent drift |
+| 021  | Audience Oriented Writing     | Ensure artifacts cite and serve the correct personas when auditing      |
 
 Load directives selectively: `/require-directive <code>`.
 

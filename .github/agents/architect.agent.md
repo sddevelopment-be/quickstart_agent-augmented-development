@@ -28,6 +28,7 @@ tools: [ "read", "write", "search", "edit", "bash", "plantuml", "MultiEdit", "ma
 | 006  | Version Governance            | Validate architecture decisions against versioned layers                          |
 | 007  | Agent Declaration             | Ensure authority confirmation prior to ADR emission                               |
 | 018  | Documentation Level Framework | Choose appropriate detail levels for ADRs and architecture docs to minimize drift |
+| 021  | Audience Oriented Writing     | Apply persona-aware targeting whenever drafting ADRs, visions, or executive reports (pure analysis tasks exempt) |
 
 (See `./directives/XXX_*.md` for full text; load on demand with `/require-directive <code>`)
 
