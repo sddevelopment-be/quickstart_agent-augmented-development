@@ -52,8 +52,8 @@ pip install PyYAML==6.0.1 pytest==7.4.0 jsonschema==4.19.0
 **Documentation:** https://pyyaml.org/
 
 **Usage:**
-- Task YAML parsing (`work/scripts/agent_orchestrator.py`)
-- Task validation (`work/scripts/validate-task-schema.py`)
+- Task YAML parsing (`ops/scripts/orchestration/agent_orchestrator.py`)
+- Task validation (`validation/validate-task-schema.py`)
 - Configuration loading
 
 **Example:**
@@ -71,12 +71,12 @@ with open("work/inbox/task.yaml") as f:
 **Documentation:** https://pytest.org/
 
 **Usage:**
-- E2E orchestration tests (`work/scripts/test_orchestration_e2e.py`)
+- E2E orchestration tests (`validation/test_orchestration_e2e.py`)
 - Unit tests (future)
 
 **Example:**
 ```bash
-pytest work/scripts/test_orchestration_e2e.py -v
+pytest validation/test_orchestration_e2e.py -v
 ```
 
 #### jsonschema (Optional)
@@ -181,7 +181,7 @@ sudo mv ast-grep /usr/local/bin/
 ast-grep --pattern 'def $NAME($$$)' --lang python
 
 # Find class instantiations
-ast-grep --pattern 'AgentBase()' work/scripts/
+ast-grep --pattern 'AgentBase()' ops/scripts/
 ```
 
 **Agent Context:** Directive 001
@@ -284,9 +284,9 @@ fzf --preview 'cat {}'
 
 | Script | Language | Purpose | Workflow |
 |--------|----------|---------|----------|
-| work/scripts/agent_orchestrator.py | Python | Task routing | orchestration.yml |
-| work/scripts/validate-task-schema.py | Python | Schema validation | validation.yml |
-| work/scripts/validate-work-structure.sh | Bash | Structure validation | validation.yml |
+| ops/scripts/orchestration/agent_orchestrator.py | Python | Task routing | orchestration.yml |
+| validation/validate-task-schema.py | Python | Schema validation | validation.yml |
+| validation/validate-work-structure.sh | Bash | Structure validation | validation.yml |
 | .github/copilot/setup.sh | Bash | Tool installation | copilot-setup.yml |
 
 ### Workflow Matrix
@@ -450,7 +450,7 @@ npm install -g markdownlint-cli
 **Installation:**
 ```bash
 pip install pytest-xdist
-pytest -n auto work/scripts/test_orchestration_e2e.py
+pytest -n auto validation/test_orchestration_e2e.py
 ```
 
 ---

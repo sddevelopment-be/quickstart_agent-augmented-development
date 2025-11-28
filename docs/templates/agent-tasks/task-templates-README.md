@@ -207,7 +207,7 @@ All task files should follow these rules:
 6. **Result**: Only present when status is "done"
 7. **Error**: Only present when status is "error"
 
-Validate using: `work/scripts/validate-task-schema.py` (when implemented)
+Validate using: `validation/validate-task-schema.py`
 
 ## Related Documentation
 

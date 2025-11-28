@@ -202,7 +202,7 @@ find work/done/ -name "*.yaml" -mtime +30 -exec mv {} work/archive/ \;
 
 ```bash
 #!/bin/bash
-# work/scripts/validate-task-state.sh
+# validation/validate-task-state.sh
 
 for dir in work/inbox work/assigned/* work/done work/archive; do
   for task in $dir/*.yaml; do

@@ -172,7 +172,7 @@ work/collaboration/
 
 ```bash
 #!/bin/bash
-# work/scripts/init-work-structure.sh
+# ops/scripts/planning/init-work-structure.sh
 
 # Create lifecycle directories
 mkdir -p work/inbox
@@ -180,7 +180,7 @@ mkdir -p work/done
 mkdir -p work/archive
 mkdir -p work/logs
 mkdir -p work/collaboration
-mkdir -p work/scripts
+mkdir -p ops/scripts
 
 # Create agent directories
 mkdir -p work/assigned/structural
@@ -330,7 +330,7 @@ System-wide orchestration events.
 
 ```bash
 #!/bin/bash
-# work/scripts/validate-work-structure.sh
+# validation/validate-work-structure.sh
 
 # Check required directories exist
 required_dirs=(
@@ -363,7 +363,7 @@ echo "✅ Work directory structure valid"
 
 ```bash
 #!/bin/bash
-# work/scripts/validate-task-naming.sh
+# validation/validate-task-naming.sh
 
 # Check all task files follow naming convention
 for task in work/inbox/*.yaml work/assigned/*/*.yaml work/done/*.yaml; do
@@ -382,7 +382,7 @@ echo "✅ Task naming validation complete"
 
 ```bash
 #!/bin/bash
-# work/scripts/archive-done-tasks.sh
+# ops/scripts/planning/archive-done-tasks.sh
 
 # Archive tasks older than 30 days
 retention_days=30
@@ -403,7 +403,7 @@ done
 
 ```bash
 #!/bin/bash
-# work/scripts/compress-archive.sh
+# ops/scripts/planning/compress-archive.sh
 
 # Compress archive directories older than 3 months
 cutoff_date=$(date -d "3 months ago" +%Y-%m)

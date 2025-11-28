@@ -161,7 +161,7 @@ Visual artifacts MUST be validated for syntax correctness before task completion
 
 **Options:**
 1. **CI Integration** (preferred): Add PlantUML rendering check to GitHub Actions
-2. **Local Script**: `work/scripts/render-diagrams.sh` for pre-commit validation
+2. **Local Script**: `ops/scripts/render-diagrams.sh` for pre-commit validation
 3. **Manual Verification**: Agent renders locally and confirms in work log
 
 **Minimum Standard:**
@@ -263,7 +263,7 @@ POC1 used estimated timing; POC2 relied on informal notes. Neither approach supp
 ### Phase 3: Refinement (Post-POC3)
 - [ ] Analyze POC3 metrics data for insights
 - [ ] Adjust tiering guidelines based on observed patterns
-- [ ] Add rendering verification script (`work/scripts/render-diagrams.sh`)
+- [ ] Add rendering verification script (`ops/scripts/render-diagrams.sh`)
 - [ ] Integrate PlantUML check into CI pipeline (optional)
 - [ ] Update agent profiles with metrics/validation expectations
 

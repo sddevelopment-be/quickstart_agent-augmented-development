@@ -333,7 +333,7 @@ class Agent:
             sleep(30)  # Poll every 30 seconds
 ```
 
-**Reference Implementation:** `work/scripts/example_agent.py`
+**Reference Implementation:** `ops/scripts/orchestration/example_agent.py`
 
 ### Single-Shot Pattern
 
@@ -355,7 +355,7 @@ class Agent:
 
 ### Base Interface
 
-All agents inherit from `work/scripts/agent_base.py`:
+All agents inherit from `ops/scripts/orchestration/agent_base.py`:
 
 ```python
 from work.scripts.agent_base import AgentBase
@@ -573,7 +573,7 @@ Updated by orchestrator:
 1. Checkout repository
 2. Setup Python 3.x
 3. Install dependencies (`requirements.txt`)
-4. Run `python work/scripts/agent_orchestrator.py`
+4. Run `python ops/scripts/orchestration/agent_orchestrator.py`
 5. Commit changes (task movements, status updates)
 6. Push to branch
 
@@ -595,7 +595,7 @@ jobs:
         with:
           python-version: '3.x'
       - run: pip install -r requirements.txt
-      - run: python work/scripts/agent_orchestrator.py
+      - run: python ops/scripts/orchestration/agent_orchestrator.py
       - run: |
           git config user.name "Agent Orchestrator"
           git config user.email "orchestrator@example.com"
@@ -631,11 +631,11 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Validate task schemas
         run: |
-          for task in work/inbox/*.yaml work/assigned/*/*.yaml; do
-            python work/scripts/validate-task-schema.py "$task" || exit 1
+          for task in work/collaboration/inbox/*.yaml work/collaboration/assigned/*/*.yaml; do
+            python validation/validate-task-schema.py "$task" || exit 1
           done
       - name: Validate work structure
-        run: bash work/scripts/validate-work-structure.sh
+        run: bash validation/validate-work-structure.sh
 ```
 
 ### Diagram Rendering
@@ -659,13 +659,13 @@ jobs:
 
 ```bash
 # 1. Validate naming convention
-bash work/scripts/validate-task-naming.sh work/inbox/task.yaml
+bash validation/validate-task-naming.sh work/collaboration/inbox/task.yaml
 
 # 2. Validate YAML schema
-python work/scripts/validate-task-schema.py work/inbox/task.yaml
+python validation/validate-task-schema.py work/collaboration/inbox/task.yaml
 
 # 3. Validate structure
-bash work/scripts/validate-work-structure.sh
+bash validation/validate-work-structure.sh
 ```
 
 ### Post-Task Validation
@@ -781,7 +781,7 @@ if task["status"] == "in_progress":
 
 ```bash
 # Finds tasks in incorrect directories
-bash work/scripts/validate-work-structure.sh
+bash validation/validate-work-structure.sh
 
 # Reports:
 # - Tasks in wrong agent queue

@@ -234,7 +234,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Run Agent Orchestrator
         run: |
-          python work/scripts/agent_orchestrator.py
+          python ops/scripts/orchestration/agent_orchestrator.py
       - name: Commit changes
         run: |
           git config user.name "Agent Orchestrator"
@@ -248,10 +248,10 @@ jobs:
 
 ```bash
 # Run manually
-python work/scripts/agent_orchestrator.py
+python ops/scripts/orchestration/agent_orchestrator.py
 
 # Or via cron (every 5 minutes)
-*/5 * * * * cd /path/to/repo && python work/scripts/agent_orchestrator.py
+*/5 * * * * cd /path/to/repo && python ops/scripts/orchestration/agent_orchestrator.py
 ```
 
 ### Task Assignment Logic

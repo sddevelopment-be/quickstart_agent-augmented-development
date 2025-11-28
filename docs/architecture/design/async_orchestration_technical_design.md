@@ -159,7 +159,7 @@ created_by: "stijn"
 
 ### Directory Setup Script
 
-**File: `work/scripts/init-work-structure.sh`**
+**File: `ops/scripts/planning/init-work-structure.sh`**
 
 ```bash
 #!/bin/bash
@@ -175,7 +175,7 @@ mkdir -p work/done
 mkdir -p work/archive
 mkdir -p work/logs
 mkdir -p work/collaboration
-mkdir -p work/scripts
+mkdir -p ops/scripts
 mkdir -p work/schemas
 
 # Create agent directories
@@ -284,13 +284,13 @@ echo ""
 echo "Next steps:"
 echo "1. Review work/README.md"
 echo "2. Create task YAML schema in docs/templates/agent-tasks/"
-echo "3. Implement Coordinator script in work/scripts/"
+echo "3. Implement Coordinator script in ops/scripts/orchestration/"
 echo "4. Review docs/architecture/async_multiagent_orchestration.md"
 ```
 
 ### Coordinator Implementation
 
-**File: `work/scripts/agent_orchestrator.py`**
+**File: `ops/scripts/orchestration/agent_orchestrator.py`**
 
 ```python
 #!/usr/bin/env python3
