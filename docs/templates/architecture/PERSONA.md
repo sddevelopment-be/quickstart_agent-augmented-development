@@ -1,5 +1,12 @@
 # Persona: {{ name }}
 
+**Category:** `INTERNAL Stakeholder` / `EXTERNAL Stakeholder`  
+**Audience Type:** What sort of person or system is this?  
+**Primary Goal:** What is their main objective or purpose? Why do they do what they do? What outcome are they seeking?  
+**Reading Context:** When and where will this persona description be used?  
+
+---
+
 ## Overview
 
 > **Purpose:** Describe the role or persona in context — who they are, what they do, and how they relate to the system, product, or service.

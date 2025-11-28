@@ -1,8 +1,14 @@
 # Persona: Agentic Framework Core Team
 
+**Category:** `INTERNAL Stakeholder`  
+**Audience Type:** Human, Technical Team  
+**Primary Goal:** Develop, maintain, and evolve the multi-agent orchestration framework to enable autonomous agents to collaborate effectively on repository tasks  
+**Reading Context:** Framework design, directive development, governance protocols
+
 ## Overview
 
-> **Purpose:** This persona represents the collective team responsible for developing, maintaining, and evolving the multi-agent orchestration framework. They are the architects and stewards of the system that enables autonomous agents to collaborate on repository tasks.
+> **Purpose:**  
+> This persona represents the collective team responsible for developing, maintaining, and evolving the multi-agent orchestration framework. They are the architects and stewards of the system that enables autonomous agents to collaborate on repository tasks.
 
 * **Role Focus:**
   Technical leadership and product development—designing the orchestration infrastructure, governance protocols, and agent behavior standards.

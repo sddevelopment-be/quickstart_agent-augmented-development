@@ -1,5 +1,6 @@
-# Audience: Automation Agents
+# Persona: Automation Agents
 
+**Category:** `INTERNAL Stakeholder`  
 **Audience Type:** Non-human, LLM-based autonomous systems  
 **Primary Goal:** Execute tasks efficiently with minimal token usage while maintaining quality and adherence to guidelines  
 **Reading Context:** Runtime initialization, task execution, decision-making
