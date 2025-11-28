@@ -6,7 +6,7 @@ Concise, action-ready guidance for agents working in Markdown, Python, Perl, or 
 - Use CommonMark/GFM only; avoid embedded HTML unless required by template.
 - Enforce semantic headings; keep one `h1` per file, ordered `h2+`.
 - Lists and tables: keep rows short; prefer descriptive column headers; wrap long cells manually.
-- Code fences: always set language; prefer ```text``` when no syntax applies.
+- Code fences: always set language; prefer `text` when no syntax applies.
 - Links: relative paths within repo; include alt text for images; avoid bare URLs.
 - Validation: run `markdownlint`/lints if available; reflow to ~80–100 cols where consistent with repo norms.
 
