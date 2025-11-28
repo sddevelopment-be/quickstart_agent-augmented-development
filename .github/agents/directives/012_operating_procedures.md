@@ -1,4 +1,5 @@
 <!-- The following information is to be interpreted literally -->
+
 # 012 Common Operating Procedures Directive
 
 Purpose: Centralize repeated behavioral norms WITHOUT removing them from individual agent profiles (redundancy is intentional for safety and predictability).
@@ -15,9 +16,11 @@ Purpose: Centralize repeated behavioral norms WITHOUT removing them from individ
 
 ## 2. Redundancy Rationale
 
-This directive **intentionally duplicates** behavioral norms found in individual agent profiles and other directives. This redundancy serves critical safety and operational purposes.
+This directive **intentionally duplicates
+** behavioral norms found in individual agent profiles and other directives. This redundancy serves critical safety and operational purposes.
 
 **Key Points:**
+
 - Repetition reinforces critical norms regardless of context loading order
 - Protection against partial context loss or fragmentation
 - Ensures consistency across different agent specializations
@@ -32,7 +35,8 @@ This directive **intentionally duplicates** behavioral norms found in individual
 
 The line "Ask clarifying questions when uncertainty >30%." MUST remain in every agent's Collaboration Contract section.
 
-**Reason:** This specific threshold is safety-critical and must be visible in every agent's primary operating context, not just in external directives that may or may not be loaded.
+**Reason:
+** This specific threshold is safety-critical and must be visible in every agent's primary operating context, not just in external directives that may or may not be loaded.
 
 ## 4. Usage
 

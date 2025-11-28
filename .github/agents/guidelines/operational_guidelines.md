@@ -8,22 +8,25 @@ _Format: Markdown protocol for agent initialization and governance_
 
 How agents should operate inside this repository.
 
-> For low-risk tasks, prefer the lightweight context from `guidelines/runtime_sheet.md` + your specialist profile. Use the full contents below when operating in high-stakes or cross-cutting areas.
+> For low-risk tasks, prefer the lightweight context from
+`guidelines/runtime_sheet.md` + your specialist profile. Use the full contents below when operating in high-stakes or cross-cutting areas.
 
 ## Files and directories
 
 - Treat `docs/` as the **source of truth** about intent and constraints.
 - Use `work/` for:
-  - scratch notes
-  - progress logs
-  - intermediate drafts
+    - scratch notes
+    - progress logs
+    - intermediate drafts
 - Use `output/` for:
-  - generated artifacts ready for human review
+    - generated artifacts ready for human review
 - Prefer small, incremental changes over large rewrites.
 
 ### Repository Structure Note
 
-**Important:** The `agents/` directory is a symlink to `.github/agents/`. Any changes made to files or directories under `agents/` will actually modify `.github/agents/` and vice versa. This means:
+**Important:** The `agents/` directory is a symlink to `.github/agents/`. Any changes made to files or directories under
+`agents/` will actually modify `.github/agents/` and vice versa. This means:
+
 - `agents/directives/` → `.github/agents/directives/` (same location)
 - `agents/approaches/` → `.github/agents/approaches/` (same location)
 - There is only ONE copy of each file, not duplicates
@@ -43,7 +46,6 @@ How agents should operate inside this repository.
 - Prefer links and section references over inlining entire guidelines in the prompt.
 - Drop non-essential sections when the task scope is narrow.
 - Keep transient reasoning in `work/notes` instead of the prompt transcript.
-
 
 ## Style Guidelines
 

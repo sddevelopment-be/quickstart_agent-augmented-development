@@ -3,6 +3,7 @@ name: curator-claire
 description: Maintain structural, tonal, and metadata integrity across artifacts.
 tools: [ "read", "write", "search", "edit", "bash" ]
 ---
+
 <!-- The following information is to be interpreted literally -->
 
 # Agent Profile: Curator Claire ( Structural & Tonal Consistency Specialist )
@@ -19,23 +20,19 @@ tools: [ "read", "write", "search", "edit", "bash" ]
 
 ## Directive References (Externalized)
 
-| Code | Directive                     | Curatorial Use                                                          |
-|------|-------------------------------|-------------------------------------------------------------------------|
-| 002  | Context Notes                 | Resolve profile precedence & shorthand normalization                    |
-| 004  | Documentation & Context Files | Locate authoritative structural templates                               |
-| 006  | Version Governance            | Verify layer versions before global consistency passes                  |
-| 007  | Agent Declaration             | Affirm authority prior to large-scale normalization                     |
-| 018  | Documentation Level Framework | Maintain READMEs and docs at appropriate detail levels to prevent drift |
-| 020  | Lenient Adherence             | Maintaining stylistic consistency at appropriate levels of strictness   |
-| 022  | Audience Oriented Writing     | Ensure artifacts cite and serve the correct personas when auditing      |
+| Code | Directive                                                                      | Curatorial Use                                                          |
+|------|--------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| 002  | [Context Notes](directives/002_context_notes.md)                               | Resolve profile precedence & shorthand normalization                    |
+| 004  | [Documentation & Context Files](directives/004_documentation_context_files.md) | Locate authoritative structural templates                               |
+| 006  | [Version Governance](directives/006_version_governance.md)                     | Verify layer versions before global consistency passes                  |
+| 007  | [Agent Declaration](directives/007_agent_declaration.md)                       | Affirm authority prior to large-scale normalization                     |
+| 018  | [Documentation Level Framework](directives/018_traceable_decisions.md)         | Maintain READMEs and docs at appropriate detail levels to prevent drift |
+| 020  | [Lenient Adherence](directives/020_lenient_adherence.md)                       | Maintaining stylistic consistency at appropriate levels of strictness   |
+| 022  | [Audience Oriented Writing](directives/022_audience_oriented_writing.md)       | Ensure artifacts cite and serve the correct personas when auditing      |
 
 Load directives selectively: `/require-directive <code>`.
 
-**Primer Requirement:
-** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
-
-**Test-First Requirement:
-** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
+**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
 
 ## 2. Purpose
 

@@ -19,15 +19,18 @@ tools: [ "read", "write", "search", "edit", "MultiEdit", "Bash", "Grep", "Docker
 
 ## Directive References (Externalized)
 
-| Code | Directive                     | Backend Application                                        |
-|------|-------------------------------|------------------------------------------------------------|
-| 001  | CLI & Shell Tooling           | Structural search, log & config inspection                 |
-| 002  | Context Notes                 | Resolve profile precedence & shorthand before modifying shared modules |
-| 003  | Repository Quick Reference    | Confirm service/data directories & config loci             |
-| 004  | Documentation & Context Files | Align API contracts with existing workflow docs            |
-| 006  | Version Governance            | Check layer versions before altering service interfaces    |
-| 007  | Agent Declaration             | Authority confirmation prior to backend refactor proposals |
-| 018  | Documentation Level Framework | Document backend APIs and code at appropriate levels |
+| Code | Directive                                                                                  | Backend Application                                                           |
+|------|--------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
+| 001  | [CLI & Shell Tooling](directives/001_cli_shell_tooling.md)                                 | Structural search, log & config inspection                                    |
+| 002  | [Context Notes](directives/002_context_notes.md)                                           | Resolve profile precedence & shorthand before modifying shared modules        |
+| 003  | [Repository Quick Reference](directives/003_repository_quick_reference.md)                 | Confirm service/data directories & config loci                                |
+| 004  | [Documentation & Context Files](directives/004_documentation_context_files.md)             | Align API contracts with existing workflow docs                               |
+| 006  | [Version Governance](directives/006_version_governance.md)                                 | Check layer versions before altering service interfaces                       |
+| 007  | [Agent Declaration](directives/007_agent_declaration.md)                                   | Authority confirmation prior to backend refactor proposals                    |
+| 018  | [Documentation Level Framework](directives/018_traceable_decisions.md)                     | Document backend APIs and code at appropriate levels                          |
+| 016  | [Acceptance Test Driven Development](directives/016_acceptance_test_driven_development.md) | Ensure solution fitness by defining acceptance criteria as executable tests   | 
+| 017  | [Test Driven Development](directives/017_test_driven_development.md)                       | Write tests before writing production code. Apply Red, Green, Refactor cycle. | 
+| 021  | [Locality Of Change](directives/021_locality_of_change.md)                                 | Knowing when to implement a solution to a problem, and when not to.           |
 
 Load as needed: `/require-directive <code>`.
 

@@ -19,7 +19,8 @@
 * [ ] If the command starts with `/`, treat it as a **structured operation**, not a conversational request.
 * [ ] Always cross-reference this file with the **Operational Reference** for tone, and the **Strategic Reference** for intent.
 * [ ] If command intent conflicts with either reference, **pause and flag ❗️ before execution**.
-* [ ] When a command is missing but contextually implied, infer the closest alias from behavior patterns (e.g., “draft a new pattern” → `/draft-pattern`).
+* [ ] When a command is missing but contextually implied, infer the closest alias from behavior patterns (e.g., “draft a new pattern” →
+  `/draft-pattern`).
 * [ ] Always confirm uncertain inferences before major action.
 
 ---
@@ -39,9 +40,9 @@
 * [ ] Writing commands (e.g., `/draft-pattern`, `/refine-tone`, `/draft-episode`) take precedence over reasoning modes if explicitly invoked.
 * [ ] When image generation and writing commands coexist, **run text generation first**, then derive images based on confirmed textual context.
 * [ ] When multiple modes are invoked together, follow order of specificity:
-  1. Explicit writing/image command
-  2. Mode (analysis, creative, meta)
-  3. Operational tone rules
+    1. Explicit writing/image command
+    2. Mode (analysis, creative, meta)
+    3. Operational tone rules
 * [ ] Never execute multiple conflicting content-generation commands without confirmation.
 
 ---

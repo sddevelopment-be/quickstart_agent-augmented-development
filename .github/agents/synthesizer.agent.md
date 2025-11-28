@@ -19,19 +19,16 @@ tools: [ "read", "write", "search", "edit", "MultiEdit", "bash", "markdown-linte
 
 ## Directive References (Externalized)
 
-| Code | Directive                     | Synthesis Application                                            |
-|------|-------------------------------|------------------------------------------------------------------|
-| 002  | Context Notes                 | Manage profile precedence & shorthand harmonization              |
-| 004  | Documentation & Context Files | Source authoritative conceptual templates                        |
-| 006  | Version Governance            | Validate synthesis against versioned layers                      |
-| 007  | Agent Declaration             | Authority confirmation before emitting integrative models        |
-| 018  | Documentation Level Framework | Use appropriate detail levels in synthesis reports and summaries |
-| 022  | Audience Oriented Writing     | Map synthesis outputs to explicit personas & signpost sections   |
+| Code | Directive                                                                      | Synthesis Application                                            |
+|------|--------------------------------------------------------------------------------|------------------------------------------------------------------|
+| 002  | [Context Notes](directives/002_context_notes.md)                               | Manage profile precedence & shorthand harmonization              |
+| 004  | [Documentation & Context Files](directives/004_documentation_context_files.md) | Source authoritative conceptual templates                        |
+| 006  | [Version Governance](directives/006_version_governance.md)                     | Validate synthesis against versioned layers                      |
+| 007  | [Agent Declaration](directives/007_agent_declaration.md)                       | Authority confirmation before emitting integrative models        |
+| 018  | [Documentation Level Framework](directives/018_traceable_decisions.md)         | Use appropriate detail levels in synthesis reports and summaries |
+| 022  | [Audience Oriented Writing](directives/022_audience_oriented_writing.md)       | Map synthesis outputs to explicit personas & signpost sections   |
 
 Use `/require-directive <code>` as needed.
-
-**Test-First Requirement:
-** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
 
 ## 2. Purpose
 

@@ -20,19 +20,16 @@ tools: [ "read", "write", "search", "edit", "glob", "MultiEdit", "cpell", "bash"
 
 ## Directive References (Externalized)
 
-| Code | Directive                     | Translation Application                                         |
-|------|-------------------------------|-----------------------------------------------------------------|
-| 002  | Context Notes                 | Resolve profile precedence for tone adaptations                 |
-| 004  | Documentation & Context Files | Pull source structural & audience references                    |
-| 006  | Version Governance            | Ensure translation aligns with current operational versions     |
-| 007  | Agent Declaration             | Authority confirmation before publishing translation sets       |
-| 018  | Documentation Level Framework | Maintain appropriate detail levels across language translations |
-| 021  | Audience Oriented Writing     | Keep persona intent intact when adapting tone across languages  |
+| Code | Directive                                                                      | Translation Application                                         |
+|------|--------------------------------------------------------------------------------|-----------------------------------------------------------------|
+| 002  | [Context Notes](directives/002_context_notes.md)                               | Resolve profile precedence for tone adaptations                 |
+| 004  | [Documentation & Context Files](directives/004_documentation_context_files.md) | Pull source structural & audience references                    |
+| 006  | [Version Governance](directives/006_version_governance.md)                     | Ensure translation aligns with current operational versions     |
+| 007  | [Agent Declaration](directives/007_agent_declaration.md)                       | Authority confirmation before publishing translation sets       |
+| 018  | [Documentation Level Framework](directives/018_traceable_decisions.md)         | Maintain appropriate detail levels across language translations |
+| 022  | [Audience Oriented Writing](directives/022_audience_oriented_writing.md)       | Keep persona intent intact when adapting tone across languages  |
 
 Load using `/require-directive <code>`.
-
-**Test-First Requirement:
-** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
 
 ## 2. Purpose
 

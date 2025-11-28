@@ -9,13 +9,13 @@ When you need to create a new task that is NOT a delegation (for delegation, use
 1. Create YAML file in `work/collaboration/inbox/`
 2. Name: `YYYY-MM-DDTHHMM-<agent>-<slug>.yaml`
 3. Include required fields:
-   - `id`: Matches filename without extension
-   - `agent`: Target agent name
-   - `status`: Set to `"new"`
-   - `artefacts`: List of files to create/modify
-   - `title`: Human-readable description
-   - `created_at`: ISO 8601 timestamp
-   - `created_by`: Your agent name
+    - `id`: Matches filename without extension
+    - `agent`: Target agent name
+    - `status`: Set to `"new"`
+    - `artefacts`: List of files to create/modify
+    - `title`: Human-readable description
+    - `created_at`: ISO 8601 timestamp
+    - `created_by`: Your agent name
 
 ## Optional Fields
 

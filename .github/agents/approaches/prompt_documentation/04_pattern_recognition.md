@@ -7,6 +7,7 @@ Identifying reusable patterns and anti-patterns from prompt analysis.
 ## Effective Pattern Identification
 
 Look for prompt elements that:
+
 - Reduced interpretation time
 - Eliminated clarification needs
 - Enabled fast execution
@@ -16,6 +17,7 @@ Look for prompt elements that:
 ## Anti-Pattern Identification
 
 Look for prompt elements that:
+
 - Caused confusion or delays
 - Required external file consultation
 - Led to misaligned execution
@@ -27,26 +29,31 @@ Look for prompt elements that:
 ### By Task Type
 
 **Meta-Analysis Prompts**
+
 - Characteristics: Require synthesis, cross-file analysis
 - Effective patterns: Clear scope boundaries, metric definitions
 - Anti-patterns: Vague "review everything" requests
 
 **Implementation Prompts**
+
 - Characteristics: Code/file changes, specific deliverables
 - Effective patterns: Exact file paths, example outputs
 - Anti-patterns: Missing acceptance criteria
 
 **Documentation Prompts**
+
 - Characteristics: Writing, structuring information
 - Effective patterns: Target audience, format examples
 - Anti-patterns: Unclear voice/tone expectations
 
 **Coordination Prompts**
+
 - Characteristics: Multi-agent orchestration, delegation
 - Effective patterns: Clear handoff points, agent capabilities
 - Anti-patterns: Undefined responsibility boundaries
 
 **Review/Audit Prompts**
+
 - Characteristics: Validation, compliance checking
 - Effective patterns: Explicit criteria, pass/fail definitions
 - Anti-patterns: Subjective quality measures
@@ -54,6 +61,7 @@ Look for prompt elements that:
 ### By Effectiveness Level
 
 **High Clarity** (minimal interpretation needed)
+
 - Specific file paths and line numbers
 - Concrete examples of desired output
 - Explicit success criteria with measurements
@@ -61,6 +69,7 @@ Look for prompt elements that:
 - Clear scope boundaries
 
 **Medium Clarity** (some interpretation required)
+
 - General file references
 - Format guidelines without examples
 - Implied success criteria
@@ -68,6 +77,7 @@ Look for prompt elements that:
 - Reasonable scope assumptions
 
 **Low Clarity** (significant interpretation needed)
+
 - Vague references ("the files")
 - No examples or format guidance
 - Missing success criteria
@@ -104,6 +114,7 @@ Look for prompt elements that:
 **Solution:** Define metrics before describing work
 
 **Example:**
+
 ```markdown
 ## Success Metrics
 - Token count: < 1,000 words (50% reduction from current 2,000)
@@ -115,11 +126,13 @@ Refactor the parser module to improve efficiency...
 ```
 
 **Benefits:**
+
 - Clear success definition
 - Objective validation
 - Reduces scope ambiguity
 
 **Cautions:**
+
 - Ensure metrics are measurable
 - Avoid conflicting metrics
 
@@ -130,6 +143,7 @@ Refactor the parser module to improve efficiency...
 **Solution:** Include complete example of desired output
 
 **Example:**
+
 ```markdown
 ## Expected Output Format
 
@@ -142,6 +156,7 @@ task:
 ```
 
 Create task descriptors following this format for...
+
 ```
 
 **Benefits:**
@@ -159,12 +174,14 @@ Update the documentation to be better.
 ```
 
 **Why It Fails:**
+
 - "Documentation" - which files?
 - "Better" - by what measure?
 - No success criteria
 - Unlimited scope
 
 **Better Version:**
+
 ```markdown
 Update `README.md` sections 2-3 to:
 1. Add installation steps for Windows
@@ -175,16 +192,19 @@ Success: Windows users can install without external help
 ### Anti-Pattern: Implicit Prerequisites
 
 **Problem:**
+
 ```markdown
 Run the analysis on the latest data.
 ```
 
 **Why It Fails:**
+
 - "Latest data" - where is it?
 - "Analysis" - which analysis?
 - Assumes knowledge of location/process
 
 **Better Version:**
+
 ```markdown
 Run analysis script `ops/scripts/analyze.py` on data file:
 - Location: `data/metrics/2025-11-27-metrics.json`
@@ -221,6 +241,7 @@ Prerequisites: Python 3.11+, pandas installed
 ## Integration with SWOT
 
 Link patterns to SWOT findings:
+
 - **Strengths** → Effective patterns to preserve
 - **Weaknesses** → Anti-patterns to avoid
 - **Opportunities** → Pattern improvements to apply

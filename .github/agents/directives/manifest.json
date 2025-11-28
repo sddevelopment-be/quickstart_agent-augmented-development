@@ -3,269 +3,316 @@
   "generated_at": "2025-11-28T12:45:00Z",
   "description": "Manifest of externalized agent directives for agent-augmented development",
   "directives": [
-    {
-      "code": "001",
-      "slug": "cli_shell_tooling",
-      "title": "CLI & Shell Tooling",
-      "file": "001_cli_shell_tooling.md",
-      "purpose": "Detailed tool usage rubric (fd/rg/ast-grep/jq/yq/fzf)",
-      "dependencies": [],
-      "requiredInAgents": false,
-      "safetyCritical": true,
-      "directive_version": "1.0.0",
-      "status": "active"
-    },
-    {
-      "code": "002",
-      "slug": "context_notes",
-      "title": "Context Notes",
-      "file": "002_context_notes.md",
-      "purpose": "Specialized profile precedence & shorthand caution",
-      "dependencies": [],
-      "requiredInAgents": false,
-      "safetyCritical": true,
-      "directive_version": "1.0.0",
-      "status": "active"
-    },
-    {
-      "code": "003",
-      "slug": "repository_quick_reference",
-      "title": "Repository Quick Reference",
-      "file": "003_repository_quick_reference.md",
-      "purpose": "Directory roles & Hugo version requirement",
-      "dependencies": ["002"],
-      "requiredInAgents": false,
-      "safetyCritical": true,
-      "directive_version": "1.0.0",
-      "status": "active"
-    },
-    {
-      "code": "004",
-      "slug": "documentation_context_files",
-      "title": "Documentation & Context Files",
-      "file": "004_documentation_context_files.md",
-      "purpose": "Canonical structural & workflow references",
-      "dependencies": ["003"],
-      "requiredInAgents": false,
-      "safetyCritical": true,
-      "directive_version": "1.0.0",
-      "status": "active"
-    },
-    {
-      "code": "005",
-      "slug": "agent_profiles",
-      "title": "Agent Profiles",
-      "file": "005_agent_profiles.md",
-      "purpose": "Role specialization catalog",
-      "dependencies": [],
-      "requiredInAgents": false,
-      "safetyCritical": false,
-      "directive_version": "1.0.0",
-      "status": "active"
-    },
-    {
-      "code": "006",
-      "slug": "version_governance",
-      "title": "Version Governance",
-      "file": "006_version_governance.md",
-      "purpose": "Versioned layer table & update rules",
-      "dependencies": [],
-      "requiredInAgents": true,
-      "safetyCritical": true,
-      "directive_version": "1.0.0",
-      "status": "active"
-    },
-    {
-      "code": "007",
-      "slug": "agent_declaration",
-      "title": "Agent Declaration",
-      "file": "007_agent_declaration.md",
-      "purpose": "Mandatory operational authority affirmation",
-      "dependencies": ["006"],
-      "requiredInAgents": true,
-      "safetyCritical": true,
-      "directive_version": "1.0.0",
-      "status": "active"
-    },
-    {
-      "code": "008",
-      "slug": "artifact_templates",
-      "title": "Artifact Templates",
-      "file": "008_artifact_templates.md",
-      "purpose": "Template locations & usage rules",
-      "dependencies": ["004"],
-      "requiredInAgents": false,
-      "safetyCritical": false,
-      "directive_version": "1.0.0",
-      "status": "active"
-    },
-    {
-      "code": "009",
-      "slug": "role_capabilities",
-      "title": "Role Capabilities",
-      "file": "009_role_capabilities.md",
-      "purpose": "Allowed operational verbs & conflict prevention",
-      "dependencies": ["005", "002"],
-      "requiredInAgents": false,
-      "safetyCritical": true,
-      "directive_version": "1.0.0",
-      "status": "active"
-    },
-    {
-      "code": "010",
-      "slug": "mode_protocol",
-      "title": "Mode Protocol",
-      "file": "010_mode_protocol.md",
-      "purpose": "Standardized mode transitions & misuse indicators",
-      "dependencies": ["006"],
-      "requiredInAgents": false,
-      "safetyCritical": true,
-      "directive_version": "1.0.0",
-      "status": "active"
-    },
-    {
-      "code": "011",
-      "slug": "risk_escalation",
-      "title": "Risk & Escalation",
-      "file": "011_risk_escalation.md",
-      "purpose": "Markers, triggers, remediation procedure",
-      "dependencies": ["010", "006"],
-      "requiredInAgents": false,
-      "safetyCritical": true,
-      "directive_version": "1.0.0",
-      "status": "active"
-    },
-    {
-      "code": "012",
-      "slug": "common_operating_procedures",
-      "title": "Common Operating Procedures",
-      "file": "012_operating_procedures.md",
-      "purpose": "Centralized behavioral norms (redundant for safety)",
-      "dependencies": ["010", "011"],
-      "requiredInAgents": true,
-      "safetyCritical": true,
-      "directive_version": "1.0.0",
-      "status": "active"
-    },
-    {
-      "code": "013",
-      "slug": "tooling_setup",
-      "title": "Tooling Setup & Fallbacks",
-      "file": "013_tooling_setup.md",
-      "purpose": "Installation commands, version requirements, and fallback strategies for core tools",
-      "dependencies": ["001"],
-      "requiredInAgents": false,
-      "safetyCritical": false,
-      "directive_version": "1.0.0",
-      "status": "active"
-    },
-    {
-      "code": "014",
-      "slug": "worklog_creation",
-      "title": "Work Log Creation",
-      "file": "014_worklog_creation.md",
-      "purpose": "Standards for creating work logs documenting agent execution for framework tuning",
-      "dependencies": ["008", "012"],
-      "requiredInAgents": false,
-      "safetyCritical": false,
-      "directive_version": "1.0.0",
-      "status": "active"
-    },
-    {
-      "code": "015",
-      "slug": "store_prompts",
-      "title": "Store Prompts",
-      "file": "015_store_prompts.md",
-      "purpose": "Optional practice for documenting original task prompts with SWOT analysis to improve prompt quality",
-      "dependencies": ["014"],
-      "requiredInAgents": false,
-      "safetyCritical": false,
-      "directive_version": "1.1.0",
-      "status": "active"
-    },
-    {
-      "code": "016",
-      "slug": "acceptance_test_driven_development",
-      "title": "Acceptance Test Driven Development",
-      "file": "016_acceptance_test_driven_development.md",
-      "purpose": "ATDD workflow and acceptance test requirements (ADR-012)",
-      "dependencies": ["012"],
-      "requiredInAgents": false,
-      "safetyCritical": true,
-      "directive_version": "1.0.0",
-      "status": "active"
-    },
-    {
-      "code": "017",
-      "slug": "test_driven_development",
-      "title": "Test Driven Development",
-      "file": "017_test_driven_development.md",
-      "purpose": "TDD workflow and unit test requirements (ADR-012)",
-      "dependencies": ["016"],
-      "requiredInAgents": false,
-      "safetyCritical": true,
-      "directive_version": "1.0.0",
-      "status": "active"
-    },
-    {
-      "code": "018",
-      "slug": "traceable_decisions",
-      "title": "Traceable Decisions",
-      "file": "018_traceable_decisions.md",
-      "purpose": "Decision capture protocols and traceability (ADR-017)",
-      "dependencies": ["004", "008"],
-      "requiredInAgents": false,
-      "safetyCritical": false,
-      "directive_version": "1.0.0",
-      "status": "active"
-    },
-    {
-      "code": "019",
-      "slug": "file_based_collaboration",
-      "title": "File-Based Collaboration",
-      "file": "019_file_based_collaboration.md",
-      "purpose": "Multi-agent orchestration through file-based task workflows",
-      "dependencies": ["012", "014", "009"],
-      "requiredInAgents": false,
-      "safetyCritical": false,
-      "directive_version": "1.0.0",
-      "status": "active"
-    },
-    {
-      "code": "020",
-      "slug": "lenient_adherence",
-      "title": "Lenient Adherence",
-      "file": "020_lenient_adherence.md",
-      "purpose": "Defines five leniency levels (0–4) for template compliance",
-      "dependencies": ["004", "008"],
-      "requiredInAgents": false,
-      "safetyCritical": false,
-      "directive_version": "1.0.0",
-      "status": "active"
-    },
+	{
+	  "code": "001",
+	  "slug": "cli_shell_tooling",
+	  "title": "CLI & Shell Tooling",
+	  "file": "001_cli_shell_tooling.md",
+	  "purpose": "Detailed tool usage rubric (fd/rg/ast-grep/jq/yq/fzf)",
+	  "dependencies": [],
+	  "requiredInAgents": false,
+	  "safetyCritical": true,
+	  "directive_version": "1.0.0",
+	  "status": "active"
+	},
+	{
+	  "code": "002",
+	  "slug": "context_notes",
+	  "title": "Context Notes",
+	  "file": "002_context_notes.md",
+	  "purpose": "Specialized profile precedence & shorthand caution",
+	  "dependencies": [],
+	  "requiredInAgents": false,
+	  "safetyCritical": true,
+	  "directive_version": "1.0.0",
+	  "status": "active"
+	},
+	{
+	  "code": "003",
+	  "slug": "repository_quick_reference",
+	  "title": "Repository Quick Reference",
+	  "file": "003_repository_quick_reference.md",
+	  "purpose": "Directory roles & Hugo version requirement",
+	  "dependencies": [
+		"002"
+	  ],
+	  "requiredInAgents": false,
+	  "safetyCritical": true,
+	  "directive_version": "1.0.0",
+	  "status": "active"
+	},
+	{
+	  "code": "004",
+	  "slug": "documentation_context_files",
+	  "title": "Documentation & Context Files",
+	  "file": "004_documentation_context_files.md",
+	  "purpose": "Canonical structural & workflow references",
+	  "dependencies": [
+		"003"
+	  ],
+	  "requiredInAgents": false,
+	  "safetyCritical": true,
+	  "directive_version": "1.0.0",
+	  "status": "active"
+	},
+	{
+	  "code": "005",
+	  "slug": "agent_profiles",
+	  "title": "Agent Profiles",
+	  "file": "005_agent_profiles.md",
+	  "purpose": "Role specialization catalog",
+	  "dependencies": [],
+	  "requiredInAgents": false,
+	  "safetyCritical": false,
+	  "directive_version": "1.0.0",
+	  "status": "active"
+	},
+	{
+	  "code": "006",
+	  "slug": "version_governance",
+	  "title": "Version Governance",
+	  "file": "006_version_governance.md",
+	  "purpose": "Versioned layer table & update rules",
+	  "dependencies": [],
+	  "requiredInAgents": true,
+	  "safetyCritical": true,
+	  "directive_version": "1.0.0",
+	  "status": "active"
+	},
+	{
+	  "code": "007",
+	  "slug": "agent_declaration",
+	  "title": "Agent Declaration",
+	  "file": "007_agent_declaration.md",
+	  "purpose": "Mandatory operational authority affirmation",
+	  "dependencies": [
+		"006"
+	  ],
+	  "requiredInAgents": true,
+	  "safetyCritical": true,
+	  "directive_version": "1.0.0",
+	  "status": "active"
+	},
+	{
+	  "code": "008",
+	  "slug": "artifact_templates",
+	  "title": "Artifact Templates",
+	  "file": "008_artifact_templates.md",
+	  "purpose": "Template locations & usage rules",
+	  "dependencies": [
+		"004"
+	  ],
+	  "requiredInAgents": false,
+	  "safetyCritical": false,
+	  "directive_version": "1.0.0",
+	  "status": "active"
+	},
+	{
+	  "code": "009",
+	  "slug": "role_capabilities",
+	  "title": "Role Capabilities",
+	  "file": "009_role_capabilities.md",
+	  "purpose": "Allowed operational verbs & conflict prevention",
+	  "dependencies": [
+		"005",
+		"002"
+	  ],
+	  "requiredInAgents": false,
+	  "safetyCritical": true,
+	  "directive_version": "1.0.0",
+	  "status": "active"
+	},
+	{
+	  "code": "010",
+	  "slug": "mode_protocol",
+	  "title": "Mode Protocol",
+	  "file": "010_mode_protocol.md",
+	  "purpose": "Standardized mode transitions & misuse indicators",
+	  "dependencies": [
+		"006"
+	  ],
+	  "requiredInAgents": false,
+	  "safetyCritical": true,
+	  "directive_version": "1.0.0",
+	  "status": "active"
+	},
+	{
+	  "code": "011",
+	  "slug": "risk_escalation",
+	  "title": "Risk & Escalation",
+	  "file": "011_risk_escalation.md",
+	  "purpose": "Markers, triggers, remediation procedure",
+	  "dependencies": [
+		"010",
+		"006"
+	  ],
+	  "requiredInAgents": false,
+	  "safetyCritical": true,
+	  "directive_version": "1.0.0",
+	  "status": "active"
+	},
+	{
+	  "code": "012",
+	  "slug": "common_operating_procedures",
+	  "title": "Common Operating Procedures",
+	  "file": "012_operating_procedures.md",
+	  "purpose": "Centralized behavioral norms (redundant for safety)",
+	  "dependencies": [
+		"010",
+		"011"
+	  ],
+	  "requiredInAgents": true,
+	  "safetyCritical": true,
+	  "directive_version": "1.0.0",
+	  "status": "active"
+	},
+	{
+	  "code": "013",
+	  "slug": "tooling_setup",
+	  "title": "Tooling Setup & Fallbacks",
+	  "file": "013_tooling_setup.md",
+	  "purpose": "Installation commands, version requirements, and fallback strategies for core tools",
+	  "dependencies": [
+		"001"
+	  ],
+	  "requiredInAgents": false,
+	  "safetyCritical": false,
+	  "directive_version": "1.0.0",
+	  "status": "active"
+	},
+	{
+	  "code": "014",
+	  "slug": "worklog_creation",
+	  "title": "Work Log Creation",
+	  "file": "014_worklog_creation.md",
+	  "purpose": "Standards for creating work logs documenting agent execution for framework tuning",
+	  "dependencies": [
+		"008",
+		"012"
+	  ],
+	  "requiredInAgents": false,
+	  "safetyCritical": false,
+	  "directive_version": "1.0.0",
+	  "status": "active"
+	},
+	{
+	  "code": "015",
+	  "slug": "store_prompts",
+	  "title": "Store Prompts",
+	  "file": "015_store_prompts.md",
+	  "purpose": "Optional practice for documenting original task prompts with SWOT analysis to improve prompt quality",
+	  "dependencies": [
+		"014"
+	  ],
+	  "requiredInAgents": false,
+	  "safetyCritical": false,
+	  "directive_version": "1.1.0",
+	  "status": "active"
+	},
+	{
+	  "code": "016",
+	  "slug": "acceptance_test_driven_development",
+	  "title": "Acceptance Test Driven Development",
+	  "file": "016_acceptance_test_driven_development.md",
+	  "purpose": "ATDD workflow and acceptance test requirements (ADR-012)",
+	  "dependencies": [
+		"012"
+	  ],
+	  "requiredInAgents": false,
+	  "safetyCritical": true,
+	  "directive_version": "1.0.0",
+	  "status": "active"
+	},
+	{
+	  "code": "017",
+	  "slug": "test_driven_development",
+	  "title": "Test Driven Development",
+	  "file": "017_test_driven_development.md",
+	  "purpose": "TDD workflow and unit test requirements (ADR-012)",
+	  "dependencies": [
+		"016"
+	  ],
+	  "requiredInAgents": false,
+	  "safetyCritical": true,
+	  "directive_version": "1.0.0",
+	  "status": "active"
+	},
+	{
+	  "code": "018",
+	  "slug": "traceable_decisions",
+	  "title": "Traceable Decisions",
+	  "file": "018_traceable_decisions.md",
+	  "purpose": "Decision capture protocols and traceability (ADR-017)",
+	  "dependencies": [
+		"004",
+		"008"
+	  ],
+	  "requiredInAgents": false,
+	  "safetyCritical": false,
+	  "directive_version": "1.0.0",
+	  "status": "active"
+	},
+	{
+	  "code": "019",
+	  "slug": "file_based_collaboration",
+	  "title": "File-Based Collaboration",
+	  "file": "019_file_based_collaboration.md",
+	  "purpose": "Multi-agent orchestration through file-based task workflows",
+	  "dependencies": [
+		"012",
+		"014",
+		"009"
+	  ],
+	  "requiredInAgents": false,
+	  "safetyCritical": false,
+	  "directive_version": "1.0.0",
+	  "status": "active"
+	},
+	{
+	  "code": "020",
+	  "slug": "lenient_adherence",
+	  "title": "Lenient Adherence",
+	  "file": "020_lenient_adherence.md",
+	  "purpose": "Defines five leniency levels (0–4) for template compliance",
+	  "dependencies": [
+		"004",
+		"008"
+	  ],
+	  "requiredInAgents": false,
+	  "safetyCritical": false,
+	  "directive_version": "1.0.0",
+	  "status": "active"
+	},
 	{
 	  "code": "021",
 	  "slug": "locality_of_change",
 	  "title": "Locality of Change",
 	  "file": "021_locality_of_change.md",
 	  "purpose": "Problem severity measurement and premature optimization avoidance",
-	  "dependencies": ["011", "012", "014"],
+	  "dependencies": [
+		"011",
+		"012",
+		"014"
+	  ],
 	  "requiredInAgents": false,
 	  "safetyCritical": true,
 	  "directive_version": "1.0.0",
 	  "status": "active"
 	},
-    {
-      "code": "022",
-      "slug": "audience_oriented_writing",
-      "title": "Audience Oriented Writing",
-      "file": "022_audience_oriented_writing.md",
-      "purpose": "Ensure all written artifacts target the correct personas using the Target-Audience Fit approach",
-      "dependencies": ["002", "004"],
-      "requiredInAgents": false,
-      "safetyCritical": false,
-      "directive_version": "1.0.0",
-      "status": "active"
-    }
+	{
+	  "code": "022",
+	  "slug": "audience_oriented_writing",
+	  "title": "Audience Oriented Writing",
+	  "file": "022_audience_oriented_writing.md",
+	  "purpose": "Ensure all written artifacts target the correct personas using the Target-Audience Fit approach",
+	  "dependencies": [
+		"002",
+		"004"
+	  ],
+	  "requiredInAgents": false,
+	  "safetyCritical": false,
+	  "directive_version": "1.0.0",
+	  "status": "active"
+	}
   ]
 }

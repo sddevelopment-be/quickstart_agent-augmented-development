@@ -1,4 +1,5 @@
 <!-- The following information is to be interpreted literally -->
+
 # 013 Tooling Setup & Fallbacks
 
 > **Purpose:** Installation commands, version requirements, and fallback strategies for core development tools
@@ -9,14 +10,14 @@ This directive documents installation, versioning, and fallback strategies for t
 
 ### Tool Inventory
 
-| Tool | Purpose | Minimum Version | Fallback |
-|------|---------|-----------------|----------|
-| `fd` | Fast file discovery | 8.0+ | `find` |
-| `rg` (ripgrep) | Fast content search | 13.0+ | `grep -r` |
-| `ast-grep` | AST-based code search | 0.5+ | Manual parsing with grep/sed |
-| `jq` | JSON parsing/querying | 1.6+ | Manual JSON parsing (Python/Node) |
-| `yq` | YAML parsing/querying | 4.0+ | Manual YAML parsing (Python) |
-| `fzf` | Interactive fuzzy finder | 0.30+ | Manual file selection |
+| Tool           | Purpose                  | Minimum Version | Fallback                          |
+|----------------|--------------------------|-----------------|-----------------------------------|
+| `fd`           | Fast file discovery      | 8.0+            | `find`                            |
+| `rg` (ripgrep) | Fast content search      | 13.0+           | `grep -r`                         |
+| `ast-grep`     | AST-based code search    | 0.5+            | Manual parsing with grep/sed      |
+| `jq`           | JSON parsing/querying    | 1.6+            | Manual JSON parsing (Python/Node) |
+| `yq`           | YAML parsing/querying    | 4.0+            | Manual YAML parsing (Python)      |
+| `fzf`          | Interactive fuzzy finder | 0.30+           | Manual file selection             |
 
 ## 2. Installation
 

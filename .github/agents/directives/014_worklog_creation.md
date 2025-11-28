@@ -1,4 +1,5 @@
 <!-- The following information is to be interpreted literally -->
+
 # 014 Work Log Creation Directive
 
 **Purpose:** Define standards for creating work logs that document agent execution for agentic framework tuning and continuous improvement.
@@ -8,6 +9,7 @@
 ## 1. When to Create a Work Log
 
 Agents MUST create a work log when:
+
 - Completing a task from the file-based [orchestration](../GLOSSARY.md#orchestration) system (`work/collaboration/assigned/`)
 - Performing multi-step coordination with other agents
 - Encountering novel or ambiguous situations requiring creative problem-solving
@@ -15,6 +17,7 @@ Agents MUST create a work log when:
 - Requested explicitly by human stakeholders
 
 Agents MAY create work logs for:
+
 - Complex refactoring or structural changes
 - Tasks requiring significant research or exploration
 - Experimental approaches that may inform future agent design
@@ -22,11 +25,13 @@ Agents MAY create work logs for:
 ## 2. Work Log Location
 
 All work logs MUST be stored in:
+
 ```
 work/reports/logs/<agent-name>/YYYY-MM-DDTHHMM-<description>.md
 ```
 
 **Naming Convention:**
+
 - `<agent-name>`: Agent subdirectory (lowercase, hyphenated)
 - `YYYY-MM-DD`: Date in ISO 8601 format
 - `THHMM`: Time in 24-hour format
@@ -128,18 +133,21 @@ Reflections for framework improvement:
 ## 4. Work Log Content Guidelines
 
 ### Tone & Style
+
 - Technical but accessible
 - Concise yet comprehensive
 - First-person perspective ("I did X because Y")
 - Chronological narrative flow
 
 ### Required Detail Level
+
 - **Context:** Sufficient for another agent to understand the starting point
 - **Approach:** Enough detail to reproduce the reasoning process
 - **Execution:** Specific commands, file paths, and decision points
 - **Lessons:** Actionable insights, not generic observations
 
 ### Transparency Standards
+
 - State assumptions explicitly
 - Mark uncertainties with ⚠️
 - Indicate where guidance was unclear
@@ -148,12 +156,14 @@ Reflections for framework improvement:
 ## 5. Work Log vs Task Result
 
 **Task Result** (in task YAML):
+
 - Brief summary (1-2 sentences)
 - Artifact list
 - Handoff details
 - Completion timestamp
 
 **Work Log** (in markdown):
+
 - Detailed narrative
 - Reasoning process
 - Step-by-step execution
@@ -164,6 +174,7 @@ Both are required for orchestrated tasks; they serve different purposes.
 ## 6. Usage for Framework Tuning
 
 Work logs enable:
+
 - **Pattern Recognition:** Identify common agent behaviors and workflows
 - **Directive Refinement:** Detect gaps or ambiguities in current directives
 - **Agent Profile Tuning:** Improve specialization boundaries and capabilities
@@ -171,6 +182,7 @@ Work logs enable:
 - **Training Data:** Generate examples for agent onboarding and testing
 
 Human reviewers should:
+
 - Read work logs to understand agent reasoning
 - Compare approach against stated directives
 - Identify areas where additional guidance would help
@@ -179,6 +191,7 @@ Human reviewers should:
 ## 7. Validation
 
 Work logs MUST:
+
 - Include all required sections
 - Follow naming convention
 - Reference specific directives used
@@ -188,6 +201,7 @@ Work logs MUST:
 - Be committed to Git alongside task completion
 
 Work logs SHOULD:
+
 - Be written immediately after task completion
 - Include timestamps for major decision points
 - Cross-reference related artifacts
@@ -204,8 +218,8 @@ When completing an orchestrated task:
 1. Update task YAML with `result` block (brief summary)
 2. Create detailed work log in `work/logs/`
 3. Move task to `work/done/<agent-slug>/`
-   - **Important:** Tasks must be moved to the agent-specific subdirectory under `work/done/`, not directly to `work/done/` root
-   - Example: A curator task goes to `work/done/curator/`, not `work/done/`
+    - **Important:** Tasks must be moved to the agent-specific subdirectory under `work/done/`, not directly to `work/done/` root
+    - Example: A curator task goes to `work/done/curator/`, not `work/done/`
 4. Create handoff task (if applicable)
 5. Commit all changes together
 
@@ -221,6 +235,7 @@ The work log is part of task completion, not an optional add-on.
 ## 11. Non-Compliance
 
 If an agent completes an orchestrated task without creating a work log:
+
 - Human reviewers should request one retroactively
 - Manager agent may create a follow-up task for log generation
 - Repeated omissions indicate need for agent profile refinement

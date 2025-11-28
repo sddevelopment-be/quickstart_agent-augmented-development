@@ -9,26 +9,31 @@ Analyzing prompt effectiveness for documentation.
 Focus on what made the prompt effective:
 
 **Clarity**
+
 - Unambiguous language
 - Specific references
 - Clear terminology
 
 **Completeness**
+
 - All necessary information provided
 - No missing prerequisites
 - Comprehensive context
 
 **Structure**
+
 - Logical organization
 - Clear flow
 - Appropriate hierarchy
 
 **Context**
+
 - Situational awareness
 - Relevant background
 - Appropriate scope
 
 **Actionability**
+
 - Clear steps
 - Expected outcomes defined
 - Success criteria stated
@@ -38,26 +43,31 @@ Focus on what made the prompt effective:
 Identify gaps or confusion areas:
 
 **Ambiguity**
+
 - Terms requiring interpretation
 - Unclear concepts
 - Vague references
 
 **Missing Information**
+
 - Gaps in requirements
 - Incomplete context
 - Unstated prerequisites
 
 **Complexity**
+
 - Unnecessarily complicated
 - Over-engineered structure
 - Cognitive overload
 
 **Redundancy**
+
 - Duplicated information
 - Conflicting statements
 - Inconsistent guidance
 
 **Assumptions**
+
 - Unstated expectations
 - Hidden prerequisites
 - Implicit knowledge required
@@ -67,30 +77,35 @@ Identify gaps or confusion areas:
 Suggest concrete improvements:
 
 **Enhance Clarity**
+
 - Add definitions
 - Include examples
 - Provide specifications
 - Use precise terminology
 
 **Improve Structure**
+
 - Reorganize sections
 - Add visual hierarchy
 - Create logical flow
 - Use formatting effectively
 
 **Add Context**
+
 - Include rationale
 - Explain importance
 - Link to related work
 - Provide background
 
 **Specify Metrics**
+
 - Define success criteria
 - Add measurable outcomes
 - Include validation steps
 - State quality thresholds
 
 **Provide Examples**
+
 - Show desired output format
 - Include reference samples
 - Demonstrate expected results
@@ -101,30 +116,35 @@ Suggest concrete improvements:
 Highlight risks in current pattern:
 
 **Misinterpretation**
+
 - Where agent might misunderstand
 - Ambiguous phrasing risks
 - Multiple valid interpretations
 - Context-dependent meaning
 
 **Scope Creep**
+
 - Vague boundaries
 - Over-delivery potential
 - Undefined stopping points
 - Expandable requirements
 
 **Context Overload**
+
 - Too much information
 - Reduced focus
 - Analysis paralysis
 - Cognitive burden
 
 **Conflicting Guidance**
+
 - Contradictory requirements
 - Competing priorities
 - Unclear precedence
 - Incompatible constraints
 
 **Dependency Gaps**
+
 - Missing prerequisite info
 - Undefined inputs
 - Unclear handoff points

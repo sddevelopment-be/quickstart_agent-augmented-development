@@ -19,15 +19,15 @@ tools: [ "read", "write", "search", "edit", "Bash", "Grep", "github", "todo" ]
 
 ## Directive References (Externalized)
 
-| Code | Directive                     | Bootstrap Use                                    |
-|------|-------------------------------|--------------------------------------------------|
-| 001  | CLI & Shell Tooling           | Efficient file & text enumeration during mapping |
-| 002  | Context Notes                 | Resolve shorthand/precedence when interpreting mixed agent guidance |
-| 003  | Repository Quick Reference    | Baseline directory roles for REPO_MAP output     |
-| 004  | Documentation & Context Files | Ensure SURFACES/WORKFLOWS reuse existing docs    |
-| 006  | Version Governance            | Capture version tags in bootstrap outputs        |
-| 007  | Agent Declaration             | Validate authority before generating scaffolds   |
-| 018  | Documentation Level Framework | Create setup documentation at appropriate detail for new users |
+| Code | Directive                                                                      | Bootstrap Use                                                       |
+|------|--------------------------------------------------------------------------------|---------------------------------------------------------------------|
+| 001  | [CLI & Shell Tooling](directives/001_cli_shell_tooling.md)                     | Efficient file & text enumeration during mapping                    |
+| 002  | [Context Notes](directives/002_context_notes.md)                               | Resolve shorthand/precedence when interpreting mixed agent guidance |
+| 003  | [Repository Quick Reference](directives/003_repository_quick_reference.md)     | Baseline directory roles for REPO_MAP output                        |
+| 004  | [Documentation & Context Files](directives/004_documentation_context_files.md) | Ensure SURFACES/WORKFLOWS reuse existing docs                       |
+| 006  | [Version Governance](directives/006_version_governance.md)                     | Capture version tags in bootstrap outputs                           |
+| 007  | [Agent Declaration](directives/007_agent_declaration.md)                       | Validate authority before generating scaffolds                      |
+| 018  | [Documentation Level Framework](directives/018_traceable_decisions.md)         | Create setup documentation at appropriate detail for new users      |
 
 Invoke: `/require-directive <code>` when detail needed.
 

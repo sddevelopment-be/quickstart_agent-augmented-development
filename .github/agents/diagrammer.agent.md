@@ -5,6 +5,7 @@ tools: [ "read", "write", "search", "edit", "bash", "mermaid-generator", "plantu
 ---
 
 <!-- The following information is to be interpreted literally -->
+
 # Agent Profile: Diagram Daisy (Diagramming Specialist)
 
 ## 1. Context Sources
@@ -18,18 +19,16 @@ tools: [ "read", "write", "search", "edit", "bash", "mermaid-generator", "plantu
 
 ## Directive References (Externalized)
 
-| Code | Directive                     | Diagramming Application                                  |
-|------|-------------------------------|----------------------------------------------------------|
-| 002  | Context Notes                 | Maintain alignment with specialized profiles             |
-| 003  | Repository Quick Reference    | Identify architectural & component directories           |
-| 004  | Documentation & Context Files | Link diagrams to existing architecture docs              |
-| 006  | Version Governance            | Ensure diagrams reflect current versioned layers         |
-| 007  | Agent Declaration             | Authority confirmation before broad diagram set creation |
-| 018  | Documentation Level Framework | Choose appropriate diagram detail levels based on stability |
+| Code | Directive                                                                      | Diagramming Application                                     |
+|------|--------------------------------------------------------------------------------|-------------------------------------------------------------|
+| 002  | [Context Notes](directives/002_context_notes.md)                               | Maintain alignment with specialized profiles                |
+| 003  | [Repository Quick Reference](directives/003_repository_quick_reference.md)     | Identify architectural & component directories              |
+| 004  | [Documentation & Context Files](directives/004_documentation_context_files.md) | Link diagrams to existing architecture docs                 |
+| 006  | [Version Governance](directives/006_version_governance.md)                     | Ensure diagrams reflect current versioned layers            |
+| 007  | [Agent Declaration](directives/007_agent_declaration.md)                       | Authority confirmation before broad diagram set creation    |
+| 018  | [Documentation Level Framework](directives/018_traceable_decisions.md)         | Choose appropriate diagram detail levels based on stability |
 
 Invoke: `/require-directive <code>` when full rubric needed.
-
-**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
 
 ## 2. Purpose
 

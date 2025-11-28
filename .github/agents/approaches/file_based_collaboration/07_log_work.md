@@ -7,6 +7,7 @@ After completing any task (successful or failed).
 ## Log Location
 
 Create execution logs in:
+
 ```
 work/reports/logs/<your-agent-name>/YYYY-MM-DDTHHMM-<description>.md
 ```
@@ -14,6 +15,7 @@ work/reports/logs/<your-agent-name>/YYYY-MM-DDTHHMM-<description>.md
 ## Log Contents
 
 Document:
+
 - Task processing decisions
 - Work performed
 - Reasoning and trade-offs

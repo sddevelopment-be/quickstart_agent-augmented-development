@@ -8,7 +8,8 @@ _Format: Markdown protocol for agent initialization and governance_
 
 These guidelines apply to all agents in this repository.
 
-> For runtime brevity, reference `guidelines/runtime_sheet.md` and link back here instead of pasting full sections into prompts unless the task is high-stakes.
+> For runtime brevity, reference
+`guidelines/runtime_sheet.md` and link back here instead of pasting full sections into prompts unless the task is high-stakes.
 
 ## Behaviour
 

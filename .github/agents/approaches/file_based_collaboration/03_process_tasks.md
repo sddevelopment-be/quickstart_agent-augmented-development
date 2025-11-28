@@ -11,12 +11,12 @@ When actively working on an assigned task.
 3. **Perform specialized work** according to task description and artifacts
 4. **Create/modify artifacts** listed in the `artefacts` field
 5. **Add result block** with:
-   - `summary`: Brief description of work completed
-   - `artefacts`: List of files created/modified
-   - `next_agent` (optional): If delegating follow-up work
-   - `next_task_title` (optional): Description of follow-up
-   - `next_artefacts` (optional): Files for next agent
-   - `next_task_notes` (optional): Context for next agent
+    - `summary`: Brief description of work completed
+    - `artefacts`: List of files created/modified
+    - `next_agent` (optional): If delegating follow-up work
+    - `next_task_title` (optional): Description of follow-up
+    - `next_artefacts` (optional): Files for next agent
+    - `next_task_notes` (optional): Context for next agent
 6. **Update status** to `done` and set `completed_at` timestamp
 7. **Move task file** to `work/collaboration/done/<your-agent-name>/`
 

@@ -1,4 +1,5 @@
 <!-- The following information is to be interpreted literally -->
+
 # 005 Agent Profiles Directive
 
 **Purpose:** Define structure and usage patterns for specialized agent configurations.
@@ -8,6 +9,7 @@
 Location: `.github/agents/*.agent.md`
 
 Role Specializations (examples):
+
 - curator
 - researcher
 - diagrammer
@@ -23,5 +25,6 @@ Role Specializations (examples):
 
 Usage: Load relevant profile AFTER core alignment if task domain-specific competency is required.
 
-**Related Terms:** [Specialization](../GLOSSARY.md#specialization), [Collaboration Contract](../GLOSSARY.md#collaboration-contract), [Context Layer](../GLOSSARY.md#context-layer)
+**Related Terms:
+** [Specialization](../GLOSSARY.md#specialization), [Collaboration Contract](../GLOSSARY.md#collaboration-contract), [Context Layer](../GLOSSARY.md#context-layer)
 

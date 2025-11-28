@@ -18,15 +18,15 @@ new → assigned → in_progress → done → archive
 
 When working within the file-based orchestration system, load only the step relevant to your current phase:
 
-| Step | File | When to Load |
-|------|------|--------------|
-| 1. Check for Work | [01_check_assigned_work.md](01_check_assigned_work.md) | Upon initialization or awaiting direction |
-| 2. Prioritize Tasks | [02_prioritize_tasks.md](02_prioritize_tasks.md) | When multiple tasks are assigned |
-| 3. Process Tasks | [03_process_tasks.md](03_process_tasks.md) | Actively working on a task |
-| 4. Delegate Work | [04_delegate_work.md](04_delegate_work.md) | Encountering out-of-scope work |
-| 5. Create Tasks | [05_create_tasks.md](05_create_tasks.md) | Need to create new tasks (not delegation) |
-| 6. Handle Errors | [06_error_handling.md](06_error_handling.md) | Task cannot be completed |
-| 7. Log Work | [07_log_work.md](07_log_work.md) | After completing any task |
+| Step                | File                                                   | When to Load                              |
+|---------------------|--------------------------------------------------------|-------------------------------------------|
+| 1. Check for Work   | [01_check_assigned_work.md](01_check_assigned_work.md) | Upon initialization or awaiting direction |
+| 2. Prioritize Tasks | [02_prioritize_tasks.md](02_prioritize_tasks.md)       | When multiple tasks are assigned          |
+| 3. Process Tasks    | [03_process_tasks.md](03_process_tasks.md)             | Actively working on a task                |
+| 4. Delegate Work    | [04_delegate_work.md](04_delegate_work.md)             | Encountering out-of-scope work            |
+| 5. Create Tasks     | [05_create_tasks.md](05_create_tasks.md)               | Need to create new tasks (not delegation) |
+| 6. Handle Errors    | [06_error_handling.md](06_error_handling.md)           | Task cannot be completed                  |
+| 7. Log Work         | [07_log_work.md](07_log_work.md)                       | After completing any task                 |
 
 ## Automation Scripts
 

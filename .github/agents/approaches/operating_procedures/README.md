@@ -12,13 +12,14 @@ Reference **Directive 012** for the canonical list of core behaviors that all ag
 
 Load the following for detailed context on framework design decisions:
 
-| Topic | File | When to Load |
-|-------|------|--------------|
+| Topic                | File                                                     | When to Load                                    |
+|----------------------|----------------------------------------------------------|-------------------------------------------------|
 | Redundancy Rationale | [01_redundancy_rationale.md](01_redundancy_rationale.md) | Understanding why behavioral norms are repeated |
 
 ## Purpose
 
 This approach complements Directive 012 by providing:
+
 - Design rationale for repetitive behavioral norms
 - Justification for token cost vs. safety tradeoffs
 - Context for framework maintainers and reviewers

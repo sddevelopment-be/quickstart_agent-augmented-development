@@ -8,6 +8,7 @@
 ## Overview
 
 Instead of a centralized lookup table, each agent profile documents its own observed handoff patterns. This approach:
+
 - Preserves agent autonomy
 - Requires zero implementation complexity
 - Remains easy to maintain
@@ -271,14 +272,14 @@ Add this section to each agent profile (`.github/agents/<agent-name>.agent.md`):
 
 ## Advantages Over Centralized Lookup Table
 
-| Dimension | Agent Profile Patterns | Centralized Lookup Table |
-|-----------|----------------------|-------------------------|
-| **Implementation Cost** | Zero (markdown addition) | High (schema, conditions, evaluation) |
-| **Maintenance** | Update profile as observed | Update central file, propagate to agents |
-| **Autonomy** | Full (guidance only) | Reduced (prescriptive) |
-| **Flexibility** | High (agent interprets context) | Low (condition-based evaluation) |
-| **Discoverability** | High (loaded during init) | Requires central file lookup |
-| **Alignment** | Organic emergence | Premature standardization |
+| Dimension               | Agent Profile Patterns          | Centralized Lookup Table                 |
+|-------------------------|---------------------------------|------------------------------------------|
+| **Implementation Cost** | Zero (markdown addition)        | High (schema, conditions, evaluation)    |
+| **Maintenance**         | Update profile as observed      | Update central file, propagate to agents |
+| **Autonomy**            | Full (guidance only)            | Reduced (prescriptive)                   |
+| **Flexibility**         | High (agent interprets context) | Low (condition-based evaluation)         |
+| **Discoverability**     | High (loaded during init)       | Requires central file lookup             |
+| **Alignment**           | Organic emergence               | Premature standardization                |
 
 ## References
 
