@@ -224,6 +224,46 @@ python3 ops/scripts/convert-agents-to-opencode.py \
   --validate
 ```
 
+#### Orchestration Framework
+
+**Location:** `scripts/orchestration/`
+
+Core components for multi-agent task orchestration:
+
+- **`agent_orchestrator.py`** - Central orchestration engine that assigns tasks, monitors lifecycle, creates follow-ups
+- **`agent_base.py`** - Abstract base class for agent implementations with standardized lifecycle hooks
+- **`example_agent.py`** - Reference implementation demonstrating agent patterns
+- **`task_utils.py`** - Common utilities for task file operations
+
+**Key Functions in task_utils.py:**
+- `read_task(task_file)` - Load task YAML file
+- `write_task(task_file, task)` - Save task to YAML file  
+- `log_event(message, log_file)` - Append timestamped event to log
+- `get_utc_timestamp()` - Get current UTC timestamp in ISO8601 format
+- `update_task_status(task, status, timestamp_field)` - Update task status with timestamp
+
+**Usage:**
+```python
+from ops.scripts.orchestration import task_utils
+
+# Read task
+task = task_utils.read_task(Path("work/collaboration/inbox/task.yaml"))
+
+# Update status
+task = task_utils.update_task_status(task, "in_progress", "started_at")
+
+# Write back
+task_utils.write_task(Path("work/collaboration/assigned/agent/task.yaml"), task)
+
+# Log event
+task_utils.log_event("Task started", Path("work/collaboration/WORKFLOW_LOG.md"))
+```
+
+**Related Documentation:**
+- `docs/HOW_TO_USE/multi-agent-orchestration.md` - User guide for orchestration system
+- `docs/HOW_TO_USE/creating-agents.md` - Agent development with AgentBase
+- `docs/architecture/adrs/ADR-005-coordinator-agent-pattern.md` - Orchestrator design rationale
+
 #### Planning & Issue Workflows
 
 **Location:** `scripts/planning/`
