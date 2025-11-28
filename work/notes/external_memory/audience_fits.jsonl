@@ -108,3 +108,66 @@
     }
   ]
 }
+{
+  "path": "docs/specific_guidelines.md",
+  "audiences": [
+    {"audience": "agentic-framework-core-team", "fit": "high", "rationale": "Defines repo-specific overrides that govern framework evolution and conflict resolution."},
+    {"audience": "process_architect", "fit": "high", "rationale": "Sets local rules that shape process design and enforcement."},
+    {"audience": "software_engineer", "fit": "medium", "rationale": "Gives constraints that affect implementation choices and tooling."},
+    {"audience": "automation_agent", "fit": "medium", "rationale": "Signals local constraints agents must observe during runs."}
+  ],
+  "potential_misses": [
+    {"audience": "line_manager", "rationale": "No business outcomes or risk framing—purely operational."},
+    {"audience": "ai_power_user", "rationale": "Lacks practical tips or examples for individual assistant use."}
+  ]
+}
+{
+  "path": "docs/SURFACES.md",
+  "audiences": [
+    {"audience": "automation_agent", "fit": "high", "rationale": "Catalogs entry points, task surfaces, and validation/CI interfaces agents use."},
+    {"audience": "agentic-framework-core-team", "fit": "high", "rationale": "Provides system-wide interface inventory for governance and maintenance."},
+    {"audience": "process_architect", "fit": "high", "rationale": "Maps interaction surfaces needed to design workflows and integrations."},
+    {"audience": "software_engineer", "fit": "medium", "rationale": "Useful for locating integration points and validation scripts."}
+  ],
+  "potential_misses": [
+    {"audience": "line_manager", "rationale": "Technical catalog without executive summaries or outcomes."},
+    {"audience": "ai_power_user", "rationale": "Dense interface list; little guidance for casual assistant operators."}
+  ]
+}
+{
+  "path": "docs/WORKFLOWS.md",
+  "audiences": [
+    {"audience": "automation_agent", "fit": "high", "rationale": "Details task lifecycle, coordination, and execution patterns agents follow."},
+    {"audience": "agentic-framework-core-team", "fit": "high", "rationale": "Core playbook for orchestration behavior and improvements."},
+    {"audience": "process_architect", "fit": "high", "rationale": "Describes orchestrated workflows and error handling for process design."},
+    {"audience": "software_engineer", "fit": "medium", "rationale": "Provides operational model for task handling and CI hooks."}
+  ],
+  "potential_misses": [
+    {"audience": "line_manager", "rationale": "No KPI or business framing; focused on operational detail."}
+  ]
+}
+{
+  "path": "docs/DEPENDENCIES.md",
+  "audiences": [
+    {"audience": "software_engineer", "fit": "high", "rationale": "Lists install steps, versions, and usage for Python and CLI tooling."},
+    {"audience": "automation_agent", "fit": "medium", "rationale": "Identifies toolchain expectations that affect agent scripts."},
+    {"audience": "agentic-framework-core-team", "fit": "medium", "rationale": "Supports maintaining aligned dependency baselines for the framework."}
+  ],
+  "potential_misses": [
+    {"audience": "ai_power_user", "rationale": "Low-level environment detail without simplified setup guidance."},
+    {"audience": "line_manager", "rationale": "No value/impact narrative; purely technical inventory."}
+  ]
+}
+{
+  "path": "docs/CHANGELOG.md",
+  "audiences": [
+    {"audience": "agentic-framework-core-team", "fit": "high", "rationale": "Tracks framework changes, validations, and directive updates."},
+    {"audience": "line_manager", "fit": "medium", "rationale": "Contains readiness statements and metrics but requires technical reading."},
+    {"audience": "software_engineer", "fit": "medium", "rationale": "Highlights added components, scripts, and version shifts affecting work."},
+    {"audience": "process_architect", "fit": "medium", "rationale": "Shows evolution of governance artifacts and workflows."}
+  ],
+  "potential_misses": [
+    {"audience": "automation_agent", "rationale": "Human-facing narrative; lacks actionable agent instructions."},
+    {"audience": "ai_power_user", "rationale": "Verbose change log without quick user-facing summary or upgrade steps."}
+  ]
+}
