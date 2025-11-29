@@ -1,7 +1,7 @@
 # Changelog
 
 _Version: 1.0.0_  
-_Last updated: 2025-11-27_
+_Last updated: 2025-11-29_
 
 All notable changes to this project will be documented in this file.
 
@@ -10,79 +10,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-> Scope / plan for upcoming release
+> Scope / plan for upcoming release. Items below group recent branch changes and retained baseline assets until the next tagged release.
 
 ### Added
-- Dual-helper test readability experiment artifacts (Ralph analysis, Alphonso review, work log, prompt storage) and summary report (`docs/reports/agent-test-validation-experiment-report.md`).
-- Audience-specific, public-friendly articles on test readability and agent-enhanced development (coaches/engineers, managers, educators) now organized under `work/articles/code_as_documentation_experiment/` with a directory README.
-- Mutation testing scaffold and documentation (`docs/HOW_TO_USE/mutation_testing.md`); CI/testing workflow documentation updates.
-
-- **POC3 Multi-Agent Chain Validation (2025-11-27)**
-  - Completed 5-agent sequential workflow (Architect → Diagrammer → Synthesizer → Writer-Editor → Curator)
-  - Production readiness assessment report (`work/reports/logs/architect/2025-11-27T2004-poc3-validation-assessment.md`)
-  - Executive summary with efficiency metrics (`work/reports/POC3-EXECUTIVE-SUMMARY.md`)
-  - **Validation Results:**
-    - 100% handoff success rate (6/6 handoffs including followup)
-    - Zero critical issues detected
-    - 74% efficiency improvement vs. single-agent approach
-    - Zero rework required (perfect quality on first pass)
-  - **Key Artifacts Validated:**
-    - ADR-009: Orchestration Metrics Standard (299 lines)
-    - 2 PlantUML diagrams with metrics visualization (328 lines)
-    - Synthesis document with consistency validation (422 lines)
-    - Accessibility metadata exceeding standards
-  - **Production Recommendation:** Framework validated for sequential workflows, 85/100 readiness score
-
-- Modular agent directive system with 13 core directives (001-013)
-- Agent profiles for specialized roles (architect, curator, developer, writer)
-- Directive manifest with enhanced metadata (directive_version, status)
-- Directive validation tooling (`validation/validate_directives.sh`)
-- Agent bootstrapping and rehydration protocols
-- Command aliases for efficient agent interaction
-- Issue templates (epics, features, tasks, bugs, agent creation)
-- Work collaboration space (`work/collaboration/`, `work/curator/`)
-- Architecture documentation templates (ADR, design vision, technical design, roadmap)
-- Structure mapping templates (REPO_MAP, SURFACES, WORKFLOWS, CONTEXT_LINKS)
-- LEX templates for style consistency
-- OpenCode configuration mapping and validation
-- Automation agent audience documentation (`docs/audience/automation_agent.md`)
-- Architecture documentation (`docs/architecture/`)
-- ADR-001: Modular Agent Directive System
-- ADR-001: Portability Enhancement via OpenCode Specification
-- Architectural Vision document
-- Agent Specialization Patterns guide
-- Directive System Architecture documentation
-- Architecture README with navigation
-- Directive 013: Tooling Setup & Fallbacks
-- Redundancy rationale in Directive 012
-- Meta-version tracking in `AGENTS.md` (core_version, directive_set_version)
-- Work inbox task index (`work/inbox/INDEX.md`) for 10 orchestration tasks
-- Manager agent work logs directory (`work/logs/manager/`)
-- Orchestration coordination tasks (synthesizer assessments, architect reviews, CI/CD integration)
-- Manager Mike coordination log (`work/logs/manager/2025-11-23T1845-inbox-review-coordination.md`)
-- 3-tier GitHub issue automation (`ops/scripts/planning/github-helpers/`)
-- ADR-011: Solutioning Primer workflow and command alias mapping
-- ADR-012: ATDD + TDD as default coding approach
-- Directives 016 (ATDD) and 017 (TDD) for test-first development
-- Architecture synthesis notes (primers, gold plating, batch scripting, test boundaries)
+- **Test readability experiment & reports**
+  - Dual-helper artifacts: Ralph analysis, Alphonso review, work log, prompt storage.
+  - Summary report: `docs/reports/agent-test-validation-experiment-report.md`.
+- **Public articles (code as documentation)**
+  - Audience-specific pieces for coaches/engineers, managers, and educators under `work/articles/code_as_documentation_experiment/` with a README.
+  - Legacy test-as-documentation articles relocated alongside them.
+- **Testing & quality**
+  - Mutation testing scaffold and HOW_TO_USE guide (`docs/HOW_TO_USE/mutation_testing.md`).
+  - CI/testing workflow documentation updates.
+- **POC3 multi-agent chain validation (2025-11-27)**
+  - 5-agent sequential workflow (Architect → Diagrammer → Synthesizer → Writer-Editor → Curator).
+  - Production readiness assessment (`work/reports/logs/architect/2025-11-27T2004-poc3-validation-assessment.md`) and executive summary (`work/reports/POC3-EXECUTIVE-SUMMARY.md`).
+  - Results: 100% handoff success, 0 critical issues, 74% efficiency gain vs. single-agent, 0 rework.
+  - Artifacts validated: ADR-009, two metrics PlantUML diagrams, synthesis doc, accessibility metadata. Recommendation: 85/100 readiness.
+- **Governance & architecture foundations (retained)**
+  - Directive system (001–013) with validation tooling; agent profiles; command aliases.
+  - Architecture docs (vision, ADRs, design templates), repository mapping templates (REPO_MAP, SURFACES, WORKFLOWS, CONTEXT_LINKS), LEX templates.
+  - Issue templates, work collaboration space, manager logs, task index, planning helpers, and test-first defaults (ADR-012; directives 016/017).
 
 ### Changed
 - HOW_TO_USE guides now declare target audiences and clarify usage (Quickstart, orchestration, testing, CI, workflows, Copilot setup, issue templates, mutation testing).
-- Articles moved out of `docs/articles` into `work/articles/code_as_documentation_experiment/` to separate public narratives from core docs.
-- Test readability approach and prompt templates refined; coaching/ROI articles updated to public-friendly tone.
-
-- Refactored `AGENTS.md` to lean core (12 sections) with external directive references
-- Externalized operational guidance into modular directives
-- Improved token efficiency via lazy directive loading
-- Enhanced agent initialization with validation checkpoints
-- Standardized integrity markers (✅ ⚠️ ❗️) across agent communications
-- Updated `work/collaboration/AGENT_STATUS.md` with 4-phase plan and dependency graph
-- Split CI/CD integration task (1744) into 3 parallel subtasks
-- Disabled auto-run for orchestration workflow on `main` branch (manual dispatch required)
-- Consolidated root changelog entries into `docs/CHANGELOG.md` as single source of truth
-- Codified primer execution matrices per ADR-011 in directives (010/011/014/015)
-- Added test-first requirements to specialist agent definitions (link to directives 016/017)
-- Simplified `agents/aliases.md` to command-shorthand only; moved primer guidance to directives 010, 016, 017
+- Articles moved from `docs/articles` into `work/articles/code_as_documentation_experiment/` to separate public narratives from core docs; tone made public-friendly.
+- Test readability approach/prompt templates refreshed; coaching/ROI materials aligned to the new article set.
+- Governance and initialization refinements: leaner `AGENTS.md`, modular directives, lazy loading, integrity markers, and updated `work/collaboration/AGENT_STATUS.md`.
 
 ### Removed
 
