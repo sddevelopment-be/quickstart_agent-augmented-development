@@ -34,6 +34,43 @@ Alignment Checks:
 
 - If code changes cannot be driven through TDD (legacy tangles, external limitations), document the impediment, create safety nets (characterization tests), and notify an architect for remediation planning.
 
+## Refactoring Phase
+
+The **Refactor** step (step 3 in the TDD cycle) has specific rules:
+
+**What You Can Touch:**
+- Production code structure, names, and design
+- Extract duplicated logic into shared utilities
+- Improve abstractions and separate concerns
+- Apply Clean Code principles (DRY, SRP, etc.)
+
+**What You Cannot Touch:**
+- Test code or test logic
+- Test assertions or expectations
+- Test structure (Arrange-Act-Assert-After)
+
+**Critical Rule:** Tests must remain green throughout refactoring. If tests fail, the refactoring was done incorrectly.
+
+**Refactoring Process:**
+1. Run tests before refactoring (verify green)
+2. Make small, incremental refactoring changes
+3. Run tests after each change (verify still green)
+4. If tests fail, revert and try a different approach
+5. Commit only when tests are green
+
+**Example Refactoring Actions:**
+- Extract duplicate functions into shared modules
+- Consolidate repeated path resolution logic
+- Create utility classes for common operations
+- Rename variables/functions for clarity
+- Improve type hints and documentation
+
+**Anti-Patterns to Avoid:**
+- ❌ Changing test behavior to match refactored code
+- ❌ Making multiple refactoring changes before testing
+- ❌ Committing with failing tests "to fix later"
+- ❌ Refactoring tests alongside production code
+
 ---
 
 **CRITICAL: This way of working is not optional. Tests are to be written before any code is crafted.**
