@@ -3,6 +3,7 @@
 **Tool:** mutmut  
 **Version:** 3.4.0+  
 **Purpose:** Verify test suite quality by introducing controlled bugs
+**Audience:** Developers and QA engineers assessing test suite effectiveness.
 
 ---
 

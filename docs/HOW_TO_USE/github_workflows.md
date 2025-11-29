@@ -3,6 +3,7 @@
 **Version:** 1.0.0  
 **Last Updated:** 2025-11-29  
 **Purpose:** Automated CI/CD pipelines for quality assurance
+**Audience:** Maintainers reviewing or modifying GitHub Actions workflows.
 
 ---
 

@@ -1,7 +1,8 @@
 # Testing the Agent Orchestration System
 
 _Version: 1.0.0_  
-_Last updated: 2025-11-23_
+_Last updated: 2025-11-23_  
+**Audience:** QA engineers and developers validating orchestration workflows.
 
 ## Overview
 

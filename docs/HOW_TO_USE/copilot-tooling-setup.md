@@ -3,6 +3,7 @@
 **Version:** 1.0.0  
 **Last Updated:** 2025-11-23  
 **Directive Reference:** 001 (CLI & Shell Tooling)
+**Audience:** Repository maintainers setting up Copilot environments for agents.
 
 ## Purpose
 
