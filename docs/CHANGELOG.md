@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > Scope / plan for upcoming release. Items below group recent branch changes and retained baseline assets until the next tagged release.
 
 ### Added
+- README coverage across repository directories, each with packaging/audience metadata blocks for clarity and release guidance.
 - **Test readability experiment & reports**
   - Dual-helper artifacts: Ralph analysis, Alphonso review, work log, prompt storage.
   - Summary report: `docs/reports/agent-test-validation-experiment-report.md`.

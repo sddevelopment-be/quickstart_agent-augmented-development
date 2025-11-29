@@ -1,3 +1,8 @@
+---
+packaged: false
+audience: process_architect, core_team, developer
+---
+
 # Agent Reports
 
 This directory consolidates all agent output files, logs, and metrics for easy review.
