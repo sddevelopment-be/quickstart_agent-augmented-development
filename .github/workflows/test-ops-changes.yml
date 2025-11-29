@@ -1,0 +1,143 @@
+name: Test Ops Changes
+
+on:
+  push:
+    paths:
+      - 'ops/**'
+      - 'validation/**'
+      - 'requirements.txt'
+      - 'requirements-dev.txt'
+  pull_request:
+    paths:
+      - 'ops/**'
+      - 'validation/**'
+      - 'requirements.txt'
+      - 'requirements-dev.txt'
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+concurrency:
+  group: test-ops-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      
+      - name: Setup Python environment
+        uses: ./.github/actions/setup-python-env
+        with:
+          python-version: '3.10'
+          cache-key-prefix: 'pip-unit-tests'
+      
+      - name: Install test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pytest-cov PyYAML
+      
+      - name: Run unit tests for task_utils
+        id: task_utils_tests
+        run: |
+          echo "Running task_utils unit tests..."
+          python -m pytest validation/test_task_utils.py -v --tb=short
+          echo "✅ task_utils tests passed"
+          echo "task_utils_passed=true" >> $GITHUB_OUTPUT
+        continue-on-error: true
+      
+      - name: Run unit tests for agent_orchestrator
+        id: orchestrator_tests
+        run: |
+          echo "Running agent_orchestrator unit tests..."
+          python -m pytest validation/test_agent_orchestrator.py -v --tb=short
+          echo "✅ agent_orchestrator tests passed"
+          echo "orchestrator_passed=true" >> $GITHUB_OUTPUT
+        continue-on-error: true
+      
+      - name: Generate test summary
+        if: always()
+        run: |
+          echo "# Unit Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.task_utils_tests.outputs.task_utils_passed }}" = "true" ]; then
+            echo "✅ **task_utils tests:** Passed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **task_utils tests:** Failed" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ "${{ steps.orchestrator_tests.outputs.orchestrator_passed }}" = "true" ]; then
+            echo "✅ **agent_orchestrator tests:** Passed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **agent_orchestrator tests:** Failed" >> $GITHUB_STEP_SUMMARY
+          fi
+      
+      - name: Fail if tests failed
+        if: steps.task_utils_tests.outputs.task_utils_passed != 'true' || steps.orchestrator_tests.outputs.orchestrator_passed != 'true'
+        run: |
+          echo "❌ Unit tests failed"
+          exit 1
+  
+  acceptance-tests:
+    name: Acceptance Tests (E2E)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: unit-tests
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      
+      - name: Setup Python environment
+        uses: ./.github/actions/setup-python-env
+        with:
+          python-version: '3.10'
+          cache-key-prefix: 'pip-e2e-tests'
+      
+      - name: Install test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest PyYAML
+      
+      - name: Run E2E orchestration tests
+        id: e2e_tests
+        run: |
+          echo "Running E2E orchestration tests..."
+          python -m pytest validation/test_orchestration_e2e.py -v --tb=short
+          echo "✅ E2E tests passed"
+          echo "e2e_passed=true" >> $GITHUB_OUTPUT
+        continue-on-error: true
+      
+      - name: Generate E2E test summary
+        if: always()
+        run: |
+          echo "# Acceptance Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.e2e_tests.outputs.e2e_passed }}" = "true" ]; then
+            echo "✅ **E2E orchestration tests:** Passed (11 tests)" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "All workflow scenarios validated successfully." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **E2E orchestration tests:** Failed" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Please review the workflow logs for details." >> $GITHUB_STEP_SUMMARY
+          fi
+      
+      - name: Fail if E2E tests failed
+        if: steps.e2e_tests.outputs.e2e_passed != 'true'
+        run: |
+          echo "❌ E2E tests failed"
+          exit 1
