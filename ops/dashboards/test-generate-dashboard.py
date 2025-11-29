@@ -6,42 +6,25 @@ Validates basic functionality and output formats using test metrics.
 """
 
 import json
-import subprocess
 import sys
 import tempfile
 from pathlib import Path
 
+# Add parent directory to path for common utilities
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
-def run_command(cmd: list[str]) -> tuple[int, str, str]:
-    """
-    Run a command and return exit code, stdout, stderr.
-
-    Args:
-        cmd: Command and arguments as list
-
-    Returns:
-        Tuple of (exit_code, stdout, stderr)
-    """
-    result = subprocess.run(
-        cmd,
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-    return result.returncode, result.stdout, result.stderr
+from common.path_utils import get_work_dir
+from common.test_utils import print_test_header, run_command
 
 
 def main():
     """Run integration tests for generate-dashboard.py."""
     script_dir = Path(__file__).parent
-    repo_root = script_dir.parent.parent
-    work_dir = repo_root / "work"
+    work_dir = get_work_dir(Path(__file__))
     generate_dashboard = script_dir / "generate-dashboard.py"
     capture_metrics = script_dir / "capture-metrics.py"
 
-    print("Testing generate-dashboard.py...")
-    print("=" * 33)
-    print()
+    print_test_header("generate-dashboard.py", width=33)
 
     # Test 1: Help output
     print("[TEST 1] Help output")

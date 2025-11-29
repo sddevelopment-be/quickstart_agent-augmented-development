@@ -14,6 +14,11 @@ import argparse
 import sys
 from pathlib import Path
 
+# Add parent directory to path for common utilities
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from common.path_utils import get_agents_dir
+
 
 class DirectiveLoader:
     """Loads directive markdown files by code."""
@@ -143,10 +148,9 @@ Examples:
     if args.directives_dir:
         directives_dir = args.directives_dir
     else:
-        # Default: assume script is in ops/framework-core, go up to repo root
-        script_dir = Path(__file__).parent
-        repo_root = script_dir.parent.parent
-        directives_dir = repo_root / ".github" / "agents" / "directives"
+        # Default: use common utility to find directives directory
+        agents_dir = get_agents_dir(Path(__file__))
+        directives_dir = agents_dir / "directives"
 
     if not directives_dir.exists():
         print(
