@@ -124,8 +124,6 @@ def test_simple_task_flow(temp_work_env: Path) -> None:
 
     # Act
     work_dir = temp_work_env
-
-    # After: Cleanup handled by pytest fixtures
     # Create task in inbox
     task = create_task(
         "2025-11-23T0800-test-agent-simple-task",
@@ -186,8 +184,6 @@ def test_sequential_workflow(temp_work_env: Path) -> None:
 
     # Act
     work_dir = temp_work_env
-
-    # After: Cleanup handled by pytest fixtures
     # Create initial task with handoff
     task = create_task(
         "2025-11-23T0900-test-agent-sequential-task",
@@ -243,8 +239,6 @@ def test_parallel_workflow(temp_work_env: Path) -> None:
 
     # Act
     work_dir = temp_work_env
-
-    # After: Cleanup handled by pytest fixtures
     # Create multiple tasks for different agents
     tasks = [
         create_task("2025-11-23T1000-test-agent-parallel-1", "test-agent"),
@@ -291,8 +285,6 @@ def test_conflict_detection(temp_work_env: Path) -> None:
 
     # Act
     work_dir = temp_work_env
-
-    # After: Cleanup handled by pytest fixtures
     shared_artifact = "test/output/shared_artifact.md"
 
     # Create two tasks targeting same artifact
@@ -339,8 +331,6 @@ def test_timeout_detection(temp_work_env: Path) -> None:
 
     # Act
     work_dir = temp_work_env
-
-    # After: Cleanup handled by pytest fixtures
     # Create task with old started_at timestamp
     task = create_task(
         "2025-11-23T1200-test-agent-timeout-task",
@@ -377,8 +367,6 @@ def test_archive_old_tasks(temp_work_env: Path) -> None:
 
     # Act
     work_dir = temp_work_env
-
-    # After: Cleanup handled by pytest fixtures
     # Create old task (31 days ago, beyond 30 day retention)
     old_date = (datetime.now(timezone.utc) - timedelta(days=31)).strftime("%Y-%m-%d")
     old_task_id = f"{old_date}T1300-test-agent-old-task"
@@ -415,8 +403,6 @@ def test_error_handling_invalid_schema(temp_work_env: Path) -> None:
 
     # Act
     work_dir = temp_work_env
-
-    # After: Cleanup handled by pytest fixtures
     # Create task with missing required field (agent)
     invalid_task = {
         "id": "2025-11-23T1400-invalid-task",
@@ -449,25 +435,28 @@ def test_error_handling_invalid_schema(temp_work_env: Path) -> None:
 # Arrange
 def test_error_handling_missing_agent(temp_work_env: Path) -> None:
     """Test handling of tasks for non-existent agents."""
-
-    # Act
+    # Arrange
     work_dir = temp_work_env
-
-    # After: Cleanup handled by pytest fixtures
     # Create task for non-existent agent
     task = create_task(
         "2025-11-23T1500-nonexistent-agent-task",
         "nonexistent-agent",
     )
-
     write_task(work_dir, "inbox", task)
 
-    # Run assignment - should log error but not crash
+    # Assumption Check
+    inbox_file = work_dir / "inbox" / f"{task['id']}.yaml"
+    assert (
+        inbox_file.exists()
+    ), "Test precondition failed: task file should exist in inbox"
+
+    # Act
     assigned = orchestrator.assign_tasks()
+
+    # Assert
     assert assigned == 0  # Task not assigned due to unknown agent
 
     # Verify task still in inbox
-    inbox_file = work_dir / "inbox" / f"{task['id']}.yaml"
     assert inbox_file.exists()
 
     # Verify workflow log contains error
@@ -488,8 +477,6 @@ def test_full_orchestrator_cycle(temp_work_env: Path) -> None:
 
     # Act
     work_dir = temp_work_env
-
-    # After: Cleanup handled by pytest fixtures
     # Setup: Create tasks in inbox
     task1 = create_task("2025-11-23T1600-test-agent-cycle-1", "test-agent")
     task2 = create_task("2025-11-23T1601-test-agent-2-cycle-2", "test-agent-2")
@@ -533,8 +520,6 @@ def test_orchestrator_performance(temp_work_env: Path) -> None:
 
     # Act
     work_dir = temp_work_env
-
-    # After: Cleanup handled by pytest fixtures
     # Create multiple tasks to simulate load
     for i in range(10):
         task = create_task(
@@ -571,8 +556,6 @@ def test_orchestrator_function_coverage(temp_work_env: Path) -> None:
 
     # Act
     work_dir = temp_work_env
-
-    # After: Cleanup handled by pytest fixtures
     # Test _log_event
     orchestrator._log_event("Test event")
     workflow_log = work_dir / "collaboration" / "WORKFLOW_LOG.md"
