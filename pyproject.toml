@@ -1,6 +1,6 @@
 [tool.mutmut]
 # Paths to apply mutations
-paths_to_mutate = "ops/scripts/orchestration/"
+paths_to_mutate = "ops/orchestration/"
 
 # Test runner command
 runner = "python -m pytest validation/"

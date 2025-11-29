@@ -118,7 +118,7 @@ jobs:
           echo "Running all unit tests with coverage..."
           python -m pytest validation/test_task_utils.py validation/test_agent_orchestrator.py \
             -v --tb=short \
-            --cov=ops/scripts/orchestration \
+            --cov=ops/orchestration \
             --cov-report=term-missing \
             --cov-report=xml \
             --cov-report=html
