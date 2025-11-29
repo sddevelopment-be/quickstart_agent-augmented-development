@@ -14,15 +14,15 @@ _Task: 2025-11-23T2157-bootstrap-bill-repomap-update_
 
 ## Repository Statistics
 
-| Metric | Count |
-|--------|-------|
-| Total Files | 289 |
-| Markdown Files | 154 |
-| Python Files | 7 |
-| YAML Files | 59 |
-| Lines of Python | ~2,501 |
+| Metric            | Count   |
+|-------------------|---------|
+| Total Files       | 289     |
+| Markdown Files    | 154     |
+| Python Files      | 7       |
+| YAML Files        | 59      |
+| Lines of Python   | ~2,501  |
 | Lines of Markdown | ~32,021 |
-| Total Disk Usage | ~2.6 MB |
+| Total Disk Usage  | ~2.6 MB |
 
 ## Directory Structure
 
@@ -97,14 +97,17 @@ Core platform configuration and agentic instruction system.
 #### Agent Framework Components
 
 **Core Governance:**
+
 - `AGENTS.md` (root): Agent Specification Document - initialization protocol
 - `.github/agents/guidelines/`: Operational & general behavior rules
 - `.github/agents/directives/`: 15 externalized instruction modules (001-015)
 
 **Agent Patterns:**
+
 - `.github/agents/approaches/`: Strategic methodologies (file-based orchestration)
 
 **Tooling:**
+
 - `.github/copilot/setup.sh`: Installs CLI tools (rg, fd, ast-grep, jq, yq, fzf)
 
 ### `docs/` - Documentation Root (908K)
@@ -169,6 +172,7 @@ docs/
 #### Key Documentation Additions (Recent)
 
 **HOW_TO_USE Guides:**
+
 - `multi-agent-orchestration.md`: Complete orchestration system guide
 - `creating-agents.md`: Agent development lifecycle
 - `copilot-tooling-setup.md`: CLI tooling setup instructions
@@ -176,12 +180,15 @@ docs/
 - `testing-orchestration.md`: Testing strategies
 
 **Architecture Decision Records:**
+
 - `ADR-009-orchestration-metrics-standard.md`: Metrics and observability standard
 
 **Synthesis:**
+
 - `poc3-orchestration-metrics-synthesis.md`: POC3 metrics analysis
 
 **Templates:**
+
 - `docs/templates/agent-tasks/`: Complete task YAML schema templates (8 files)
 
 ### `work/` - Multi-Agent Orchestration Workspace (1.2M)
@@ -255,19 +262,23 @@ work/
 #### Orchestration Framework
 
 **Core Components:**
+
 - `agent_orchestrator.py`: Assigns tasks, monitors lifecycle, creates handoffs
 - `agent_base.py`: Abstract base class for agent implementations
 - `example_agent.py`: Reference agent demonstrating patterns
 
 **Validation:**
+
 - `validate-task-schema.py`: Enforces task YAML schema
 - `validate-task-naming.sh`: Validates naming conventions
 - `validate-work-structure.sh`: Ensures directory integrity
 
 **Testing:**
+
 - `test_orchestration_e2e.py`: End-to-end orchestration tests
 
 **Setup:**
+
 - `init-work-structure.sh`: Creates work directory structure
 
 ### `ops/` - Operations & Automation (68K)
@@ -295,86 +306,86 @@ validation/
 
 ### Root Level
 
-| File | Purpose | Size |
-|------|---------|------|
-| `AGENTS.md` | Agent Specification Document - core initialization protocol | 8.4K |
-| `README.md` | Repository overview and quickstart guide | 2.8K |
-| `requirements.txt` | Python dependencies (PyYAML, pytest, jsonschema) | 335B |
-| `opencode-config.json` | OpenCode portability configuration | 6.3K |
-| `LICENSE` | Repository license | 1K |
-| `.gitignore` | Git exclusions | 266B |
+| File                   | Purpose                                                     | Size |
+|------------------------|-------------------------------------------------------------|------|
+| `AGENTS.md`            | Agent Specification Document - core initialization protocol | 8.4K |
+| `README.md`            | Repository overview and quickstart guide                    | 2.8K |
+| `requirements.txt`     | Python dependencies (PyYAML, pytest, jsonschema)            | 335B |
+| `opencode-config.json` | OpenCode portability configuration                          | 6.3K |
+| `LICENSE`              | Repository license                                          | 1K   |
+| `.gitignore`           | Git exclusions                                              | 266B |
 
 ### Agent Framework
 
-| File | Purpose |
-|------|---------|
-| `.github/agents/QUICKSTART.md` | Agent framework quickstart |
-| `.github/agents/guidelines/general_guidelines.md` | General behavioral principles |
-| `.github/agents/guidelines/operational_guidelines.md` | Operational discipline |
-| `.github/agents/guidelines/bootstrap.md` | Initialization protocol |
-| `.github/agents/guidelines/rehydrate.md` | State recovery protocol |
-| `.github/agents/directives/001_cli_shell_tooling.md` | CLI tool usage (rg, fd, ast-grep) |
-| `.github/agents/directives/014_worklog_creation.md` | Work log standards |
-| `.github/agents/approaches/file-based-orchestration.md` | Orchestration strategy |
+| File                                                    | Purpose                           |
+|---------------------------------------------------------|-----------------------------------|
+| `.github/agents/QUICKSTART.md`                          | Agent framework quickstart        |
+| `.github/agents/guidelines/general_guidelines.md`       | General behavioral principles     |
+| `.github/agents/guidelines/operational_guidelines.md`   | Operational discipline            |
+| `.github/agents/guidelines/bootstrap.md`                | Initialization protocol           |
+| `.github/agents/guidelines/rehydrate.md`                | State recovery protocol           |
+| `.github/agents/directives/001_cli_shell_tooling.md`    | CLI tool usage (rg, fd, ast-grep) |
+| `.github/agents/directives/014_worklog_creation.md`     | Work log standards                |
+| `.github/agents/approaches/file-based-orchestration.md` | Orchestration strategy            |
 
 ### Documentation
 
-| File | Purpose |
-|------|---------|
-| `docs/VISION.md` | Project vision and goals |
-| `docs/specific_guidelines.md` | Project-specific rules |
-| `docs/HOW_TO_USE/multi-agent-orchestration.md` | Orchestration system guide |
-| `docs/HOW_TO_USE/creating-agents.md` | Agent development guide |
-| `docs/architecture/adrs/ADR-009-orchestration-metrics-standard.md` | Metrics standard |
-| `work/README.md` | Work directory usage guide |
+| File                                                               | Purpose                    |
+|--------------------------------------------------------------------|----------------------------|
+| `docs/VISION.md`                                                   | Project vision and goals   |
+| `docs/specific_guidelines.md`                                      | Project-specific rules     |
+| `docs/HOW_TO_USE/multi-agent-orchestration.md`                     | Orchestration system guide |
+| `docs/HOW_TO_USE/creating-agents.md`                               | Agent development guide    |
+| `docs/architecture/adrs/ADR-009-orchestration-metrics-standard.md` | Metrics standard           |
+| `work/README.md`                                                   | Work directory usage guide |
 
 ### Orchestration
 
-| File | Purpose | LOC |
-|------|---------|-----|
+| File                                      | Purpose                       | LOC  |
+|-------------------------------------------|-------------------------------|------|
 | `ops/orchestration/agent_orchestrator.py` | Task routing & lifecycle mgmt | ~800 |
-| `ops/orchestration/agent_base.py` | Base agent interface | ~300 |
-| `ops/orchestration/example_agent.py` | Reference implementation | ~200 |
-| `validation/validate-task-schema.py` | YAML schema validator | ~350 |
-| `validation/test_orchestration_e2e.py` | E2E test suite | ~400 |
+| `ops/orchestration/agent_base.py`         | Base agent interface          | ~300 |
+| `ops/orchestration/example_agent.py`      | Reference implementation      | ~200 |
+| `validation/validate-task-schema.py`      | YAML schema validator         | ~350 |
+| `validation/test_orchestration_e2e.py`    | E2E test suite                | ~400 |
 
 ## Agent Profiles
 
 The repository supports multiple specialized agents coordinated via file-based orchestration:
 
-| Agent | Queue Location | Purpose |
-|-------|---------------|---------|
-| architect | work/assigned/architect/ | Architecture design and documentation |
-| backend-dev | work/assigned/backend-dev/ | Backend implementation |
-| bootstrap-bill | work/assigned/bootstrap-bill/ | Repository mapping and scaffolding |
-| build-automation | work/assigned/build-automation/ | CI/CD and automation |
-| coordinator | work/assigned/coordinator/ | Meta-orchestration |
-| curator | work/assigned/curator/ | Content curation |
-| diagrammer | work/assigned/diagrammer/ | Diagram generation |
-| frontend | work/assigned/frontend/ | Frontend implementation |
-| lexical | work/assigned/lexical/ | Language and terminology |
-| manager | work/assigned/manager/ | Project management |
-| planning | work/assigned/planning/ | Planning and strategy |
-| project-planner | work/assigned/project-planner/ | Project planning |
-| researcher | work/assigned/researcher/ | Research and analysis |
-| scribe | work/assigned/scribe/ | Documentation writing |
-| structural | work/assigned/structural/ | Structural refactoring |
-| synthesizer | work/assigned/synthesizer/ | Cross-cutting synthesis |
-| test-agent | work/assigned/test-agent/ | Testing |
-| translator | work/assigned/translator/ | Translation |
-| writer-editor | work/assigned/writer-editor/ | Content editing |
+| Agent            | Queue Location                  | Purpose                               |
+|------------------|---------------------------------|---------------------------------------|
+| architect        | work/assigned/architect/        | Architecture design and documentation |
+| backend-dev      | work/assigned/backend-dev/      | Backend implementation                |
+| bootstrap-bill   | work/assigned/bootstrap-bill/   | Repository mapping and scaffolding    |
+| build-automation | work/assigned/build-automation/ | CI/CD and automation                  |
+| coordinator      | work/assigned/coordinator/      | Meta-orchestration                    |
+| curator          | work/assigned/curator/          | Content curation                      |
+| diagrammer       | work/assigned/diagrammer/       | Diagram generation                    |
+| frontend         | work/assigned/frontend/         | Frontend implementation               |
+| lexical          | work/assigned/lexical/          | Language and terminology              |
+| manager          | work/assigned/manager/          | Project management                    |
+| planning         | work/assigned/planning/         | Planning and strategy                 |
+| project-planner  | work/assigned/project-planner/  | Project planning                      |
+| researcher       | work/assigned/researcher/       | Research and analysis                 |
+| scribe           | work/assigned/scribe/           | Documentation writing                 |
+| structural       | work/assigned/structural/       | Structural refactoring                |
+| synthesizer      | work/assigned/synthesizer/      | Cross-cutting synthesis               |
+| test-agent       | work/assigned/test-agent/       | Testing                               |
+| translator       | work/assigned/translator/       | Translation                           |
+| writer-editor    | work/assigned/writer-editor/    | Content editing                       |
 
 ## Workflows and CI/CD
 
 ### GitHub Actions Workflows
 
-| Workflow | Purpose | Trigger |
-|----------|---------|---------|
-| `copilot-setup.yml` | Install CLI tooling (rg, fd, ast-grep, jq, yq, fzf) | On demand |
-| `orchestration.yml` | Automated agent orchestration | Cron / manual |
-| `validation.yml` | Validate task schemas and structure | Push / PR |
-| `diagram-rendering.yml` | Generate PNG from PlantUML | Push with .puml changes |
-| `update_readme.yml` | README updates | Push to main |
+| Workflow                | Purpose                                             | Trigger                 |
+|-------------------------|-----------------------------------------------------|-------------------------|
+| `copilot-setup.yml`     | Install CLI tooling (rg, fd, ast-grep, jq, yq, fzf) | On demand               |
+| `orchestration.yml`     | Automated agent orchestration                       | Cron / manual           |
+| `validation.yml`        | Validate task schemas and structure                 | Push / PR               |
+| `diagram-rendering.yml` | Generate PNG from PlantUML                          | Push with .puml changes |
+| `update_readme.yml`     | README updates                                      | Push to main            |
 
 ### Task Lifecycle Workflow
 
@@ -400,23 +411,23 @@ The repository supports multiple specialized agents coordinated via file-based o
 From `requirements.txt`:
 
 ```python
-PyYAML>=6.0        # YAML parsing (orchestration, validation)
-pytest>=7.0        # Testing framework
-jsonschema>=4.0    # JSON schema validation (optional)
+PyYAML >= 6.0  # YAML parsing (orchestration, validation)
+pytest >= 7.0  # Testing framework
+jsonschema >= 4.0  # JSON schema validation (optional)
 ```
 
 ### External Tools
 
 Installed via `.github/copilot/setup.sh`:
 
-| Tool | Version | Purpose |
-|------|---------|---------|
-| `rg` (ripgrep) | latest | Fast text search |
-| `fd` | latest | Fast file finding |
-| `ast-grep` | latest | AST-based code search |
-| `jq` | latest | JSON processing |
-| `yq` | latest | YAML processing |
-| `fzf` | latest | Fuzzy finder |
+| Tool           | Version | Purpose               |
+|----------------|---------|-----------------------|
+| `rg` (ripgrep) | latest  | Fast text search      |
+| `fd`           | latest  | Fast file finding     |
+| `ast-grep`     | latest  | AST-based code search |
+| `jq`           | latest  | JSON processing       |
+| `yq`           | latest  | YAML processing       |
+| `fzf`          | latest  | Fuzzy finder          |
 
 ### GitHub Actions
 
@@ -425,13 +436,13 @@ Installed via `.github/copilot/setup.sh`:
 
 ## Configuration Files
 
-| File | Purpose | Format |
-|------|---------|--------|
-| `opencode-config.json` | OpenCode portability spec | JSON |
-| `.github/labels.yml` | GitHub label definitions | YAML |
-| `.github/semantic.yml` | Semantic versioning config | YAML |
-| `.gitignore` | Git exclusions | Text |
-| `requirements.txt` | Python dependencies | Text |
+| File                   | Purpose                    | Format |
+|------------------------|----------------------------|--------|
+| `opencode-config.json` | OpenCode portability spec  | JSON   |
+| `.github/labels.yml`   | GitHub label definitions   | YAML   |
+| `.github/semantic.yml` | Semantic versioning config | YAML   |
+| `.gitignore`           | Git exclusions             | Text   |
+| `requirements.txt`     | Python dependencies        | Text   |
 
 ## Architectural Principles
 
@@ -446,6 +457,7 @@ Installed via `.github/copilot/setup.sh`:
 ## Recent Major Additions
 
 ### Orchestration Framework (Nov 2025)
+
 - `ops/orchestration/agent_orchestrator.py`: Task routing system
 - `ops/orchestration/agent_base.py`: Agent interface abstraction
 - `ops/orchestration/example_agent.py`: Reference implementation
@@ -453,26 +465,29 @@ Installed via `.github/copilot/setup.sh`:
 - Work directory structure with 18+ agent queues
 
 ### Copilot Tooling (Nov 2025)
+
 - `.github/copilot/setup.sh`: CLI tool installer
 - `.github/workflows/copilot-setup.yml`: Automated setup workflow
 
 ### Documentation (Nov 2025)
+
 - HOW_TO_USE guides (7 files)
 - ADR-009: Orchestration metrics standard
 - Task YAML templates (8 files)
 - Synthesis documents
 
 ### CI/CD (Nov 2025)
+
 - Orchestration workflow
 - Enhanced validation workflow
 - Diagram rendering automation
 
 ## Version History
 
-| Version | Date | Changes |
-|---------|------|---------|
-| 1.0.0 | 2025-11 | Initial repository structure |
-| 2.0.0 | 2025-11-23 | Orchestration framework, Copilot tooling, expanded documentation |
+| Version | Date       | Changes                                                          |
+|---------|------------|------------------------------------------------------------------|
+| 1.0.0   | 2025-11    | Initial repository structure                                     |
+| 2.0.0   | 2025-11-23 | Orchestration framework, Copilot tooling, expanded documentation |
 
 ## Related Artifacts
 
