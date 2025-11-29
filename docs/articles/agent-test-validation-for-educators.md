@@ -1,34 +1,33 @@
 # Understanding the Test Readability Check (Guide for Educators)
 
 **Audience:** Non-technical educators and learning facilitators  
-**Purpose:** Explain how we use AI agents to see if our tests teach the system clearly.  
-**Pilot outcome:** Agents could explain 92% of the system from tests alone; missing pieces were mainly “why we designed it this way” and “how it runs in practice.”
+**Purpose:** Explain, in plain language, what “agents” are in this codebase, how our file-first framework works, and how we use a test readability check to make learning easier.  
+**Pilot outcome:** Helpers could explain ~92% of the system from tests alone; the missing pieces were mostly “why we designed it this way” and “how it runs day to day.”
 
-## The Simple Idea
-- Think of tests as lesson plans: if someone can read them and accurately describe the system, the lessons are clear.
-- We ask one agent to learn only from the tests, then a second agent to check that summary against the real system and add corrections.
+## I. What Are “Agents” Here?
+- Think of agents as small assistants that read and write files. They don’t run big services; they simply pick up instructions from folders and leave their work in those same folders.  
+- Tasks are YAML files that move through a clear path: `inbox → assigned → done → archive`. Because everything is in the repo, you can see progress without special tools.  
+- This file-first, transparent setup (see the high-level design notes in `docs/architecture/design/async_multiagent_orchestration.md`) lets us add assistants for writing, reviewing, testing, and more—without extra infrastructure.
 
-## What Happens in a Run
-1. **Learn from tests:** Agent writes a plain-language summary of what the system does based only on test cases.
-2. **Check and correct:** Another agent compares that summary to the real system and notes what the tests did not teach (design reasons, operations, security).
-3. **Improve the lessons:** We add small notes or extra tests so future readers get the missing context.
+## II. Why Make Tests Readable?
+- Tests can act like lesson plans. If someone can read them and explain the system, the tests are teaching effectively.  
+- Clear tests speed up onboarding and reduce the need for meetings or long manuals.  
+- When tests are unclear, learners and new team members struggle, and changes get riskier.
 
-## Why It Helps Educators
-- **Clarity for newcomers:** If agents can learn from tests, so can new students or team members.
-- **Focus on missing context:** Highlights where we need short explanations (e.g., why file-based storage, how the scheduler runs).
-- **Reusable pattern:** Can be repeated whenever materials change to keep learning content current.
+## III. The Test Readability Check (Side Note on the Experiment)
+- **Learn from tests:** One helper reads only the tests and writes a plain-language summary of what the system does.  
+- **Check and correct:** Another helper compares that summary to the real system and notes what the tests didn’t teach (design reasons, how it runs, security boundaries).  
+- **Improve the lesson:** We add short notes or a small example so the tests teach those missing parts next time.
 
-## Benefits
-- Tests become reliable study material, not just code checks.
-- Faster orientation: newcomers can grasp system behavior in under an hour using the agent-produced summaries.
-- Continuous improvement: each run produces a small list of learning gaps to close.
+## A Simple Example
+Our system moves task files through folders (`inbox → assigned → done → archive`). The tests showed that flow clearly—assignment, handoffs, timeouts, conflict detection. The helpers missed the “why”: we chose one coordinator and file-based storage for simplicity and transparency (documented in the architecture vision). Adding two sentences about that intent made the tests far more teachable.
 
-## Limitations (Plain Language)
-- Tests rarely explain “why” decisions were made or how the system is operated day-to-day.
-- The review takes about an hour, so we schedule it around major changes rather than every edit.
-- Summaries age as code changes; we rerun to keep them fresh.
+## How Educators Can Use This
+- Share the helper-written summary with new learners as a starter guide.  
+- Pair it with a short note on design intent and operations to fill the gaps the helpers found.  
+- Keep the gap list as a checklist when you update your teaching materials.
 
-## How You Can Use the Outputs
-- Share the agent-written summary with new learners as a starter guide.
-- Pair the summary with short notes on design intent and operations to fill the gaps the agents found.
-- Use the gap list as a checklist for improving teaching materials.
+## Practical Notes
+- The review takes about an hour; schedule it around major changes, not every edit.  
+- Tests rarely explain “why” or operations—plan to add a sentence or two when helpers flag gaps.  
+- Summaries age as code changes—rerun to keep them fresh.
