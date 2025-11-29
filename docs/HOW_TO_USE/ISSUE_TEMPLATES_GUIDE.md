@@ -1,6 +1,6 @@
 # Issue Templates Guide
 
-**Audience:** Maintainers and project managers choosing the right template for incoming work.
+**Audience:** Maintainers and project managers choosing the right template for incoming work (see `docs/audience/line_manager.md` and `docs/audience/ai_power_user.md`).
 
 ## Overview
 

@@ -2,12 +2,12 @@
 
 **Version:** 1.0.0  
 **Last Updated:** 2025-11-23  
-**Directive Reference:** 001 (CLI & Shell Tooling)
-**Audience:** Repository maintainers setting up Copilot environments for agents.
+**Directive Reference:** 001 (CLI & Shell Tooling)  
+**Audience:** Repository maintainers setting up Copilot environments for agents (see `docs/audience/agentic-framework-core-team.md`).
 
 ## Purpose
 
-This guide explains how to preinstall CLI tools in GitHub Copilot's environment to enhance agent-augmented development capabilities. By preinstalling tools, Copilot agents can execute file operations, code searches, and structural queries more efficiently without installation overhead on every invocation.
+This guide explains how to preinstall CLI tools in GitHub Copilot's environment to enhance agent-augmented development capabilities. By preinstalling tools, Copilot agents can execute file operations, code searches, and structural queries more efficiently without installation overhead on every invocation. Use this when you need predictable, fast runs for agents across sessions.
 
 ## Benefits for Agent Execution
 

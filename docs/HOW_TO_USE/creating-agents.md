@@ -2,11 +2,11 @@
 
 **Version:** 1.0.0  
 **Last Updated:** 2025-11-23  
-**Audience:** Developers creating new agents for file-based orchestration
+**Audience:** Developers creating new agents for file-based orchestration (see `docs/audience/software_engineer.md`).
 
 ## Overview
 
-This guide shows you how to create new agents using the `AgentBase` template, which provides standardized lifecycle hooks, status management, error handling, and work log creation for the file-based orchestration framework.
+This guide shows you how to create new agents using the `AgentBase` template, which provides standardized lifecycle hooks, status management, error handling, and work log creation for the file-based orchestration framework. It assumes you want a fast, repeatable path with guardrails baked in.
 
 **Benefits of using AgentBase:**
 - Reduces agent creation effort by >50%

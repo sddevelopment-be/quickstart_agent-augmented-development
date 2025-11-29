@@ -2,11 +2,11 @@
 
 _Version: 1.0.0_  
 _Last updated: 2025-11-23_  
-**Audience:** QA engineers and developers validating orchestration workflows.
+**Audience:** QA engineers and developers validating orchestration workflows (see `docs/audience/software_engineer.md`).
 
 ## Overview
 
-This document explains how to test the asynchronous multi-agent orchestration system using the E2E test harness.
+This document explains how to test the asynchronous multi-agent orchestration system using the E2E test harness. It is written for people who need to prove workflows work, catch regressions, and report status with minimal setup.
 
 The test suite validates:
 
