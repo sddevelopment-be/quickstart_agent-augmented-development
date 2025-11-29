@@ -1,8 +1,8 @@
 # Using the Multi-Agent Orchestration System
 
-**Audience:** Engineers and operators who create and route tasks through the file-based orchestrator.
+**Audience:** Engineers and operators who create and route tasks through the file-based orchestrator (see `docs/audience/software_engineer.md` and `docs/audience/ai_power_user.md`).
 
-This guide explains how to use the multi-agent orchestration system to delegate work within this repository. The system enables you to create tasks that are automatically assigned to specialized agents, which complete the work asynchronously—no coordination overhead required.
+This guide explains how to use the multi-agent orchestration system to delegate work within this repository. Focus: how to draft tasks, pick the right agent, and interpret status so you can move work without hand-holding.
 
 ## What is Multi-Agent Orchestration?
 
@@ -15,12 +15,12 @@ Think of it as a file-based workflow where:
 - If needed, the agent hands off to another agent
 - All activity is tracked in Git with full transparency
 
-**Key benefits:**
+**Key benefits (what you get as an operator):**
 
-- **Transparent:** All task states are visible in Git—no hidden queues
-- **Asynchronous:** Agents work independently without blocking each other
-- **Traceable:** Complete audit trail from task creation to completion
-- **Simple:** Just create a YAML file describing what you need
+- **Transparent:** All task states are visible in Git—no hidden queues.
+- **Asynchronous:** Agents work independently without blocking each other.
+- **Traceable:** Complete audit trail from task creation to completion.
+- **Simple:** Just create a YAML file describing what you need.
 
 ## Quick Start: Creating Your First Task
 

@@ -3,13 +3,13 @@
 **Tool:** mutmut  
 **Version:** 3.4.0+  
 **Purpose:** Verify test suite quality by introducing controlled bugs
-**Audience:** Developers and QA engineers assessing test suite effectiveness.
+**Audience:** Developers and QA engineers assessing test suite effectiveness (see `docs/audience/software_engineer.md`).
 
 ---
 
 ## What is Mutation Testing?
 
-Mutation testing validates the effectiveness of your test suite by deliberately introducing bugs ("mutations") into your code and checking if your tests catch them.
+Mutation testing validates the effectiveness of your test suite by deliberately introducing bugs ("mutations") into your code and checking if your tests catch them. Use this when you need evidence that coverage numbers correspond to real defect-catching power.
 
 ### How It Works
 

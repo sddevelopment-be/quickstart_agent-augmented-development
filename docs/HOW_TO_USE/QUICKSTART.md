@@ -1,8 +1,8 @@
 # Agents Quickstart
 
-**Audience:** New contributors and maintainers onboarding to the agent framework.
+**Audience:** New contributors and maintainers onboarding to the agent framework (see `docs/audience/software_engineer.md` and `docs/audience/agentic-framework-core-team.md`).
 
-This repository is set up to host autonomous agents that can help manage, build, and maintain the codebase. This Quickstart guide explains how to use the agent framework provided here.
+This repository is set up to host autonomous agents that can help manage, build, and maintain the codebase. This Quickstart guide is a short path to “up and running”: what to read first, what to configure, and how to ask agents for help.
 
 ## Overview of the Agent Framework
 
@@ -13,7 +13,7 @@ Core ideas of this framework:
 - **Repo-specific rules live in** `docs/` (`VISION.md`, `specific_guidelines.md`).
 - **Specialist agents live in** `.github/agents/*.agent.md`.
 
-Agents should always combine both: generic + repo-specific.
+Agents should always combine both: generic + repo-specific. If you are new, skim the vision and guidelines before running any agent prompts.
 
 ### Specialist agents
 

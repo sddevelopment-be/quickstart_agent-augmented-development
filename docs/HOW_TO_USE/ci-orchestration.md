@@ -1,8 +1,8 @@
 # CI/CD Orchestration Guide
 
-**Audience:** Release engineers and maintainers configuring automation.
+**Audience:** Release engineers and maintainers configuring automation (see `docs/audience/process_architect.md` and `docs/audience/software_engineer.md`).
 
-This guide explains the automated CI/CD workflows that support the file-based multi-agent orchestration framework.
+This guide explains the automated CI/CD workflows that support the file-based multi-agent orchestration framework. It emphasizes what runs when, how long it takes, and what signals to watch, so you can tune or extend pipelines confidently.
 
 ## Overview
 
