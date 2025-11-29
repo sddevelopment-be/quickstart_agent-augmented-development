@@ -33,16 +33,16 @@ License: MIT
 import argparse
 import json
 import sys
+from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Any, Optional
-from collections import defaultdict
+from typing import Any
 
 
 class DashboardGenerator:
     """Generate markdown dashboards from metrics data."""
 
-    def __init__(self, metrics_data: Dict[str, Any]):
+    def __init__(self, metrics_data: dict[str, Any]):
         """
         Initialize dashboard generator.
 
@@ -72,10 +72,10 @@ class DashboardGenerator:
         lines.append("## Overall Statistics")
         lines.append("")
         lines.append(f"- **Total Tasks:** {len(self.metrics)}")
-        
-        agents = self.summary.get('agents', {})
-        totals = self.summary.get('totals', {})
-        
+
+        agents = self.summary.get("agents", {})
+        totals = self.summary.get("totals", {})
+
         lines.append(f"- **Unique Agents:** {len(agents)}")
         lines.append(f"- **Total Duration:** {totals.get('duration', 0):.1f} minutes")
         lines.append(f"- **Total Tokens:** {totals.get('tokens', 0):,}")
@@ -84,14 +84,11 @@ class DashboardGenerator:
         # Top agents by task count
         lines.append("## Top Agents by Task Count")
         lines.append("")
-        
-        agents = self.summary.get('agents', {})
-        agent_tasks = [
-            (agent, data.get('count', 0))
-            for agent, data in agents.items()
-        ]
+
+        agents = self.summary.get("agents", {})
+        agent_tasks = [(agent, data.get("count", 0)) for agent, data in agents.items()]
         agent_tasks.sort(key=lambda x: x[1], reverse=True)
-        
+
         if agent_tasks:
             max_count = max(t[1] for t in agent_tasks)
             for agent, count in agent_tasks[:10]:
@@ -106,25 +103,29 @@ class DashboardGenerator:
         lines.append("")
         lines.append("| Timestamp | Agent | Task ID | Duration |")
         lines.append("|-----------|-------|---------|----------|")
-        
+
         recent_metrics = sorted(
-            [m for m in self.metrics if m.get('timestamp')],
-            key=lambda x: x.get('timestamp', ''), 
-            reverse=True
+            [m for m in self.metrics if m.get("timestamp")],
+            key=lambda x: x.get("timestamp", ""),
+            reverse=True,
         )[:10]
-        
+
         for metric in recent_metrics:
-            timestamp = metric.get('timestamp', 'N/A')
-            agent = metric.get('agent', 'N/A')
-            task_id = metric.get('task_id', 'N/A')
-            duration = metric.get('duration_minutes', 'N/A')
-            duration_str = f"{duration}m" if isinstance(duration, (int, float)) else duration
-            
-            lines.append(f"| {timestamp} | {agent} | {task_id[:40]}... | {duration_str} |")
-        
+            timestamp = metric.get("timestamp", "N/A")
+            agent = metric.get("agent", "N/A")
+            task_id = metric.get("task_id", "N/A")
+            duration = metric.get("duration_minutes", "N/A")
+            duration_str = (
+                f"{duration}m" if isinstance(duration, (int, float)) else duration
+            )
+
+            lines.append(
+                f"| {timestamp} | {agent} | {task_id[:40]}... | {duration_str} |"
+            )
+
         if not recent_metrics:
             lines.append("| _No recent activity_ | | | |")
-        
+
         lines.append("")
         return "\n".join(lines)
 
@@ -146,46 +147,47 @@ class DashboardGenerator:
         lines.append("## Per-Agent Metrics")
         lines.append("")
 
-        agents = self.summary.get('agents', {})
-        
+        agents = self.summary.get("agents", {})
+
         for agent, data in sorted(agents.items()):
             lines.append(f"### {agent}")
             lines.append("")
-            
-            task_count = data.get('count', 0)
-            total_duration = data.get('total_duration', 0)
-            total_tokens = data.get('total_tokens', 0)
-            
+
+            task_count = data.get("count", 0)
+            total_duration = data.get("total_duration", 0)
+            total_tokens = data.get("total_tokens", 0)
+
             lines.append(f"- **Tasks Completed:** {task_count}")
             lines.append(f"- **Total Duration:** {total_duration:.1f} minutes")
             if task_count > 0 and total_duration > 0:
                 avg_duration = total_duration / task_count
-                lines.append(f"- **Average Duration:** {avg_duration:.1f} minutes per task")
+                lines.append(
+                    f"- **Average Duration:** {avg_duration:.1f} minutes per task"
+                )
             lines.append(f"- **Total Tokens:** {total_tokens:,}")
             if task_count > 0 and total_tokens > 0:
                 avg_tokens = total_tokens / task_count
                 lines.append(f"- **Average Tokens:** {avg_tokens:,.0f} per task")
-            
+
             lines.append("")
-            
+
             # Recent tasks for this agent
             agent_metrics = [
-                m for m in self.metrics 
-                if m.get('agent') == agent and m.get('timestamp')
+                m
+                for m in self.metrics
+                if m.get("agent") == agent and m.get("timestamp")
             ]
             recent_agent_metrics = sorted(
-                agent_metrics,
-                key=lambda x: x.get('timestamp', ''),
-                reverse=True
+                agent_metrics, key=lambda x: x.get("timestamp", ""), reverse=True
             )[:5]
-            
+
             if recent_agent_metrics:
-                lines.append(f"**Recent Tasks:**")
+                lines.append("**Recent Tasks:**")
                 lines.append("")
                 for metric in recent_agent_metrics:
-                    timestamp = metric.get('timestamp', 'N/A')
-                    task_id = metric.get('task_id', 'N/A')
-                    duration = metric.get('duration_minutes', '')
+                    timestamp = metric.get("timestamp", "N/A")
+                    task_id = metric.get("task_id", "N/A")
+                    duration = metric.get("duration_minutes", "")
                     duration_str = f" ({duration}m)" if duration else ""
                     lines.append(f"- `{timestamp}` - {task_id}{duration_str}")
                 lines.append("")
@@ -197,16 +199,10 @@ class DashboardGenerator:
         # Artifacts statistics
         lines.append("## Artifacts Summary")
         lines.append("")
-        
-        total_created = sum(
-            m.get('artifacts_created', 0) 
-            for m in self.metrics
-        )
-        total_modified = sum(
-            m.get('artifacts_modified', 0) 
-            for m in self.metrics
-        )
-        
+
+        total_created = sum(m.get("artifacts_created", 0) for m in self.metrics)
+        total_modified = sum(m.get("artifacts_modified", 0) for m in self.metrics)
+
         lines.append(f"- **Total Artifacts Created:** {total_created}")
         lines.append(f"- **Total Artifacts Modified:** {total_modified}")
         lines.append("")
@@ -230,38 +226,36 @@ class DashboardGenerator:
         # Group metrics by date
         metrics_by_date = defaultdict(list)
         for metric in self.metrics:
-            timestamp = metric.get('timestamp', '')
+            timestamp = metric.get("timestamp", "")
             if timestamp:
-                date = timestamp.split('T')[0] if 'T' in timestamp else timestamp[:10]
+                date = timestamp.split("T")[0] if "T" in timestamp else timestamp[:10]
                 metrics_by_date[date].append(metric)
 
         # Daily activity trend
         lines.append("## Daily Activity Trend")
         lines.append("")
-        
+
         if metrics_by_date:
             dates = sorted(metrics_by_date.keys())
             lines.append("| Date | Tasks | Avg Duration | Total Tokens |")
             lines.append("|------|-------|--------------|--------------|")
-            
+
             for date in dates:
                 day_metrics = metrics_by_date[date]
                 task_count = len(day_metrics)
-                
+
                 durations = [
-                    m.get('duration_minutes', 0) 
-                    for m in day_metrics 
-                    if m.get('duration_minutes')
+                    m.get("duration_minutes", 0)
+                    for m in day_metrics
+                    if m.get("duration_minutes")
                 ]
                 avg_duration = sum(durations) / len(durations) if durations else 0
-                
+
                 tokens = [
-                    m.get('token_total', 0) 
-                    for m in day_metrics 
-                    if m.get('token_total')
+                    m.get("token_total", 0) for m in day_metrics if m.get("token_total")
                 ]
                 total_tokens = sum(tokens)
-                
+
                 lines.append(
                     f"| {date} | {task_count} | {avg_duration:.1f}m | {total_tokens:,} |"
                 )
@@ -273,32 +267,30 @@ class DashboardGenerator:
         # Agent activity over time
         lines.append("## Agent Activity Timeline")
         lines.append("")
-        
+
         # Group by agent and date
         agent_timeline = defaultdict(lambda: defaultdict(int))
         for metric in self.metrics:
-            timestamp = metric.get('timestamp', '')
-            agent = metric.get('agent', 'unknown')
+            timestamp = metric.get("timestamp", "")
+            agent = metric.get("agent", "unknown")
             if timestamp:
-                date = timestamp.split('T')[0] if 'T' in timestamp else timestamp[:10]
+                date = timestamp.split("T")[0] if "T" in timestamp else timestamp[:10]
                 agent_timeline[agent][date] += 1
 
         if agent_timeline:
             # Show most active agents
             active_agents = sorted(
-                agent_timeline.items(),
-                key=lambda x: sum(x[1].values()),
-                reverse=True
+                agent_timeline.items(), key=lambda x: sum(x[1].values()), reverse=True
             )[:5]
-            
+
             for agent, dates in active_agents:
                 total_tasks = sum(dates.values())
                 lines.append(f"### {agent} ({total_tasks} tasks)")
                 lines.append("")
-                
+
                 sorted_dates = sorted(dates.items())
                 max_tasks = max(dates.values())
-                
+
                 for date, count in sorted_dates:
                     bar = self._generate_bar(count, max_tasks, 20)
                     lines.append(f"- **{date}**: {count} tasks {bar}")
@@ -310,19 +302,19 @@ class DashboardGenerator:
         # Token usage trends
         lines.append("## Token Usage Trends")
         lines.append("")
-        
+
         token_by_date = defaultdict(int)
         for metric in self.metrics:
-            timestamp = metric.get('timestamp', '')
-            tokens = metric.get('token_total', 0)
+            timestamp = metric.get("timestamp", "")
+            tokens = metric.get("token_total", 0)
             if timestamp and tokens:
-                date = timestamp.split('T')[0] if 'T' in timestamp else timestamp[:10]
+                date = timestamp.split("T")[0] if "T" in timestamp else timestamp[:10]
                 token_by_date[date] += tokens
 
         if token_by_date:
             sorted_dates = sorted(token_by_date.items())
             max_tokens = max(token_by_date.values())
-            
+
             for date, tokens in sorted_dates:
                 bar = self._generate_bar(tokens, max_tokens, 30)
                 lines.append(f"- **{date}**: {tokens:,} tokens {bar}")
@@ -347,13 +339,13 @@ class DashboardGenerator:
         """
         if max_value == 0:
             return ""
-        
+
         filled = int((value / max_value) * width)
         bar = "█" * filled + "░" * (width - filled)
         return f"`{bar}`"
 
 
-def load_metrics(input_path: Path) -> Dict[str, Any]:
+def load_metrics(input_path: Path) -> dict[str, Any]:
     """
     Load metrics data from JSON file.
 
@@ -369,12 +361,12 @@ def load_metrics(input_path: Path) -> Dict[str, Any]:
     """
     if not input_path.exists():
         raise FileNotFoundError(f"Metrics file not found: {input_path}")
-    
-    with input_path.open('r') as f:
+
+    with input_path.open("r") as f:
         return json.load(f)
 
 
-def save_dashboard(content: str, output_path: Optional[Path] = None) -> None:
+def save_dashboard(content: str, output_path: Path | None = None) -> None:
     """
     Save dashboard content to file or stdout.
 
@@ -382,11 +374,11 @@ def save_dashboard(content: str, output_path: Optional[Path] = None) -> None:
         content: Dashboard markdown content
         output_path: Output file path (None or '-' for stdout)
     """
-    if output_path is None or str(output_path) == '-':
+    if output_path is None or str(output_path) == "-":
         print(content)
     else:
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        with output_path.open('w') as f:
+        with output_path.open("w") as f:
             f.write(content)
         print(f"✅ Dashboard saved to {output_path}", file=sys.stderr)
 
@@ -409,47 +401,41 @@ Examples:
 
   # Update existing dashboards
   %(prog)s --input metrics.json --update
-        """
+        """,
     )
-    
+
     parser.add_argument(
-        '--input',
+        "--input",
         type=Path,
-        default=Path('work/reports/metrics/metrics.json'),
-        help='Input metrics JSON file (default: work/reports/metrics/metrics.json)'
+        default=Path("work/reports/metrics/metrics.json"),
+        help="Input metrics JSON file (default: work/reports/metrics/metrics.json)",
     )
-    
+
     parser.add_argument(
-        '--dashboard-type',
-        choices=['summary', 'detail', 'trends', 'all'],
-        default='all',
-        help='Dashboard type to generate (default: all)'
+        "--dashboard-type",
+        choices=["summary", "detail", "trends", "all"],
+        default="all",
+        help="Dashboard type to generate (default: all)",
     )
-    
+
     parser.add_argument(
-        '--output-dir',
+        "--output-dir",
         type=Path,
-        default=Path('work/reports/dashboards'),
-        help='Output directory for dashboards (default: work/reports/dashboards)'
+        default=Path("work/reports/dashboards"),
+        help="Output directory for dashboards (default: work/reports/dashboards)",
     )
-    
+
     parser.add_argument(
-        '--output-file',
+        "--output-file",
         type=str,
-        help='Output file path (use "-" for stdout, overrides --output-dir)'
+        help='Output file path (use "-" for stdout, overrides --output-dir)',
     )
-    
+
     parser.add_argument(
-        '--update',
-        action='store_true',
-        help='Update existing dashboard files'
+        "--update", action="store_true", help="Update existing dashboard files"
     )
-    
-    parser.add_argument(
-        '--verbose',
-        action='store_true',
-        help='Enable verbose logging'
-    )
+
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose logging")
 
     args = parser.parse_args()
 
@@ -457,13 +443,13 @@ Examples:
         # Load metrics data
         if args.verbose:
             print(f"[INFO] Loading metrics from {args.input}", file=sys.stderr)
-        
+
         metrics_data = load_metrics(args.input)
-        
+
         if args.verbose:
             print(
                 f"[INFO] Loaded {metrics_data.get('metrics_count', 0)} metrics",
-                file=sys.stderr
+                file=sys.stderr,
             )
 
         # Initialize generator
@@ -471,30 +457,30 @@ Examples:
 
         # Determine output file path
         if args.output_file:
-            output_path = None if args.output_file == '-' else Path(args.output_file)
+            output_path = None if args.output_file == "-" else Path(args.output_file)
         else:
             output_path = None
 
         # Generate dashboards
         dashboards = {
-            'summary': ('summary-dashboard.md', generator.generate_summary_dashboard),
-            'detail': ('detail-dashboard.md', generator.generate_detail_dashboard),
-            'trends': ('trends-dashboard.md', generator.generate_trends_dashboard),
+            "summary": ("summary-dashboard.md", generator.generate_summary_dashboard),
+            "detail": ("detail-dashboard.md", generator.generate_detail_dashboard),
+            "trends": ("trends-dashboard.md", generator.generate_trends_dashboard),
         }
 
-        if args.dashboard_type == 'all':
+        if args.dashboard_type == "all":
             types_to_generate = dashboards.keys()
         else:
             types_to_generate = [args.dashboard_type]
 
         for dash_type in types_to_generate:
             filename, generator_func = dashboards[dash_type]
-            
+
             if args.verbose:
                 print(f"[INFO] Generating {dash_type} dashboard", file=sys.stderr)
-            
+
             content = generator_func()
-            
+
             if args.output_file:
                 # Use specified output file
                 save_dashboard(content, output_path)
@@ -516,9 +502,10 @@ Examples:
         print(f"❌ Unexpected error: {e}", file=sys.stderr)
         if args.verbose:
             import traceback
+
             traceback.print_exc()
         sys.exit(1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

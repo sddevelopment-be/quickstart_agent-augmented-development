@@ -17,11 +17,13 @@ import shutil
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
-import yaml
-
-from task_utils import read_task, write_task, log_event, get_utc_timestamp, update_task_status
+from task_utils import (
+    log_event,
+    read_task,
+    write_task,
+)
 
 # Configuration
 WORK_DIR = Path("work")
@@ -62,7 +64,9 @@ def assign_tasks() -> int:
             dest = agent_dir / task_file.name
 
             task["status"] = "assigned"
-            task["assigned_at"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+            task["assigned_at"] = (
+                datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+            )
             write_task(dest, task)
             task_file.unlink()
 
@@ -74,7 +78,9 @@ def assign_tasks() -> int:
     return tasks_assigned
 
 
-def log_handoff(from_agent: str, to_agent: str, artefacts: list[str], task_id: str) -> None:
+def log_handoff(
+    from_agent: str, to_agent: str, artefacts: list[str], task_id: str
+) -> None:
     """Log agent handoff."""
     timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
     handoff_log = COLLAB_DIR / "HANDOFFS.md"
@@ -117,12 +123,19 @@ def process_completed_tasks() -> int:
                     "previous_agent": task.get("agent"),
                     "notes": result.get("next_task_notes", []),
                 },
-                "created_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+                "created_at": datetime.now(timezone.utc)
+                .isoformat()
+                .replace("+00:00", "Z"),
                 "created_by": "coordinator",
             }
 
             write_task(followup_file, followup)
-            log_handoff(task.get("agent", "unknown"), next_agent, followup.get("artefacts", []), followup_id)
+            log_handoff(
+                task.get("agent", "unknown"),
+                next_agent,
+                followup.get("artefacts", []),
+                followup_id,
+            )
             followups_created += 1
         except Exception as exc:  # noqa: BLE001
             _log_event(f"❗️ Error processing {task_file.name}: {exc}")
@@ -148,10 +161,14 @@ def check_timeouts() -> int:
 
                 started_at_raw = task.get("started_at")
                 if not started_at_raw:
-                    _log_event(f"⚠️ Task {task.get('id', task_file.name)} missing started_at; skipping timeout check")
+                    _log_event(
+                        f"⚠️ Task {task.get('id', task_file.name)} missing started_at; skipping timeout check"
+                    )
                     continue
 
-                started_at = datetime.fromisoformat(str(started_at_raw).replace("Z", "+00:00"))
+                started_at = datetime.fromisoformat(
+                    str(started_at_raw).replace("Z", "+00:00")
+                )
 
                 if started_at < timeout_cutoff:
                     _log_event(f"⚠️ Task {task['id']} stalled (>{TIMEOUT_HOURS}h)")
@@ -176,7 +193,9 @@ def detect_conflicts() -> int:
 
                 if task.get("status") == "in_progress":
                     for artifact in task.get("artefacts", []):
-                        artifact_map[str(artifact)].append(task.get("id", task_file.name))
+                        artifact_map[str(artifact)].append(
+                            task.get("id", task_file.name)
+                        )
             except Exception as exc:  # noqa: BLE001
                 _log_event(f"❗️ Error checking conflicts for {task_file.name}: {exc}")
 
@@ -191,7 +210,7 @@ def detect_conflicts() -> int:
 
 def update_agent_status() -> None:
     """Update agent status dashboard."""
-    status: Dict[str, Dict[str, Any]] = {}
+    status: dict[str, dict[str, Any]] = {}
 
     for agent_dir in ASSIGNED_DIR.iterdir():
         if not agent_dir.is_dir():
@@ -224,7 +243,9 @@ def update_agent_status() -> None:
     status_file.parent.mkdir(parents=True, exist_ok=True)
     with open(status_file, "w", encoding="utf-8") as f:
         f.write("# Agent Status Dashboard\n\n")
-        f.write(f"_Last updated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}_\n\n")
+        f.write(
+            f"_Last updated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}_\n\n"
+        )
 
         for agent, info in sorted(status.items()):
             f.write(f"## {agent}\n\n")
