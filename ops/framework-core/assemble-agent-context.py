@@ -14,6 +14,11 @@ import subprocess
 import sys
 from pathlib import Path
 
+# Add parent directory to path for common utilities
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from common.path_utils import get_agents_dir, get_repo_root
+
 
 class AgentContextAssembler:
     """Assembles agent context from various source files."""
@@ -28,10 +33,10 @@ class AgentContextAssembler:
         if repo_root:
             self.repo_root = Path(repo_root)
         else:
-            # Auto-detect: assume script is in ops/framework-core
-            self.repo_root = Path(__file__).parent.parent.parent
+            # Auto-detect using common utility
+            self.repo_root = get_repo_root(Path(__file__))
 
-        self.agents_dir = self.repo_root / ".github" / "agents"
+        self.agents_dir = get_agents_dir(Path(__file__))
         self.runtime_sheet = self.agents_dir / "guidelines" / "runtime_sheet.md"
         self.general = self.agents_dir / "guidelines" / "general_guidelines.md"
         self.operational = self.agents_dir / "guidelines" / "operational_guidelines.md"

@@ -11,7 +11,13 @@ Usage:
 
 import argparse
 import json
+import sys
 from pathlib import Path
+
+# Add parent directory to path for common utilities
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from common.path_utils import get_work_dir
 
 
 class TemplateStatusChecker:
@@ -27,9 +33,8 @@ class TemplateStatusChecker:
         if work_dir:
             self.work_dir = Path(work_dir)
         else:
-            # Auto-detect: assume script is in ops/framework-core
-            repo_root = Path(__file__).parent.parent.parent
-            self.work_dir = repo_root / "work"
+            # Auto-detect using common utility
+            self.work_dir = get_work_dir(Path(__file__))
 
         self.collaboration_dir = self.work_dir / "collaboration"
 
