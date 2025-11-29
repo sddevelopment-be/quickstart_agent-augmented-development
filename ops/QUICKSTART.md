@@ -8,10 +8,10 @@ Automatically converts agent markdown files from `.github/agents/` to OpenCode J
 
 | File                                                      | Purpose                                   |
 |-----------------------------------------------------------|-------------------------------------------|
-| `ops/scripts/opencode-spec-validator.py`                  | Validates OpenCode JSON configs           |
-| `ops/scripts/convert-agents-to-opencode.py`               | Converts agent markdown to JSON           |
-| `ops/scripts/planning/github-helpers/`                    | Issue tracker abstraction layer           |
-| `ops/scripts/planning/create-github-issues.sh`            | Main orchestration (API layer)            |
+| `ops/portability/opencode-spec-validator.py`                  | Validates OpenCode JSON configs           |
+| `ops/portability/convert-agents-to-opencode.py`               | Converts agent markdown to JSON           |
+| `ops/planning/github-helpers/`                    | Issue tracker abstraction layer           |
+| `ops/planning/create-github-issues.sh`            | Main orchestration (API layer)            |
 | `.github/workflows/reusable-config-mapping.yml`           | Automates conversion on changes           |
 | `opencode-config.json`                                    | Generated OpenCode configuration          |
 
@@ -20,17 +20,17 @@ Automatically converts agent markdown files from `.github/agents/` to OpenCode J
 ### Validate Configuration
 
 ```bash
-python3 ops/scripts/opencode-spec-validator.py opencode-config.json
+python3 ops/portability/opencode-spec-validator.py opencode-config.json
 ```
 
 ### Convert Agents
 
 ```bash
 # Basic conversion
-python3 ops/scripts/convert-agents-to-opencode.py
+python3 ops/portability/convert-agents-to-opencode.py
 
 # With validation
-python3 ops/scripts/convert-agents-to-opencode.py --validate --verbose
+python3 ops/portability/convert-agents-to-opencode.py --validate --verbose
 ```
 
 ### Manual Workflow Trigger
@@ -61,15 +61,15 @@ It will:
 
 ```bash
 # Test validator with valid config
-python3 ops/scripts/opencode-spec-validator.py ops/test-data/valid-config.json
+python3 ops/portability/opencode-spec-validator.py ops/test-data/valid-config.json
 # Exit: 0 ✅
 
 # Test validator with invalid config
-python3 ops/scripts/opencode-spec-validator.py ops/test-data/invalid-config.json
+python3 ops/portability/opencode-spec-validator.py ops/test-data/invalid-config.json
 # Exit: 1 ❌ (5 errors reported)
 
 # Test full conversion
-python3 ops/scripts/convert-agents-to-opencode.py --validate
+python3 ops/portability/convert-agents-to-opencode.py --validate
 # Should convert 15 agents and pass validation
 ```
 
@@ -81,17 +81,17 @@ python3 ops/scripts/convert-agents-to-opencode.py --validate
 
 ```bash
 # List available issue tasksets
-ops/scripts/planning/create-issues-from-definitions.sh --list-tasksets
+ops/planning/create-issues-from-definitions.sh --list-tasksets
 
 # Preview issues before creating
-ops/scripts/planning/create-issues-from-definitions.sh --taskset housekeeping --dry-run
+ops/planning/create-issues-from-definitions.sh --taskset housekeeping --dry-run
 
 # Create issues for a specific taskset
 export GH_TOKEN="your_token"
-ops/scripts/planning/create-issues-from-definitions.sh --taskset housekeeping
+ops/planning/create-issues-from-definitions.sh --taskset housekeeping
 
 # Create all issues
-ops/scripts/planning/create-issues-from-definitions.sh
+ops/planning/create-issues-from-definitions.sh
 ```
 
 ### Available Tasksets
@@ -110,7 +110,7 @@ ops/scripts/planning/create-issues-from-definitions.sh
 
 The `github-helpers/` layer can be swapped for other issue trackers (Jira, GitLab, Linear).
 
-See `ops/scripts/planning/README.md` for complete documentation.
+See `ops/planning/README.md` for complete documentation.
 
 ## Current Status
 
@@ -124,7 +124,7 @@ See `ops/scripts/planning/README.md` for complete documentation.
 
 ```bash
 # Run with verbose output to see details
-python3 ops/scripts/convert-agents-to-opencode.py --validate --verbose
+python3 ops/portability/convert-agents-to-opencode.py --validate --verbose
 ```
 
 **Problem:** Agent file not converted

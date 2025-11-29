@@ -332,9 +332,9 @@ validation/
 
 | File | Purpose | LOC |
 |------|---------|-----|
-| `ops/scripts/orchestration/agent_orchestrator.py` | Task routing & lifecycle mgmt | ~800 |
-| `ops/scripts/orchestration/agent_base.py` | Base agent interface | ~300 |
-| `ops/scripts/orchestration/example_agent.py` | Reference implementation | ~200 |
+| `ops/orchestration/agent_orchestrator.py` | Task routing & lifecycle mgmt | ~800 |
+| `ops/orchestration/agent_base.py` | Base agent interface | ~300 |
+| `ops/orchestration/example_agent.py` | Reference implementation | ~200 |
 | `validation/validate-task-schema.py` | YAML schema validator | ~350 |
 | `validation/test_orchestration_e2e.py` | E2E test suite | ~400 |
 
@@ -446,9 +446,9 @@ Installed via `.github/copilot/setup.sh`:
 ## Recent Major Additions
 
 ### Orchestration Framework (Nov 2025)
-- `ops/scripts/orchestration/agent_orchestrator.py`: Task routing system
-- `ops/scripts/orchestration/agent_base.py`: Agent interface abstraction
-- `ops/scripts/orchestration/example_agent.py`: Reference implementation
+- `ops/orchestration/agent_orchestrator.py`: Task routing system
+- `ops/orchestration/agent_base.py`: Agent interface abstraction
+- `ops/orchestration/example_agent.py`: Reference implementation
 - Task validation and E2E testing
 - Work directory structure with 18+ agent queues
 

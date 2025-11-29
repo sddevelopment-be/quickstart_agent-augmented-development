@@ -66,7 +66,7 @@ pip install -r requirements-dev.txt
 
 ```bash
 # Run mutations on orchestration code
-mutmut run --paths-to-mutate=ops/scripts/orchestration/
+mutmut run --paths-to-mutate=ops/orchestration/
 
 # Check results
 mutmut results
@@ -99,7 +99,7 @@ Configuration is in `pyproject.toml`:
 ```toml
 [tool.mutmut]
 # Code to mutate
-paths_to_mutate = "ops/scripts/orchestration/"
+paths_to_mutate = "ops/orchestration/"
 
 # Test command
 runner = "python -m pytest validation/"
@@ -152,10 +152,10 @@ mutmut show 11
 mutmut apply 11
 
 # View the diff
-git diff ops/scripts/orchestration/task_utils.py
+git diff ops/orchestration/task_utils.py
 
 # Write a test, then restore
-git checkout ops/scripts/orchestration/task_utils.py
+git checkout ops/orchestration/task_utils.py
 ```
 
 ---
@@ -179,7 +179,7 @@ mutmut html
 
 ```bash
 # Mutate only task_utils.py
-mutmut run --paths-to-mutate=ops/scripts/orchestration/task_utils.py
+mutmut run --paths-to-mutate=ops/orchestration/task_utils.py
 
 # Check results
 mutmut results
@@ -201,7 +201,7 @@ mutmut apply 5
 python -m pytest validation/test_task_utils.py -v
 
 # Restore original code
-git checkout ops/scripts/orchestration/
+git checkout ops/orchestration/
 ```
 
 ### 4. Incremental Testing
@@ -418,10 +418,10 @@ timeout = 120  # Increase from 60
 **Solutions:**
 ```bash
 # Test specific module
-mutmut run --paths-to-mutate=ops/scripts/orchestration/task_utils.py
+mutmut run --paths-to-mutate=ops/orchestration/task_utils.py
 
 # Use sampling (test 50% of mutations)
-mutmut run --paths-to-mutate=ops/scripts/orchestration/ --use-coverage --rerun-all
+mutmut run --paths-to-mutate=ops/orchestration/ --use-coverage --rerun-all
 ```
 
 ### False Survivors
@@ -438,7 +438,7 @@ python -m pytest validation/test_file.py::test_function -v
 
 # Check if test logic is correct
 # Restore after investigation
-git checkout ops/scripts/orchestration/
+git checkout ops/orchestration/
 ```
 
 ---
@@ -490,7 +490,7 @@ cat .mutmut-cache
 pip install mutmut
 
 # 2. Run mutations on orchestration code
-mutmut run --paths-to-mutate=ops/scripts/orchestration/
+mutmut run --paths-to-mutate=ops/orchestration/
 
 # 3. Check results
 mutmut results
@@ -509,11 +509,11 @@ git diff
 # ... edit validation/test_task_utils.py ...
 
 # 7. Restore and test
-git checkout ops/scripts/orchestration/
+git checkout ops/orchestration/
 python -m pytest validation/test_task_utils.py -v
 
 # 8. Re-run mutation test
-mutmut run --paths-to-mutate=ops/scripts/orchestration/task_utils.py
+mutmut run --paths-to-mutate=ops/orchestration/task_utils.py
 
 # 9. Verify mutation is now killed
 mutmut results

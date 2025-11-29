@@ -1,277 +1,261 @@
-# Operations Scripts
+# Operations Automation
 
-This directory contains automation scripts for repository operations and portability enhancements.
+This directory contains automation scripts for repository operations, organized by functional domain.
 
-## Contents
+## Directory Structure
 
-### `scripts/`
+```
+ops/
+├── orchestration/      # Agent task orchestration and workflow management
+├── planning/           # Issue creation, work structure, and iteration metrics
+├── dashboards/         # Metrics capture and dashboard generation
+├── portability/        # Configuration conversion and validation
+├── framework-core/     # Core framework utilities (context assembly, directives)
+└── scripts/            # Legacy location (being phased out)
+```
 
-Scripts for converting and validating agent configurations, plus lightweight context assembly helpers.
+## Orchestration
 
-#### `assemble-agent-context.sh`
+**Location:** `ops/orchestration/`
 
-Emits a minimal or full agent context bundle (runtime sheet, aliases, specialist profile, and optional directives) to STDOUT to avoid manual copy/paste.
+Agent-based task orchestration system for managing multi-agent workflows.
+
+### Key Modules
+
+- `agent_orchestrator.py` - Main orchestration engine
+- `agent_base.py` - Base class for agents
+- `task_utils.py` - Task file reading/writing utilities
+- `example_agent.py` - Example agent implementation
+- `benchmark_orchestrator.py` - Performance benchmarking
+
+### Documentation
+
+See `ops/orchestration/README.md` for detailed usage and architecture.
+
+### Related Tests
+
+- `validation/test_agent_orchestrator.py` - Unit tests
+- `validation/test_orchestration_e2e.py` - End-to-end tests
+- `validation/test_task_utils.py` - Task utilities tests
+
+## Planning
+
+**Location:** `ops/planning/`
+
+Issue creation, work structure initialization, and iteration metrics aggregation.
+
+### Scripts
+
+#### `create-issues-from-definitions.sh`
+
+Data-driven issue creation engine supporting multiple tasksets.
 
 **Usage:**
 ```bash
-ops/scripts/assemble-agent-context.sh --agent backend-dev --mode minimal --directives 001 006
+# List available tasksets
+ops/planning/create-issues-from-definitions.sh --list-tasksets
+
+# Preview issues (dry run)
+ops/planning/create-issues-from-definitions.sh --taskset housekeeping --dry-run
+
+# Create issues
+export GH_TOKEN="your_token"
+ops/planning/create-issues-from-definitions.sh --taskset housekeeping
 ```
 
-**Options:**
-- `--agent <name|path>` - Specialist profile basename (e.g., `backend-dev`) or explicit path.
-- `--mode minimal|full` - Minimal includes runtime sheet + profile + aliases; full adds general and operational guidelines.
-- `--directives <codes>` - Space-separated directive codes to inline via `.github/agents/load_directives.sh`.
-- `--no-aliases` - Skip alias inclusion.
+#### `init-work-structure.sh`
 
-Use `--mode full` for high-stakes work that requires full governance; default `minimal` keeps tokens lean for low-risk edits.
+Initialize work directory structure for new agents or projects.
 
-Tip: `.github/agents/load_directives.sh --list` shows available directive codes before assembling a bundle.
+#### `aggregate-iteration-metrics.py`
+
+Analyze and aggregate metrics across multiple iterations.
+
+**Usage:**
+```bash
+# Generate markdown report
+ops/planning/aggregate-iteration-metrics.py
+
+# Generate JSON output
+ops/planning/aggregate-iteration-metrics.py --format json
+
+# Save to file
+ops/planning/aggregate-iteration-metrics.py --output work/metrics/trends.md
+```
+
+### GitHub Helpers
+
+**Location:** `ops/planning/github-helpers/`
+
+Low-level GitHub issue creation utilities used by the planning scripts.
+
+### Documentation
+
+See `ops/planning/README.md` for detailed documentation.
+
+## Dashboards
+
+**Location:** `ops/dashboards/`
+
+Metrics capture and dashboard generation for observability and performance analysis.
+
+### Scripts
 
 #### `capture-metrics.py`
 
-Extracts ADR-009 orchestration metrics from work logs and task YAML files for observability and performance analysis.
+Extracts ADR-009 orchestration metrics from work logs and task YAML files.
 
 **Usage:**
 ```bash
-python3 ops/scripts/capture-metrics.py [options]
+python3 ops/dashboards/capture-metrics.py [options]
 ```
 
 **Options:**
 - `--work-dir PATH` - Path to work directory (default: `work/`)
 - `--output-format FMT` - Output format: `json` or `csv` (default: `json`)
 - `--output-file PATH` - Output file path (default: stdout)
-- `--include-logs` - Include metrics from work logs (default: enabled)
-- `--include-tasks` - Include metrics from task YAML files (default: enabled)
+- `--include-logs` - Include metrics from work logs
+- `--include-tasks` - Include metrics from task YAML files
 - `--verbose` - Enable verbose logging
 
-**ADR-009 Metrics Extracted:**
-- `duration_minutes` - Total task execution time
-- `token_count` - Input, output, and total token usage (input/output/total)
-- `context_files_loaded` - Number of files read for context
-- `artifacts_created` - Count of new files created
-- `artifacts_modified` - Count of files modified
-- `per_artifact_timing` - Detailed breakdown for multi-artifact tasks
-- `handoff_count` - Number of agent handoffs
+**Metrics Extracted:**
+- Duration (minutes)
+- Token usage (input/output/total)
+- Context files loaded
+- Artifacts created/modified
+- Agent handoffs
+- Per-artifact timing breakdowns
 
 **Examples:**
 ```bash
-# Extract metrics to JSON (default)
-python3 ops/scripts/capture-metrics.py --output-file work/reports/metrics/metrics.json
+# Extract to JSON
+python3 ops/dashboards/capture-metrics.py --output-file metrics.json
 
-# Extract metrics to CSV for spreadsheet analysis
-python3 ops/scripts/capture-metrics.py --output-format csv --output-file metrics.csv
+# Extract to CSV
+python3 ops/dashboards/capture-metrics.py --output-format csv --output-file metrics.csv
 
-# Verbose mode to see processing details
-python3 ops/scripts/capture-metrics.py --verbose
-
-# Extract only from work logs
-python3 ops/scripts/capture-metrics.py --include-logs --output-file logs-only.json
+# Verbose mode
+python3 ops/dashboards/capture-metrics.py --verbose
 ```
-
-**Output Format - JSON:**
-The JSON output includes:
-- `extracted_at` - Timestamp of extraction
-- `metrics_count` - Total number of metrics collected
-- `metrics` - Array of individual task metrics with all ADR-009 fields
-- `summary` - Aggregated statistics including:
-  - Total tasks per agent
-  - Total duration and token usage per agent
-  - Overall totals across all agents
-
-**Output Format - CSV:**
-The CSV output provides a flat table with one row per task, suitable for:
-- Import into spreadsheet applications
-- Time series analysis
-- Trend visualization
-- Performance benchmarking
-
-**Related:**
-- ADR-009: Orchestration Metrics and Quality Standards (`docs/architecture/adrs/ADR-009-orchestration-metrics-standard.md`)
-- Sample outputs: `work/reports/metrics/sample-metrics.{json,csv}`
-- Usage examples: `ops/scripts/METRICS_USAGE_EXAMPLES.md`
 
 #### `generate-dashboard.py`
 
-Generates markdown dashboard files from metrics data captured by `capture-metrics.py`. Supports multiple dashboard types for easy visualization of metrics trends and agent activity.
+Generates markdown dashboard files from metrics data.
 
 **Usage:**
 ```bash
-python3 ops/scripts/generate-dashboard.py [options]
+python3 ops/dashboards/generate-dashboard.py [options]
 ```
 
 **Options:**
-- `--input PATH` - Input metrics JSON file (default: `work/reports/metrics/metrics.json`)
-- `--dashboard-type TYPE` - Dashboard type to generate: `summary`, `detail`, `trends`, or `all` (default: `all`)
-- `--output-dir DIR` - Output directory for dashboards (default: `work/reports/dashboards`)
-- `--output-file PATH` - Output file path (use `-` for stdout, overrides `--output-dir`)
-- `--update` - Update existing dashboard files
+- `--input PATH` - Input metrics JSON file
+- `--dashboard-type TYPE` - Dashboard type: `summary`, `detail`, `trends`, or `all` (default: `all`)
+- `--output-dir DIR` - Output directory (default: `work/reports/dashboards`)
+- `--output-file PATH` - Output file (use `-` for stdout)
+- `--update` - Update existing dashboards
 - `--verbose` - Enable verbose logging
 
 **Dashboard Types:**
 
-1. **Summary Dashboard** (`summary-dashboard.md`)
-   - Overall statistics (total tasks, agents, duration, tokens)
-   - Top agents by task count with ASCII bar charts
-   - Recent activity table (last 10 tasks)
-
-2. **Detail Dashboard** (`detail-dashboard.md`)
-   - Per-agent metrics breakdown
-   - Task completion counts and averages
-   - Duration and token usage per agent
-   - Recent tasks for each agent
-   - Artifacts summary
-
-3. **Trends Dashboard** (`trends-dashboard.md`)
-   - Daily activity trends with metrics table
-   - Agent activity timeline with visual charts
-   - Token usage trends over time
-   - ASCII visualizations for trend patterns
+1. **Summary** - Overall statistics, top agents, recent activity
+2. **Detail** - Per-agent breakdowns, task completion, artifacts
+3. **Trends** - Daily activity, timeline, token usage trends
 
 **Examples:**
 ```bash
-# Generate all dashboard types from latest metrics
-python3 ops/scripts/capture-metrics.py --output-file /tmp/metrics.json
-python3 ops/scripts/generate-dashboard.py --input /tmp/metrics.json
+# Generate all dashboards
+python3 ops/dashboards/generate-dashboard.py --input metrics.json
 
-# Generate only summary dashboard to stdout
-python3 ops/scripts/generate-dashboard.py --dashboard-type summary --output-file -
+# Generate summary to stdout
+python3 ops/dashboards/generate-dashboard.py --dashboard-type summary --output-file -
 
-# Generate specific dashboard type to custom location
-python3 ops/scripts/generate-dashboard.py --dashboard-type trends --output-dir docs/metrics/
-
-# Update existing dashboards with new data
-python3 ops/scripts/generate-dashboard.py --update --verbose
+# Update existing dashboards
+python3 ops/dashboards/generate-dashboard.py --update --verbose
 ```
 
-**Output Features:**
-- Markdown format compatible with GitHub rendering
-- ASCII bar charts for visual trend representation
-- Unicode symbols (█ ░) for progress bars
-- Sortable tables with key metrics
-- Timestamp tracking for data freshness
-- Auto-creates output directories
+### Test Scripts
 
-**Sample Dashboards:**
-- `work/reports/dashboards/summary-dashboard.md` - Quick overview
-- `work/reports/dashboards/detail-dashboard.md` - Detailed breakdowns
-- `work/reports/dashboards/trends-dashboard.md` - Historical trends
+- `test-capture-metrics.sh` - Validation tests for capture-metrics.py
+- `test-generate-dashboard.sh` - Validation tests for generate-dashboard.py
 
-**Related:**
-- `capture-metrics.py` - Source data generator
-- ADR-009: Orchestration Metrics and Quality Standards
-- Sample outputs: `work/reports/dashboards/`
+### Documentation
 
-#### `opencode-spec-validator.py`
+- `METRICS_USAGE_EXAMPLES.md` - Detailed metrics usage examples
+- `DASHBOARD_USAGE_EXAMPLES.md` - Dashboard generation examples
 
-Validates JSON configuration files against the OpenCode agent specification.
+### Related
 
-**Usage:**
-```bash
-python3 ops/scripts/opencode-spec-validator.py <config-file.json>
-```
+- ADR-009: `docs/architecture/adrs/ADR-009-orchestration-metrics-standard.md`
 
-**Options:**
-- `-q, --quiet` - Suppress output, only use exit code
-- `--warnings-as-errors` - Treat warnings as validation errors
+## Portability
 
-**Exit Codes:**
-- `0` - Valid configuration
-- `1` - Invalid configuration
-- `2` - File error (not found, invalid JSON, etc.)
+**Location:** `ops/portability/`
 
-**Example:**
-```bash
-# Validate configuration
-python3 ops/scripts/opencode-spec-validator.py opencode-config.json
+Configuration conversion and validation for cross-platform agent portability.
 
-# Quiet mode for scripts
-python3 ops/scripts/opencode-spec-validator.py -q config.json
-echo $?  # Check exit code
-```
+### Scripts
 
 #### `convert-agents-to-opencode.py`
 
-Converts agent markdown files from `.github/agents` to OpenCode JSON format.
+Converts agent markdown files to OpenCode JSON format.
 
 **Usage:**
 ```bash
-python3 ops/scripts/convert-agents-to-opencode.py [options]
+python3 ops/portability/convert-agents-to-opencode.py [options]
 ```
 
 **Options:**
 - `-i, --input-dir PATH` - Agent files directory (default: `.github/agents`)
 - `-o, --output PATH` - Output JSON file (default: `opencode-config.json`)
 - `-v, --verbose` - Enable verbose logging
-- `--validate` - Validate output using opencode-spec-validator.py
-
-**Exit Codes:**
-- `0` - Successful conversion
-- `1` - Conversion errors occurred
-- `2` - Validation failed (when `--validate` is used)
+- `--validate` - Validate output using validator
 
 **Examples:**
 ```bash
 # Convert with default settings
-python3 ops/scripts/convert-agents-to-opencode.py
+python3 ops/portability/convert-agents-to-opencode.py
 
-# Convert with validation and verbose output
-python3 ops/scripts/convert-agents-to-opencode.py --validate --verbose
+# Convert and validate
+python3 ops/portability/convert-agents-to-opencode.py --validate --verbose
 
-# Custom input/output paths
-python3 ops/scripts/convert-agents-to-opencode.py \
+# Custom paths
+python3 ops/portability/convert-agents-to-opencode.py \
   -i .github/agents \
   -o config/opencode.json \
   --validate
 ```
 
-#### Planning & Issue Workflows
+#### `opencode-spec-validator.py`
 
-**Location:** `scripts/planning/`
+Validates JSON configuration files against OpenCode specification.
 
-**Main API:** `create-issues-from-definitions.sh` - Data-driven issue creation engine
-
-**Architecture:** 3-tier design (API → YAML Data → GitHub Helpers)
-
-**Quick Start:**
+**Usage:**
 ```bash
-# List available tasksets
-ops/scripts/planning/create-issues-from-definitions.sh --list-tasksets
-
-# Preview issues (dry run)
-ops/scripts/planning/create-issues-from-definitions.sh --taskset housekeeping --dry-run
-
-# Create issues
-export GH_TOKEN="your_token"
-ops/scripts/planning/create-issues-from-definitions.sh --taskset housekeeping
-
-# Create all issues
-ops/scripts/planning/create-issues-from-definitions.sh
+python3 ops/portability/opencode-spec-validator.py <config-file.json>
 ```
 
-**Available Tasksets:**
-- `housekeeping` - Technical debt and refactoring (6 issues + 1 epic)
-- `poc3` - POC3 validation tasks (4 issues + 1 epic)
-- `documentation` - Documentation improvements (4 issues + 1 epic)
-- `build-cicd` - Build automation and CI/CD (5 issues + 1 epic)
-- `architecture` - Architectural assessments (3 issues + 1 epic)
-- `curator-quality` - Quality and maintenance (3 issues + 1 epic)
-- `followup` - Follow-up tasks (2 issues)
+**Options:**
+- `-q, --quiet` - Suppress output, use exit codes only
+- `--warnings-as-errors` - Treat warnings as validation errors
 
-**For Agents:** Create YAML definitions in `scripts/planning/agent-scripts/issue-definitions/` instead of bash scripts.
+**Exit Codes:**
+- `0` - Valid configuration
+- `1` - Invalid configuration
+- `2` - File error (not found, invalid JSON)
 
-See `scripts/planning/README.md` for complete documentation.
+**Examples:**
+```bash
+# Validate configuration
+python3 ops/portability/opencode-spec-validator.py opencode-config.json
 
-### `test-data/`
+# Quiet mode for CI/CD
+python3 ops/portability/opencode-spec-validator.py -q config.json
+echo $?  # Check exit code
+```
 
-Test fixtures for validation:
-- `valid-config.json` - Example of valid OpenCode configuration
-- `invalid-config.json` - Example with validation errors
+### OpenCode Specification
 
-## OpenCode Specification
-
-The scripts implement validation and conversion for the OpenCode agent configuration format.
-
-### Schema Overview
+The OpenCode format provides vendor-neutral agent configuration:
 
 ```json
 {
@@ -280,178 +264,200 @@ The scripts implement validation and conversion for the OpenCode agent configura
     {
       "name": "string",
       "description": "string", 
-      "instructions": "string (markdown content)",
-      "tools": ["array", "of", "strings"]
+      "instructions": "string (markdown)",
+      "tools": ["array"]
     }
   ],
   "metadata": {
     "source": "string",
     "generated": "ISO timestamp",
-    "generator": "string",
     "agent_count": 0
   }
 }
 ```
 
-**Required Fields:**
-- Root level: `version`, `agents`
-- Agent level: `name`, `description`, `instructions`
+### GitHub Actions Integration
 
-**Optional Fields:**
-- Root level: `metadata`
-- Agent level: `tools`, `model`, `capabilities`
+Automated via `.github/workflows/reusable-config-mapping.yml`:
+- Triggers on changes to `.github/agents/**`
+- Runs conversion and validation
+- Commits updated configuration
 
-### Agent File Format
+## Framework Core
 
-Agent markdown files in `.github/agents/` must follow this structure:
+**Location:** `ops/framework-core/`
 
-```markdown
----
-name: agent-identifier
-description: Brief agent description
-tools: ["tool1", "tool2", "tool3"]
----
+Core framework utilities for agent context assembly and directive loading.
 
-# Agent Profile: Agent Name
+### Scripts
 
-[Markdown content with agent instructions]
-```
+#### `assemble-agent-context.sh`
 
-The YAML frontmatter is parsed to extract metadata, and the markdown body becomes the agent's instructions.
+Emits agent context bundle to STDOUT for easy copy/paste into agent prompts.
 
-## GitHub Actions Integration
-
-The conversion process is automated via the `reusable-config-mapping` workflow.
-
-**Workflow:** `.github/workflows/reusable-config-mapping.yml`
-
-**Triggers:**
-- Automatic: Changes to `.github/agents/**`
-- Manual: Workflow dispatch with optional validation-only mode
-
-**What it does:**
-1. Detects changes to agent configuration files
-2. Runs the conversion script
-3. Validates the generated configuration
-4. Commits changes if the configuration was updated
-5. Provides summary of conversion results
-
-**Manual Execution:**
+**Usage:**
 ```bash
-# Via GitHub CLI
-gh workflow run reusable-config-mapping.yml
-
-# Validation only (no conversion)
-gh workflow run reusable-config-mapping.yml -f validate_only=true
+ops/framework-core/assemble-agent-context.sh [options]
 ```
 
-## Testing
+**Options:**
+- `--agent <name|path>` - Specialist profile (e.g., `backend-dev`)
+- `--mode minimal|full` - Context depth (default: `minimal`)
+- `--directives <codes>` - Space-separated directive codes (e.g., `001 006`)
+- `--no-aliases` - Skip alias inclusion
 
-### Test the Validator
-
+**Examples:**
 ```bash
-# Valid configuration should pass
-python3 ops/scripts/opencode-spec-validator.py ops/test-data/valid-config.json
-# Exit code: 0
+# Minimal context with directives
+ops/framework-core/assemble-agent-context.sh \
+  --agent backend-dev \
+  --mode minimal \
+  --directives 001 006
 
-# Invalid configuration should fail with errors
-python3 ops/scripts/opencode-spec-validator.py ops/test-data/invalid-config.json
-# Exit code: 1
+# Full context for high-stakes work
+ops/framework-core/assemble-agent-context.sh \
+  --agent backend-dev \
+  --mode full
 ```
 
-### Test the Converter
+**Modes:**
+- `minimal` - Runtime sheet + profile + aliases + specified directives
+- `full` - Adds general and operational guidelines
 
+**Tip:** Use `.github/agents/load_directives.sh --list` to see available directives.
+
+#### `load_directives.sh`
+
+On-demand loading of externalized directive markdown blocks.
+
+**Usage:**
 ```bash
-# Convert and validate
-python3 ops/scripts/convert-agents-to-opencode.py \
-  --input-dir .github/agents \
-  --output /tmp/test-config.json \
-  --validate \
-  --verbose
-
-# Check the output
-cat /tmp/test-config.json
+ops/framework-core/load_directives.sh [--list] <codes...>
 ```
+
+**Examples:**
+```bash
+# List available directives
+ops/framework-core/load_directives.sh --list
+
+# Load specific directives
+ops/framework-core/load_directives.sh 001 006
+
+# Use in pipeline
+source <(ops/framework-core/load_directives.sh 001 003)
+```
+
+#### `template-status-checker.sh`
+
+Automate status reporting for run-iteration.md issue template.
+
+**Usage:**
+```bash
+ops/framework-core/template-status-checker.sh [options]
+```
+
+**Options:**
+- `--validate` - Check success criteria and output validation report
+- `--format=json` - Output in JSON format
+- `--help` - Show help message
 
 ## Development
 
 ### Requirements
 
 - Python 3.8+
-- Standard library only (no external dependencies)
+- Standard library (no external dependencies for core scripts)
+- PyYAML for metrics and orchestration scripts
+
+### Installation
+
+```bash
+# Install Python dependencies
+pip install -r requirements.txt
+pip install -r requirements-dev.txt
+```
 
 ### Code Style
 
-- PEP 8 compliant
-- Type hints for public interfaces
-- Comprehensive docstrings
-- Clear error messages
+All Python code follows the conventions in `docs/styleguides/python_conventions.md`:
+- Black formatting (88 character line length)
+- Ruff linting
+- Type hints for public functions
+- Quad-A test structure (Arrange, Assumption, Act, Assert)
+- Guard clauses for validation
 
-### Adding New Validations
+### Testing
 
-To add validation rules, edit `opencode-spec-validator.py`:
+Tests are located in `validation/` directory, organized by subdirectory:
 
-1. Update `OPENCODE_SCHEMA` dictionary
-2. Add validation method to `OpenCodeValidator` class
-3. Call new method from `validate()` method
-4. Add test cases to `test-data/`
+```
+validation/
+├── test_agent_orchestrator.py     # Orchestration unit tests
+├── test_orchestration_e2e.py      # Orchestration E2E tests
+├── test_task_utils.py             # Task utilities tests
+├── dashboards/                     # Dashboard script tests
+├── portability/                    # Portability script tests
+└── framework-core/                 # Framework core tests
+```
 
-## Troubleshooting
+Run tests:
+```bash
+# All tests
+python3 -m pytest validation/ -v
 
-### Conversion Issues
+# Specific module
+python3 -m pytest validation/test_agent_orchestrator.py -v
 
-**Problem:** Agent file not converted
-- Check YAML frontmatter syntax (must have `---` delimiters)
-- Ensure required fields (`name`, `description`) are present
-- Use `--verbose` flag to see detailed parsing logs
+# With coverage
+python3 -m pytest validation/ --cov=ops --cov-report=term-missing
+```
 
-**Problem:** Invalid JSON output
-- Check for special characters in descriptions/instructions
-- Ensure frontmatter values are properly quoted
+### Linting
 
-### Validation Issues
+```bash
+# Format code
+python3 -m black ops/
 
-**Problem:** Validation fails after conversion
-- Review error messages for specific field issues
-- Check that all required fields are present
-- Verify array fields (like `tools`) are properly formatted
+# Lint and auto-fix
+python3 -m ruff check ops/ --fix
 
-**Problem:** Unknown field warnings
-- These are informational only and don't cause validation failure
-- Update `OPENCODE_SCHEMA` if new fields are part of the specification
+# Type checking (if configured)
+python3 -m mypy ops/
+```
 
-## Portability Notes
+## Migration Notes
 
-The scripts are designed to be portable and vendor-neutral:
+The ops directory has been restructured from a flat `ops/scripts/` layout to a domain-organized structure. Old references have been updated in documentation.
 
-- **No vendor lock-in:** OpenCode format is standard across platforms
-- **Pure Python:** No external dependencies beyond standard library
-- **Configurable:** Easy to adapt for different agent formats
-- **Extensible:** Schema can be updated as specification evolves
+### Path Changes
 
-## Future Enhancements
-
-Potential improvements:
-
-- [ ] JSON Schema file for formal validation
-- [ ] Support for additional metadata fields
-- [ ] Multi-format export (YAML, TOML, etc.)
-- [ ] Agent inheritance/composition
-- [ ] Diff tool for configuration changes
-- [ ] Interactive configuration editor
+| Old Path | New Path |
+|----------|----------|
+| `ops/scripts/orchestration/` | `ops/orchestration/` |
+| `ops/scripts/planning/` | `ops/planning/` |
+| `ops/scripts/capture-metrics.py` | `ops/dashboards/capture-metrics.py` |
+| `ops/scripts/generate-dashboard.py` | `ops/dashboards/generate-dashboard.py` |
+| `ops/scripts/opencode-spec-validator.py` | `ops/portability/opencode-spec-validator.py` |
+| `ops/scripts/convert-agents-to-opencode.py` | `ops/portability/convert-agents-to-opencode.py` |
+| `ops/scripts/assemble-agent-context.sh` | `ops/framework-core/assemble-agent-context.sh` |
+| `ops/scripts/load_directives.sh` | `ops/framework-core/load_directives.sh` |
+| `ops/scripts/template-status-checker.sh` | `ops/framework-core/template-status-checker.sh` |
 
 ## Contributing
 
-When modifying these scripts:
+When adding new operations scripts:
 
-1. Maintain backward compatibility
-2. Update test fixtures if schema changes
-3. Document new features in this README
-4. Test with actual agent files
-5. Update workflow if script interface changes
+1. Choose the appropriate directory based on function
+2. Follow Python conventions (see `docs/styleguides/python_conventions.md`)
+3. Write tests before implementation (TDD/ATDD)
+4. Update this README with usage documentation
+5. Add type hints and docstrings
+6. Ensure scripts are idempotent and safe to re-run
 
 ## References
 
-- OpenCode Specification: https://opencode.ai/config.json (when available)
-- Agent Files: `.github/agents/*.agent.md`
-- Workflow: `.github/workflows/reusable-config-mapping.yml`
+- Python Conventions: `docs/styleguides/python_conventions.md`
+- Version Control Hygiene: `docs/styleguides/version_control_hygiene.md`
+- ADR-009 Orchestration Metrics: `docs/architecture/adrs/ADR-009-orchestration-metrics-standard.md`
+- Agent Orchestration: `ops/orchestration/README.md`
+- Planning Scripts: `ops/planning/README.md`

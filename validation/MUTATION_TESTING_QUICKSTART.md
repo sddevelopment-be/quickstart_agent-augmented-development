@@ -32,7 +32,7 @@ mutmut show <id>
 mutmut apply <id>
 
 # Restore original code
-git checkout ops/scripts/orchestration/
+git checkout ops/orchestration/
 
 # Generate HTML report
 mutmut html
@@ -78,7 +78,7 @@ mutmut show 5
 mutmut apply 5
 
 # 3. Look at the change
-git diff ops/scripts/orchestration/task_utils.py
+git diff ops/orchestration/task_utils.py
 
 # 4. Run the tests (they should pass but shouldn't)
 python -m pytest validation/test_task_utils.py -v
@@ -86,7 +86,7 @@ python -m pytest validation/test_task_utils.py -v
 # 5. Write a test to catch this bug
 
 # 6. Restore original code
-git checkout ops/scripts/orchestration/
+git checkout ops/orchestration/
 
 # 7. Verify your new test catches it
 mutmut run
@@ -121,7 +121,7 @@ Edit `pyproject.toml`:
 
 ```toml
 [tool.mutmut]
-paths_to_mutate = "ops/scripts/orchestration/"
+paths_to_mutate = "ops/orchestration/"
 runner = "python -m pytest validation/"
 tests_dir = "validation/"
 timeout = 60

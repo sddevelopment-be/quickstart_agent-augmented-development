@@ -8,17 +8,17 @@ This document provides practical examples for using the `capture-metrics.py` scr
 
 ```bash
 # Output to stdout
-python3 ops/scripts/capture-metrics.py
+python3 ops/dashboards/capture-metrics.py
 
 # Save to file
-python3 ops/scripts/capture-metrics.py --output-file metrics.json
+python3 ops/dashboards/capture-metrics.py --output-file metrics.json
 ```
 
 ### Extract All Metrics (CSV)
 
 ```bash
 # For spreadsheet analysis
-python3 ops/scripts/capture-metrics.py \
+python3 ops/dashboards/capture-metrics.py \
   --output-format csv \
   --output-file metrics.csv
 ```
@@ -27,7 +27,7 @@ python3 ops/scripts/capture-metrics.py \
 
 ```bash
 # See processing details
-python3 ops/scripts/capture-metrics.py --verbose
+python3 ops/dashboards/capture-metrics.py --verbose
 ```
 
 ## Advanced Usage
@@ -38,11 +38,11 @@ Extract metrics and filter by date using `jq`:
 
 ```bash
 # Extract metrics for November 2025
-python3 ops/scripts/capture-metrics.py | \
+python3 ops/dashboards/capture-metrics.py | \
   jq '.metrics[] | select(.timestamp | startswith("2025-11"))'
 
 # Extract metrics from last 7 days
-python3 ops/scripts/capture-metrics.py | \
+python3 ops/dashboards/capture-metrics.py | \
   jq --arg date "$(date -d '7 days ago' '+%Y-%m-%d')" \
   '.metrics[] | select(.timestamp >= $date)'
 ```
@@ -51,11 +51,11 @@ python3 ops/scripts/capture-metrics.py | \
 
 ```bash
 # Extract metrics for specific agent
-python3 ops/scripts/capture-metrics.py | \
+python3 ops/dashboards/capture-metrics.py | \
   jq '.metrics[] | select(.agent == "synthesizer")'
 
 # Summary for each agent
-python3 ops/scripts/capture-metrics.py | \
+python3 ops/dashboards/capture-metrics.py | \
   jq '.summary.agents'
 ```
 
@@ -63,12 +63,12 @@ python3 ops/scripts/capture-metrics.py | \
 
 ```bash
 # Find longest running tasks
-python3 ops/scripts/capture-metrics.py | \
+python3 ops/dashboards/capture-metrics.py | \
   jq '.metrics | sort_by(.duration_minutes) | reverse | .[0:10] | 
       .[] | {task_id, agent, duration_minutes}'
 
 # Calculate average duration per agent
-python3 ops/scripts/capture-metrics.py | \
+python3 ops/dashboards/capture-metrics.py | \
   jq '.summary.agents | to_entries[] | 
       {agent: .key, avg_duration: (.value.total_duration / .value.count)}'
 ```
@@ -77,17 +77,17 @@ python3 ops/scripts/capture-metrics.py | \
 
 ```bash
 # Total token usage by agent
-python3 ops/scripts/capture-metrics.py | \
+python3 ops/dashboards/capture-metrics.py | \
   jq '.summary.agents | to_entries[] | 
       {agent: .key, total_tokens: .value.total_tokens}'
 
 # Tasks with highest token usage
-python3 ops/scripts/capture-metrics.py | \
+python3 ops/dashboards/capture-metrics.py | \
   jq '.metrics | sort_by(.token_total) | reverse | .[0:10] | 
       .[] | {task_id, agent, token_total}'
 
 # Average tokens per task
-python3 ops/scripts/capture-metrics.py | \
+python3 ops/dashboards/capture-metrics.py | \
   jq '[.metrics[] | select(.token_total != null)] | 
       length as $count | 
       (map(.token_total) | add) as $total | 
@@ -98,12 +98,12 @@ python3 ops/scripts/capture-metrics.py | \
 
 ```bash
 # Total artifacts created per agent
-python3 ops/scripts/capture-metrics.py | \
+python3 ops/dashboards/capture-metrics.py | \
   jq '.summary.agents | to_entries[] | 
       {agent: .key, tasks: .value.count}'
 
 # Tasks that created the most artifacts
-python3 ops/scripts/capture-metrics.py | \
+python3 ops/dashboards/capture-metrics.py | \
   jq '.metrics | sort_by(.artifacts_created) | reverse | .[0:10] | 
       .[] | {task_id, agent, artifacts_created}'
 ```
@@ -112,12 +112,12 @@ python3 ops/scripts/capture-metrics.py | \
 
 ```bash
 # List all handoffs
-python3 ops/scripts/capture-metrics.py | \
+python3 ops/dashboards/capture-metrics.py | \
   jq '.metrics[] | select(.next_agent != null) | 
       {task_id, from_agent: .agent, to_agent: .next_agent}'
 
 # Total handoff count
-python3 ops/scripts/capture-metrics.py | \
+python3 ops/dashboards/capture-metrics.py | \
   jq '.summary.totals.handoffs'
 ```
 
@@ -136,11 +136,11 @@ mkdir -p "$OUTPUT_DIR"
 echo "Generating metrics report for $DATE..."
 
 # Extract metrics
-python3 ops/scripts/capture-metrics.py \
+python3 ops/dashboards/capture-metrics.py \
   --output-file "$OUTPUT_DIR/metrics-$DATE.json"
 
 # Generate summary
-python3 ops/scripts/capture-metrics.py | \
+python3 ops/dashboards/capture-metrics.py | \
   jq '.summary' > "$OUTPUT_DIR/summary-$DATE.json"
 
 echo "Report saved to $OUTPUT_DIR/"
@@ -150,7 +150,7 @@ echo "Report saved to $OUTPUT_DIR/"
 
 ```bash
 # Generate CSV for Excel/Google Sheets
-python3 ops/scripts/capture-metrics.py \
+python3 ops/dashboards/capture-metrics.py \
   --output-format csv \
   --output-file metrics-$(date +%Y%m%d).csv
 
@@ -174,7 +174,7 @@ for week in {0..3}; do
   
   echo "Week ending $END_DATE:"
   
-  python3 ops/scripts/capture-metrics.py | \
+  python3 ops/dashboards/capture-metrics.py | \
     jq --arg start "$START_DATE" --arg end "$END_DATE" '
       .metrics[] | 
       select(.timestamp >= $start and .timestamp < $end)
@@ -195,7 +195,7 @@ done
 # In GitHub Actions workflow
 - name: Extract Metrics
   run: |
-    python3 ops/scripts/capture-metrics.py \
+    python3 ops/dashboards/capture-metrics.py \
       --output-file metrics.json
     
     # Fail if no metrics found
@@ -236,7 +236,7 @@ CREATE TABLE IF NOT EXISTS metrics (
 EOF
 
 # Import CSV data
-python3 ops/scripts/capture-metrics.py --output-format csv --output-file /tmp/metrics.csv
+python3 ops/dashboards/capture-metrics.py --output-format csv --output-file /tmp/metrics.csv
 sqlite3 metrics.db <<EOF
 .mode csv
 .import /tmp/metrics.csv metrics_temp
@@ -254,7 +254,7 @@ sqlite3 metrics.db "SELECT agent, COUNT(*), SUM(duration_minutes)
 
 ```bash
 # Generate Prometheus metrics
-python3 ops/scripts/capture-metrics.py | \
+python3 ops/dashboards/capture-metrics.py | \
   jq -r '.summary.agents | to_entries[] | 
     "orchestration_tasks_total{agent=\"\(.key)\"} \(.value.count)\n" +
     "orchestration_duration_minutes_total{agent=\"\(.key)\"} \(.value.total_duration)\n" +
@@ -273,7 +273,7 @@ ls -la work/reports/logs/*/
 ls -la work/collaboration/done/*/
 
 # Run with verbose mode to see what's being processed
-python3 ops/scripts/capture-metrics.py --verbose
+python3 ops/dashboards/capture-metrics.py --verbose
 ```
 
 ### Incomplete Metrics
@@ -282,7 +282,7 @@ Some work logs may not have all ADR-009 metrics. The script handles this gracefu
 
 ```bash
 # See which metrics are most commonly available
-python3 ops/scripts/capture-metrics.py | \
+python3 ops/dashboards/capture-metrics.py | \
   jq '.metrics | 
       [.[] | keys] | 
       flatten | 

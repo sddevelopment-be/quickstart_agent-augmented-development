@@ -268,7 +268,7 @@ python -m pytest validation/test_task_utils.py validation/test_agent_orchestrato
 python -m pytest validation/test_orchestration_e2e.py -v
 
 # Coverage (optional)
-python -m pytest validation/ --cov=ops/scripts/orchestration --cov-report=term-missing
+python -m pytest validation/ --cov=ops/orchestration --cov-report=term-missing
 
 # Mutation testing (optional, takes time)
 mutmut run
