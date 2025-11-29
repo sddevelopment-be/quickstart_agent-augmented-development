@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > Scope / plan for upcoming release
 
 ### Added
+- Dual-helper test readability experiment artifacts (Ralph analysis, Alphonso review, work log, prompt storage) and summary report (`docs/reports/agent-test-validation-experiment-report.md`).
+- Audience-specific, public-friendly articles on test readability and agent-enhanced development (coaches/engineers, managers, educators) now organized under `work/articles/code_as_documentation_experiment/` with a directory README.
+- Mutation testing scaffold and documentation (`docs/HOW_TO_USE/mutation_testing.md`); CI/testing workflow documentation updates.
 
 - **POC3 Multi-Agent Chain Validation (2025-11-27)**
   - Completed 5-agent sequential workflow (Architect → Diagrammer → Synthesizer → Writer-Editor → Curator)
@@ -64,6 +67,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Architecture synthesis notes (primers, gold plating, batch scripting, test boundaries)
 
 ### Changed
+- HOW_TO_USE guides now declare target audiences and clarify usage (Quickstart, orchestration, testing, CI, workflows, Copilot setup, issue templates, mutation testing).
+- Articles moved out of `docs/articles` into `work/articles/code_as_documentation_experiment/` to separate public narratives from core docs.
+- Test readability approach and prompt templates refined; coaching/ROI articles updated to public-friendly tone.
 
 - Refactored `AGENTS.md` to lean core (12 sections) with external directive references
 - Externalized operational guidance into modular directives
