@@ -1,5 +1,7 @@
 # Issue Templates Guide
 
+**Audience:** Maintainers and project managers choosing the right template for incoming work.
+
 ## Overview
 
 This repository provides specialized GitHub issue templates that integrate seamlessly with our multi-agent workflow system. These templates streamline common agent-driven tasks and ensure proper routing and execution.

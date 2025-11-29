@@ -1,5 +1,7 @@
 # Agents Quickstart
 
+**Audience:** New contributors and maintainers onboarding to the agent framework.
+
 This repository is set up to host autonomous agents that can help manage, build, and maintain the codebase. This Quickstart guide explains how to use the agent framework provided here.
 
 ## Overview of the Agent Framework

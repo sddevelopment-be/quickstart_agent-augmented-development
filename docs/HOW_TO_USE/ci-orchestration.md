@@ -1,5 +1,7 @@
 # CI/CD Orchestration Guide
 
+**Audience:** Release engineers and maintainers configuring automation.
+
 This guide explains the automated CI/CD workflows that support the file-based multi-agent orchestration framework.
 
 ## Overview

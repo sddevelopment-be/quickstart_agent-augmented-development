@@ -1,5 +1,7 @@
 # Using the Multi-Agent Orchestration System
 
+**Audience:** Engineers and operators who create and route tasks through the file-based orchestrator.
+
 This guide explains how to use the multi-agent orchestration system to delegate work within this repository. The system enables you to create tasks that are automatically assigned to specialized agents, which complete the work asynchronously—no coordination overhead required.
 
 ## What is Multi-Agent Orchestration?
