@@ -1,0 +1,22 @@
+# Development dependencies for quickstart_agent-augmented-development
+# These are NOT required for production, only for development and testing
+
+# Testing framework
+pytest>=7.0
+pytest-cov>=4.0  # Coverage plugin for pytest
+
+# Code formatting
+black>=25.0
+
+# Linting
+ruff>=0.14.0
+
+# Mutation testing
+mutmut>=3.4.0
+
+# YAML parsing (also in requirements.txt but listed here for completeness)
+PyYAML>=6.0
+
+# Type checking (optional)
+mypy>=1.0
+types-PyYAML>=6.0
