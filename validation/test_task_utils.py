@@ -23,13 +23,12 @@ import yaml
 sys.path.insert(0, str(Path(__file__).parent.parent / "ops" / "orchestration"))
 
 from task_utils import (
-    read_task,
-    write_task,
-    log_event,
     get_utc_timestamp,
+    log_event,
+    read_task,
     update_task_status,
+    write_task,
 )
-
 
 # ============================================================================
 # Test Fixtures
@@ -168,7 +167,7 @@ def test_write_task_creates_file(temp_task_dir: Path, sample_task: dict) -> None
 
     assert task_file.exists()
 
-    with open(task_file, "r", encoding="utf-8") as f:
+    with open(task_file, encoding="utf-8") as f:
         result = yaml.safe_load(f)
 
     assert result == sample_task

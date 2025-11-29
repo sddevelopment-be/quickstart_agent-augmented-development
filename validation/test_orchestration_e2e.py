@@ -107,7 +107,7 @@ def write_task(work_dir: Path, location: str, task: dict[str, Any]) -> Path:
 
 def read_task(task_file: Path) -> dict[str, Any]:
     """Read task from file."""
-    with open(task_file, "r", encoding="utf-8") as f:
+    with open(task_file, encoding="utf-8") as f:
         return yaml.safe_load(f) or {}
 
 
