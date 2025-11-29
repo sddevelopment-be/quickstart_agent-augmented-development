@@ -19,10 +19,8 @@ from pathlib import Path
 import pytest
 import yaml
 
-# Add orchestration scripts directory to path for imports
-sys.path.insert(
-    0, str(Path(__file__).parent.parent / "ops" / "scripts" / "orchestration")
-)
+# Add orchestration directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent / "ops" / "orchestration"))
 
 from task_utils import (
     read_task,

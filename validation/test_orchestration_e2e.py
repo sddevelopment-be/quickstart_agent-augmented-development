@@ -30,10 +30,8 @@ from typing import Any
 import pytest
 import yaml
 
-# Add orchestration scripts directory to path for imports
-sys.path.insert(
-    0, str(Path(__file__).parent.parent / "ops" / "scripts" / "orchestration")
-)
+# Add orchestration directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent / "ops" / "orchestration"))
 
 # Import orchestrator module
 import agent_orchestrator as orchestrator

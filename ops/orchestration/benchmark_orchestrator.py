@@ -21,7 +21,6 @@ import shutil
 import statistics
 import sys
 import time
-from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -31,9 +30,6 @@ import yaml
 # Import orchestrator functions
 sys.path.insert(0, str(Path(__file__).parent))
 from agent_orchestrator import (
-    ASSIGNED_DIR,
-    DONE_DIR,
-    INBOX_DIR,
     WORK_DIR,
     archive_old_tasks,
     assign_tasks,
@@ -107,7 +103,9 @@ def get_system_info() -> dict[str, Any]:
     return info
 
 
-def create_synthetic_task(task_id: str, agent: str, status: str = "new") -> dict[str, Any]:
+def create_synthetic_task(
+    task_id: str, agent: str, status: str = "new"
+) -> dict[str, Any]:
     """Generate a valid synthetic task."""
     return {
         "id": task_id,
@@ -125,12 +123,14 @@ def create_synthetic_task(task_id: str, agent: str, status: str = "new") -> dict
     }
 
 
-def setup_benchmark_environment(num_inbox: int, num_assigned: int, num_done: int) -> dict[str, int]:
+def setup_benchmark_environment(
+    num_inbox: int, num_assigned: int, num_done: int
+) -> dict[str, int]:
     """Create synthetic task files for benchmarking."""
     # Safety check: ensure we're only deleting in /tmp
     if not str(TEST_WORK_DIR).startswith("/tmp/"):
         raise ValueError(f"TEST_WORK_DIR must be in /tmp for safety: {TEST_WORK_DIR}")
-    
+
     if TEST_WORK_DIR.exists():
         shutil.rmtree(TEST_WORK_DIR)
 
@@ -165,7 +165,9 @@ def setup_benchmark_environment(num_inbox: int, num_assigned: int, num_done: int
         task_id = f"bench-assigned-{i:04d}"
         agent = agents[i % len(agents)]
         task = create_synthetic_task(task_id, agent, "assigned")
-        task["assigned_at"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+        task["assigned_at"] = (
+            datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+        )
         task_file = assigned_dir / agent / f"{task_id}.yaml"
         with open(task_file, "w", encoding="utf-8") as f:
             yaml.dump(task, f, default_flow_style=False, sort_keys=False)
@@ -176,7 +178,9 @@ def setup_benchmark_environment(num_inbox: int, num_assigned: int, num_done: int
         task_id = f"bench-done-{i:04d}"
         agent = agents[i % len(agents)]
         task = create_synthetic_task(task_id, agent, "done")
-        task["completed_at"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+        task["completed_at"] = (
+            datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+        )
         task["result"] = {
             "summary": f"Completed benchmark task {task_id}",
             "artefacts": [f"test/output/{task_id}.md"],
@@ -269,7 +273,7 @@ def validate_task_performance(num_tasks: int) -> dict[str, float]:
         start = time.perf_counter()
         # Validation: load YAML and check required structure per task schema
         try:
-            with open(task_file, "r", encoding="utf-8") as f:
+            with open(task_file, encoding="utf-8") as f:
                 task = yaml.safe_load(f)
                 # Validate required fields exist and have correct types
                 if not isinstance(task.get("id"), str):
@@ -402,7 +406,9 @@ def check_nfr_compliance(all_results: dict[str, BenchmarkResults]) -> dict[str, 
 
 
 def generate_json_report(
-    all_results: dict[str, BenchmarkResults], compliance: dict[str, Any], output_file: Path
+    all_results: dict[str, BenchmarkResults],
+    compliance: dict[str, Any],
+    output_file: Path,
 ) -> None:
     """Generate machine-readable JSON report."""
     report = {
@@ -429,14 +435,16 @@ def generate_json_report(
 
 
 def generate_markdown_report(
-    all_results: dict[str, BenchmarkResults], compliance: dict[str, Any], output_file: Path
+    all_results: dict[str, BenchmarkResults],
+    compliance: dict[str, Any],
+    output_file: Path,
 ) -> None:
     """Generate human-readable markdown report."""
     lines = [
         "# Orchestrator Performance Benchmark Report",
         "",
         f"**Generated:** {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}",
-        f"**Version:** 1.0.0",
+        "**Version:** 1.0.0",
         "",
         "## Executive Summary",
         "",
@@ -502,8 +510,12 @@ def generate_markdown_report(
         if "tasks_assigned_mean" in stats:
             lines.append("**Task Activity:**")
             lines.append(f"- Tasks assigned: {stats.get('tasks_assigned_mean', 0):.1f}")
-            lines.append(f"- Follow-ups created: {stats.get('followups_created_mean', 0):.1f}")
-            lines.append(f"- Conflicts detected: {stats.get('conflicts_detected_mean', 0):.1f}")
+            lines.append(
+                f"- Follow-ups created: {stats.get('followups_created_mean', 0):.1f}"
+            )
+            lines.append(
+                f"- Conflicts detected: {stats.get('conflicts_detected_mean', 0):.1f}"
+            )
             lines.append("")
 
     # NFR Analysis
@@ -518,11 +530,13 @@ def generate_markdown_report(
         lines.append("")
 
         details = nfr_data.get("details", {})
-        
+
         # NFR6 has a different structure (single test)
         if nfr_id == "nfr6" and "tasks_tested" in details:
             lines.append(f"**Tasks Tested:** {details['tasks_tested']}")
-            lines.append(f"**Mean Cycle Time:** {details.get('mean_cycle_time', 0):.3f}s")
+            lines.append(
+                f"**Mean Cycle Time:** {details.get('mean_cycle_time', 0):.3f}s"
+            )
             lines.append(f"**Max Cycle Time:** {details.get('max_cycle_time', 0):.3f}s")
             lines.append("")
         else:
@@ -562,7 +576,9 @@ def generate_markdown_report(
         if cycle_time > 0:
             for op, duration in operations.items():
                 if duration > cycle_time * 0.3:  # >30% of cycle time
-                    bottlenecks.append(f"- **{scenario}**: {op} ({duration:.3f}s, {duration/cycle_time*100:.1f}% of cycle)")
+                    bottlenecks.append(
+                        f"- **{scenario}**: {op} ({duration:.3f}s, {duration/cycle_time*100:.1f}% of cycle)"
+                    )
 
     if bottlenecks:
         lines.append("### Identified Bottlenecks")
@@ -570,16 +586,26 @@ def generate_markdown_report(
         lines.extend(bottlenecks)
         lines.append("")
 
-    if compliance["nfr4"]["pass"] and compliance["nfr5"]["pass"] and compliance["nfr6"]["pass"]:
+    if (
+        compliance["nfr4"]["pass"]
+        and compliance["nfr5"]["pass"]
+        and compliance["nfr6"]["pass"]
+    ):
         lines.append("### Overall Assessment")
         lines.append("")
-        lines.append("✅ **All NFR requirements met.** The orchestrator performs within specified limits.")
+        lines.append(
+            "✅ **All NFR requirements met.** The orchestrator performs within specified limits."
+        )
         lines.append("")
-        lines.append("The file-based orchestration framework is validated for production use.")
+        lines.append(
+            "The file-based orchestration framework is validated for production use."
+        )
     else:
         lines.append("### Overall Assessment")
         lines.append("")
-        lines.append("⚠️ **Some NFR requirements not met.** Review bottlenecks and consider optimization.")
+        lines.append(
+            "⚠️ **Some NFR requirements not met.** Review bottlenecks and consider optimization."
+        )
 
     lines.append("")
     lines.append("---")
