@@ -21,7 +21,13 @@ from typing import Any
 import yaml
 
 ALLOWED_STATUSES = {"new", "assigned", "in_progress", "done", "error"}
-ALLOWED_MODES = {"/analysis-mode", "/creative-mode", "/meta-mode"}
+ALLOWED_MODES = {
+    "/analysis-mode",
+    "/creative-mode",
+    "/meta-mode",
+    "/programming",
+    "/planning",
+}
 ALLOWED_PRIORITIES = {"critical", "high", "medium", "normal", "low"}
 
 

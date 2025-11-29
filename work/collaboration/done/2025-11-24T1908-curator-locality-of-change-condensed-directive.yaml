@@ -1,6 +1,6 @@
 id: "2025-11-24T1908-curator-locality-of-change-condensed-directive"
 agent: curator
-status: completed
+status: done
 priority: medium
 mode: /analysis-mode
 completed_at: "2025-11-27T20:36:00Z"
@@ -49,8 +49,16 @@ dependencies: []
 created_at: "2025-11-24T19:08:00Z"
 created_by: "copilot-pr-feedback"
 
-results:
+result:
   summary: "Successfully created condensed Directive 020 with 56% line reduction (166→73) while preserving complete decision checklist and anti-patterns"
+  artefacts:
+    - .github/agents/directives/021_locality_of_change.md
+    - work/reports/logs/curator/2025-11-27T2036-locality-of-change-condensed-directive.md
+    - AGENTS.md (updated)
+    - .github/agents/directives/manifest.json (updated)
+    - .github/agents/GLOSSARY.md (updated)
+    - .github/agents/approaches/README.md (updated)
+    - .github/agents/approaches/locality-of-change.md (updated)
   metrics:
     - "Original approach: 166 lines"
     - "Condensed directive: 73 lines (56% reduction)"
