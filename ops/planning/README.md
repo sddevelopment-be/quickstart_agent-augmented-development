@@ -10,7 +10,7 @@
 **Organization:** 3-tier architecture (API → Data → Helpers)
 
 ```
-ops/scripts/planning/
+ops/planning/
 ├── create-issues-from-definitions.sh  # Main API (Tier 1)
 ├── github-helpers/                    # Issue tracker abstraction (Tier 3)
 ├── agent-scripts/
@@ -86,19 +86,19 @@ body: |
 
 ```bash
 # Create all issues
-ops/scripts/planning/create-issues-from-definitions.sh
+ops/planning/create-issues-from-definitions.sh
 
 # Create only housekeeping issues
-ops/scripts/planning/create-issues-from-definitions.sh --taskset housekeeping
+ops/planning/create-issues-from-definitions.sh --taskset housekeeping
 
 # Create multiple tasksets
-ops/scripts/planning/create-issues-from-definitions.sh --taskset housekeeping,documentation
+ops/planning/create-issues-from-definitions.sh --taskset housekeeping,documentation
 
 # Dry run to preview
-ops/scripts/planning/create-issues-from-definitions.sh --taskset housekeeping --dry-run
+ops/planning/create-issues-from-definitions.sh --taskset housekeeping --dry-run
 
 # List available tasksets
-ops/scripts/planning/create-issues-from-definitions.sh --list-tasksets
+ops/planning/create-issues-from-definitions.sh --list-tasksets
 ```
 
 ### For Agents: Creating New Issue Definitions
@@ -139,19 +139,19 @@ Instead of writing bash scripts, agents should create YAML definition files:
 export GH_TOKEN="your_github_token"
 
 # List available tasksets
-ops/scripts/planning/create-issues-from-definitions.sh --list-tasksets
+ops/planning/create-issues-from-definitions.sh --list-tasksets
 
 # Preview issues (dry run)
-ops/scripts/planning/create-issues-from-definitions.sh --taskset housekeeping --dry-run
+ops/planning/create-issues-from-definitions.sh --taskset housekeeping --dry-run
 
 # Create issues for a specific taskset
-ops/scripts/planning/create-issues-from-definitions.sh --taskset housekeeping
+ops/planning/create-issues-from-definitions.sh --taskset housekeeping
 
 # Create multiple tasksets
-ops/scripts/planning/create-issues-from-definitions.sh --taskset housekeeping,poc3
+ops/planning/create-issues-from-definitions.sh --taskset housekeeping,poc3
 
 # Create all issues
-ops/scripts/planning/create-issues-from-definitions.sh
+ops/planning/create-issues-from-definitions.sh
 ```
 
 ## Main API: create-issues-from-definitions.sh
@@ -193,7 +193,7 @@ The `github-helpers/` directory contains GitHub-specific implementations that ab
 
 ### github-issue-helpers.sh
 
-**Location:** `ops/scripts/planning/github-helpers/github-issue-helpers.sh`
+**Location:** `ops/planning/github-helpers/github-issue-helpers.sh`
 
 Core abstraction providing functions for issue management:
 - `_github_issue::create` - Create issue with labels, assignees, etc.
@@ -206,14 +206,14 @@ Core abstraction providing functions for issue management:
 
 ### create-github-issue.sh
 
-**Location:** `ops/scripts/planning/github-helpers/create-github-issue.sh`
+**Location:** `ops/planning/github-helpers/create-github-issue.sh`
 
 CLI wrapper for the helper functions. This is the primary interface used by Tier 2 scripts.
 
 **Usage:**
 ```bash
 # From a local file
-ops/scripts/planning/github-helpers/create-github-issue.sh \
+ops/planning/github-helpers/create-github-issue.sh \
   --repo owner/repo \
   --title "Issue title" \
   --body-file path/to/body.md \
@@ -221,7 +221,7 @@ ops/scripts/planning/github-helpers/create-github-issue.sh \
   --assignee username
 
 # From STDIN
-echo "Issue body" | ops/scripts/planning/github-helpers/create-github-issue.sh \
+echo "Issue body" | ops/planning/github-helpers/create-github-issue.sh \
   --repo owner/repo \
   --title "Issue title" \
   --label label1
@@ -276,13 +276,13 @@ When agents create new issues:
 
 ```bash
 # List available tasksets
-ops/scripts/planning/create-issues-from-definitions.sh --list-tasksets
+ops/planning/create-issues-from-definitions.sh --list-tasksets
 
 # Dry run (preview without creating)
-ops/scripts/planning/create-issues-from-definitions.sh --taskset housekeeping --dry-run
+ops/planning/create-issues-from-definitions.sh --taskset housekeeping --dry-run
 
 # Test all tasksets
-ops/scripts/planning/create-issues-from-definitions.sh --dry-run
+ops/planning/create-issues-from-definitions.sh --dry-run
 
 # Validate YAML syntax
 for f in agent-scripts/issue-definitions/*.yml; do 
@@ -310,7 +310,7 @@ gh auth login
 **Solution:** Ensure you're running from repository root or use full path:
 ```bash
 cd /path/to/quickstart_agent-augmented-development
-ops/scripts/planning/create-issues-from-definitions.sh --list-tasksets
+ops/planning/create-issues-from-definitions.sh --list-tasksets
 ```
 
 ### "gh: command not found"

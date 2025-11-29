@@ -7,7 +7,7 @@ This document provides practical examples for using `generate-dashboard.py` to c
 First, capture metrics using `capture-metrics.py`:
 
 ```bash
-python3 ops/scripts/capture-metrics.py --output-file work/reports/metrics/metrics.json
+python3 ops/dashboards/capture-metrics.py --output-file work/reports/metrics/metrics.json
 ```
 
 ## Basic Usage
@@ -17,7 +17,7 @@ python3 ops/scripts/capture-metrics.py --output-file work/reports/metrics/metric
 Generate all three dashboard types (summary, detail, trends) to default location:
 
 ```bash
-python3 ops/scripts/generate-dashboard.py --input work/reports/metrics/metrics.json
+python3 ops/dashboards/generate-dashboard.py --input work/reports/metrics/metrics.json
 ```
 
 Output files:
@@ -30,7 +30,7 @@ Output files:
 Generate only the summary dashboard:
 
 ```bash
-python3 ops/scripts/generate-dashboard.py \
+python3 ops/dashboards/generate-dashboard.py \
   --input work/reports/metrics/metrics.json \
   --dashboard-type summary
 ```
@@ -46,7 +46,7 @@ Available types:
 View dashboard content directly without creating files:
 
 ```bash
-python3 ops/scripts/generate-dashboard.py \
+python3 ops/dashboards/generate-dashboard.py \
   --input work/reports/metrics/metrics.json \
   --dashboard-type summary \
   --output-file -
@@ -59,7 +59,7 @@ python3 ops/scripts/generate-dashboard.py \
 Save dashboards to a custom location:
 
 ```bash
-python3 ops/scripts/generate-dashboard.py \
+python3 ops/dashboards/generate-dashboard.py \
   --input work/reports/metrics/metrics.json \
   --output-dir docs/metrics/
 ```
@@ -69,7 +69,7 @@ python3 ops/scripts/generate-dashboard.py \
 Refresh dashboards with latest data:
 
 ```bash
-python3 ops/scripts/generate-dashboard.py \
+python3 ops/dashboards/generate-dashboard.py \
   --input work/reports/metrics/metrics.json \
   --update
 ```
@@ -79,7 +79,7 @@ python3 ops/scripts/generate-dashboard.py \
 Enable detailed logging for troubleshooting:
 
 ```bash
-python3 ops/scripts/generate-dashboard.py \
+python3 ops/dashboards/generate-dashboard.py \
   --input work/reports/metrics/metrics.json \
   --verbose
 ```
@@ -89,7 +89,7 @@ python3 ops/scripts/generate-dashboard.py \
 Save a specific dashboard type to a custom filename:
 
 ```bash
-python3 ops/scripts/generate-dashboard.py \
+python3 ops/dashboards/generate-dashboard.py \
   --input work/reports/metrics/metrics.json \
   --dashboard-type trends \
   --output-file reports/weekly-trends.md
@@ -103,13 +103,13 @@ Capture metrics and generate dashboards in one workflow:
 
 ```bash
 # Capture current metrics
-python3 ops/scripts/capture-metrics.py \
+python3 ops/dashboards/capture-metrics.py \
   --work-dir work/ \
   --output-file work/reports/metrics/metrics.json \
   --verbose
 
 # Generate all dashboards
-python3 ops/scripts/generate-dashboard.py \
+python3 ops/dashboards/generate-dashboard.py \
   --input work/reports/metrics/metrics.json \
   --output-dir work/reports/dashboards/ \
   --verbose
@@ -124,11 +124,11 @@ Create a script to regularly update dashboards:
 # update-dashboards.sh
 
 # Capture latest metrics
-python3 ops/scripts/capture-metrics.py \
+python3 ops/dashboards/capture-metrics.py \
   --output-file /tmp/latest-metrics.json
 
 # Update dashboards
-python3 ops/scripts/generate-dashboard.py \
+python3 ops/dashboards/generate-dashboard.py \
   --input /tmp/latest-metrics.json \
   --update \
   --verbose
@@ -143,8 +143,8 @@ Add to your CI/CD pipeline:
 ```yaml
 - name: Generate Metrics Dashboards
   run: |
-    python3 ops/scripts/capture-metrics.py --output-file metrics.json
-    python3 ops/scripts/generate-dashboard.py --input metrics.json
+    python3 ops/dashboards/capture-metrics.py --output-file metrics.json
+    python3 ops/dashboards/generate-dashboard.py --input metrics.json
 ```
 
 ## Dashboard Types Explained
@@ -162,7 +162,7 @@ Add to your CI/CD pipeline:
 
 **Example:**
 ```bash
-python3 ops/scripts/generate-dashboard.py \
+python3 ops/dashboards/generate-dashboard.py \
   --dashboard-type summary \
   --output-file - | less
 ```
@@ -182,7 +182,7 @@ python3 ops/scripts/generate-dashboard.py \
 
 **Example:**
 ```bash
-python3 ops/scripts/generate-dashboard.py \
+python3 ops/dashboards/generate-dashboard.py \
   --dashboard-type detail \
   --output-file reports/detail-$(date +%Y%m%d).md
 ```
@@ -201,7 +201,7 @@ python3 ops/scripts/generate-dashboard.py \
 
 **Example:**
 ```bash
-python3 ops/scripts/generate-dashboard.py \
+python3 ops/dashboards/generate-dashboard.py \
   --dashboard-type trends \
   --output-dir docs/retrospectives/
 ```
@@ -237,7 +237,7 @@ ls -l work/reports/metrics/metrics.json
 
 If missing, capture metrics first:
 ```bash
-python3 ops/scripts/capture-metrics.py --output-file work/reports/metrics/metrics.json
+python3 ops/dashboards/capture-metrics.py --output-file work/reports/metrics/metrics.json
 ```
 
 ## Sample Output
@@ -265,7 +265,7 @@ _Generated: 2025-11-27T20:30:00Z_
 
 ## Related Documentation
 
-- **Metrics Capture:** `ops/scripts/capture-metrics.py` and `METRICS_USAGE_EXAMPLES.md`
+- **Metrics Capture:** `ops/dashboards/capture-metrics.py` and `METRICS_USAGE_EXAMPLES.md`
 - **Testing:** `ops/scripts/test-generate-dashboard.sh`
 - **ADR-009:** Orchestration Metrics and Quality Standards
 - **Main Documentation:** `ops/README.md`
