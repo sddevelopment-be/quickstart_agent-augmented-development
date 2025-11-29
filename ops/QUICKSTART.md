@@ -6,14 +6,14 @@ Automatically converts agent markdown files from `.github/agents/` to OpenCode J
 
 ## Files Overview
 
-| File                                                      | Purpose                                   |
-|-----------------------------------------------------------|-------------------------------------------|
-| `ops/portability/opencode-spec-validator.py`                  | Validates OpenCode JSON configs           |
-| `ops/portability/convert-agents-to-opencode.py`               | Converts agent markdown to JSON           |
-| `ops/planning/github-helpers/`                    | Issue tracker abstraction layer           |
-| `ops/planning/create-github-issues.sh`            | Main orchestration (API layer)            |
-| `.github/workflows/reusable-config-mapping.yml`           | Automates conversion on changes           |
-| `opencode-config.json`                                    | Generated OpenCode configuration          |
+| File                                            | Purpose                          |
+|-------------------------------------------------|----------------------------------|
+| `ops/portability/opencode-spec-validator.py`    | Validates OpenCode JSON configs  |
+| `ops/portability/convert-agents-to-opencode.py` | Converts agent markdown to JSON  |
+| `ops/planning/github-helpers/`                  | Issue tracker abstraction layer  |
+| `ops/planning/create-github-issues.sh`          | Main orchestration (API layer)   |
+| `.github/workflows/reusable-config-mapping.yml` | Automates conversion on changes  |
+| `opencode-config.json`                          | Generated OpenCode configuration |
 
 ## Quick Usage
 
