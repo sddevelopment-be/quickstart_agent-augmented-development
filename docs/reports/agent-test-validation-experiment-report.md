@@ -1,40 +1,40 @@
 # Agent-Enhanced Test Validation Experiment Report
 
 **Date:** 2025-11-29  
-**Audience:** Delivery team  
+**Audience:** Delivery team (public-friendly summary)  
 **Sources:** `work/notes/ralph_system_analysis_from_tests.md`, `work/notes/alphonso_architecture_review.md`, `work/reports/logs/build-automation/2025-11-29T0652-qualitative-test-study.md`, `.github/agents/approaches/test-readability-clarity-check.md`
 
 ## Experiment Overview
-- **Objective:** Measure how well the test suite documents the system by reconstructing understanding from tests alone, then validating against the real architecture.
-- **Method:** Dual-agent run. Researcher Ralph analyzed 66 tests across 3 files (~1,985 LOC) with a “tests only” constraint. Architect Alphonso compared Ralph’s findings to source code and ADR-008.
-- **Duration:** ~65 minutes total (30 minutes Ralph, 20 minutes Alphonso, 15 minutes documentation).
+- **Objective:** Measure how well the test suite explains the system to a newcomer by reconstructing it from tests alone, then checking that story against the real design.
+- **Method:** Two small AI helpers. “Ralph” read 66 tests (~1,985 lines) with a “tests only” rule and wrote what the system appears to do. “Alphonso” compared that write-up to the real code and design notes (ADR-008 covers the file-based, single-orchestrator approach).
+- **Duration:** ~65 minutes total (30 Ralph, 20 Alphonso, 15 docs).
 - **Scope:** Orchestration utilities and workflows (`task_utils`, `agent_orchestrator`, orchestration e2e).
-- **Accuracy Result:** 92% alignment overall; behavioral coverage near-perfect, architecture rationale partially captured.
+- **Accuracy Result:** 92% alignment overall; behavior was clear, design rationale needed light context.
 
 ## Findings
-- **What tests document well:** Task schema, orchestrator workflows (assignment, handoffs, timeouts, conflict detection, archival), error handling, and edge cases. Quad-A structure and fixtures made inference easy.
-- **Blind spots:** Design rationale (why file-based, single-orchestrator constraint), deployment/operations (cron cadence, agent lifecycle), security and trust boundaries, performance envelope, failure recovery expectations.
-- **Key discrepancies:** Conflict detection intent (preventive vs. reactive), deliberate single-orchestrator model, provenance of tasks, security tied to repo permissions.
+- **What tests document well:** Task schema; orchestrator workflows (assignment, handoffs, timeouts, conflict detection, archival); error handling and edge cases. Clear names and fixtures made the story easy to follow.
+- **Blind spots:** The “why” behind choices (file-based, single-orchestrator), how it runs (cron cadence, agent lifecycle), security boundaries (Git permissions, not an auth layer), performance expectations, failure recovery.
+- **Key discrepancies:** Conflict detection is preventive (not a runtime fix); single-orchestrator is intentional; task sources and trust model live outside the tests.
 
 ## Benefits Observed
-- **Executable documentation:** Tests enabled 92% accurate system reconstruction without docs, proving they serve as living specs.
-- **Onboarding acceleration:** A newcomer can get a reliable system map from the tests + Alphonso’s deltas in under an hour.
-- **Gap detection:** Architectural and operational blind spots surfaced quickly, yielding actionable recommendations (ADR links in docstrings, deployment-oriented tests, performance/security probes).
-- **Repeatable workflow:** Prompt template and approach doc make the exercise reusable for modules or releases.
+- **Executable documentation:** Tests alone supported a 92% accurate reconstruction—good enough to orient a newcomer.
+- **Onboarding boost:** Reading the tests plus Alphonso’s “missing pieces” list takes under an hour.
+- **Gap detection:** Architectural and operational blind spots surfaced quickly; most are fixable with short intent notes or one or two extra scenarios.
+- **Repeatable workflow:** The prompt template and file-based orchestration make reruns easy for other modules or releases.
 
 ## Tradeoffs and Risks
-- **Time cost:** ~65 minutes per run; too heavy for daily changes. Best for milestones or quarterly checks.
-- **Subjectivity:** Accuracy scoring is qualitative today; rubric needed to reduce bias.
-- **Staleness risk:** Ralph/Alphonso docs drift as code evolves; reruns must be scheduled.
-- **Operational blind spots remain:** Tests alone will never cover rationale, operations, or security posture; supplemental docs stay mandatory.
-- **Token/compute usage:** Dual-agent runs consume notable tokens; keep scope tight.
+- **Time cost:** ~65 minutes; use for milestones, not every change.
+- **Subjectivity:** Scoring is qualitative; add a simple rubric to keep it consistent.
+- **Staleness:** Outputs age as code changes; plan reruns.
+- **Coverage limits:** Tests won’t capture rationale or operations on their own; short notes or ADR links are still needed.
+- **Compute/token use:** Keep scope tight to control cost.
 
 ## Recommendations
-- Run the approach after major test refactors or before releases; target quarterly cadence.
-- Add ADR or design-note links to test docstrings where intent matters (conflict detection, single-orchestrator design).
-- Add lightweight deployment and operational tests (cron cadence, agent registration, recovery paths).
-- Extend with performance and security probes (throughput expectations, trust boundaries).
-- Define a simple scoring rubric (behavioral vs. architectural vs. operational) to harden accuracy percentages.
+- Run after major test refactors or before releases; quarterly cadence is reasonable.
+- Add one-line ADR/design links to tests where intent matters (conflict detection purpose, single-orchestrator choice).
+- Add a lightweight “how it runs” scenario (cron cadence, agent registration, recovery path).
+- Add small performance/security probes (throughput expectation, trust boundary note).
+- Use a simple rubric (behavioral/architectural/operational) with examples to keep scores consistent.
 
 ## Notes on Prior Articles
-- Existing pieces in `docs/articles/` are either audience-misaligned or incomplete (e.g., `test-as-documentation-validation.md` stops mid-article, executive summary includes an inline interruption). New audience-specific articles have been drafted separately.
+- Earlier drafts in `docs/articles/` assumed an internal audience. Updated articles now explain the approach in public-friendly language and add the “why” and “how it runs” context that tests alone don’t cover.

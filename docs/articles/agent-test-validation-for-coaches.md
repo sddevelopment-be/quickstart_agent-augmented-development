@@ -1,49 +1,39 @@
 # Agent-Enhanced Test Validation for Coaches and Engineers
 
 **Audience:** Technical coaches, process architects, software engineers  
-**Purpose:** Teach a repeatable way to check whether tests double as accurate documentation.  
-**Based on:** Dual-agent experiment (92% accuracy from tests alone, 65 minutes, 66 tests across 3 files)
+**Purpose:** How to check whether your tests read like documentation, using a lightweight dual-helper workflow.  
+**Pilot signal:** Tests alone gave a **92% accurate** system description; gaps were mostly about “why” and “ops.”
 
-## Why This Matters
-- Tests are often the freshest description of behavior, but we rarely verify their readability or completeness.
-- A fast dual-agent pass tells you if tests explain the system well enough for onboarding and change risk assessment.
-- The method surfaced architectural blind spots (rationale, operations, security) even when behavioral coverage was excellent.
+## Why This Matters (You Already Know the Tech)
+- Tests are often the freshest specification, but “high coverage” ≠ “high clarity.”  
+- Onboarding speed, review friction, and regression risk all hinge on how well tests convey intent.  
+- The question we ask: **Can a new teammate describe the system by reading only the tests?**
 
-## The Approach (Dual-Agent Loop)
-1. **Researcher Ralph (tests-only):** Reads specified test files, reconstructs system behavior, data, and workflows. No docs, no comments. Output: system analysis with confidence levels.
-2. **Architect Alphonso (full-context):** Compares Ralph’s understanding to source + ADRs, scores accuracy, and lists blind spots and fixes.
-3. **Wrap-up:** Work log + prompt storage (Directives 014, 015) keep the run auditable and repeatable.
+## The Dual-Helper Pattern
+1) **Researcher Ralph (tests-only):** Reads the scoped tests and writes the system story—no docs, no prior context.  
+2) **Architect Alphonso (full context):** Compares Ralph’s story to code + ADRs, scores accuracy, and lists missing context.  
+3) **Close the gaps:** Add intent notes or one or two scenarios where the tests fall short (usually rationale, ops, or security).
 
 ## What We Learned in the Pilot
-- **Behavioral clarity:** Tests documented workflows, edge cases, and data structures so well that Ralph hit **92% overall accuracy** without docs.
-- **Gaps:** Rationale (file-based, single-orchestrator), operations (cron cadence, agent lifecycle), security boundaries, and performance envelope were invisible.
-- **Recommendations that worked:** Add ADR links in docstrings for intent-heavy areas, add deployment/operational scenarios, add performance/security probes, and document the single-orchestrator constraint.
+- **Behavioral clarity:** 92% accuracy on workflows, edge cases, and data from tests alone.  
+- **Blind spots:** Design rationale (file-based, single orchestrator), ops (cron cadence, agent lifecycle), trust boundaries, performance envelope.  
+- **Low-effort fixes:** ADR links in docstrings for intent-heavy areas, a “how it runs” scenario, and a lightweight perf/security probe.
 
-## How to Run It on Your Codebase
-- **Scope it:** Pick a module or feature with ~50-100 tests; avoid sprawling suites for the first run.
-- **Prep:** Use the prompt template at `docs/templates/prompts/TEST_READABILITY_CHECK.prompt.md`; set time boxes (30m Ralph, 20m Alphonso).
-- **Execute:** Enforce “tests only” for Ralph. Alphonso must read ADRs or design notes to spot rationale gaps.
-- **Score:** Separate behavioral vs. architectural vs. operational accuracy. Keep the rubric simple (High/Medium/Low with one-line evidence).
-- **Track:** Save outputs under `work/notes/` and work logs under `work/reports/logs/` for trend comparisons.
+## How to Run It (Lean and Repeatable)
+- **Scope:** 50–100 tests in one module; don’t start with the whole repo.  
+- **Enforce constraints:** Ralph gets tests only. Alphonso must read ADRs/design notes to spot missing “why.”  
+- **Score simply:** High/Medium/Low for behavioral vs. architectural vs. operational clarity, each with one-line evidence.  
+- **Ship the deltas:** Publish both docs; they stand alone and guide the smallest useful fixes.
 
-## Benefits for Engineering Teams
-- **Onboarding shortcut:** A new dev can get a trustworthy system map in under an hour by reading the tests plus Alphonso’s deltas.
-- **Change safety:** Highlights where tests stop documenting intent, which is often where regressions hide.
-- **Refactoring guide:** Alphonso’s blind spots translate directly into a test-improvement backlog.
-- **Process agility:** Repeat quarterly or before releases to keep test documentation quality visible.
+## Payoffs for Teams
+- Faster onboarding: tests + gap list orient newcomers in under an hour.  
+- Safer changes: reveals where intent is invisible—the common source of regressions.  
+- Better tests, minimal churn: tiny notes and a couple of scenarios close most gaps.
 
-## Tradeoffs and Mitigations
-- **Time cost (~65 minutes):** Limit to milestones; keep scope tight. Automate test discovery to save setup time.
-- **Subjectivity in scoring:** Use a tiny rubric and require evidence lines for every rating.
-- **Staleness risk:** Date-stamp outputs and rerun after significant test changes.
-- **Token/compute load:** Keep prompts lean; avoid running on entire monorepos.
+## Tradeoffs and Boundaries
+- ~1 hour per run—reserve for milestones or refactors.  
+- Scoring has judgment—anchor ratings with evidence lines.  
+- Outputs age—rerun after significant test changes.
 
-## Quick Start Checklist
-- [ ] Scope defined (which test files, which module)  
-- [ ] Time boxes set (30m + 20m)  
-- [ ] Prompt filled (`TEST_READABILITY_CHECK.prompt.md`)  
-- [ ] Ralph output saved to `work/notes/`  
-- [ ] Alphonso review saved with accuracy scores and recommendations  
-- [ ] Work log and prompt storage captured  
-
-**Next:** Pilot this on one critical module. If accuracy <85% or blind spots block onboarding, prioritize the recommended test additions.
+## Quick Example
+In the pilot, orchestration tests (tasks as YAML moving `inbox → assigned → done`) let Ralph reconstruct assignment, handoffs, timeouts, conflict detection, and archiving. Alphonso filled in the “why”: single-orchestrator by design, cron-driven, Git permissions as the trust boundary. Aim for that balance—tests tell the “what,” light notes cover the “why/ops.”

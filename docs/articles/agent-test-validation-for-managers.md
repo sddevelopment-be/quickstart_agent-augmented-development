@@ -1,40 +1,61 @@
 # Agent-Enhanced Test Validation for Power Users and Managers
 
 **Audience:** Power users, delivery managers, product/program leaders  
-**Purpose:** Explain how we check that tests are reliable documentation and why it matters to delivery outcomes.  
-**Result from pilot:** 92% accurate system reconstruction from tests alone; blind spots were architecture rationale and operations.
+**Purpose:** A public-friendly explainer on agent-enhanced development, why clear tests/docs matter, and how we validated our own test suite with a dual-helper experiment.  
+**Pilot result:** Tests alone let us describe the system with **92% accuracy**; gaps were mostly “why we built it this way” and “how it runs in production.”
 
-## What This Is
-- A 1-hour, two-step review where AI agents read only the tests, then validate their understanding against the real system.
-- Outcome: a clear score for how well tests describe behavior, plus a short list of gaps and fixes.
+## I. What Is the Framework (Agent-Enhanced Development)?
 
-## Why You Should Care
-- **Onboarding speed:** Tests that read like specs cut ramp-up time (hours instead of weeks).
-- **Change confidence:** If tests don’t explain intent, changes are riskier—even with high coverage.
-- **Transparency:** You see where documentation is strong and where extra notes (architecture, operations) are required.
-- **Repeatable check:** Can be run before a release or after big refactors to keep quality visible.
+Our setup is deliberately simple and transparent. Small, task-focused AI helpers (“agents”) work by reading and writing files in a shared repo—not via hidden services. Tasks are just YAML files that move through predictable folders (`inbox → assigned → done → archive`), so anyone can see progress in Git. This file-first, modular structure is the backbone that lets us plug in helpers for different jobs—writing, reviewing, testing—without special infrastructure.
 
-## How It Works (In Plain Terms)
-1. **Understand from tests:** Agent reads tests only and writes what the system does.
-2. **Validate with reality:** Second agent checks that write-up against code and design docs, scoring accuracy and listing gaps.
-3. **Act:** We add small improvements (e.g., link ADRs in test docstrings, add a deployment scenario test) to close the gaps.
+- Agents are modular: each has a narrow role and works through files.  
+- State is visible: everything is trackable in Git, no black-box queues.  
+- Plug-and-play: new helpers can be added without redesigning the system.
 
-## Benefits Seen
-- **Proof that tests are usable docs:** 92% accuracy showed the suite is a trustworthy guide to behavior.
-- **Actionable backlog:** Recommendations targeted missing context (why file-based, how it runs, security boundaries).
-- **Faster communication:** Power users and managers can skim the summary to see if the test suite is “good enough” for a release or onboarding.
+## II. Why Good Documentation, Code, and Tests Matter
 
-## Tradeoffs to Expect
-- **Time and tokens:** ~65 minutes per run; best for milestones, not daily churn.
-- **Not a silver bullet:** Tests rarely cover rationale, operations, or security; we still need ADRs/runbooks.
-- **Needs refresh:** Findings age as code changes; schedule reruns quarterly or before major releases.
+For managers and power users, the payoff is faster onboarding, safer releases, and lower maintenance cost. Clear tests and docs are the quickest way for a newcomer to grasp “what this system does” without meetings or tribal knowledge. When tests read like specs, changes ship with fewer surprises; when documentation is thin, you pay in delays and rework.
 
-## When to Use It
-- Before a release to check if tests tell the right story.
-- After major refactors to confirm tests still match behavior.
-- Ahead of onboarding a new contributor who will rely on tests to learn the system.
+- Faster onboarding: newcomers ramp in hours instead of weeks when tests explain behavior.  
+- Safer change: intent captured in tests reduces regressions and review friction.  
+- Lower maintenance: fewer meetings to clarify basics; less drift between code and reality.
 
-## What to Ask For
-- The latest accuracy score and top gaps.
-- The small test/doc updates planned to close those gaps.
-- Confirmation that the run covered the module(s) you care about.
+## III. The Dual-Helper Test Validation Experiment
+
+We asked: “Could a newcomer describe our system by reading only the tests?” We ran a two-step check to find out.
+
+1. **Read the tests:** One helper (“Ralph”) read the tests only and wrote what the system does.  
+2. **Check against reality:** Another helper (“Alphonso”) compared that write-up to code and design notes, scored accuracy, and listed missing context.  
+3. **Patch the gaps:** We planned small fixes—short intent notes (e.g., why single-orchestrator, why file-based), a deployment example, or a simple performance/security check.
+
+### What This Gives You
+
+The outcome is a short scorecard and a to-do list, not a rewrite. Instead of debating whether tests are “good enough,” you see exactly what they teach and where they need a line or two of context. That makes onboarding smoother and release reviews faster.
+
+- **A simple score and a short gap list:** How clearly do the tests describe behavior? What do they miss?  
+- **Confidence for onboarding and releases:** If tests read like specs, new people ramp faster and releases feel safer.  
+- **Targeted fixes, not rewrites:** Usually a few docstring notes or an extra scenario test close the gaps.
+
+### When to Run It
+
+Treat this as a milestone check, not a daily ritual. It is most valuable right before you ship, right after a major refactor, or just before onboarding new contributors who will lean on the tests to learn the system. Outside those moments, the cost of a one-hour run outweighs the benefit.
+
+- Before a release, to verify tests tell the right story.  
+- After a refactor, to ensure tests still match behavior.  
+- Ahead of onboarding, to give newcomers a reliable map.
+
+### What to Ask For
+
+If you’re sponsoring or approving the work, ask for three things: the latest accuracy score, the top gaps, and the tiny fixes planned to close them. That keeps the conversation about outcomes (clarity and confidence) rather than process.
+
+- Latest accuracy score (behavioral, architectural, operational).  
+- Top 3 gaps and the small updates planned to close them.  
+- Confirmation of which module or feature was covered.
+
+### Honest Tradeoffs
+
+This check is intentionally light, but it still costs about an hour. It will not replace design notes or runbooks—tests rarely carry the “why” or “how to operate” without a nudge. Findings also go stale as code changes, so budget reruns for major updates.
+
+- About an hour per run—save it for milestones, not daily churn.  
+- Tests rarely cover “why” or “operations” on their own; we add light notes to fill that in.  
+- Findings age as code changes—rerun on significant updates.
