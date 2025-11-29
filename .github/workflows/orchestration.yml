@@ -54,7 +54,7 @@ jobs:
             exit 0
           fi
           
-          python ops/scripts/orchestration/agent_orchestrator.py
+          python ops/orchestration/agent_orchestrator.py
           echo "orchestrator_ran=true" >> $GITHUB_OUTPUT
       
       - name: Check for changes
