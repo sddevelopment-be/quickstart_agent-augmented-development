@@ -72,6 +72,10 @@ def test_read_task_valid_file(temp_task_dir: Path, sample_task: dict) -> None:
     with open(task_file, "w", encoding="utf-8") as f:
         yaml.dump(sample_task, f, default_flow_style=False, sort_keys=False)
 
+    # Assumption Check
+    assert task_file.exists(), "Test precondition failed: file should exist"
+    assert task_file.exists(), "Test precondition failed: task file should exist"
+
     # Act
     result = read_task(task_file)
 
@@ -81,8 +85,6 @@ def test_read_task_valid_file(temp_task_dir: Path, sample_task: dict) -> None:
     assert result["agent"] == "test-agent"
     assert result["status"] == "new"
 
-    # After: Cleanup handled by pytest's tmp_path fixture
-
 
 def test_read_task_empty_file(temp_task_dir: Path) -> None:
     """Test reading an empty YAML file returns empty dict."""
@@ -90,13 +92,22 @@ def test_read_task_empty_file(temp_task_dir: Path) -> None:
     task_file = temp_task_dir / "empty.yaml"
     task_file.write_text("")
 
+    # Assumption Check
+    assert task_file.exists(), "Test precondition failed: file should exist"
+    assert (
+        task_file.stat().st_size == 0
+    ), "Test precondition failed: file should be empty"
+    # Assumption Check
+    assert task_file.exists(), "Test precondition failed: empty file should exist"
+    assert (
+        task_file.stat().st_size == 0
+    ), "Test precondition failed: file should be empty"
+
     # Act
     result = read_task(task_file)
 
     # Assert
     assert result == {}
-
-    # After: Cleanup handled by pytest's tmp_path fixture
 
 
 def test_read_task_missing_file(temp_task_dir: Path) -> None:
@@ -104,11 +115,13 @@ def test_read_task_missing_file(temp_task_dir: Path) -> None:
     # Arrange
     task_file = temp_task_dir / "missing.yaml"
 
+    # Assumption Check
+    assert not task_file.exists(), "Test precondition failed: file should NOT exist"
+    assert not task_file.exists(), "Test precondition failed: file should NOT exist"
+
     # Act & Assert
     with pytest.raises(FileNotFoundError):
         read_task(task_file)
-
-    # After: Cleanup handled by pytest's tmp_path fixture
 
 
 def test_read_task_preserves_structure(temp_task_dir: Path) -> None:
@@ -132,6 +145,8 @@ def test_read_task_preserves_structure(temp_task_dir: Path) -> None:
     with open(task_file, "w", encoding="utf-8") as f:
         yaml.dump(complex_task, f, default_flow_style=False, sort_keys=False)
 
+    # Assumption Check
+    assert task_file.exists(), "Test precondition failed: file should exist"
     # Act
     result = read_task(task_file)
 
@@ -140,22 +155,17 @@ def test_read_task_preserves_structure(temp_task_dir: Path) -> None:
     assert len(result["result"]["artefacts"]) == 2
     assert result["context"]["notes"] == ["Note 1", "Note 2"]
 
-    # After: Cleanup handled by pytest's tmp_path fixture
-
 
 # ============================================================================
 # write_task Tests
 # ============================================================================
 
 
-# Arrange
 def test_write_task_creates_file(temp_task_dir: Path, sample_task: dict) -> None:
     """Test writing task creates file with correct content."""
 
     # Act
     task_file = temp_task_dir / "output.yaml"
-
-    # After: Cleanup handled by pytest fixtures
     write_task(task_file, sample_task)
 
     assert task_file.exists()
@@ -170,17 +180,21 @@ def test_write_task_creates_file(temp_task_dir: Path, sample_task: dict) -> None
 
 def test_write_task_creates_parent_dirs(tmp_path: Path, sample_task: dict) -> None:
     """Test writing task creates parent directories if missing."""
-
-    # Act
+    # Arrange
     task_file = tmp_path / "nested" / "dirs" / "task.yaml"
 
-    # After: Cleanup handled by pytest fixtures
+    # Assumption Check
+    assert not task_file.exists(), "Test precondition failed: file should NOT exist"
+    assert (
+        not task_file.parent.exists()
+    ), "Test precondition failed: parent dir should NOT exist"
+
+    # Act
     write_task(task_file, sample_task)
 
+    # Assert
     assert task_file.exists()
     assert task_file.parent.exists()
-
-    # Arrange
 
 
 def test_write_task_overwrites_existing(temp_task_dir: Path, sample_task: dict) -> None:
@@ -188,8 +202,6 @@ def test_write_task_overwrites_existing(temp_task_dir: Path, sample_task: dict) 
 
     # Act
     task_file = temp_task_dir / "overwrite.yaml"
-
-    # After: Cleanup handled by pytest fixtures
     # Write initial task
     initial_task = sample_task.copy()
     initial_task["status"] = "assigned"
@@ -218,8 +230,6 @@ def test_write_task_preserves_order(temp_task_dir: Path) -> None:
         "title": "Test title",
         "artefacts": ["test.md"],
     }
-
-    # After: Cleanup handled by pytest fixtures
     write_task(task_file, ordered_task)
 
     # Read raw YAML to check order
@@ -237,14 +247,11 @@ def test_write_task_preserves_order(temp_task_dir: Path) -> None:
 # ============================================================================
 
 
-# Arrange
 def test_log_event_creates_file(temp_task_dir: Path) -> None:
     """Test logging event creates log file."""
 
     # Act
     log_file = temp_task_dir / "test.log"
-
-    # After: Cleanup handled by pytest fixtures
     log_event("Test message", log_file)
 
     assert log_file.exists()
@@ -257,8 +264,6 @@ def test_log_event_appends_message(temp_task_dir: Path) -> None:
 
     # Act
     log_file = temp_task_dir / "test.log"
-
-    # After: Cleanup handled by pytest fixtures
     log_event("First message", log_file)
     log_event("Second message", log_file)
 
@@ -275,8 +280,6 @@ def test_log_event_includes_timestamp(temp_task_dir: Path) -> None:
     # Act
     log_file = temp_task_dir / "test.log"
     message = "Test event"
-
-    # After: Cleanup handled by pytest fixtures
     log_event(message, log_file)
 
     content = log_file.read_text()
@@ -290,17 +293,21 @@ def test_log_event_includes_timestamp(temp_task_dir: Path) -> None:
 
 def test_log_event_creates_parent_dirs(tmp_path: Path) -> None:
     """Test logging event creates parent directories if missing."""
-
-    # Act
+    # Arrange
     log_file = tmp_path / "nested" / "logs" / "test.log"
 
-    # After: Cleanup handled by pytest fixtures
+    # Assumption Check
+    assert not log_file.exists(), "Test precondition failed: log file should NOT exist"
+    assert (
+        not log_file.parent.exists()
+    ), "Test precondition failed: parent dir should NOT exist"
+
+    # Act
     log_event("Test message", log_file)
 
+    # Assert
     assert log_file.exists()
     assert log_file.parent.exists()
-
-    # Arrange
 
 
 def test_log_event_multiple_entries(temp_task_dir: Path) -> None:
@@ -308,8 +315,6 @@ def test_log_event_multiple_entries(temp_task_dir: Path) -> None:
 
     # Act
     log_file = temp_task_dir / "test.log"
-
-    # After: Cleanup handled by pytest fixtures
     log_event("Event 1", log_file)
     log_event("Event 2", log_file)
     log_event("Event 3", log_file)
@@ -325,14 +330,11 @@ def test_log_event_multiple_entries(temp_task_dir: Path) -> None:
 # ============================================================================
 
 
-# Arrange
 def test_get_utc_timestamp_format() -> None:
     """Test UTC timestamp format matches ISO8601 with Z suffix."""
 
     # Act
     timestamp = get_utc_timestamp()
-
-    # After: Cleanup handled by pytest fixtures
     # Should match format: YYYY-MM-DDTHH:MM:SS.ffffffZ
     assert timestamp.endswith("Z")
     assert "T" in timestamp
@@ -347,8 +349,6 @@ def test_get_utc_timestamp_parseable() -> None:
 
     # Act
     timestamp = get_utc_timestamp()
-
-    # After: Cleanup handled by pytest fixtures
     # Should parse without error
     dt = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
     assert dt.tzinfo is not None
@@ -363,8 +363,6 @@ def test_get_utc_timestamp_current() -> None:
     before = datetime.now(timezone.utc)
     timestamp = get_utc_timestamp()
     after = datetime.now(timezone.utc)
-
-    # After: Cleanup handled by pytest fixtures
     dt = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
 
     # Timestamp should be between before and after
@@ -378,8 +376,6 @@ def test_get_utc_timestamp_unique() -> None:
 
     # Act
     timestamps = [get_utc_timestamp() for _ in range(3)]
-
-    # After: Cleanup handled by pytest fixtures
     # At least some should be different (unless running extremely fast)
     # We just verify they're all valid timestamps
     for ts in timestamps:
@@ -392,7 +388,6 @@ def test_get_utc_timestamp_unique() -> None:
 # ============================================================================
 
 
-# Arrange
 def test_update_task_status_basic() -> None:
     """Test updating task status without timestamp."""
 
@@ -402,8 +397,6 @@ def test_update_task_status_basic() -> None:
         "agent": "test-agent",
         "status": "new",
     }
-
-    # After: Cleanup handled by pytest fixtures
     result = update_task_status(task, "assigned")
 
     assert result["status"] == "assigned"
@@ -421,8 +414,6 @@ def test_update_task_status_with_timestamp() -> None:
         "agent": "test-agent",
         "status": "new",
     }
-
-    # After: Cleanup handled by pytest fixtures
     result = update_task_status(task, "assigned", "assigned_at")
 
     assert result["status"] == "assigned"
@@ -444,8 +435,6 @@ def test_update_task_status_preserves_fields() -> None:
         "artefacts": ["test.md"],
         "context": {"note": "Important"},
     }
-
-    # After: Cleanup handled by pytest fixtures
     result = update_task_status(task, "in_progress", "started_at")
 
     assert result["status"] == "in_progress"
@@ -468,8 +457,6 @@ def test_update_task_status_overwrites() -> None:
         "status": "assigned",
         "assigned_at": "2025-11-28T10:00:00Z",
     }
-
-    # After: Cleanup handled by pytest fixtures
     result = update_task_status(task, "in_progress", "started_at")
 
     assert result["status"] == "in_progress"
@@ -488,8 +475,6 @@ def test_update_task_status_modifies_original() -> None:
         "agent": "test-agent",
         "status": "new",
     }
-
-    # After: Cleanup handled by pytest fixtures
     result = update_task_status(task, "assigned")
 
     # Should return same object (modified in place)
@@ -502,14 +487,11 @@ def test_update_task_status_modifies_original() -> None:
 # ============================================================================
 
 
-# Arrange
 def test_read_write_roundtrip(temp_task_dir: Path, sample_task: dict) -> None:
     """Test writing then reading task preserves data."""
 
     # Act
     task_file = temp_task_dir / "roundtrip.yaml"
-
-    # After: Cleanup handled by pytest fixtures
     write_task(task_file, sample_task)
     result = read_task(task_file)
 
@@ -524,8 +506,6 @@ def test_task_workflow_simulation(temp_task_dir: Path) -> None:
     # Act
     task_file = temp_task_dir / "workflow.yaml"
     log_file = temp_task_dir / "workflow.log"
-
-    # After: Cleanup handled by pytest fixtures
     # Create new task
     task = {
         "id": "2025-11-28T2000-test-workflow",

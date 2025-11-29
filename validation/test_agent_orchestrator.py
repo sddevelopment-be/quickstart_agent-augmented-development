@@ -113,8 +113,6 @@ def test_assign_tasks_empty_inbox(temp_work_env: Path) -> None:
     # Assert
     assert assigned == 0
 
-    # After: Cleanup handled by pytest fixtures
-
     # Arrange
 
 
@@ -124,8 +122,6 @@ def test_assign_tasks_single_task(temp_work_env: Path, sample_task: dict) -> Non
     # Act
     inbox_file = orchestrator.INBOX_DIR / f"{sample_task['id']}.yaml"
     write_task(inbox_file, sample_task)
-
-    # After: Cleanup handled by pytest fixtures
     assigned = orchestrator.assign_tasks()
 
     assert assigned == 1
@@ -152,8 +148,6 @@ def test_assign_tasks_multiple_tasks(temp_work_env: Path) -> None:
         {"id": "task-2", "agent": "test-agent-2", "status": "new"},
         {"id": "task-3", "agent": "test-agent", "status": "new"},
     ]
-
-    # After: Cleanup handled by pytest fixtures
     for task in tasks:
         inbox_file = orchestrator.INBOX_DIR / f"{task['id']}.yaml"
         write_task(inbox_file, task)
@@ -168,15 +162,20 @@ def test_assign_tasks_multiple_tasks(temp_work_env: Path) -> None:
 
 def test_assign_tasks_missing_agent_field(temp_work_env: Path) -> None:
     """Test assigning task without agent field logs warning."""
-
-    # Act
+    # Arrange
     task = {"id": "task-no-agent", "status": "new"}
     inbox_file = orchestrator.INBOX_DIR / "task-no-agent.yaml"
     write_task(inbox_file, task)
 
-    # After: Cleanup handled by pytest fixtures
+    # Assumption Check
+    assert (
+        inbox_file.exists()
+    ), "Test precondition failed: task file should exist in inbox"
+
+    # Act
     assigned = orchestrator.assign_tasks()
 
+    # Assert
     assert assigned == 0
     assert inbox_file.exists()  # Task remains in inbox
 
@@ -185,8 +184,6 @@ def test_assign_tasks_missing_agent_field(temp_work_env: Path) -> None:
     assert log_file.exists()
     log_content = log_file.read_text()
     assert "missing 'agent'" in log_content
-
-    # Arrange
 
 
 def test_assign_tasks_unknown_agent(temp_work_env: Path) -> None:
@@ -200,8 +197,6 @@ def test_assign_tasks_unknown_agent(temp_work_env: Path) -> None:
     }
     inbox_file = orchestrator.INBOX_DIR / "task-unknown.yaml"
     write_task(inbox_file, task)
-
-    # After: Cleanup handled by pytest fixtures
     assigned = orchestrator.assign_tasks()
 
     assert assigned == 0
@@ -232,8 +227,6 @@ def test_assign_tasks_preserves_task_data(temp_work_env: Path) -> None:
     }
     inbox_file = orchestrator.INBOX_DIR / "task-preserve.yaml"
     write_task(inbox_file, task)
-
-    # After: Cleanup handled by pytest fixtures
     orchestrator.assign_tasks()
 
     assigned_file = orchestrator.ASSIGNED_DIR / "test-agent" / "task-preserve.yaml"
@@ -260,8 +253,6 @@ def test_process_completed_no_tasks(temp_work_env: Path) -> None:
     # Assert
     assert followups == 0
 
-    # After: Cleanup handled by pytest fixtures
-
     # Arrange
 
 
@@ -277,8 +268,6 @@ def test_process_completed_no_next_agent(temp_work_env: Path) -> None:
     }
     done_file = orchestrator.DONE_DIR / "task-done.yaml"
     write_task(done_file, task)
-
-    # After: Cleanup handled by pytest fixtures
     followups = orchestrator.process_completed_tasks()
 
     assert followups == 0
@@ -306,8 +295,6 @@ def test_process_completed_with_next_agent(temp_work_env: Path) -> None:
     }
     done_file = orchestrator.DONE_DIR / "task-handoff.yaml"
     write_task(done_file, task)
-
-    # After: Cleanup handled by pytest fixtures
     followups = orchestrator.process_completed_tasks()
 
     assert followups == 1
@@ -344,8 +331,6 @@ def test_process_completed_handoff_logged(temp_work_env: Path) -> None:
     }
     done_file = orchestrator.DONE_DIR / "task-log-handoff.yaml"
     write_task(done_file, task)
-
-    # After: Cleanup handled by pytest fixtures
     orchestrator.process_completed_tasks()
 
     # Check handoff log
@@ -374,8 +359,6 @@ def test_process_completed_no_duplicate_followup(temp_work_env: Path) -> None:
     }
     done_file = orchestrator.DONE_DIR / "task-duplicate.yaml"
     write_task(done_file, task)
-
-    # After: Cleanup handled by pytest fixtures
     # Process twice
     followups1 = orchestrator.process_completed_tasks()
     followups2 = orchestrator.process_completed_tasks()
@@ -403,8 +386,6 @@ def test_check_timeouts_no_tasks(temp_work_env: Path) -> None:
     # Assert
     assert flagged == 0
 
-    # After: Cleanup handled by pytest fixtures
-
     # Arrange
 
 
@@ -420,8 +401,6 @@ def test_check_timeouts_recent_task(temp_work_env: Path) -> None:
     }
     task_file = orchestrator.ASSIGNED_DIR / "test-agent" / "task-recent.yaml"
     write_task(task_file, task)
-
-    # After: Cleanup handled by pytest fixtures
     flagged = orchestrator.check_timeouts()
 
     assert flagged == 0
@@ -442,8 +421,6 @@ def test_check_timeouts_stalled_task(temp_work_env: Path) -> None:
     }
     task_file = orchestrator.ASSIGNED_DIR / "test-agent" / "task-stalled.yaml"
     write_task(task_file, task)
-
-    # After: Cleanup handled by pytest fixtures
     flagged = orchestrator.check_timeouts()
 
     assert flagged == 1
@@ -470,8 +447,6 @@ def test_check_timeouts_ignores_assigned_status(temp_work_env: Path) -> None:
     }
     task_file = orchestrator.ASSIGNED_DIR / "test-agent" / "task-assigned.yaml"
     write_task(task_file, task)
-
-    # After: Cleanup handled by pytest fixtures
     flagged = orchestrator.check_timeouts()
 
     assert flagged == 0
@@ -481,8 +456,7 @@ def test_check_timeouts_ignores_assigned_status(temp_work_env: Path) -> None:
 
 def test_check_timeouts_missing_started_at(temp_work_env: Path) -> None:
     """Test timeout check handles missing started_at gracefully."""
-
-    # Act
+    # Arrange
     task = {
         "id": "task-no-start",
         "agent": "test-agent",
@@ -491,9 +465,16 @@ def test_check_timeouts_missing_started_at(temp_work_env: Path) -> None:
     task_file = orchestrator.ASSIGNED_DIR / "test-agent" / "task-no-start.yaml"
     write_task(task_file, task)
 
-    # After: Cleanup handled by pytest fixtures
+    # Assumption Check
+    assert task_file.exists(), "Test precondition failed: task file should exist"
+    assert (
+        "started_at" not in task
+    ), "Test precondition failed: task should NOT have started_at"
+
+    # Act
     flagged = orchestrator.check_timeouts()
 
+    # Assert
     assert flagged == 0  # Skips task without error
 
     # Check warning logged
@@ -517,8 +498,6 @@ def test_detect_conflicts_no_tasks(temp_work_env: Path) -> None:
     # Assert
     assert conflicts == 0
 
-    # After: Cleanup handled by pytest fixtures
-
     # Arrange
 
 
@@ -540,8 +519,6 @@ def test_detect_conflicts_unique_artifacts(temp_work_env: Path) -> None:
         "artefacts": ["output2.md"],
         "started_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
     }
-
-    # After: Cleanup handled by pytest fixtures
     write_task(orchestrator.ASSIGNED_DIR / "test-agent" / "task-1.yaml", task1)
     write_task(orchestrator.ASSIGNED_DIR / "test-agent-2" / "task-2.yaml", task2)
 
@@ -557,8 +534,6 @@ def test_detect_conflicts_overlapping_artifacts(temp_work_env: Path) -> None:
 
     # Act
     shared_artifact = "shared-output.md"
-
-    # After: Cleanup handled by pytest fixtures
     task1 = {
         "id": "task-conflict-1",
         "agent": "test-agent",
@@ -597,8 +572,6 @@ def test_detect_conflicts_ignores_assigned_status(temp_work_env: Path) -> None:
 
     # Act
     shared_artifact = "shared.md"
-
-    # After: Cleanup handled by pytest fixtures
     task1 = {
         "id": "task-assigned",
         "agent": "test-agent",
@@ -630,8 +603,6 @@ def test_detect_conflicts_ignores_assigned_status(temp_work_env: Path) -> None:
 def test_update_agent_status_empty(temp_work_env: Path) -> None:
     """Test status update with no tasks."""
     orchestrator.update_agent_status()
-
-    # After: Cleanup handled by pytest fixtures
     status_file = orchestrator.COLLAB_DIR / "AGENT_STATUS.md"
     assert status_file.exists()
     content = status_file.read_text()
@@ -655,8 +626,6 @@ def test_update_agent_status_with_tasks(temp_work_env: Path) -> None:
         "status": "in_progress",
         "started_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
     }
-
-    # After: Cleanup handled by pytest fixtures
     write_task(orchestrator.ASSIGNED_DIR / "test-agent" / "task-assigned.yaml", task1)
     write_task(orchestrator.ASSIGNED_DIR / "test-agent" / "task-progress.yaml", task2)
 
@@ -676,8 +645,6 @@ def test_update_agent_status_with_tasks(temp_work_env: Path) -> None:
 def test_update_agent_status_idle_agent(temp_work_env: Path) -> None:
     """Test status update shows idle agent."""
     orchestrator.update_agent_status()
-
-    # After: Cleanup handled by pytest fixtures
     status_file = orchestrator.COLLAB_DIR / "AGENT_STATUS.md"
     content = status_file.read_text()
 
@@ -701,8 +668,6 @@ def test_archive_old_tasks_no_tasks(temp_work_env: Path) -> None:
     # Assert
     assert archived == 0
 
-    # After: Cleanup handled by pytest fixtures
-
     # Arrange
 
 
@@ -718,8 +683,6 @@ def test_archive_old_tasks_recent_task(temp_work_env: Path) -> None:
     }
     done_file = orchestrator.DONE_DIR / f"{task['id']}.yaml"
     write_task(done_file, task)
-
-    # After: Cleanup handled by pytest fixtures
     archived = orchestrator.archive_old_tasks()
 
     assert archived == 0
@@ -740,8 +703,6 @@ def test_archive_old_tasks_old_task(temp_work_env: Path) -> None:
     }
     done_file = orchestrator.DONE_DIR / f"{task['id']}.yaml"
     write_task(done_file, task)
-
-    # After: Cleanup handled by pytest fixtures
     archived = orchestrator.archive_old_tasks()
 
     assert archived == 1
@@ -760,8 +721,6 @@ def test_archive_old_tasks_multiple(temp_work_env: Path) -> None:
 
     # Act
     old_date = (datetime.now(timezone.utc) - timedelta(days=40)).strftime("%Y-%m-%d")
-
-    # After: Cleanup handled by pytest fixtures
     for i in range(3):
         task = {
             "id": f"{old_date}T{1200+i:04d}-task-old-{i}",
@@ -785,8 +744,6 @@ def test_archive_old_tasks_multiple(temp_work_env: Path) -> None:
 def test_log_handoff_creates_file(temp_work_env: Path) -> None:
     """Test log_handoff creates handoff log file."""
     orchestrator.log_handoff("test-agent", "test-agent-2", ["output.md"], "task-123")
-
-    # After: Cleanup handled by pytest fixtures
     handoff_log = orchestrator.COLLAB_DIR / "HANDOFFS.md"
     assert handoff_log.exists()
 
@@ -798,8 +755,6 @@ def test_log_handoff_content(temp_work_env: Path) -> None:
     orchestrator.log_handoff(
         "test-agent", "test-agent-2", ["file1.md", "file2.md"], "task-456"
     )
-
-    # After: Cleanup handled by pytest fixtures
     handoff_log = orchestrator.COLLAB_DIR / "HANDOFFS.md"
     content = handoff_log.read_text()
 
@@ -816,8 +771,6 @@ def test_log_handoff_appends(temp_work_env: Path) -> None:
     """Test multiple handoffs are appended to log."""
     orchestrator.log_handoff("agent-1", "agent-2", ["file1.md"], "task-1")
     orchestrator.log_handoff("agent-2", "agent-3", ["file2.md"], "task-2")
-
-    # After: Cleanup handled by pytest fixtures
     handoff_log = orchestrator.COLLAB_DIR / "HANDOFFS.md"
     content = handoff_log.read_text()
 
@@ -852,8 +805,6 @@ def test_orchestrator_main_function(temp_work_env: Path) -> None:
         "artefacts": ["output2.md"],
         "created_at": "2025-11-28T20:01:00Z",
     }
-
-    # After: Cleanup handled by pytest fixtures
     write_task(orchestrator.INBOX_DIR / "task1.yaml", task1)
     write_task(orchestrator.INBOX_DIR / "task2.yaml", task2)
 
