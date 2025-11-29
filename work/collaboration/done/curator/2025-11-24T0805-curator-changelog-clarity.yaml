@@ -1,6 +1,6 @@
 id: 2025-11-24T0805-curator-changelog-clarity
 agent: curator
-status: completed
+status: done
 priority: high
 mode: /analysis-mode
 title: Streamline canonical changelog

@@ -14,7 +14,6 @@ required_dirs=(
   "work/collaboration/done"
   "work/collaboration/archive"
   "work/reports"
-  "work/external_memory"
 )
 
 for dir in "${required_dirs[@]}"; do
