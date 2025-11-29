@@ -26,7 +26,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "ops" / "orchestration"))
 
 import agent_orchestrator as orchestrator
 
-
 # ============================================================================
 # Test Fixtures
 # ============================================================================
@@ -92,7 +91,7 @@ def write_task(task_file: Path, task: dict) -> None:
 
 def read_task(task_file: Path) -> dict:
     """Helper: Read task from YAML file."""
-    with open(task_file, "r", encoding="utf-8") as f:
+    with open(task_file, encoding="utf-8") as f:
         return yaml.safe_load(f) or {}
 
 

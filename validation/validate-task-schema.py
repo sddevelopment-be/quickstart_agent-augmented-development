@@ -32,12 +32,12 @@ ALLOWED_PRIORITIES = {"critical", "high", "medium", "normal", "low"}
 
 
 def load_task(path: Path) -> dict[str, Any]:
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         return yaml.safe_load(f) or {}
 
 
 def is_iso8601(timestamp: str) -> bool:
-    if not timestamp.endswith('Z'):
+    if not timestamp.endswith("Z"):
         return False
     try:
         datetime.fromisoformat(timestamp[:-1])
@@ -60,7 +60,9 @@ def validate_task_file(path: Path) -> list[str]:
 
     status = task.get("status")
     if status not in ALLOWED_STATUSES:
-        errors.append(f"invalid status '{status}', expected one of {sorted(ALLOWED_STATUSES)}")
+        errors.append(
+            f"invalid status '{status}', expected one of {sorted(ALLOWED_STATUSES)}"
+        )
 
     # Accept both "artefacts" (British English) and "artifacts" (American English) as aliases
     artefacts = task.get("artefacts") or task.get("artifacts")
@@ -75,7 +77,9 @@ def validate_task_file(path: Path) -> list[str]:
 
     priority = task.get("priority")
     if priority is not None and priority not in ALLOWED_PRIORITIES:
-        errors.append(f"invalid priority '{priority}', expected one of {sorted(ALLOWED_PRIORITIES)}")
+        errors.append(
+            f"invalid priority '{priority}', expected one of {sorted(ALLOWED_PRIORITIES)}"
+        )
 
     for ts_field in ["created_at", "assigned_at", "started_at", "completed_at"]:
         if ts_field in task and task[ts_field] is not None:
@@ -98,10 +102,14 @@ def validate_task_file(path: Path) -> list[str]:
                 errors.append("result.summary is required when result is present")
             # Accept both "artefacts" (British English) and "artifacts" (American English) as aliases
             result_artefacts = result.get("artefacts") or result.get("artifacts")
-            if not isinstance(result_artefacts, list) or not all(isinstance(a, str) for a in result_artefacts):
+            if not isinstance(result_artefacts, list) or not all(
+                isinstance(a, str) for a in result_artefacts
+            ):
                 errors.append("result.artefacts/artifacts must be a list of strings")
             if "completed_at" in result and not is_iso8601(str(result["completed_at"])):
-                errors.append("result.completed_at must be ISO8601 with Z suffix when present")
+                errors.append(
+                    "result.completed_at must be ISO8601 with Z suffix when present"
+                )
     elif result is not None:
         errors.append("result block should only be present when status is 'done'")
 
@@ -111,8 +119,12 @@ def validate_task_file(path: Path) -> list[str]:
         else:
             if not error_block.get("message"):
                 errors.append("error.message is required when error block is present")
-            if "timestamp" in error_block and not is_iso8601(str(error_block["timestamp"])):
-                errors.append("error.timestamp must be ISO8601 with Z suffix when present")
+            if "timestamp" in error_block and not is_iso8601(
+                str(error_block["timestamp"])
+            ):
+                errors.append(
+                    "error.timestamp must be ISO8601 with Z suffix when present"
+                )
     elif error_block is not None:
         errors.append("error block should only be present when status is 'error'")
 
@@ -120,7 +132,9 @@ def validate_task_file(path: Path) -> list[str]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Validate orchestration task YAML files")
+    parser = argparse.ArgumentParser(
+        description="Validate orchestration task YAML files"
+    )
     parser.add_argument("task_files", nargs="+", help="Paths to task YAML files")
     args = parser.parse_args()
 

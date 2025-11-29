@@ -1,12 +1,19 @@
 ---
 packaged: true
 audiences: [software_engineer, automation_agent, process_architect]
-note: Operational scripts supporting orchestration and planning.
+note: Legacy location - scripts have been reorganized into domain directories.
 ---
 
-# Ops Scripts
+# Ops Scripts (Legacy Location)
 
-Purpose: Operational scripts for orchestration, planning, and automation tasks.
+**⚠️ This directory is deprecated and empty.**
 
-What belongs: Maintained scripts and helpers used in CI/CD or local ops.  
-What doesn’t: Ad-hoc scratch scripts (use `tmp/` or `work/`).
+All scripts have been reorganized into domain-specific directories:
+
+- **Orchestration:** `ops/orchestration/`
+- **Planning:** `ops/planning/`
+- **Dashboards & Metrics:** `ops/dashboards/`
+- **Portability & Conversion:** `ops/portability/`
+- **Framework Core:** `ops/framework-core/`
+
+See the main [ops/README.md](../README.md) for complete documentation.
