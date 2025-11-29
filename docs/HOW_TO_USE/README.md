@@ -1,3 +1,9 @@
+---
+packaged: true
+audiences: [user, software_engineer, devops_engineer, process_architect]
+note: Practical guides for using the AI-augmented development framework and multi-agent orchestration system.
+---
+
 # How To Use Documentation
 
 This directory contains practical guides for using the AI-augmented development framework and multi-agent orchestration system.
