@@ -22,6 +22,8 @@ Architecture Decision Records (ADRs) are concise documents that capture importan
 | [ADR-015](ADR-015-follow-up-task-lookup-pattern.md)             | Follow-Up Task Lookup Pattern                 | 2025-11-24 | Rejected           | Rejects centralized lookup table for handoffs; recommends agent profile enhancement instead.   |
 | [ADR-016](ADR-016-agent-specific-iteration-templates.md)        | Agent-Specific Iteration Templates            | 2025-11-24 | Rejected           | Rejects specialized iteration templates; recommends agent profile patterns instead.            |
 | [ADR-017](ADR-017-traceable-decision-integration.md)            | Traceable Decision Integration                | 2025-11-25 | Accepted           | Establishes mandatory decision traceability patterns integrating ideation, ADRs, and artifacts.|
+| [ADR-018](ADR-018-multi-repository-orchestration-strategy.md)   | Multi-Repository Orchestration Strategy       | 2025-11-25 | Accepted           | Defines strategies for cross-repository agent coordination and task distribution.              |
+| [ADR-019](ADR-019-trunk-based-development.md)                   | Adopt Trunk-Based Development                 | 2025-11-30 | Accepted           | Adopts trunk-based development to minimize conflicts and accelerate feedback in agent workflows.|
 
 
 > Uniqueness Guarantee: Each ADR number in the table above maps to exactly one canonical ADR file. Historical superseded ADRs MUST NOT be edited except to archive them (recommended future path:
