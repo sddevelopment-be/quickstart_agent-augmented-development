@@ -70,6 +70,21 @@ def validate_task_file(path: Path) -> list[str]:
         errors.append("artefacts/artifacts must be a list")
     elif not all(isinstance(item, str) for item in artefacts):
         errors.append("artefacts/artifacts entries must be strings")
+    
+    # Validate artefacts_not_created field (optional, for documenting intentionally omitted artifacts)
+    artefacts_not_created = task.get("artefacts_not_created") or task.get("artifacts_not_created")
+    if artefacts_not_created is not None:
+        if not isinstance(artefacts_not_created, list):
+            errors.append("artefacts_not_created/artifacts_not_created must be a list")
+        else:
+            for item in artefacts_not_created:
+                if not isinstance(item, dict):
+                    errors.append("artefacts_not_created entries must be objects with 'name' and 'rationale' fields")
+                    break
+                if "name" not in item or not isinstance(item["name"], str):
+                    errors.append("artefacts_not_created entries must have a 'name' field (string)")
+                if "rationale" not in item or not isinstance(item["rationale"], str):
+                    errors.append("artefacts_not_created entries must have a 'rationale' field (string)")
 
     mode = task.get("mode")
     if mode is not None and mode not in ALLOWED_MODES:
