@@ -13,6 +13,7 @@ This directory contains an overview of agentic approaches. These are description
 | [tooling-setup-best-practices.md](tooling-setup-best-practices.md) | Best practices for tool selection, configuration, and maintenance in agent-augmented development environments | All agents             | 1.0.0   |
 | [target-audience-fit.md](target-audience-fit.md)                   | Workflow for applying persona-driven communication (“Target Audience Personas”) to any artifact               | Writing-focused agents | 1.0.0   |
 | [locality-of-change.md](locality-of-change.md)                     | Comprehensive guide to avoiding premature optimization through problem measurement and severity assessment    | All agents             | 1.0.0   |
+| [trunk-based-development.md](trunk-based-development.md)           | Practical guide for trunk-based development in agent-first workflows with conflict avoidance strategies       | All agents             | 1.0.0   |
 
 ## Usage
 
