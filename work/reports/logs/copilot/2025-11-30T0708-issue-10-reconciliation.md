@@ -166,6 +166,8 @@ I adopted a **reconciliation and validation approach** rather than redoing compl
 - work/collaboration/assigned/architect/2025-11-23T1846-architect-follow-up-lookup-assessment.yaml
 - work/collaboration/assigned/build-automation/2025-11-23T2204-build-automation-run-iteration-issue.yaml
 
+**Note:** Task files use "artefacts" (British English) from original custom agent work; preserved as-is to respect original authorship
+
 **Validation:** Result blocks follow format from completed task examples in work/done/
 
 ### Step 7: Task Movement (2 minutes)
@@ -472,7 +474,7 @@ This is a **systemic issue in async orchestration**, not a one-off problem.
 
 **Missing Artifact:**
 - Pattern: Expected but not created
-- Method: Added `artefacts_not_created` field with rationale
+- Method: Added `artifacts_not_created` field with rationale
 - Rationale: Documented intentional omission per agent decision
 
 ### Git Operations
