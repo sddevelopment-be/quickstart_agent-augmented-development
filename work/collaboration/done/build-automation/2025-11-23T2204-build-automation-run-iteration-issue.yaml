@@ -1,6 +1,6 @@
 id: 2025-11-23T2204-build-automation-run-iteration-issue
 agent: build-automation
-status: assigned
+status: done
 mode: /analysis-mode
 priority: normal
 title: Create 'Run Iteration' GitHub Issue Template for Orchestration Automation
@@ -187,3 +187,32 @@ context:
 created_at: '2025-11-23T22:04:00Z'
 created_by: orchestration-coordinator
 assigned_at: '2025-11-24T17:56:16.882860Z'
+started_at: '2025-11-24T12:19:58Z'
+result:
+  summary: 'GitHub issue template for orchestration iterations successfully created. Template provides comprehensive, actionable structure for triggering orchestration cycles with standardized execution patterns. Includes YAML frontmatter, 9 sections, bash commands, success criteria checkboxes, and copy-paste ready example prompt.'
+  artefacts:
+  - .github/ISSUE_TEMPLATE/run-iteration.md
+  - work/reports/logs/build-automation/2025-11-23T2204-run-iteration-issue-template.md
+  key_features:
+  - 'Structured lifecycle: Initialize → Select → Execute → Report'
+  - 'YAML frontmatter with proper metadata (name, about, title, labels, assignees)'
+  - 'Current status section with bash commands for queue visibility'
+  - 'Success criteria as checkboxes for validation tracking'
+  - 'Example prompt for copy-paste execution'
+  - 'Comprehensive references to framework documentation'
+  validation:
+  - 'Template created in correct location (.github/ISSUE_TEMPLATE/)'
+  - 'All required sections present (9 total)'
+  - 'Execution instructions clear and actionable'
+  - 'Work log follows Directive 014 standards'
+  - 'Template is reusable for future iterations'
+  metrics:
+    duration_minutes: 15
+    token_count:
+      input: 6500
+      output: 1500
+      total: 8000
+    context_files_loaded: 5
+    artifacts_created: 2
+    artifacts_modified: 0
+  completed_at: '2025-11-24T12:35:00Z'

@@ -71,7 +71,7 @@ Markdown format enables rich, detailed instructions while maintaining compatibil
 **Action:** Explored repository structure to understand existing patterns
 ```bash
 find .github/ISSUE_TEMPLATE -type f
-ls -la work/logs/
+ls -la work/reports/logs/
 ```
 
 **Findings:**
@@ -171,7 +171,7 @@ create /home/runner/.../run-iteration.md
    - Sections: 9 (Objective through Example Prompt)
    - Purpose: Standardize orchestration cycle requests
 
-2. **`work/logs/build-automation/2025-11-23T2204-run-iteration-issue-template.md`** - This work log
+2. **`work/reports/logs/build-automation/2025-11-23T2204-run-iteration-issue-template.md`** - This work log
    - Format: Markdown per Directive 014
    - Compliance: All required sections present
    - Purpose: Document reasoning and execution process
