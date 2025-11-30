@@ -209,17 +209,17 @@ Work logs SHOULD:
 
 ## 8. Example Work Log
 
-See: `work/logs/2025-11-23T0811-curator-orchestration-guide.md` (reference implementation)
+See: `work/reports/logs/curator/2025-11-23T0811-curator-orchestration-guide.md` (reference implementation)
 
 ## 9. Integration with Task Lifecycle
 
 When completing an orchestrated task:
 
 1. Update task YAML with `result` block (brief summary)
-2. Create detailed work log in `work/logs/`
-3. Move task to `work/done/<agent-slug>/`
-    - **Important:** Tasks must be moved to the agent-specific subdirectory under `work/done/`, not directly to `work/done/` root
-    - Example: A curator task goes to `work/done/curator/`, not `work/done/`
+2. Create detailed work log in `work/reports/logs/<agent-name>/`
+3. Move task to `work/collaboration/done/<agent-slug>/`
+    - **Important:** Tasks must be moved to the agent-specific subdirectory under `work/collaboration/done/`, not directly to `work/collaboration/done/` root
+    - Example: A curator task goes to `work/collaboration/done/curator/`, not `work/collaboration/done/`
 4. Create handoff task (if applicable)
 5. Commit all changes together
 
@@ -229,8 +229,8 @@ The work log is part of task completion, not an optional add-on.
 
 - **Write Access:** All agents can create work logs for their own tasks
 - **Read Access:** All agents and humans should review logs for learning
-- **Archival:** Work logs remain in `work/logs/` indefinitely (no automatic archival)
-- **Indexing:** Consider creating `work/logs/INDEX.md` for easy navigation (optional)
+- **Archival:** Work logs remain in `work/reports/logs/` indefinitely (no automatic archival)
+- **Indexing:** Consider creating `work/reports/logs/INDEX.md` for easy navigation (optional)
 
 ## 11. Non-Compliance
 
