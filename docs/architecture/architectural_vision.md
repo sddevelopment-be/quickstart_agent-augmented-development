@@ -146,6 +146,28 @@ This repository serves as a **quickstart template and reference implementation
 
 **Design Decision:** Fully tracked in git to maintain context across sessions and agents.
 
+## Multi-Tier Agentic Framework (Refined)
+
+We consolidate runtime responsibilities into four execution tiers informed by recent multi-vendor brainstorming:
+
+- Layer 0: Human Interface & Utilities
+	- IDE workflows (GitHub Copilot), command aliases, local utility scripts.
+	- Outcome: ergonomic editing, inline completions, developer-led changes.
+
+- Layer 1: Orchestration & Governance
+	- `AGENTS.md`, `.github/agents/**`, YAML task descriptors, Python validators, Titan scripts.
+	- Outcome: role definitions, planning, validation gates, and handoffs.
+
+- Layer 2: Model Routing
+	- OpenRouter and/or OpenCode.ai unifying vendor endpoints with fallbacks and pricing control.
+	- Outcome: multi-model selection, graceful degradation, easy migration.
+
+- Layer 3: Model Execution
+	- Direct APIs (OpenAI GPT-5/4.1, Anthropic Claude) and local models (Ollama: Llama3, DeepSeek, Codestral).
+	- Outcome: long-context analysis, explicit tool-calls, offline worker tasks.
+
+Design intent: keep orchestration portable and auditable while allowing execution strategies to evolve independently with the model landscape.
+
 ## System Boundaries
 
 ### What This Architecture Supports

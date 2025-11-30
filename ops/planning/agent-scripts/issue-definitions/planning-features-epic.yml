@@ -1,0 +1,221 @@
+- type: epic
+  taskset: planning
+  title: "Feature: Distribution & Release Enablement"
+  labels: planning,feature,distribution
+  priority: high
+  assignee: ""
+  body: |
+    # Feature: Distribution & Release Enablement
+
+    ## Objective
+    Deliver the release artifact (+ scripts + Guardian workflow) defined in ADR-013 and ADR-014 so downstream repos can adopt the framework via a single, auditable package.
+
+    ## Context
+    - ADR-019 commits us to trunk-based releases, ADR-020 formalizes the runtime layers, and ADR-021 drives router diversity. None of that matters if we cannot safely ship `quickstart-framework-<version>.zip`.
+    - Architecture + technical designs live under `docs/architecture/design/distribution_of_releases_*.md`; the architect work log (`work/reports/logs/architect/2025-11-24T2105-distribution-release-architecture.md`) enumerates deliverables still pending implementation.
+
+    ## Current Signals
+    - No tasks currently cover packaging automation, install/upgrade scripts, or Framework Guardian execution.
+    - Release-readiness is a gating constraint for downstream rollout and the “Distribution / Release” surface called out in `docs/architecture/design/README.md`.
+
+    ## Execution Framework
+    - Follow `.github/agents/approaches/file_based_collaboration/README.md` for every spawned task.
+    - Coordinate large batches through `.github/ISSUE_TEMPLATE/run-iteration.md` so Guardian + packaging work stays auditable.
+
+    ## Scope
+    - Build CI-friendly pipeline to assemble the zip + META files.
+    - Implement `framework_install.sh` and `framework_upgrade.sh` with the conflict-handling logic described in the technical design.
+    - Materialize the Framework Guardian agent profile + templates in `.github/agents/`.
+    - Document end-to-end release/upgrade steps inside `docs/HOW_TO_USE/` and `docs/architecture/design/`.
+
+    ## Acceptance Criteria
+    - ✅ Releases emit the documented directory structure with manifest + metadata checksums.
+    - ✅ Framework Guardian produces `FRAMEWORK_AUDIT_REPORT.md` and `FRAMEWORK_UPGRADE_PLAN.md` from the provided templates.
+    - ✅ Release notes describe ADR coverage and include Guardian invocation instructions.
+    - ✅ Dry-run and conflict workflows are validated (tests and at least one rehearsal task).
+
+    ## Dependencies
+    - `docs/architecture/design/distribution_of_releases_architecture.md`
+    - `docs/architecture/design/distribution_of_releases_technical_design.md`
+    - ADR-013, ADR-014, ADR-020, ADR-021
+
+    ## Follow-up Tasks to Generate
+    - Packaging pipeline implementation task
+    - Installer/upgrade script development + tests
+    - Framework Guardian agent + templates + validation tasks
+    - Release notes / publishing checklist task
+
+- type: epic
+  taskset: planning
+  title: "Feature: Toolchain Governance & Lifecycle"
+  labels: planning,feature,tooling
+  priority: high
+  assignee: ""
+  body: |
+    # Feature: Toolchain Governance & Lifecycle
+
+    ## Objective
+    Turn the Copilot tooling assessment into hardening steps (policy, automation, documentation) so Layer 0 utilities stay secure, observable, and easy to roll forward.
+
+    ## Context
+    - Trunk-based development (ADR-019) amplifies the need for predictable developer environments.
+    - Tool versions, security posture, and telemetry drive the “quality-to-cost” lens from ADR-021 and ADR-012.
+
+    ## Current Signals
+    - Manager, architect, curator, and build-automation tasks remain open and uncoordinated.
+    - Setup script changes stalled pending checksum verification and version policy.
+
+    ## Execution Framework
+    - Manage work through `.github/agents/approaches/file_based_collaboration/`.
+    - Bundle batches via `.github/ISSUE_TEMPLATE/run-iteration.md` whenever multiple tooling tasks are advanced together.
+
+    ## Scope
+    - Define update cadence + rollback policy (architect).
+    - Implement checksum verification, parallel installs, and opt-in telemetry (build automation).
+    - Publish tooling best practices and maintenance checklists (curator).
+    - Keep the coordination status board updated (manager).
+
+    ## Acceptance Criteria
+    - ✅ Version policy published and referenced by CONTRIBUTING/HOW_TO_USE.
+    - ✅ `.github/copilot/setup.sh` validates checksums and installs tools concurrently without regressions.
+    - ✅ Telemetry can be toggled on/off, stores local metrics, and respects privacy constraints.
+    - ✅ Best-practice guide + maintenance checklists merged under `.github/agents/approaches/` and `docs/templates/checklists/`.
+    - ✅ Coordination doc (`work/planning/tooling-enhancements-roadmap.md`) reflects dependencies + state.
+
+    ## Linked Tasks
+    - `work/collaboration/assigned/manager/2025-11-24T0955-manager-tooling-enhancements-coordination.yaml`
+    - `work/collaboration/assigned/architect/2025-11-24T0950-architect-version-policy-documentation.yaml`
+    - `work/collaboration/assigned/build-automation/2025-11-24T0949-build-automation-security-checksum-verification.yaml`
+    - `work/collaboration/assigned/build-automation/2025-11-24T0953-build-automation-parallel-installation.yaml`
+    - `work/collaboration/assigned/build-automation/2025-11-24T0954-build-automation-telemetry-collection.yaml`
+    - `work/collaboration/assigned/curator/2025-11-24T0951-curator-tooling-best-practices-guide.yaml`
+    - `work/collaboration/assigned/curator/2025-11-24T0952-curator-maintenance-checklist-templates.yaml`
+
+- type: epic
+  taskset: planning
+  title: "Feature: Collaboration Infrastructure Hardening"
+  labels: planning,feature,automation
+  priority: medium
+  assignee: ""
+  body: |
+    # Feature: Collaboration Infrastructure Hardening
+
+    ## Objective
+    Stabilize the recent script relocation (into `ops/` + `validation/`), ensure workflows point to the right modules, and add maintenance automation (manifest + archival) so file-based orchestration stays healthy.
+
+    ## Context
+    - Script reorg PR (`copilot/rework-automation-scripts`) moved orchestration assets, but validation/documentation/automation follow-ups remain.
+    - New backlog items (manifest maintenance, work-item cleanup) eliminate manual toil inside `work/collaboration/`.
+
+    ## Execution Framework
+    - Process each task under `.github/agents/approaches/file_based_collaboration/`.
+    - When batching (e.g., running regression tests + doc updates), mirror the cadence described in `.github/ISSUE_TEMPLATE/run-iteration.md`.
+
+    ## Scope
+    - Validate script structure + task utilities (curator task).
+    - Update affected docs (writer-editor task).
+    - Test CI workflows for new paths (build automation task).
+    - Add directives manifest upkeep script.
+    - Add cleanup/archival scripts for done/archive directories.
+
+    ## Acceptance Criteria
+    - ✅ Script reorg validated, duplicates removed, and references cleaned up.
+    - ✅ HOW_TO_USE + CONTRIBUTING references updated with new paths.
+    - ✅ `.github/workflows/validation.yml` and `orchestration.yml` green with new composite action.
+    - ✅ `ops/scripts/maintenance/update_directives_manifest.py` (plus tests + README) in place with dry-run/fix flags.
+    - ✅ Archive/compression automation available with configurable ages + logging.
+
+    ## Linked Tasks
+    - `work/collaboration/inbox/2025-11-25T1837-curator-validate-refactor.yaml`
+    - `work/collaboration/inbox/2025-11-25T1838-writer-editor-update-docs.yaml`
+    - `work/collaboration/inbox/2025-11-25T1839-build-automation-test-workflows.yaml`
+    - `work/collaboration/inbox/2025-11-28T0426-build-automation-manifest-maintenance-script.yaml`
+    - `work/collaboration/inbox/2025-11-28T0427-build-automation-work-items-cleanup-script.yaml`
+
+- type: epic
+  taskset: planning
+  title: "Feature: Insight & Efficiency Reporting"
+  labels: planning,feature,insights
+  priority: medium
+  assignee: ""
+  body: |
+    # Feature: Insight & Efficiency Reporting
+
+    ## Objective
+    Keep stakeholder-facing narratives (POC3 synthesis) and architecture-facing efficiency trendlines current so prioritization decisions remain evidence-based.
+
+    ## Context
+    - POC3 follow-up report needs a clarity pass before stakeholders can rely on it.
+    - ADR-012 and ADR-021 depend on accurate quality-to-cost telemetry, which the architect assessment must deliver.
+
+    ## Execution Framework
+    - Use `.github/agents/approaches/file_based_collaboration/` for all edits/logs.
+    - When iterating on documents and assessments in a single session, follow `.github/ISSUE_TEMPLATE/run-iteration.md` to keep task logs + AGENT_STATUS updates consistent.
+
+    ## Scope
+    - Writer-editor clarity review of `work/reports/synthesizer/2025-11-27T1911-poc3-followup-aggregate-synthesis.md`.
+    - Architect efficiency assessment using synthesizer metrics + logs.
+    - Ensure recommendations/prioritization feed back into planning docs.
+
+    ## Acceptance Criteria
+    - ✅ POC3 synthesis trimmed for clarity without losing quantitative fidelity; editorial notes captured for curator.
+    - ✅ Efficiency assessment logged + cross-referenced inside ADR-012 with recommended adjustments.
+    - ✅ Outcomes reflected in `docs/planning/FEATURES_OVERVIEW.md` and future batches.
+
+    ## Linked Tasks
+    - `work/collaboration/inbox/2025-11-27T1956-writer-editor-followup-2025-11-24T1756-synthesizer-poc3-followup.yaml`
+    - `work/collaboration/assigned/architect/2025-11-24T1736-architect-framework-efficiency-assessment.yaml`
+
+- type: epic
+  taskset: planning
+  title: "Feature: Multi-Tier Platform Enablement"
+  labels: planning,feature,platform
+  priority: high
+  assignee: ""
+  body: |
+    # Feature: Multi-Tier Platform Enablement
+
+    ## Objective
+    Execute the Platform Next Steps assessment so router configs, orchestration
+    interfaces, local worker automation, diagrams, and CI guardrails exist for
+    the four-tier runtime outlined in ADR-020 and ADR-021.
+
+    ## Context
+    - Assessment: docs/architecture/assessments/platform_next_steps.md
+    - ADRs: 002 (portability), 009 (metrics), 020 (multi-tier runtime), 021 (model routing)
+    - Brainstorm inputs: work/notes/ideation/full_automatic_agents/brainstorm_part*.md
+
+    ## Current Signals
+    - No backlog items previously covered router config, local worker automation,
+      or diagram/CI updates required by Alphonso’s plan.
+    - Distribution/Release work depends on these assets to be production-ready.
+
+    ## Execution Framework
+    - Use `.github/agents/approaches/file_based_collaboration/` for every task,
+      logging results per Directive 014.
+    - Bundle batches through `.github/ISSUE_TEMPLATE/run-iteration.md` when
+      multiple artifacts (config + CI) are touched together.
+
+    ## Scope
+    - Create model router config + validator.
+    - Draft router-agnostic model_client interface.
+    - Extend task descriptors/directives with model selection hints.
+    - Operationalize Ollama worker config + runner.
+    - Produce diagrams for Layers 0-3.
+    - Integrate router and task-schema validators into CI.
+
+    ## Acceptance Criteria
+    - ✅ Router config validated and version-controlled with fallback rules.
+    - ✅ model_client interface documented and ready for integration.
+    - ✅ Template + directive updates merged; tasks start including model hints.
+    - ✅ Local worker script + config demoed in work log.
+    - ✅ Architecture diagrams rendered and referenced in docs/ADRs.
+    - ✅ CI fails fast when router config or task schema drifts.
+
+    ## Linked Tasks
+    - `work/collaboration/inbox/2025-11-30T1201-build-automation-model-router-config.yaml`
+    - `work/collaboration/inbox/2025-11-30T1202-architect-model-client-interface.yaml`
+    - `work/collaboration/inbox/2025-11-30T1203-scribe-model-selection-template.yaml`
+    - `work/collaboration/inbox/2025-11-30T1204-build-automation-ollama-worker-pipeline.yaml`
+    - `work/collaboration/inbox/2025-11-30T1205-diagrammer-multi-tier-runtime-diagram.yaml`
+    - `work/collaboration/inbox/2025-11-30T1206-build-automation-ci-router-schema-validation.yaml`

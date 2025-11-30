@@ -1,0 +1,45 @@
+id: 2025-11-30T1203-scribe-model-selection-template
+agent: scribe
+status: new
+priority: high
+mode: /analysis-mode
+title: Extend task descriptor template with model selection hints
+
+artefacts:
+  - docs/templates/agent-tasks/model-selection.yaml
+  - .github/agents/directives/
+  - work/logs/scribe/2025-11-30T1203-scribe-model-selection-template.md
+
+description: |
+  Provide the documentation and directive updates requested in the Platform
+  Next Steps assessment so every new task captures preferred models, constraints,
+  and privacy/cost considerations.
+
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  source_assessment: docs/architecture/assessments/platform_next_steps.md
+  notes:
+    - Create a dedicated template file in docs/templates/agent-tasks/.
+    - Update the appropriate directive (likely 004 or 012) with an addendum on
+      model selection hints.
+    - Include examples referencing router config fields.
+
+requirements:
+  - Draft docs/templates/agent-tasks/model-selection.yaml with sections for
+    `task_type`, `preferred_models`, `hard_constraints` (context window,
+    tool-calls), `cost_ceiling`, and `privacy_requirements`.
+  - Provide narrative guidance plus inline comments for each field.
+  - Update `.github/agents/directives/004_documentation_context_files.md`
+    (or another best-fit directive) to mandate specifying model hints in future
+    tasks and reference the new template.
+  - Add cross-links inside `docs/architecture/assessments/platform_next_steps.md`
+    if clarifications are required.
+
+success_criteria:
+  - Template is merged, linted, and referenced from relevant docs.
+  - Directive addendum passes any validation (link check) and is logged.
+  - Work log captures rationale and any follow-up tasks for Implementation agents.
+
+created_at: '2025-11-30T12:03:00Z'
+created_by: planning-petra

@@ -1,0 +1,41 @@
+id: 2025-11-30T1206-build-automation-ci-router-schema-validation
+agent: build-automation
+status: new
+priority: high
+mode: /analysis-mode
+title: Wire router + task-schema validators into CI workflows
+
+artefacts:
+  - .github/workflows/validation.yml
+  - .github/workflows/orchestration.yml
+  - work/logs/build-automation/2025-11-30T1206-build-automation-ci-router-schema-validation.md
+
+description: |
+  Update CI so router config validation and enhanced task schema checks are run
+  automatically, fulfilling the enforcement requirement in Platform Next Steps.
+
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  source_assessment: docs/architecture/assessments/platform_next_steps.md
+  notes:
+    - Trigger the new ops/scripts/validate-model-router.py script.
+    - Extend validation/validate-task-schema.py to assert presence of model
+      selection hints and integrate it into CI job(s).
+    - Provide matrix or caching considerations if runtime costs increase.
+
+requirements:
+  - Update validation.yml to install prerequisites (Python deps) and run the
+    router validator plus task schema check (covering inbox + assigned directories).
+  - If orchestration.yml also needs guardrails, add quick smoke checks there or
+    document rationale in the PR description/work log.
+  - Ensure failure output is readable and includes remediation hints.
+  - Capture before/after job run logs in work log.
+
+success_criteria:
+  - CI pipelines fail when router config or task schema is invalid.
+  - Work log documents job changes, runtime impact, and follow-up needs.
+  - No regressions to existing validation jobs (cross-check with template status checker).
+
+created_at: '2025-11-30T12:06:00Z'
+created_by: planning-petra
