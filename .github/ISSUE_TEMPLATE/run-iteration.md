@@ -75,7 +75,7 @@ echo "Done: $(find work/done -name '*.yaml' 2>/dev/null | wc -l) tasks"
   5. Update status: in_progress → done
   6. Move task from `work/assigned/<agent>/` to `work/done/<agent>/`
      - **Important:** Tasks must be moved to the agent-specific subdirectory, not directly to `work/done/` root
-  7. Create work log in `work/logs/<agent>/` per Directive 014
+  7. Create work log in `work/reports/logs/<agent>/` per Directive 014
 
 ### 4. Documentation & Reporting
 - Create work log for each completed task (Directive 014)
@@ -102,7 +102,7 @@ _Note: These checkboxes can be auto-populated by orchestrator post-execution usi
 ## Deliverables
 
 - **Completed Tasks**: Moved to `work/done/<agent>/` subdirectories
-- **Work Logs**: Created in `work/logs/<agent>/`
+- **Work Logs**: Created in `work/reports/logs/<agent>/`
 - **Iteration Summary**: Added to `work/collaboration/`
 - **Updated Status**: `AGENT_STATUS.md` reflects current state
 - **Manager Recap**: Comment posted to PR

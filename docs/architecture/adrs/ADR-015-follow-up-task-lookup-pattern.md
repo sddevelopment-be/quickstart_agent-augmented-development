@@ -325,7 +325,7 @@ None. Decision is clear based on current evidence and architectural principles.
 - **ADR-009:** Orchestration Metrics Standard
 - **File-Based Orchestration Approach:** `.github/agents/approaches/file-based-orchestration.md`
 - **Implementation Review:** `docs/architecture/assessments/implementation-progress-review.md`
-- **Work Log:** `work/logs/architect/2025-11-24T1210-follow-up-lookup-assessment.md`
+- **Work Log:** `work/reports/logs/architect/2025-11-24T1210-follow-up-lookup-assessment.md`
 
 ---
 
