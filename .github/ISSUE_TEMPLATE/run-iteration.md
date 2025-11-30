@@ -38,16 +38,14 @@ Execute an orchestration cycle to process pending tasks in the work queue follow
 
 ## Current Status
 
-_To be filled by running `work/scripts/template-status-checker.sh` or manually:_
+_To be filled by running `template-status-checker.py`:_
 ```bash
-bash work/scripts/template-status-checker.sh
+python ops/framework-core/template-status-checker.py
 ```
 
-_Manual alternative:_
+_With validation:_
 ```bash
-echo "Inbox: $(ls work/inbox/*.yaml 2>/dev/null | wc -l) tasks"
-echo "Assigned: $(find work/assigned -name '*.yaml' 2>/dev/null | wc -l) tasks"
-echo "Done: $(find work/done -name '*.yaml' 2>/dev/null | wc -l) tasks"
+python ops/framework-core/template-status-checker.py --validate
 ```
 
 ## Execution Instructions
