@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 #
 # template-status-checker.sh
-# 
+#
+# ⚠️  DEPRECATED: This bash version is deprecated and may have path inconsistencies.
+# Please use the Python version instead: ops/framework-core/template-status-checker.py
+#
 # Purpose: Automate status reporting for run-iteration.md issue template
 # Usage:
 #   bash work/scripts/template-status-checker.sh [OPTIONS]
@@ -16,11 +19,17 @@
 #   bash work/scripts/template-status-checker.sh --validate
 #   bash work/scripts/template-status-checker.sh --format=json
 #
-# Version: 1.0.0
+# Version: 1.0.0 (DEPRECATED)
 # Created: 2025-11-24
 # Agent: DevOps Danny (build-automation)
+# Deprecated: 2025-11-30 - Use Python version for correct path handling
 
 set -eo pipefail
+
+# Show deprecation warning
+echo "⚠️  WARNING: This bash version is deprecated." >&2
+echo "   Please use: python ops/framework-core/template-status-checker.py" >&2
+echo "" >&2
 
 # === Script Implementation ===
 

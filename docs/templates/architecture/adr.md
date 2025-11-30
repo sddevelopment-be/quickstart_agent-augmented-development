@@ -1,6 +1,14 @@
 # Architecture Decision Records
 
-## ADR-001: Title
+> **ADR Numbering Guide:**
+> - ADRs are numbered sequentially starting from 001
+> - Check `docs/architecture/adrs/` for the highest existing number before creating a new ADR
+> - Use `ls -1 docs/architecture/adrs/ADR-*.md | tail -1` to find the latest ADR
+> - Reserve your number by creating the file immediately to prevent conflicts
+> - In task specifications, use descriptive names instead of numbers until the ADR is created
+> - Example: Use "follow-up-task-lookup-pattern" in planning, then assign next available number when creating the file
+
+## ADR-NNN: Title
 
 **status**: `Proposed` / `Accepted` / `Rejected`  
 **date**: YYYY-MM-DD
