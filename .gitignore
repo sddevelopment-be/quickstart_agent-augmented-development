@@ -18,6 +18,7 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .venv/
+*.egg-info/
 
 # Temporary files ( input/output of various tools or reference documentation )
 tmp/

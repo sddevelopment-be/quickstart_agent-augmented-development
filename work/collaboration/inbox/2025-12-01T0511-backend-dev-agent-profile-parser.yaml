@@ -1,0 +1,52 @@
+id: 2025-12-01T0511-backend-dev-agent-profile-parser
+agent: backend-dev
+status: new
+priority: medium
+mode: /analysis-mode
+title: Add agent profile parser and directive loader to framework
+
+artefacts:
+  - framework/core/agent_profile.py
+  - framework/core/__init__.py
+  - framework/interface.py
+  - docs/architecture/assessments/platform_next_steps.md
+  - work/logs/backend-dev/2025-12-01T0511-backend-dev-agent-profile-parser.md
+
+description: |
+  Implement the markdown parser + directive loader requested in the Platform
+  Next Steps assessment so the orchestrator can reason about agent capabilities
+  directly from `.github/agents/*.agent.md` and `.github/agents/directives/*.md`.
+
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  source_assessment: docs/architecture/assessments/platform_next_steps.md
+  notes:
+    - Focus on lightweight parsing (front-matter YAML + headings) rather than
+      full Markdown rendering.
+    - Align dataclasses with existing AgentProfile in framework/core.
+    - Cache loaded directives to avoid repeated disk I/O during task runs.
+
+requirements:
+  - Extend AgentProfile to include references to loaded directives and aliases.
+  - Add parser that reads `.agent.md` files, extracts metadata, and builds
+    AgentProfile instances.
+  - Add directive loader that ingests `.github/agents/directives/*.md`, records
+    version info, and exposes lookup helpers.
+  - Provide integration glue so Orchestrator bootstraps agents from disk before
+    processing tasks.
+  - Document the loader behavior in framework/README.md and mention Directive 006
+    (version governance) impacts.
+
+testing_requirements:
+  - Write unit tests that simulate `.agent.md` and directive files via fixtures.
+  - Cover error handling for missing metadata, duplicate directives, and cache refresh.
+  - Ensure tests run with `python -m pytest validation/test_framework_interface.py`.
+
+success_criteria:
+  - Framework exposes `load_agent_profiles()` and `load_directives()` helpers.
+  - Unit tests cover missing files, malformed headers, and successful parsing.
+  - Work log lists limitations plus follow-up tasks (if any) for Curator/Manager.
+
+created_at: '2025-12-01T05:11:00Z'
+created_by: planning-petra

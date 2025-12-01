@@ -1,0 +1,473 @@
+''
+'' A sticky note inspired theme for PlantUML
+''
+'' Author: Stijn Dejongh
+'' Copyright (c) 2024, SD Development BV
+
+!$THEME = "bluegray"
+
+!if %not(%variable_exists("$BGCOLOR"))
+!$BGCOLOR = "transparent"
+!endif
+
+skinparam backgroundColor $BGCOLOR
+
+!$STICKY_FONT_SIZE = 22
+!$TECHN_FONT_SIZE = 14
+
+!$WHITE = "#fff"
+!$GRAY_DARK = "#5a5a5a"
+!$GRAY = "#959595"
+!$PRIMARY = "#1168bd"
+!$SECONDARY = "#f2f2f2"
+!$SUCCESS = "#b5bd00"
+!$INFO = "#0568ae"
+!$WARNING = "#ea7400"
+!$DANGER = "#cf2a2a"
+!$LIGHT = "#d2d2d2"
+!$DARK = "#103a82"
+
+!$FGCOLOR = $DARK
+!$PRIMARY_LIGHT = "#1c75cc"
+!$PRIMARY_DARK = "#0A0721"
+!$PRIMARY_TEXT = $WHITE
+!$SECONDARY_LIGHT = "#f5f5f5"
+!$SECONDARY_DARK = "#c2c2c2"
+!$PRIMARY_STICKY = "#d6e7a9"
+!$SECONDARY_STICKY = "#b5b67c"
+!$PRIMARY_NOTE = "#c03556"
+!$SECONDARY_NOTE = "#b5b67c"
+!$SECONDARY_TEXT = $DARK
+!$INFO_LIGHT = "#3786be"
+!$INFO_DARK = "#04538b"
+!$INFO_TEXT = $WHITE
+!$SUCCESS_LIGHT = "#c4ca33"
+!$SUCCESS_DARK = "#919700"
+!$SUCCESS_TEXT = $WHITE
+!$WARNING_LIGHT = "#ee9033"
+!$WARNING_DARK = "#bb5d00"
+!$WARNING_TEXT = $WHITE
+!$DANGER_LIGHT = "#d95555"
+!$DANGER_DARK = "#a62222"
+!$DANGER_TEXT = $WHITE
+!$BG_LIGHT = "#e5eff2"
+
+!procedure $success($msg)
+  <font color=$SUCCESS><b>$msg
+!endprocedure
+
+!procedure $failure($msg)
+  <font color=$DANGER><b>$msg
+!endprocedure
+
+!procedure $warning($msg)
+  <font color=$WARNING><b>$msg
+!endprocedure
+
+!procedure $primary_scheme()
+
+	FontColor $PRIMARY_TEXT
+	BorderColor $PRIMARY_LIGHT
+	BackgroundColor $PRIMARY_LIGHT-$PRIMARY
+
+!endprocedure
+
+!procedure $secondary_scheme()
+	FontColor $SECONDARY_TEXT
+	BorderColor $SECONDARY_DARK
+	BackgroundColor $WHITE-#fefefe
+!endprocedure
+
+''
+'' Global Default Values
+''
+skinparam defaultFontName        "d-din"
+skinparam defaultFontSize        18
+skinparam dpi                    100
+skinparam shadowing              true
+skinparam roundcorner            20
+skinparam ParticipantPadding     30
+skinparam BoxPadding             42
+skinparam Padding                14
+skinparam ArrowColor             $PRIMARY_DARK
+skinparam nodesep                68
+skinparam ranksep                42
+skinparam maxMessageSize         224
+skinparam wrapWidth              224
+skinparam defaultTextAlignment   center
+skinparam linetype               polyline
+
+hide stereotypes
+
+skinparam stereotype {
+    CBackgroundColor $SECONDARY_LIGHT
+    CBorderColor $SECONDARY_DARK
+    ABackgroundColor $SUCCESS_LIGHT
+    ABorderColor $SUCCESS_DARK
+    IBackgroundColor $DANGER_LIGHT
+    IBorderColor $DANGER_DARK
+    EBackgroundColor $WARNING_LIGHT
+    EBorderColor $WARNING_DARK
+    NBackgroundColor $INFO_LIGHT
+    NBorderColor $INFO_DARK
+}
+skinparam title {
+	FontColor	                 $PRIMARY_DARK
+	BorderColor	               $SECONDARY_DARK
+	FontSize	    	           12
+	BorderRoundCorner          2
+	BorderThickness 	         0
+	BackgroundColor            $SECONDARY_LIGHT-$SECONDARY
+}
+
+skinparam legend {
+	BackgroundColor $SECONDARY
+	BorderColor $SECONDARY_DARK
+	FontColor $DARK
+}
+
+!startsub participant
+skinparam participant {
+	$primary_scheme()
+	ParticipantBorderThickness 2
+}
+!endsub
+
+!startsub actor
+skinparam actor {
+	$primary_scheme()
+	FontColor $PRIMARY
+}
+!endsub
+
+!startsub agent
+skinparam agent {
+	BackgroundColor #orange
+	BorderColor #999999
+	FontColor #333333
+}
+!endsub
+
+!startsub arrow
+skinparam arrow {
+'	FontName Impact
+	Thickness 2.5
+	FontSize 16
+	Color $PRIMARY_DARK
+	FontColor $PRIMARY_DARK
+}
+!endsub
+
+skinparam arrow<<opp>> {
+	Color $DANGER_DARK
+	FontColor $DANGER_DARK
+}
+
+!startsub boundary
+skinparam boundary {
+	$primary_scheme()
+	FontColor $PRIMARY
+}
+!endsub
+
+!startsub note
+skinparam note {
+	BorderThickness 1
+	BackgroundColor transparent
+	BorderColor $PRIMARY_DARK
+	FontColor $PRIMARY_DARK
+	FontSize 12
+}
+!endsub
+
+!startsub artifact
+skinparam artifact {
+	BackgroundColor $WHITE-$LIGHT
+	BorderColor $SECONDARY_DARK
+	FontColor $SECONDARY_TEXT
+}
+!endsub
+
+!startsub component
+skinparam component {
+	$primary_scheme()
+}
+!endsub
+
+!startsub interface
+skinparam interface {
+	BackgroundColor  $DANGER_LIGHT
+	BorderColor  $DANGER
+	FontColor $DARK
+}
+!endsub
+
+!startsub storage
+skinparam storage {
+	BackgroundColor $WARNING_LIGHT-$WARNING
+  	BorderColor $WARNING
+	FontColor $WARNING_TEXT
+}
+!endsub
+
+!startsub node
+skinparam node {
+	BackgroundColor $SECONDARY_LIGHT-$SECONDARY
+	BorderColor $SECONDARY_DARK
+	FontColor $PRIMARY
+}
+!endsub
+
+!startsub cloud
+skinparam cloud {
+	BackgroundColor #F2FCFE-#eeeeee
+	BorderColor #F2FCFE
+	FontColor $PRIMARY
+}
+!endsub
+
+!startsub database
+skinparam database {
+	$primary_scheme()
+	' FontColor $PRIMARY
+	BorderColor $PRIMARY_DARK
+	' BackgroundColor  $BGCOLOR
+}
+!endsub
+
+!startsub class
+
+skinparam class {
+	$primary_scheme()
+	HeaderBackgroundColor $PRIMARY
+	StereotypeFontColor $DARK
+	BorderThickness 2
+	BorderColor $PRIMARY_DARK
+	AttributeFontColor $LIGHT
+	AttributeFontSize 14
+}
+!endsub
+
+!startsub object
+
+skinparam object {
+	$primary_scheme()
+	StereotypeFontColor $DARK
+	BorderThickness 1
+	AttributeFontColor $LIGHT
+	AttributeFontSize 14
+}
+!endsub
+
+!startsub usecase
+skinparam usecase {
+	$primary_scheme()
+	BorderThickness 2
+	StereotypeFontColor $PRIMARY
+}
+!endsub
+
+!startsub rectangle
+skinparam rectangle {
+	$secondary_scheme()
+	BorderThickness 2
+	StereotypeFontColor $PRIMARY
+}
+!endsub
+
+!startsub package
+skinparam package {
+	FontColor $PRIMARY
+	BorderColor $PRIMARY_LIGHT
+	BackgroundColor $BGCOLOR
+	BorderThickness 2
+}
+!endsub
+
+!startsub folder
+skinparam folder {
+	BackgroundColor $WHITE-$SECONDARY_LIGHT
+  BorderColor $WARNING
+	FontColor $WARNING
+	BorderThickness 2
+}
+!endsub
+
+!startsub frame
+skinparam frame {
+	BackgroundColor $WHITE-$SECONDARY_LIGHT
+  	BorderColor $INFO
+	FontColor $INFO
+	BorderThickness 2
+}
+!endsub
+
+skinparam rectangle<<boundary>> {
+    Shadowing false
+    StereotypeFontSize 0
+    FontColor #444444
+    BorderColor #444444
+    BorderStyle dashed
+}
+
+!unquoted function Boundary($alias, $label)
+!return 'rectangle "== '+$label+'" <<boundary>> as '+$alias
+!endfunction
+!unquoted function Boundary($alias, $label, $type)
+!return 'rectangle "=='+$label+'\n<size:'+$TECHN_FONT_SIZE+'>['+$type+']</size>" <<boundary>> as '+$alias
+!endfunction
+
+
+
+!startsub card
+
+skinparam card {
+	BackgroundColor $INFO_LIGHT-$INFO
+	BorderColor $INFO
+	FontColor $INFO_TEXT
+}
+!endsub
+
+!startsub file
+
+skinparam file {
+	BackgroundColor $SECONDARY_LIGHT-$SECONDARY
+	BorderColor $INFO
+	FontColor $SECONDARY_TEXT
+
+}
+!endsub
+
+!startsub stack
+
+skinparam stack {
+	$primary_scheme()
+}
+!endsub
+
+
+'Items for Stickies
+
+!function $getContainer($label, $descr, $sprite)
+!if ($descr == "") && ($sprite == "")
+!return '\n'+$label+'\n'
+!endif
+!if ($descr == "") && ($sprite != "")
+!return '<$'+$sprite+'>\n'+$label+'\n'
+!endif
+!if ($descr != "") && ($sprite == "")
+!return '\n'+$label+'\n\n---\n' + '<size:'+$TECHN_FONT_SIZE+'>' + $descr + '</size>'
+!endif
+!endfunction
+
+skinparam rectangle<<sticky>> {
+    StereotypeFontColor       $PRIMARY_DARK
+    FontColor                 $PRIMARY_DARK
+    FontSize                  $STICKY_FONT_SIZE
+    BackgroundColor           $PRIMARY_STICKY
+    BorderColor               $SECONDARY_STICKY
+    BorderRoundCorner         2
+    BorderThickness           2
+}
+
+skinparam rectangle<<sticky, yellow>> {
+	FontColor                 #0A0721
+  BackgroundColor           $PRIMARY_STICKY
+  BorderColor               $SECONDARY_STICKY
+}
+
+skinparam rectangle<<sticky, orange>> {
+	FontColor                 #160909
+  BackgroundColor           #DBA872
+  BorderColor               #9A4C2E
+}
+
+skinparam rectangle<<sticky, green>> {
+	FontColor                 #0C1D0C
+  BackgroundColor           #99DB84
+  BorderColor               #389545
+}
+
+skinparam rectangle<<sticky, bright_blue>> {
+  FontColor                 #070829
+  BackgroundColor           #7FB3FF
+  BorderColor               #517B9A
+}
+
+skinparam rectangle<<sticky, blue>> {
+  FontColor                 #070829
+  BackgroundColor           #9EBDCC
+  BorderColor               #517B9A
+}
+
+skinparam rectangle<<sticky, purple>> {
+  FontColor                 #070829
+  BackgroundColor           #9B8EC8
+  BorderColor               #8732C8
+}
+
+skinparam rectangle<<sticky, pink>> {
+  FontColor                 #070829
+  BackgroundColor           #C89DB6
+  BorderColor               #C8479A
+}
+
+skinparam rectangle<<sticky, gray>> {
+  FontColor               #3A3A3A
+  BackgroundColor         #9A9A9A
+  BorderColor             #5A5A5A
+}
+
+!unquoted procedure Sticky_Purple($alias, $label, $descr="", $sprite="")
+rectangle "$getContainer($label, $descr, $sprite)" <<sticky, purple>> as $alias
+!endprocedure
+
+!unquoted procedure Sticky_Pink($alias, $label, $descr="", $sprite="")
+rectangle "$getContainer($label, $descr, $sprite)" <<sticky, pink>> as $alias
+!endprocedure
+
+!unquoted procedure Sticky_Blue($alias, $label, $descr="", $sprite="")
+rectangle "$getContainer($label, $descr, $sprite)" <<sticky, blue>> as $alias
+!endprocedure
+
+!unquoted procedure Sticky_BrightBlue($alias, $label, $descr="", $sprite="")
+rectangle "$getContainer($label, $descr, $sprite)" <<sticky, bright_blue>> as $alias
+!endprocedure
+
+!unquoted procedure Sticky_Orange($alias, $label, $descr="", $sprite="")
+rectangle "$getContainer($label, $descr, $sprite)" <<sticky, orange>> as $alias
+!endprocedure
+
+!unquoted procedure Sticky_Green($alias, $label, $descr="", $sprite="")
+rectangle "$getContainer($label, $descr, $sprite)" <<sticky, green>> as $alias
+!endprocedure
+
+!unquoted procedure Sticky_Gray($alias, $label, $descr="", $sprite="")
+rectangle "$getContainer($label, $descr, $sprite)" <<sticky, gray>> as $alias
+!endprocedure
+
+!unquoted procedure Sticky($alias, $label, $descr="", $sprite="")
+rectangle "$getContainer($label, $descr, $sprite)" <<sticky, yellow>> as $alias
+!endprocedure
+
+!unquoted procedure s($start, $end, $descr="")
+same($start, $end, $descr)
+!endprocedure
+
+!unquoted procedure same($start, $end, $descr="")
+$start -[#072D5B]-> $end
+!if $descr != ""
+    note on link: $descr
+!endif
+!endprocedure
+
+!unquoted procedure o($start, $end, $descr="")
+opposite($start, $end, $descr)
+!endprocedure
+
+!unquoted procedure opposite($start, $end, $descr="")
+$start -[#A9202E]-> $end : "<color: #A9202E><b>O</b></color>"
+!if $descr != ""
+    note on link: $descr
+!endif
+!endprocedure

@@ -1,0 +1,45 @@
+id: 2025-12-01T0513-build-automation-framework-ci-tests
+agent: build-automation
+status: new
+priority: high
+mode: /analysis-mode
+title: Run framework test suites plus router/task schema validators in CI
+
+artefacts:
+  - .github/workflows/validation.yml
+  - .github/workflows/orchestration.yml
+  - validation/test_framework_interface.py
+  - validation/test_framework_core.py
+  - validation/test_framework_execution.py
+  - work/logs/build-automation/2025-12-01T0513-build-automation-framework-ci-tests.md
+
+description: |
+  Extend CI so the framework test suites (interface/core/execution) and new
+  router/task-schema validators run automatically, satisfying Step 8 of the
+  Platform Next Steps assessment.
+
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  source_assessment: docs/architecture/assessments/platform_next_steps.md
+  notes:
+    - Reuse the setup-python composite action to avoid redundant installs.
+    - Share caching strategy with validation.yml + orchestration.yml.
+    - Emit clear failure logs pointing to the exact validator/test that failed.
+
+requirements:
+  - Update validation.yml to run `pytest validation/test_framework_*.py`.
+  - Ensure router validator + task schema validator run in the same job or a
+    dedicated job with explicit dependency ordering.
+  - Update orchestration.yml if additional smoke checks are justified, or record
+    rationale in the work log if not needed.
+  - Adjust workflow docs (README or inline comments) to mention the new steps.
+
+success_criteria:
+  - CI fails when framework tests, router validation, or task schema validation
+    fail locally.
+  - Work log includes before/after workflow logs and runtime impact.
+  - Validation scripts referenced from docs so future agents can reproduce locally.
+
+created_at: '2025-12-01T05:13:00Z'
+created_by: planning-petra

@@ -1,0 +1,46 @@
+id: 2025-12-01T0512-build-automation-router-metrics-dashboard
+agent: build-automation
+status: new
+priority: medium
+mode: /analysis-mode
+title: Integrate router/model selection metrics with ADR-009 dashboard
+
+artefacts:
+  - ops/dashboards/generate-dashboard.py
+  - validation/dashboards/test_generate_dashboard.py
+  - docs/metrics/README.md
+  - work/logs/build-automation/2025-12-01T0512-build-automation-router-metrics-dashboard.md
+
+description: |
+  Wire router/model selection telemetry (token usage, fallbacks, pricing) into
+  the dashboards pipeline discussed in docs/architecture/assessments/platform_next_steps.md
+  so ADR-009 metrics include Layer 2/3 visibility.
+
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  source_assessment: docs/architecture/assessments/platform_next_steps.md
+  notes:
+    - Capture metrics emitted by the new model router validator and local worker script.
+    - Keep output files lightweight (Markdown + JSON) for downstream reporting.
+    - Update docs/metrics references if new sections are introduced.
+
+requirements:
+  - Extend ops/dashboards/generate-dashboard.py to ingest router validation logs
+    and Ollama worker runs, summarizing model usage, fallback counts, and pricing ceilings.
+  - Document new sections in docs/metrics/README.md (or create the file if absent).
+  - Provide CLI flags for selecting time windows or specific routers.
+  - Ensure outputs align with ADR-009’s reporting expectations.
+
+testing_requirements:
+  - Add/extend pytest coverage in validation/dashboards/ for the new data sources.
+  - Include fixture samples for router validator output and Ollama worker logs.
+  - Verify CLI flag combinations via tests or dedicated script-level checks.
+
+success_criteria:
+  - Dashboard generation script runs locally and via CI without regressions.
+  - Example dashboard artifact checked into `output/` or referenced in work log.
+  - Work log records metrics captured plus any follow-up needs for Observability.
+
+created_at: '2025-12-01T05:12:00Z'
+created_by: planning-petra

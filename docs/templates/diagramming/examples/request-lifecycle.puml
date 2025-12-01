@@ -1,0 +1,25 @@
+@startuml RequestLifecycle
+autonumber
+skinparam backgroundColor #ffffff
+skinparam sequenceArrowThickness 1
+skinparam defaultFontName "Inter, Roboto, Helvetica, Arial, sans-serif"
+title Request Lifecycle • {{Task}}
+
+actor User as U
+participant "Agent (e.g., Structural)" as AG
+database "Context Stack" as KB
+participant "CI/CD" as CI
+
+U ->> AG: Request + constraints ({{task}})
+AG ->> KB: Load Operational/Strategic/Command versions
+KB -->> AG: Context OK ✅ / Mismatch ❗️
+AG -> AG: Analyze → Plan (mode: /analysis-mode)
+AG ->> U: Clarify ambiguities ⚠️ (if needed)
+U -->> AG: Answers / approvals
+AG -> AG: Generate artefacts (FIRST PASS)
+AG ->> U: Diffs + summary
+U -->> AG: Approve changes
+AG ->> CI: Commit & trigger pipeline
+CI -->> U: Build/Test status
+
+@enduml

@@ -11,12 +11,12 @@ Person(automationAgent, "Specialized Automation Agent", "Executes YAML tasks via
 Person(downstreamTeam, "Downstream Product Team", "Adopts the template to bootstrap their workflows")
 Person(platformOperator, "Platform Operator", "Runs CI/validation pipelines and manages router catalogs")
 
-System_Boundary(frameworkBoundary, "Quickstart Agent-Augmented Framework") {
-    Container(repoCore, "Governance & Docs", "Markdown / YAML", "AGENTS.md, directives, ADRs, templates, planning guides.") #Layer1
-    Container(taskWorkspace, "Async Task Workspace", "Git-tracked filesystem", "work/inbox, work/assigned/<agent>, work/done, collaboration logs as per async_orchestration_technical_design.md.") #Layer1
-    Container(appPkg, "framework Python Package", "Python", "framework.interface/core/execution modules exposing Layer 0–3 APIs.") #Layer0-3
-    Container(opsTooling, "Ops & Validation Scripts", "Python / Bash / GitHub Actions", "ops/scripts/*, validation/*.py, template-status checker enforcing invariants.") #Layer1
-    ContainerDb(routerConfig, "Model Router Config", "YAML", "ops/config/model_router.yaml + supporting manifests for routing policies.") #Layer2
+System_Boundary(frameworkBoundary, "SDD Agentic Framework") {
+    Container(repoCore, "Governance & Docs", "AGENTS.md, directives, ADRs, templates, planning guides.") 
+    Container(taskWorkspace, "Async Task Workspace", "Git-tracked filesystem", "work/inbox, work/assigned/<agent>, work/done, collaboration logs as per async_orchestration_technical_design.md.")
+    Container(appPkg, "framework Python Package", "Python", "framework.interface/core/execution modules exposing Layer 0–3 APIs consistent with ADR-020.") 
+    Container(opsTooling, "Ops & Validation Scripts", "Python / Bash / GitHub Actions", "ops/scripts/*, validation/*.py, template-status checker enforcing invariants.")
+    ContainerDb(routerConfig, "Model Router Config", "YAML", "ops/config/model_router.yaml + supporting manifests for routing policies.")
 }
 
 System_Ext(llmRouters, "LLM Routers", "OpenRouter + OpenCode.ai")
@@ -30,7 +30,7 @@ Rel(automationAgent, appPkg, "Uses FrameworkClient / CLI wrappers", "Python API"
 Rel(downstreamTeam, repoCore, "Clones + aligns with governance", "Git")
 Rel(platformOperator, opsTooling, "Executes CI + validation workflows", "GitHub Actions / CLI")
 Rel(appPkg, taskWorkspace, "Reads tasks, records lifecycle transitions", "YAML parsing")
-Rel(appPkg, routerConfig, "Loads model catalog + fallback rules", "YAML load")
+Rel(appPkg, routerConfig, "Loads model catalog + fallback rules per ADR-021", "YAML load")
 Rel(appPkg, llmRouters, "Routes prompts/tool calls", "HTTP")
 Rel(appPkg, vendorApis, "Direct API calls when bypassing routers", "HTTP")
 Rel(appPkg, localWorkers, "Invokes run-local-worker for offline tasks", "CLI / HTTP")
