@@ -17,6 +17,7 @@ work/notes/*
 __pycache__/
 *.pyc
 .pytest_cache/
+.venv/
 
 # Temporary files ( input/output of various tools or reference documentation )
 tmp/

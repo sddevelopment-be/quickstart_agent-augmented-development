@@ -1,6 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quickstart-agent-augmented-development"
+version = "0.1.0"
+description = "Multi-tier agentic framework with file-based orchestration"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "PyYAML>=6.0",
+    "pytest>=7.0",
+    "jsonschema>=4.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "black>=25.0",
+    "ruff>=0.14.0",
+    "mutmut>=3.4.0",
+    "mypy>=1.0",
+    "types-PyYAML>=6.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["framework*", "ops*"]
+exclude = ["validation*", "tmp*", "output*", "work*"]
+
 [tool.mutmut]
 # Paths to apply mutations
-paths_to_mutate = "ops/orchestration/"
+paths_to_mutate = "ops/orchestration/,framework/"
 
 # Test runner command
 runner = "python -m pytest validation/"
@@ -45,3 +77,6 @@ python_files = "test_*.py"
 python_classes = "Test*"
 python_functions = "test_*"
 addopts = "-v --tb=short"
+markers = [
+    "timeout: marks tests with execution timeout limits",
+]

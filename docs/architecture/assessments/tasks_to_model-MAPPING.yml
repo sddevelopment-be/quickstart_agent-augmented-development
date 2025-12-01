@@ -1,0 +1,281 @@
+{
+  "task_model_mapping": {
+    "tasks": [
+      {
+        "task_id": "write_adr",
+        "description": "Create or update an Architectural Decision Record describing a design choice, alternatives, and trade-offs.",
+        "suggested_role": "architecture_planner",
+        "primary_models": [
+          {
+            "model_id": "openai_gpt_5",
+            "priority": 1,
+            "via_router": false
+          },
+          {
+            "model_id": "openai_gpt_4_1",
+            "priority": 2,
+            "via_router": false
+          }
+        ],
+        "fallback_models": [
+          {
+            "model_id": "anthropic_claude_opus",
+            "priority": 3,
+            "via_router": true
+          },
+          {
+            "model_id": "local_llama3_70b",
+            "priority": 4,
+            "via_router": false
+          }
+        ]
+      },
+      {
+        "task_id": "generate_architecture_overview",
+        "description": "Produce a coherent architecture overview from existing code, docs, and requirements.",
+        "suggested_role": "architecture_planner",
+        "primary_models": [
+          {
+            "model_id": "openai_gpt_5",
+            "priority": 1,
+            "via_router": false
+          },
+          {
+            "model_id": "anthropic_claude_sonnet",
+            "priority": 2,
+            "via_router": true
+          }
+        ],
+        "fallback_models": [
+          {
+            "model_id": "openai_gpt_4_1",
+            "priority": 3,
+            "via_router": false
+          },
+          {
+            "model_id": "local_llama3_70b",
+            "priority": 4,
+            "via_router": false
+          }
+        ]
+      },
+      {
+        "task_id": "summarize_module_for_docs",
+        "description": "Summarize a module or component and produce human-readable documentation.",
+        "suggested_role": "documentation_author",
+        "primary_models": [
+          {
+            "model_id": "openai_gpt_4_1",
+            "priority": 1,
+            "via_router": false
+          },
+          {
+            "model_id": "openai_gpt_5",
+            "priority": 2,
+            "via_router": false
+          }
+        ],
+        "fallback_models": [
+          {
+            "model_id": "anthropic_claude_sonnet",
+            "priority": 3,
+            "via_router": true
+          },
+          {
+            "model_id": "local_llama3_70b",
+            "priority": 4,
+            "via_router": false
+          }
+        ]
+      },
+      {
+        "task_id": "review_pull_request",
+        "description": "Review a pull request, identify risks, style issues, and suggest improvements.",
+        "suggested_role": "code_reviewer",
+        "primary_models": [
+          {
+            "model_id": "anthropic_claude_sonnet",
+            "priority": 1,
+            "via_router": true
+          },
+          {
+            "model_id": "openai_gpt_4_1",
+            "priority": 2,
+            "via_router": false
+          }
+        ],
+        "fallback_models": [
+          {
+            "model_id": "anthropic_claude_code",
+            "priority": 3,
+            "via_router": true
+          },
+          {
+            "model_id": "github_copilot_enterprise",
+            "priority": 4,
+            "via_router": false
+          }
+        ]
+      },
+      {
+        "task_id": "plan_repo_refactor",
+        "description": "Scan a repository and propose a multi-step refactor plan, including phases and risk assessment.",
+        "suggested_role": "repo_refactorer",
+        "primary_models": [
+          {
+            "model_id": "anthropic_claude_sonnet",
+            "priority": 1,
+            "via_router": true
+          },
+          {
+            "model_id": "openai_gpt_4_1",
+            "priority": 2,
+            "via_router": false
+          }
+        ],
+        "fallback_models": [
+          {
+            "model_id": "anthropic_claude_opus",
+            "priority": 3,
+            "via_router": true
+          },
+          {
+            "model_id": "local_llama3_70b",
+            "priority": 4,
+            "via_router": false
+          }
+        ]
+      },
+      {
+        "task_id": "apply_structured_refactor_batch",
+        "description": "Apply a known, well-specified refactor pattern across many files (e.g. rename API, add logging wrapper).",
+        "suggested_role": "batch_code_worker",
+        "primary_models": [
+          {
+            "model_id": "local_deepseek_coder",
+            "priority": 1,
+            "via_router": false
+          },
+          {
+            "model_id": "local_llama3_70b",
+            "priority": 2,
+            "via_router": false
+          }
+        ],
+        "fallback_models": [
+          {
+            "model_id": "anthropic_claude_code",
+            "priority": 3,
+            "via_router": true
+          },
+          {
+            "model_id": "openai_gpt_4_1",
+            "priority": 4,
+            "via_router": false
+          }
+        ]
+      },
+      {
+        "task_id": "diagnose_failing_test",
+        "description": "Given a failing test, logs, and relevant code, hypothesize root cause and propose fixes.",
+        "suggested_role": "bug_diagnoser",
+        "primary_models": [
+          {
+            "model_id": "anthropic_claude_sonnet",
+            "priority": 1,
+            "via_router": true
+          },
+          {
+            "model_id": "openai_gpt_4_1",
+            "priority": 2,
+            "via_router": false
+          }
+        ],
+        "fallback_models": [
+          {
+            "model_id": "anthropic_claude_code",
+            "priority": 3,
+            "via_router": true
+          },
+          {
+            "model_id": "local_llama3_70b",
+            "priority": 4,
+            "via_router": false
+          }
+        ]
+      },
+      {
+        "task_id": "generate_unit_tests",
+        "description": "Generate unit tests for a given function, class, or module.",
+        "suggested_role": "test_generator",
+        "primary_models": [
+          {
+            "model_id": "openai_gpt_4_1",
+            "priority": 1,
+            "via_router": false
+          },
+          {
+            "model_id": "github_copilot_enterprise",
+            "priority": 2,
+            "via_router": false
+          }
+        ],
+        "fallback_models": [
+          {
+            "model_id": "anthropic_claude_sonnet",
+            "priority": 3,
+            "via_router": true
+          },
+          {
+            "model_id": "local_deepseek_coder",
+            "priority": 4,
+            "via_router": false
+          }
+        ]
+      },
+      {
+        "task_id": "ide_inline_assist",
+        "description": "Provide inline completions, quick fixes, and small code edits while a human developer is typing.",
+        "suggested_role": "ide_coding_assistant",
+        "primary_models": [
+          {
+            "model_id": "github_copilot_enterprise",
+            "priority": 1,
+            "via_router": false
+          }
+        ],
+        "fallback_models": [
+          {
+            "model_id": "local_deepseek_coder",
+            "priority": 2,
+            "via_router": false
+          }
+        ]
+      },
+      {
+        "task_id": "generate_dsl_artifacts",
+        "description": "Generate or transform DSL files, config, or codegen templates in bulk based on a known schema.",
+        "suggested_role": "batch_code_worker",
+        "primary_models": [
+          {
+            "model_id": "local_llama3_70b",
+            "priority": 1,
+            "via_router": false
+          },
+          {
+            "model_id": "local_deepseek_coder",
+            "priority": 2,
+            "via_router": false
+          }
+        ],
+        "fallback_models": [
+          {
+            "model_id": "openai_gpt_4_1",
+            "priority": 3,
+            "via_router": false
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,346 @@
+{
+  "model_rosetta": {
+    "models": [
+      {
+        "id": "openai_gpt_5",
+        "vendor": "openai",
+        "family": "gpt",
+        "type": "hosted",
+        "strengths": [
+          "deep_reasoning",
+          "architecture_design",
+          "documentation_synthesis",
+          "multi_step_planning",
+          "tool_use"
+        ],
+        "notes": "Use as primary 'thinking brain' for complex reasoning, ADRs, and architecture-level agents."
+      },
+      {
+        "id": "openai_gpt_4_1",
+        "vendor": "openai",
+        "family": "gpt",
+        "type": "hosted",
+        "strengths": [
+          "general_reasoning",
+          "code_understanding",
+          "documentation",
+          "tool_use"
+        ],
+        "notes": "Cheaper generalist counterpart to GPT-5. Good default for most reasoning and medium-complexity code tasks."
+      },
+      {
+        "id": "anthropic_claude_sonnet",
+        "vendor": "anthropic",
+        "family": "claude",
+        "type": "hosted",
+        "strengths": [
+          "repo_wide_analysis",
+          "safe_refactoring",
+          "long_context_reasoning",
+          "code_explanation"
+        ],
+        "notes": "Strong default for whole-repo reasoning and careful code edits."
+      },
+      {
+        "id": "anthropic_claude_opus",
+        "vendor": "anthropic",
+        "family": "claude",
+        "type": "hosted",
+        "strengths": [
+          "very_deep_reasoning",
+          "long_context_architecture",
+          "complex_refactoring_plans"
+        ],
+        "notes": "High-end reasoning model when you need maximum depth across large contexts."
+      },
+      {
+        "id": "anthropic_claude_code",
+        "vendor": "anthropic",
+        "family": "claude",
+        "type": "hosted",
+        "strengths": [
+          "code_transformation",
+          "repo_refactoring",
+          "bug_diagnosis",
+          "test_suggestion"
+        ],
+        "notes": "Code-specialized Claude variant. Good for proposed patches and focused code work."
+      },
+      {
+        "id": "github_copilot_enterprise",
+        "vendor": "github",
+        "family": "copilot",
+        "type": "hosted",
+        "strengths": [
+          "inline_completion",
+          "ide_chat",
+          "small_refactors",
+          "test_stubs",
+          "idiomatic_code_suggestions"
+        ],
+        "notes": "Best for 'developer-at-keyboard' work inside IDEs. Not a general orchestration target."
+      },
+      {
+        "id": "local_llama3_70b",
+        "vendor": "meta",
+        "family": "llama3",
+        "type": "self_hosted",
+        "strengths": [
+          "general_code_generation",
+          "local_automation",
+          "dsl_generation",
+          "offline_reasoning"
+        ],
+        "notes": "Representative strong local model via Ollama or similar. Use where privacy or cost is critical."
+      },
+      {
+        "id": "local_deepseek_coder",
+        "vendor": "deepseek",
+        "family": "deepseek_coder",
+        "type": "self_hosted",
+        "strengths": [
+          "code_completion",
+          "batch_transformations",
+          "test_generation"
+        ],
+        "notes": "Good local worker for code-heavy batch tasks when self-hosting."
+      }
+    ],
+    "agent_roles": [
+      {
+        "role_id": "architecture_planner",
+        "description": "Designs or evolves system and component architectures, produces diagrams and ADRs, evaluates trade-offs.",
+        "model_fit": [
+          {
+            "model_id": "openai_gpt_5",
+            "fit_score": 5,
+            "fit_label": "excellent",
+            "rationale": "Best combination of reasoning depth, structuring ability, and ADR-style explanation."
+          },
+          {
+            "model_id": "openai_gpt_4_1",
+            "fit_score": 4,
+            "fit_label": "strong",
+            "rationale": "Good default when GPT-5 is overkill or cost sensitive."
+          },
+          {
+            "model_id": "anthropic_claude_opus",
+            "fit_score": 4,
+            "fit_label": "strong",
+            "rationale": "Very capable for architecture and long-context reasoning, slightly more conservative stylistically."
+          },
+          {
+            "model_id": "local_llama3_70b",
+            "fit_score": 3,
+            "fit_label": "usable",
+            "rationale": "Reasonable for local architecture thinking if privacy or offline constraints apply."
+          }
+        ]
+      },
+      {
+        "role_id": "documentation_author",
+        "description": "Generates and maintains human-facing documentation, READMEs, guides, and pattern write-ups from code and ADRs.",
+        "model_fit": [
+          {
+            "model_id": "openai_gpt_5",
+            "fit_score": 5,
+            "fit_label": "excellent",
+            "rationale": "High quality natural language, good structure, and consistent tone."
+          },
+          {
+            "model_id": "openai_gpt_4_1",
+            "fit_score": 4,
+            "fit_label": "strong",
+            "rationale": "Solid documentation generation with good coherence and summarization."
+          },
+          {
+            "model_id": "anthropic_claude_sonnet",
+            "fit_score": 4,
+            "fit_label": "strong",
+            "rationale": "Good at long-context summaries and explanations across multiple files."
+          },
+          {
+            "model_id": "local_llama3_70b",
+            "fit_score": 3,
+            "fit_label": "usable",
+            "rationale": "Acceptable for local doc generation, may need more human polish."
+          }
+        ]
+      },
+      {
+        "role_id": "code_reviewer",
+        "description": "Performs focused review of diffs or PRs, highlighting risks, suggesting improvements, and aligning changes to conventions.",
+        "model_fit": [
+          {
+            "model_id": "anthropic_claude_sonnet",
+            "fit_score": 5,
+            "fit_label": "excellent",
+            "rationale": "Very good at reading larger contexts, explaining implications, and staying conservative."
+          },
+          {
+            "model_id": "openai_gpt_4_1",
+            "fit_score": 4,
+            "fit_label": "strong",
+            "rationale": "Good contextual analysis and commentary on diffs, with clear explanations."
+          },
+          {
+            "model_id": "anthropic_claude_code",
+            "fit_score": 4,
+            "fit_label": "strong",
+            "rationale": "Useful when you want suggestions that are close to patch-ready."
+          },
+          {
+            "model_id": "github_copilot_enterprise",
+            "fit_score": 3,
+            "fit_label": "usable",
+            "rationale": "Good for lightweight review comments inside IDE or PR, less useful for deep trade-off analysis."
+          }
+        ]
+      },
+      {
+        "role_id": "repo_refactorer",
+        "description": "Plans and proposes multi-file or repository-wide refactors, including API migrations and structural improvements.",
+        "model_fit": [
+          {
+            "model_id": "anthropic_claude_sonnet",
+            "fit_score": 5,
+            "fit_label": "excellent",
+            "rationale": "Strong whole-repo understanding and conservative changes; ideal for refactoring planning and patch proposals."
+          },
+          {
+            "model_id": "anthropic_claude_code",
+            "fit_score": 4,
+            "fit_label": "strong",
+            "rationale": "Optimized for code transformations and can produce targeted edits."
+          },
+          {
+            "model_id": "openai_gpt_4_1",
+            "fit_score": 4,
+            "fit_label": "strong",
+            "rationale": "Good at planning refactors and generating concrete patch suggestions, especially with tool use."
+          },
+          {
+            "model_id": "local_deepseek_coder",
+            "fit_score": 3,
+            "fit_label": "usable",
+            "rationale": "Good local worker for batch code transformations once a plan is defined by a stronger reasoning model."
+          }
+        ]
+      },
+      {
+        "role_id": "bug_diagnoser",
+        "description": "Investigates failing tests, logs, or error reports, and hypothesizes likely root causes in the codebase.",
+        "model_fit": [
+          {
+            "model_id": "anthropic_claude_sonnet",
+            "fit_score": 5,
+            "fit_label": "excellent",
+            "rationale": "Reads larger contexts and reasoning about logs and control flow reliably."
+          },
+          {
+            "model_id": "openai_gpt_4_1",
+            "fit_score": 4,
+            "fit_label": "strong",
+            "rationale": "Useful for combining logs, stack traces, and code into plausible root cause analyses."
+          },
+          {
+            "model_id": "anthropic_claude_code",
+            "fit_score": 4,
+            "fit_label": "strong",
+            "rationale": "Good at mapping symptoms back to suspect code segments."
+          },
+          {
+            "model_id": "local_llama3_70b",
+            "fit_score": 3,
+            "fit_label": "usable",
+            "rationale": "Sufficient for straightforward defects in local-only scenarios."
+          }
+        ]
+      },
+      {
+        "role_id": "ide_coding_assistant",
+        "description": "Supports the developer in real time with inline completions, quick fixes, and small refactors within the editor.",
+        "model_fit": [
+          {
+            "model_id": "github_copilot_enterprise",
+            "fit_score": 5,
+            "fit_label": "excellent",
+            "rationale": "Purpose-built for inline completions and small refactors with strong IDE integration."
+          },
+          {
+            "model_id": "openai_gpt_4_1",
+            "fit_score": 3,
+            "fit_label": "usable",
+            "rationale": "Useful via chat interfaces, but lacks deep inline completion integration compared to Copilot."
+          },
+          {
+            "model_id": "local_deepseek_coder",
+            "fit_score": 3,
+            "fit_label": "usable",
+            "rationale": "Can be integrated via custom tools or editor plugins for local completions."
+          }
+        ]
+      },
+      {
+        "role_id": "test_generator",
+        "description": "Generates unit, integration, or property-based tests from existing code and requirements.",
+        "model_fit": [
+          {
+            "model_id": "openai_gpt_4_1",
+            "fit_score": 5,
+            "fit_label": "excellent",
+            "rationale": "Strong at reading code and inferring representative and edge-case tests."
+          },
+          {
+            "model_id": "anthropic_claude_sonnet",
+            "fit_score": 4,
+            "fit_label": "strong",
+            "rationale": "Good coverage-based suggestions and scenario elaboration at larger scales."
+          },
+          {
+            "model_id": "github_copilot_enterprise",
+            "fit_score": 4,
+            "fit_label": "strong",
+            "rationale": "Great for quick test stubs and inline test generation directly in the IDE."
+          },
+          {
+            "model_id": "local_deepseek_coder",
+            "fit_score": 3,
+            "fit_label": "usable",
+            "rationale": "Useful as a local worker for batch or low-cost test generation."
+          }
+        ]
+      },
+      {
+        "role_id": "batch_code_worker",
+        "description": "Executes large numbers of similar code transformations or generations (e.g., adding logging, generating adapters, creating DTOs).",
+        "model_fit": [
+          {
+            "model_id": "local_deepseek_coder",
+            "fit_score": 5,
+            "fit_label": "excellent",
+            "rationale": "Ideal for high-volume, repetitive code tasks when self-hosted."
+          },
+          {
+            "model_id": "local_llama3_70b",
+            "fit_score": 4,
+            "fit_label": "strong",
+            "rationale": "Generalist local worker for templated code generation and DSL expansion."
+          },
+          {
+            "model_id": "openai_gpt_4_1",
+            "fit_score": 3,
+            "fit_label": "usable",
+            "rationale": "Good quality, but potentially costlier than local options for very large batches."
+          },
+          {
+            "model_id": "anthropic_claude_code",
+            "fit_score": 3,
+            "fit_label": "usable",
+            "rationale": "Good when precision is more important than throughput."
+          }
+        ]
+      }
+    ]
+  }
+}

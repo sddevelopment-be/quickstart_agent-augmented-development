@@ -37,6 +37,8 @@ This plan prioritizes portable orchestration and vendor agility, leveraging rout
   - Ensure outcomes recorded in `work/collaboration/AGENT_STATUS.md`
 
 - Devops Danny
+  - ✅ **COMPLETE**: Created Python framework scaffold in `framework/` with interface, core, and execution modules
+  - ✅ **COMPLETE**: Added comprehensive test coverage in `validation/test_framework_*.py` following Quad-A pattern
   - Create router config: `ops/config/model_router.yaml` with primary=OpenRouter, secondary=OpenCode.ai.
   - Include model aliases and raw IDs for GPT-5/4.1, Claude Sonnet/Opus, Codestral, DeepSeek, Llama3 variants.
   - Add fallback policy and pricing ceilings.
@@ -65,13 +67,20 @@ This plan prioritizes portable orchestration and vendor agility, leveraging rout
 
 ## Milestones & Deliverables
 
+- **M0: Framework Scaffold** ✅ **COMPLETE**
+  - Files: `framework/__init__.py`, `framework/interface.py`, `framework/core.py`, `framework/execution.py`
+  - Tests: `validation/test_framework_interface.py`, `validation/test_framework_core.py`, `validation/test_framework_execution.py`
+  - Documentation: `framework/README.md`
+  - Architecture compliance: ADR-020, ADR-021, Python conventions (Quad-A, type hints, guard clauses)
+
 - M1: Router config + validator
   - Files: `ops/config/model_router.yaml`, `ops/scripts/validate-model-router.py`
   - Validation report attached to CI and iteration issues.
 
 - M2: Orchestrator interface
-  - Files: `ops/orchestration/model_client.py`
+  - Files: Implementation complete in `framework/core.py` and `framework/execution.py`
   - Functions: `select_model(task_type, constraints)`, `invoke(model_id, prompt, tools)`, `fallback_chain(model_id, error)`
+  - Remaining: Configuration loading and API integrations
 
 - M3: Task descriptor and directives update
   - Files: `docs/templates/agent-tasks/model-selection.yaml`, `.github/agents/directives/` addendum
@@ -107,12 +116,14 @@ This plan prioritizes portable orchestration and vendor agility, leveraging rout
 
 ## Next Actions (Immediate)
 
-1. Create `ops/config/model_router.yaml` and `ops/scripts/validate-model-router.py`.  
-2. Draft `ops/orchestration/model_client.py` with stubbed methods and docstrings.  
+1. ✅ **COMPLETE**: Framework scaffold with interface, core, and execution modules plus comprehensive tests
+2. Create `ops/config/model_router.yaml` and `ops/scripts/validate-model-router.py`.  
 3. Author `docs/templates/agent-tasks/model-selection.yaml` and reference it in `.github/agents/directives/` addendum.  
 4. Prepare `ops/config/ollama_models.yaml` and `ops/scripts/run-local-worker.py`.  
 5. Generate `docs/architecture/diagrams/multi_tier_runtime.mmd` and link it.  
-6. Update CI to run router and task-schema validators.
+6. Implement configuration loading (YAML parsing) in `framework/core.py` and `framework/execution.py`
+7. Add agent profile parser (markdown → AgentProfile) and directive loader
+8. Update CI to run framework tests and router/task-schema validators.
 
 ---
 

@@ -47,6 +47,12 @@ This directory contains practical guides for using the AI-augmented development 
 
 ### Development Environment
 
+- **[python-setup.md](python-setup.md)** - Python development environment setup
+  - Virtual environment creation and management
+  - Dependency installation
+  - Testing and validation
+  - Troubleshooting guide
+
 - **[copilot-tooling-setup.md](copilot-tooling-setup.md)** - CLI tooling setup for GitHub Copilot
   - Installing ripgrep, fd, ast-grep
   - jq, yq, fzf configuration
@@ -64,20 +70,23 @@ This directory contains practical guides for using the AI-augmented development 
 ### For New Users
 
 1. Read [QUICKSTART.md](QUICKSTART.md)
-2. Review [creating-agents.md](creating-agents.md) to understand agent concepts
-3. Explore [ISSUE_TEMPLATES_GUIDE.md](ISSUE_TEMPLATES_GUIDE.md) for task submission
+2. Set up Python environment with [python-setup.md](python-setup.md)
+3. Review [creating-agents.md](creating-agents.md) to understand agent concepts
+4. Explore [ISSUE_TEMPLATES_GUIDE.md](ISSUE_TEMPLATES_GUIDE.md) for task submission
 
 ### For Agent Developers
 
-1. Study [creating-agents.md](creating-agents.md)
-2. Understand [multi-agent-orchestration.md](multi-agent-orchestration.md)
-3. Implement testing per [testing-orchestration.md](testing-orchestration.md)
+1. Set up development environment with [python-setup.md](python-setup.md)
+2. Study [creating-agents.md](creating-agents.md)
+3. Understand [multi-agent-orchestration.md](multi-agent-orchestration.md)
+4. Implement testing per [testing-orchestration.md](testing-orchestration.md)
 
 ### For DevOps/Automation Engineers
 
-1. Review [ci-orchestration.md](ci-orchestration.md)
-2. Configure [copilot-tooling-setup.md](copilot-tooling-setup.md)
-3. Understand orchestration patterns in [multi-agent-orchestration.md](multi-agent-orchestration.md)
+1. Set up Python environment with [python-setup.md](python-setup.md)
+2. Review [ci-orchestration.md](ci-orchestration.md)
+3. Configure [copilot-tooling-setup.md](copilot-tooling-setup.md)
+4. Understand orchestration patterns in [multi-agent-orchestration.md](multi-agent-orchestration.md)
 
 ## Related Documentation
 
