@@ -1,19 +1,23 @@
 @startuml
 ' C4 Component Diagram detailing the framework Python package
-!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-LAYOUT_LEFT_RIGHT()
-UpdateSkinParams()
+!include <C4/C4_Container>
+!include <C4/C4_Component>
+
+LAYOUT_WITH_LEGEND()
 
 Person(automationAgent, "Specialized Automation Agent", "Uses framework APIs to execute YAML-defined tasks.")
+Person(platformOperator, "Platform Operator", "Runs CI + validator tooling to keep router configs healthy.")
 
 Container_Boundary(frameworkPkg, "framework Python Package") {
     Component(frameworkClient, "FrameworkClient", "framework.interface", "Layer 0 interface exposing initialize(), execute_task(), list_available_models().")
     Component(orchestrator, "Orchestrator", "framework.core.Orchestrator", "Layer 1 orchestrator managing agent profiles, directives, and task lifecycle transitions.")
     Component(agentProfile, "AgentProfile / Task Models", "framework.core.AgentProfile & Task", "Typed representations of agents and tasks aligned with async_orchestration_technical_design.md.")
+    Component(directiveLoader, "DirectiveLoader", "framework.core.directive_loader", "Parses `.agent.md` files + directives into cached AgentProfile structures.")
     Component(modelRouter, "ModelRouter", "framework.execution.ModelRouter", "Layer 2 router that selects best-fit models + fallback chains per ADR-021.")
     Component(execClients, "ExecutionClient Abstractions", "framework.execution.ExecutionClient subclasses", "Layer 3 connectors (OpenRouter/OpenCode, direct vendor APIs).")
     Component(ollamaClient, "OllamaClient", "framework.execution.OllamaClient", "Local execution path for offline/private workloads.")
+    Component(configLoader, "ConfigLoader", "framework.core.config_loader", "Loads ops/config/model_router.yaml and exposes typed catalogs with pricing ceilings.")
     ComponentDb(routerConfig, "Model Router Config", "ops/config/model_router.yaml", "YAML manifest enumerating vendors, raw IDs, context windows, and pricing ceilings.")
     ComponentDb(taskQueue, "Task Workspace", "work/collaboration & work/assigned", "Git-tracked task descriptors described in async_orchestration_technical_design.md.")
     ComponentDb(govAssets, "Governance Assets", "AGENTS.md + directives + templates", "Docs loaded to enforce guardrails and context.")
@@ -25,11 +29,15 @@ System_Ext(localWorkers, "Local Worker Nodes", "Ollama services")
 
 Rel(automationAgent, frameworkClient, "Executes tasks via CLI/SDK")
 Rel(frameworkClient, orchestrator, "Initializes orchestration + submits tasks")
+Rel(platformOperator, frameworkClient, "Runs validation hooks + CLI flows")
 Rel(orchestrator, agentProfile, "Loads agent metadata + directives")
+Rel(orchestrator, directiveLoader, "Bootstraps AgentProfiles + directive metadata")
+Rel(directiveLoader, govAssets, "Parses `.agent.md` and directives")
 Rel(orchestrator, taskQueue, "Reads/writes task YAML and state transitions")
-Rel(orchestrator, govAssets, "Loads governance rules, templates, directives")
+Rel(orchestrator, govAssets, "Accesses templates & guardrails")
 Rel(orchestrator, modelRouter, "Requests model selection + fallbacks")
-Rel(modelRouter, routerConfig, "Parses catalog + pricing ceilings")
+Rel(orchestrator, configLoader, "Loads router catalog + caches fallbacks")
+Rel(configLoader, routerConfig, "Reads YAML + enforces schema")
 Rel(modelRouter, execClients, "Delegates invocation to provider-specific clients")
 Rel(execClients, llmRouters, "Invokes router endpoints with prompts/tools")
 Rel(execClients, vendorApis, "Invokes direct APIs when bypassing routers")

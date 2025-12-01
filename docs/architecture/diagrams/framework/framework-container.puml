@@ -1,13 +1,15 @@
 @startuml
 ' C4 Container Diagram for the Agent-Augmented Development Framework
-!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
-LAYOUT_LEFT_RIGHT()
-UpdateSkinParams()
+!include <C4/C4_Container>
+!include <C4/C4_Component>
+
+LAYOUT_WITH_LEGEND()
 
 Person(frameworkMaintainer, "Framework Maintainer", "Agentic Framework Core Team member")
 Person(automationAgent, "Specialized Automation Agent", "Executes YAML tasks via the async orchestration design")
 Person(downstreamTeam, "Downstream Product Team", "Adopts the template to bootstrap their workflows")
+Person(platformOperator, "Platform Operator", "Runs CI/validation pipelines and manages router catalogs")
 
 System_Boundary(frameworkBoundary, "Quickstart Agent-Augmented Framework") {
     Container(repoCore, "Governance & Docs", "Markdown / YAML", "AGENTS.md, directives, ADRs, templates, planning guides.") #Layer1
@@ -26,11 +28,13 @@ Rel(frameworkMaintainer, opsTooling, "Runs validation + planning scripts", "CLI"
 Rel(automationAgent, taskWorkspace, "Consumes and updates task YAML", "File operations")
 Rel(automationAgent, appPkg, "Uses FrameworkClient / CLI wrappers", "Python API")
 Rel(downstreamTeam, repoCore, "Clones + aligns with governance", "Git")
+Rel(platformOperator, opsTooling, "Executes CI + validation workflows", "GitHub Actions / CLI")
 Rel(appPkg, taskWorkspace, "Reads tasks, records lifecycle transitions", "YAML parsing")
 Rel(appPkg, routerConfig, "Loads model catalog + fallback rules", "YAML load")
 Rel(appPkg, llmRouters, "Routes prompts/tool calls", "HTTP")
 Rel(appPkg, vendorApis, "Direct API calls when bypassing routers", "HTTP")
 Rel(appPkg, localWorkers, "Invokes run-local-worker for offline tasks", "CLI / HTTP")
+Rel(platformOperator, routerConfig, "Maintains pricing ceilings + fallback tuning", "YAML edits + validators")
 Rel(taskWorkspace, opsTooling, "Validated and orchestrated via scripts & GH Actions", "Python / Bash")
 Rel(repoCore, taskWorkspace, "Defines schemas + templates used by agents", "Design artifacts")
 

@@ -219,3 +219,59 @@
     - `work/collaboration/inbox/2025-11-30T1204-build-automation-ollama-worker-pipeline.yaml`
     - `work/collaboration/inbox/2025-11-30T1205-diagrammer-multi-tier-runtime-diagram.yaml`
     - `work/collaboration/inbox/2025-11-30T1206-build-automation-ci-router-schema-validation.yaml`
+    - `work/collaboration/inbox/2025-12-01T0510-backend-dev-framework-config-loader.yaml`
+    - `work/collaboration/inbox/2025-12-01T0511-backend-dev-agent-profile-parser.yaml`
+    - `work/collaboration/inbox/2025-12-01T0512-build-automation-router-metrics-dashboard.yaml`
+    - `work/collaboration/inbox/2025-12-01T0513-build-automation-framework-ci-tests.yaml`
+
+- type: epic
+  taskset: planning
+  title: "Feature: Orchestration Iteration Enablement"
+  labels: planning,feature,orchestration
+  priority: medium
+  assignee: ""
+  body: |
+    # Feature: Orchestration Iteration Enablement
+
+    ## Objective
+    Provide a dedicated GitHub issue scaffold (plus documentation hooks) for
+    running orchestration cycles so Manager Mike, Curator Claire, and future
+    automation can initialize iterations without missing required metadata.
+
+    ## Context
+    - `.github/ISSUE_TEMPLATE/run-iteration.md` defines the managerial workflow
+      but lacks a tailored issue type entry point.
+    - `docs/architecture/async_orchestration_technical_design.md` and
+      `work/collaboration/AGENT_STATUS.md` require consistent metadata to
+      describe iteration state changes.
+
+    ## Current Signals
+    - Task `2025-11-23T2134-curator-add-github-issue-type-for-orch-task.yml`
+      remains in the inbox without a framing feature.
+    - New agents and downstream repos need the same orchestration template
+      to stay aligned with ADR-008 (file-based async coordination).
+
+    ## Execution Framework
+    - Follow `.github/agents/approaches/file_based_collaboration/` for task
+      lifecycle updates and logging.
+    - Use `.github/ISSUE_TEMPLATE/run-iteration.md` as the base specification
+      while curating documentation updates in `docs/HOW_TO_USE/`.
+
+    ## Scope
+    - Draft the GitHub issue template entry for orchestration cycles (title,
+      labels, metadata, configuration parameters).
+    - Cross-link the template to AGENT_STATUS instructions and orchestration
+      design docs.
+    - Document how new iterations should be created, validated, and logged.
+    - Capture success metrics and logging expectations per Directive 014.
+
+    ## Acceptance Criteria
+    - ✅ New GitHub issue template stored under `.github/ISSUE_TEMPLATE/` and
+      referenced from orchestration docs.
+    - ✅ AGENT_STATUS and work/collaboration guides mention the iteration issue
+      type plus required metadata.
+    - ✅ Validation scripts (template checker) cover the new template in CI.
+    - ✅ Work log recorded with follow-up actions or links to Manager Mike runs.
+
+    ## Linked Tasks
+    - `work/collaboration/inbox/2025-11-23T2134-curator-add-github-issue-type-for-orch-task.yml`

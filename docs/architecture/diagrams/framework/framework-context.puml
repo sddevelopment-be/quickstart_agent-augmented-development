@@ -1,29 +1,40 @@
 @startuml
 ' C4 Context Diagram for the Agent-Augmented Development Framework
-!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
 
-LAYOUT_LEFT_RIGHT()
-UpdateSkinParams()
+!include <C4/C4_Context>
+
+LAYOUT_WITH_LEGEND()
 
 Person(frameworkMaintainer, "Framework Maintainer", "Agentic Framework Core Team member curating directives, ADRs, and releases.")
-Person(automationAgent, "Specialized Automation Agent", "Implements tasks via the file-based orchestration workflow (Manager Mike, DevOps Danny, etc.).")
 Person(downstreamTeam, "Downstream Product Team", "Clones the template repository to bootstrap their own agent stack.")
+Person(platformOperator, "Platform Operator", "Runs CI/validation stacks, manages router configs, and monitors rollout readiness.")
 
-System_Boundary(frameworkBoundary, "Quickstart Agent-Augmented Framework") {
-    System(frameworkRepo, "Quickstart Repository", "Git-hosted governance, docs, work directory, and framework runtime (Layers 0–3).")
+Person_Ext(automationAgent, "Specialized Automation Agent", "Implements tasks adhering to the file-based guardrails (Manager Mike, DevOps Danny, etc.).")
+
+
+System(frameworkRepo, "SDD Agentic Framework", "Git-hosted governance, docs, work directory, and framework runtime (Layers 0–3).")
+
+System_Boundary(llmTooling, "LLM Vendors & Tooling Stacks") {
+    System_Ext(localTools, "Local Tooling and CLIs", "Prompt interfaces, IDE plugins, and local model runtimes")
+    System_Ext(vendorApis, "Direct Vendor APIs", "OpenAI, Anthropic, DeepSeek, Codestral, AgentSDK kits, etc.")
+    System_Ext(llmProviders, "LLM Model Stacks", "Remote/Local Large Language Model providers")
+
+    Rel_D(localTools, llmProviders, "Invokes local model runtimes or vendor APIs", "CLI / HTTP")
+    Rel_D(vendorApis, llmProviders, "Invokes model endpoints", "HTTP")
 }
 
-System_Ext(llmRouters, "LLM Routers", "OpenRouter + OpenCode.ai provide routed access to multiple model vendors.")
-System_Ext(vendorApis, "Direct Vendor APIs", "OpenAI GPT-5/4.1, Anthropic Claude, and other direct integrations for specialized capabilities.")
-System_Ext(localWorkers, "Local Worker Nodes", "Ollama services hosting approved local models for offline/private workloads.")
-
 Rel(frameworkMaintainer, frameworkRepo, "Curates directives, ADRs, and release artifacts", "Git / docs")
-Rel(automationAgent, frameworkRepo, "Executes YAML tasks via work/ + framework module", "File-based orchestration")
 Rel(downstreamTeam, frameworkRepo, "Clones template, wires CI, and runs orchestrations", "Git + CI/CD")
+Rel(platformOperator, frameworkRepo, "Runs CI + validation jobs, reviews dashboards", "GitHub Actions / CLI")
 
-Rel(frameworkRepo, llmRouters, "Routes prompts + tool calls (Layer 2)", "Router config + scripts")
-Rel(llmRouters, vendorApis, "Delegates to best-fit hosted models", "HTTPS / API keys")
-Rel(frameworkRepo, localWorkers, "Runs offline batches (Layer 3)", "run-local-worker.py / Ollama CLI")
+Rel_L(frameworkRepo, automationAgent, "defines guardrails and roles for", "Git-tracked filesystem")
+Rel_R(automationAgent, frameworkRepo, "interacts with other agents", "task API / file operations")
+
+Rel(automationAgent, llmProviders, "runs on")
+
+Rel_D(frameworkRepo, localTools, "Routes prompts + tool calls (Layer 2)", "Router config + scripts")
+Rel_D(frameworkRepo, vendorApis, "Routes prompts + tool calls (Layer 2)", "Router config + scripts")
+Rel_D(platformOperator, localTools, "Monitors quotas + latency, tunes pricing ceilings", "Dashboards / CLI")
 
 SHOW_LEGEND()
 @enduml
