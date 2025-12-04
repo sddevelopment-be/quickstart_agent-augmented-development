@@ -1,0 +1,38 @@
+# Task: Orchestrate Decision Review for ADR-022
+# Created by: architect (Alphonso)
+# Chain: 5/5 - Manager coordinates stakeholder review and decision
+
+id: "2025-12-04T0530-manager-orchestrate-decision-review"
+agent: "manager"
+status: "new"
+title: "Orchestrate stakeholder review and decision for ADR-022"
+mode: "/meta-mode"
+priority: "high"
+
+artefacts:
+  - "work/reports/decision-reviews/2025-12-adr-022-review-summary.md"
+
+context:
+  repo: "sddevelopment-be/quickstart_agent-augmented-development"
+  branch: "copilot/feasibility-study-metadata-approach"
+  adr: "docs/architecture/adrs/ADR-022-docsite-separated-metadata.md"
+  recommendation: "docs/architecture/assessments/docsite-metadata-separation-recommendation.md"
+  notes:
+    - "Coordinate review of ADR-022 with repository maintainers"
+    - "Ensure all stakeholders have reviewed:"
+    - "  - Executive summary for high-level understanding"
+    - "  - Full feasibility study for technical details"
+    - "  - Risk assessment for mitigation strategies"
+    - "  - Final recommendation for adoption guidance"
+    - "Track review status and collect feedback"
+    - "Facilitate decision on ADR-022 status (Accept/Reject/Revise)"
+    - "If accepted: trigger follow-up implementation tasks"
+    - "If rejected: document rationale and archive"
+    - "If needs revision: identify specific changes required"
+    - "Create decision review summary document"
+    - "Update ADR-022 status field based on decision"
+  dependencies:
+    - "2025-12-04T0528-curator-integrate-feasibility-study-artifacts"
+
+created_at: "2025-12-04T05:30:18Z"
+created_by: "architect"

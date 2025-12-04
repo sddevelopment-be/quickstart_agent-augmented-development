@@ -1,0 +1,36 @@
+# Task: Create Prototype Validation Tooling for Metadata Separation
+# Created by: architect (Alphonso)
+# Chain: 4/5 - Build Automation creates validation scripts for Phase 1
+
+id: "2025-12-04T0529-build-automation-validation-tooling-prototype"
+agent: "build-automation"
+status: "new"
+title: "Create prototype validation tooling for docsite metadata separation"
+mode: "/analysis-mode"
+priority: "normal"
+
+artefacts:
+  - "validation/docsite-metadata-validator.py"
+  - "validation/docsite-symlink-checker.sh"
+  - "validation/README-docsite-validation.md"
+
+context:
+  repo: "sddevelopment-be/quickstart_agent-augmented-development"
+  branch: "copilot/feasibility-study-metadata-approach"
+  implementation_plan: "docs/architecture/design/docsite-metadata-separation-implementation-plan.md"
+  notes:
+    - "Implement Phase 1 validation tooling as specified in implementation plan"
+    - "Create Python script to validate metadata YAML structure"
+    - "Create shell script to check symlink integrity across platforms"
+    - "Scripts should be executable and include usage documentation"
+    - "Follow existing validation/ directory patterns"
+    - "Include error reporting with file/line numbers"
+    - "Add basic tests for validation scripts"
+    - "Document expected exit codes and output format"
+    - "This is prototype-quality code per Phase 1 requirements"
+  conditional: "Only proceed if ADR-022 status changes to 'Accepted'"
+  dependencies:
+    - "2025-12-04T0528-curator-integrate-feasibility-study-artifacts"
+
+created_at: "2025-12-04T05:29:18Z"
+created_by: "architect"
