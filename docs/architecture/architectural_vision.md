@@ -71,24 +71,30 @@ This repository serves as a **quickstart template and reference implementation
 
 ### Layer 2: Modular Directives (.github/agents/directives/)
 
-**Responsibility:** Provide specialized operational guidance on specific topics.
+**Responsibility:** Provide specialized operational guidance on specific topics. These are self-contained modules that agents can load as needed. Users can extend this layer with custom directives if desired, or activate/deactivate existing ones by updating the agent profiles ( [`.github/agents/*.agent.md`](/.github/agents/).
 
-**Contents:**
+**Example Contents:**
 
-- 001: CLI & Shell Tooling
-- 002: Context Notes
-- 003: Repository Quick Reference
-- 004: Documentation & Context Files
-- 005: Agent Profiles
-- 006: Version Governance
-- 007: Agent Declaration
-- 008: Artifact Templates
-- 009: Role Capabilities
-- 010: Mode Protocol
-- 011: Risk & Escalation
-- 012: Common Operating Procedures
+- [001: CLI & Shell Tooling](/agents/directives/001_cli_shell_tooling.md)
+- [002: Context Notes](/agents/directives/002_context_notes.md)
+- [003: Repository Quick Reference](/agents/directives/003_repository_quick_reference.md)
+- [004: Documentation & Context Files](/agents/directives/004_documentation_context_files.md)
+- [005: Agent Profiles](/agents/directives/005_agent_profiles.md)
+- [016: Acceptance Test-Driven Development](/agents/directives/016_acceptance_test_driven_development.md)
+- [022: Audience-Oriented Writing](/agents/directives/022_audience_oriented_writing.md)
 
 **Design Decision:** One directive = one concern. Load on-demand via `/require-directive <code>`.
+
+### Layer 2.5: Approaches (agents/approaches/)
+
+**Responsibility:** Capture reusable strategies for common tasks that can be referenced by multiple agents. Think of these as "playbooks" or "walkthroughs" that provide step-by-step guidance on how to tackle specific challenges.
+
+**Example Contents:**
+
+- [Prompt Documentation and Logging](/.github/agents/approaches/prompt_documentation/)
+- [File-based Orchestration](/.github/agents/approaches/file-based-orchestration.md)
+
+**Design Decision:** Separate from directives to allow for focused reuse without bloating core governance.
 
 ### Layer 3: Agent Profiles (.github/agents/*.agent.md)
 
