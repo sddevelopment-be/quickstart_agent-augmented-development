@@ -1,0 +1,32 @@
+@startuml repo_context
+title C4 Level 1 — Context: Quickstart Agent-Augmented Repository
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+skinparam defaultFontName "Verdana"
+skinparam defaultFontSize 14
+skinparam wrapWidth 260
+
+Person(process_architect, "Process Architect", "docs/audience/process_architect.md")
+Person(software_engineer, "Software Engineer", "docs/audience/software_engineer.md")
+Person(automation_agent, "Automation Agent", "docs/audience/automation_agent.md")
+
+System_Boundary(repo_ctx, "System: quickstart_agent-augmented-development") {
+    System(repo, "Agent-Augmented Development Repository", "Governance, documentation, and work coordination for agent workflows (docs/architecture/architectural_vision.md)")
+}
+
+System_Ext(model_tier, "Model Execution Tier", "LLM providers / local models invoked by automation agents")
+System_Ext(external_repos, "Downstream Projects", "Consumers that clone the template or ingest release artefacts")
+
+Rel(process_architect, repo, "Curate directives, architecture, and planning guidance")
+Rel(software_engineer, repo, "Adopt releases, follow HOW_TO_USE guidance, open tasks")
+Rel(automation_agent, repo, "Execute tasks via file-based orchestration")
+Rel(repo, external_repos, "Distribute release artefacts & Guardian reports")
+Rel(automation_agent, model_tier, "Tool calls / completions")
+Rel(model_tier, automation_agent, "LLM responses & artefacts")
+Rel(software_engineer, automation_agent, "Provide specs, review outputs", "task YAML + PRs")
+Rel(process_architect, automation_agent, "Assign governance updates", "Manager Mike iterations")
+
+SHOW_LEGEND()
+@enduml

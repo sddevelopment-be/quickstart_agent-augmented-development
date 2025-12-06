@@ -1,0 +1,37 @@
+@startuml repo_container
+title C4 Level 2 — Container View: Repository Structure
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+skinparam defaultFontName "Verdana"
+skinparam defaultFontSize 14
+skinparam wrapWidth 260
+
+Person(process_architect, "Process Architect")
+Person(software_engineer, "Software Engineer")
+Person(automation_agent, "Automation Agent")
+
+System_Boundary(repo_boundary, "Repository: quickstart_agent-augmented-development") {
+    Container(governance, ".github/agents/", "Markdown + YAML", "Core AGENTS.md, directives, approaches, and agent profiles that define behavior and guardrails.")
+    Container(documentation, "docs/", "Markdown", "Strategic vision, ADRs, HOW_TO_USE guides, planning references, and templates.")
+    Container(workspace, "work/", "Markdown + YAML", "File-based orchestration runtime: tasks, iteration prompts, logs, and collaboration records.")
+}
+
+Container_Ext(model_tier, "Model Execution Tier", "API + local runtimes", "OpenAI/Anthropic/Ollama, referenced by automation agents for tool calls.")
+
+Rel(process_architect, governance, "Updates directives & agent profiles")
+Rel(process_architect, documentation, "Maintains architectural vision & planning")
+Rel(software_engineer, documentation, "Reads HOW_TO_USE, templates, release docs")
+Rel(software_engineer, workspace, "Submits tasks, reviews AGENT_STATUS")
+Rel(automation_agent, governance, "Loads initialization stack")
+Rel(automation_agent, documentation, "References ADRs/templates while executing tasks")
+Rel(automation_agent, workspace, "Executes tasks, logs work, updates statuses")
+Rel(workspace, documentation, "Outputs feed release notes & planning artefacts")
+Rel(governance, workspace, "Defines lifecycle + directives for tasks")
+Rel(documentation, governance, "Informs directives with architectural decisions")
+Rel(automation_agent, model_tier, "Tool calls")
+Rel(model_tier, automation_agent, "Responses / artefacts")
+
+SHOW_LEGEND()
+@enduml
