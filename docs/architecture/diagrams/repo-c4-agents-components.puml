@@ -1,0 +1,66 @@
+@startuml repo_agents_components
+title C4 Level 3 — Component View: `.github/agents/` Governance Layers
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+skinparam defaultFontName "Verdana"
+skinparam defaultFontSize 14
+skinparam wrapWidth 260
+
+Person(end_user, "End-User", "Performs their activities, assisted by the Agent-augmented Productivity System")
+
+System_Ext(llm_user_interface, "User Interface", "Collection of local/remote tools that allow users to interact with automation agents and LLM tools.")
+System_Ext(model_tier, "Model Execution Tier", "OpenAI/Anthropic/Ollama,... \n core LLM models used by user services and interfaces.")
+
+Rel(end_user, llm_user_interface, "interacts with")
+Rel_U(llm_user_interface, model_tier, "sends user inputs to")
+
+Container_Boundary(agent_specs, "Agent Specifications") {
+    Component(profiles, "*.agent.md", "Role profiles", "Specialized responsibilities, directive references, mode defaults.")
+
+    Component(approaches, "approaches/", "Playbooks & walkthroughs", "Reusable strategy guides (e.g., file-based orchestration, diagramming).")
+    Component(directives, "directives/", "Modular directives 001–022", "On-demand topic-specific guardrails (tooling, ATDD/TDD, mode protocol, etc.).")
+
+    Rel(profiles, directives, "Embed directive dependency table")
+    Rel(directives, approaches, "refence")
+
+    Person(automation_agent, "Automation Agent")
+
+    Rel_L(automation_agent, profiles, "loads specialization during initialization")
+    Rel(automation_agent, directives, "loads (on demand)")
+}
+
+Container_Boundary(governance, "Governance Container") {
+    Component(core_spec, "AGENTS.md", "Context stack + runtime guardrails", "Defines initialization, tone, and instruction hierarchy per docs/architecture/architectural_vision.md.")
+    Component(guidelines, "guidelines/", "Bootstrap, general, operational guides", "Expanded rulesets (bootstrap, rehydrate, runtime sheets).")
+}
+
+Container_Boundary(user_artifacts, "User-Facing Artefacts") {
+    Component_Ext(doc_templates, "docs/templates/", "Canonical output skeletons", "Templates for reports, release notes, diagrams, etc.")
+    Component(command_aliases, "aliases.md", "Command shortcut map", "Maps shorthand operations to actual commands.")
+    Component(glossary, "GLOSSARY.md", "Shared terminology", "Keeps vocabulary consistent across agents.")
+
+    command_aliases -[hidden]U-> doc_templates
+    glossary -[hidden]U-> doc_templates
+}
+
+Rel(automation_agent, glossary, "Aligns terminology")
+
+Rel_U(automation_agent, command_aliases, "Resolves shorthand instructions")
+
+Rel(core_spec, guidelines, "References")
+Rel(guidelines, profiles, "References")
+
+
+
+'Rel_U(directives, doc_templates, "refer to templates")
+Rel_U(approaches, doc_templates, "refer to templates")
+
+'Rel(end_user, doc_templates, "contributes to / updates templates to fit local needs")
+Rel(end_user, user_artifacts, "curates / uses")
+
+Rel(llm_user_interface, core_spec, "Loads")
+
+SHOW_LEGEND()
+@enduml

@@ -1,0 +1,54 @@
+---
+packaged: false
+audiences: [architecture, planning]
+note: C4-style container view of the agent-augmented repository.
+---
+
+```mermaid
+%% C4 Container-style diagram of repository
+flowchart TB
+    subgraph EXTERNAL["External Actors"]
+        HM["Person: Human Maintainers\n(architects, planners, reviewers)"]
+        SA["Person: Specialized Agents\n(.github/agents/*.agent.md)"]
+        LLM["System: Model Execution Tier\n(OpenAI/Anthropic/Ollama)"]
+    end
+
+    subgraph REPO["Repository: quickstart_agent-augmented-development"]
+        subgraph GOV[".github/agents (Governance Layer)"]
+            CORE["Container: AGENTS.md\nCore behavior + initialization"]
+            DIR["Container: directives/\nModular guardrails (001-022)"]
+            APP["Container: approaches/\nReusable playbooks"]
+            PRO["Container: *.agent.md\nRole profiles (Manager, Diagrammer, etc.)"]
+        end
+
+        subgraph DOCS["docs/ (Strategic & Tactical Knowledge)"]
+            ARCH["Container: architecture/\nVision, ADRs, designs, diagrams"]
+            TEMP["Container: templates/\nCanonical output skeletons"]
+            PLAN["Container: planning/\nFeature overviews & roadmaps"]
+            HOW["Container: HOW_TO_USE/\nAdoption & release instructions"]
+        end
+
+        subgraph WORK["work/ (Collaboration Runtime)"]
+            COL["Container: collaboration/\nTasks, statuses, iteration prompts"]
+            REP["Container: reports/\nLogs, metrics, syntheses"]
+            NOTES["Container: notes/ & planning/\nScratch coordination artefacts"]
+        end
+    end
+
+    HM -->|curate, approve, extend| GOV
+    HM -->|author strategic docs| DOCS
+    HM -->|triage & review tasks| WORK
+
+    SA -->|load context & directives| GOV
+    SA -->|reference templates & designs| DOCS
+    SA -->|execute tasks, log work| WORK
+
+    GOV -->|defines| SA
+    WORK -->|feeds iteration metrics| HM
+
+    SA -->|tool-calls| LLM
+    LLM -->|responses & artefacts| SA
+
+    DOCS -->|inform release scripts| WORK
+    GOV -->|references| DOCS
+```
