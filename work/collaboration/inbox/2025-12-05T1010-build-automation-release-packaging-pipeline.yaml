@@ -1,0 +1,53 @@
+id: 2025-12-05T1010-build-automation-release-packaging-pipeline
+agent: build-automation
+status: new
+priority: high
+mode: /programming
+title: Build release packaging pipeline for quickstart artefact
+
+description: |
+  Implement the CI-friendly packaging pipeline described in ADR-013/ADR-014 so
+  `quickstart-framework-<version>.zip` is produced with checksums, manifests,
+  and Guardian metadata on every tagged release candidate. Follow the design
+  notes inside `docs/architecture/design/distribution_of_releases_*.md` and the
+  iteration guardrails in `.github/ISSUE_TEMPLATE/run-iteration.md`. The script
+  must be orchestrator-aware (file-based workflow) and emit artefacts that can
+  be consumed by Framework Guardian automation.
+
+artefacts:
+  - ops/release/build_release_artifact.py
+  - ops/release/README.md
+  - .github/workflows/release-packaging.yml
+  - docs/architecture/design/distribution_of_releases_architecture.md
+
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  related_pr: ''
+  notes:
+    - Pipeline must run inside GitHub Actions and locally via `just release`.
+    - Package needs manifest (component inventory), checksums, and metadata.json.
+    - Reference `work/reports/logs/architect/2025-11-24T2105-distribution-release-architecture.md`.
+    - Ensure outputs register in `work/reports/logs/` for iteration summaries.
+
+requirements:
+  - Add build script that assembles the release directory then zips with version tag.
+  - Generate manifest + checksum files that Guardian scripts will later validate.
+  - Update release workflow to run build script, store artefact, and upload to releases.
+  - Provide configuration knobs (e.g., include/exclude docs) documented in README.
+  - Integrate with file-based orchestration so tasks can be verified via run-iteration template.
+  - Document failure modes and troubleshooting steps.
+
+testing_requirements:
+  - Add unit tests for packaging helpers (manifest generation, checksum calc).
+  - Add integration test that runs the build script and validates produced structure.
+  - Provide CI smoke test (workflow job) to block merges when packaging fails.
+  - Follow directives 016/017 (ATDD/TDD) and capture work logs per Directive 014.
+
+dependencies:
+  - docs/architecture/design/distribution_of_releases_architecture.md
+  - docs/architecture/design/distribution_of_releases_technical_design.md
+
+created_at: '2025-12-05T10:10:00Z'
+created_by: planning-petra
+origin_comment_id: null
