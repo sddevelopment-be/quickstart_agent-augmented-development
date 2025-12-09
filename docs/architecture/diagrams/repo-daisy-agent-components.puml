@@ -1,0 +1,44 @@
+@startuml daisy_agents_components
+title C4 Component View — Diagram Daisy in the Agentic Framework
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Person(user, "End-User", "Requests diagram-as-code artefacts")
+System_Ext(llm_runtime, "Stateless LLM Runtime", "Model execution tier (OpenAI, Anthropic, etc.)")
+
+
+Container(daisy_agent_file, "diagram-daisy.agent.md", "Role Profile", "Purpose, specialization, mode defaults, collaboration contract")
+
+Container(governance_layer, "Agentic Governance Layer", "General guidelines, guardrails and context stack", "Repository-level directives, core AGENTS.md, and operational guidelines that define behaviour and constraints for all agents.")
+
+
+    Container_Boundary(daisy_directives, "Directives") {
+        ' Individual directive components defined here
+        Component(directive_002, "Context Notes", "002_context_notes.md", "Maintain alignment with specialized profiles.")
+        Component(directive_003, "Repository Quick Reference", "003_repository_quick_reference.md", "Identify architectural & component directories.")
+        Component(directive_004, "Documentation Links", "004_documentation_context_files.md", "Link diagrams to existing architecture docs.")
+        Component(directive_006, "Version Governance", "006_version_governance.md", "Ensure diagrams reflect current versioned layers.")
+        Component(directive_007, "Agent Declaration", "007_agent_declaration.md", "Authority confirmation before broad diagram set creation.")
+        Component(directive_018, "Documentation Level Framework", "018_traceable_decisions.md", "Choose appropriate diagram detail levels based on stability.")
+
+
+    }
+
+'  Component(daisy_directives, "Directives/002,003,004,006,007,018", "Directive Set", "Domain-specific guardrails: context notes, repository review, documentation links, version governance, etc.")
+
+   Container_Ext(daisy_approaches, "Approaches/", "Diagramming Playbooks", "Reusable strategy guides for C4, flow, causal, and system diagrams")
+
+
+Rel(user, daisy_agent_file, "requests diagrams from")
+Rel_R(daisy_agent_file, daisy_approaches, "uses")
+Rel_R(daisy_agent_file, daisy_directives, "loads and adheres to")
+
+daisy_approaches -[hidden]D-> daisy_directives
+
+Rel_D(daisy_agent_file, governance_layer, "adheres to")
+
+Rel_L(daisy_agent_file, llm_runtime, "executes through")
+
+SHOW_LEGEND()
+@enduml

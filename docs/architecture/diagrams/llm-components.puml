@@ -1,0 +1,31 @@
+@startuml repo_agents_components
+title LLM System Layers (simplified) and Agentic Framework
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+skinparam defaultFontName "Verdana"
+skinparam defaultFontSize 14
+skinparam wrapWidth 260
+
+Person(end_user, "End-User", "Performs their activities, assisted by the Agent-augmented Productivity System")
+
+together {
+    System_Ext(llm_user_interface, "User Interface", "Collection of local/remote tools that allow users to interact with automation agents and LLM tools.")
+    System_Ext(llm_service_layer, "Service Layer", "Collection of specialized services that provide capabilities such as prompt management, tool integration, memory, guardrails, and context handling for LLMs.")
+    System_Ext(model_tier, "Model Execution Tier", "OpenAI/Anthropic/Ollama,... \n core LLM models used by user services and interfaces.")
+
+    Rel_D(llm_user_interface, llm_service_layer, "sends user inputs to")
+    Rel_D(llm_service_layer, model_tier, "controls, informs, and adds capabilities to")
+}
+
+
+System(agentic_framework, "Agentic Framework", "The overall framework that enables the creation and operation of automation agents using LLMs. \n\n (roles, directives, context, guadrails, etc.)")
+
+Rel_R(end_user, llm_user_interface, "interacts with")
+
+Rel_L(llm_service_layer, agentic_framework, "utilizes")
+Rel_D(end_user, agentic_framework, "curates")
+
+'SHOW_LEGEND()
+@enduml
