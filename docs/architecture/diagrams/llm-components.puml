@@ -1,5 +1,6 @@
 @startuml repo_agents_components
-title LLM System Layers (simplified) and Agentic Framework
+title LLM System Layers (simplified)
+'title LLM System Layers (simplified) and Agentic Framework
 
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4.puml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
@@ -20,12 +21,12 @@ together {
 }
 
 
-System(agentic_framework, "Agentic Framework", "The overall framework that enables the creation and operation of automation agents using LLMs. \n\n (roles, directives, context, guadrails, etc.)")
+'System(agentic_framework, "Agentic Framework", "The overall framework that enables the creation and operation of automation agents using LLMs. \n\n (roles, directives, context, guadrails, etc.)")
 
 Rel_R(end_user, llm_user_interface, "interacts with")
 
-Rel_L(llm_service_layer, agentic_framework, "utilizes")
-Rel_D(end_user, agentic_framework, "curates")
+'Rel_L(llm_service_layer, agentic_framework, "utilizes")
+'Rel_D(end_user, agentic_framework, "curates")
 
 'SHOW_LEGEND()
 @enduml

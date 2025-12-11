@@ -1,0 +1,69 @@
+@startuml
+title Example agent collaboration chain
+
+skinparam SwimlaneBorderColor #999999
+skinparam SwimlaneFontStyle bold
+
+|Human Operator|
+start
+: Prepare project space;
+: Collect initial ideas, requirements, ... ;
+: Add these to project in plain text format;
+
+|Synthesizer Sam|
+:Review existing materials
+(requirements, notes, style guides);
+:Extract rules, constraints
+and vocabulary;
+:Produce condensed spec
+for downstream agents;
+
+
+|Architect Alphonso|
+repeat
+  :Design high-level architecture (components, flows, boundaries);
+  :Document key trade-offs and constraints;
+|Human Operator|
+  :Review architecture;
+  : Provide feedback and additional clarifications;
+|Architect Alphonso|
+  backward:process feedback and \nrevise assumptions / interpretations;
+|Human Operator|
+repeat while (Architecture acceptable?) is (no) not (yes)
+
+|Planning Petra|
+:Transform architecture into
+delivery plan (tasks, milestones,
+dependencies);
+|Human Operator|
+:Review and adjust plan if needed;
+#palegreen: Sign off on final design and plan;
+
+
+split
+    |Backend Benny|
+    : Write acceptance tests \n based on architecture;
+    :Implement backend changes \n and refactors;
+    :Update tests / small \n implementation details;
+split again
+    |DevOps Danny|
+    :Update CI/CD pipelines,
+    deployment steps, observability \n  and safeguards;
+end split
+
+'
+|Architect Alphonso|
+:Validate implementation against
+architecture and constraints;
+'
+'
+|Editor Eddy|
+:Convert engineering logs and notes \ninto a management-ready debrief;
+
+|Human Operator|
+: Review final debrief;
+: Approve and archive project artefacts;
+
+stop
+
+@enduml
