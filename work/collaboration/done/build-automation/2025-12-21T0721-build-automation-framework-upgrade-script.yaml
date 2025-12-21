@@ -1,0 +1,176 @@
+id: 2025-12-21T0721-build-automation-framework-upgrade-script
+agent: build-automation
+status: completed
+priority: critical
+urgency: high
+started_at: '2025-12-21T07:53:42Z'
+completed_at: '2025-12-21T08:05:00Z'
+mode: /programming
+title: Create framework_upgrade.sh POSIX shell script
+
+description: |
+  Implement the framework_upgrade.sh script as specified in ADR-013 and the
+  technical design document. This script manages safe upgrades of framework
+  installations in downstream repositories.
+  
+  The script must:
+  - Be POSIX-compliant (no Bash-specific features)
+  - Accept PROJECT_ROOT as parameter
+  - Support --dry-run mode (report only, no changes)
+  - Compare each framework file against local version:
+    - Missing → copy (or report in dry-run) and mark NEW
+    - Identical (checksum match) → log UNCHANGED
+    - Divergent → write .framework-new, backup existing, log CONFLICT
+  - Never touch local/ directory or custom project files
+  - Generate upgrade-report.txt with status counts
+  - Update .framework_meta.yml only when not in dry-run
+  - Calculate SHA256 checksums for conflict detection
+  
+  Success criteria:
+  - Script passes shellcheck validation
+  - Handles all three file states correctly (NEW/UNCHANGED/CONFLICT)
+  - Creates .framework-new files for conflicts
+  - Generates parsable upgrade-report.txt
+  - Preserves local customizations completely
+  - Works on Linux, macOS, and WSL
+
+artefacts:
+  - ops/scripts/framework_upgrade.sh
+  - ops/scripts/tests/test_framework_upgrade.sh (test suite)
+  - docs/HOW_TO_USE/framework-upgrade.md (usage guide)
+
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  related_adrs:
+    - ADR-013 Zip-Based Framework Distribution
+    - ADR-014 Framework Guardian Agent
+  related_docs:
+    - docs/architecture/design/distribution_of_releases_technical_design.md
+    - docs/architecture/design/distribution_of_releases_architecture.md
+  notes:
+    - Follow ATDD (directive 016) and TDD (directive 017)
+    - Script will be packaged in framework distribution zip
+    - Output upgrade-report.txt format critical for Guardian consumption
+    - Must handle .framework-new files deterministically
+    - Never modify local/ directory under any circumstance
+
+requirements:
+  - POSIX shell compliance (tested with dash, bash, sh)
+  - Accept PROJECT_ROOT and optional --dry-run flag
+  - Read .framework_meta.yml to determine current version
+  - For each file in framework_core/:
+    - Check if exists in PROJECT_ROOT
+    - If missing: copy new file (mark NEW)
+    - If exists and identical: skip (mark UNCHANGED)
+    - If exists and different: write .framework-new, backup original (mark CONFLICT)
+  - Calculate SHA256 checksums using sha256sum or shasum
+  - Never modify files under local/ directory
+  - Generate upgrade-report.txt with structured output:
+    - Summary counts (NEW, UNCHANGED, CONFLICT)
+    - Per-file status log
+  - Update .framework_meta.yml with new version (unless --dry-run)
+  - Support optional backup directory for conflict backups
+  - Exit 0 on success, non-zero on critical errors
+
+testing_requirements:
+  - Write acceptance tests first (directive 016)
+  - Test upgrade with no changes (all UNCHANGED)
+  - Test upgrade with new files (NEW)
+  - Test upgrade with conflicts (CONFLICT + .framework-new)
+  - Test dry-run mode (no filesystem changes)
+  - Test local/ directory is never touched
+  - Test checksum calculation accuracy
+  - Test upgrade-report.txt format
+  - Test metadata update
+  - Follow TDD cycles for implementation (directive 017)
+
+dependencies:
+  - 2025-12-21T0720-build-automation-framework-install-script (must complete first)
+  - docs/templates/automation/framework-manifest-template.yml (exists)
+
+estimated_complexity: high
+estimated_duration: 2-3 days
+risk_level: medium-high
+risk_notes: |
+  - Checksum calculation must be portable across platforms
+  - Conflict detection logic is complex and error-prone
+  - Must ensure .framework-new files don't accumulate from failed runs
+  - Backup mechanism needs careful design to avoid data loss
+
+rationale: |
+  CRITICAL PRIORITY: This script enables safe, repeatable upgrades of the framework
+  without destroying local customizations. It's the core mechanism that makes the
+  distribution model viable for production use.
+  
+  HIGH URGENCY: Blocks Framework Guardian implementation (which consumes the
+  upgrade-report.txt and .framework-new files). Required for complete distribution
+  workflow.
+
+created_at: '2025-12-21T07:21:00Z'
+created_by: planning-petra
+
+result:
+  status: success
+  artifacts_created:
+    - ops/scripts/framework_upgrade.sh (461 lines, POSIX-compliant)
+    - ops/scripts/tests/test_framework_upgrade.sh (673 lines, 46 tests)
+    - docs/HOW_TO_USE/framework-upgrade.md (428 lines, comprehensive guide)
+  
+  test_results:
+    total_tests: 46
+    passed: 46
+    failed: 0
+    coverage:
+      - Script validation (exists, executable)
+      - Metadata validation (refuses upgrade without installation)
+      - File status detection (NEW, UNCHANGED, CONFLICT)
+      - Dry-run mode (no modifications)
+      - Local directory protection (never touched)
+      - Upgrade report generation (structured format)
+      - Checksum accuracy (SHA256 comparison)
+      - Special characters in filenames
+      - Nested directory structures
+      - Multiple conflicts handling
+      - Help documentation
+      - Parameter validation
+      - Exit codes verification
+  
+  implementation_notes:
+    - Used TDD approach: wrote 46 tests first, then implemented
+    - SHA256 checksums for reliable file comparison (Git-like)
+    - Creates .framework-new files for conflicts (never overwrites)
+    - Filters local/ directory (protected from upgrades)
+    - Generates human-readable upgrade-report.txt
+    - Updates .framework_meta.yml with version and counts
+    - Supports --dry-run for safe preview
+    - POSIX-compliant (works with sh, dash, bash, ash)
+    - Handles spaces and special characters in filenames
+    - Comprehensive error handling with specific exit codes
+  
+  shellcheck_status: info-level warnings only (SC2094 false positives)
+  
+  documentation_includes:
+    - Complete usage guide with examples
+    - Conflict resolution workflow (3 options)
+    - Dry-run preview instructions
+    - Troubleshooting section
+    - Best practices (DO/DON'T lists)
+    - Integration with Framework Guardian
+    - Security considerations
+    - Advanced usage (custom paths)
+  
+  dependencies_satisfied:
+    - Built on patterns from framework_install.sh (Task 1)
+    - Follows ADR-013 specifications
+    - Compatible with technical design document
+    - Ready for Framework Guardian consumption
+  
+  next_steps:
+    - Script ready for packaging in framework distribution
+    - Can be tested with real framework upgrades
+    - Framework Guardian can consume upgrade-report.txt format
+    - Documentation ready for end-user distribution
+  
+  completed_by: devops-danny
+  completion_timestamp: '2025-12-21T08:05:00Z'
