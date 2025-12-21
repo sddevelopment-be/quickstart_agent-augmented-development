@@ -1,0 +1,110 @@
+id: 2025-12-21T0723-build-automation-populate-framework-manifest
+agent: build-automation
+status: new
+priority: high
+urgency: high
+mode: /programming
+title: Generate populated MANIFEST.yml from current repository structure
+
+description: |
+  Create an operational MANIFEST.yml file by scanning the current repository
+  structure and populating the manifest template with actual framework paths,
+  checksums, and metadata. This manifest will be used by install/upgrade scripts
+  and the Framework Guardian agent.
+  
+  The task involves:
+  - Scanning framework-managed directories (.github/agents, docs/templates, etc.)
+  - Calculating SHA256 checksums for each file
+  - Determining appropriate sync modes (sync-always, copy-once, reference-only)
+  - Generating complete MANIFEST.yml following the template schema
+  - Creating a maintenance script to keep manifest updated
+  - Validating manifest structure against expected schema
+  
+  Success criteria:
+  - MANIFEST.yml contains all framework core files
+  - Each entry has valid path, checksum, mode, and description
+  - Manifest validates against template schema
+  - Maintenance script can regenerate manifest on demand
+  - Documentation explains manifest update workflow
+
+artefacts:
+  - META/MANIFEST.yml (populated manifest)
+  - ops/scripts/generate_manifest.sh (generation script)
+  - ops/scripts/tests/test_manifest_generation.sh (test suite)
+  - docs/HOW_TO_USE/manifest-maintenance.md (maintenance guide)
+
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  related_adrs:
+    - ADR-013 Zip-Based Framework Distribution
+    - ADR-014 Framework Guardian Agent
+  related_docs:
+    - docs/architecture/design/distribution_of_releases_technical_design.md
+  template:
+    - docs/templates/automation/framework-manifest-template.yml
+  notes:
+    - Follow ATDD (directive 016) and TDD (directive 017) for scripts
+    - Manifest must include version metadata from repository
+    - Core paths to include: .github/agents, docs/templates, docs/directives,
+      docs/guidelines, validation, work/README.md, ops/scripts/framework_*.sh
+    - Exclude: work/ task files, tmp/, local/ directories
+    - Script should be idempotent and safe to re-run
+
+requirements:
+  - Scan predefined framework core directories
+  - Calculate SHA256 checksums using sha256sum or shasum
+  - Determine appropriate mode for each path:
+    - sync-always: .github/agents, docs/templates, docs/directives, validation
+    - copy-once: example configs, starter templates
+    - reference-only: framework documentation
+  - Generate MANIFEST.yml with:
+    - framework.name, framework.version, framework.release_date
+    - compatibility section
+    - paths section with directory-level entries
+    - files section with file-level overrides
+    - tooling section for scripts
+  - Include descriptive metadata for each entry
+  - Create generate_manifest.sh script that:
+    - Accepts optional version parameter
+    - Scans configured directories
+    - Calculates checksums
+    - Generates YAML output
+    - Validates output structure
+  - Support --dry-run mode (output to stdout)
+  - Support --output path option
+  - Document which directories are managed vs excluded
+
+testing_requirements:
+  - Write acceptance tests first (directive 016)
+  - Test manifest generation with current repository
+  - Test checksum calculation accuracy
+  - Test mode assignment logic
+  - Test YAML structure validity
+  - Test idempotency (running twice produces same output)
+  - Test handling of new files added to framework
+  - Follow TDD cycles for implementation (directive 017)
+
+dependencies:
+  - docs/templates/automation/framework-manifest-template.yml (exists)
+  - Should align with paths used in install/upgrade scripts
+
+estimated_complexity: medium
+estimated_duration: 1-2 days
+risk_level: medium
+risk_notes: |
+  - Manifest must stay synchronized with actual repository structure
+  - Checksum generation must be reliable across platforms
+  - Mode assignment requires careful thought for each path
+  - Version management needs integration with release process
+
+rationale: |
+  HIGH PRIORITY: Both install/upgrade scripts and Framework Guardian require a
+  populated manifest to function. Without it, there's no source of truth for
+  "what belongs to the framework."
+  
+  HIGH URGENCY: Blocks testing of install/upgrade scripts and Guardian agent.
+  Must be completed early to unblock integration testing of the full workflow.
+
+created_at: '2025-12-21T07:23:00Z'
+created_by: planning-petra

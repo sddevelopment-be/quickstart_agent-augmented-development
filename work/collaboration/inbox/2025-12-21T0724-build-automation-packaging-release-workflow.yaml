@@ -1,0 +1,144 @@
+id: 2025-12-21T0724-build-automation-packaging-release-workflow
+agent: build-automation
+status: new
+priority: high
+urgency: normal
+mode: /programming
+title: Create GitHub Actions workflow for framework packaging and release
+
+description: |
+  Implement the CI/CD pipeline that packages the framework as a versioned zip
+  file and publishes it as a GitHub release. This workflow automates the
+  creation of quickstart-framework-<version>.zip artifacts as specified in ADR-013.
+  
+  The workflow must:
+  - Trigger on version tags (e.g., v1.2.0) or manual dispatch
+  - Assemble framework_core/ directory with curated content
+  - Copy install/upgrade scripts to scripts/ directory
+  - Generate or validate META/MANIFEST.yml
+  - Include release notes and upgrade guides in META/
+  - Create zip archive with deterministic structure
+  - Calculate zip checksum for verification
+  - Publish as GitHub Release with zip attached
+  - Generate release notes from ADRs and CHANGELOG
+  
+  Success criteria:
+  - Workflow produces valid quickstart-framework-<version>.zip
+  - Zip contains framework_core/, scripts/, META/ as per spec
+  - Release notes automatically generated from repository
+  - Workflow is idempotent (can re-run safely)
+  - Artifacts are reproducible (same input = same zip)
+  - Documentation explains release process end-to-end
+
+artefacts:
+  - .github/workflows/framework-release.yml
+  - ops/scripts/assemble_framework_package.sh (packaging script)
+  - ops/scripts/generate_release_notes.sh (release notes generator)
+  - docs/HOW_TO_USE/creating-framework-releases.md (maintainer guide)
+  - META/.gitkeep (create directory structure)
+
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  related_adrs:
+    - ADR-013 Zip-Based Framework Distribution
+    - ADR-019 Trunk-Based Development
+  related_docs:
+    - docs/architecture/design/distribution_of_releases_technical_design.md
+    - docs/architecture/design/distribution_of_releases_architecture.md
+  existing_workflows:
+    - .github/workflows/validation.yml (reference for testing patterns)
+    - .github/workflows/orchestration.yml (reference for structure)
+  notes:
+    - Follow GitHub Actions best practices
+    - Should integrate with existing validation workflows
+    - Release notes should pull from ADRs and CHANGELOG.md
+    - Consider automation of version bumping (future enhancement)
+    - Packaging script should be runnable locally for testing
+
+requirements:
+  - GitHub Actions workflow file (.github/workflows/framework-release.yml)
+  - Trigger conditions:
+    - On push of version tags (v*.*.*)
+    - Manual workflow_dispatch with version input
+  - Packaging steps:
+    1. Checkout repository
+    2. Run assemble_framework_package.sh to create build/ structure:
+       - build/framework_core/ (curated directories)
+       - build/scripts/ (install/upgrade scripts)
+       - build/META/ (manifest, release notes)
+    3. Validate package structure
+    4. Create zip archive with deterministic compression
+    5. Calculate SHA256 checksum of zip
+  - Release creation:
+    - Create GitHub Release for the version tag
+    - Attach quickstart-framework-<version>.zip
+    - Attach SHA256SUMS file
+    - Generate release notes from:
+      - CHANGELOG.md relevant section
+      - New/changed ADRs since last release
+      - Upgrade notes (if applicable)
+    - Mark as pre-release or release based on semver
+  - Assemble script (ops/scripts/assemble_framework_package.sh):
+    - Create clean build directory
+    - Copy curated paths to framework_core/:
+      - .github/agents/ (core agents only, exclude local overrides)
+      - docs/templates/
+      - docs/directives/
+      - docs/guidelines/
+      - validation/
+      - work/README.md and structure scaffolds
+    - Copy scripts to scripts/:
+      - framework_install.sh
+      - framework_upgrade.sh
+    - Copy or generate META/ contents:
+      - MANIFEST.yml (from generated manifest)
+      - RELEASE_NOTES.md
+      - UPGRADE_NOTES_<prev>_to_<current>.md (if applicable)
+    - Support --output-dir option
+    - Support --dry-run mode
+  - Release notes generator (ops/scripts/generate_release_notes.sh):
+    - Extract version-specific changes from CHANGELOG.md
+    - List new/modified ADRs since previous release
+    - Format for GitHub Release body
+  - Validation:
+    - Ensure MANIFEST.yml exists and is valid
+    - Ensure scripts are executable and POSIX-compliant
+    - Ensure no sensitive data in package
+    - Verify directory structure matches spec
+
+testing_requirements:
+  - Test assemble script locally with sample version
+  - Test package structure validation
+  - Test zip creation and checksum calculation
+  - Test release notes generation
+  - Test workflow with manual dispatch (dry-run)
+  - Document testing procedure in maintainer guide
+
+dependencies:
+  - 2025-12-21T0720-build-automation-framework-install-script (script to package)
+  - 2025-12-21T0721-build-automation-framework-upgrade-script (script to package)
+  - 2025-12-21T0723-build-automation-populate-framework-manifest (manifest to include)
+  - Repository must have CHANGELOG.md maintained
+
+estimated_complexity: medium-high
+estimated_duration: 2-3 days
+risk_level: medium
+risk_notes: |
+  - Workflow must be thoroughly tested before first real release
+  - Package assembly must be deterministic to avoid surprise differences
+  - Release notes automation may require iteration to get right
+  - Version tagging process needs clear documentation
+
+rationale: |
+  HIGH PRIORITY: This workflow completes the distribution pipeline, enabling
+  automated, reproducible releases. Without it, releases must be manually
+  assembled, which is error-prone and doesn't scale.
+  
+  NORMAL URGENCY: Can be developed after scripts are ready (depends on their
+  completion). Not blocking immediate work, but required before first release.
+  Lower urgency than scripts/agent profile because it automates an existing
+  manual process rather than enabling new capabilities.
+
+created_at: '2025-12-21T07:24:00Z'
+created_by: planning-petra

@@ -1,0 +1,115 @@
+id: 2025-12-21T0722-architect-framework-guardian-agent-profile
+agent: architect
+status: new
+priority: critical
+urgency: high
+mode: /analysis-mode
+title: Create Framework Guardian agent profile specification
+
+description: |
+  Create the Framework Guardian agent profile as specified in ADR-014. This
+  specialized agent orchestrates framework audits and upgrade planning, bridging
+  the gap between low-level install/upgrade scripts and human decision-making.
+  
+  The agent profile must define:
+  - Two operating modes: Audit and Upgrade
+  - Inputs: MANIFEST.yml, .framework_meta.yml, upgrade-report.txt, .framework-new files
+  - Outputs: FRAMEWORK_AUDIT_REPORT.md, FRAMEWORK_UPGRADE_PLAN.md
+  - Guardrails: Never overwrite files automatically, always preserve local intent
+  - Context loading order: general guidelines → AGENTS.md → VISION → meta → manifest
+  - Conflict classification strategies
+  - Minimal patch proposal guidelines
+  
+  Success criteria:
+  - Agent profile follows standard profile format (consistent with other agents)
+  - Defines clear specialization boundaries
+  - Documents both Audit and Upgrade modes comprehensively
+  - Specifies input/output artifacts with template references
+  - Includes directive references relevant to framework maintenance
+  - Defines success metrics and escalation triggers
+
+artefacts:
+  - .github/agents/framework-guardian.agent.md
+  - docs/HOW_TO_USE/framework-guardian-usage.md (usage guide)
+  - work/assigned/framework-guardian/.gitkeep (create agent queue directory)
+
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  related_adrs:
+    - ADR-014 Framework Guardian Agent
+    - ADR-013 Zip-Based Framework Distribution
+  related_docs:
+    - docs/architecture/design/distribution_of_releases_technical_design.md
+    - docs/architecture/design/distribution_of_releases_architecture.md
+  templates:
+    - docs/templates/automation/framework-audit-report-template.md
+    - docs/templates/automation/framework-upgrade-plan-template.md
+    - docs/templates/automation/framework-manifest-template.yml
+  reference_profiles:
+    - .github/agents/build-automation.agent.md
+    - .github/agents/curator.agent.md
+  notes:
+    - Follow agent profile structure from existing agents
+    - Define clear handoff protocols with install/upgrade scripts
+    - Agent must never auto-apply changes, only recommend
+    - Document how to interpret .framework-new conflicts
+    - Specify when to escalate to humans vs propose patches
+
+requirements:
+  - Standard agent profile frontmatter (name, description, tools)
+  - Context Sources section referencing global principles
+  - Directive References table with Guardian-specific applications
+  - Purpose statement focused on framework maintenance
+  - Specialization section defining:
+    - Primary focus: audit and upgrade planning
+    - Secondary awareness: drift detection, local override identification
+    - Avoid: automatic file overwrites, decision-making without approval
+    - Success means: actionable reports with clear next steps
+  - Collaboration Contract section
+  - Mode Defaults: /analysis-mode for audits, /creative-mode for upgrade strategies
+  - Two operational modes detailed:
+    1. Audit Mode:
+       - Input: MANIFEST.yml, .framework_meta.yml, project files
+       - Output: FRAMEWORK_AUDIT_REPORT.md
+       - Process: Compare installed vs canonical, detect drift/missing files
+    2. Upgrade Mode:
+       - Input: upgrade-report.txt, .framework-new files, MANIFEST.yml
+       - Output: FRAMEWORK_UPGRADE_PLAN.md
+       - Process: Classify conflicts, propose merges, recommend actions
+  - Conflict classification taxonomy:
+    - Auto-merge candidates (formatting/comments only)
+    - Manual review required (logic changes)
+    - Local customizations to preserve (move to local/)
+  - Template usage specifications
+  - Escalation criteria and guardrails
+
+testing_requirements:
+  - Document validation test case scenarios in profile
+  - No executable code (profile is documentation)
+  - Should be validated against AGENTS.md for consistency
+
+dependencies:
+  - 2025-12-21T0720-build-automation-framework-install-script (defines .framework_meta.yml)
+  - 2025-12-21T0721-build-automation-framework-upgrade-script (defines upgrade-report.txt)
+  - docs/templates/automation/* (templates exist)
+
+estimated_complexity: medium
+estimated_duration: 1 day
+risk_level: low-medium
+risk_notes: |
+  - Profile must balance autonomy with safety (never auto-overwrite)
+  - Conflict classification logic needs clear decision trees
+  - Handoff protocols with scripts need precise specification
+
+rationale: |
+  CRITICAL PRIORITY: The Framework Guardian is the human-facing layer that makes
+  the distribution system usable. Without it, users are left with raw .framework-new
+  files and no guidance on resolution.
+  
+  HIGH URGENCY: Can be drafted in parallel with scripts (defines the interface
+  contract), enabling early validation of the audit/upgrade workflow design.
+  No execution blocker, but required for complete system.
+
+created_at: '2025-12-21T07:22:00Z'
+created_by: planning-petra

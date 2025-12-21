@@ -1,0 +1,100 @@
+id: 2025-12-21T0720-build-automation-framework-install-script
+agent: build-automation
+status: new
+priority: critical
+urgency: high
+mode: /programming
+title: Create framework_install.sh POSIX shell script
+
+description: |
+  Implement the framework_install.sh script as specified in ADR-013 and the
+  technical design document. This script is the foundation for first-time
+  framework installations in downstream repositories.
+  
+  The script must:
+  - Be POSIX-compliant (no Bash-specific features)
+  - Accept PROJECT_ROOT as parameter
+  - Detect first-time install by checking for .framework_meta.yml
+  - Copy files from framework_core/ only when absent in target
+  - Never overwrite existing files
+  - Generate installation summary (NEW/SKIPPED counts)
+  - Create .framework_meta.yml with version, timestamp, source release
+  - Support --dry-run mode for validation
+  - Include comprehensive error handling and exit codes
+  
+  Success criteria:
+  - Script passes shellcheck validation
+  - Creates .framework_meta.yml on successful install
+  - Never overwrites existing files
+  - Provides clear, parsable output for Framework Guardian consumption
+  - Works on Linux, macOS, and WSL
+
+artefacts:
+  - ops/scripts/framework_install.sh
+  - ops/scripts/tests/test_framework_install.sh (test suite)
+  - docs/HOW_TO_USE/framework-installation.md (usage guide)
+
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  related_adrs:
+    - ADR-013 Zip-Based Framework Distribution
+    - ADR-014 Framework Guardian Agent
+  related_docs:
+    - docs/architecture/design/distribution_of_releases_technical_design.md
+    - docs/architecture/design/distribution_of_releases_architecture.md
+  notes:
+    - Follow ATDD (directive 016) and TDD (directive 017)
+    - Script will be packaged in framework distribution zip
+    - Must work with unzip output in framework_core/ directory
+    - Output format should be structured for Guardian parsing
+    - Document all exit codes in script header
+
+requirements:
+  - POSIX shell compliance (tested with dash, bash, sh)
+  - Accept PROJECT_ROOT path as first argument
+  - Check for .framework_meta.yml to detect existing installation
+  - Iterate framework_core/ using find with proper null-byte handling
+  - Copy NEW files only (skip if exists in PROJECT_ROOT)
+  - Generate summary report with counts per status
+  - Create .framework_meta.yml with:
+    - framework_version (from META/MANIFEST.yml)
+    - installed_at (ISO 8601 timestamp)
+    - source_release (zip filename)
+  - Support --dry-run flag (report actions without executing)
+  - Exit 0 on success, non-zero on errors
+  - Log all actions to stdout in structured format
+
+testing_requirements:
+  - Write acceptance tests first (directive 016)
+  - Test first-time installation scenario
+  - Test detection of existing installation (should refuse)
+  - Test dry-run mode
+  - Test handling of missing directories
+  - Test handling of spaces in filenames
+  - Test metadata file creation
+  - Test summary output format
+  - Follow TDD cycles for implementation (directive 017)
+
+dependencies:
+  - docs/templates/automation/framework-manifest-template.yml (exists)
+
+estimated_complexity: medium-high
+estimated_duration: 1-2 days
+risk_level: medium
+risk_notes: |
+  - POSIX compliance requires careful testing across shells
+  - Path handling with spaces/special characters needs attention
+  - Must coordinate with Framework Guardian input requirements
+
+rationale: |
+  CRITICAL PRIORITY: This is the foundational script for framework distribution.
+  Without it, downstream repositories cannot adopt the framework via the zip-based
+  distribution model. All other components (upgrade script, Guardian agent) depend
+  on the metadata and structure this script creates.
+  
+  HIGH URGENCY: Blocks the entire distribution initiative. Must be completed before
+  upgrade script or packaging pipeline can be meaningfully implemented.
+
+created_at: '2025-12-21T07:20:00Z'
+created_by: planning-petra
