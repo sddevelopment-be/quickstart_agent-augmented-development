@@ -1,0 +1,544 @@
+# META/MANIFEST.yml
+# Describes the framework core contents for this release.
+# Generated: 2025-12-23T07:53:04Z
+# Used by:
+# - framework_install.sh / framework_upgrade.sh
+# - Framework Guardian Agent
+# - Any tools that need to know "what belongs to the framework"
+
+framework:
+  name: quickstart-agent-augmented-development
+  version: "0.1.0"
+  release_date: "2025-12-23"
+  description: "Core files for the agent-augmented development framework."
+
+compatibility:
+  min_python_version: "3.10"
+  notes:
+    - "Projects older than 1.0.0 may require manual migration."
+
+# Define how files/directories are treated.
+# mode:
+#   - sync-always: should track framework updates closely
+#   - copy-once: initial scaffold; safe to diverge locally
+#   - reference-only: for docs that describe framework but not enforced
+#   - ignore: present in bundle but not managed (rare)
+
+paths:
+  - path: ".github/agents"
+    mode: sync-always
+    description: Core agent profiles, directives, and guidelines
+
+  - path: "docs/templates"
+    mode: sync-always
+    description: Canonical templates for agent tasks, architecture, checklists
+
+  - path: "validation"
+    mode: sync-always
+    description: Validation schemas, test framework, and audit protocols
+
+  - path: "work/README.md"
+    mode: copy-once
+    description: File-based asynchronous orchestration guide
+
+  - path: "AGENTS.md"
+    mode: sync-always
+    description: Agent Specification Document (localized framework entry point)
+
+  - path: "REPO_MAP.md"
+    mode: copy-once
+    description: Repository structure overview
+
+files:
+  - path: ".github/agents/framework-guardian.agent.md"
+    checksum: "sha256:92c63e76ec0ba4401fbc303bb7ce47ca0d30b5edeef4a9d799c16dba5f74a6d1"
+    mode: sync-always
+    description: Framework Guardian Agent definition
+
+  - path: ".github/agents/GLOSSARY.md"
+    checksum: "sha256:cd733162a2f1c4fe37af26bb491d863b6e6ed8358aad72b9d48a52c610167810"
+    mode: sync-always
+    description: Standardized terminology reference
+
+  - path: ".github/agents/aliases.md"
+    checksum: "sha256:d49963a410c45f9fc27c42213c992aaa5e1e8b217781363b5294e0ec406e6d1b"
+    mode: sync-always
+    description: Command aliases and shorthand reference
+
+  - path: "ops/scripts/framework_install.sh"
+    checksum: "sha256:f0e8561405510b5bdee9eeed28a16ce0a4c97ec22f65b27221a1a1c627ec09e9"
+    mode: sync-always
+    description: Framework installation script
+
+  - path: "ops/scripts/framework_upgrade.sh"
+    checksum: "sha256:29ee4ffffe56edfa606e06fbec8e49100acee4d1d388b278462b349add2188e6"
+    mode: sync-always
+    description: Framework upgrade script
+
+  - path: "docs/templates/LEX/LEX_DELTAS.md"
+    checksum: "sha256:a3bed0f46db51bffb804f55eced5e6f648e4988b7b6d23b0f454ed2fada3585e"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/LEX/LEX_REPORT.md"
+    checksum: "sha256:9e8396ada5960b327b84cca8c72066248064b6ccc063749f0f184106eca41431"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/LEX/LEX_STYLE_RULES.md"
+    checksum: "sha256:156af5b56fb55377ec385aace17d1427e100b96bd19cbe5bf31ec78503656c40"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/LEX/README.md"
+    checksum: "sha256:c40d4c4442413d7034830708d2500a53df0fe348190a0edbc345a525290cd853"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/README.md"
+    checksum: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/agent-tasks/README.md"
+    checksum: "sha256:829cf3365bf668c48474168d04d276bb71432dea4092458760955da6d0b96318"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/agent-tasks/assessment.md"
+    checksum: "sha256:888907c592c021eaf9177ab9d552c816133ba4b11cd52e5c24df9741341f0a45"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/agent-tasks/report.md"
+    checksum: "sha256:d4958523d2809f605b981ffd93a58a1fdd1a656d73d05b9c38b0535093132a4e"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/agent-tasks/task-base.yaml"
+    checksum: "sha256:200a51d99ac6bd6911a4bdd7ea1d0b0f40ad5b721fefcaa0d468defc44716636"
+    mode: sync-always
+    description: Framework configuration
+
+  - path: "docs/templates/agent-tasks/task-context.yaml"
+    checksum: "sha256:e34c6ac211a07728360efba2ea9868d2ed0d796f16b261f1d679f0547177bb07"
+    mode: sync-always
+    description: Framework configuration
+
+  - path: "docs/templates/agent-tasks/task-descriptor.yaml"
+    checksum: "sha256:d9e980873a92707897d74c80973d9d4ed63eb1acfefc871b0c0fd8b50c5554f1"
+    mode: sync-always
+    description: Framework configuration
+
+  - path: "docs/templates/agent-tasks/task-error.yaml"
+    checksum: "sha256:c50f093fc0b297cb7070b1e7513dd29e9c8a6ce0144919a802c1a0ef1b0df6a9"
+    mode: sync-always
+    description: Framework configuration
+
+  - path: "docs/templates/agent-tasks/task-examples.yaml"
+    checksum: "sha256:18f54f6a2d9ae1e2b61540d7b4e555823ec5550cf7fff293195b748d9abb2b46"
+    mode: sync-always
+    description: Framework configuration
+
+  - path: "docs/templates/agent-tasks/task-result.yaml"
+    checksum: "sha256:f2778edd79778c9e6aa9e0f81035b83cc2d1b0e66ce4578d3676fe49270fd167"
+    mode: sync-always
+    description: Framework configuration
+
+  - path: "docs/templates/agent-tasks/task-templates-README.md"
+    checksum: "sha256:d7ef57a13f5ccf412a0be20c7b932b89541e05263b0820cf05e27747c9ed3d44"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/agent-tasks/task-timestamps.yaml"
+    checksum: "sha256:a98bf59e6c8f3194e8c9a7c79d7dad36a2303acdc4ce3aecb054035ef1aae772"
+    mode: sync-always
+    description: Framework configuration
+
+  - path: "docs/templates/agent-tasks/worklog.md"
+    checksum: "sha256:2f90b3f8e8f95f65a12dd2549ecacc130562c3a9622544f5f82d7693f5c8c5f7"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/architecture/PERSONA.md"
+    checksum: "sha256:c178f86eb9d54986114ce01254bfb096d264b26879b6d2f9898dde1088cf8019"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/architecture/README.md"
+    checksum: "sha256:25def243c36ec8013aa63b668a016acc76942359b44e5297cf69199511d64d14"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/architecture/adr.md"
+    checksum: "sha256:4e0cb1dff89c3d7db309cc9bb9f266052185ac650c6f3617616b24dacfb1f7e1"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/architecture/design_vision.md"
+    checksum: "sha256:2a1915e029bd6b4c1b67c93c257de1e05cba0378f9feaabb15c8a86efece78f3"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/architecture/functional_requirements.md"
+    checksum: "sha256:36eb1721cd8f64874afeee35bf955658f4583898289af1d9b6643f8ed21a2f01"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/architecture/roadmap.md"
+    checksum: "sha256:66e4b043a64555997e73f556c6cb817ea17e149199d668245bb488cc58c826d2"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/architecture/technical_design.md"
+    checksum: "sha256:475334cc8c9b0a1810ab33d01005b71d3fc4ab3009fa2e6723b7dbd5f8ca510f"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/automation/NEW_SPECIALIST.agent.md"
+    checksum: "sha256:bbe50a9c57f5dbf79379316733667ba20f897ee6d69dc9fc0fe43285aaaeffbf"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/automation/README.md"
+    checksum: "sha256:559196a4b23e40b6e520b34a6b6bdcfe947de693c4f57a8e11c691dd49b12d5b"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/automation/TEMPLATE-LOCAL_ENV.md"
+    checksum: "sha256:876ecf16538a3ec2dcaea91801812bf55278f294fbb29b627405937b884edcb1"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/automation/framework-audit-report-template.md"
+    checksum: "sha256:80aabab87f5d4b7988bbab1dcc0d3bdf6aa6fca5cf645c0ea02e617676974fea"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/automation/framework-manifest-template.yml"
+    checksum: "sha256:06765a43e14b3a13ec6e7f15f57ef2f42a314883b98f204b8268eb7203165e22"
+    mode: sync-always
+    description: Framework configuration
+
+  - path: "docs/templates/automation/framework-upgrade-plan-template.md"
+    checksum: "sha256:6aca03491e6c17b648589a628131820655bc0110e9409f6cdd2426b8a5983b9a"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/checklists/README.md"
+    checksum: "sha256:ef21323820ca4e3c4cf1ecb62ae17ff23ace35a9209d1be86d64d7bdb5365466"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/checklists/derivative-repo-setup.md"
+    checksum: "sha256:d58c6a540f9b53ff1bc7b886da7ab11f0fb3469f752a4791ae1f2955050f2301"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/checklists/quarterly-tool-review.md"
+    checksum: "sha256:10780a0b4ae0280c90fb980dc7a6bef4276548c732034d2f238c12e98507dd71"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/checklists/tool-adoption-checklist.md"
+    checksum: "sha256:2689bcf3171ef8891e1a87b2e9358974996d33468a4f1162a8e245092836b1bd"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/diagramming/README.md"
+    checksum: "sha256:e5751fd4f8637067bf6ff88a9850b6bf78bce95138eb14bea39ab778eb58f799"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/diagramming/examples/causal-map.puml"
+    checksum: "sha256:910d6a8de4f8a0bcbcf5a1b0cfec54964f1df4274ad4c152746352cab4200a11"
+    mode: sync-always
+    description: Framework core file
+
+  - path: "docs/templates/diagramming/examples/content-map.puml"
+    checksum: "sha256:c35e75f2207d23f8991d18d91002fdbd8bdcf65c6d515a91e9fa416be12ca765"
+    mode: sync-always
+    description: Framework core file
+
+  - path: "docs/templates/diagramming/examples/frontend-architecture.puml"
+    checksum: "sha256:77cb39630b5309a6b435ef82a975b6d0f88ca7ef7866c41db5c94c0814b433dc"
+    mode: sync-always
+    description: Framework core file
+
+  - path: "docs/templates/diagramming/examples/repo-content-graph.puml"
+    checksum: "sha256:39b8de3f8d044bb041f236282804f1d4897e639551986f4a98497321b82a949e"
+    mode: sync-always
+    description: Framework core file
+
+  - path: "docs/templates/diagramming/examples/request-lifecycle.puml"
+    checksum: "sha256:c331e958d5b07848d3a9ce965eb1686b32512988a39d299e7b2c021d876a173d"
+    mode: sync-always
+    description: Framework core file
+
+  - path: "docs/templates/diagramming/examples/system-map.puml"
+    checksum: "sha256:bd290c866c9aff0cfb60c9a71ae8e56803479b1e285db2ba1d5c31de12900b2b"
+    mode: sync-always
+    description: Framework core file
+
+  - path: "docs/templates/diagramming/themes/common.puml"
+    checksum: "sha256:d7c297912b2475238e10156f1fdff8efc827d148bf6269b4037b0d0803817c0f"
+    mode: sync-always
+    description: Framework core file
+
+  - path: "docs/templates/diagramming/themes/puml-theme-bluegray_conversation.puml"
+    checksum: "sha256:9c4d3e086aefc8fcf17aab475d77971bc07a760622542adcd7cc73224843c0fd"
+    mode: sync-always
+    description: Framework core file
+
+  - path: "docs/templates/diagramming/themes/puml-theme-stickies.puml"
+    checksum: "sha256:1cc91a407656f85ebc1f1683697c88538993c0ee106ecb46c1e3fc4b971b537d"
+    mode: sync-always
+    description: Framework core file
+
+  - path: "docs/templates/project/CHANGELOG.md"
+    checksum: "sha256:7380fdd909e784ff3f97038187f02a209f970fb9d8e49ca27cbb845f4b0295ed"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/project/README.md"
+    checksum: "sha256:9209f03441f545f71534ad6caccb386a9189c42431b82dd5ddcc12ea0ff4d077"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/project/VISION.md"
+    checksum: "sha256:823adca5bbb10ce9c85c9c2df6d836691ba10f9d7586d7b25004f3793f457149"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/project/specific_guidelines.md"
+    checksum: "sha256:d86e41cf898f5af7f8465668c61fe1b51c534c85c2620e97e8293a9f7bb19c8e"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/prompts/ARCHITECT_ADR.prompt.md"
+    checksum: "sha256:6b4f6881c7bc51b8db840ec264d02bed7a7c1c53669de39cde5cac991ae9b7ac"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/prompts/AUTOMATION_SCRIPT.prompt.md"
+    checksum: "sha256:aa8701ee4377c46a65f37bfaa20f067b0cf465960e21fa114f5821701b8f9025"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/prompts/BOOTSTRAP_REPO.prompt.md"
+    checksum: "sha256:b42973409ff5fd3bfa14ddec4365318d88becdb59acebd2376bbe21853b8e7dc"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/prompts/CURATE_DIRECTORY.prompt.md"
+    checksum: "sha256:1a2f91fb064b8ee231502c8247d9beeee81aee75ff6ccbb1f1585c23e2fe0532"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/prompts/EDITOR_REVISION.prompt.md"
+    checksum: "sha256:29b47ffca4283f8c986347951fc6d30abedee67a1fd1fde7500947e63fb823c2"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/prompts/LEXICAL_ANALYSIS.prompt.md"
+    checksum: "sha256:1370a9abdc45a0f0327977ff525ad9dd8d472ea51bed3f08eb8942b9433cc8b8"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/prompts/NEW_AGENT.prompt.md"
+    checksum: "sha256:e6559067a57354b9c02a5508f90179a1982ee9c6137367b8307f8950a6422419"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/prompts/README.md"
+    checksum: "sha256:4d96e93aaa40f93d953c28fee7103d5c9101714d049617411c0ab6c8db8b4be6"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/prompts/TEST_READABILITY_CHECK.prompt.md"
+    checksum: "sha256:40510945ba786ba0dd70bb5c16486626a9d8a113236909c6bacd9e154fd2b16b"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/schemas/README.md"
+    checksum: "sha256:31a00cb1fd705130f89eff4edd5ee5bcda4724a9839f9ed7c81329b39e749cba"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/structure/CONTEXT_LINKS.md"
+    checksum: "sha256:587e02eb0dea1bc9f3c0a06245c5f67ad64c81dd5effd7db00456c84ff6ed610"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/structure/README.md"
+    checksum: "sha256:136544a5ae0f3e2954b3a05cd6f611c1f7634cc56da6ef943883db7c018301b6"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/structure/REPO_MAP.md"
+    checksum: "sha256:51c185ff793e5d93f0c59d82bab6375c1524dd5ccc41a0797589050dfead63f0"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/structure/SURFACES.md"
+    checksum: "sha256:8dffa59b9d3508f28214461feab97512f7b69991fe9533b06e563ac8cfa88e95"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/structure/WORKFLOWS.md"
+    checksum: "sha256:8179c634689ca52826f44a3a924a8b558bb6b0785e701a1fc8901d19600e9ec3"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "docs/templates/structure/repo-outline.yaml"
+    checksum: "sha256:a80479e67ee1c89b0059962a69897a3d4d04aa90572c9f08086ed47eddd504f7"
+    mode: sync-always
+    description: Framework configuration
+
+  - path: "validation/MUTATION_TESTING_QUICKSTART.md"
+    checksum: "sha256:ae2eb890ff721db3a359e2edcce37ac54d757a4a45db6c2d100092055af59174"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "validation/README.md"
+    checksum: "sha256:3f4aa741fe3c51caf6908f48bac6b4f288df61fce4529d85cc4329da9612a210"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "validation/dashboards/test_capture_metrics.py"
+    checksum: "sha256:6fe4722e0a83e0019d20d5b481e7f1ec0189f17c9fac0f22e173b8dc2d0c5d5e"
+    mode: sync-always
+    description: Framework Python module
+
+  - path: "validation/fixtures/README.md"
+    checksum: "sha256:472e7c7d1501e865edbf6457dbf62361f24a5cae307d54cf37f9b22b5e34a067"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "validation/fixtures/test_task_convergent.yaml"
+    checksum: "sha256:0e30fe2350bb5eaf05a9105d973f2aac1430e02132f6a48fdc89dc9dff9f8fbd"
+    mode: sync-always
+    description: Framework configuration
+
+  - path: "validation/fixtures/test_task_parallel.yaml"
+    checksum: "sha256:0139cd3bdd38286c73e1d7e81ef6b6fad843ab66710c1e24d19023d04f2b9db9"
+    mode: sync-always
+    description: Framework configuration
+
+  - path: "validation/fixtures/test_task_sequential.yaml"
+    checksum: "sha256:7d6b578c25b96674e6929f211c5d150f380dd1eeb881691292907fe4c878b65e"
+    mode: sync-always
+    description: Framework configuration
+
+  - path: "validation/fixtures/test_task_simple.yaml"
+    checksum: "sha256:1ea46f8600affe77959858ca2b5574e7d9a6c86dbcc27a16bf9b2be2687529ad"
+    mode: sync-always
+    description: Framework configuration
+
+  - path: "validation/framework-core/test_load_directives.py"
+    checksum: "sha256:9da7397e26bcf64637d9b72e17edcc25df376aa04d7dcebd083b0c7c07c63175"
+    mode: sync-always
+    description: Framework Python module
+
+  - path: "validation/framework/__init__.py"
+    checksum: "sha256:9ea8d3b7e52d28f7ab865361e5bd653ee3206b9317491eecf862b83f70e38a0c"
+    mode: sync-always
+    description: Framework Python module
+
+  - path: "validation/framework/test_core.py"
+    checksum: "sha256:ea2ddcf68571cc0e3b6842741a9ed199f7bc8e81ad5b101ba88372d41d40d7e6"
+    mode: sync-always
+    description: Framework Python module
+
+  - path: "validation/framework/test_execution.py"
+    checksum: "sha256:5b487c40c7bdc0121ace733678dc9872bdfaa9d9ca2d7f03ff240ac10baf2871"
+    mode: sync-always
+    description: Framework Python module
+
+  - path: "validation/framework/test_interface.py"
+    checksum: "sha256:aa1e7f61f311e70315268ec730789e774044980e89a6d483badd884773dbba1d"
+    mode: sync-always
+    description: Framework Python module
+
+  - path: "validation/test-data/README.md"
+    checksum: "sha256:2c413492a2ac65cda3d51ef7c9372f9db1481226d3ca7dc84911362386015f36"
+    mode: sync-always
+    description: Framework documentation
+
+  - path: "validation/test-data/invalid-config.json"
+    checksum: "sha256:58e33f83cfe1e1f2dcd35fc6b1626f461a4445266680f301fd82f4a24b2d8813"
+    mode: sync-always
+    description: Framework core file
+
+  - path: "validation/test-data/realistic_example.json"
+    checksum: "sha256:ff7db6b4fed84e5b4ed1765a680e82c2bd286c5430ec7e032e829dc7b8eeb0b1"
+    mode: sync-always
+    description: Framework core file
+
+  - path: "validation/test-data/valid-config.json"
+    checksum: "sha256:5a3203d4093e1a216ffb5e6f5a24cae60840436b7d930a0f9ce27b5a52b1b941"
+    mode: sync-always
+    description: Framework core file
+
+  - path: "validation/test_agent_orchestrator.py"
+    checksum: "sha256:50248274a55a849de251de53d111b526a132503cf18b8fc7abcbaaa79454e73b"
+    mode: sync-always
+    description: Framework Python module
+
+  - path: "validation/test_orchestration_e2e.py"
+    checksum: "sha256:b17c8b454156691074366bbc53add935cc8280e889d0ef28fb2ce86c858778f0"
+    mode: sync-always
+    description: Framework Python module
+
+  - path: "validation/test_task_age_checker.py"
+    checksum: "sha256:906de995be5ac71bccb1d462a0589f9f782541af07217c9c0a2827450097179a"
+    mode: sync-always
+    description: Framework Python module
+
+  - path: "validation/test_task_utils.py"
+    checksum: "sha256:04915c6dc272b8d7065d883922e364afacf4ff6fe505c22a9c291c7c25325b48"
+    mode: sync-always
+    description: Framework Python module
+
+  - path: "validation/test_template_status_checker.py"
+    checksum: "sha256:fb3b39f7969e0fd69b7fa1d98655a5240e37351baa840d4a20b0c05850e16a4c"
+    mode: sync-always
+    description: Framework Python module
+
+  - path: "validation/test_validate_task_schema.py"
+    checksum: "sha256:3b6f5263b865b3560ae37c7dad433d8e0ddea805b5394af7d0f2b1f3fc8fe7d2"
+    mode: sync-always
+    description: Framework Python module
+
+  - path: "validation/validate-task-naming.sh"
+    checksum: "sha256:fd1361f1679a82d9430cfd4114a10ec098df7eccba488ff47a6bb94e4bdabb1e"
+    mode: sync-always
+    description: Framework shell script
+
+  - path: "validation/validate-task-schema.py"
+    checksum: "sha256:2289af35c82cd1c1afa698e4e35ef5a0fd3ec60dcddd61df82e3e3e71dcaff2b"
+    mode: sync-always
+    description: Framework Python module
+
+  - path: "validation/validate-work-structure.sh"
+    checksum: "sha256:bad7ef2d62d08169d31395044c5dd543033de3068049ab96bd81d590e570bf7f"
+    mode: sync-always
+    description: Framework shell script
+
+  - path: "validation/validate_directives.sh"
+    checksum: "sha256:6172093808c4a295bc29289ce343477849074d523d21dd374f92026aa3fcb08e"
+    mode: sync-always
+    description: Framework shell script
+
+tooling:
+  - script: "ops/scripts/framework_install.sh"
+    purpose: "First-time installation of framework into a project"
+    mode: sync-always
+
+  - script: "ops/scripts/framework_upgrade.sh"
+    purpose: "Upgrade existing framework installation to new version"
+    mode: sync-always
+
+  - script: "ops/scripts/generate_manifest.sh"
+    purpose: "Generate or update MANIFEST.yml from repository structure"
+    mode: sync-always

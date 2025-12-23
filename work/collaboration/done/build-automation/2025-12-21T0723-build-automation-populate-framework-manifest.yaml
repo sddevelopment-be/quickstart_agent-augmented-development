@@ -1,9 +1,11 @@
 id: 2025-12-21T0723-build-automation-populate-framework-manifest
 agent: build-automation
-status: new
+status: done
 priority: high
 urgency: high
 mode: /programming
+completed_at: '2025-12-23T07:54:00Z'
+completed_by: build-automation
 title: Generate populated MANIFEST.yml from current repository structure
 
 description: |
