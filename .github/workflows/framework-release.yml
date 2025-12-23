@@ -1,0 +1,292 @@
+name: Framework Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Framework version to release (e.g., 1.0.0)'
+        required: true
+        type: string
+      prerelease:
+        description: 'Mark as pre-release'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  package-and-release:
+    name: Package and Release Framework
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Determine version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ inputs.version }}"
+            echo "Manually triggered release for version: $VERSION"
+          else
+            # Extract version from tag (remove 'v' prefix)
+            VERSION="${GITHUB_REF#refs/tags/v}"
+            echo "Tag-triggered release for version: $VERSION"
+          fi
+          
+          # Validate version format (semver)
+          if ! echo "$VERSION" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?$'; then
+            echo "❌ Invalid version format: $VERSION"
+            echo "Expected format: X.Y.Z or X.Y.Z-suffix"
+            exit 1
+          fi
+          
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "✅ Version: $VERSION"
+      
+      - name: Check if release exists
+        id: check_release
+        run: |
+          TAG="v${{ steps.version.outputs.version }}"
+          
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "⚠️ Release $TAG already exists"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "✅ Release $TAG does not exist yet"
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+        continue-on-error: true
+      
+      - name: Assemble framework package
+        id: assemble
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          
+          echo "🔧 Assembling framework package for version $VERSION..."
+          
+          # Make scripts executable
+          chmod +x ops/scripts/assemble_framework_package.sh
+          chmod +x ops/scripts/generate_release_notes.sh
+          
+          # Run assembly script
+          bash ops/scripts/assemble_framework_package.sh \
+            --output-dir build \
+            "$VERSION"
+          
+          # Verify output
+          if [ ! -f "build/quickstart-framework-$VERSION.zip" ]; then
+            echo "❌ Package assembly failed - zip not created"
+            exit 1
+          fi
+          
+          if [ ! -f "build/SHA256SUMS" ]; then
+            echo "❌ Package assembly failed - checksum not created"
+            exit 1
+          fi
+          
+          # Get package info
+          PACKAGE_SIZE=$(du -h "build/quickstart-framework-$VERSION.zip" | cut -f1)
+          CHECKSUM=$(cat build/SHA256SUMS | cut -d' ' -f1)
+          
+          echo "package_name=quickstart-framework-$VERSION.zip" >> $GITHUB_OUTPUT
+          echo "package_size=$PACKAGE_SIZE" >> $GITHUB_OUTPUT
+          echo "checksum=$CHECKSUM" >> $GITHUB_OUTPUT
+          
+          echo "✅ Package assembled successfully"
+          echo "📦 Size: $PACKAGE_SIZE"
+          echo "🔐 SHA256: $CHECKSUM"
+      
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          
+          echo "📝 Generating release notes for version $VERSION..."
+          
+          # Try to find previous version tag for comparison
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [ -n "$PREV_TAG" ]; then
+            PREV_VERSION="${PREV_TAG#v}"
+            echo "Previous version: $PREV_VERSION"
+            
+            bash ops/scripts/generate_release_notes.sh \
+              --output build/RELEASE_NOTES.md \
+              --previous "$PREV_VERSION" \
+              "$VERSION"
+          else
+            echo "No previous version found"
+            
+            bash ops/scripts/generate_release_notes.sh \
+              --output build/RELEASE_NOTES.md \
+              "$VERSION"
+          fi
+          
+          if [ ! -f "build/RELEASE_NOTES.md" ]; then
+            echo "❌ Release notes generation failed"
+            exit 1
+          fi
+          
+          echo "✅ Release notes generated"
+      
+      - name: Validate package structure
+        id: validate
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          PACKAGE="build/quickstart-framework-$VERSION.zip"
+          
+          echo "🔍 Validating package structure..."
+          
+          # Create temp directory for extraction
+          mkdir -p build/validate
+          cd build/validate
+          
+          # Extract and check structure
+          unzip -q "../quickstart-framework-$VERSION.zip"
+          
+          # Check required directories
+          for dir in framework_core scripts META; do
+            if [ ! -d "$dir" ]; then
+              echo "❌ Missing required directory: $dir"
+              exit 1
+            fi
+          done
+          
+          # Check required files
+          if [ ! -f "META/MANIFEST.yml" ]; then
+            echo "❌ Missing META/MANIFEST.yml"
+            exit 1
+          fi
+          
+          if [ ! -f "scripts/framework_install.sh" ]; then
+            echo "❌ Missing framework_install.sh"
+            exit 1
+          fi
+          
+          if [ ! -f "scripts/framework_upgrade.sh" ]; then
+            echo "❌ Missing framework_upgrade.sh"
+            exit 1
+          fi
+          
+          # Check scripts are executable
+          if [ ! -x "scripts/framework_install.sh" ]; then
+            echo "⚠️ framework_install.sh not executable"
+          fi
+          
+          if [ ! -x "scripts/framework_upgrade.sh" ]; then
+            echo "⚠️ framework_upgrade.sh not executable"
+          fi
+          
+          # Check for sensitive data patterns (basic)
+          if grep -r "password\|secret\|api.key" . 2>/dev/null | grep -v "META/RELEASE_NOTES" | grep -v ".md:" >/dev/null; then
+            echo "⚠️ Potential sensitive data detected - manual review recommended"
+          fi
+          
+          echo "✅ Package structure validated"
+      
+      - name: Create GitHub Release
+        id: create_release
+        if: steps.check_release.outputs.exists != 'true'
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          TAG="v$VERSION"
+          PACKAGE="build/quickstart-framework-$VERSION.zip"
+          CHECKSUM_FILE="build/SHA256SUMS"
+          NOTES_FILE="build/RELEASE_NOTES.md"
+          
+          echo "🚀 Creating GitHub Release: $TAG"
+          
+          # Determine if this is a prerelease
+          PRERELEASE_FLAG=""
+          if [ "${{ inputs.prerelease }}" = "true" ] || echo "$VERSION" | grep -qE '\-'; then
+            PRERELEASE_FLAG="--prerelease"
+            echo "Marked as pre-release"
+          fi
+          
+          # Create release with notes
+          gh release create "$TAG" \
+            "$PACKAGE" \
+            "$CHECKSUM_FILE" \
+            --title "Framework Release $VERSION" \
+            --notes-file "$NOTES_FILE" \
+            $PRERELEASE_FLAG
+          
+          echo "✅ Release created: $TAG"
+          echo "release_url=$(gh release view $TAG --json url -q .url)" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ github.token }}
+      
+      - name: Update existing release
+        id: update_release
+        if: steps.check_release.outputs.exists == 'true'
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          TAG="v$VERSION"
+          PACKAGE="build/quickstart-framework-$VERSION.zip"
+          CHECKSUM_FILE="build/SHA256SUMS"
+          
+          echo "♻️ Updating existing release: $TAG"
+          
+          # Upload new assets (will replace if they exist)
+          gh release upload "$TAG" \
+            "$PACKAGE" \
+            "$CHECKSUM_FILE" \
+            --clobber
+          
+          echo "✅ Release updated: $TAG"
+          echo "release_url=$(gh release view $TAG --json url -q .url)" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ github.token }}
+      
+      - name: Summary
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          TAG="v$VERSION"
+          RELEASE_URL="${{ steps.create_release.outputs.release_url || steps.update_release.outputs.release_url }}"
+          
+          echo "## 🎉 Release Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** $VERSION" >> $GITHUB_STEP_SUMMARY
+          echo "**Tag:** $TAG" >> $GITHUB_STEP_SUMMARY
+          echo "**Package:** ${{ steps.assemble.outputs.package_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Size:** ${{ steps.assemble.outputs.package_size }}" >> $GITHUB_STEP_SUMMARY
+          echo "**SHA256:** \`${{ steps.assemble.outputs.checksum }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Release URL:** $RELEASE_URL" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Installation" >> $GITHUB_STEP_SUMMARY
+          echo '```bash' >> $GITHUB_STEP_SUMMARY
+          echo "# Download and extract" >> $GITHUB_STEP_SUMMARY
+          echo "curl -LO $RELEASE_URL/quickstart-framework-$VERSION.zip" >> $GITHUB_STEP_SUMMARY
+          echo "unzip quickstart-framework-$VERSION.zip" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "# Install" >> $GITHUB_STEP_SUMMARY
+          echo "cd quickstart-framework-$VERSION" >> $GITHUB_STEP_SUMMARY
+          echo "./scripts/framework_install.sh /path/to/your/project" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: framework-package-${{ steps.version.outputs.version }}
+          path: |
+            build/*.zip
+            build/SHA256SUMS
+            build/RELEASE_NOTES.md
+          retention-days: 90
