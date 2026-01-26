@@ -1,0 +1,38 @@
+# Exclude user-specific directories that should not be in the Docker image
+work/
+output/
+tmp/
+
+# Exclude git directory
+.git/
+.gitignore
+
+# Exclude Python cache and build artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+*.so
+
+# Exclude IDE and editor files
+.idea/
+*.iml
+.vscode/
+.DS_Store
+
+# Exclude development and test artifacts
+.mutmut-cache
+htmlcov/
+*.log
+
+# Exclude any local configuration or secrets
+*.env
+.env.local
+secrets/

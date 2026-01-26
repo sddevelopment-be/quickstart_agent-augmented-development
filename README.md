@@ -47,6 +47,26 @@ You can use the specialist agents in `.github/agents/` as a starting point. On g
 
 ## Quickstart
 
+### Option 1: Use with Docker (Recommended for Portability)
+
+Get started quickly with a pre-configured environment:
+
+```bash
+# Pull the Docker image
+docker pull ghcr.io/sddevelopment-be/quickstart_agent-augmented-development:latest
+
+# Run with your local work directories mounted
+docker run -it --rm \
+  -v $(pwd)/work:/workspace/work \
+  -v $(pwd)/output:/workspace/output \
+  ghcr.io/sddevelopment-be/quickstart_agent-augmented-development:latest \
+  /bin/bash
+```
+
+See [Docker Usage Guide](docs/DOCKER_USAGE.md) for detailed instructions.
+
+### Option 2: Clone and Customize
+
 1. **Define your intent**
    Edit:
     - [`docs/VISION.md`](docs/VISION.md)
