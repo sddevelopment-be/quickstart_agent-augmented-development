@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # Agent-augmented development environment
+  # Provides a containerized workspace with shared configs and framework
+  # while preserving user-specific data in mounted volumes
+  agent-dev:
+    image: ghcr.io/sddevelopment-be/quickstart_agent-augmented-development:latest
+    
+    # Mount user-specific directories from local filesystem
+    volumes:
+      - ./work:/workspace/work
+      - ./output:/workspace/output
+      - ./tmp:/workspace/tmp
+    
+    # Optional: Pass environment variables (e.g., GitHub token for API access)
+    environment:
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      # - PYTHONPATH=/workspace/framework:/workspace/ops
+    
+    # Keep container running for interactive use
+    stdin_open: true
+    tty: true
+    
+    # Default working directory
+    working_dir: /workspace
+    
+    # Override default command to provide a shell
+    command: /bin/bash
+
+# Usage:
+# 1. Start container:
+#    docker-compose up -d
+#
+# 2. Attach to container:
+#    docker-compose exec agent-dev /bin/bash
+#
+# 3. Run commands:
+#    docker-compose exec agent-dev python -m pytest validation/
+#
+# 4. Stop container:
+#    docker-compose down
+#
+# For one-off commands without starting the service:
+#    docker-compose run --rm agent-dev python ops/orchestration/process_task.py

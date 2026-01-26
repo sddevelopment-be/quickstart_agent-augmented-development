@@ -73,9 +73,29 @@ docker run -it --rm \
   /bin/bash
 ```
 
-### 4. Docker Compose Setup
+### 4. Docker Compose Setup (Recommended)
 
-Create a `docker-compose.yml` in your project:
+The repository includes a `docker-compose.yml` file for easy setup:
+
+```bash
+# Copy environment template
+cp .env.example .env
+# Edit .env with your GitHub token
+
+# Start the container
+docker-compose up -d
+
+# Attach to the container
+docker-compose exec agent-dev /bin/bash
+
+# Or run one-off commands
+docker-compose run --rm agent-dev python -m pytest validation/
+
+# Stop the container
+docker-compose down
+```
+
+Alternatively, create a custom `docker-compose.yml` in your project:
 
 ```yaml
 version: '3.8'

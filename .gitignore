@@ -22,3 +22,9 @@ __pycache__/
 
 # Temporary files ( input/output of various tools or reference documentation )
 tmp/
+
+# Environment variables and secrets
+.env
+.env.local
+*.env
+!.env.example
