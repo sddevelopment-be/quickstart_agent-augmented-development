@@ -56,14 +56,18 @@ class AgentSpecConverter:
         }
     
     def _extract_sections(self, markdown: str) -> Dict[str, str]:
-        """Extract markdown sections by header."""
+        """Extract markdown sections by header.
+        
+        Supports both numbered (## 1. Purpose) and unnumbered (## Purpose) headers.
+        """
         sections = {}
         current_section = None
         current_content = []
         
         for line in markdown.split('\n'):
-            # Match headers like ## 1. Purpose or ## 2. Context Sources
-            header_match = re.match(r'^##\s+\d*\.?\s*(.+)$', line)
+            # Match headers like "## 1. Purpose" or "## Purpose"
+            # The \d*\.?\s* pattern allows optional numbering for flexibility
+            header_match = re.match(r'^##\s+(?:\d+\.\s+)?(.+)$', line)
             if header_match:
                 if current_section:
                     sections[current_section] = '\n'.join(current_content).strip()
@@ -166,16 +170,26 @@ class AgentSpecConverter:
         return yaml.dump(config, default_flow_style=False, sort_keys=False)
     
     def _extract_focus(self, specialization_text: str, marker: str) -> str:
-        """Extract specific focus areas from specialization section."""
+        """Extract specific focus areas from specialization section.
+        
+        Extracts content from the marker line. This is a simplified extraction
+        that captures the inline content. For more complex multi-line content,
+        the full specialization text is preserved in other format fields.
+        """
         lines = specialization_text.split('\n')
         for i, line in enumerate(lines):
             if marker in line:
-                # Extract content after the marker
+                # Extract content after the marker (same line only)
+                # Full specialization text is available in other format fields
                 return line.split(marker, 1)[1].strip()
         return ''
     
-    def convert_agent(self, agent_file: Path) -> None:
-        """Convert a single agent file to all formats."""
+    def convert_agent(self, agent_file: Path) -> bool:
+        """Convert a single agent file to all formats.
+        
+        Returns:
+            True if conversion succeeded, False otherwise.
+        """
         print(f"Converting {agent_file.name}...")
         
         try:
@@ -206,29 +220,45 @@ class AgentSpecConverter:
             (self.output_dir / 'yaml' / f'{agent_slug}.yaml').write_text(yaml_output)
             
             print(f"  ✓ Converted to all formats")
+            return True
             
         except Exception as e:
             print(f"  ✗ Error: {e}")
-            return
+            import traceback
+            traceback.print_exc()
+            return False
     
-    def convert_all(self) -> None:
-        """Convert all agent files in the input directory."""
+    def convert_all(self) -> int:
+        """Convert all agent files in the input directory.
+        
+        Returns:
+            Number of agents that failed to convert (0 means all succeeded).
+        """
         agent_files = sorted(self.input_dir.glob('*.agent.md'))
         
         if not agent_files:
             print(f"No agent files found in {self.input_dir}")
-            return
+            return 0
         
         print(f"Found {len(agent_files)} agent files\n")
         
+        failed_agents = []
         for agent_file in agent_files:
-            self.convert_agent(agent_file)
+            if not self.convert_agent(agent_file):
+                failed_agents.append(agent_file.name)
         
         print(f"\nConversion complete! Output in {self.output_dir}")
         print(f"  - JSON: {self.output_dir / 'json'}")
         print(f"  - Anthropic: {self.output_dir / 'anthropic'}")
         print(f"  - OpenAI: {self.output_dir / 'openai'}")
         print(f"  - YAML: {self.output_dir / 'yaml'}")
+        
+        if failed_agents:
+            print(f"\n⚠️  {len(failed_agents)} agent(s) failed to convert:")
+            for agent in failed_agents:
+                print(f"  - {agent}")
+        
+        return len(failed_agents)
 
 
 def main():
@@ -269,9 +299,11 @@ def main():
         if not agent_file.exists():
             print(f"Error: Agent file {agent_file} does not exist")
             sys.exit(1)
-        converter.convert_agent(agent_file)
+        success = converter.convert_agent(agent_file)
+        sys.exit(0 if success else 1)
     else:
-        converter.convert_all()
+        failed_count = converter.convert_all()
+        sys.exit(failed_count)
 
 
 if __name__ == '__main__':
