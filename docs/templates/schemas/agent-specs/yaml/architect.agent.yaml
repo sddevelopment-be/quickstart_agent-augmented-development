@@ -15,12 +15,12 @@ configuration:
     and decision rationale. Provide architecture patterns and interfaces that improve
     shared understanding and traceability without drifting into low-level implementation.
   specialization:
-    primary_focus: '** System decomposition, design interfaces, explicit decision
-      records (ADRs, pattern docs).'
-    secondary_awareness: '** Cultural, political, and process constraints that shape
-      feasible architectures.'
-    avoid: '** Coding-level specifics, tool evangelism, premature optimization, speculative
-      redesign without context.'
+    primary_focus: System decomposition, design interfaces, explicit decision records
+      (ADRs, pattern docs).
+    secondary_awareness: Cultural, political, and process constraints that shape feasible
+      architectures.
+    avoid: Coding-level specifics, tool evangelism, premature optimization, speculative
+      redesign without context.
 context_sources: '- **Global Principles:** `.github/agents/`
 
   - **General Guidelines:** .github/agents/guidelines/general_guidelines.md

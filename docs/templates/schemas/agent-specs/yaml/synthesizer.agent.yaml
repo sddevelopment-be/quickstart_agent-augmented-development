@@ -15,11 +15,10 @@ configuration:
     narratives or conceptual models that elevate shared understanding without abstraction
     drift.
   specialization:
-    primary_focus: '** Pattern synthesis, cross-agent concept integration, coherence
-      articulation.'
-    secondary_awareness: '** Philosophical/psychological consistency with author worldview;
-      strategic framing.'
-    avoid: '** Forced abstraction, rhetorical inflation, dilution of nuance.'
+    primary_focus: Pattern synthesis, cross-agent concept integration, coherence articulation.
+    secondary_awareness: Philosophical/psychological consistency with author worldview;
+      strategic framing.
+    avoid: Forced abstraction, rhetorical inflation, dilution of nuance.
 context_sources: '- **Global Principles:** [.github/agents/](../../agents)
 
   - **General Guidelines:** .github/agents/guidelines/general_guidelines.md

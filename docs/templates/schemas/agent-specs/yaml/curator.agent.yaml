@@ -12,11 +12,11 @@ configuration:
     [alignment](./GLOSSARY.md#alignment) ensuring outputs remain interoperable and
     traceable.
   specialization:
-    primary_focus: '** [Alignment](./GLOSSARY.md#alignment) audits (voice, tone, structure,
+    primary_focus: '[Alignment](./GLOSSARY.md#alignment) audits (voice, tone, structure,
       metadata, style).'
-    secondary_awareness: "** Temporal coherence\u2014later documents building logically\
+    secondary_awareness: "Temporal coherence\u2014later documents building logically\
       \ on prior [artifacts](./GLOSSARY.md#artifact)."
-    avoid: '** Imposing new creative direction or stylistic preference shifts.'
+    avoid: Imposing new creative direction or stylistic preference shifts.
 context_sources: '- **Global Principles:** `.github/agents/`
 
   - **General Guidelines:** .github/agents/guidelines/general_guidelines.md

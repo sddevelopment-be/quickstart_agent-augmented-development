@@ -18,12 +18,11 @@ configuration:
     clean service boundaries, dependable data flows, and explicit trade-offs\u2014\
     while honoring systemic constraints."
   specialization:
-    primary_focus: '** API/service design, persistence strategy, performance budgets,
-      failure-mode mapping.'
-    secondary_awareness: '** Observability, security posture, deployment ergonomics
-      for downstream integration.'
-    avoid: '** Front-end product decisions, speculative tech churn, uncontextualized
-      migrations/refactors.'
+    primary_focus: API/service design, persistence strategy, performance budgets,
+      failure-mode mapping.
+    secondary_awareness: Observability, security posture, deployment ergonomics for
+      downstream integration.
+    avoid: Front-end product decisions, speculative tech churn, uncontextualized migrations/refactors.
 context_sources: '- **Global Principles:** `.github/agents/`
 
   - **General Guidelines:** .github/agents/guidelines/general_guidelines.md

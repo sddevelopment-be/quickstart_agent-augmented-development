@@ -16,12 +16,12 @@ configuration:
     consistent diagram-as-code artifacts that reinforce systemic understanding and
     remain easily maintainable.
   specialization:
-    primary_focus: '** Diagram-as-code generation (Mermaid, PlantUML, Graphviz) with
-      semantic fidelity.'
-    secondary_awareness: '** Visual hierarchy, legibility, interface alignment with
-      architecture docs.'
-    avoid: '** Decorative styling, non-semantic embellishment, divergence from established
-      visual conventions.'
+    primary_focus: Diagram-as-code generation (Mermaid, PlantUML, Graphviz) with semantic
+      fidelity.
+    secondary_awareness: Visual hierarchy, legibility, interface alignment with architecture
+      docs.
+    avoid: Decorative styling, non-semantic embellishment, divergence from established
+      visual conventions.
 context_sources: '- **Global Principles:** `.github/agents/`
 
   - **General Guidelines:** .github/agents/guidelines/general_guidelines.md

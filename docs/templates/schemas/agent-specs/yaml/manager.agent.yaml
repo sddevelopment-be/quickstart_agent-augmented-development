@@ -17,11 +17,11 @@ configuration:
     \ status map of in\u2011flight work, and prevent conflicting edits. Provide lightweight\
     \ coordination signals without adding project-management theatre."
   specialization:
-    primary_focus: '** Agent selection & sequencing, hand-off tracking, workflow status
-      mapping.'
-    secondary_awareness: '** Dependency ordering, version alignment of context layers,
-      conflict prevention.'
-    avoid: "** Performing other agents\u2019 core work (writing, editing, diagramming)\
+    primary_focus: Agent selection & sequencing, hand-off tracking, workflow status
+      mapping.
+    secondary_awareness: Dependency ordering, version alignment of context layers,
+      conflict prevention.
+    avoid: "Performing other agents\u2019 core work (writing, editing, diagramming)\
       \ or verbose status reports."
 context_sources: '- **Global Principles:** [.github/agents/](../../agents)
 

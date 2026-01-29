@@ -59,15 +59,16 @@ class AgentSpecConverter:
         """Extract markdown sections by header.
         
         Supports both numbered (## 1. Purpose) and unnumbered (## Purpose) headers.
+        The space after the period in numbered headers is optional.
         """
         sections = {}
         current_section = None
         current_content = []
         
         for line in markdown.split('\n'):
-            # Match headers like "## 1. Purpose" or "## Purpose"
-            # The \d*\.?\s* pattern allows optional numbering for flexibility
-            header_match = re.match(r'^##\s+(?:\d+\.\s+)?(.+)$', line)
+            # Match headers like "## 1. Purpose", "## 1.Purpose", or "## Purpose"
+            # The (?:\d+\.\s*)? pattern allows optional numbering with optional space after period
+            header_match = re.match(r'^##\s+(?:\d+\.\s*)?(.+)$', line)
             if header_match:
                 if current_section:
                     sections[current_section] = '\n'.join(current_content).strip()
@@ -172,16 +173,24 @@ class AgentSpecConverter:
     def _extract_focus(self, specialization_text: str, marker: str) -> str:
         """Extract specific focus areas from specialization section.
         
-        Extracts content from the marker line. This is a simplified extraction
-        that captures the inline content. For more complex multi-line content,
-        the full specialization text is preserved in other format fields.
+        Extracts content from the marker line and strips markdown formatting.
+        This is a simplified extraction that captures inline content.
+        For complete multi-line specialization content, use the full
+        specialization field available in other format outputs.
+        
+        Note: This method extracts only the first line after the marker.
+        Full specialization text with all details is preserved in the
+        'specialization' field of JSON and other formats.
         """
         lines = specialization_text.split('\n')
         for i, line in enumerate(lines):
             if marker in line:
                 # Extract content after the marker (same line only)
-                # Full specialization text is available in other format fields
-                return line.split(marker, 1)[1].strip()
+                content = line.split(marker, 1)[1].strip()
+                # Strip markdown formatting (e.g., **text** -> text)
+                content = re.sub(r'\*\*(.+?)\*\*', r'\1', content)
+                content = content.lstrip('*').strip()
+                return content
         return ''
     
     def convert_agent(self, agent_file: Path) -> bool:

@@ -15,10 +15,9 @@ configuration:
     while preserving factual integrity and authorial rhythm. Provide minimal, well-rationalized\
     \ edits."
   specialization:
-    primary_focus: '** Paragraph-level refinement for tone, register, clarity, cohesion.'
-    secondary_awareness: '** Strategic voice alignment, subtle semantic fidelity.'
-    avoid: '** Introducing new facts, altering intent, over-polishing into stylistic
-      uniformity.'
+    primary_focus: Paragraph-level refinement for tone, register, clarity, cohesion.
+    secondary_awareness: Strategic voice alignment, subtle semantic fidelity.
+    avoid: Introducing new facts, altering intent, over-polishing into stylistic uniformity.
 context_sources: '- **Global Principles:** [.github/agents/](../../agents)
 
   - **General Guidelines:** .github/agents/guidelines/general_guidelines.md

@@ -16,11 +16,11 @@ configuration:
     \ (maps, manifests, workflow summaries) that enable sibling agents to operate\
     \ with minimal friction and high context fidelity."
   specialization:
-    primary_focus: '** Repo topology mapping, config & dependency surface discovery,
-      context file detection.'
-    secondary_awareness: '** Build/CI pipelines, documentation structures, lint/format
-      conventions.'
-    avoid: '** Introducing architectural decisions or stylistic changes without confirmation.'
+    primary_focus: Repo topology mapping, config & dependency surface discovery, context
+      file detection.
+    secondary_awareness: Build/CI pipelines, documentation structures, lint/format
+      conventions.
+    avoid: Introducing architectural decisions or stylistic changes without confirmation.
 context_sources: '- **Global Principles:** `.github/agents/`
 
   - **General Guidelines:** .github/agents/guidelines/general_guidelines.md

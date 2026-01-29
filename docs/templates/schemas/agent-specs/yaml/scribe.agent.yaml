@@ -12,9 +12,9 @@ configuration:
     clarity, neutrality, and version traceability so knowledge remains portable and
     independently legible.
   specialization:
-    primary_focus: '** Structured summaries, meeting notes, cross-document linkage.'
-    secondary_awareness: '** Existing documentation references and metadata hygiene.'
-    avoid: '** Editorial tone, new interpretation, content invention.'
+    primary_focus: Structured summaries, meeting notes, cross-document linkage.
+    secondary_awareness: Existing documentation references and metadata hygiene.
+    avoid: Editorial tone, new interpretation, content invention.
 context_sources: '- **Global Principles:** [.github/agents/](../../agents)
 
   - **General Guidelines:** .github/agents/guidelines/general_guidelines.md

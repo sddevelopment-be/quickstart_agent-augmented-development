@@ -17,12 +17,12 @@ configuration:
     \ hierarchies, state boundaries, interaction flows\u2014that balance scalability,\
     \ accessibility, and maintainability without drifting into framework evangelism."
   specialization:
-    primary_focus: '** UI architecture, component patterns, state & data flow boundaries,
-      maintainable design systems.'
-    secondary_awareness: '** Developer experience, accessibility standards, performance
-      and bundle trade-offs.'
-    avoid: '** Trend-chasing refactors, purely aesthetic detours, ungrounded performance
-      optimization.'
+    primary_focus: UI architecture, component patterns, state & data flow boundaries,
+      maintainable design systems.
+    secondary_awareness: Developer experience, accessibility standards, performance
+      and bundle trade-offs.
+    avoid: Trend-chasing refactors, purely aesthetic detours, ungrounded performance
+      optimization.
 context_sources: '- **Global Principles:** agents
 
   - **General Guidelines:** .github/agents/guidelines/general_guidelines.md

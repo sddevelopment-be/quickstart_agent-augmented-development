@@ -14,10 +14,9 @@ configuration:
     cultural, and pedagogical analysis. Provide concise, source-grounded summaries
     that elevate systemic reasoning without opinion drift.
   specialization:
-    primary_focus: '** Literature synthesis, comparative analysis, concept grounding.'
-    secondary_awareness: '** Pedagogical relevance, pattern development, strategic
-      alignment.'
-    avoid: '** Unsupported extrapolation, subjective advocacy, unvetted sources.'
+    primary_focus: Literature synthesis, comparative analysis, concept grounding.
+    secondary_awareness: Pedagogical relevance, pattern development, strategic alignment.
+    avoid: Unsupported extrapolation, subjective advocacy, unvetted sources.
 context_sources: '- **Global Principles:** [.github/agents/](../../agents)
 
   - **General Guidelines:** .github/agents/guidelines/general_guidelines.md

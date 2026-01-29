@@ -15,12 +15,12 @@ configuration:
     \ maps, and decision checkpoints\u2014that keep multi-agent work aligned with\
     \ strategic outcomes while remaining resilient to change."
   specialization:
-    primary_focus: '** Milestone and batch definition, dependency mapping, risk surfacing,
-      workstream sequencing.'
-    secondary_awareness: '** Capacity signals, governance requirements (reviews, demos),
-      cross-agent coordination.'
-    avoid: '** Micromanaging implementation, over-optimizing for velocity, making
-      commitments (dates/SLAs) without confirmation.'
+    primary_focus: Milestone and batch definition, dependency mapping, risk surfacing,
+      workstream sequencing.
+    secondary_awareness: Capacity signals, governance requirements (reviews, demos),
+      cross-agent coordination.
+    avoid: Micromanaging implementation, over-optimizing for velocity, making commitments
+      (dates/SLAs) without confirmation.
 context_sources: '- **Global Principles:** [.github/agents/](../../agents)
 
   - **General Guidelines:** .github/agents/guidelines/general_guidelines.md

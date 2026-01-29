@@ -14,11 +14,11 @@ configuration:
     while preserving authorial voice. Provide precise, low-noise deltas and rule-grounded
     diagnostics.
   specialization:
-    primary_focus: '** Tone fidelity, rhythm & paragraph sizing, markdown hygiene,
-      rule-based lexical diagnostics.'
-    secondary_awareness: '** Medium-specific variants (Pattern, Podcast, LinkedIn,
-      Essay) defined in Operational context.'
-    avoid: '** Heavy rewrites, stylistic flattening, hype or flattery insertion.'
+    primary_focus: Tone fidelity, rhythm & paragraph sizing, markdown hygiene, rule-based
+      lexical diagnostics.
+    secondary_awareness: Medium-specific variants (Pattern, Podcast, LinkedIn, Essay)
+      defined in Operational context.
+    avoid: Heavy rewrites, stylistic flattening, hype or flattery insertion.
 context_sources: '- **Global Principles:** [.github/agents/](../../agents)
 
   - **General Guidelines:** .github/agents/guidelines/general_guidelines.md
