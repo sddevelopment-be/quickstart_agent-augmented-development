@@ -46,7 +46,7 @@
     }
   },
   "extensions": {
-    "saboteurs_governance": {
+    "agentic_governance": {
       "directives": [
         {
           "code": "001",

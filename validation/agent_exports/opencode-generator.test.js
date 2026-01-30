@@ -143,10 +143,10 @@ describe('OpenCode Generator - Acceptance Tests', () => {
       
       // Check extensions
       expect(discoveryData.extensions).toBeDefined();
-      expect(discoveryData.extensions.saboteurs_governance).toBeDefined();
-      expect(discoveryData.extensions.saboteurs_governance.uncertainty_threshold).toBeTruthy();
-      expect(discoveryData.extensions.saboteurs_governance.primer_required).toBeDefined();
-      expect(discoveryData.extensions.saboteurs_governance.test_first_required).toBeDefined();
+      expect(discoveryData.extensions.agentic_governance).toBeDefined();
+      expect(discoveryData.extensions.agentic_governance.uncertainty_threshold).toBeTruthy();
+      expect(discoveryData.extensions.agentic_governance.primer_required).toBeDefined();
+      expect(discoveryData.extensions.agentic_governance.test_first_required).toBeDefined();
     });
 
     it('should include multi-agent extensions', async () => {
@@ -331,11 +331,11 @@ describe('OpenCode Generator - Unit Tests (TDD)', () => {
       
       const governance = extractGovernanceMetadata(ir);
       
-      expect(governance.saboteurs_governance).toBeDefined();
-      expect(governance.saboteurs_governance.directives).toBeDefined();
-      expect(governance.saboteurs_governance.uncertainty_threshold).toBe('>30%');
-      expect(governance.saboteurs_governance.primer_required).toBe(true);
-      expect(governance.saboteurs_governance.test_first_required).toBe(true);
+      expect(governance.agentic_governance).toBeDefined();
+      expect(governance.agentic_governance.directives).toBeDefined();
+      expect(governance.agentic_governance.uncertainty_threshold).toBe('>30%');
+      expect(governance.agentic_governance.primer_required).toBe(true);
+      expect(governance.agentic_governance.test_first_required).toBe(true);
     });
 
     it('should extract multi-agent metadata', async () => {
@@ -356,7 +356,7 @@ describe('OpenCode Generator - Unit Tests (TDD)', () => {
       
       const governance = extractGovernanceMetadata(ir);
       
-      expect(governance.saboteurs_governance.priority_level).toMatch(/^(high|medium|low)$/);
+      expect(governance.agentic_governance.priority_level).toMatch(/^(high|medium|low)$/);
     });
 
     it('should handle escalation rules', async () => {
@@ -365,8 +365,8 @@ describe('OpenCode Generator - Unit Tests (TDD)', () => {
       
       const governance = extractGovernanceMetadata(ir);
       
-      expect(governance.saboteurs_governance.escalation_required).toBeDefined();
-      expect(typeof governance.saboteurs_governance.escalation_required).toBe('boolean');
+      expect(governance.agentic_governance.escalation_required).toBeDefined();
+      expect(typeof governance.agentic_governance.escalation_required).toBe('boolean');
     });
   });
 
