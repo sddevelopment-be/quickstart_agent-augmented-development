@@ -1,0 +1,28 @@
+{
+  "opencode_version": "1.0",
+  "agent": {
+    "id": "diagram-daisy",
+    "name": "diagram-daisy",
+    "version": "1.0.0",
+    "description": "Transform conceptual and architectural structures into clear, semantically aligned diagrams.",
+    "capabilities": [],
+    "category": "general",
+    "tools": [
+      "read",
+      "write",
+      "search",
+      "edit",
+      "bash",
+      "mermaid-generator",
+      "plantuml-generator",
+      "graphviz-generator"
+    ],
+    "profile_url": "./diagrammer.agent.md",
+    "metadata": {
+      "last_updated": "2026-01-30",
+      "api_version": "1.0.0",
+      "directives": [],
+      "styleguides": []
+    }
+  }
+}

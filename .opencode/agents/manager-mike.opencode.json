@@ -1,0 +1,30 @@
+{
+  "opencode_version": "1.0",
+  "agent": {
+    "id": "manager-mike",
+    "name": "manager-mike",
+    "version": "1.0.0",
+    "description": "Coordinate multi-agent workflows, routing decisions, and status traceability.",
+    "capabilities": [],
+    "category": "general",
+    "tools": [
+      "read",
+      "write",
+      "search",
+      "edit",
+      "bash",
+      "grep",
+      "awk",
+      "github",
+      "custom-agent",
+      "todo"
+    ],
+    "profile_url": "./manager.agent.md",
+    "metadata": {
+      "last_updated": "2026-01-30",
+      "api_version": "1.0.0",
+      "directives": [],
+      "styleguides": []
+    }
+  }
+}

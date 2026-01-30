@@ -1,0 +1,95 @@
+{
+  "opencode_version": "1.0",
+  "skill": {
+    "id": "test-readability-clarity-check",
+    "name": "Test Readability and Clarity Check Approach",
+    "version": "1.0.0",
+    "description": "The Test Readability and Clarity Check is a dual-agent validation approach that assesses whether a test suite effectively documents system behavior by reconstructing system understanding purely fro...",
+    "type": "approach",
+    "category": "Quality Validation Pattern",
+    "status": "Active",
+    "invoke_pattern": "/approach test-readability-clarity-check",
+    "principles": [
+      {
+        "number": 1,
+        "title": "Test-as-Documentation",
+        "description": "Tests should comprehensively document system behavior so that reading tests alone enables understanding of what the system does."
+      },
+      {
+        "number": 2,
+        "title": "Separation of Concerns",
+        "description": "Isolate behavioral documentation (what/how) from architectural rationale (why) to identify documentation gaps systematically."
+      },
+      {
+        "number": 3,
+        "title": "Dual Perspective",
+        "description": "Combine naive analysis (tests-only) with expert review (full context) to quantify test documentation quality."
+      },
+      {
+        "number": 4,
+        "title": "Measurable Outcomes",
+        "description": "Generate accuracy metrics to track test quality improvements over time and justify test investment."
+      },
+      {
+        "number": 5,
+        "title": "Actionable Feedback",
+        "description": "Produce specific recommendations for enhancing test suite documentation value. ---"
+      }
+    ],
+    "applicability": {
+      "when_to_use": [
+        "Major test suite refactoring completed (validate improvement)",
+        "New team members onboarding (generate system overview)",
+        "Architecture documentation audit needed (find alignment gaps)",
+        "Quality gate before major release (comprehensive validation)",
+        "Quarterly quality reviews (track test suite evolution)"
+      ],
+      "when_not_to_use": [
+        "Daily code changes or simple bug fixes (too heavyweight)",
+        "Performance testing focus (different methodology)",
+        "UI/UX validation needed (tests don't capture UX)",
+        "Time/budget constraints prohibit deep analysis (65+ minutes)"
+      ]
+    },
+    "workflow": [],
+    "implementation": {},
+    "references": [
+      {
+        "name": "**Decision-First Development:** Captures architectural rationale"
+      },
+      {
+        "name": "**Traceable Decisions:** Links decisions to artifacts"
+      },
+      {
+        "name": "**Work Directory Orchestration:** File-based collaboration"
+      },
+      {
+        "name": "**Directive 014:** Work log creation standards"
+      },
+      {
+        "name": "**Directive 015:** Prompt storage with SWOT"
+      },
+      {
+        "name": "**Directive 016:** ATDD workflow"
+      },
+      {
+        "name": "**Directive 017:** TDD workflow"
+      },
+      {
+        "name": "**ADR-012:** Test-driven development defaults"
+      },
+      {
+        "name": "**ADR-017:** Traceable decisions protocol"
+      }
+    ],
+    "troubleshooting": [],
+    "profile_url": ".github/agents/approaches/test-readability-clarity-check.md"
+  },
+  "metadata": {
+    "last_updated": "2025-11-29",
+    "source_hash": "19ae3e601f00ea8785ae96c01ed5cd7197e7e1936306e7ff304d338bbefea9ee",
+    "word_count": 1907,
+    "exported_at": "2026-01-30T10:34:39.938Z",
+    "exporter_version": "1.0.0"
+  }
+}

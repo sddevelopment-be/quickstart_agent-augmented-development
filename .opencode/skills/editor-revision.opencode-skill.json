@@ -1,0 +1,94 @@
+{
+  "opencode_version": "1.0",
+  "skill": {
+    "id": "editor-revision",
+    "name": "EDITOR REVISION",
+    "version": "2025-11-22T00:00:00.000Z",
+    "description": "Prompt for Editor Eddy to revise a draft document using lexical analysis artifacts",
+    "type": "prompt-template",
+    "category": "documentation",
+    "agent": "editor-eddy",
+    "invoke_pattern": "/editor-revision <inputs>",
+    "inputs": [
+      {
+        "name": "DRAFT_PATH",
+        "label": "Draft File",
+        "description": null,
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "LEX_REPORT",
+        "label": "Lexical Report",
+        "description": "path",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "LEX_DELTAS",
+        "label": "Lexical Deltas",
+        "description": "path",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "STYLE_ANCHOR",
+        "label": "Style Anchor",
+        "description": "path",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "LOCK_SECTIONS",
+        "label": "Preserve Sections",
+        "description": "comma headings",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "TONE_ADJUST",
+        "label": "Tone Adjustments",
+        "description": "bullets",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "MAX_CHANGE",
+        "label": "Max Changes",
+        "description": "% of lines",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "MODE",
+        "label": "Output Mode",
+        "description": "inline|patch|annotated",
+        "required": true,
+        "type": "string"
+      }
+    ],
+    "workflow_steps": [
+      {
+        "step": 6,
+        "description": "Generate acceptance checklist (voice preserved, structure intact, no scope drift)."
+      }
+    ],
+    "expected_outputs": [
+      "Rationale summary + checklist"
+    ],
+    "constraints": [],
+    "tags": [
+      "editing",
+      "revision",
+      "tone",
+      "clarity",
+      "voice-preservation"
+    ],
+    "profile_url": "docs/templates/prompts/EDITOR_REVISION.prompt.md"
+  },
+  "metadata": {
+    "source_hash": "29b47ffca4283f8c986347951fc6d30abedee67a1fd1fde7500947e63fb823c2",
+    "exported_at": "2026-01-30T10:34:39.926Z",
+    "exporter_version": "1.0.0"
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "opencode_version": "1.0",
+  "skill": {
+    "id": "curate-directory",
+    "name": "CURATE DIRECTORY",
+    "version": "2025-11-22T00:00:00.000Z",
+    "description": "Prompt for Curator Claire to audit and normalize a target directory",
+    "type": "prompt-template",
+    "category": "documentation",
+    "agent": "curator-claire",
+    "invoke_pattern": "/curate-directory <inputs>",
+    "inputs": [
+      {
+        "name": "PATH",
+        "label": "Target Directory",
+        "description": null,
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "SCOPE",
+        "label": "Scope",
+        "description": "structure|tone|metadata|links|all",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "STYLE_DOCS",
+        "label": "Style Anchor Docs",
+        "description": "comma paths",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "EXCLUDE",
+        "label": "Exclusions",
+        "description": "glob patterns",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "RULES",
+        "label": "Critical Rules",
+        "description": "bullets",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "AUDIENCE",
+        "label": "Expected Audience",
+        "description": "path or label",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "ADRS",
+        "label": "Related ADRs",
+        "description": "list",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "DEPTH",
+        "label": "Output Depth",
+        "description": "summary|detailed",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "AUTO_FIX",
+        "label": "Auto-Fix Allowed?",
+        "description": "yes/no",
+        "required": true,
+        "type": "string"
+      }
+    ],
+    "workflow_steps": [
+      {
+        "step": 6,
+        "description": "Append a curation log entry to `work/curator/CURATION_LOG.md`."
+      }
+    ],
+    "expected_outputs": [
+      "Metrics summary block"
+    ],
+    "constraints": [],
+    "tags": [
+      "curation",
+      "consistency",
+      "structure",
+      "metadata",
+      "audit"
+    ],
+    "profile_url": "docs/templates/prompts/CURATE_DIRECTORY.prompt.md"
+  },
+  "metadata": {
+    "source_hash": "1a2f91fb064b8ee231502c8247d9beeee81aee75ff6ccbb1f1585c23e2fe0532",
+    "exported_at": "2026-01-30T10:34:39.926Z",
+    "exporter_version": "1.0.0"
+  }
+}

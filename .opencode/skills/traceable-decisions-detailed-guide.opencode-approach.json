@@ -1,0 +1,30 @@
+{
+  "opencode_version": "1.0",
+  "skill": {
+    "id": "traceable-decisions-detailed-guide",
+    "name": "018 Traceable Decisions Directive",
+    "version": "1.0.0",
+    "description": "",
+    "type": "approach",
+    "category": "Operational Pattern",
+    "status": "Active",
+    "invoke_pattern": "/approach traceable-decisions-detailed-guide",
+    "principles": [],
+    "applicability": {
+      "when_to_use": [],
+      "when_not_to_use": []
+    },
+    "workflow": [],
+    "implementation": {},
+    "references": [],
+    "troubleshooting": [],
+    "profile_url": ".github/agents/approaches/traceable-decisions-detailed-guide.md"
+  },
+  "metadata": {
+    "last_updated": "unknown",
+    "source_hash": "97f0d12a40f8c00cfc0918e037b48400aa400a4ec0f670a42a018cd245ec4b4c",
+    "word_count": 2087,
+    "exported_at": "2026-01-30T10:34:39.938Z",
+    "exporter_version": "1.0.0"
+  }
+}

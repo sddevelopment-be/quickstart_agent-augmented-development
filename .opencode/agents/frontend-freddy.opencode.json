@@ -1,0 +1,29 @@
+{
+  "opencode_version": "1.0",
+  "agent": {
+    "id": "frontend-freddy",
+    "name": "frontend-freddy",
+    "version": "1.0.0",
+    "description": "Integrate design, technical architecture, and usability reasoning for coherent front-end systems.",
+    "capabilities": [],
+    "category": "general",
+    "tools": [
+      "read",
+      "write",
+      "search",
+      "edit",
+      "MultiEdit",
+      "Bash",
+      "Grep",
+      "Node",
+      "Docker"
+    ],
+    "profile_url": "./frontend.agent.md",
+    "metadata": {
+      "last_updated": "2026-01-30",
+      "api_version": "1.0.0",
+      "directives": [],
+      "styleguides": []
+    }
+  }
+}

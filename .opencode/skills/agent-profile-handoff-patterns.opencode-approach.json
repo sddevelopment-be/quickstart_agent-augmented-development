@@ -1,0 +1,43 @@
+{
+  "opencode_version": "1.0",
+  "skill": {
+    "id": "agent-profile-handoff-patterns",
+    "name": "Agent Profile Handoff Patterns Template",
+    "version": "1.0.0",
+    "description": "Instead of a centralized lookup table, each agent profile documents its own observed handoff patterns. This approach:  - Preserves agent autonomy - Requires zero implementation complexity - Remains...",
+    "type": "approach",
+    "category": "Operational Pattern",
+    "status": "Active",
+    "invoke_pattern": "/approach agent-profile-handoff-patterns",
+    "principles": [],
+    "applicability": {
+      "when_to_use": [],
+      "when_not_to_use": []
+    },
+    "workflow": [],
+    "implementation": {},
+    "references": [
+      {
+        "name": "**ADR-015:** Follow-Up Task Lookup Pattern (Rejected)"
+      },
+      {
+        "name": "**ADR-008:** File-Based Asynchronous Coordination"
+      },
+      {
+        "name": "**File-Based Orchestration Approach:** `.github/agents/approaches/file-based-orchestration.md`"
+      },
+      {
+        "name": "**Agent Profiles:** `.github/agents/*.agent.md`"
+      }
+    ],
+    "troubleshooting": [],
+    "profile_url": ".github/agents/approaches/agent-profile-handoff-patterns.md"
+  },
+  "metadata": {
+    "last_updated": "2025-11-24",
+    "source_hash": "29c246c131c1b06d370875ed08e9e0084270a9d0129cad12d3280ad1bc9d446c",
+    "word_count": 1387,
+    "exported_at": "2026-01-30T10:34:39.936Z",
+    "exporter_version": "1.0.0"
+  }
+}

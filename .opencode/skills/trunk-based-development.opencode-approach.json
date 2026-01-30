@@ -1,0 +1,37 @@
+{
+  "opencode_version": "1.0",
+  "skill": {
+    "id": "trunk-based-development",
+    "name": "Approach: Trunk-Based Development for Agent-First Workflows",
+    "version": "1.0.0",
+    "description": "Trunk-based development (TBD) is a branching strategy where all developers (agents and humans) commit frequently to a single shared branch (`main`), with short-lived feature branches (<24 hours) us...",
+    "type": "approach",
+    "category": "Operational Pattern",
+    "status": "Active",
+    "invoke_pattern": "/approach trunk-based-development",
+    "principles": [],
+    "applicability": {
+      "when_to_use": [],
+      "when_not_to_use": []
+    },
+    "workflow": [],
+    "implementation": {},
+    "references": [],
+    "troubleshooting": [
+      {
+        "title": "\"My branch is >24h old, what do I do?\"",
+        "symptoms": null,
+        "causes": [],
+        "solutions": []
+      }
+    ],
+    "profile_url": ".github/agents/approaches/trunk-based-development.md"
+  },
+  "metadata": {
+    "last_updated": "2025-11-30",
+    "source_hash": "2836e36819e7ae1475b98615a3d54fe4629d6471df5c4667ab298a0ae10a0b7c",
+    "word_count": 3074,
+    "exported_at": "2026-01-30T10:34:39.939Z",
+    "exporter_version": "1.0.0"
+  }
+}

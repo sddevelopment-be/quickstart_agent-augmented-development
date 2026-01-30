@@ -1,0 +1,27 @@
+{
+  "opencode_version": "1.0",
+  "agent": {
+    "id": "editor-eddy",
+    "name": "editor-eddy",
+    "version": "1.0.0",
+    "description": "Revise and refine existing written content for tone, clarity, and strategic/operational alignment without introducing new facts.",
+    "capabilities": [],
+    "category": "general",
+    "tools": [
+      "read",
+      "write",
+      "search",
+      "edit",
+      "comment",
+      "summarize",
+      "bash"
+    ],
+    "profile_url": "./writer-editor.agent.md",
+    "metadata": {
+      "last_updated": "2026-01-30",
+      "api_version": "1.0.0",
+      "directives": [],
+      "styleguides": []
+    }
+  }
+}

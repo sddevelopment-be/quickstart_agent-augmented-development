@@ -1,0 +1,30 @@
+{
+  "opencode_version": "1.0",
+  "skill": {
+    "id": "file-based-orchestration",
+    "name": "File-Based Asynchronous Agent Orchestration (Superseded)",
+    "version": "1.0.0",
+    "description": "",
+    "type": "approach",
+    "category": "Operational Pattern",
+    "status": "Active",
+    "invoke_pattern": "/approach file-based-orchestration",
+    "principles": [],
+    "applicability": {
+      "when_to_use": [],
+      "when_not_to_use": []
+    },
+    "workflow": [],
+    "implementation": {},
+    "references": [],
+    "troubleshooting": [],
+    "profile_url": ".github/agents/approaches/file-based-orchestration.md"
+  },
+  "metadata": {
+    "last_updated": "unknown",
+    "source_hash": "d3dcfbf76d464fc7cf5faea760d97700453edd66cad1524b57acb254a3fc2589",
+    "word_count": 43,
+    "exported_at": "2026-01-30T10:34:39.937Z",
+    "exporter_version": "1.0.0"
+  }
+}

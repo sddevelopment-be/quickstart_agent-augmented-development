@@ -1,0 +1,27 @@
+{
+  "opencode_version": "1.0",
+  "agent": {
+    "id": "researcher-ralph",
+    "name": "researcher-ralph",
+    "version": "1.0.0",
+    "description": "Deliver grounded, verifiable insights for systemic reasoning.",
+    "capabilities": [],
+    "category": "general",
+    "tools": [
+      "read",
+      "write",
+      "search",
+      "edit",
+      "web",
+      "bash",
+      "grep"
+    ],
+    "profile_url": "./researcher.agent.md",
+    "metadata": {
+      "last_updated": "2026-01-30",
+      "api_version": "1.0.0",
+      "directives": [],
+      "styleguides": []
+    }
+  }
+}

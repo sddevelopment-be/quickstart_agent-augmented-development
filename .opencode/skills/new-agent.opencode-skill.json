@@ -1,0 +1,163 @@
+{
+  "opencode_version": "1.0",
+  "skill": {
+    "id": "new-agent",
+    "name": "NEW AGENT",
+    "version": "2025-11-22T00:00:00.000Z",
+    "description": "Prompt to request creation of a new specialized agent (Manager Mike runs it)",
+    "type": "prompt-template",
+    "category": "agent-management",
+    "agent": "manager-mike",
+    "invoke_pattern": "/new-agent <inputs>",
+    "inputs": [
+      {
+        "name": "NAME",
+        "label": "Agent Name",
+        "description": null,
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "PRIMARY_MANDATE",
+        "label": "Purpose",
+        "description": null,
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "PRIMARY_FOCUS",
+        "label": "Primary Focus",
+        "description": "bullets",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "SECONDARY_AWARENESS",
+        "label": "Secondary Awareness",
+        "description": "bullets, optional",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "OUT_OF_SCOPE",
+        "label": "Avoid",
+        "description": "bullets",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "SUCCESS_CRITERIA",
+        "label": "Success Criteria",
+        "description": "bullets",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "MODE",
+        "label": "Default Reasoning Mode",
+        "description": null,
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "TOOLS",
+        "label": "Tools Required",
+        "description": "comma list",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "OPERATING_PROCEDURE",
+        "label": "Operating Procedure",
+        "description": "numbered steps",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "COLLABORATION_PROTOCOL",
+        "label": "Collaboration Protocol",
+        "description": "bullets",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "REFERENCES",
+        "label": "Reference Materials",
+        "description": "paths/links",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "STORE_FLAG",
+        "label": "Store synthesized references?",
+        "description": "yes/no",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "EXTRA",
+        "label": "Additional Context",
+        "description": null,
+        "required": true,
+        "type": "string"
+      }
+    ],
+    "workflow_steps": [
+      {
+        "step": 1,
+        "description": "Validate inputs for scope tightness (flag scope creep if > 2 domains)."
+      },
+      {
+        "step": 2,
+        "description": "Use `docs/templates/automation/NEW_SPECIALIST.agent.md` as baseline."
+      },
+      {
+        "step": 3,
+        "description": "Produce file: `agents/<slug>.agent.md` (slug: kebab-case of name)."
+      },
+      {
+        "step": 4,
+        "description": "Include initialization declaration section."
+      },
+      {
+        "step": 5,
+        "description": "Add only directives relevant to role (choose from existing `agents/directives/`)."
+      },
+      {
+        "step": 6,
+        "description": "Add a brief \"First 3 Tasks\" bootstrap list in profile."
+      },
+      {
+        "step": 7,
+        "description": "If <STORE_FLAG> = yes: create `docs/references/<slug>-refs.md` summarizing key sources."
+      },
+      {
+        "step": 8,
+        "description": "Write coordination update to `work/coordination/AGENT_STATUS.md` (append)."
+      }
+    ],
+    "expected_outputs": [
+      "New agent file content (markdown)",
+      "Optional references file content",
+      "Diff snippet for AGENT_STATUS"
+    ],
+    "constraints": [
+      "Do not duplicate existing agent scopes; propose refinement if overlap >30%.",
+      "Keep purpose ≤ 2 sentences.",
+      "Each focus bullet begins with a verb.",
+      "Avoid hype, flattery, subjective praise."
+    ],
+    "tags": [
+      "agent",
+      "creation",
+      "coordination",
+      "specialist"
+    ],
+    "profile_url": "docs/templates/prompts/NEW_AGENT.prompt.md"
+  },
+  "metadata": {
+    "source_hash": "e6559067a57354b9c02a5508f90179a1982ee9c6137367b8307f8950a6422419",
+    "exported_at": "2026-01-30T10:34:39.927Z",
+    "exporter_version": "1.0.0"
+  }
+}

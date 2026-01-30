@@ -1,0 +1,26 @@
+{
+  "opencode_version": "1.0",
+  "agent": {
+    "id": "lexical-larry",
+    "name": "lexical-larry",
+    "version": "1.0.0",
+    "description": "Ensure writing adheres to style rules with minimal, voice-preserving edits.",
+    "capabilities": [],
+    "category": "general",
+    "tools": [
+      "read",
+      "write",
+      "search",
+      "edit",
+      "Bash",
+      "Grep"
+    ],
+    "profile_url": "./lexical.agent.md",
+    "metadata": {
+      "last_updated": "2026-01-30",
+      "api_version": "1.0.0",
+      "directives": [],
+      "styleguides": []
+    }
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "opencode_version": "1.0",
+  "skill": {
+    "id": "lexical-analysis",
+    "name": "LEXICAL ANALYSIS",
+    "version": "2025-11-22T00:00:00.000Z",
+    "description": "Prompt for Lexical Larry to perform a lexical style diagnostic and minimal diff pass",
+    "type": "prompt-template",
+    "category": "documentation",
+    "agent": "lexical-larry",
+    "invoke_pattern": "/lexical-analysis <inputs>",
+    "inputs": [
+      {
+        "name": "FILES",
+        "label": "Target Files",
+        "description": "comma paths",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "ANCHOR",
+        "label": "Style Anchor",
+        "description": "path or none",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "DIRECTIVES",
+        "label": "Directives",
+        "description": "comma codes, optional",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "TONE",
+        "label": "Tone Objectives",
+        "description": "bullets",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "STRICTNESS",
+        "label": "Diff Strictness",
+        "description": "minimal|moderate|advisory",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "DEPTH",
+        "label": "Report Depth",
+        "description": "summary|full",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "SNIPPETS",
+        "label": "Include Before/After Snippets?",
+        "description": "yes/no",
+        "required": true,
+        "type": "string"
+      }
+    ],
+    "workflow_steps": [
+      {
+        "step": 6,
+        "description": "Summarize metrics: avg sentence length, para length variance, modality issues."
+      }
+    ],
+    "expected_outputs": [
+      "Metrics summary block"
+    ],
+    "constraints": [],
+    "tags": [
+      "lexical",
+      "style",
+      "tone",
+      "diagnostics",
+      "minimal-diffs"
+    ],
+    "profile_url": "docs/templates/prompts/LEXICAL_ANALYSIS.prompt.md"
+  },
+  "metadata": {
+    "source_hash": "1370a9abdc45a0f0327977ff525ad9dd8d472ea51bed3f08eb8942b9433cc8b8",
+    "exported_at": "2026-01-30T10:34:39.926Z",
+    "exporter_version": "1.0.0"
+  }
+}

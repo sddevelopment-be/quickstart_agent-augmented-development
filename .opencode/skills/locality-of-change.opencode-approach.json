@@ -1,0 +1,30 @@
+{
+  "opencode_version": "1.0",
+  "skill": {
+    "id": "locality-of-change",
+    "name": "Locality of Change / Avoiding Gold Plating - Comprehensive Approach",
+    "version": "1.0.0",
+    "description": "",
+    "type": "approach",
+    "category": "Operational Pattern",
+    "status": "Active",
+    "invoke_pattern": "/approach locality-of-change",
+    "principles": [],
+    "applicability": {
+      "when_to_use": [],
+      "when_not_to_use": []
+    },
+    "workflow": [],
+    "implementation": {},
+    "references": [],
+    "troubleshooting": [],
+    "profile_url": ".github/agents/approaches/locality-of-change.md"
+  },
+  "metadata": {
+    "last_updated": "unknown",
+    "source_hash": "38040ff2148991dee2f26b2eddd728d0a88664b7c18e03f6866e20739f1445d6",
+    "word_count": 979,
+    "exported_at": "2026-01-30T10:34:39.937Z",
+    "exporter_version": "1.0.0"
+  }
+}

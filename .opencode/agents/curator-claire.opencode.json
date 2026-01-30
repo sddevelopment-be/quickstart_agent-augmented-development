@@ -1,0 +1,25 @@
+{
+  "opencode_version": "1.0",
+  "agent": {
+    "id": "curator-claire",
+    "name": "curator-claire",
+    "version": "1.0.0",
+    "description": "Maintain structural, tonal, and metadata integrity across artifacts.",
+    "capabilities": [],
+    "category": "general",
+    "tools": [
+      "read",
+      "write",
+      "search",
+      "edit",
+      "bash"
+    ],
+    "profile_url": "./curator.agent.md",
+    "metadata": {
+      "last_updated": "2026-01-30",
+      "api_version": "1.0.0",
+      "directives": [],
+      "styleguides": []
+    }
+  }
+}
