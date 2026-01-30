@@ -1,0 +1,244 @@
+# Template 4: Architecture Decision (ADR Creation)
+# Version: 1.0.0
+# Addresses: Patterns 1-9, 11 from ADR-023
+#
+# This template is for creating Architecture Decision Records (ADRs).
+# Use when making significant architectural or design decisions that need documentation.
+
+## Objective
+
+[Clear decision that needs to be made, in 1-2 sentences.]
+
+Example: "Decide on authentication strategy for microservices architecture, choosing between centralized OAuth2 server, JWT tokens with public key verification, or service mesh with mTLS, optimizing for security, scalability, and operational complexity."
+
+## Decision Context
+
+**Problem Statement:**
+[What problem are we trying to solve? Why now?]
+
+**Stakeholders:**
+- [Role/Person 1 - their interest]
+- [Role/Person 2 - their concern]
+
+**Constraints:**
+- [Constraint 1 - technical, business, or regulatory]
+- [Constraint 2]
+- [Constraint 3]
+
+**Assumptions:**
+- [Assumption 1 - state clearly]
+- [Assumption 2]
+
+## Deliverables
+
+- [ ] File: docs/architecture/adrs/ADR-XXX-[descriptive-slug].md
+      Type: doc
+      Validation: Follows ADR template, includes all required sections
+
+- [ ] Update: docs/architecture/adrs/README.md
+      Section: ADR Index
+      Change: Add entry for new ADR with status "Proposed"
+
+- [ ] File: docs/architecture/diagrams/[decision-name].puml (if helpful)
+      Type: diagram
+      Validation: PlantUML or Mermaid format, renders correctly
+
+**ADR number must be assigned sequentially.**
+
+## Success Criteria
+
+- [ ] At least 3 viable options evaluated with trade-off analysis
+- [ ] Each option has clear pros, cons, and effort estimate
+- [ ] Recommended option has detailed rationale tied to constraints
+- [ ] Consequences (positive and negative) explicitly stated
+- [ ] All stakeholder concerns addressed
+- [ ] Technical feasibility validated (not speculative)
+- [ ] Decision is actionable (clear next steps)
+
+## Options to Evaluate
+
+Minimum 3 options required. Follow this structure for each:
+
+### Option A: [Name]
+
+**Description:**
+[What is this option? How would it work?]
+
+**Pros:**
+- [Advantage 1 - quantify if possible]
+- [Advantage 2]
+- [Advantage 3]
+
+**Cons:**
+- [Disadvantage 1 - quantify if possible]
+- [Disadvantage 2]
+- [Disadvantage 3]
+
+**Effort Estimate:**
+[Time/resources required - e.g., "2 weeks, 1 developer, $0 additional cost"]
+
+**Risk Level:**
+[Low | Medium | High] - [brief risk explanation]
+
+### Option B: [Name]
+[Same structure as Option A]
+
+### Option C: [Name]
+[Same structure as Option A]
+
+### Option D: [Name] (Optional)
+[Same structure as Option A]
+
+## Decision Criteria
+
+Weight these factors based on context:
+
+- **Technical Feasibility:** [High | Medium | Low priority]
+- **Operational Complexity:** [High | Medium | Low priority]
+- **Cost:** [High | Medium | Low priority]
+- **Time to Implement:** [High | Medium | Low priority]
+- **Scalability:** [High | Medium | Low priority]
+- **Security:** [High | Medium | Low priority]
+- **Maintainability:** [High | Medium | Low priority]
+- **Team Expertise:** [High | Medium | Low priority]
+
+## Recommended Option
+
+**Selection:** [Option X]
+
+**Rationale:**
+[Why this option? Tie to decision criteria, constraints, and stakeholder needs. Be specific about trade-offs accepted.]
+
+**Implementation Approach:**
+1. [Phase 1 - what to do first]
+2. [Phase 2 - subsequent steps]
+3. [Phase 3 - final steps]
+
+**Success Metrics:**
+- [Metric 1 - how we'll measure success]
+- [Metric 2]
+- [Metric 3]
+
+## Constraints
+
+### Do (Required)
+- Follow ADR template structure exactly
+- Include comparative analysis of options
+- Provide evidence for claims (benchmarks, case studies)
+- Link to related ADRs and technical docs
+- Get stakeholder sign-off before implementing
+
+### Don't (Prohibited)
+- Don't make decision without evaluating alternatives
+- Don't include implementation details (those go in technical design)
+- Don't assume reader has full context (be explicit)
+- Don't leave decision criteria implicit
+
+### Time Box
+[90-180 minutes recommended]
+
+- Research: 30-40% of time
+- Option analysis: 30-40% of time  
+- Writing: 20-30% of time
+- Review: 10% of time
+
+## Context Files (Load These)
+
+### Critical (Always Load)
+1. [docs/architecture/adrs/template.md](/../docs/architecture/adrs/template.md) - ADR format
+2. [previous related ADRs] - Historical decisions
+3. [technical design docs] - Implementation context
+4. [architecture diagrams] - System overview
+
+### Supporting (Load If Relevant)
+5. [benchmark results] - Performance data
+6. [security audit reports] - Security requirements
+7. [cost analysis] - Budget constraints
+8. [team skill assessment] - Capability matrix
+
+### Skip (Do Not Load)
+- Detailed implementation code
+- Unrelated architectural decisions
+- Historical debates (focus on current state)
+
+## Compliance
+
+- ADR Template: [docs/architecture/adrs/template.md](/../docs/architecture/adrs/template.md)
+- Directive 018: [.github/agents/directives/018_traceable_decisions.md](/.github/agents/directives/018_traceable_decisions.md)
+- Directive 023: [.github/agents/directives/023_clarification_before_execution.md](/.github/agents/directives/023_clarification_before_execution.md)
+
+**Mode:** /creative-mode (option generation) → /analysis-mode (evaluation)
+
+## Checkpoints
+
+For complex architectural decisions:
+
+- [ ] Checkpoint 1 (45 min): Options identified and described
+- [ ] Checkpoint 2 (90 min): Trade-off analysis complete
+- [ ] Checkpoint 3 (120 min): Recommendation drafted with rationale
+- [ ] Checkpoint 4 (150 min): Consequences and implementation plan added
+
+## Consequences
+
+Document expected outcomes:
+
+### Positive Consequences
+- [Benefit 1 - what improves]
+- [Benefit 2]
+- [Benefit 3]
+
+### Negative Consequences
+- [Cost 1 - what we lose or must accept]
+- [Cost 2]
+- [Cost 3]
+
+### Neutral Consequences
+- [Change 1 - neither clearly positive nor negative]
+- [Change 2]
+
+## Risk Assessment
+
+**Key Risks:**
+1. [Risk 1] - Probability: [H/M/L], Impact: [H/M/L], Mitigation: [strategy]
+2. [Risk 2] - Probability: [H/M/L], Impact: [H/M/L], Mitigation: [strategy]
+3. [Risk 3] - Probability: [H/M/L], Impact: [H/M/L], Mitigation: [strategy]
+
+**Rollback Plan:**
+[If decision proves wrong, how do we reverse it? What's the cost?]
+
+## Handoff (If Required)
+
+After ADR is approved:
+
+**Next Agent:** architect (for technical design) OR build-automation (for implementation plan)
+**Next Task Title:** "Create technical design for [decision]"
+**Context to Carry Forward:**
+- ADR-XXX approved with decision: [option selected]
+- Key constraints: [list critical constraints]
+- Success metrics: [what to measure]
+
+## Token Budget
+
+- **Target Input:** 25,000 tokens (research + related ADRs)
+- **Estimated Output:** 3,000-5,000 tokens (comprehensive ADR)
+
+## Stakeholder Review
+
+Before finalizing ADR status:
+
+- [ ] Technical review by: [architect/lead developer]
+- [ ] Business review by: [product/stakeholder]
+- [ ] Security review by: [security team] (if security-sensitive)
+- [ ] Operations review by: [DevOps/SRE] (if operational impact)
+
+## Notes
+
+- **Related Decisions:** [Links to related ADRs]
+- **Open Questions:** [Items needing clarification]
+- **Follow-up Actions:** [What needs to happen after approval]
+
+---
+
+**Template Version:** 1.0.0  
+**Last Updated:** 2026-01-30  
+**Related:** ADR-023 Prompt Optimization Framework

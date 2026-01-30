@@ -313,6 +313,23 @@
 	  "safetyCritical": false,
 	  "directive_version": "1.0.0",
 	  "status": "active"
+	},
+	{
+	  "code": "023",
+	  "slug": "clarification_before_execution",
+	  "title": "Clarification Before Execution",
+	  "file": "023_clarification_before_execution.md",
+	  "purpose": "Request clarification from users before executing tasks when prompts contain ambiguity or missing crucial elements (ADR-023)",
+	  "dependencies": [
+		"011",
+		"014",
+		"018",
+		"021"
+	  ],
+	  "requiredInAgents": true,
+	  "safetyCritical": true,
+	  "directive_version": "1.0.0",
+	  "status": "active"
 	}
   ]
 }
