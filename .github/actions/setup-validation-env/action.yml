@@ -1,0 +1,47 @@
+name: 'Setup Validation Environment'
+description: 'Sets up Node.js with dependency caching for Markua validation and testing'
+inputs:
+  node-version:
+    description: 'Node.js version to use'
+    required: false
+    default: '20'
+  cache-key-prefix:
+    description: 'Prefix for cache key'
+    required: false
+    default: 'npm'
+  install-dependencies:
+    description: 'Whether to install npm dependencies'
+    required: false
+    default: 'true'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: 'npm'
+    
+    - name: Cache Node modules
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.npm
+          node_modules
+        key: ${{ runner.os }}-${{ inputs.cache-key-prefix }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-${{ inputs.cache-key-prefix }}-
+          ${{ runner.os }}-npm-
+    
+    - name: Install dependencies
+      if: inputs.install-dependencies == 'true'
+      shell: bash
+      run: |
+        if [ -f package-lock.json ]; then
+          npm ci
+        elif [ -f package.json ]; then
+          npm install
+        else
+          echo "No package.json found, skipping npm install"
+        fi

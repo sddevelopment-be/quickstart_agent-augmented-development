@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Architect Alphonso Input Schema",
+  "description": "Schema for validating input to the Architect Alphonso agent",
+  "type": "object",
+  "properties": {
+    "task": {
+      "type": "string",
+      "description": "The task or question for the architect"
+    },
+    "context": {
+      "type": "object",
+      "description": "Additional context for the task",
+      "properties": {
+        "repository": { "type": "string" },
+        "existingADRs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "constraints": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "outputFormat": {
+      "type": "string",
+      "enum": ["adr", "diagram", "pattern", "analysis"],
+      "default": "analysis"
+    }
+  },
+  "required": ["task"]
+}

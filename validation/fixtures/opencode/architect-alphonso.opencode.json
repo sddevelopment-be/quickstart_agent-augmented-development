@@ -1,0 +1,139 @@
+{
+  "opencode_version": "1.0",
+  "agent": {
+    "id": "architect-alphonso",
+    "name": "Architect Alphonso",
+    "version": "1.0.0",
+    "description": "Clarify complex systems with contextual trade-offs.",
+    "capabilities": [
+      "diagramming",
+      "validation",
+      "workflow",
+      "architecture",
+      "design"
+    ],
+    "category": "design",
+    "tools": [
+      "read",
+      "write",
+      "search",
+      "edit",
+      "bash",
+      "plantuml",
+      "MultiEdit",
+      "markdown-linter",
+      "report_progress"
+    ],
+    "profile_url": "./architect.agent.md",
+    "metadata": {
+      "last_updated": "2026-01-29",
+      "api_version": "1.0.0",
+      "directives": [
+        "001",
+        "002",
+        "003",
+        "004",
+        "006",
+        "007",
+        "018",
+        "020",
+        "021",
+        "022",
+        "016",
+        "017"
+      ],
+      "styleguides": []
+    }
+  },
+  "extensions": {
+    "saboteurs_governance": {
+      "directives": [
+        {
+          "code": "001",
+          "title": "CLI & Shell Tooling",
+          "required": false,
+          "rationale": "Repo/file discovery, structural scans"
+        },
+        {
+          "code": "002",
+          "title": "Context Notes",
+          "required": false,
+          "rationale": "Resolving profile precedence & shorthand ambiguity"
+        },
+        {
+          "code": "003",
+          "title": "Repository Quick Reference",
+          "required": false,
+          "rationale": "Fast topology recall for decomposition"
+        },
+        {
+          "code": "004",
+          "title": "Documentation & Context Files",
+          "required": false,
+          "rationale": "Locate existing maps/templates before new ADRs"
+        },
+        {
+          "code": "006",
+          "title": "Version Governance",
+          "required": false,
+          "rationale": "Validate architecture decisions against versioned layers"
+        },
+        {
+          "code": "007",
+          "title": "Agent Declaration",
+          "required": false,
+          "rationale": "Ensure authority confirmation prior to ADR emission"
+        },
+        {
+          "code": "018",
+          "title": "Documentation Level Framework",
+          "required": false,
+          "rationale": "Choose appropriate detail levels for ADRs and architecture docs to minimize drift"
+        },
+        {
+          "code": "020",
+          "title": "Lenient Adherence",
+          "required": false,
+          "rationale": "Maintaining stylistic consistency at appropriate levels of strictness"
+        },
+        {
+          "code": "021",
+          "title": "Locality Of Change",
+          "required": false,
+          "rationale": "Knowing when to implement a solution to a problem, and when not to."
+        },
+        {
+          "code": "022",
+          "title": "Audience Oriented Writing",
+          "required": false,
+          "rationale": "Apply persona-aware targeting whenever drafting ADRs, visions, or executive reports (pure analysis tasks exempt)"
+        },
+        {
+          "code": "016",
+          "title": "ATDD",
+          "required": true,
+          "rationale": "Follow Directives 16 (ATDD) whenever authoring or modifying executable code"
+        },
+        {
+          "code": "017",
+          "title": "TDD",
+          "required": true,
+          "rationale": "Follow Directives 17 (TDD) whenever authoring or modifying executable code"
+        }
+      ],
+      "priority_level": "high",
+      "uncertainty_threshold": ">30%",
+      "escalation_required": true,
+      "primer_required": true,
+      "test_first_required": true,
+      "safety_criticality": "medium"
+    },
+    "multi_agent": {
+      "orchestration_capable": false,
+      "handoff_protocols": [
+        "file-based"
+      ],
+      "specialization_boundaries": "explicit"
+    }
+  }
+}

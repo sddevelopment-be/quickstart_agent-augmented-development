@@ -1,0 +1,308 @@
+---
+task_id: "mfd-task-0.1-workflow-review"
+from_agent: "Project Manager"
+to_agent: "Build Automation"
+priority: "HIGH"
+created_date: "2026-01-29"
+status: "TODO"
+human_intervention_required: false
+estimated_effort_hours: "2-3"
+batch: "Batch 0: Pre-requisites"
+milestone: "Milestone 0: CI/CD Ready"
+dependencies: []
+
+---
+
+# Task 0.1: Review and Fix GitHub Workflows
+
+## Context
+
+**Project:** Multi-Format Agent Framework Distribution  
+**Priority:** HIGH - Blocks Batch 3 CI/CD integration  
+**Dependencies:** None (pre-requisite task)
+
+Before proceeding with Batch 3 (Automation & Validation), we need to ensure existing GitHub workflows are functional and follow best practices. The current workflow may have outdated actions, missing npm scripts, or configuration issues.
+
+**Why This Matters:**
+- Batch 3 will add CI/CD integration for export pipeline
+- Need working foundation to build upon
+- Avoid discovering issues late in implementation
+- Ensure team can validate changes via CI
+
+## Objective
+
+Review existing GitHub workflows and composite actions, identify issues, and implement fixes to ensure they work correctly.
+
+## Detailed Requirements
+
+### Review Scope
+
+1. **Workflow File: `.github/workflows/validate-manuscript.yml`**
+   - Check for outdated action versions
+   - Verify npm scripts referenced exist in `package.json`
+   - Review error handling and failure conditions
+   - Check if composite actions are correctly referenced
+   - Validate syntax and structure
+
+2. **Composite Actions:**
+   - `.github/actions/setup-validation-env/action.yml`
+   - `.github/actions/setup-python-env/action.yml`
+   - Verify action versions are current
+   - Check for deprecated features
+   - Validate input/output specifications
+
+3. **Package.json Scripts:**
+   - Verify all referenced npm scripts exist:
+     - `test:validator`
+     - `validate:cross-references`
+     - `validate:definitions`
+     - `lint:markua`
+     - `spell:manuscript`
+   - Check if scripts are functional
+   - Document missing scripts
+
+### Common Issues to Check
+
+**Action Versions:**
+- `actions/checkout@v4` - Current?
+- `actions/setup-node@v4` - Current?
+- `actions/cache@v3` - Should be v4?
+- `actions/github-script@v7` - Current?
+- `tj-actions/changed-files@v41` - Current?
+
+**Workflow Issues:**
+- `continue-on-error: true` usage - Is this intentional?
+- Error aggregation in `validation-errors.log`
+- Job dependencies and `needs` clauses
+- Conditional execution logic
+
+**Performance:**
+- Cache efficiency
+- Parallel job execution
+- Unnecessary steps
+
+## Expected Outputs
+
+1. **Review Report** (`work/workflows/workflow-review-report.md`)
+   - List of issues found
+   - Severity (critical, high, medium, low)
+   - Recommended fixes
+   - Action items with priorities
+
+2. **Fixed Workflows**
+   - Updated `.github/workflows/validate-manuscript.yml` (if needed)
+   - Updated composite actions (if needed)
+   - Migration notes if breaking changes
+
+3. **Documentation Updates**
+   - `.github/workflows/README.md` - Workflow documentation
+   - `.github/actions/README.md` - Update if changes made
+
+4. **Testing Evidence**
+   - Manual workflow trigger (if possible)
+   - OR validation that syntax is correct
+   - OR PR with workflow changes to test in CI
+
+## Success Criteria
+
+- ✅ All action versions reviewed and updated to latest stable
+- ✅ All referenced npm scripts exist or are documented as missing
+- ✅ No syntax errors in workflow files
+- ✅ Composite actions properly referenced
+- ✅ Review report documents all findings
+- ✅ Critical/high issues fixed
+- ✅ Medium/low issues documented for future work
+
+## Directives to Follow
+
+**MUST adhere to:**
+- **Directive 014:** Create work log documenting review process
+- **Directive 018:** Traceable Decisions - Document why changes were made
+- **Directive 021:** Locality of Change - Only fix what's broken
+
+## Review Methodology
+
+### Phase 1: Discovery (30 min)
+
+1. **List all workflows and actions:**
+   ```bash
+   find .github/workflows -name "*.yml"
+   find .github/actions -name "action.yml"
+   ```
+
+2. **Check action versions against latest:**
+   - Visit GitHub Marketplace for each action
+   - Compare current version to latest stable
+   - Note if major version upgrades available
+
+3. **Verify npm scripts:**
+   ```bash
+   # Check if scripts exist in package.json
+   npm run test:validator --dry-run
+   npm run validate:cross-references --dry-run
+   npm run validate:definitions --dry-run
+   npm run lint:markua --dry-run
+   npm run spell:manuscript --dry-run
+   ```
+
+### Phase 2: Analysis (45 min)
+
+1. **Review workflow structure:**
+   - Job dependencies (needs)
+   - Error handling (continue-on-error, failure conditions)
+   - Conditional execution (if clauses)
+   - Output handling
+
+2. **Identify issues:**
+   - Critical: Workflow won't run
+   - High: Workflow runs but doesn't catch errors
+   - Medium: Suboptimal performance or UX
+   - Low: Minor improvements
+
+3. **Check composite actions:**
+   - Input/output specifications
+   - Shell script correctness
+   - Caching strategy
+   - Error handling
+
+### Phase 3: Fixes (45-60 min)
+
+1. **Apply fixes for critical/high issues:**
+   - Update action versions
+   - Fix syntax errors
+   - Add missing error handling
+   - Update composite actions
+
+2. **Document all changes:**
+   - What was changed
+   - Why it was changed
+   - Testing performed
+   - Potential impacts
+
+3. **Create migration notes if needed:**
+   - Breaking changes
+   - Required updates to other workflows
+   - Team communication needed
+
+### Phase 4: Documentation (15 min)
+
+1. **Create review report:**
+   - Executive summary
+   - Issues found (categorized by severity)
+   - Fixes applied
+   - Remaining work
+   - Recommendations
+
+2. **Update workflow documentation:**
+   - README.md in .github/workflows/
+   - README.md in .github/actions/
+   - Add inline comments if helpful
+
+## Testing Approach
+
+### Local Validation
+
+1. **Syntax validation:**
+   ```bash
+   # Use actionlint to validate syntax
+   docker run --rm -v "$(pwd):/repo" rhysd/actionlint:latest -color
+   ```
+
+2. **Script verification:**
+   ```bash
+   # Verify each npm script exists and runs
+   npm run test:validator
+   npm run validate:cross-references
+   # etc.
+   ```
+
+### GitHub Testing (if possible)
+
+1. **Trigger workflow manually:**
+   - Use `workflow_dispatch` if available
+   - Create test PR to trigger on pull_request
+   - Push to main to trigger on push
+
+2. **Review workflow run:**
+   - Check job execution
+   - Verify error handling
+   - Validate outputs
+
+## Common Fixes
+
+### Update Action Versions
+
+```yaml
+# Before
+- uses: actions/cache@v3
+
+# After
+- uses: actions/cache@v4
+```
+
+### Fix Missing Scripts
+
+```json
+// Add to package.json if missing
+{
+  "scripts": {
+    "test:validator": "jest tests/unit/validator.test.js",
+    "validate:cross-references": "node ops/scripts/validate-cross-references.js",
+    "validate:definitions": "node ops/scripts/validate-definitions.js",
+    "lint:markua": "node ops/scripts/remark-lint-markua.mjs",
+    "spell:manuscript": "cspell 'manuscript/**/*.md'"
+  }
+}
+```
+
+### Improve Error Handling
+
+```yaml
+# Ensure failures are caught
+- name: Run validation
+  run: npm run validate
+  # Remove continue-on-error if errors should fail the build
+```
+
+## Timeline
+
+**Start:** Immediately (no dependencies)  
+**Duration:** 2-3 hours  
+**Deadline:** Before starting Batch 2 (to avoid issues in Batch 3)
+
+---
+
+**Task Status:** TODO - Ready to Start  
+**Blocking Tasks:** Batch 3 CI/CD integration  
+**Critical Path:** Yes (pre-requisite for Batch 3)
+
+---
+
+## Additional Context
+
+**Current Workflow Analysis:**
+
+The `validate-manuscript.yml` workflow has:
+- 3 jobs: manuscript-validation, spell-check, validation-summary
+- Uses composite action `setup-validation-env`
+- References several npm scripts
+- Has `continue-on-error: true` on some steps
+- Aggregates errors in `validation-errors.log`
+
+**Potential Issues:**
+1. Action versions may be outdated (cache@v3 vs v4)
+2. npm scripts may not exist (this is a new project phase)
+3. Error handling might mask failures
+4. Composite action might have issues
+
+**References:**
+- GitHub Actions documentation
+- Action marketplace for latest versions
+- package.json for existing scripts
+
+---
+
+*Created by: Project Manager*  
+*Date: 2026-01-29*  
+*Priority: HIGH*  
+*Batch: 0 (Pre-requisites)*
