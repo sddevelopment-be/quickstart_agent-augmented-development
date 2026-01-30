@@ -1,0 +1,227 @@
+---
+status: assigned
+agent: build-automation
+priority: high
+estimated_duration: 2-3 hours
+created_at: 2026-01-30T16:44:00Z
+assigned_by: github-copilot
+context_files:
+  - docs/architecture/adrs/ADR-023-prompt-optimization-framework.md
+  - docs/architecture/adrs/ADR-023-implementation-roadmap.md
+  - .github/workflows (existing workflows)
+related_adrs:
+  - ADR-023 (Prompt Optimization Framework)
+directives:
+  - 014 (Work Log Creation)
+  - 015 (Store Prompts)
+depends_on:
+  - 2026-01-30T1642-adr023-phase2-prompt-validator.yaml
+---
+
+# Task: Create GitHub Actions Workflow for Prompt Validation (ADR-023 Phase 2 CI/CD)
+
+## Objective
+
+Create a GitHub Actions workflow that automatically validates prompt files against the quality schema on every PR, providing immediate feedback on template compliance and anti-pattern detection, enabling 100% template compliance in new prompts.
+
+## Context
+
+**Background:**
+- Phase 2 validator module (prompt-validator.js) provides validation capability
+- Need automated enforcement via CI/CD to prevent template violations
+- Current state: Manual review required for prompt quality
+
+**Target State:**
+- Automated validation on PR creation/update
+- Quality report posted as PR comment
+- Fail CI on critical violations (configurable)
+- Fast feedback (<2 minutes)
+
+## Deliverables
+
+- [ ] File: .github/workflows/validate-prompts.yml
+      Type: GitHub Actions workflow
+      Validation: Triggers on PR, validates prompts, posts comment, completes in <2 minutes
+
+- [ ] Update: package.json
+      Section: scripts
+      Change: Add "validate:prompts" script that runs prompt-validator
+
+- [ ] File: docs/HOW_TO_USE/ci-validation-guide.md
+      Type: documentation
+      Validation: Explains CI validation, how to fix errors, local validation workflow
+
+## Success Criteria
+
+- [ ] Workflow triggers on PR to main branch
+- [ ] Validates all prompt files (*.yaml in docs/templates/prompts/)
+- [ ] Posts quality report as PR comment
+- [ ] Fails on critical violations (quality score <70)
+- [ ] Completes in <2 minutes
+- [ ] Can be run locally via npm script
+- [ ] Clear error messages with fix suggestions
+
+## Constraints
+
+### Do (Allowed Actions)
+- Use existing GitHub Actions patterns from the repository
+- Post quality report as PR comment (use github.event.pull_request)
+- Allow configuration of failure threshold
+- Validate only changed files (for speed) or all files (for consistency)
+
+### Don't (Prohibited Actions)
+- Don't block all PRs (only fail on critical issues)
+- Don't modify existing workflows unless necessary
+- Don't require additional secrets or permissions
+- Don't auto-fix prompts (validation only)
+
+### Time Box
+120 minutes (2 hours) for workflow + scripts + documentation
+
+## Context Files (Load These)
+
+### Critical (Always Load)
+1. /home/runner/work/quickstart_agent-augmented-development/quickstart_agent-augmented-development/docs/architecture/adrs/ADR-023-prompt-optimization-framework.md - Lines 789-825 for Phase 2 CI requirements
+2. /home/runner/work/quickstart_agent-augmented-development/quickstart_agent-augmented-development/.github/workflows - Existing workflow patterns
+
+### Supporting (Load If Relevant)
+3. /home/runner/work/quickstart_agent-augmented-development/quickstart_agent-augmented-development/package.json - Check existing scripts
+
+### Skip (Do Not Load)
+- Validator implementation details (Backend Benny's concern)
+- Phase 3 context loader details
+
+## Compliance
+
+- Directive 014: /home/runner/work/quickstart_agent-augmented-development/quickstart_agent-augmented-development/.github/agents/directives/014_worklog_creation.md
+- Directive 023: /home/runner/work/quickstart_agent-augmented-development/quickstart_agent-augmented-development/.github/agents/directives/023_clarification_before_execution.md
+
+**Mode:** /analysis-mode
+
+## Technical Specifications
+
+### Workflow Structure
+
+```yaml
+name: Validate Prompt Quality
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docs/templates/prompts/**.yaml'
+      - 'work/collaboration/**/**.yaml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Validate prompts
+        id: validate
+        run: npm run validate:prompts
+      
+      - name: Post results
+        uses: actions/github-script@v6
+        if: always()
+        with:
+          script: |
+            // Post validation results as comment
+```
+
+### Package.json Script
+
+```json
+{
+  "scripts": {
+    "validate:prompts": "node ops/validation/prompt-validator-cli.js docs/templates/prompts/"
+  }
+}
+```
+
+### CLI Wrapper (Optional)
+
+May need to create `ops/validation/prompt-validator-cli.js` to:
+- Accept directory path as argument
+- Find all .yaml files
+- Validate each file
+- Output results in CI-friendly format (JSON or markdown)
+- Exit with error code if critical failures
+
+### Quality Report Format
+
+Post as PR comment:
+
+```markdown
+## 🔍 Prompt Quality Report
+
+**Overall Status:** ✅ Pass (2/2 prompts valid)
+
+### Summary
+- **Prompts Validated:** 2
+- **Passed:** 2 (100%)
+- **Failed:** 0 (0%)
+- **Average Quality Score:** 95/100
+
+### Details
+
+#### ✅ task-execution.yaml (Score: 95/100)
+- All required sections present
+- 1 minor warning: Time box >60 min without checkpoints
+
+#### ✅ bug-fix.yaml (Score: 96/100)
+- All validations passed
+- No warnings
+
+---
+*Validation took 1.2 seconds*
+```
+
+## Checkpoints
+
+- [ ] Checkpoint 1 (1h): Workflow file created and validates prompts
+- [ ] Checkpoint 2 (1.5h): PR comment posting working
+- [ ] Checkpoint 3 (2h): Documentation complete, tested on sample PR
+
+## Handoff
+
+After Phase 2 CI completion:
+
+**Next Agent:** build-automation (same agent, new task)
+**Next Task Title:** "Update CI for Phase 3 token budget validation"
+**Context to Carry Forward:**
+- Workflow file location and structure
+- npm script patterns
+- PR comment format
+
+## Token Budget
+
+- **Target Input:** 12,000 tokens (ADR + workflow examples)
+- **Estimated Output:** 800-1,200 tokens (workflow + scripts + docs)
+
+## Notes
+
+- Consider using `changed-files` action to validate only modified prompts (faster)
+- Quality score threshold should be configurable (default: 70 for fail)
+- Provide both strict and lenient modes
+- Document how to run validation locally before pushing
+- Consider adding a GitHub Action status badge to README
+
+---
+
+**Priority:** High  
+**Estimated Effort:** 2 hours  
+**Assigned To:** Build Automation  
+**Dependencies:** Backend Benny's Phase 2 validator  
+**Due Date:** Phase 2 completion (2 weeks)  
+**Status:** Assigned
