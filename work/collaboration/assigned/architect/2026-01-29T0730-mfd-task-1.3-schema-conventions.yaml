@@ -1,0 +1,174 @@
+---
+task_id: "mfd-task-1.3-schema-conventions"
+from_agent: "Project Manager"
+to_agent: "Architect Alphonso"
+priority: "HIGH"
+created_date: "2026-01-29"
+status: "TODO"
+human_intervention_required: false
+estimated_effort_hours: "3"
+batch: "Batch 1: Foundation & Infrastructure"
+milestone: "Milestone 1: Schema Complete"
+dependencies: ["mfd-task-1.2-implement-parser"]
+
+---
+
+# Task 1.3: Define Schema Conventions and Document
+
+## Context
+
+**Project:** Multi-Format Agent Framework Distribution  
+**Dependencies:** Task 1.2 (Parser available to test schema extraction)
+
+Existing agents lack explicit input/output schemas. This task establishes **conventions** for how to define, extract, and document schemas for all agents.
+
+**Why This Matters:**
+- Schemas enable validation and tooling
+- Conventions ensure consistency across 17+ agents
+- Bad conventions = rework for all agents
+- Must be clear enough for contributors to follow
+
+## Objective
+
+Formalize conventions for defining input/output schemas in agent profiles, including extraction heuristics, format standards, placement rules, and documentation requirements.
+
+## Detailed Requirements
+
+### Conventions Must Address
+
+1. **Schema Extraction Heuristics**
+   - How to infer input schemas from narrative content
+   - How to extract output schemas from "Output Artifacts" section
+   - What to do when narrative is ambiguous
+   - How to handle optional vs. required parameters
+
+2. **Schema Format**
+   - Use JSON Schema Draft 7 (or justify alternative)
+   - Property naming conventions (camelCase? snake_case?)
+   - Required vs. optional field marking
+   - Default values and constraints
+   - Schema annotations (descriptions, examples)
+
+3. **Schema Placement**
+   - In YAML frontmatter? (`inputs:`, `outputs:` fields)
+   - Separate schema files? (`{agent}.input.schema.json`)
+   - Inline in markdown? (code blocks)
+   - Mixed approach? (frontmatter references separate files)
+
+4. **Documentation Requirements**
+   - What documentation accompanies each schema?
+   - How to document complex nested objects?
+   - How to provide examples?
+   - How to explain rationale for design choices?
+
+5. **Migration Path**
+   - How to add schemas to existing agents (17 agents)
+   - Backward compatibility (can old tools work?)
+   - Incremental adoption (schema-less agents still work?)
+   - Validation enforcement (when to require schemas?)
+
+## Expected Outputs
+
+1. **Convention Documentation** (`docs/schemas/schema-conventions.md`)
+   - Rationale for each decision
+   - Examples (good and bad)
+   - Decision tree for edge cases
+   - FAQ for common questions
+
+2. **Schema Template** (`docs/schemas/agent-schema-template.json`)
+   - JSON Schema skeleton for new agents
+   - Commented sections explaining each part
+   - Example with all common patterns
+
+3. **Migration Checklist** (`docs/schemas/migration-checklist.md`)
+   - Step-by-step guide for adding schemas to existing agents
+   - Validation commands to run
+   - Common pitfalls and solutions
+
+## Sample Agents to Analyze
+
+Use these 5 agents to validate conventions (representative complexity):
+
+1. **Architect Alphonso** - Complex outputs (ADRs, diagrams, technical design)
+2. **Backend Benny** - Code outputs (services, tests, APIs)
+3. **Reviewer Rachel** - Structured outputs (checklists, reports, approvals)
+4. **Curator Claire** - Content outputs (documentation, organization)
+5. **Planning Petra** - Process outputs (plans, milestones, tasks)
+
+## Success Criteria
+
+- ✅ Conventions cover 80% of common agent input/output patterns
+- ✅ Team review and approval (Architect + Backend Benny + Reviewer Rachel)
+- ✅ Conventions clear enough for contributors to follow independently
+- ✅ Migration checklist tested on 1 sample agent
+- ✅ No ambiguities in decision tree
+
+## Directives to Follow
+
+**MUST adhere to:**
+- **Directive 014:** Create work log
+- **Directive 018:** Traceable Decisions - Document trade-offs
+- **Directive 021:** Locality of Change
+- **Directive 022:** Audience Oriented Writing - Target: Contributors/Developers
+
+## Testing Approach (ATDD)
+
+### Acceptance Test 1: Clarity
+- Give conventions to Backend Benny
+- Ask: "Create schema for Scribe agent using these conventions"
+- Verify: Can complete without clarification questions
+
+### Acceptance Test 2: Coverage
+- Review all 5 sample agents
+- Count patterns NOT covered by conventions
+- Target: <20% uncovered
+
+### Acceptance Test 3: Consistency
+- Apply conventions to create 2 schemas independently
+- Compare results
+- Verify: Similar structure and approach
+
+## Key Decisions to Make
+
+1. **Schema Location:**
+   - Option A: YAML frontmatter (`inputs:`, `outputs:` fields)
+   - Option B: Separate files (`{agent}.input.schema.json`)
+   - Option C: Mixed (frontmatter for simple, files for complex)
+   - **Recommend:** Document trade-offs of each
+
+2. **Extraction Strategy:**
+   - Option A: Fully manual (contributors write schemas)
+   - Option B: Semi-automated (parser suggests, human approves)
+   - Option C: Fully automated (parser generates from narrative)
+   - **Recommend:** Pragmatic approach based on complexity
+
+3. **Validation Timing:**
+   - Option A: Build time (CI/CD validates all schemas)
+   - Option B: Runtime (generators validate before export)
+   - Option C: Both
+   - **Recommend:** Fail-fast approach
+
+4. **Backward Compatibility:**
+   - Option A: Schemas required (break old agents)
+   - Option B: Schemas optional (graceful degradation)
+   - Option C: Phased (optional now, required later)
+   - **Recommend:** Migration-friendly approach
+
+## Timeline
+
+**Start:** After Task 1.2 complete  
+**Duration:** 3 hours  
+**Deadline:** End of Batch 1, Week 1
+
+---
+
+**Task Status:** TODO - Waiting on Task 1.2  
+**Blocking Tasks:** Task 1.4 (Create 5 Schemas), Task 2.4 (Complete 12 Schemas)  
+**Critical Path:** Yes
+
+---
+
+*Created by: Project Manager*  
+*Date: 2026-01-29*  
+*Priority: HIGH*  
+*Batch: 1 (Foundation & Infrastructure)*

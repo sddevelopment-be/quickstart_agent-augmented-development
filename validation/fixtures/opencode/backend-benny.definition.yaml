@@ -1,0 +1,72 @@
+opencode_version: '1.0'
+agent:
+  metadata:
+    id: backend-benny
+    version: 1.0.0
+    category: design
+    tags:
+      - automation
+      - containerization
+      - backend
+      - scripting
+      - workflow
+      - architecture
+      - design
+      - api-design
+      - security
+      - performance
+  specification:
+    inputs: []
+    outputs: []
+    examples: []
+    tools:
+      - read
+      - write
+      - search
+      - edit
+      - MultiEdit
+      - Bash
+      - Grep
+      - Docker
+      - Java
+      - Python
+      - report_progress
+  governance:
+    directives:
+      - code: '001'
+        title: CLI & Shell Tooling
+        required: false
+      - code: '002'
+        title: Context Notes
+        required: false
+      - code: '003'
+        title: Repository Quick Reference
+        required: false
+      - code: '004'
+        title: Documentation & Context Files
+        required: false
+      - code: '006'
+        title: Version Governance
+        required: false
+      - code: '007'
+        title: Agent Declaration
+        required: false
+      - code: '018'
+        title: Documentation Level Framework
+        required: false
+      - code: '016'
+        title: Acceptance Test Driven Development
+        required: true
+      - code: '017'
+        title: Test Driven Development
+        required: true
+      - code: '021'
+        title: Locality Of Change
+        required: false
+    safety_critical: true
+    primer_required: true
+    test_first_required: true
+    uncertainty_threshold: '>30%'
+    escalation_rules:
+      - Ask clarifying questions when uncertainty >30%.
+      - Escalate issues before they become a problem. Ask for help when stuck.

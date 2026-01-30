@@ -1,0 +1,29 @@
+{
+  "examples": [
+    {
+      "name": "Simple architecture question",
+      "input": {
+        "task": "Analyze the trade-offs between microservices and monolithic architecture",
+        "context": {
+          "repository": "sample-app",
+          "existingADRs": [],
+          "constraints": ["team size: 5", "budget: limited"]
+        },
+        "outputFormat": "analysis"
+      },
+      "expectedOutputType": "analysis"
+    },
+    {
+      "name": "ADR request",
+      "input": {
+        "task": "Create an ADR for choosing PostgreSQL over MongoDB",
+        "context": {
+          "repository": "data-service",
+          "constraints": ["ACID compliance required", "complex queries"]
+        },
+        "outputFormat": "adr"
+      },
+      "expectedOutputType": "adr"
+    }
+  ]
+}

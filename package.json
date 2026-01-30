@@ -1,0 +1,41 @@
+{
+  "name": "saboteurs",
+  "version": "1.0.0",
+  "description": "A series of sabotage guides to help you dismantle any endeavour, organization, or team.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "npm run test:validator && npm run validate:cross-references && npm run validate:definitions",
+    "test:parser": "jest validation/agent_exports/parser.test.js",
+    "test:parser:watch": "jest validation/agent_exports/parser.test.js --watch",
+    "test:parser:coverage": "jest validation/agent_exports/parser.test.js --coverage",
+    "test:validator": "node --test ops/scripts/test-markua-validator.mjs ops/scripts/test-markua-validator-integration.mjs",
+    "validate:cross-references": "node ops/scripts/validate-cross-references.mjs",
+    "validate:definitions": "node ops/scripts/validate-definition-lists.mjs",
+    "test:anchors": "node ops/scripts/test-markua-anchors.mjs",
+    "validate:definition-anchors": "node ops/scripts/validate-definition-anchors.mjs",
+    "spell": "cspell lint 'manuscript/**/*.md' --no-progress --show-suggestions",
+    "spell:manuscript": "cspell lint 'manuscript/**/*.md' --no-progress --show-suggestions",
+    "spell:docs": "cspell lint 'docs/**/*.md' --no-progress --show-suggestions",
+    "lint:markua": "remark manuscript --ext md --frail --ignore-path .remarkignore",
+    "lint:text": "npm run spell && npm run lint:markua"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "cspell": "^9.4.0",
+    "glob": "^13.0.0",
+    "gray-matter": "^4.0.3",
+    "jest": "^30.2.0",
+    "js-yaml": "^4.1.1",
+    "mdast-util-to-string": "^4.0.0",
+    "remark-cli": "^12.0.0",
+    "remark-preset-lint-recommended": "^6.0.0",
+    "unist-util-visit": "^5.0.0"
+  }
+}
