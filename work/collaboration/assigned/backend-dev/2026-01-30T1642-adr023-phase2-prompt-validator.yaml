@@ -1,0 +1,248 @@
+---
+status: assigned
+agent: backend-dev
+priority: high
+estimated_duration: 6-8 hours
+created_at: 2026-01-30T16:42:00Z
+assigned_by: github-copilot
+context_files:
+  - docs/architecture/adrs/ADR-023-prompt-optimization-framework.md
+  - docs/architecture/adrs/ADR-023-implementation-roadmap.md
+  - docs/templates/prompts/task-execution.yaml
+  - docs/templates/prompts/bug-fix.yaml
+  - docs/templates/prompts/documentation.yaml
+  - docs/templates/prompts/architecture-decision.yaml
+  - docs/templates/prompts/assessment.yaml
+  - ops/exporters/validator.js
+related_adrs:
+  - ADR-023 (Prompt Optimization Framework)
+directives:
+  - 014 (Work Log Creation)
+  - 015 (Store Prompts)
+  - 016 (ATDD)
+  - 017 (TDD)
+---
+
+# Task: Implement ADR-023 Phase 2 - Prompt Validator with Schema
+
+## Objective
+
+Implement the prompt validation system for ADR-023 Phase 2, creating a JSON Schema for prompt quality validation and a validator module that detects anti-patterns and calculates quality scores, enabling automated enforcement of template compliance.
+
+## Context
+
+**Background:**
+- Phase 1 created 5 canonical templates addressing 12 suboptimal patterns
+- Phase 2 adds validation and enforcement to ensure template compliance
+- Existing validator module (`ops/exporters/validator.js`) provides pattern to follow
+
+**Current State:**
+- Templates exist but no automated validation
+- Manual review required for template compliance
+- No anti-pattern detection
+
+**Target State:**
+- Automated prompt validation via JSON Schema
+- Anti-pattern detection with specific error messages
+- Quality score calculation (0-100)
+- CI/CD ready validation module
+
+## Deliverables
+
+- [ ] File: validation/schemas/prompt-schema.json
+      Type: JSON Schema
+      Validation: Validates against JSON Schema draft-07, covers all required template sections
+
+- [ ] File: ops/validation/prompt-validator.js
+      Type: code (Node.js module)
+      Validation: Exports PromptValidator class, includes anti-pattern detection, passes all tests
+
+- [ ] File: validation/agent_exports/prompt-validator.test.js
+      Type: test (Jest)
+      Validation: 20+ tests covering schema validation, anti-patterns, edge cases, 95%+ coverage
+
+- [ ] File: docs/HOW_TO_USE/prompt-validation-guide.md
+      Type: documentation
+      Validation: Explains usage, provides examples, documents anti-patterns
+
+## Success Criteria
+
+- [ ] Schema covers all 12 patterns from ADR-023
+- [ ] Validator detects 90%+ of known anti-patterns
+- [ ] Test suite achieves 95%+ code coverage
+- [ ] Quality score calculation correlates with template completeness
+- [ ] Validator runs in <500ms for typical prompt
+- [ ] Clear error messages with suggestions for fixing
+- [ ] Follows existing validator.js pattern
+
+## Constraints
+
+### Do (Allowed Actions)
+- Use existing `ops/exporters/validator.js` as reference pattern
+- Use Ajv library for JSON Schema validation (already in project)
+- Follow existing test patterns in `validation/agent_exports/`
+- Use YAML parsing from `js-yaml` library
+- Reference the 5 canonical templates for validation examples
+
+### Don't (Prohibited Actions)
+- Don't modify existing templates or directives
+- Don't change the export pipeline (separate concern)
+- Don't introduce new dependencies beyond tiktoken (Phase 3)
+- Don't break existing validation tests
+
+### Time Box
+360 minutes (6 hours) for implementation + tests + documentation
+
+## Context Files (Load These)
+
+### Critical (Always Load)
+1. /home/runner/work/quickstart_agent-augmented-development/quickstart_agent-augmented-development/docs/architecture/adrs/ADR-023-prompt-optimization-framework.md - Full specification lines 290-570
+2. /home/runner/work/quickstart_agent-augmented-development/quickstart_agent-augmented-development/ops/exporters/validator.js - Pattern to follow
+3. /home/runner/work/quickstart_agent-augmented-development/quickstart_agent-augmented-development/docs/templates/prompts/task-execution.yaml - Example template to validate
+
+### Supporting (Load If Relevant)
+4. /home/runner/work/quickstart_agent-augmented-development/quickstart_agent-augmented-development/validation/agent_exports/validator.test.js - Test pattern reference
+5. /home/runner/work/quickstart_agent-augmented-development/quickstart_agent-augmented-development/docs/architecture/adrs/ADR-023-implementation-roadmap.md - Phase 2 details
+
+### Skip (Do Not Load)
+- Phase 3 and Phase 4 implementation details
+- Export pipeline internals (not relevant)
+- Historical work logs
+
+## Compliance
+
+- Directive 014: /home/runner/work/quickstart_agent-augmented-development/quickstart_agent-augmented-development/.github/agents/directives/014_worklog_creation.md
+- Directive 016: /home/runner/work/quickstart_agent-augmented-development/quickstart_agent-augmented-development/.github/agents/directives/016_acceptance_test_driven_development.md
+- Directive 017: /home/runner/work/quickstart_agent-augmented-development/quickstart_agent-augmented-development/.github/agents/directives/017_test_driven_development.md
+- Directive 023: /home/runner/work/quickstart_agent-augmented-development/quickstart_agent-augmented-development/.github/agents/directives/023_clarification_before_execution.md
+
+**Mode:** /analysis-mode
+
+## Technical Specifications
+
+### JSON Schema Structure
+
+Based on ADR-023 lines 293-400, the schema must validate:
+
+```json
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Prompt Quality Schema",
+  "type": "object",
+  "required": ["objective", "deliverables", "success_criteria", "constraints", "context_files"],
+  "properties": {
+    "objective": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 300
+    },
+    "deliverables": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["file", "type", "validation"]
+      }
+    },
+    "success_criteria": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 8
+    },
+    "constraints": {
+      "type": "object",
+      "required": ["do", "dont", "time_box"]
+    },
+    "context_files": {
+      "type": "object",
+      "required": ["critical", "skip"]
+    }
+  }
+}
+```
+
+### Anti-Pattern Detection Rules
+
+From ADR-023, detect these patterns:
+
+1. **Vague Success Criteria** (P1)
+   - Pattern: Contains "assess", "review", "check" without metrics
+   - Suggestion: Add specific pass/fail condition
+
+2. **Scope Creep Language** (P4)
+   - Pattern: Uses "all", "every", "everything", "comprehensive" without boundaries
+   - Suggestion: Add explicit scope limits
+
+3. **Missing File Extensions** (P2)
+   - Pattern: Deliverable paths without extensions
+   - Suggestion: Add file extension (e.g., .md, .js, .yaml)
+
+4. **Relative Paths** (P5)
+   - Pattern: Context files starting with "./" or "../"
+   - Suggestion: Use absolute paths from repo root
+
+5. **Overloaded Time Box** (P12)
+   - Pattern: >60 min without checkpoints
+   - Suggestion: Add checkpoint guidance
+
+### Validator Class API
+
+```javascript
+class PromptValidator {
+  constructor(schemaPath)
+  async loadSchema(path)
+  async validatePrompt(promptPath)
+  detectAntiPatterns(prompt)
+  generateWarnings(prompt)
+  calculateQualityScore(prompt, errors)
+}
+```
+
+### Test Coverage Requirements
+
+20+ tests covering:
+- Schema validation (valid/invalid prompts)
+- Anti-pattern detection for each of the 12 patterns
+- Quality score calculation
+- Edge cases (missing sections, malformed YAML)
+- Performance (validation <500ms)
+
+## Checkpoints
+
+- [ ] Checkpoint 1 (2h): Schema created and validates against sample templates
+- [ ] Checkpoint 2 (4h): Validator implementation complete with anti-pattern detection
+- [ ] Checkpoint 3 (5h): Test suite complete with 95%+ coverage
+- [ ] Checkpoint 4 (6h): Documentation complete, ready for CI integration
+
+## Handoff
+
+After completion, hand off to:
+
+**Next Agent:** build-automation
+**Next Task Title:** "Create GitHub Actions workflow for prompt validation (ADR-023 Phase 2)"
+**Context to Carry Forward:**
+- Validator module location and API
+- Required npm scripts for validation
+- Expected validation output format
+- Integration with existing CI workflow
+
+## Token Budget
+
+- **Target Input:** 20,000 tokens (ADR + templates + validator pattern)
+- **Estimated Output:** 2,000-3,000 tokens (code + tests + docs)
+
+## Notes
+
+- Reference the existing `ops/exporters/validator.js` for patterns
+- Use the same test infrastructure as `validation/agent_exports/`
+- Quality score formula: Start at 100, deduct 10 per schema error, 5 per anti-pattern
+- The validator should be usable both via CLI and programmatically
+- Consider adding --fix flag in future for auto-fixing common issues
+
+---
+
+**Priority:** High  
+**Estimated Effort:** 6 hours  
+**Assigned To:** Backend Benny  
+**Due Date:** Phase 2 completion (2 weeks)  
+**Status:** Assigned
