@@ -1,0 +1,137 @@
+{
+  "opencode_version": "1.0",
+  "generated_at": "2026-01-30T10:34:39.816Z",
+  "framework": {
+    "name": "saboteurs-agents-framework",
+    "version": "1.0.0",
+    "description": "Enterprise-grade multi-agent framework with governance",
+    "source_url": "https://github.com/stijn-dejongh/saboteurs"
+  },
+  "agents": [
+    {
+      "id": "architect-alphonso",
+      "name": "architect-alphonso",
+      "version": "1.0.0",
+      "description": "Clarify complex systems with contextual trade-offs.",
+      "discovery_file": "./agents/architect-alphonso.opencode.json",
+      "definition_file": "./agents/architect-alphonso.definition.yaml"
+    },
+    {
+      "id": "backend-benny",
+      "name": "backend-benny",
+      "version": "1.0.0",
+      "description": "Shape resilient service backends and integration surfaces with traceable decisions.",
+      "discovery_file": "./agents/backend-benny.opencode.json",
+      "definition_file": "./agents/backend-benny.definition.yaml"
+    },
+    {
+      "id": "bootstrap-bill",
+      "name": "bootstrap-bill",
+      "version": "1.0.0",
+      "description": "Describe repository structure and generate scaffolding artifacts for efficient multi-agent collaboration.",
+      "discovery_file": "./agents/bootstrap-bill.opencode.json",
+      "definition_file": "./agents/bootstrap-bill.definition.yaml"
+    },
+    {
+      "id": "devops-danny",
+      "name": "devops-danny",
+      "version": "1.0.0",
+      "description": "Design reproducible build, test, and release pipelines for SDD repositories.",
+      "discovery_file": "./agents/devops-danny.opencode.json",
+      "definition_file": "./agents/devops-danny.definition.yaml"
+    },
+    {
+      "id": "curator-claire",
+      "name": "curator-claire",
+      "version": "1.0.0",
+      "description": "Maintain structural, tonal, and metadata integrity across artifacts.",
+      "discovery_file": "./agents/curator-claire.opencode.json",
+      "definition_file": "./agents/curator-claire.definition.yaml"
+    },
+    {
+      "id": "diagram-daisy",
+      "name": "diagram-daisy",
+      "version": "1.0.0",
+      "description": "Transform conceptual and architectural structures into clear, semantically aligned diagrams.",
+      "discovery_file": "./agents/diagram-daisy.opencode.json",
+      "definition_file": "./agents/diagram-daisy.definition.yaml"
+    },
+    {
+      "id": "frontend-freddy",
+      "name": "frontend-freddy",
+      "version": "1.0.0",
+      "description": "Integrate design, technical architecture, and usability reasoning for coherent front-end systems.",
+      "discovery_file": "./agents/frontend-freddy.opencode.json",
+      "definition_file": "./agents/frontend-freddy.definition.yaml"
+    },
+    {
+      "id": "lexical-larry",
+      "name": "lexical-larry",
+      "version": "1.0.0",
+      "description": "Ensure writing adheres to style rules with minimal, voice-preserving edits.",
+      "discovery_file": "./agents/lexical-larry.opencode.json",
+      "definition_file": "./agents/lexical-larry.definition.yaml"
+    },
+    {
+      "id": "manager-mike",
+      "name": "manager-mike",
+      "version": "1.0.0",
+      "description": "Coordinate multi-agent workflows, routing decisions, and status traceability.",
+      "discovery_file": "./agents/manager-mike.opencode.json",
+      "definition_file": "./agents/manager-mike.definition.yaml"
+    },
+    {
+      "id": "planning-petra",
+      "name": "planning-petra",
+      "version": "1.0.0",
+      "description": "Translate strategic intent into executable, assumption-aware plans and cadences.",
+      "discovery_file": "./agents/planning-petra.opencode.json",
+      "definition_file": "./agents/planning-petra.definition.yaml"
+    },
+    {
+      "id": "researcher-ralph",
+      "name": "researcher-ralph",
+      "version": "1.0.0",
+      "description": "Deliver grounded, verifiable insights for systemic reasoning.",
+      "discovery_file": "./agents/researcher-ralph.opencode.json",
+      "definition_file": "./agents/researcher-ralph.definition.yaml"
+    },
+    {
+      "id": "scribe-sally",
+      "name": "scribe-sally",
+      "version": "1.0.0",
+      "description": "Maintain traceable, neutral documentation integrity.",
+      "discovery_file": "./agents/scribe-sally.opencode.json",
+      "definition_file": "./agents/scribe-sally.definition.yaml"
+    },
+    {
+      "id": "synthesizer-sam",
+      "name": "synthesizer-sam",
+      "version": "1.0.0",
+      "description": "Integrate multi-agent outputs into coherent, context-aligned insight systems.",
+      "discovery_file": "./agents/synthesizer-sam.opencode.json",
+      "definition_file": "./agents/synthesizer-sam.definition.yaml"
+    },
+    {
+      "id": "translator-tanya",
+      "name": "translator-tanya",
+      "version": "1.0.0",
+      "description": "Preserve authorial tone and rhythm during accurate cross-language translation.",
+      "discovery_file": "./agents/translator-tanya.opencode.json",
+      "definition_file": "./agents/translator-tanya.definition.yaml"
+    },
+    {
+      "id": "editor-eddy",
+      "name": "editor-eddy",
+      "version": "1.0.0",
+      "description": "Revise and refine existing written content for tone, clarity, and strategic/operational alignment without introducing new facts.",
+      "discovery_file": "./agents/editor-eddy.opencode.json",
+      "definition_file": "./agents/editor-eddy.definition.yaml"
+    }
+  ],
+  "extensions": {
+    "directives_supported": true,
+    "multi_agent_orchestration": true,
+    "governance_framework": true
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "opencode_version": "1.0",
+  "skill": {
+    "id": "architect-adr",
+    "name": "ARCHITECT ADR",
+    "version": "2025-11-22T00:00:00.000Z",
+    "description": "Prompt for Architect Alphonso to perform analysis and draft a Proposed ADR",
+    "type": "prompt-template",
+    "category": "architecture",
+    "agent": "architect-alphonso",
+    "invoke_pattern": "/architect-adr <inputs>",
+    "inputs": [
+      {
+        "name": "TITLE",
+        "label": "Decision Title",
+        "description": null,
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "CONTEXT",
+        "label": "Problem Context",
+        "description": "paragraph",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "FORCES",
+        "label": "Forces / Constraints",
+        "description": "bullets",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "OPTIONS",
+        "label": "Options",
+        "description": "bullets, short labels",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "PREFERRED",
+        "label": "Preferred Option",
+        "description": null,
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "IMPACTS",
+        "label": "Impact Areas",
+        "description": "e.g., performance, portability, maintainability",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "RELATED",
+        "label": "Related Artifacts",
+        "description": "paths",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "ADR_REFS",
+        "label": "Existing ADR References",
+        "description": "list",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "RISK_APPETITE",
+        "label": "Risk Appetite",
+        "description": "low|medium|high",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "HORIZON",
+        "label": "Time Horizon",
+        "description": "short|medium|long",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "NFRS",
+        "label": "Non-Functional Requirements",
+        "description": "bullets",
+        "required": true,
+        "type": "string"
+      }
+    ],
+    "workflow_steps": [
+      {
+        "step": 9,
+        "description": "Provide diff plan for cross-link updates (README index)."
+      }
+    ],
+    "expected_outputs": [
+      "Success Metrics list"
+    ],
+    "constraints": [],
+    "tags": [
+      "architecture",
+      "adr",
+      "decision-record",
+      "trade-offs",
+      "design"
+    ],
+    "profile_url": "docs/templates/prompts/ARCHITECT_ADR.prompt.md"
+  },
+  "metadata": {
+    "source_hash": "6b4f6881c7bc51b8db840ec264d02bed7a7c1c53669de39cde5cac991ae9b7ac",
+    "exported_at": "2026-01-30T10:34:39.924Z",
+    "exporter_version": "1.0.0"
+  }
+}

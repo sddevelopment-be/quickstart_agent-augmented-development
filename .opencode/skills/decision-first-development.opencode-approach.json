@@ -1,0 +1,196 @@
+{
+  "opencode_version": "1.0",
+  "skill": {
+    "id": "decision-first-development",
+    "name": "Decision-First Development Workflow",
+    "version": "1.0.0",
+    "description": "This approach describes how to systematically capture architectural decisions throughout the development lifecycle, integrating decision rationale with artifacts to preserve \"why\" knowledge for fut...",
+    "type": "approach",
+    "category": "Documentation Pattern",
+    "status": "Active",
+    "invoke_pattern": "/approach decision-first-development",
+    "principles": [
+      {
+        "number": 1,
+        "title": "Decision Visibility",
+        "description": "Every architectural decision should be discoverable and traceable from ideation through implementation."
+      },
+      {
+        "number": 2,
+        "title": "Flow State Respect",
+        "description": "Decision capture timing should adapt to individual productivity rhythms—defer when deep in creation, collaborate when iterating with agents, formalize during reflection."
+      },
+      {
+        "number": 3,
+        "title": "Bidirectional Linking",
+        "description": "Decisions reference affected artifacts; artifacts reference governing decisions. No orphaned rationale."
+      },
+      {
+        "number": 4,
+        "title": "Progressive Fidelity",
+        "description": "Start with lightweight markers, evolve to synthesis documents, formalize as ADRs when patterns stabilize."
+      },
+      {
+        "number": 5,
+        "title": "Agent Awareness",
+        "description": "AI agents check relevant ADRs before proposing changes and include decision references in generated artifacts."
+      }
+    ],
+    "applicability": {
+      "when_to_use": [
+        "Making architectural choices that will affect multiple components",
+        "Evaluating trade-offs between alternative implementations",
+        "Establishing conventions or patterns for the codebase",
+        "Working with AI agents on complex features requiring context",
+        "Onboarding new contributors who need to understand rationale"
+      ],
+      "when_not_to_use": [
+        "Making trivial implementation details (e.g., variable naming)",
+        "Implementing well-established patterns already documented",
+        "Working on experimental prototypes not intended for production",
+        "Decision rationale is obvious from the code itself"
+      ]
+    },
+    "workflow": [
+      {
+        "phase": 1,
+        "name": "Exploration (Ideation)",
+        "objective": "Investigate problem space and evaluate options.",
+        "activities": [
+          "Research alternative approaches",
+          "Document trade-offs and constraints",
+          "Capture assumptions and unknowns",
+          "Sketch potential solutions",
+          "Ideation documents in `docs/ideation/<topic>/`",
+          "Exploration notes with alternatives considered",
+          "Proof-of-concept code (if applicable)"
+        ],
+        "artifacts": [
+          "Ideation documents in `docs/ideation/<topic>/`",
+          "Exploration notes with alternatives considered",
+          "Proof-of-concept code (if applicable)"
+        ]
+      },
+      {
+        "phase": 2,
+        "name": "Synthesis (Integration)",
+        "objective": "Integrate multiple exploration threads into coherent patterns.",
+        "activities": [
+          "Map related ideation documents",
+          "Identify recurring themes",
+          "Assess architectural compatibility",
+          "Evaluate implementation costs",
+          "Synthesis documents in `docs/architecture/synthesis/`",
+          "Pattern integration analysis",
+          "Recommendations for formalization"
+        ],
+        "artifacts": [
+          "Synthesis documents in `docs/architecture/synthesis/`",
+          "Pattern integration analysis",
+          "Recommendations for formalization"
+        ]
+      },
+      {
+        "phase": 3,
+        "name": "Formalization (ADR)",
+        "objective": "Document architectural decision with full rationale.",
+        "activities": [
+          "Draft ADR using standard template",
+          "Reference source ideation and synthesis",
+          "List affected artifacts and directives",
+          "Define acceptance criteria",
+          "ADR in `docs/architecture/adrs/ADR-NNN-<title>.md`",
+          "Updates to ADR README index",
+          "Cross-references to related ADRs"
+        ],
+        "artifacts": [
+          "ADR in `docs/architecture/adrs/ADR-NNN-<title>.md`",
+          "Updates to ADR README index",
+          "Cross-references to related ADRs"
+        ]
+      },
+      {
+        "phase": 4,
+        "name": "Implementation (Code/Docs)",
+        "objective": "Apply decision in artifacts with clear traceability.",
+        "activities": [
+          "Add decision markers to code/documentation",
+          "Reference ADRs in commit messages",
+          "Update directives if behavioral changes needed",
+          "Link artifacts to governing decisions",
+          "Code files with decision markers",
+          "Documentation with ADR references",
+          "Updated directives (if applicable)"
+        ],
+        "artifacts": [
+          "Code files with decision markers",
+          "Documentation with ADR references",
+          "Updated directives (if applicable)"
+        ]
+      }
+    ],
+    "implementation": {
+      "human": [],
+      "ai_agent": [],
+      "orchestrator": []
+    },
+    "references": [
+      {
+        "name": "**Authoritative ADR:** [ADR-017: Traceable Decision Integration](../../../docs/architecture/adrs/ADR-017-traceable-decision-integration.md)"
+      },
+      {
+        "name": "**Synthesis:** [Traceable Decision Patterns Synthesis](../../../docs/architecture/synthesis/traceable-decision-patterns-synthesis.md)"
+      },
+      {
+        "name": "**Source Ideation:**"
+      },
+      {
+        "name": "**Directives:**"
+      },
+      {
+        "name": "**Related ADRs:**"
+      }
+    ],
+    "troubleshooting": [
+      {
+        "title": "Decision Marker Overload",
+        "symptoms": "Too many markers, signal-to-noise ratio degrading.",
+        "causes": [
+          "Marking implementation details instead of architectural decisions",
+          "Not promoting markers to ADRs when patterns stabilize",
+          "Over-documenting obvious choices"
+        ],
+        "solutions": []
+      },
+      {
+        "title": "Broken ADR References",
+        "symptoms": "Links to non-existent ADRs in decision markers.",
+        "causes": [
+          "ADR numbers changed during reorganization",
+          "Marker references ADR not yet created",
+          "Typos in ADR numbers"
+        ],
+        "solutions": []
+      },
+      {
+        "title": "Low Decision Debt but Poor Discoverability",
+        "symptoms": "All markers promoted to ADRs, but contributors still can't find rationale.",
+        "causes": [
+          "ADRs not linked from artifacts",
+          "Missing synthesis documents",
+          "ADR README not maintained",
+          "Search keywords don't match actual decisions"
+        ],
+        "solutions": []
+      }
+    ],
+    "profile_url": ".github/agents/approaches/decision-first-development.md"
+  },
+  "metadata": {
+    "last_updated": "2025-11-25",
+    "source_hash": "9792d05baa28cc6c6e1bc159656e94cf4970a0f4abc0413c97f1e54ba9a7601b",
+    "word_count": 2319,
+    "exported_at": "2026-01-30T10:34:39.936Z",
+    "exporter_version": "1.0.0"
+  }
+}

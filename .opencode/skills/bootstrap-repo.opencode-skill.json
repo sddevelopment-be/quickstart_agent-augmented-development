@@ -1,0 +1,108 @@
+{
+  "opencode_version": "1.0",
+  "skill": {
+    "id": "bootstrap-repo",
+    "name": "BOOTSTRAP REPO",
+    "version": "2025-11-22T00:00:00.000Z",
+    "description": "Prompt for Bootstrap Bill to bootstrap a cloned repository for local/project context",
+    "type": "prompt-template",
+    "category": "repository-structure",
+    "agent": "bootstrap-bill",
+    "invoke_pattern": "/bootstrap-repo <inputs>",
+    "inputs": [
+      {
+        "name": "VISION",
+        "label": "Vision Summary",
+        "description": "paragraph",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "SCOPE",
+        "label": "Scope",
+        "description": "in/out bullets",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "OUTCOMES",
+        "label": "Desired Outcomes",
+        "description": "bullets",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "LANGUAGE",
+        "label": "Primary Language",
+        "description": null,
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "STACK",
+        "label": "Tech Stack",
+        "description": "bullets",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "COMM_PREFS",
+        "label": "Communication Preferences",
+        "description": "bullets",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "CONSTRAINTS",
+        "label": "Operational Constraints",
+        "description": "bullets",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "ROLES",
+        "label": "Agent Roles",
+        "description": "bullets",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "REFS",
+        "label": "Reference Materials",
+        "description": "paths/links",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "EXTRA",
+        "label": "Additional Context",
+        "description": null,
+        "required": true,
+        "type": "string"
+      }
+    ],
+    "workflow_steps": [
+      {
+        "step": 5,
+        "description": "Summarize next 5 refinement actions."
+      }
+    ],
+    "expected_outputs": [
+      "Next actions list"
+    ],
+    "constraints": [],
+    "tags": [
+      "bootstrap",
+      "repository",
+      "scaffolding",
+      "initialization",
+      "structure"
+    ],
+    "profile_url": "docs/templates/prompts/BOOTSTRAP_REPO.prompt.md"
+  },
+  "metadata": {
+    "source_hash": "b42973409ff5fd3bfa14ddec4365318d88becdb59acebd2376bbe21853b8e7dc",
+    "exported_at": "2026-01-30T10:34:39.925Z",
+    "exporter_version": "1.0.0"
+  }
+}

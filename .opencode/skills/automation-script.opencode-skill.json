@@ -1,0 +1,108 @@
+{
+  "opencode_version": "1.0",
+  "skill": {
+    "id": "automation-script",
+    "name": "AUTOMATION SCRIPT",
+    "version": "2025-11-22T00:00:00.000Z",
+    "description": "Prompt for DevOps Danny to generate an automation script based on requirements or direct prompt",
+    "type": "prompt-template",
+    "category": "automation",
+    "agent": "devops-danny",
+    "invoke_pattern": "/automation-script <inputs>",
+    "inputs": [
+      {
+        "name": "PURPOSE",
+        "label": "Script Purpose",
+        "description": "sentence",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "REQ_SOURCE",
+        "label": "Requirements Source",
+        "description": "path or none",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "ENV",
+        "label": "Environment Assumptions",
+        "description": "bullets",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "PLATFORM",
+        "label": "Target Platform",
+        "description": "local|ci|multi",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "TOOLS",
+        "label": "Languages/Tools",
+        "description": "comma",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "IDEMPOTENT",
+        "label": "Idempotency Required?",
+        "description": "yes/no",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "SECURITY",
+        "label": "Security Constraints",
+        "description": "bullets",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "OBS",
+        "label": "Observability",
+        "description": "logs|metrics|none",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "INVOCATION",
+        "label": "Invocation Method",
+        "description": "manual|scheduled|hook",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "OUTPUTS",
+        "label": "Output Artifacts",
+        "description": "paths/formats",
+        "required": true,
+        "type": "string"
+      }
+    ],
+    "workflow_steps": [
+      {
+        "step": 8,
+        "description": "Output to `work/automation/\\<slug>-script.sh` (or `.py` based on \\<TOOLS>)."
+      }
+    ],
+    "expected_outputs": [
+      "Optional CI snippet"
+    ],
+    "constraints": [],
+    "tags": [
+      "automation",
+      "scripting",
+      "devops",
+      "ci-cd",
+      "tooling"
+    ],
+    "profile_url": "docs/templates/prompts/AUTOMATION_SCRIPT.prompt.md"
+  },
+  "metadata": {
+    "source_hash": "aa8701ee4377c46a65f37bfaa20f067b0cf465960e21fa114f5821701b8f9025",
+    "exported_at": "2026-01-30T10:34:39.925Z",
+    "exporter_version": "1.0.0"
+  }
+}

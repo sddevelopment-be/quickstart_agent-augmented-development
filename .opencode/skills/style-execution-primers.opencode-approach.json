@@ -1,0 +1,30 @@
+{
+  "opencode_version": "1.0",
+  "skill": {
+    "id": "style-execution-primers",
+    "name": "Style Execution Primers (Agents)",
+    "version": "1.0.0",
+    "description": "",
+    "type": "approach",
+    "category": "Operational Pattern",
+    "status": "Active",
+    "invoke_pattern": "/approach style-execution-primers",
+    "principles": [],
+    "applicability": {
+      "when_to_use": [],
+      "when_not_to_use": []
+    },
+    "workflow": [],
+    "implementation": {},
+    "references": [],
+    "troubleshooting": [],
+    "profile_url": ".github/agents/approaches/style-execution-primers.md"
+  },
+  "metadata": {
+    "last_updated": "unknown",
+    "source_hash": "a192f45085304ee0627c6d28182d87b313270ac8211e9bbe939dc8be1cc82f54",
+    "word_count": 410,
+    "exported_at": "2026-01-30T10:34:39.937Z",
+    "exporter_version": "1.0.0"
+  }
+}

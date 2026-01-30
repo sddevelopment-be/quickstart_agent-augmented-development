@@ -1,0 +1,28 @@
+{
+  "opencode_version": "1.0",
+  "agent": {
+    "id": "bootstrap-bill",
+    "name": "bootstrap-bill",
+    "version": "1.0.0",
+    "description": "Describe repository structure and generate scaffolding artifacts for efficient multi-agent collaboration.",
+    "capabilities": [],
+    "category": "general",
+    "tools": [
+      "read",
+      "write",
+      "search",
+      "edit",
+      "Bash",
+      "Grep",
+      "github",
+      "todo"
+    ],
+    "profile_url": "./bootstrap-bill.agent.md",
+    "metadata": {
+      "last_updated": "2026-01-30",
+      "api_version": "1.0.0",
+      "directives": [],
+      "styleguides": []
+    }
+  }
+}

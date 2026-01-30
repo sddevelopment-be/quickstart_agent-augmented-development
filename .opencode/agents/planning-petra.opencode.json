@@ -1,0 +1,27 @@
+{
+  "opencode_version": "1.0",
+  "agent": {
+    "id": "planning-petra",
+    "name": "planning-petra",
+    "version": "1.0.0",
+    "description": "Translate strategic intent into executable, assumption-aware plans and cadences.",
+    "capabilities": [],
+    "category": "general",
+    "tools": [
+      "read",
+      "write",
+      "search",
+      "edit",
+      "bash",
+      "todo",
+      "github"
+    ],
+    "profile_url": "./project-planner.agent.md",
+    "metadata": {
+      "last_updated": "2026-01-30",
+      "api_version": "1.0.0",
+      "directives": [],
+      "styleguides": []
+    }
+  }
+}

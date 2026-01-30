@@ -1,0 +1,29 @@
+{
+  "opencode_version": "1.0",
+  "agent": {
+    "id": "devops-danny",
+    "name": "devops-danny",
+    "version": "1.0.0",
+    "description": "Design reproducible build, test, and release pipelines for SDD repositories.",
+    "capabilities": [],
+    "category": "general",
+    "tools": [
+      "read",
+      "write",
+      "search",
+      "edit",
+      "MultiEdit",
+      "Bash",
+      "Grep",
+      "github",
+      "yaml"
+    ],
+    "profile_url": "./build-automation.agent.md",
+    "metadata": {
+      "last_updated": "2026-01-30",
+      "api_version": "1.0.0",
+      "directives": [],
+      "styleguides": []
+    }
+  }
+}

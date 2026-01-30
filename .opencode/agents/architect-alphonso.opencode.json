@@ -1,0 +1,28 @@
+{
+  "opencode_version": "1.0",
+  "agent": {
+    "id": "architect-alphonso",
+    "name": "architect-alphonso",
+    "version": "1.0.0",
+    "description": "Clarify complex systems with contextual trade-offs.",
+    "capabilities": [],
+    "category": "general",
+    "tools": [
+      "read",
+      "write",
+      "search",
+      "edit",
+      "bash",
+      "plantuml",
+      "MultiEdit",
+      "markdown-linter"
+    ],
+    "profile_url": "./architect.agent.md",
+    "metadata": {
+      "last_updated": "2026-01-30",
+      "api_version": "1.0.0",
+      "directives": [],
+      "styleguides": []
+    }
+  }
+}

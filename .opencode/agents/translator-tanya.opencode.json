@@ -1,0 +1,28 @@
+{
+  "opencode_version": "1.0",
+  "agent": {
+    "id": "translator-tanya",
+    "name": "translator-tanya",
+    "version": "1.0.0",
+    "description": "Preserve authorial tone and rhythm during accurate cross-language translation.",
+    "capabilities": [],
+    "category": "general",
+    "tools": [
+      "read",
+      "write",
+      "search",
+      "edit",
+      "glob",
+      "MultiEdit",
+      "cpell",
+      "bash"
+    ],
+    "profile_url": "./translator.agent.md",
+    "metadata": {
+      "last_updated": "2026-01-30",
+      "api_version": "1.0.0",
+      "directives": [],
+      "styleguides": []
+    }
+  }
+}

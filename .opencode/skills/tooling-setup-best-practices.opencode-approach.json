@@ -1,0 +1,74 @@
+{
+  "opencode_version": "1.0",
+  "skill": {
+    "id": "tooling-setup-best-practices",
+    "name": "Tooling Setup Best Practices",
+    "version": "1.0.0",
+    "description": "This approach describes best practices for setting up, configuring, and maintaining development tooling to support agent-augmented development. It provides a framework for tool selection, configura...",
+    "type": "approach",
+    "category": "Development Environment Configuration",
+    "status": "Active",
+    "invoke_pattern": "/approach tooling-setup-best-practices",
+    "principles": [
+      {
+        "number": 1,
+        "title": "Tool Selection Rigor",
+        "description": "Choose tools based on measurable criteria: usage frequency, performance improvement, maintenance activity, and security posture."
+      },
+      {
+        "number": 2,
+        "title": "Configuration Consistency",
+        "description": "Establish reproducible environments through version pinning, platform-aware setup scripts, and documented configuration patterns."
+      },
+      {
+        "number": 3,
+        "title": "Proactive Maintenance",
+        "description": "Schedule regular reviews to update versions, audit security, assess performance, and align with evolving agent needs."
+      },
+      {
+        "number": 4,
+        "title": "Graceful Degradation",
+        "description": "Provide fallback strategies for every tool to ensure agents can operate even when preferred tools are unavailable."
+      },
+      {
+        "number": 5,
+        "title": "Documentation Discipline",
+        "description": "Keep setup instructions, troubleshooting guides, and version tables synchronized with actual tooling state."
+      }
+    ],
+    "applicability": {
+      "when_to_use": [
+        "Establishing a new development environment for agent-augmented work",
+        "Evaluating tools for addition to the standard toolkit",
+        "Configuring CI/CD environments for consistent agent execution",
+        "Troubleshooting tool availability or performance issues",
+        "Planning quarterly or annual tooling maintenance reviews",
+        "Creating derivative repositories from templates"
+      ],
+      "when_not_to_use": [
+        "Working with experimental or one-off tools not intended for standardization",
+        "Setting up tools outside the agent execution context",
+        "Making temporary workarounds that shouldn't become precedents"
+      ]
+    },
+    "workflow": [],
+    "implementation": {},
+    "references": [],
+    "troubleshooting": [
+      {
+        "title": "Tool Not Found in PATH",
+        "symptoms": "`command not found: fd` after installation",
+        "causes": [],
+        "solutions": []
+      }
+    ],
+    "profile_url": ".github/agents/approaches/tooling-setup-best-practices.md"
+  },
+  "metadata": {
+    "last_updated": "2025-11-27",
+    "source_hash": "0d77ff612ab39e5ffdca6ea90cfb42a838e7ee2f292cc7df508af03cda311a45",
+    "word_count": 3808,
+    "exported_at": "2026-01-30T10:34:39.938Z",
+    "exporter_version": "1.0.0"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "opencode_version": "1.0",
+  "skill": {
+    "id": "work-directory-orchestration",
+    "name": "Work Directory Orchestration Approach",
+    "version": "1.1.0",
+    "description": "Provide a single, precise reference for the file-based asynchronous orchestration model that powers the `work/` directory. The approach keeps exploratory and operational work visible inside Git by ...",
+    "type": "approach",
+    "category": "Coordination Pattern",
+    "status": "Active",
+    "invoke_pattern": "/approach work-directory-orchestration",
+    "principles": [],
+    "applicability": {
+      "when_to_use": [],
+      "when_not_to_use": []
+    },
+    "workflow": [],
+    "implementation": {},
+    "references": [
+      {
+        "name": "ADR-002",
+        "description": "File-Based Asynchronous Agent Coordination"
+      },
+      {
+        "name": "ADR-003",
+        "description": "Task Lifecycle & State Management"
+      },
+      {
+        "name": "ADR-004",
+        "description": "Work Directory Structure"
+      },
+      {
+        "name": "ADR-005",
+        "description": "Coordinator Agent Pattern"
+      },
+      {
+        "name": "Directive 014",
+        "description": "Work Log Creation"
+      },
+      {
+        "name": "Directive 019",
+        "description": "File-Based Collaboration"
+      },
+      {
+        "name": "`docs/HOW_TO_USE/multi-agent-orchestration.md`"
+      },
+      {
+        "name": "`work/README.md` (high-level overview)"
+      },
+      {
+        "name": "`work/collaboration/README.md` (directory-specific guide)"
+      }
+    ],
+    "troubleshooting": [],
+    "profile_url": ".github/agents/approaches/work-directory-orchestration.md"
+  },
+  "metadata": {
+    "last_updated": "2025-11-27",
+    "source_hash": "5d9fd417adae68921999ba5bdd30b57cb32c4e02d3cf8d925f401aa2efa8d4f6",
+    "word_count": 1034,
+    "exported_at": "2026-01-30T10:34:39.939Z",
+    "exporter_version": "1.0.0"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "opencode_version": "1.0",
+  "agent": {
+    "id": "backend-benny",
+    "name": "backend-benny",
+    "version": "1.0.0",
+    "description": "Shape resilient service backends and integration surfaces with traceable decisions.",
+    "capabilities": [],
+    "category": "general",
+    "tools": [
+      "read",
+      "write",
+      "search",
+      "edit",
+      "MultiEdit",
+      "Bash",
+      "Grep",
+      "Docker",
+      "Java",
+      "Python"
+    ],
+    "profile_url": "./backend-dev.agent.md",
+    "metadata": {
+      "last_updated": "2026-01-30",
+      "api_version": "1.0.0",
+      "directives": [],
+      "styleguides": []
+    }
+  }
+}
