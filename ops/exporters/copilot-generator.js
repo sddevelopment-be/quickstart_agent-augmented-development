@@ -355,7 +355,7 @@ function extractGovernanceMetadata(ir) {
                                 (content.includes('manage') && content.includes('agent'));
   
   return {
-    saboteurs_governance: {
+    agentic_governance: {
       directives: directivesWithFlags,
       priority_level: priorityLevel,
       uncertainty_threshold: ir.governance.uncertainty_threshold || 'not specified',

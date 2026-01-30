@@ -188,7 +188,7 @@ describe('Copilot Generator - Acceptance Tests', () => {
       const skill = JSON.parse(skillContent);
       
       expect(skill.extensions).toBeDefined();
-      expect(skill.extensions.saboteurs_governance).toBeDefined();
+      expect(skill.extensions.agentic_governance).toBeDefined();
     });
 
     it('should include multi-agent extensions', async () => {
@@ -210,7 +210,7 @@ describe('Copilot Generator - Acceptance Tests', () => {
       const skillContent = await fs.readFile(skillPath, 'utf-8');
       const skill = JSON.parse(skillContent);
       
-      expect(Array.isArray(skill.extensions.saboteurs_governance.directives)).toBe(true);
+      expect(Array.isArray(skill.extensions.agentic_governance.directives)).toBe(true);
     });
   });
 });

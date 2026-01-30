@@ -82,7 +82,7 @@ async function exportAgent() {
     }
   },
   "extensions": {
-    "saboteurs_governance": { /* ... */ },
+    "agentic_governance": { /* ... */ },
     "multi_agent": { /* ... */ }
   }
 }
@@ -119,7 +119,7 @@ agent:
 
 ```json
 {
-  "saboteurs_governance": {
+  "agentic_governance": {
     "directives": [
       {
         "code": "016",
@@ -194,7 +194,7 @@ Extract governance extensions from IR.
 **Parameters:**
 - `ir` (AgentIR) - Parsed agent IR
 
-**Returns:** `Object` - Governance extensions object with `saboteurs_governance` and `multi_agent`
+**Returns:** `Object` - Governance extensions object with `agentic_governance` and `multi_agent`
 
 ### Capability Extraction
 
@@ -394,7 +394,7 @@ async function exportAgent() {
     }
   },
   "extensions": {
-    "saboteurs_governance": { /* ... */ },
+    "agentic_governance": { /* ... */ },
     "multi_agent": { /* ... */ }
   }
 }

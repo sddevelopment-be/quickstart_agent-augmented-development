@@ -1,16 +1,20 @@
 {
-  "name": "saboteurs",
+  "name": "quickstart-agent-augmented-development",
   "version": "1.0.0",
-  "description": "A series of sabotage guides to help you dismantle any endeavour, organization, or team.",
+  "description": "Quickstart template for agent-augmented development with multi-format skill exports.",
   "main": "index.js",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
     "test": "npm run test:validator && npm run validate:cross-references && npm run validate:definitions",
+    "test:exporters": "jest validation/agent_exports/",
     "test:parser": "jest validation/agent_exports/parser.test.js",
     "test:parser:watch": "jest validation/agent_exports/parser.test.js --watch",
     "test:parser:coverage": "jest validation/agent_exports/parser.test.js --coverage",
+    "export:agents": "node ops/opencode-exporter.js",
+    "export:skills": "node ops/skills-exporter.js",
+    "export:all": "npm run export:agents && npm run export:skills",
     "test:validator": "node --test ops/scripts/test-markua-validator.mjs ops/scripts/test-markua-validator-integration.mjs",
     "validate:cross-references": "node ops/scripts/validate-cross-references.mjs",
     "validate:definitions": "node ops/scripts/validate-definition-lists.mjs",
