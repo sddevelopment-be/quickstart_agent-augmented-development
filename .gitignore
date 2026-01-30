@@ -22,3 +22,5 @@ __pycache__/
 
 # Temporary files ( input/output of various tools or reference documentation )
 tmp/
+dist/
+node_modules/
