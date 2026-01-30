@@ -1,0 +1,164 @@
+@startuml Prompt Optimization Framework Architecture
+
+!define RECTANGLE_STYLE fill:#E3F2FD,stroke:#1976D2,stroke-width:2px
+!define COMPONENT_STYLE fill:#FFF3E0,stroke:#F57C00,stroke-width:2px
+!define DATA_STYLE fill:#F1F8E9,stroke:#689F38,stroke-width:2px
+!define PROCESS_STYLE fill:#FCE4EC,stroke:#C2185B,stroke-width:2px
+
+title Prompt Optimization Framework - System Architecture
+
+package "Template Layer\n(Phase 1: Quick Wins)" as P1 <<RECTANGLE_STYLE>> {
+  [task-execution.yaml\n• 12 mandatory sections\n• Addresses all patterns] as T1
+  [bug-fix.yaml\n• Surgical fixes\n• Regression prevention] as T2
+  [documentation.yaml\n• Quality gates\n• Structure enforcement] as T3
+  [architecture-decision.yaml\n• ADR creation\n• Option analysis] as T4
+  [assessment.yaml\n• Evaluation framework\n• Metrics capture] as T5
+  
+  note right of T1
+    **Remediation Coverage:**
+    ✓ P1: Success Criteria (≥3 required)
+    ✓ P2: Deliverables with paths
+    ✓ P3: Priority/Sequence section
+    ✓ P4: Constraints (do/don't)
+    ✓ P5: Absolute paths
+    ✓ P7: Handoff section
+    ✓ P8: Checkpoint guidance
+    ✓ P9: Validation in deliverables
+    ✓ P11: Required constraints
+    ✓ P12: Task splitting guidance
+  end note
+}
+
+package "Validation Layer\n(Phase 2: Enforcement)" as P2 <<RECTANGLE_STYLE>> {
+  [prompt-schema.json\n• Required sections\n• Anti-pattern rules\n• Token budgets] as S1
+  [prompt-validator.js\n• Schema validation\n• Quality scoring\n• Anti-pattern detection] as V1
+  [CI Workflow\n• PR validation\n• Auto-comments\n• Status checks] as CI1
+  
+  note left of V1
+    **Anti-Pattern Detection:**
+    • Vague success criteria (P1)
+    • Scope creep language (P4)
+    • Missing file extensions (P2)
+    • Relative paths (P5)
+    • Redundant reminders (P10)
+  end note
+}
+
+package "Context Optimization Layer\n(Phase 3: Token Efficiency)" as P3 <<RECTANGLE_STYLE>> {
+  [Token Counter\n• tiktoken integration\n• Accuracy 95%+\n• Per-file estimation] as TC1
+  [Context Loader\n• Progressive loading\n• Budget enforcement\n• Smart truncation] as CL1
+  [Context Budget\nCalculator\n• Critical vs Supporting\n• Budget allocation\n• Skip recommendations] as CB1
+  
+  note right of CL1
+    **Loading Strategy:**
+    1. Critical files (must fit)
+    2. Supporting files (best effort)
+    3. Skip list enforcement
+    4. Truncate if necessary
+    
+    **Addresses Pattern 6:**
+    40% input token reduction
+    23K-64K → 10K-15K typical
+  end note
+}
+
+package "Metrics Layer\n(Phase 4: Continuous Improvement)" as P4 <<RECTANGLE_STYLE>> {
+  database "Efficiency\nDashboard" as DB1 {
+    [Prompt Quality Scores]
+    [Token Usage Trends]
+    [Clarification Rates]
+    [Template Adoption]
+  }
+  
+  [Anomaly Detector\n• Quality drops\n• Budget violations\n• Pattern detection] as AD1
+  [Health Score\nTracker\n• Framework health\n• Monthly reports\n• Trend analysis] as HS1
+  
+  note bottom of DB1
+    **Key Metrics:**
+    • Clarification: 30% → <10%
+    • Task duration: 37m → 25m
+    • Token usage: 40K → 28K
+    • Framework health: 92 → 97-98
+  end note
+}
+
+' --- Integration with Existing Architecture ---
+
+package "Existing Infrastructure" <<DATA_STYLE>> {
+  [Export Pipeline\nParser Module\nops/exporters/parser.js] as EP1
+  [Validator Module\nops/exporters/validator.js] as EV1
+  [Test Infrastructure\n98 passing tests\nJest + CI/CD] as TI1
+  [Directive 014\nWork Log Structure] as D14
+}
+
+' --- Data Flow ---
+
+T1 -down-> V1 : "Prompt\nYAML"
+T2 -down-> V1
+T3 -down-> V1
+T4 -down-> V1
+T5 -down-> V1
+
+S1 -right-> V1 : "Schema\nDefinition"
+
+V1 -down-> CI1 : "Validation\nResults"
+V1 -right-> CL1 : "Context\nFile List"
+
+CB1 -down-> CL1 : "Budget\nAllocation"
+TC1 -left-> CL1 : "Token\nEstimates"
+
+CI1 -down-> AD1 : "Quality\nScores"
+CL1 -down-> DB1 : "Token\nMetrics"
+AD1 -right-> HS1 : "Anomalies"
+
+EP1 -up-> V1 : "Reuse YAML\nParsing"
+EV1 -up-> V1 : "Extend\nValidation"
+TI1 -up-> V1 : "Test\nFramework"
+D14 -up-> DB1 : "Work Log\nMetrics"
+
+' --- Pattern Coverage Annotations ---
+
+note as N1
+  **12 Pattern Remediation Coverage**
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  P1: Vague criteria → Template + Validator
+  P2: Missing deliverables → Template + Schema
+  P3: Ambiguous priorities → Template section
+  P4: Scope creep → Validator anti-pattern
+  P5: Missing paths → Validator + Schema
+  P6: Incomplete context → Context Loader
+  P7: Implicit handoffs → Template section
+  P8: No checkpoints → Template guidance
+  P9: Undefined quality → Template validation
+  P10: Redundant reminders → Validator
+  P11: Missing constraints → Template + Schema
+  P12: Overloaded prompts → Validator warning
+end note
+
+' --- Impact Metrics ---
+
+note as N2
+  **Expected Impact**
+  ━━━━━━━━━━━━━━━━━
+  ⏱ Time Saved: 12 min/task (32% faster)
+  🎯 Clarifications: -67% (30% → <10%)
+  🪙 Token Efficiency: -30% (40K → 28K)
+  ♻️ Rework: -67% (15% → <5%)
+  📊 Framework Health: +5-6 points (92 → 97-98)
+  💰 Annual ROI: 140-300 hours saved
+end note
+
+N1 -[hidden]down- P1
+N2 -[hidden]down- P4
+
+' --- Styling ---
+
+skinparam packageStyle rectangle
+skinparam component {
+  BackgroundColor<<RECTANGLE_STYLE>> #E3F2FD
+  BorderColor<<RECTANGLE_STYLE>> #1976D2
+  BackgroundColor<<DATA_STYLE>> #F1F8E9
+  BorderColor<<DATA_STYLE>> #689F38
+}
+
+@enduml
