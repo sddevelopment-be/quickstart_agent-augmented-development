@@ -2,6 +2,51 @@
 
 This directory contains structured, reusable prompts to streamline common agent-driven tasks. Each prompt begins with context clearing and agent bootstrap to prevent context leakage and degradation.
 
+## 🆕 Canonical Templates (ADR-023 Phase 1)
+
+**NEW:** Five canonical prompt templates implementing the Prompt Optimization Framework (ADR-023). These templates systematically address all 12 suboptimal patterns identified in work log analysis, targeting 30-40% efficiency improvement.
+
+### Template Overview
+
+| Template | Purpose | Patterns Addressed | Time Box |
+|----------|---------|-------------------|----------|
+| **[task-execution.yaml](task-execution.yaml)** | General-purpose tasks | All 12 patterns (P1-P12) | 5-240 min |
+| **[bug-fix.yaml](bug-fix.yaml)** | Surgical defect fixes | P1-6, P9, P11 | 30-90 min |
+| **[documentation.yaml](documentation.yaml)** | Structured documentation | P1-2, P4-6, P9, P11 | 45-120 min |
+| **[architecture-decision.yaml](architecture-decision.yaml)** | ADR creation | P1-9, P11 | 90-180 min |
+| **[assessment.yaml](assessment.yaml)** | Evaluation & recommendations | P1-3, P5-7, P9-11 | 60-180 min |
+
+### Key Features
+
+All templates include:
+- ✅ **Clear Objectives:** Measurable 1-2 sentence goals
+- ✅ **Specific Deliverables:** Absolute paths with validation criteria
+- ✅ **Success Criteria:** Minimum 3 measurable conditions
+- ✅ **Explicit Constraints:** "Do" and "Don't" lists with time boxes
+- ✅ **Context Management:** Critical/supporting/skip file organization
+- ✅ **Compliance References:** Required directives and ADRs
+- ✅ **Checkpoints:** Intermediate validation for >60 min tasks
+- ✅ **Token Budgets:** Progressive context loading guidance
+
+### Usage Guide
+
+1. **Select Template:** Choose based on task type
+2. **Fill Sections:** Replace placeholders with specifics
+3. **Verify Completeness:** Use Directive 023 checklist
+4. **Execute:** Agent follows structured guidance
+
+### Related Documentation
+
+- **Directive 023:** [Clarification Before Execution](/.github/agents/directives/023_clarification_before_execution.md) - Agents request clarification when template sections are incomplete
+- **ADR-023:** [Prompt Optimization Framework](/docs/architecture/adrs/ADR-023-prompt-optimization-framework.md) - Architectural design and rationale
+- **Implementation Roadmap:** [ADR-023 Roadmap](/docs/architecture/adrs/ADR-023-implementation-roadmap.md) - Four-phase rollout plan
+
+---
+
+## Legacy Prompts (Pre-ADR-023)
+
+The following prompts predate the canonical templates. They remain valid but will be migrated to template format in Phase 2.
+
 ## Prompt Format
 
 All prompts follow this structure:
