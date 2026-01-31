@@ -1,0 +1,220 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Prompt Quality Schema",
+  "description": "JSON Schema for validating AI agent prompt quality and structure. Enforces ADR-023 requirements for clear objectives, measurable deliverables, and bounded scope.",
+  "type": "object",
+  "required": ["objective", "deliverables", "success_criteria", "constraints", "context_files"],
+  "properties": {
+    "objective": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 300,
+      "description": "Clear, measurable goal (1-2 sentences)"
+    },
+    "deliverables": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Concrete outputs with validation criteria",
+      "items": {
+        "type": "object",
+        "required": ["file", "type", "validation"],
+        "properties": {
+          "file": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_./\\-]+\\.[a-z]{2,5}$",
+            "description": "Absolute file path with extension"
+          },
+          "type": {
+            "enum": ["report", "code", "doc", "diagram", "update", "test"],
+            "description": "Artifact type"
+          },
+          "validation": {
+            "type": "string",
+            "minLength": 10,
+            "description": "How to verify completion"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "success_criteria": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 8,
+      "description": "Measurable, verifiable criteria",
+      "items": {
+        "type": "string",
+        "minLength": 10,
+        "description": "Measurable, verifiable criterion"
+      }
+    },
+    "constraints": {
+      "type": "object",
+      "required": ["do", "dont", "time_box"],
+      "description": "Explicit boundaries and time limits",
+      "properties": {
+        "do": {
+          "type": "array",
+          "minItems": 2,
+          "description": "Allowed actions",
+          "items": {
+            "type": "string",
+            "minLength": 5
+          }
+        },
+        "dont": {
+          "type": "array",
+          "minItems": 2,
+          "description": "Prohibited actions",
+          "items": {
+            "type": "string",
+            "minLength": 5
+          }
+        },
+        "time_box": {
+          "type": "integer",
+          "minimum": 5,
+          "maximum": 240,
+          "description": "Duration in minutes"
+        }
+      },
+      "additionalProperties": false
+    },
+    "context_files": {
+      "type": "object",
+      "required": ["critical", "skip"],
+      "description": "File loading guidance",
+      "properties": {
+        "critical": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10,
+          "description": "Must-load files",
+          "items": {
+            "type": "object",
+            "required": ["path", "reason"],
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Absolute path from repo root"
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 5,
+                "description": "Why this file is needed"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "supporting": {
+          "type": "array",
+          "description": "Optional files",
+          "items": {
+            "type": "object",
+            "required": ["path", "reason"],
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "skip": {
+          "type": "array",
+          "description": "Files to explicitly exclude",
+          "items": {
+            "type": "string",
+            "minLength": 3
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "token_budget": {
+      "type": "object",
+      "description": "Token management guidance (optional but recommended)",
+      "properties": {
+        "max_input": {
+          "type": "integer",
+          "maximum": 150000,
+          "description": "Hard limit for input tokens"
+        },
+        "target_input": {
+          "type": "integer",
+          "maximum": 20000,
+          "description": "Target budget for efficiency"
+        },
+        "estimated_output": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Expected output token count"
+        }
+      },
+      "additionalProperties": false
+    },
+    "checkpoints": {
+      "type": "array",
+      "description": "Intermediate validation points (required for >60 min tasks)",
+      "items": {
+        "type": "string",
+        "minLength": 10
+      }
+    },
+    "handoff": {
+      "type": "object",
+      "description": "Multi-agent coordination (optional)",
+      "properties": {
+        "next_agent": {
+          "type": "string",
+          "description": "Agent to receive handoff"
+        },
+        "next_task_title": {
+          "type": "string",
+          "description": "Title for follow-up task"
+        },
+        "context": {
+          "type": "array",
+          "description": "Information to carry forward",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "compliance": {
+      "type": "object",
+      "description": "Directive and ADR requirements",
+      "properties": {
+        "directives": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "adrs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "mode": {
+          "enum": ["/analysis-mode", "/creative-mode", "/meta-mode"],
+          "description": "Reasoning mode"
+        }
+      }
+    },
+    "notes": {
+      "type": "array",
+      "description": "Additional context or special considerations",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}

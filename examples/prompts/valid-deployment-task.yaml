@@ -1,0 +1,54 @@
+objective: "Create a deployment pipeline configuration that automates testing and staging deployment for the authentication service, reducing manual deployment time from 30 minutes to under 5 minutes"
+
+deliverables:
+  - file: "ops/pipelines/auth-deployment.yaml"
+    type: "code"
+    validation: "Pipeline runs successfully and completes in under 5 minutes on test branch"
+  
+  - file: "docs/deployment/auth-pipeline-guide.md"
+    type: "doc"
+    validation: "Documentation includes setup steps, trigger conditions, and rollback procedures"
+
+success_criteria:
+  - "Pipeline completes full deployment cycle in under 5 minutes"
+  - "All 23 integration tests pass in staging environment"
+  - "Zero-downtime deployment verified with health check monitoring"
+  - "Rollback procedure tested and completes in under 2 minutes"
+
+constraints:
+  do:
+    - "Use existing GitHub Actions workflow patterns"
+    - "Integrate with current Kubernetes deployment via kubectl"
+    - "Include health checks and automated rollback"
+    - "Add deployment notifications to Slack #deployments channel"
+  
+  dont:
+    - "Don't modify production deployment without staging validation"
+    - "Don't bypass security scanning or vulnerability checks"
+    - "Don't hardcode credentials or secrets in pipeline files"
+  
+  time_box: 120
+
+context_files:
+  critical:
+    - path: ".github/workflows/deployment-template.yml"
+      reason: "Existing deployment workflow pattern to follow"
+    
+    - path: "ops/kubernetes/auth-service.yaml"
+      reason: "Current Kubernetes deployment configuration"
+    
+    - path: "docs/architecture/adrs/ADR-015-deployment-strategy.md"
+      reason: "Deployment strategy and requirements"
+  
+  skip:
+    - "legacy/old-deployment-scripts/"
+    - "docs/deprecated/"
+
+checkpoints:
+  - "30 min: Pipeline YAML created with basic structure"
+  - "60 min: Testing and validation steps implemented"
+  - "90 min: Documentation drafted"
+
+token_budget:
+  target_input: 8000
+  estimated_output: 1200
