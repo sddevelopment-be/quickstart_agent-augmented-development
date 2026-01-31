@@ -58,9 +58,11 @@ YYYY-MM-DDTHHMM-<agent>-<short-description>.yaml
 
 The timestamp helps keep tasks chronologically ordered, while the agent name ensures clear routing.
 
+> **Note:** Use 24-hour time format (HHMM) and ensure your system clock is synchronized to avoid timestamp conflicts.
+
 ### 3. Write the Task Descriptor
 
-A task descriptor is a YAML file that tells the orchestration system what work needs to be done. Here's a minimal example:
+A **task descriptor** is a YAML file that tells the orchestration system what work needs to be done—think of it as a work order that specifies what to build, which agent should handle it, and any special instructions. Here's a minimal example:
 
 ```yaml
 id: 2025-11-23T1430-structural-repomap
@@ -69,7 +71,7 @@ status: new
 
 title: "Generate repository map for current state"
 
-artifacts:
+artefacts:
   - docs/REPO_MAP.md
 
 context:
@@ -88,7 +90,7 @@ created_by: "stijn"
 - `id`: Unique identifier (must match filename without `.yaml`)
 - `agent`: Target agent name (see table in step 1)
 - `status`: Always `"new"` for new tasks
-- `artifacts`: List of files the agent should create or modify
+- `artefacts`: List of files the agent should create or modify
 
 **Optional but helpful:**
 
@@ -106,6 +108,8 @@ git add work/collaboration/inbox/2025-11-23T1430-structural-repomap.yaml
 git commit -m "Add task: Generate repository map"
 git push
 ```
+
+> **💡 Quick validation:** Before pushing, run `cat work/collaboration/inbox/<your-file>.yaml` to verify the YAML is valid and all required fields are present.
 
 ### 5. Monitor Progress
 
@@ -131,7 +135,7 @@ cat work/reports/logs/structural/2025-11-23T1430-structural-repomap.md
 
 ## Understanding the Task Lifecycle
 
-Every task moves through a well-defined sequence of stages:
+Every task moves through a well-defined sequence of stages. Watching this progression helps you understand where work stands and when to intervene:
 
 ```
 ┌─────┐     ┌──────────┐     ┌─────────────┐     ┌──────┐
@@ -141,11 +145,11 @@ Every task moves through a well-defined sequence of stages:
    └───────────────> error <────────┘
 ```
 
-- **new:** Task created in `work/collaboration/inbox/`, awaiting orchestrator pickup
-- **assigned:** Moved to `work/collaboration/assigned/<agent>/`, ready for the agent
+- **new:** Task created in `work/collaboration/inbox/`, awaiting orchestrator pickup (typically processed within minutes)
+- **assigned:** Moved to `work/collaboration/assigned/<agent>/`, ready for the agent to pick up
 - **in_progress:** Agent is actively working on the task
 - **done:** Completed successfully and moved to `work/collaboration/done/<agent>/` with work log in `work/reports/logs/<agent>/`
-- **error:** Failed—requires human review and intervention
+- **error:** Failed—requires human review and intervention (check the task's `error` block for details)
 
 ## Common Use Cases
 
@@ -158,7 +162,7 @@ id: 2025-11-23T1500-curator-doc-audit
 agent: curator
 status: new
 title: "Audit documentation for structural consistency"
-artifacts:
+artefacts:
   - docs/audit-report.md
 context:
   notes:
@@ -179,7 +183,7 @@ status: new
 mode: /analysis-mode
 priority: high
 title: "Create ADR for database selection"
-artifacts:
+artefacts:
   - docs/architecture/adrs/ADR-006-database-selection.md
 context:
   notes:
@@ -192,14 +196,16 @@ created_by: "stijn"
 
 ### Scenario 3: Multi-Agent Workflow (Handoffs)
 
-Chain multiple agents together using **handoffs**. A handoff occurs when one agent completes its work and signals the orchestrator to create a follow-up task for another agent. This enables complex workflows without manual coordination.
+Chain multiple agents together using **handoffs**—a way for one agent to automatically pass work to another without manual intervention. Think of it like a relay race: when one runner completes their leg, they hand off the baton to the next runner.
 
 **How it works:**
 1. First agent completes its task
-2. Agent adds `next_agent` field to the result block
+2. Agent adds `next_agent` field to the result block (the "handoff signal")
 3. Orchestrator detects the handoff signal
-4. Orchestrator creates a new task for the next agent
+4. Orchestrator automatically creates a new task for the next agent
 5. Second agent picks up and continues the workflow
+
+This pattern is powerful for complex workflows like "architect designs → writer-editor polishes → diagrammer visualizes" without you needing to manually create three separate tasks.
 
 **Initial task (architect creates ADR):**
 
@@ -208,7 +214,7 @@ id: 2025-11-23T1700-architect-adr-api
 agent: architect
 status: new
 title: "Create ADR for API design"
-artifacts:
+artefacts:
   - docs/architecture/adrs/ADR-007-api-design.md
 created_at: "2025-11-23T17:00:00Z"
 created_by: "stijn"
@@ -219,7 +225,7 @@ When the architect completes the task, it adds handoff metadata to the `result` 
 ```yaml
 result:
   summary: "Created ADR-007 with API design recommendations"
-  artifacts:
+  artefacts:
     - docs/architecture/adrs/ADR-007-api-design.md
   metrics:
     duration_minutes: 15
@@ -228,11 +234,11 @@ result:
       output: 4200
       total: 12700
     context_files_loaded: 5
-    artifacts_created: 1
-    artifacts_modified: 0
+    artefacts_created: 1
+    artefacts_modified: 0
   next_agent: "writer-editor"
   next_task_title: "Review and polish ADR-007"
-  next_artifacts:
+  next_artefacts:
     - docs/architecture/adrs/ADR-007-api-design.md
   next_task_notes:
     - "Check technical terminology clarity"
@@ -305,13 +311,13 @@ ls -lt work/reports/logs/*/*.md | head -n 10
 
 ### Task Stuck in "in_progress"
 
-**Symptom:** Task status shows `in_progress` but hasn't completed.
+**Symptom:** Task status shows `in_progress` but hasn't completed after the expected time.
 
 **Common causes:**
 
-- Agent timed out (default: 2 hours)
-- Agent encountered an unexpected error
-- Agent is still working on a large task
+- Agent timed out (default timeout: 2 hours for most agents)
+- Agent encountered an unexpected error mid-execution
+- Agent is still working on a large or complex task (this is normal for architecture or planning work)
 
 **Solutions:**
 
@@ -326,10 +332,14 @@ ls -lt work/reports/logs/*/*.md | head -n 10
 
 **Solutions:**
 
-1. Read the `error.message` field in the task YAML for specifics
-2. Address the root cause (missing context, unclear requirements, invalid artifacts)
+1. Read the `error.message` field in the task YAML for specifics (this tells you exactly what went wrong)
+2. Address the root cause:
+   - **Missing context:** Add more detail to `context.notes`
+   - **Unclear requirements:** Clarify the task title and expected outcome
+   - **Invalid artefacts:** Verify file paths exist or are createable
+   - **Agent capability mismatch:** Consider using a different agent
 3. Create a new task with corrected information
-4. Consider adding more context notes to prevent similar failures
+4. Consider adding more context notes or examples to prevent similar failures
 
 ### No Follow-up Task Created
 
@@ -352,10 +362,10 @@ When agents complete tasks, they automatically capture the following metrics in 
 
 **Required Metrics:**
 - `duration_minutes`: Total execution time from task start to completion
-- `token_count`: Input, output, and total tokens processed
+- `token_count`: Input, output, and total tokens processed (important for LLM cost tracking)
 - `context_files_loaded`: Number of files loaded for context
-- `artifacts_created`: Count of new files created
-- `artifacts_modified`: Count of existing files modified
+- `artefacts_created`: Count of new files created
+- `artefacts_modified`: Count of existing files modified
 
 **Optional Metrics:**
 - `per_artifact_timing`: Detailed breakdown per artifact
@@ -366,7 +376,7 @@ When agents complete tasks, they automatically capture the following metrics in 
 ```yaml
 result:
   summary: "Documentation audit completed"
-  artifacts:
+  artefacts:
     - docs/audit-report.md
   metrics:
     duration_minutes: 12
@@ -375,8 +385,8 @@ result:
       output: 3500
       total: 18500
     context_files_loaded: 8
-    artifacts_created: 1
-    artifacts_modified: 0
+    artefacts_created: 1
+    artefacts_modified: 0
   completed_at: "2025-11-24T10:30:00Z"
 ```
 
@@ -389,7 +399,7 @@ Every completed task generates a detailed work log in `work/reports/logs/<agent>
 - **Context**: What prompted the work and initial conditions
 - **Approach**: Decision-making rationale and alternatives considered
 - **Execution Steps**: Chronological log of actions taken
-- **Artifacts Created**: Files produced with validation markers (✅ validated, ⚠️ partial, ❗️ issue)
+- **Artefacts Created**: Files produced with validation markers (✅ validated, ⚠️ partial, ❗️ issue)
 - **Outcomes**: Results achieved and deliverables completed
 - **Lessons Learned**: Actionable insights for framework improvement
 - **Metadata**: Execution duration, token counts, context size, handoffs initiated
@@ -436,12 +446,12 @@ mode: /meta-mode      # Self-reflective, process-focused
 
 ## Best Practices
 
-### 1. Be Specific About Artifacts
+### 1. Be Specific About Artefacts
 
 Always list exact file paths the agent should create or modify:
 
 ```yaml
-artifacts:
+artefacts:
   - docs/REPO_MAP.md          # Good: specific path
   - "update documentation"     # Bad: vague
 ```
@@ -475,12 +485,12 @@ Keep each task focused on a single deliverable:
 ```yaml
 # Good: Single focused task
 title: "Generate repository structure map"
-artifacts:
+artefacts:
   - docs/REPO_MAP.md
 
 # Bad: Multiple unrelated items
 title: "Generate map and write guide and create diagram"
-artifacts:
+artefacts:
   - docs/REPO_MAP.md
   - docs/GUIDE.md
   - docs/DIAGRAM.png
