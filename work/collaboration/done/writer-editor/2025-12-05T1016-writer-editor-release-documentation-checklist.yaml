@@ -1,0 +1,88 @@
+id: 2025-12-05T1016-writer-editor-release-documentation-checklist
+agent: writer-editor
+status: done
+priority: medium-high
+started_at: '2026-01-31T07:22:00Z'
+completed_at: '2026-01-31T08:45:00Z'
+mode: /analysis-mode
+title: Publish release/upgrade documentation and checklist aligned to iteration workflow
+description: 'Produce the documentation set that teaches downstream teams how to consume
+  the
+
+  packaged release, run Framework Guardian, and coordinate via the
+
+  run-iteration workflow. Content should reference ADR-013/ADR-014 decisions,
+
+  list prerequisites, and include a Guardian-ready publishing checklist.
+
+  '
+artefacts:
+- docs/HOW_TO_USE/release_and_upgrade.md
+- docs/checklists/release_publishing_checklist.md
+- docs/templates/RELEASE_NOTES.md (update)
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  related_pr: ''
+  notes:
+  - Coordinate with Guardian + build-automation tasks to keep instructions accurate.
+  - Document how Manager Mike should reference these docs during iteration summaries.
+  - Cross-link `.github/ISSUE_TEMPLATE/run-iteration.md` and `work/collaboration/AGENT_STATUS.md`.
+requirements:
+- Document end-to-end release workflow (package build, install/upgrade, Guardian validation).
+- Provide quickstart and deep-dive sections with clear prerequisites + commands.
+- Build checklist covering artefact verification, script invocation, log capture,
+  comms.
+- Refresh release notes template to include Guardian + distribution metadata fields.
+- Highlight iteration hooks (when to run template-status-checker, how to log metrics).
+testing_requirements:
+- Run doc clarity pass with Curator guidelines.
+- Validate instructions by shadowing packaging/install task owners (tabletop review).
+- Ensure Markdown passes Vale/lint checks if configured.
+dependencies:
+- 2025-12-05T1010-build-automation-release-packaging-pipeline
+- 2025-12-05T1012-build-automation-install-upgrade-scripts
+- 2025-12-05T1014-architect-framework-guardian-agent-definition
+created_at: '2025-12-05T10:16:00Z'
+created_by: planning-petra
+origin_comment_id: null
+assigned_at: '2026-01-31T06:38:02.560754Z'
+result:
+  summary: 'Created comprehensive release documentation suite covering complete workflow
+    from build to Guardian validation. Produced three artifacts: (1) Release and
+    Upgrade Workflow Guide (32KB, end-to-end procedures with quickstart + deep dives),
+    (2) Release Publishing Checklist (20KB, step-by-step verification for release
+    managers), (3) RELEASE_NOTES.md template (13KB, with Guardian and distribution
+    metadata sections per ADR-014). All documents follow Directive 022 audience-oriented
+    approach targeting framework core team and downstream adopters. Cross-linked
+    with run-iteration template, installation guides, and Guardian agent profile.
+    Integration points documented for Manager Mike iteration summaries.'
+  artifacts_created:
+  - docs/HOW_TO_USE/release_and_upgrade.md
+  - docs/checklists/release_publishing_checklist.md
+  - docs/templates/RELEASE_NOTES.md
+  validation:
+    audience_alignment: Framework core team (primary) and downstream adopters per
+      agentic-framework-core-team.md persona
+    cross_references:
+    - docs/HOW_TO_USE/framework_install.md
+    - ops/release/README.md
+    - .github/agents/framework-guardian.agent.md
+    - .github/ISSUE_TEMPLATE/run-iteration.md
+    adr_compliance:
+    - ADR-013 (Zip-Based Framework Distribution)
+    - ADR-014 (Framework Guardian Agent)
+    directive_compliance:
+    - Directive 014 (Work Log Creation)
+    - Directive 018 (Documentation Level Framework)
+    - Directive 022 (Audience-Oriented Writing)
+  notes:
+  - Release and Upgrade Guide includes quickstart (5-10 min), deep dives for each
+    phase, troubleshooting, and best practices
+  - Publishing Checklist provides 45-90 minute workflow with critical checkpoints
+    and sign-off sections
+  - RELEASE_NOTES template v2.0.0 adds Guardian Metadata and Distribution Metadata
+    sections (new in this version)
+  - All documents emphasize preservation of local customizations and transparent
+    conflict resolution
+  - Integration with iteration workflow documented for Manager Mike coordination
