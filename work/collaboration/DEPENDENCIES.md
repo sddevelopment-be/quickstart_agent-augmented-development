@@ -1,53 +1,283 @@
 # Task Dependencies Map
 
-**Last Updated**: 2026-01-31 09:45:00 UTC  
+**Last Updated**: 2026-01-31 (Iteration 2 Planning)  
 **Updated By**: Planning Petra  
 **Purpose**: Explicit mapping of task dependencies, blocking relationships, and execution sequences
 
 ---
 
+## Iteration 2: Selected Tasks Dependency Analysis
+
+### Overview: 5 Tasks, Minimal Dependencies
+
+**Key Finding**: All 5 selected tasks have **NO BLOCKING DEPENDENCIES** for immediate execution.
+
+**Parallel Execution Capability**: 
+- Phase 1: 3 tasks fully independent (curator, writer-editor, architect)
+- Phase 2: 2 tasks depend only on same-agent completion (architect Task 4, writer-editor Task 5)
+
+---
+
 ## Critical Path: High-Priority Initiatives
 
-### Initiative 1: Distribution User Documentation (READY ✅)
+### Initiative 1: YAML Format Fixes (NEW - CRITICAL UNBLOCKING) ✅
 
-**Status**: Fully unblocked, ready for immediate execution  
-**Critical Path**: Single task, no dependencies
+**Task**: `2026-01-31T0900-curator-fix-yaml-format-errors`  
+**Status**: ⭐ SELECTED - CRITICAL - IMMEDIATE EXECUTION  
+**Agent**: curator  
+**Effort**: 2-3 hours
+
+```
+Prerequisites (ALL MET):
+✅ No prerequisites - mechanical conversion task
+✅ Schema validator available (validate-task-schema.py)
+✅ All 6 target files exist in assigned/ directories
+
+Task:
+→ 2026-01-31T0900-curator-fix-yaml-format-errors (2-3h)
+  Fix 6 YAML files (convert to pure YAML format)
+  Agent: curator
+  Blocker: None ✅
+  
+Unblocks (Next Iteration):
+→ ADR-023 Initiative ($140-300k ROI)
+  - 2026-01-30T1120-architect-design-prompt-optimization-framework
+  - 2026-01-30T1642-backend-dev-adr023-phase2-prompt-validator
+  - 2026-01-30T1643-backend-dev-adr023-phase3-context-loader
+  - 2026-01-30T1644-build-automation-adr023-phase2-ci-workflow
+→ Multi-Format Distribution (MFD) Work
+  - 2026-01-29T0730-architect-mfd-task-1.3-schema-conventions
+  - 2026-01-29T0935-build-automation-mfd-task-0.1-workflow-review
+
+Enables:
+→ Orchestrator health monitoring restored
+→ System health: 🟡 → 🟢
+→ 6 high-value tasks ready for next iteration
+```
+
+**Recommendation**: Execute FIRST (highest unblocking value)
+
+---
+
+### Initiative 2: Distribution User Documentation (CONTINUATION) ✅
+
+**Task**: `2026-01-31T0714-writer-editor-distribution-user-guide`  
+**Status**: ⭐ SELECTED - HIGH PRIORITY  
+**Agent**: writer-editor  
+**Effort**: 8-10 hours
 
 ```
 Prerequisites (ALL COMPLETE):
-✅ Install/Upgrade Scripts (2025-12-05T1012) - COMPLETED 2026-01-31
-✅ Release Packaging (2025-12-05T1010) - COMPLETED 2026-01-31
+✅ Install/Upgrade Scripts (2025-12-05T1012) - COMPLETED Iteration 1
+✅ Release Packaging (2025-12-05T1010) - COMPLETED Iteration 1
 ✅ Technical Documentation (docs/HOW_TO_USE/framework_install.md) - EXISTS
 ✅ Build System Docs (ops/release/README.md) - EXISTS
 ✅ Distribution Config (ops/release/distribution-config.yaml) - EXISTS
 
 Task:
 → 2026-01-31T0714-writer-editor-distribution-user-guide (8-10h)
-  Artefacts: 4 user guides
+  Artefacts: 4 user guides (distribution, installation, upgrade, getting started)
   Agent: writer-editor
   Blocker: None ✅
   
 Enables:
-→ Framework adoption by downstream teams
-→ Reduced onboarding friction
+→ Framework adoption by downstream teams (60% friction reduction)
+→ Reduced onboarding time (<30 minutes target)
+→ Support burden reduction (40% in 12 months target)
+→ Documentation coverage: 70% → 85%+
 ```
 
-**Recommendation**: Execute immediately (no blockers)
+**Recommendation**: Execute in Phase 1 (parallel with Tasks 1, 3)
 
 ---
 
-### Initiative 2: Framework Guardian Integration (READY ✅)
+### Initiative 3: Documentation Website (NEW - STRATEGIC FOUNDATION) ✅
 
-**Status**: Fully unblocked, ready for execution  
-**Critical Path**: 2 parallel tasks (can execute independently)
+**Task**: `2026-01-31T0930-architect-docsite-foundation-setup`  
+**Status**: ⭐ SELECTED - HIGH PRIORITY  
+**Agent**: architect  
+**Effort**: 6-8 hours
+
+```
+Prerequisites (ALL MET):
+✅ Hugo available (installable, documented in roadmap)
+✅ GitHub Pages available for repository
+✅ Corporate Hugo theme outline available (for future reference)
+✅ Existing HOW_TO_USE guides (content to migrate in future batches)
+✅ ADR-022 documented (metadata strategy)
+
+Task:
+→ 2026-01-31T0930-architect-docsite-foundation-setup (6-8h)
+  Artefacts: Technology selection, architecture, Hugo setup
+  Agent: architect
+  Blocker: None ✅
+  
+Creates Handoff Tasks (Batch 1 Completion):
+→ 2026-01-31T1000-build-automation-docsite-deployment-workflow (4-6h)
+→ 2026-01-31T1030-writer-editor-docsite-homepage-content (6-8h)
+→ 2026-01-31T1100-diagrammer-docsite-structure-diagram (2-3h)
+
+Enables (Multi-Batch Initiative):
+→ Batch 2: Core content migration (3 weeks, 50-70 hours)
+→ Batch 3: User onboarding content (2-3 weeks, 40-60 hours)
+→ Batch 4: Developer/architect content (2-3 weeks, 45-65 hours)
+→ Batch 5: Polish & launch (1-2 weeks, 25-40 hours)
+
+Strategic Value:
+→ Professional documentation website
+→ SEO and community growth
+→ Adoption enablement
+```
+
+**Recommendation**: Execute in Phase 1 (parallel with Tasks 1, 2)
+
+---
+
+### Initiative 4: Framework Guardian (COMPLETION) ✅
+
+**Task**: `2025-12-05T1014-architect-framework-guardian-agent-definition`  
+**Status**: ⭐ SELECTED - MEDIUM PRIORITY  
+**Agent**: architect  
+**Effort**: 4-6 hours
 
 ```
 Prerequisites (ALL COMPLETE):
-✅ Release Packaging System (2025-12-05T1010) - COMPLETED 2026-01-31
-✅ Install/Upgrade Scripts (2025-12-05T1012) - COMPLETED 2026-01-31
+✅ Release Packaging System (2025-12-05T1010) - COMPLETED Iteration 1
+✅ Install/Upgrade Scripts (2025-12-05T1012) - COMPLETED Iteration 1
 
-Tasks (Can Execute in Parallel):
+Internal Dependency:
+⏳ Task 3 (architect doc website foundation) - SELECTED THIS ITERATION
+   Same agent, sequential execution recommended
+
+Task:
 → 2025-12-05T1014-architect-framework-guardian-agent-definition (4-6h)
+  Artefacts: Agent profile, Directive 025, audit templates
+  Agent: architect
+  Blocker: Task 3 completion (same agent) OR parallel if capacity
+  
+Enables:
+→ Automated framework health monitoring
+→ Post-install/upgrade validation
+→ Upgrade guidance system
+```
+
+**Recommendation**: Execute in Phase 2 (after Task 3 completes) OR in parallel if architect capacity available
+
+---
+
+### Initiative 5: Release Process Documentation (COMPLETION) ✅
+
+**Task**: `2025-12-05T1016-writer-editor-release-documentation-checklist`  
+**Status**: ⭐ SELECTED - MEDIUM PRIORITY  
+**Agent**: writer-editor  
+**Effort**: 3-4 hours
+
+```
+Prerequisites (ALL COMPLETE):
+✅ Install/Upgrade Scripts (2025-12-05T1012) - COMPLETED Iteration 1
+✅ Release process scripts and documentation exist
+
+Internal Dependency:
+⏳ Task 2 (writer-editor distribution user guide) - SELECTED THIS ITERATION
+   Same agent, sequential execution recommended
+
+Task:
+→ 2025-12-05T1016-writer-editor-release-documentation-checklist (3-4h)
+  Artefacts: Release checklist, process documentation
+  Agent: writer-editor
+  Blocker: Task 2 completion (same agent) OR parallel if capacity
+  
+Enables:
+→ Release process fully documented
+→ Documentation quality maintained across releases
+→ Zero documentation regressions
+```
+
+**Recommendation**: Execute in Phase 2 (after Task 2 completes) OR in parallel if capacity available
+
+---
+
+## Iteration 2 Dependency Summary
+
+### No Blocking Dependencies for Phase 1
+
+All 3 Phase 1 tasks are **fully independent**:
+- Task 1 (curator): No dependencies
+- Task 2 (writer-editor): No dependencies
+- Task 3 (architect): No dependencies
+
+✅ **Can execute in parallel**  
+✅ **No file conflicts**  
+✅ **Different agents, different artifacts**
+
+### Same-Agent Dependencies in Phase 2
+
+Task 4 and Task 5 depend only on **same-agent** completion:
+- Task 4 (architect): Depends on Task 3 (same agent)
+- Task 5 (writer-editor): Depends on Task 2 (same agent)
+
+✅ **Sequential execution per agent**  
+✅ **OR parallel if multiple agent sessions available**  
+✅ **No cross-agent dependencies**
+
+---
+
+## Execution Sequence Recommendation
+
+### Phase 1: Parallel Start (Hour 0)
+
+```
+curator (Task 1)         [2-3h]  → YAML Format Fixes
+writer-editor (Task 2)   [8-10h] → Distribution User Guide  
+architect (Task 3)       [6-8h]  → Doc Website Foundation
+```
+
+**All independent, execute simultaneously**
+
+### Phase 2: Sequential Continuation (Hour 6-10)
+
+```
+architect (Task 4)       [4-6h]  → Framework Guardian (after Task 3)
+writer-editor (Task 5)   [3-4h]  → Release Checklist (after Task 2)
+```
+
+**Same-agent follow-ups, OR parallel if capacity**
+
+---
+
+## Cross-Initiative Dependencies (Future Iterations)
+
+### After Task 1 (YAML Fixes) Completes
+
+**Unblocked for Next Iteration**:
+```
+ADR-023 Prompt Optimization Initiative (HIGH VALUE):
+  Phase 1: architect - Design framework (6-8h)
+    ↓
+  Phase 2a: backend-dev - Validator (6-8h)
+    ↓
+  Phase 2b: build-automation - CI workflow (3-4h)
+    ↓  
+  Phase 3: backend-dev - Context loader (6-8h)
+
+Total: 21-28 hours, $140-300k annual ROI
+```
+
+### After Task 3 (Doc Website Foundation) Completes
+
+**Handoff Tasks Created**:
+```
+Documentation Website Batch 1 Completion:
+  Task A: build-automation - Deployment workflow (4-6h)
+    ↓
+  Task B: writer-editor - Homepage content (6-8h)
+    ↓
+  Task C: diagrammer - Structure diagram (2-3h)
+
+Then: Batch 2 (Content Migration) can start
+```
+
+---
   Artefacts: Agent profile, Directive 025, templates
   Agent: architect
   Blocker: None ✅

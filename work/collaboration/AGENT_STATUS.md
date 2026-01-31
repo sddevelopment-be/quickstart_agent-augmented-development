@@ -1,33 +1,74 @@
 # Agent Status Dashboard
 
-_Last updated: 2026-01-31 08:57:00 UTC_  
-_Updated by: Planning Petra (Status Assessment & Planning)_
+_Last updated: 2026-01-31 (Iteration 2 Planning)_  
+_Updated by: Planning Petra_
 
-## 🎯 Priority Agents (Next Batch Recommendation)
+## 🎯 Iteration 2: Selected Agents (5 TASKS)
 
-### writer-editor ⭐ RECOMMENDED FOR NEXT BATCH
+### curator ⚡ CRITICAL - IMMEDIATE EXECUTION
 
-- **Status**: Ready for high-priority work
-- **Assigned**: 3 tasks in queue + 1 high-priority in inbox
-- **Next Recommended Task**: 2026-01-31T0714-writer-editor-distribution-user-guide (HIGH PRIORITY)
-- **Estimated Effort**: 8-10 hours
-- **Dependencies**: ✅ All met (install/upgrade scripts complete)
-- **Strategic Value**: Enables framework adoption by downstream teams
-- **Last seen**: 2026-01-31 06:38:02
+- **Status**: ⭐ SELECTED FOR ITERATION 2
+- **Assigned**: Task 1 (YAML Format Fixes)
+- **Priority**: HIGH (CRITICAL - Unblocks ADR-023)
+- **Estimated Effort**: 2-3 hours
+- **Strategic Value**: Unblocks $140-300k ROI initiative
+- **Timeline**: Day 1 morning (immediate start)
+- **Mode**: `/analysis-mode`
 
-### architect ⚡ READY FOR PARALLEL WORK
-
-- **Status**: Ready for Framework Guardian or ADR work
-- **Assigned**: 5 tasks (includes 2 malformed YAML files)
-- **Next Recommended Task**: 2025-12-05T1014-architect-framework-guardian-agent-definition
-- **Estimated Effort**: 4-6 hours
-- **Dependencies**: ✅ All met (release packaging complete)
-- **Blockers**: 2 tasks need YAML format fixes before execution
-- **Last seen**: 2026-01-31 06:38:02
+**Task Summary**:
+- Fix 6 YAML format errors in assigned tasks
+- Restore orchestrator health monitoring
+- Unblock ADR-023 Prompt Optimization Initiative
+- System health: 🟡 → 🟢
 
 ---
 
-## 🛠️ Active Development Agents
+### writer-editor ⭐ HIGH PRIORITY - DUAL TASK
+
+- **Status**: ⭐ SELECTED FOR ITERATION 2
+- **Assigned**: Tasks 2, 5 (Distribution User Guide + Release Checklist)
+- **Priority**: HIGH + MEDIUM
+- **Estimated Effort**: 11-14 hours total (8-10h + 3-4h)
+- **Strategic Value**: 60% adoption friction reduction, process completion
+- **Timeline**: Days 1-2
+- **Mode**: `/creative-mode` for both tasks
+
+**Task 2 Summary** (PRIMARY):
+- Create 4 user guides (distribution, installation, upgrade, getting started)
+- Direct continuation of Iteration 1 success
+- Highest user impact in this batch
+
+**Task 5 Summary** (FOLLOW-UP):
+- Release documentation checklist
+- Completes release process
+- Execute after Task 2 or in parallel if capacity
+
+---
+
+### architect ⭐ HIGH PRIORITY - DUAL TASK
+
+- **Status**: ⭐ SELECTED FOR ITERATION 2
+- **Assigned**: Tasks 3, 4 (Doc Website Foundation + Framework Guardian)
+- **Priority**: HIGH + MEDIUM
+- **Estimated Effort**: 10-14 hours total (6-8h + 4-6h)
+- **Strategic Value**: Enables 10-14 week initiative, automation capability
+- **Timeline**: Days 1-2
+- **Mode**: `/analysis-mode` for both tasks
+
+**Task 3 Summary** (PRIMARY):
+- Documentation website foundation setup
+- Technology selection, architecture, Hugo setup
+- Creates 3 handoff tasks (completes Batch 1)
+- Starts strategic multi-batch initiative
+
+**Task 4 Summary** (FOLLOW-UP):
+- Framework Guardian agent definition
+- Automated health monitoring
+- Execute after Task 3 or in parallel if capacity
+
+---
+
+## 🛠️ Active Development Agents (Not Selected This Iteration)
 
 ### build-automation
 
@@ -146,48 +187,81 @@ The following agents have no currently assigned tasks:
 
 ---
 
-## 📊 Capacity Summary
+## 📊 Iteration 2 Capacity Summary
 
-| Agent Category | Agents | Assigned Tasks | Est. Hours | Utilization |
-|----------------|--------|----------------|------------|-------------|
-| Priority Recommended | 2 | 8 + 1 inbox | 50-75 | Ready |
-| Active Development | 3 | 17 | 75-105 | Moderate-High |
-| Supporting | 3 | 7 | 25-34 | Light |
-| Specialized | 1 | 0 | 0 | Ready |
-| Idle | 11 | 0 | 0 | Available |
-| **Total** | **20** | **32 + 7 inbox** | **150-214** | **Mixed** |
-
-**Note**: Estimated hours are cumulative for all assigned tasks and do not account for task age, priorities, or actual availability.
+| Agent Category | Agents | Iteration 2 Tasks | Est. Hours | Utilization | Timeline |
+|----------------|--------|-------------------|------------|-------------|----------|
+| **Iteration 2 Selected** | 3 | 5 | 26-35h | HIGH | Days 1-2 |
+| - curator | 1 | 1 | 2-3h | LIGHT | Day 1 AM |
+| - writer-editor | 1 | 2 | 11-14h | HEAVY | Days 1-2 |
+| - architect | 1 | 2 | 10-14h | HEAVY | Days 1-2 |
+| **Not Selected** | 5 | 27 (previous) | 100-150h | Various | Future |
+| **Idle** | 11 | 0 | 0 | Available | N/A |
+| **Total** | **20** | **32 total (5 this iteration)** | **126-185h** | **Mixed** | **Ongoing** |
 
 ---
 
-## 🎯 Recommendations
+## 🎯 Iteration 2 Recommendations
 
-### Immediate Actions (Next 24-48 hours)
+### Immediate Actions (Next Hour)
 
-1. **Execute Next Batch**: Assign `2026-01-31T0714-writer-editor-distribution-user-guide` to writer-editor
-2. **Fix YAML Issues**: Convert 6 malformed task files to proper format
-3. **Archive Old Tasks**: Review and archive tasks >60 days old (see status assessment)
+1. **✅ Assign Task 1** (curator) - YAML format fixes (CRITICAL)
+2. **✅ Assign Task 2** (writer-editor) - Distribution user guide (HIGH)
+3. **✅ Assign Task 3** (architect) - Doc website foundation (HIGH)
+4. **Monitor progress** at checkpoints (Day 1 AM, Day 1 PM, Day 2 AM, Day 2 PM)
 
-### Next Week
+### Execution Strategy
 
-4. **Consider Initiative 2**: Framework Guardian agent definition (architect)
-5. **Unblock ADR-023**: After YAML fixes, prompt optimization initiative becomes ready
-6. **Queue Cleanup**: Establish regular review cadence for task aging
+**Phase 1** (Parallel):
+- curator, writer-editor, architect all start simultaneously
+- Independent tasks, no conflicts
+- Expected: Day 1 completion for curator + architect Task 3
+
+**Phase 2** (Sequential or Parallel):
+- architect Task 4 after Task 3
+- writer-editor Task 5 after Task 2
+- OR: Parallel if multiple sessions available
+
+### Success Criteria
+
+- ✅ 5/5 tasks completed within 2 days
+- ✅ System health: 🟡 → 🟢 (YAML fixes)
+- ✅ ADR-023 unblocked for next iteration
+- ✅ Doc website Batch 1 foundation complete
+- ✅ Distribution capability end-to-end complete
 
 ---
 
 ## 📈 Metrics Snapshot
 
-- **Total Active Tasks**: 32 assigned + 7 inbox = 39 pending
-- **Completed (2026-01-31)**: 2 tasks (distribution enablers)
-- **Test Pass Rate**: 100% (102/102)
-- **Agents with Work**: 8 of 20 (40%)
-- **Queue Health**: ⚠️ Moderate (aging tasks need review)
-- **System Health**: 🟡 Operational with issues (YAML errors)
+**Iteration 2 Focus**:
+- **Selected Tasks**: 5 (curator x1, writer-editor x2, architect x2)
+- **Total Effort**: 26-35 hours across 3 agents
+- **Timeline**: 1-2 days (realistic)
+- **Strategic Initiatives**: 3 (YAML unblocking, doc website, distribution completion)
+- **Operational Tasks**: 2 (YAML fixes, release checklist)
+
+**System Status**:
+- **Active Tasks**: 32 assigned (5 selected for immediate execution)
+- **Inbox Tasks**: 10 (3 selected, 7 remain)
+- **Completed (Iteration 1)**: 2 tasks ✅ (distribution enablers)
+- **Test Pass Rate**: 100% (102/102 from Iteration 1)
+- **System Health**: 🟡 (will become 🟢 after Task 1)
+- **Agents Engaged This Iteration**: 3 of 20 (15%)
+
+**Comparison to Iteration 1**:
+- Tasks: 2 → 5 (+150%)
+- Agents: 1 → 3 (+200%)
+- Effort: 20-30h → 26-35h (+30%)
+- Duration: 1-2 days (same)
+- Parallelization: Sequential → High parallel
 
 ---
 
-_For detailed analysis, see: `work/reports/2026-01-31-planning-petra-status-assessment.md`_  
-_For next batch plan, see: `work/collaboration/NEXT_BATCH.md`_
+_For detailed analysis and task selection rationale, see:_
+- `work/reports/2026-01-31-iteration2-task-selection.md` (comprehensive report)
+- `work/collaboration/NEXT_BATCH.md` (Batch 3 implementation plan)
+- `work/collaboration/AGENT_TASKS.md` (detailed task assignments)
+- `work/collaboration/DEPENDENCIES.md` (dependency validation)
+
 
