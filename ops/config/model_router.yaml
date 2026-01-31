@@ -1,0 +1,413 @@
+# Model Router Configuration
+# Version: 1.0.0
+# Purpose: Dual-router configuration for deterministic model selection and fallback
+# across OpenRouter and OpenCode.ai providers with direct API support.
+#
+# References:
+#   - docs/architecture/adrs/ADR-021-model-routing-strategy.md
+#   - docs/architecture/adrs/ADR-020-multi-tier-agentic-runtime.md
+#   - docs/architecture/assessments/platform_next_steps.md
+#
+# Schema Notes:
+# - Each model entry must include: router, identifier, context_window, pricing, default_role
+# - Router types: openrouter, opencode_ai, direct_api
+# - Pricing is in USD per 1K tokens (input/output)
+# - Context window in tokens
+# - Default role: analysis, creative, coding, general
+#
+# Fallback Policy:
+# - Primary router: OpenRouter (breadth, mature ecosystem)
+# - Secondary router: OpenCode.ai (local model integration, cleaner interfaces)
+# - Tertiary: Direct API calls (advanced capabilities, vendor-specific features)
+# - Cost-aware: fallback to cheaper models within quality tier on pricing ceiling violations
+
+version: "1.0.0"
+updated_at: "2025-11-30T12:01:00Z"
+
+# Global pricing ceilings (USD per 1K tokens)
+pricing_ceilings:
+  openrouter:
+    max_input_price: 15.0  # Maximum per 1K input tokens
+    max_output_price: 75.0  # Maximum per 1K output tokens
+    daily_budget: 100.0     # Maximum daily spend in USD
+  opencode_ai:
+    max_input_price: 10.0
+    max_output_price: 50.0
+    daily_budget: 50.0
+  direct_api:
+    max_input_price: 20.0
+    max_output_price: 100.0
+    daily_budget: 200.0
+
+# Fallback policy configuration
+fallback_policy:
+  # Fallback order by priority (1 = highest)
+  priority_order:
+    - router: openrouter
+      priority: 1
+    - router: opencode_ai
+      priority: 2
+    - router: direct_api
+      priority: 3
+  
+  # Fallback triggers
+  triggers:
+    - rate_limit_exceeded
+    - service_unavailable
+    - model_not_available
+    - pricing_ceiling_violated
+    - context_window_exceeded
+  
+  # Retry configuration
+  max_retries: 3
+  retry_delay_seconds: 5
+  exponential_backoff: true
+
+# Model catalog
+# Each model includes metadata for routing, validation, and cost control
+models:
+  # OpenAI GPT-5 Series
+  gpt-5-turbo:
+    router: openrouter
+    identifier: "openai/gpt-5-turbo"
+    aliases: ["gpt5-turbo", "gpt5t"]
+    context_window: 128000
+    pricing:
+      input_per_1k: 5.0
+      output_per_1k: 15.0
+    default_role: general
+    capabilities:
+      - tool_calls
+      - structured_output
+      - vision
+      - streaming
+    description: "Latest GPT-5 turbo model with enhanced reasoning"
+    fallback_to: "gpt-4.1-turbo"
+  
+  gpt-5-pro:
+    router: openrouter
+    identifier: "openai/gpt-5-pro"
+    aliases: ["gpt5-pro", "gpt5p"]
+    context_window: 200000
+    pricing:
+      input_per_1k: 10.0
+      output_per_1k: 30.0
+    default_role: analysis
+    capabilities:
+      - tool_calls
+      - structured_output
+      - vision
+      - streaming
+      - advanced_reasoning
+    description: "GPT-5 Pro with extended context and advanced reasoning"
+    fallback_to: "gpt-5-turbo"
+  
+  # OpenAI GPT-4.1 Series
+  gpt-4.1-turbo:
+    router: openrouter
+    identifier: "openai/gpt-4-turbo"
+    aliases: ["gpt4.1-turbo", "gpt41t"]
+    context_window: 128000
+    pricing:
+      input_per_1k: 3.0
+      output_per_1k: 10.0
+    default_role: general
+    capabilities:
+      - tool_calls
+      - structured_output
+      - vision
+      - streaming
+    description: "GPT-4 Turbo with 128K context window"
+    fallback_to: "claude-3-sonnet"
+  
+  gpt-4.1-preview:
+    router: direct_api
+    identifier: "gpt-4-turbo-preview"
+    aliases: ["gpt4.1-preview", "gpt41p"]
+    context_window: 128000
+    pricing:
+      input_per_1k: 3.5
+      output_per_1k: 12.0
+    default_role: analysis
+    capabilities:
+      - tool_calls
+      - structured_output
+      - vision
+      - streaming
+    description: "Preview version with latest features via direct API"
+    fallback_to: "gpt-4.1-turbo"
+  
+  # Anthropic Claude 3 Series
+  claude-3-opus:
+    router: openrouter
+    identifier: "anthropic/claude-3-opus"
+    aliases: ["claude-opus", "opus"]
+    context_window: 200000
+    pricing:
+      input_per_1k: 15.0
+      output_per_1k: 75.0
+    default_role: analysis
+    capabilities:
+      - tool_calls
+      - structured_output
+      - vision
+      - streaming
+      - long_context
+    description: "Most capable Claude model for complex analysis"
+    fallback_to: "claude-3-sonnet"
+  
+  claude-3-sonnet:
+    router: openrouter
+    identifier: "anthropic/claude-3-sonnet"
+    aliases: ["claude-sonnet", "sonnet"]
+    context_window: 200000
+    pricing:
+      input_per_1k: 3.0
+      output_per_1k: 15.0
+    default_role: general
+    capabilities:
+      - tool_calls
+      - structured_output
+      - vision
+      - streaming
+      - long_context
+    description: "Balanced Claude model for general tasks"
+    fallback_to: "claude-3-haiku"
+  
+  claude-3-haiku:
+    router: openrouter
+    identifier: "anthropic/claude-3-haiku"
+    aliases: ["claude-haiku", "haiku"]
+    context_window: 200000
+    pricing:
+      input_per_1k: 0.25
+      output_per_1k: 1.25
+    default_role: general
+    capabilities:
+      - tool_calls
+      - structured_output
+      - streaming
+      - fast_response
+    description: "Fast, cost-effective Claude model"
+    fallback_to: "llama-3.1-70b-instruct"
+  
+  # Mistral Codestral Series
+  codestral-latest:
+    router: opencode_ai
+    identifier: "mistral/codestral-latest"
+    aliases: ["codestral", "mistral-code"]
+    context_window: 32000
+    pricing:
+      input_per_1k: 0.3
+      output_per_1k: 0.9
+    default_role: coding
+    capabilities:
+      - tool_calls
+      - structured_output
+      - code_completion
+      - code_generation
+    description: "Specialized model for code generation and completion"
+    fallback_to: "deepseek-coder-v2"
+  
+  codestral-mamba:
+    router: opencode_ai
+    identifier: "mistral/codestral-mamba"
+    aliases: ["codestral-mamba", "mamba-code"]
+    context_window: 256000
+    pricing:
+      input_per_1k: 0.25
+      output_per_1k: 0.75
+    default_role: coding
+    capabilities:
+      - tool_calls
+      - code_completion
+      - code_generation
+      - long_context
+    description: "Mamba architecture for efficient long-context coding"
+    fallback_to: "codestral-latest"
+  
+  # DeepSeek Series
+  deepseek-coder-v2:
+    router: opencode_ai
+    identifier: "deepseek/deepseek-coder-v2"
+    aliases: ["deepseek-coder", "deepseek-code"]
+    context_window: 128000
+    pricing:
+      input_per_1k: 0.14
+      output_per_1k: 0.28
+    default_role: coding
+    capabilities:
+      - tool_calls
+      - code_completion
+      - code_generation
+      - fill_in_middle
+    description: "DeepSeek specialized coding model"
+    fallback_to: "llama-3.1-70b-instruct"
+  
+  deepseek-chat:
+    router: openrouter
+    identifier: "deepseek/deepseek-chat"
+    aliases: ["deepseek"]
+    context_window: 64000
+    pricing:
+      input_per_1k: 0.14
+      output_per_1k: 0.28
+    default_role: general
+    capabilities:
+      - tool_calls
+      - structured_output
+      - streaming
+    description: "General purpose DeepSeek model"
+    fallback_to: "llama-3.1-70b-instruct"
+  
+  # Meta Llama 3 Series
+  llama-3.1-405b-instruct:
+    router: openrouter
+    identifier: "meta-llama/llama-3.1-405b-instruct"
+    aliases: ["llama-405b", "llama3-405b"]
+    context_window: 128000
+    pricing:
+      input_per_1k: 2.7
+      output_per_1k: 2.7
+    default_role: analysis
+    capabilities:
+      - tool_calls
+      - structured_output
+      - streaming
+      - multilingual
+    description: "Largest Llama 3.1 model for complex reasoning"
+    fallback_to: "llama-3.1-70b-instruct"
+  
+  llama-3.1-70b-instruct:
+    router: openrouter
+    identifier: "meta-llama/llama-3.1-70b-instruct"
+    aliases: ["llama-70b", "llama3-70b"]
+    context_window: 128000
+    pricing:
+      input_per_1k: 0.52
+      output_per_1k: 0.75
+    default_role: general
+    capabilities:
+      - tool_calls
+      - structured_output
+      - streaming
+      - multilingual
+    description: "Balanced Llama model for general tasks"
+    fallback_to: "llama-3.1-8b-instruct"
+  
+  llama-3.1-8b-instruct:
+    router: opencode_ai
+    identifier: "meta-llama/llama-3.1-8b-instruct"
+    aliases: ["llama-8b", "llama3-8b"]
+    context_window: 128000
+    pricing:
+      input_per_1k: 0.06
+      output_per_1k: 0.06
+    default_role: general
+    capabilities:
+      - tool_calls
+      - streaming
+      - fast_response
+    description: "Fast, cost-effective Llama model"
+    fallback_to: null  # No further fallback
+  
+  llama-3.2-vision:
+    router: openrouter
+    identifier: "meta-llama/llama-3.2-vision-90b-instruct"
+    aliases: ["llama-vision", "llama3-vision"]
+    context_window: 128000
+    pricing:
+      input_per_1k: 0.9
+      output_per_1k: 0.9
+    default_role: creative
+    capabilities:
+      - tool_calls
+      - vision
+      - structured_output
+      - streaming
+    description: "Llama with vision capabilities"
+    fallback_to: "llama-3.1-70b-instruct"
+
+# Role-based default models
+# Maps agent roles to preferred models
+role_defaults:
+  analysis:
+    primary: "claude-3-opus"
+    fallback: "gpt-5-pro"
+    budget_conscious: "llama-3.1-70b-instruct"
+  
+  creative:
+    primary: "gpt-5-turbo"
+    fallback: "claude-3-sonnet"
+    budget_conscious: "llama-3.2-vision"
+  
+  coding:
+    primary: "codestral-latest"
+    fallback: "deepseek-coder-v2"
+    budget_conscious: "llama-3.1-8b-instruct"
+  
+  general:
+    primary: "claude-3-sonnet"
+    fallback: "gpt-4.1-turbo"
+    budget_conscious: "llama-3.1-70b-instruct"
+
+# Context window requirements by task type
+context_requirements:
+  small: 8000       # Simple queries, code snippets
+  medium: 32000     # Standard documents, moderate code
+  large: 128000     # Large codebases, long documents
+  xlarge: 200000    # Architecture reviews, full repositories
+
+# Validation rules
+validation:
+  required_fields:
+    - router
+    - identifier
+    - context_window
+    - pricing
+    - default_role
+  
+  allowed_routers:
+    - openrouter
+    - opencode_ai
+    - direct_api
+  
+  allowed_roles:
+    - analysis
+    - creative
+    - coding
+    - general
+  
+  allowed_capabilities:
+    - tool_calls
+    - structured_output
+    - vision
+    - streaming
+    - code_completion
+    - code_generation
+    - fill_in_middle
+    - long_context
+    - advanced_reasoning
+    - fast_response
+    - multilingual
+
+# Monitoring and metrics
+monitoring:
+  track_metrics:
+    - token_usage
+    - response_time
+    - success_rate
+    - fallback_frequency
+    - cost_per_request
+  
+  alert_thresholds:
+    success_rate_min: 0.95
+    avg_response_time_max_seconds: 30
+    daily_cost_warning_percent: 80
+
+# Notes for future extensions:
+# - Add new models by copying an existing entry and updating fields
+# - Ensure fallback_to references valid model keys or null
+# - Update pricing_ceilings if adding expensive model tiers
+# - Add capabilities to allowed_capabilities list before using
+# - Test with validate-model-router.py after any changes

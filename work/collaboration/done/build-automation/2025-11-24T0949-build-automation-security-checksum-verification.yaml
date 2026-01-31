@@ -1,0 +1,72 @@
+id: 2025-11-24T0949-build-automation-security-checksum-verification
+agent: build-automation
+status: done
+priority: high
+started_at: '2026-01-31T07:47:00Z'
+completed_at: '2026-01-31T07:53:16Z'
+title: Add checksum verification for binary downloads in setup.sh
+artefacts:
+- .github/copilot/setup.sh
+- docs/HOW_TO_USE/copilot-tooling-setup.md
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  source_assessment: docs/architecture/assessments/copilot-tooling-value-assessment.md
+  notes:
+  - Security hardening identified as immediate priority in assessment
+  - Add SHA256 checksum verification for yq and ast-grep downloads
+  - Document checksums in setup script comments
+  - Update user documentation with security improvements
+  - Timeline: Within 1 week (immediate priority)
+  - Effort: 2-3 hours
+  security_requirements:
+  - Add SHA256 checksums for yq v4.40.5 (Linux AMD64)
+  - Add SHA256 checksums for ast-grep v0.15.1 (Linux x86_64)
+  - Verify checksums before installation
+  - Fail gracefully with clear error messages if verification fails
+  - Document checksum update process in comments
+  implementation_notes:
+  - Use sha256sum command for verification
+  - Store checksums as constants at top of script
+  - Add verification function that's reusable
+  - Update docs to mention security verification
+dependencies:
+- 2025-11-24T0955-manager-tooling-enhancements-coordination
+created_at: '2025-11-24T09:49:00Z'
+created_by: copilot
+assigned_at: '2025-11-24T17:56:16.865454Z'
+result:
+  summary: |
+    Successfully implemented SHA256 checksum verification for binary downloads in .github/copilot/setup.sh.
+    Both yq and ast-grep now have cryptographic verification before installation to prevent supply chain attacks.
+  
+  security_improvements:
+    - Added SHA256 checksum constants at top of script for yq v4.40.5 and ast-grep v0.15.1
+    - Created reusable verify_checksum() function with clear error messages
+    - Updated yq installation to use checksum verification with proper error handling
+    - Updated ast-grep installation to use direct binary download (sg) instead of npm
+    - All checksums verified against official GitHub releases
+    - Installation aborts with clear security warnings if checksum verification fails
+    - Script version bumped to 1.1.0 to reflect security hardening
+  
+  documentation_updates:
+    - Updated copilot-tooling-setup.md with comprehensive security section
+    - Documented checksum update process for future version upgrades
+    - Added security guarantees section explaining supply chain attack prevention
+    - Updated security review checklist with completed items
+    - Added clear instructions for maintainers updating tool versions
+  
+  testing_results:
+    - Verified correct checksums pass verification (yq and ast-grep)
+    - Tested failure case with incorrect checksum - properly rejected with clear error
+    - Confirmed installations work end-to-end with checksum verification
+    - Script syntax validated with bash -n
+    - All tools verify successfully after installation
+  
+  files_modified:
+    - .github/copilot/setup.sh (104 line changes)
+    - docs/HOW_TO_USE/copilot-tooling-setup.md (63 line changes)
+  
+  checksums_verified:
+    yq_v4.40.5_linux_amd64: "0d6aaf1cf44a8d18fbc7ed0ef14f735a8df8d2e314c4cc0f0242d35c0a440c95"
+    ast_grep_v0.15.1_linux_x86_64: "c30cd436e7e33ebe8a25e2dd1be0e8ae9650610991a51f723211a5e70bb23377"
