@@ -171,6 +171,7 @@ The following optional/specific instruction sets are externalized for token effi
 | 018  | Traceable Decisions           | Decision capture protocols and traceability (ADR-017)           |
 | 019  | File-Based Collaboration      | Multi-agent orchestration through file-based task workflows     |
 | 020  | [Locality of Change](.github/agents/directives/020_locality_of_change.md) | Problem severity measurement and premature optimization avoidance|
+| 024  | [Self-Observation Protocol](.github/agents/directives/024_self_observation_protocol.md) | Mid-execution self-monitoring and course correction (Ralph Wiggum loop)|
 
 Location: `.github/agents/directives/XXX_name.md` Example load pattern:
 
