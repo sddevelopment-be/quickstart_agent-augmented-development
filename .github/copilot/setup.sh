@@ -172,22 +172,24 @@ main() {
         fi
     fi
     
-    # Install ast-grep - structural code search
+    # Install ast-grep - structural code search (via npm)
     if ! command_exists "ast-grep"; then
-        log_info "Installing ast-grep..."
-        local sg_version="0.15.1"
+        log_info "Installing ast-grep via npm..."
         if [ "$os" = "linux" ]; then
-            if curl -sL "https://github.com/ast-grep/ast-grep/releases/download/${sg_version}/ast-grep-x86_64-unknown-linux-gnu.zip" -o /tmp/ast-grep.zip && \
-               unzip -q /tmp/ast-grep.zip -d /tmp/ast-grep && \
-               sudo install /tmp/ast-grep/ast-grep /usr/local/bin/ast-grep && \
-               sudo ln -sf /usr/local/bin/ast-grep /usr/local/bin/sg && \
-               rm -rf /tmp/ast-grep /tmp/ast-grep.zip; then
-                log_success "ast-grep installed successfully"
+            # Install ast-grep globally via npm (GitHub Actions runners have Node.js pre-installed)
+            if command_exists "npm"; then
+                if sudo npm install -g @ast-grep/cli; then
+                    log_success "ast-grep installed successfully via npm"
+                else
+                    log_error "Failed to install ast-grep via npm"
+                    failed_tools+=("ast-grep")
+                fi
             else
-                log_error "Failed to install ast-grep"
+                log_error "npm not found - cannot install ast-grep"
                 failed_tools+=("ast-grep")
             fi
         else
+            # macOS: use homebrew
             if ! install_tool "ast-grep" "brew install ast-grep" "ast-grep --version"; then
                 failed_tools+=("ast-grep")
             fi
