@@ -8,11 +8,14 @@ directories with proper checksums, manifests, and Guardian metadata.
 
 Usage:
     python build_release_artifact.py --version 1.0.0 [--output-dir ./output] [--dry-run]
+    python build_release_artifact.py --version 1.0.0 --profile minimal
+    python build_release_artifact.py --version 1.0.0 --config ops/release/distribution-config.yaml
 
 Reference:
     - ADR-013: Zip-Based Framework Distribution
     - ADR-014: Framework Guardian Agent
     - docs/architecture/design/distribution_of_releases_technical_design.md
+    - ops/release/distribution-config.yaml: Distribution configuration
 """
 
 import argparse
@@ -32,6 +35,7 @@ from typing import Dict, List, Optional, Tuple
 import yaml
 
 
+# Default configuration (used if config file not found)
 # Configuration: Directories to include in framework_core/
 CORE_DIRECTORIES = [
     ".github/agents",
@@ -40,6 +44,12 @@ CORE_DIRECTORIES = [
     "validation",
     "work/templates",
     "framework",
+]
+
+# Export directories (agent definitions for various platforms)
+EXPORT_DIRECTORIES = [
+    ".claude",
+    ".opencode",
 ]
 
 # Configuration: Files to include in root of framework_core/
@@ -52,10 +62,8 @@ CORE_ROOT_FILES = [
 
 # Configuration: Scripts to include
 SCRIPTS_TO_INCLUDE = [
-    # Note: These will be created in a follow-up task
-    # For now, we document what should be included
-    # "scripts/framework_install.sh",
-    # "scripts/framework_upgrade.sh",
+    "ops/release/framework_install.sh",
+    "ops/release/framework_upgrade.sh",
 ]
 
 # Configuration: Exclusion patterns
@@ -75,6 +83,10 @@ EXCLUDE_PATTERNS = [
     "work/logs",
     "work/reports",
     "work/collaboration",
+    "work/notes",
+    "work/analysis",
+    "work/articles",
+    "work/planning",
     # Local overrides
     "local",
     # Temporary files
@@ -83,8 +95,6 @@ EXCLUDE_PATTERNS = [
     # IDE
     ".vscode",
     ".idea",
-    ".claude",
-    ".opencode",
     # Node modules (if any)
     "node_modules",
     # Build artifacts
@@ -97,7 +107,15 @@ EXCLUDE_PATTERNS = [
 class ReleaseArtifactBuilder:
     """Build release artifacts for the framework."""
 
-    def __init__(self, version: str, output_dir: Path, repo_root: Path, dry_run: bool = False):
+    def __init__(
+        self,
+        version: str,
+        output_dir: Path,
+        repo_root: Path,
+        dry_run: bool = False,
+        config_file: Optional[Path] = None,
+        profile: str = "full",
+    ):
         """
         Initialize the builder.
 
@@ -106,17 +124,120 @@ class ReleaseArtifactBuilder:
             output_dir: Directory where artifacts will be created
             repo_root: Root of the repository
             dry_run: If True, validate but don't create artifacts
+            config_file: Path to distribution configuration YAML file
+            profile: Distribution profile to use (full, minimal, etc.)
         """
         self.version = version
         self.output_dir = Path(output_dir)
         self.repo_root = Path(repo_root)
         self.dry_run = dry_run
         self.build_dir = self.output_dir / f"quickstart-framework-{version}"
+        self.profile = profile
         self.stats = {
             "files_copied": 0,
             "files_skipped": 0,
             "total_size": 0,
         }
+        
+        # Load distribution configuration
+        self.config = self._load_config(config_file)
+        
+        # Apply profile to get actual directories/files to include
+        self.core_dirs = self._get_core_directories()
+        self.export_dirs = self._get_export_directories()
+        self.root_files = self._get_root_files()
+        self.scripts = self._get_scripts()
+        self.exclusions = self._get_exclusions()
+
+    def _load_config(self, config_file: Optional[Path]) -> Dict:
+        """Load distribution configuration from YAML file."""
+        # Default config file location
+        if config_file is None:
+            config_file = self.repo_root / "ops/release/distribution-config.yaml"
+        
+        if config_file.exists():
+            print(f"📋 Loading distribution config from {config_file}")
+            with open(config_file, "r") as f:
+                config = yaml.safe_load(f)
+                print(f"   Config version: {config.get('version', 'unknown')}")
+                return config
+        else:
+            print(f"⚠️  Config file not found: {config_file}")
+            print("   Using default configuration")
+            return self._get_default_config()
+    
+    def _get_default_config(self) -> Dict:
+        """Get default configuration if config file doesn't exist."""
+        return {
+            "core_directories": [{"path": d, "required": True} for d in CORE_DIRECTORIES],
+            "export_directories": [{"path": d, "required": False} for d in EXPORT_DIRECTORIES],
+            "root_files": [{"path": f, "required": True} for f in CORE_ROOT_FILES],
+            "scripts": [{"path": s, "required": True} for s in SCRIPTS_TO_INCLUDE],
+            "exclusions": EXCLUDE_PATTERNS,
+            "default_profile": "full",
+        }
+    
+    def _get_core_directories(self) -> List[str]:
+        """Get list of core directories to include based on profile."""
+        if self.profile == "full":
+            return [d["path"] for d in self.config.get("core_directories", [])]
+        elif self.profile in self.config.get("profiles", {}):
+            profile_config = self.config["profiles"][self.profile]
+            include = profile_config.get("include", {}).get("core_directories", [])
+            if include == "all":
+                return [d["path"] for d in self.config.get("core_directories", [])]
+            return include
+        return [d["path"] for d in self.config.get("core_directories", []) if d.get("required", True)]
+    
+    def _get_export_directories(self) -> List[str]:
+        """Get list of export directories to include based on profile."""
+        if self.profile == "full":
+            return [d["path"] for d in self.config.get("export_directories", [])]
+        elif self.profile in self.config.get("profiles", {}):
+            profile_config = self.config["profiles"][self.profile]
+            include = profile_config.get("include", {}).get("export_directories", [])
+            if include == "all":
+                return [d["path"] for d in self.config.get("export_directories", [])]
+            return include
+        return []
+    
+    def _get_root_files(self) -> List[str]:
+        """Get list of root files to include based on profile."""
+        if self.profile == "full":
+            return [f["path"] for f in self.config.get("root_files", [])]
+        elif self.profile in self.config.get("profiles", {}):
+            profile_config = self.config["profiles"][self.profile]
+            include = profile_config.get("include", {}).get("root_files", [])
+            if include == "all":
+                return [f["path"] for f in self.config.get("root_files", [])]
+            return include
+        return [f["path"] for f in self.config.get("root_files", []) if f.get("required", True)]
+    
+    def _get_scripts(self) -> List[str]:
+        """Get list of scripts to include based on profile."""
+        if self.profile == "full":
+            return [s["path"] for s in self.config.get("scripts", [])]
+        elif self.profile in self.config.get("profiles", {}):
+            profile_config = self.config["profiles"][self.profile]
+            include = profile_config.get("include", {}).get("scripts", [])
+            if include == "all":
+                return [s["path"] for s in self.config.get("scripts", [])]
+            return include
+        return [s["path"] for s in self.config.get("scripts", []) if s.get("required", True)]
+    
+    def _get_exclusions(self) -> List[str]:
+        """Get flattened list of exclusion patterns."""
+        exclusions_dict = self.config.get("exclusions", {})
+        if isinstance(exclusions_dict, dict):
+            # Flatten nested exclusions
+            exclusions = []
+            for category, patterns in exclusions_dict.items():
+                if isinstance(patterns, list):
+                    exclusions.extend(patterns)
+            return exclusions
+        elif isinstance(exclusions_dict, list):
+            return exclusions_dict
+        return EXCLUDE_PATTERNS
 
     def validate_version(self) -> bool:
         """
@@ -170,7 +291,7 @@ class ReleaseArtifactBuilder:
         """
         path_str = str(path)
 
-        for pattern in EXCLUDE_PATTERNS:
+        for pattern in self.exclusions:
             # Handle directory patterns
             if pattern.endswith("/"):
                 if path_str.startswith(pattern.rstrip("/")):
@@ -413,8 +534,9 @@ Verify package integrity using the checksums.txt file alongside this package.
         core_dir = self.build_dir / "framework_core"
         all_entries = []
 
-        # Copy directories
-        for dir_name in CORE_DIRECTORIES:
+        # Copy core directories
+        print(f"   📦 Including {len(self.core_dirs)} core directories")
+        for dir_name in self.core_dirs:
             src_dir = self.repo_root / dir_name
             dst_dir = core_dir / dir_name
             
@@ -424,9 +546,24 @@ Verify package integrity using the checksums.txt file alongside this package.
                 all_entries.extend(entries)
             else:
                 print(f"   ⚠️  Skipping {dir_name} (not found)")
+        
+        # Copy export directories (agent definitions for various platforms)
+        if self.export_dirs:
+            print(f"   📦 Including {len(self.export_dirs)} export directories")
+            for dir_name in self.export_dirs:
+                src_dir = self.repo_root / dir_name
+                dst_dir = core_dir / dir_name
+                
+                if src_dir.exists():
+                    print(f"   📁 Copying {dir_name}...")
+                    entries = self.copy_directory(src_dir, dst_dir, core_dir)
+                    all_entries.extend(entries)
+                else:
+                    print(f"   ⚠️  Skipping {dir_name} (not found)")
 
         # Copy root files
-        for file_name in CORE_ROOT_FILES:
+        print(f"   📦 Including {len(self.root_files)} root files")
+        for file_name in self.root_files:
             src_file = self.repo_root / file_name
             dst_file = core_dir / file_name
             
@@ -457,36 +594,52 @@ Verify package integrity using the checksums.txt file alongside this package.
         if not self.dry_run:
             scripts_dir.mkdir(parents=True, exist_ok=True)
 
-        # Note: Install/upgrade scripts will be created in follow-up task
-        # For now, create a README explaining the scripts
+        # Copy scripts from configuration
+        scripts_copied = 0
+        for script_path in self.scripts:
+            src_script = self.repo_root / script_path
+            dst_script = scripts_dir / Path(script_path).name
+            
+            if src_script.exists():
+                print(f"   📜 Copying {script_path}...")
+                if not self.dry_run:
+                    shutil.copy2(src_script, dst_script)
+                    # Ensure scripts are executable
+                    dst_script.chmod(dst_script.stat().st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+                scripts_copied += 1
+            else:
+                print(f"   ⚠️  Script not found: {script_path}")
+        
+        # Create README for scripts directory
         readme_content = """# Framework Scripts
 
 This directory contains helper scripts for installing and upgrading the framework.
 
 ## Scripts
 
-### framework_install.sh (Coming Soon)
+### framework_install.sh
 
 Installs the framework into a target repository for the first time.
 
 Usage:
 ```bash
-./framework_install.sh /path/to/target/repo
+./framework_install.sh /path/to/target/repo [--dry-run] [--verbose]
 ```
 
-### framework_upgrade.sh (Coming Soon)
+### framework_upgrade.sh
 
-Upgrades an existing framework installation.
+Upgrades an existing framework installation while preserving local customizations.
 
 Usage:
 ```bash
-./framework_upgrade.sh /path/to/target/repo [--dry-run]
+./framework_upgrade.sh /path/to/target/repo [--dry-run] [--plan] [--verbose]
 ```
 
 ## Documentation
 
+See `docs/HOW_TO_USE/framework_install.md` for detailed usage instructions.
 See `docs/architecture/design/distribution_of_releases_technical_design.md`
-for detailed script specifications.
+for technical specifications.
 """
         
         if not self.dry_run:
@@ -658,8 +811,14 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  # Build release v1.0.0
+  # Build release v1.0.0 with full profile (default)
   python build_release_artifact.py --version 1.0.0
+
+  # Build with minimal profile (no exports, minimal docs)
+  python build_release_artifact.py --version 1.0.0 --profile minimal
+
+  # Build with custom configuration file
+  python build_release_artifact.py --version 1.0.0 --config custom-config.yaml
 
   # Build with custom output directory
   python build_release_artifact.py --version 1.0.0 --output-dir ./releases
@@ -670,6 +829,7 @@ Examples:
 Reference:
   ADR-013: Zip-Based Framework Distribution
   ADR-014: Framework Guardian Agent
+  ops/release/distribution-config.yaml: Configuration file
 """,
     )
 
@@ -690,6 +850,18 @@ Reference:
         default=".",
         help="Repository root directory (default: current directory)",
     )
+    
+    parser.add_argument(
+        "--config",
+        help="Path to distribution configuration YAML file (default: ops/release/distribution-config.yaml)",
+    )
+    
+    parser.add_argument(
+        "--profile",
+        default="full",
+        choices=["full", "minimal", "documentation", "platform_exports"],
+        help="Distribution profile to use (default: full)",
+    )
 
     parser.add_argument(
         "--dry-run",
@@ -705,6 +877,8 @@ Reference:
         output_dir=Path(args.output_dir),
         repo_root=Path(args.repo_root),
         dry_run=args.dry_run,
+        config_file=Path(args.config) if args.config else None,
+        profile=args.profile,
     )
 
     success = builder.build()

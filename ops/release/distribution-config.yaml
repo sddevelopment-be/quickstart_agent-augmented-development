@@ -1,0 +1,163 @@
+# Distribution Configuration
+# Controls what content is included in framework release packages
+# Version: 1.0.0
+# Last Updated: 2026-01-31
+
+version: "1.0.0"
+
+# Core framework directories to include (always)
+core_directories:
+  - path: ".github/agents"
+    description: "Agent profiles and directives"
+    required: true
+  - path: "docs/templates"
+    description: "Document templates"
+    required: true
+  - path: "docs/architecture"
+    description: "Architecture documentation"
+    required: false
+  - path: "validation"
+    description: "Validation and test infrastructure"
+    required: false
+  - path: "work/templates"
+    description: "Work item templates"
+    required: true
+  - path: "framework"
+    description: "Python framework modules"
+    required: true
+
+# Export artifacts (generated agent definitions for various platforms)
+export_directories:
+  - path: ".claude"
+    description: "Claude Desktop / Anthropic format agent exports"
+    required: false
+    subdirs:
+      - agents
+      - prompts
+      - skills
+  - path: ".opencode"
+    description: "OpenCode.ai format agent exports"
+    required: false
+    subdirs:
+      - agents
+      - skills
+
+# Root files to include
+root_files:
+  - path: "README.md"
+    description: "Main documentation"
+    required: true
+  - path: "AGENTS.md"
+    description: "Agent specification document"
+    required: true
+  - path: "pyproject.toml"
+    description: "Python project configuration"
+    required: false
+  - path: "requirements.txt"
+    description: "Python dependencies"
+    required: false
+  - path: "LICENSE"
+    description: "Software license"
+    required: false
+
+# Scripts to include
+scripts:
+  - path: "ops/release/framework_install.sh"
+    description: "Installation script"
+    required: true
+  - path: "ops/release/framework_upgrade.sh"
+    description: "Upgrade script"
+    required: true
+
+# Exclusion patterns (glob-style patterns for files/dirs to skip)
+exclusions:
+  version_control:
+    - ".git"
+    - ".gitignore"
+    - ".gitattributes"
+  
+  python_cache:
+    - "__pycache__"
+    - "*.pyc"
+    - "*.pyo"
+    - "*.pyd"
+    - ".pytest_cache"
+    - ".coverage"
+    - ".mutmut-cache"
+    - "*.egg-info"
+  
+  work_artifacts:
+    - "work/logs"
+    - "work/reports"
+    - "work/collaboration"
+    - "work/notes"
+    - "work/analysis"
+    - "work/articles"
+    - "work/planning"
+  
+  local_overrides:
+    - "local"
+    - "local/**"
+  
+  temporary_files:
+    - "tmp"
+    - "tmp/**"
+    - "output"
+    - "output/**"
+    - "*.tmp"
+    - "*.bak"
+    - "*.swp"
+  
+  ide_files:
+    - ".vscode"
+    - ".idea"
+    - "*.iml"
+  
+  build_artifacts:
+    - "dist"
+    - "build"
+    - "node_modules"
+
+# Distribution profiles (presets for different use cases)
+profiles:
+  full:
+    description: "Complete framework with all optional components"
+    include:
+      - core_directories: all
+      - export_directories: all
+      - root_files: all
+      - scripts: all
+  
+  minimal:
+    description: "Minimal framework (agents, templates, core only)"
+    include:
+      - core_directories: [".github/agents", "work/templates", "framework"]
+      - export_directories: []
+      - root_files: ["README.md", "AGENTS.md"]
+      - scripts: all
+  
+  documentation:
+    description: "Documentation-focused distribution"
+    include:
+      - core_directories: [".github/agents", "docs/templates", "docs/architecture"]
+      - export_directories: []
+      - root_files: ["README.md", "AGENTS.md"]
+      - scripts: []
+  
+  platform_exports:
+    description: "Only platform-specific agent exports"
+    include:
+      - core_directories: []
+      - export_directories: all
+      - root_files: ["README.md", "AGENTS.md"]
+      - scripts: []
+
+# Default profile to use if not specified
+default_profile: "full"
+
+# Metadata
+metadata:
+  config_version: "1.0.0"
+  last_updated: "2026-01-31T06:50:00Z"
+  maintained_by: "build-automation"
+  validation_schema: "ops/release/schemas/distribution-config-schema.yaml"
