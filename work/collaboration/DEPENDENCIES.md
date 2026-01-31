@@ -1,6 +1,6 @@
 # Task Dependencies Map
 
-**Last Updated**: 2026-01-31 08:57:00 UTC  
+**Last Updated**: 2026-01-31 09:45:00 UTC  
 **Updated By**: Planning Petra  
 **Purpose**: Explicit mapping of task dependencies, blocking relationships, and execution sequences
 
@@ -68,7 +68,100 @@ Enables:
 
 ---
 
-### Initiative 3: ADR-023 Prompt Optimization (BLOCKED ❗️)
+### Initiative 3: Documentation Website Implementation (READY ✅)
+
+**Status**: Fully unblocked, multi-batch initiative (10-14 weeks)  
+**Critical Path**: Sequential batches with decision gates
+
+```
+Prerequisites (ALL COMPLETE):
+✅ GitHub Pages available for repository
+✅ Hugo installable (documented)
+✅ Existing documentation content (HOW_TO_USE guides, ADRs)
+✅ Corporate Hugo theme available for future use
+✅ ADR-022 metadata strategy documented
+
+Batch 1: Foundation & Setup (2 weeks)
+→ 2026-01-31T0930-architect-docsite-foundation-setup (6-8h)
+  Artefacts: Technology selection, site architecture, Hugo setup
+  Agent: architect
+  Blocker: None ✅
+  ↓ Enables:
+→ 2026-01-31T1000-build-automation-docsite-deployment-workflow (4-6h)
+  Artefacts: GitHub Actions deployment
+  Agent: build-automation
+  Prerequisite: Batch 1 architect task complete
+  ↓ Parallel with:
+→ 2026-01-31T1030-writer-editor-docsite-homepage-content (6-8h)
+  Artefacts: Homepage, section overviews
+  Agent: writer-editor
+  Prerequisite: Batch 1 architect task complete
+  ↓ Parallel with:
+→ 2026-01-31T1100-diagrammer-docsite-structure-diagram (2-3h)
+  Artefacts: Site structure diagram
+  Agent: diagrammer
+  Prerequisite: Batch 1 architect task complete
+
+→ Decision Gate 1: Proceed to Batch 2 or adjust?
+
+Batch 2: Core Content Migration (3 weeks)
+→ Migration of 19 HOW_TO_USE guides
+→ Comprehensive Getting Started guide
+→ Navigation and search setup
+→ Contribution guide
+  Prerequisite: Batch 1 complete
+  Estimated: 50-70 hours across writer-editor, curator, architect
+
+→ Decision Gate 2: Proceed to Batch 3 (user content)?
+
+Batch 3: User Onboarding Content (2-3 weeks)
+→ Tutorial series (6-8 tutorials)
+→ Use cases (5-7 scenarios)
+→ Troubleshooting guide
+→ FAQ section
+  Prerequisite: Batch 2 complete
+  Estimated: 40-60 hours across writer-editor, curator
+
+→ Decision Gate 3: Proceed to Batch 4 (advanced) or launch early?
+
+Batch 4: Developer/Architect Content (2-3 weeks)
+→ Architecture documentation
+→ ADRs migration (24+ ADRs)
+→ API/framework reference
+→ Extension guides
+→ Best practices
+  Prerequisite: Batch 3 complete
+  Estimated: 45-65 hours across architect, curator, writer-editor, diagrammer
+
+→ Decision Gate 4: Ready for launch preparation?
+
+Batch 5: Polish & Launch (1-2 weeks)
+→ Corporate theme integration
+→ SEO optimization
+→ Analytics setup
+→ Performance optimization
+→ Accessibility audit
+→ Launch preparation
+  Prerequisite: Batch 4 complete
+  Estimated: 25-40 hours across build-automation, curator, manager
+
+Enables:
+→ Professional documentation website for framework adoption
+→ Improved onboarding (target: <30 min to first task)
+→ Reduced support burden (target: 40% reduction in 12 months)
+→ Increased community adoption and contributions
+```
+
+**Recommendation**: Execute Batch 1 immediately (architect task in inbox), monitor progress through decision gates
+
+**Related Documentation**:
+- Comprehensive Roadmap: `work/planning/documentation-website-roadmap.md`
+- ADR-022: Docsite metadata strategy
+- Current batch: Distribution user guides (complementary content)
+
+---
+
+### Initiative 4: ADR-023 Prompt Optimization (BLOCKED ❗️)
 
 **Status**: High-value but blocked by YAML format issues  
 **Critical Path**: Sequential 4-phase execution (14-22 hours total)

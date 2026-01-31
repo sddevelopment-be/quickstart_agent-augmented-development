@@ -101,19 +101,25 @@
 
 ---
 
-### architect (5 tasks, ~30-40 hours estimated)
+### architect (6 tasks, ~36-48 hours estimated)
 
 **Ready for Execution**:
 1. `2025-12-05T1014-framework-guardian-agent-definition` - **RECOMMENDED** (4-6h)
+2. 📬 `2026-01-31T0930-docsite-foundation-setup` - **NEW IN INBOX, HIGH PRIORITY** (6-8h)
+   - Documentation website Batch 1 foundation
+   - No blockers, ready to execute
+   - Enables multi-batch docsite initiative
 
 **Pending Tasks**:
-2. `2025-11-24T0950-version-policy-documentation` - Version policy ADR (4-6h)
-3. `2025-11-24T1736-framework-efficiency-assessment` - Efficiency analysis (6-8h)
-4. `2025-11-30T1202-model-client-interface` - Model client design (4-6h)
-5. ❗️ `2026-01-29T0730-mfd-task-1.3-schema-conventions` - **YAML FORMAT ERROR** (needs fix)
-6. ❗️ `2026-01-30T1120-design-prompt-optimization-framework` - **YAML FORMAT ERROR** (needs fix before execution)
+3. `2025-11-24T0950-version-policy-documentation` - Version policy ADR (4-6h)
+4. `2025-11-24T1736-framework-efficiency-assessment` - Efficiency analysis (6-8h)
+5. `2025-11-30T1202-model-client-interface` - Model client design (4-6h)
+6. ❗️ `2026-01-29T0730-mfd-task-1.3-schema-conventions` - **YAML FORMAT ERROR** (needs fix)
+7. ❗️ `2026-01-30T1120-design-prompt-optimization-framework` - **YAML FORMAT ERROR** (needs fix before execution)
 
-**Note**: Task #6 is part of high-value ADR-023 initiative but blocked by YAML issue
+**Note**: Task #7 is part of high-value ADR-023 initiative but blocked by YAML issue
+
+**Recommendation**: Execute docsite foundation task (high strategic value) or Framework Guardian (also ready)
 
 ---
 
@@ -218,7 +224,7 @@
 
 ---
 
-## Inbox Tasks Awaiting Assignment (7 total)
+## Inbox Tasks Awaiting Assignment (8 total)
 
 ### High Priority
 
@@ -227,6 +233,17 @@
    - Priority: HIGH
    - **Recommendation**: ASSIGN IMMEDIATELY ⭐
    - See "Next Batch Assignments" above
+
+2. **2026-01-31T0930-architect-docsite-foundation-setup** 🆕
+   - Agent: architect
+   - Priority: HIGH
+   - Initiative: Documentation Website (Batch 1)
+   - Estimated: 6-8 hours
+   - **Recommendation**: ASSIGN AFTER DISTRIBUTION USER GUIDE OR IN PARALLEL
+   - Deliverables: Technology selection, site architecture, Hugo setup
+   - Enables: Multi-batch documentation website initiative
+   - No blockers (ready to execute)
+   - Creates handoff tasks for: build-automation, writer-editor, diagrammer
 
 ### Recent Handoffs (From Completed Work)
 
