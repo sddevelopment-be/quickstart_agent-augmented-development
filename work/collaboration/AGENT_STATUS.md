@@ -1,6 +1,6 @@
 # Agent Status Dashboard
 
-_Last updated: 2026-01-31 06:56:00 UTC_
+_Last updated: 2026-01-31 07:17:00 UTC_
 
 ## build-automation
 
@@ -59,6 +59,17 @@ _Last updated: 2026-01-31 06:56:00 UTC_
 - **Assigned**: 2 tasks
 - **In Progress**: 0 tasks
 - **Last seen**: 2026-01-31 06:38:02
+
+## framework-guardian
+
+- **Status**: Ready - Profile and templates created
+- **Assigned**: 0 tasks
+- **In Progress**: 0 tasks
+- **Last seen**: 2026-01-31 07:17:00
+- **Readiness**: Production-ready for framework audits and upgrade guidance
+- **Contact Cadence**: On-demand (invoked post-install/upgrade via orchestration)
+- **Recent completions**:
+  - 2025-12-05T1014: Agent profile, directive 025, and templates created ✅
 
 ## frontend
 

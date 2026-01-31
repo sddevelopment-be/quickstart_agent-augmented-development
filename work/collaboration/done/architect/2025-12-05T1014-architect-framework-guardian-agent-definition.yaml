@@ -1,0 +1,77 @@
+id: 2025-12-05T1014-architect-framework-guardian-agent-definition
+agent: architect
+status: done
+priority: high
+started_at: '2026-01-31T07:16:00Z'
+completed_at: '2026-01-31T07:21:00Z'
+mode: /analysis-mode
+title: Define Framework Guardian agent profile, templates, and validation hooks
+description: "Materialize the Framework Guardian role described in ADR-014 so future\n\
+  iterations can enforce release integrity. Deliver a `.agent.md` profile,\nsupporting\
+  \ directives/templates, and validation checklists that slot directly\ninto file-based\
+  \ orchestration (Manager Mike\u2019s run-iteration template).\n"
+artefacts:
+- .github/agents/framework-guardian.agent.md
+- .github/agents/directives/0XX_framework_guardian.md
+- docs/templates/GUARDIAN_AUDIT_REPORT.md
+- docs/templates/GUARDIAN_UPGRADE_PLAN.md
+- work/collaboration/AGENT_STATUS.md (update guardian row)
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  related_pr: ''
+  notes:
+  - Align tone + responsibilities with operational guidelines and AGENTS.md.
+  - Document how Guardian hooks into packaging + install tasks during iterations.
+  - Ensure templates capture metadata needed for ADR coverage + release metrics.
+  - Provide instructions for invoking Guardian during `.github/ISSUE_TEMPLATE/run-iteration.md`
+    cycles.
+requirements:
+- Draft agent profile detailing purpose, authorities, required directives.
+- Create Guardian-specific directive capturing audit workflow + escalation markers.
+- Provide Markdown templates for audit report + upgrade plan, referencing release
+  artefacts.
+- Update AGENT_STATUS to include Guardian readiness + contact cadence.
+- Describe how Guardian outputs integrate with work logs + iteration summaries.
+testing_requirements:
+- Peer review via Curator Claire checklist (include as acceptance note).
+- Dry-run template fill using sample data from packaging pipeline.
+- Validate directive numbering + manifest entries (Directive 006).
+dependencies:
+- docs/architecture/design/distribution_of_releases_architecture.md
+- .github/ISSUE_TEMPLATE/run-iteration.md
+created_at: '2025-12-05T10:14:00Z'
+created_by: planning-petra
+origin_comment_id: null
+assigned_at: '2026-01-31T06:38:02.556549Z'
+result:
+  summary: |
+    Successfully defined Framework Guardian agent profile, directive, and templates per ADR-014.
+    Guardian is production-ready for framework audits and upgrade guidance while preserving local intent.
+    All artifacts integrated with file-based orchestration and distribution architecture.
+  artifacts_created:
+    - .github/agents/framework-guardian.agent.md (agent profile with authorities, constraints, operating procedures)
+    - .github/agents/directives/025_framework_guardian.md (audit/upgrade workflow, escalation triggers, integration protocols)
+    - docs/templates/GUARDIAN_AUDIT_REPORT.md (comprehensive audit report template with metadata, statistics, recommendations)
+    - docs/templates/GUARDIAN_UPGRADE_PLAN.md (detailed upgrade plan template with conflict classification, resolution guidance, checklists)
+    - work/collaboration/AGENT_STATUS.md (updated with Guardian entry)
+    - .github/agents/directives/manifest.json (updated with Directive 025)
+    - work/logs/framework-guardian/2025-12-05T1014-guardian-definition-worklog.md (detailed work log per Directive 014)
+  key_features:
+    - Read-only audit operations (never modifies files directly)
+    - Four-tier conflict classification system (auto-merge, non-breaking, local customization, breaking change)
+    - Explicit escalation triggers with ❗️/⚠️ markers
+    - Integration with file-based orchestration per Directive 019
+    - Comprehensive templates supporting compliance and traceability
+    - Core/local boundary enforcement per ADR-013/014
+  compliance:
+    - Aligned with ADR-014 requirements (audit mode, upgrade mode, guardrails)
+    - Follows existing agent profile patterns (architect, curator, manager)
+    - References 12 directives for governance (001, 002, 004, 006, 007, 008, 011, 014, 018, 019, 020, 021)
+    - Directive 025 added to manifest with correct dependencies
+    - Ready for peer review via Curator Claire
+  testing_readiness:
+    - Templates include placeholders for dry-run testing
+    - Work directory structure created (logs, assigned, done)
+    - Directive numbering validated (025 is next available)
+    - Integration points documented and validated

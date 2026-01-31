@@ -330,6 +330,27 @@
 	  "safetyCritical": true,
 	  "directive_version": "1.0.0",
 	  "status": "active"
+	},
+	{
+	  "code": "025",
+	  "slug": "framework_guardian",
+	  "title": "Framework Guardian",
+	  "file": "025_framework_guardian.md",
+	  "purpose": "Audit workflow, upgrade conflict resolution patterns, and escalation procedures for Framework Guardian agent",
+	  "dependencies": [
+		"004",
+		"006",
+		"008",
+		"011",
+		"014",
+		"019",
+		"020",
+		"021"
+	  ],
+	  "requiredInAgents": false,
+	  "safetyCritical": true,
+	  "directive_version": "1.0.0",
+	  "status": "active"
 	}
   ]
 }
