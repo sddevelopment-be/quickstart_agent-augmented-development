@@ -1,0 +1,189 @@
+name: Validate Prompt Quality
+
+# Trigger on PR to main when prompt files change
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'examples/prompts/**.yaml'
+      - 'ops/validation/prompt-validator*.js'
+      - 'validation/schemas/prompt-schema.json'
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
+concurrency:
+  group: prompt-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-prompts:
+    name: Validate Prompt Templates
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Validate prompt files
+        id: validate
+        run: |
+          # Run validation and capture output
+          set +e  # Don't exit on error yet
+          npm run validate:prompts:json > validation-output.json
+          exit_code=$?
+          set -e
+          
+          # Store exit code for later steps
+          echo "exit_code=$exit_code" >> $GITHUB_OUTPUT
+          
+          # Also generate markdown for PR comment
+          npm run validate:prompts -- --format markdown > validation-report.md || true
+          
+          # Show summary in logs
+          echo "Validation completed with exit code: $exit_code"
+          cat validation-report.md
+          
+          # Exit with original code for step status
+          exit $exit_code
+        continue-on-error: true
+      
+      - name: Parse validation results
+        id: parse
+        if: always()
+        run: |
+          # Extract key metrics from JSON output
+          if [ -f "validation-output.json" ]; then
+            total=$(jq '.total' validation-output.json)
+            passed=$(jq '.passed' validation-output.json)
+            failed=$(jq '.failed' validation-output.json)
+            avg_score=$(jq '.averageScore' validation-output.json)
+            
+            echo "total=$total" >> $GITHUB_OUTPUT
+            echo "passed=$passed" >> $GITHUB_OUTPUT
+            echo "failed=$failed" >> $GITHUB_OUTPUT
+            echo "avg_score=$avg_score" >> $GITHUB_OUTPUT
+          else
+            echo "total=0" >> $GITHUB_OUTPUT
+            echo "passed=0" >> $GITHUB_OUTPUT
+            echo "failed=0" >> $GITHUB_OUTPUT
+            echo "avg_score=0" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Generate workflow summary
+        if: always()
+        run: |
+          echo "# 🔍 Prompt Quality Validation Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ -f "validation-report.md" ]; then
+            cat validation-report.md >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ Validation report not generated" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "**Threshold:** 70/100" >> $GITHUB_STEP_SUMMARY
+          echo "**Quality Gate:** Prompts scoring below threshold will fail CI" >> $GITHUB_STEP_SUMMARY
+      
+      - name: Upload validation artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: prompt-validation-results
+          path: |
+            validation-output.json
+            validation-report.md
+          retention-days: 30
+      
+      - name: Post PR comment
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            // Read validation report
+            let reportBody = '';
+            try {
+              reportBody = fs.readFileSync('validation-report.md', 'utf8');
+            } catch (error) {
+              reportBody = '## 🔍 Prompt Quality Report\n\n⚠️ **Error:** Unable to generate validation report.\n\n';
+              reportBody += `Error: ${error.message}\n`;
+            }
+            
+            // Add CI context
+            const exitCode = '${{ steps.validate.outputs.exit_code }}';
+            const workflowUrl = `${context.payload.repository.html_url}/actions/runs/${context.runId}`;
+            
+            let footer = '\n\n---\n\n';
+            footer += '**How to fix validation errors:**\n\n';
+            footer += '1. Review the errors and suggestions above\n';
+            footer += '2. Update your prompt files according to [ADR-023](../blob/main/docs/architecture/adrs/ADR-023-prompt-optimization-framework.md)\n';
+            footer += '3. Run validation locally: `npm run validate:prompts`\n';
+            footer += '4. For detailed output: `npm run validate:prompts:verbose`\n\n';
+            footer += `📊 [View full workflow logs](${workflowUrl})\n\n`;
+            footer += '_This comment is automatically updated on each push._';
+            
+            const fullBody = reportBody + footer;
+            
+            // Find existing comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            
+            const botComment = comments.find(comment => 
+              comment.user.type === 'Bot' && 
+              comment.body.includes('Prompt Quality Report')
+            );
+            
+            // Update or create comment
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: fullBody
+              });
+              console.log('Updated existing PR comment');
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: fullBody
+              });
+              console.log('Created new PR comment');
+            }
+      
+      - name: Fail on quality threshold
+        if: steps.validate.outputs.exit_code != '0'
+        run: |
+          echo "❌ Prompt validation failed"
+          echo ""
+          echo "One or more prompts scored below the quality threshold (70/100)."
+          echo "Review the validation report above for details."
+          echo ""
+          echo "To fix:"
+          echo "  1. Run 'npm run validate:prompts:verbose' locally"
+          echo "  2. Address the errors and warnings"
+          echo "  3. Re-run validation to confirm fixes"
+          echo ""
+          exit 1
