@@ -1,0 +1,266 @@
+id: 2026-01-31T0930-architect-docsite-foundation-setup
+agent: architect
+status: new
+priority: high
+mode: /analysis-mode
+title: Design and establish documentation website foundation
+
+description: |
+  Design the overall architecture and technical foundation for the Quickstart Agent-Augmented
+  Development Framework documentation website. This task establishes the technical foundation
+  for a 5-batch implementation roadmap.
+  
+  This is Batch 1 of the Documentation Website Implementation Roadmap. Focus on technology
+  selection, repository structure design, and initial setup to enable subsequent content
+  migration and creation batches.
+
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: copilot/run-orchestration-cycle
+  related_documents:
+    - work/planning/documentation-website-roadmap.md (full roadmap)
+    - docs/architecture/adrs/ADR-022-docsite-separated-metadata.md (metadata strategy)
+    - docs/HOW_TO_USE/*.md (content to eventually migrate)
+  
+  initiative: Documentation Website (docsite-2026)
+  batch: Batch 1 - Foundation & Setup
+  strategic_priority: HIGH (adoption enablement)
+
+artefacts:
+  # Primary Deliverables
+  - work/analysis/docsite-technology-selection.md
+  - docs-site/ARCHITECTURE.md
+  - docs-site/README.md
+  - docs-site/config.toml (or config/_default/config.toml for Hugo)
+  - docs-site/content/_index.md
+  - .github/workflows/deploy-docsite.yml (created by build-automation in handoff)
+
+  # Supporting Documentation
+  - work/planning/docsite-batch-1-implementation-plan.md
+
+requirements:
+  technology_selection:
+    decision: |
+      Evaluate and confirm Hugo as the static site generator (recommended in roadmap).
+      If different choice, provide detailed rationale.
+    
+    evaluation_criteria:
+      - Build speed (target: <5s for 200 pages)
+      - Dependency management (prefer: zero runtime dependencies)
+      - Theme availability and customization
+      - GitHub Pages integration
+      - Corporate theme compatibility (Hugo theme available)
+      - ADR-022 separated metadata compatibility (if adopted)
+      - Community support and maintenance
+    
+    deliverable: work/analysis/docsite-technology-selection.md
+    
+    sections:
+      - Executive Summary (recommendation with rationale)
+      - Technology Comparison (Hugo vs Jekyll vs alternatives)
+      - Theme Selection (community theme for Batch 1-4, corporate for Batch 5)
+      - Build and Deployment Strategy (GitHub Actions)
+      - ADR-022 Integration Decision (optional: separated metadata)
+      - Risk Assessment
+      - Next Steps
+
+  site_architecture:
+    structure: |
+      Design the overall information architecture for the documentation site.
+      Consider multiple audiences: new users, active users, architects, contributors.
+    
+    deliverable: docs-site/ARCHITECTURE.md
+    
+    sections:
+      - Site Structure Overview (diagram of main sections)
+      - Audience Mapping (content for each target audience)
+      - Navigation Strategy (menus, sidebar, breadcrumbs)
+      - Content Organization (how guides, tutorials, reference, ADRs organized)
+      - Search Strategy (Hugo built-in vs. external)
+      - Future Extensions (version management, multi-language, etc.)
+
+  repository_structure:
+    layout: |
+      Design the directory structure for the docsite within the repository.
+      Balance separation of concerns with ease of maintenance.
+    
+    proposed_structure: |
+      docs-site/
+        config/              # Hugo configuration files
+          _default/
+            config.toml      # Main Hugo config
+            menus.toml       # Navigation menus
+            params.toml      # Theme parameters
+        content/             # Site content (markdown files)
+          _index.md          # Homepage
+          getting-started/   # Onboarding path
+          guides/            # How-to guides (migrate from HOW_TO_USE)
+          tutorials/         # Step-by-step tutorials
+          use-cases/         # Scenario-based guides
+          architecture/      # Architecture docs and ADRs
+          reference/         # API and schema reference
+          contributing/      # Contribution guides
+          troubleshooting/   # Problem-solving guides
+          faq/               # Frequently asked questions
+        data/                # Data files (if using separated metadata per ADR-022)
+          docmeta.yaml       # Optional: centralized metadata
+        static/              # Static assets (images, CSS, JS)
+          images/
+          css/
+          js/
+        themes/              # Hugo themes (gitmodule or subdir)
+          [selected-theme]/
+        layouts/             # Custom layout overrides (if needed)
+        archetypes/          # Content templates
+        ARCHITECTURE.md      # This file
+        README.md            # Setup and contribution instructions
+      
+      .github/workflows/
+        deploy-docsite.yml   # GitHub Actions deployment workflow (handoff to build-automation)
+    
+    deliverable: docs-site/README.md (setup instructions)
+
+  initial_setup:
+    tasks:
+      - Select and configure Hugo theme (community theme, not corporate yet)
+      - Create initial Hugo configuration (config.toml)
+      - Set up content directories
+      - Create homepage content skeleton (docs-site/content/_index.md)
+      - Create section index pages (_index.md for each main section)
+      - Document local development workflow (how to run hugo server)
+      - Prepare handoff task for build-automation (GitHub Actions deployment)
+
+  decision_points:
+    metadata_strategy:
+      question: "Adopt ADR-022 separated metadata pattern now, or standard front matter?"
+      recommendation: "Defer to standard front matter for Batch 1-4; adopt separated metadata in Batch 5 if desired (optional optimization)"
+      rationale: "Simplifies initial implementation; separated metadata can be added later without content changes if using symlinks"
+    
+    theme_choice:
+      question: "Which Hugo theme for Batch 1-4 (before corporate theme)?"
+      recommendations:
+        - "Hugo Book theme (clean, documentation-focused, widely used)"
+        - "Docsy theme (feature-rich, Google-maintained, good for large doc sites)"
+        - "Learn theme (tutorial-focused, good for onboarding content)"
+      evaluation: "Select based on: ease of customization, corporate theme migration path, community support"
+    
+    versioning:
+      question: "Set up multi-version support now or later?"
+      recommendation: "Single version initially; plan for version branches when needed (Batch 5 or post-launch)"
+      rationale: "Simpler initial setup; framework versioning not critical yet; can add later"
+
+handoff_tasks:
+  build_automation:
+    task_id: 2026-01-31T1000-build-automation-docsite-deployment-workflow
+    description: Create GitHub Actions workflow to deploy Hugo site to GitHub Pages
+    prerequisites:
+      - Hugo site structure exists (docs-site/)
+      - Hugo config.toml configured
+      - Initial content created (_index.md exists)
+    deliverables:
+      - .github/workflows/deploy-docsite.yml
+      - GitHub Pages configured in repository settings
+      - Deployment tested (site accessible at https://[org].github.io/[repo])
+    estimated_effort: 4-6 hours
+  
+  writer_editor:
+    task_id: 2026-01-31T1030-writer-editor-docsite-homepage-content
+    description: Write homepage content and initial section overviews
+    prerequisites:
+      - Site structure defined (docs-site/ARCHITECTURE.md)
+      - Hugo theme selected and configured
+    deliverables:
+      - docs-site/content/_index.md (homepage content)
+      - Section overview pages for main sections
+      - Navigation text and descriptions
+    estimated_effort: 6-8 hours
+  
+  diagrammer:
+    task_id: 2026-01-31T1100-diagrammer-docsite-structure-diagram
+    description: Create visual diagram of documentation site structure
+    prerequisites:
+      - Site architecture defined (docs-site/ARCHITECTURE.md)
+    deliverables:
+      - docs-site/diagrams/site-structure.plantuml
+      - Diagram showing content organization and navigation
+    estimated_effort: 2-3 hours
+
+success_criteria:
+  - Technology selection finalized with clear rationale
+  - Hugo site structure created and documented
+  - Initial Hugo configuration working (hugo server runs successfully)
+  - Site architecture documented with audience mapping
+  - Local development workflow documented
+  - Handoff tasks created for build-automation, writer-editor, diagrammer
+  - Decision points resolved (metadata strategy, theme, versioning)
+
+validation:
+  technical:
+    - Hugo site builds without errors (hugo command succeeds)
+    - Hugo development server runs (hugo server -D works)
+    - Theme renders properly (homepage displays correctly)
+    - Directory structure follows planned architecture
+  
+  documentation:
+    - docs-site/ARCHITECTURE.md complete and clear
+    - docs-site/README.md provides setup instructions
+    - work/analysis/docsite-technology-selection.md comprehensive
+  
+  readiness:
+    - Handoff tasks specified for next agents
+    - Build-automation can create deployment workflow
+    - Writer-editor can write homepage content
+    - Structure supports all 5 planned batches
+
+dependencies:
+  prerequisites:
+    - Hugo installed locally (or documented how to install)
+    - GitHub Pages available for repository
+    - Corporate Hugo theme outline available (for future reference)
+  
+  related_work:
+    - ADR-022 (docsite metadata strategy) - inform decision
+    - Distribution user guides (current batch) - informs content strategy
+    - Existing HOW_TO_USE guides - content to eventually migrate
+
+estimated_effort: 6-8 hours
+
+timeline:
+  start: ASAP (no blockers)
+  completion: Within 1 week
+  next_batch_start: After deployment workflow complete (build-automation handoff)
+
+notes: |
+  This task establishes the foundation for a multi-batch documentation website initiative.
+  Focus on:
+  1. Solid technical foundation (correct choices, extensible architecture)
+  2. Clear documentation (enable others to contribute)
+  3. Smooth handoffs (next agents have what they need)
+  
+  Don't over-engineer Batch 1:
+  - Simple theme choice (corporate theme comes in Batch 5)
+  - Standard front matter (separated metadata optional for later)
+  - Single version (multi-version when needed)
+  
+  The goal is working foundation that enables content creation in Batches 2-4.
+
+risks:
+  - risk: Hugo theme incompatible with corporate theme (Batch 5)
+    mitigation: Choose theme with similar structure; design for theme swap; focus on content portability
+    probability: LOW
+    impact: MEDIUM
+  
+  - risk: Site structure doesn't scale as content grows
+    mitigation: Design with growth in mind; review structure with experienced users; reference large Hugo doc sites
+    probability: LOW
+    impact: HIGH
+  
+  - risk: Handoff tasks not clear enough for next agents
+    mitigation: Provide detailed task specifications; clear prerequisites; reference this architecture doc
+    probability: MEDIUM
+    impact: MEDIUM
+
+created_at: '2026-01-31T09:30:00Z'
+created_by: planning-petra
+origin: documentation-website-roadmap
+batch: docsite-2026-batch-1
