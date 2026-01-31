@@ -50,3 +50,77 @@ _No workflow events recorded yet._
 **2025-11-24 17:56:16 UTC** - Assigned task 2025-11-24T0951-curator-tooling-best-practices-guide to curator
 **2025-11-24 17:56:16 UTC** - Assigned task 2025-11-24T1738-build-automation-iteration-metrics-dashboard to build-automation
 **2025-11-24 17:56:17 UTC** - Coordinator cycle: 17 assigned, 4 follow-ups, 0 timeouts, 0 conflicts, 0 archived
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-12-04T0528-curator-integrate-feasibility-study-artifacts to curator
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-11-30T1204-build-automation-ollama-worker-pipeline to build-automation
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-11-25T1838-writer-editor-update-docs to writer-editor
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-11-30T1206-build-automation-ci-router-schema-validation to build-automation
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-12-04T0527-writer-editor-polish-feasibility-documents to writer-editor
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-11-28T0427-build-automation-work-items-cleanup-script to build-automation
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-12-01T0513-build-automation-framework-ci-tests to build-automation
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-12-05T1014-architect-framework-guardian-agent-definition to architect
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-12-05T1016-writer-editor-release-documentation-checklist to writer-editor
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-12-01T0512-build-automation-router-metrics-dashboard to build-automation
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-12-01T0510-backend-dev-framework-config-loader to backend-dev
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-12-05T1012-build-automation-install-upgrade-scripts to build-automation
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-11-28T0426-build-automation-manifest-maintenance-script to build-automation
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-11-27T1956-writer-editor-followup-2025-11-24T1756-synthesizer-poc3-followup to writer-editor
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-12-05T1010-build-automation-release-packaging-pipeline to build-automation
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-12-01T0511-backend-dev-agent-profile-parser to backend-dev
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-12-04T0530-manager-orchestrate-decision-review to manager
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-11-25T1837-curator-validate-refactor to curator
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-11-30T1203-scribe-model-selection-template to scribe
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-11-25T1839-build-automation-test-workflows to build-automation
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-11-30T1202-architect-model-client-interface to architect
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-12-04T0529-build-automation-validation-tooling-prototype to build-automation
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-11-30T1205-diagrammer-multi-tier-runtime-diagram to diagrammer
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-12-04T0526-diagrammer-docsite-architecture-diagrams to diagrammer
+**2026-01-31 06:38:02 UTC** - Assigned task 2025-11-30T1201-build-automation-model-router-config to build-automation
+**2026-01-31 06:38:02 UTC** - ❗️ Error checking timeout for 2026-01-30T1642-adr023-phase2-prompt-validator.yaml: expected a single document in the stream
+  in "work/collaboration/assigned/backend-dev/2026-01-30T1642-adr023-phase2-prompt-validator.yaml", line 2, column 1
+but found another document
+  in "work/collaboration/assigned/backend-dev/2026-01-30T1642-adr023-phase2-prompt-validator.yaml", line 24, column 1
+**2026-01-31 06:38:02 UTC** - ❗️ Error checking timeout for 2026-01-30T1643-adr023-phase3-context-loader.yaml: expected a single document in the stream
+  in "work/collaboration/assigned/backend-dev/2026-01-30T1643-adr023-phase3-context-loader.yaml", line 2, column 1
+but found another document
+  in "work/collaboration/assigned/backend-dev/2026-01-30T1643-adr023-phase3-context-loader.yaml", line 21, column 1
+**2026-01-31 06:38:02 UTC** - ❗️ Error checking timeout for 2026-01-30T1644-adr023-phase2-ci-workflow.yaml: expected a single document in the stream
+  in "work/collaboration/assigned/build-automation/2026-01-30T1644-adr023-phase2-ci-workflow.yaml", line 2, column 1
+but found another document
+  in "work/collaboration/assigned/build-automation/2026-01-30T1644-adr023-phase2-ci-workflow.yaml", line 19, column 1
+**2026-01-31 06:38:02 UTC** - ❗️ Error checking timeout for 2026-01-29T0935-mfd-task-0.1-workflow-review.yaml: expected a single document in the stream
+  in "work/collaboration/assigned/build-automation/2026-01-29T0935-mfd-task-0.1-workflow-review.yaml", line 2, column 1
+but found another document
+  in "work/collaboration/assigned/build-automation/2026-01-29T0935-mfd-task-0.1-workflow-review.yaml", line 14, column 1
+**2026-01-31 06:38:02 UTC** - ❗️ Error checking timeout for 2026-01-30T1120-design-prompt-optimization-framework.yaml: expected a single document in the stream
+  in "work/collaboration/assigned/architect/2026-01-30T1120-design-prompt-optimization-framework.yaml", line 2, column 1
+but found another document
+  in "work/collaboration/assigned/architect/2026-01-30T1120-design-prompt-optimization-framework.yaml", line 20, column 1
+**2026-01-31 06:38:02 UTC** - ❗️ Error checking timeout for 2026-01-29T0730-mfd-task-1.3-schema-conventions.yaml: expected a single document in the stream
+  in "work/collaboration/assigned/architect/2026-01-29T0730-mfd-task-1.3-schema-conventions.yaml", line 2, column 1
+but found another document
+  in "work/collaboration/assigned/architect/2026-01-29T0730-mfd-task-1.3-schema-conventions.yaml", line 14, column 1
+**2026-01-31 06:38:02 UTC** - ❗️ Error checking conflicts for 2026-01-30T1642-adr023-phase2-prompt-validator.yaml: expected a single document in the stream
+  in "work/collaboration/assigned/backend-dev/2026-01-30T1642-adr023-phase2-prompt-validator.yaml", line 2, column 1
+but found another document
+  in "work/collaboration/assigned/backend-dev/2026-01-30T1642-adr023-phase2-prompt-validator.yaml", line 24, column 1
+**2026-01-31 06:38:02 UTC** - ❗️ Error checking conflicts for 2026-01-30T1643-adr023-phase3-context-loader.yaml: expected a single document in the stream
+  in "work/collaboration/assigned/backend-dev/2026-01-30T1643-adr023-phase3-context-loader.yaml", line 2, column 1
+but found another document
+  in "work/collaboration/assigned/backend-dev/2026-01-30T1643-adr023-phase3-context-loader.yaml", line 21, column 1
+**2026-01-31 06:38:02 UTC** - ❗️ Error checking conflicts for 2026-01-30T1644-adr023-phase2-ci-workflow.yaml: expected a single document in the stream
+  in "work/collaboration/assigned/build-automation/2026-01-30T1644-adr023-phase2-ci-workflow.yaml", line 2, column 1
+but found another document
+  in "work/collaboration/assigned/build-automation/2026-01-30T1644-adr023-phase2-ci-workflow.yaml", line 19, column 1
+**2026-01-31 06:38:02 UTC** - ❗️ Error checking conflicts for 2026-01-29T0935-mfd-task-0.1-workflow-review.yaml: expected a single document in the stream
+  in "work/collaboration/assigned/build-automation/2026-01-29T0935-mfd-task-0.1-workflow-review.yaml", line 2, column 1
+but found another document
+  in "work/collaboration/assigned/build-automation/2026-01-29T0935-mfd-task-0.1-workflow-review.yaml", line 14, column 1
+**2026-01-31 06:38:02 UTC** - ❗️ Error checking conflicts for 2026-01-30T1120-design-prompt-optimization-framework.yaml: expected a single document in the stream
+  in "work/collaboration/assigned/architect/2026-01-30T1120-design-prompt-optimization-framework.yaml", line 2, column 1
+but found another document
+  in "work/collaboration/assigned/architect/2026-01-30T1120-design-prompt-optimization-framework.yaml", line 20, column 1
+**2026-01-31 06:38:02 UTC** - ❗️ Error checking conflicts for 2026-01-29T0730-mfd-task-1.3-schema-conventions.yaml: expected a single document in the stream
+  in "work/collaboration/assigned/architect/2026-01-29T0730-mfd-task-1.3-schema-conventions.yaml", line 2, column 1
+but found another document
+  in "work/collaboration/assigned/architect/2026-01-29T0730-mfd-task-1.3-schema-conventions.yaml", line 14, column 1
+**2026-01-31 06:38:03 UTC** - Coordinator cycle: 25 assigned, 6 follow-ups, 0 timeouts, 0 conflicts, 47 archived

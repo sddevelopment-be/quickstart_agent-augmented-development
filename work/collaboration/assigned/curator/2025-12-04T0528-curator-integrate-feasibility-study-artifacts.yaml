@@ -1,0 +1,30 @@
+id: 2025-12-04T0528-curator-integrate-feasibility-study-artifacts
+agent: curator
+status: assigned
+title: Integrate docsite metadata separation artifacts into repository structure
+mode: /analysis-mode
+priority: high
+artefacts:
+- docs/architecture/adrs/README.md
+- docs/architecture/assessments/README.md
+- docs/architecture/design/README.md
+- docs/CHANGELOG.md
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: copilot/feasibility-study-metadata-approach
+  notes:
+  - Update ADR index (docs/architecture/adrs/README.md) to include ADR-022
+  - Update assessments index (docs/architecture/assessments/README.md) if exists,
+    or create it
+  - Update design index (docs/architecture/design/README.md) if exists, or create
+    it
+  - Add entry to docs/CHANGELOG.md for new feasibility study
+  - Verify all cross-references in new documents point to valid files
+  - Ensure consistent formatting across all index files
+  - Check that new documents follow repository structure conventions
+  - Validate that diagrams are properly referenced from documents
+  dependencies:
+  - 2025-12-04T0527-writer-editor-polish-feasibility-documents
+created_at: '2025-12-04T05:28:18Z'
+created_by: architect
+assigned_at: '2026-01-31T06:38:02.529049Z'

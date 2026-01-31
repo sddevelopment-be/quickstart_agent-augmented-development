@@ -1,0 +1,270 @@
+name: Release Packaging
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Trigger on version tags (e.g., v1.0.0, v1.0.0-rc.1)
+  workflow_dispatch:  # Allow manual triggering
+    inputs:
+      version:
+        description: 'Version to build (e.g., 1.0.0-rc.1)'
+        required: true
+        type: string
+      upload_artifacts:
+        description: 'Upload artifacts to releases'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  build-release:
+    name: Build Release Artifact
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Needed to upload release assets
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for accurate git info
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install PyYAML
+      
+      - name: Determine version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ inputs.version }}"
+          else
+            # Extract version from tag (remove 'v' prefix)
+            VERSION=${GITHUB_REF#refs/tags/v}
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Building version: $VERSION"
+      
+      - name: Validate version format
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          if ! echo "$VERSION" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?(\+[a-zA-Z0-9.]+)?$'; then
+            echo "❌ Invalid version format: $VERSION"
+            echo "Expected: X.Y.Z[-prerelease][+build]"
+            exit 1
+          fi
+          echo "✅ Version format valid"
+      
+      - name: Build release artifact (dry-run)
+        run: |
+          python ops/release/build_release_artifact.py \
+            --version "${{ steps.version.outputs.version }}" \
+            --output-dir ./output/releases \
+            --dry-run
+      
+      - name: Build release artifact
+        run: |
+          python ops/release/build_release_artifact.py \
+            --version "${{ steps.version.outputs.version }}" \
+            --output-dir ./output/releases
+      
+      - name: Verify artifact
+        run: |
+          cd output/releases
+          
+          # Check files exist
+          ARTIFACT="quickstart-framework-${{ steps.version.outputs.version }}.zip"
+          if [ ! -f "$ARTIFACT" ]; then
+            echo "❌ Artifact not found: $ARTIFACT"
+            exit 1
+          fi
+          
+          if [ ! -f "checksums.txt" ]; then
+            echo "❌ checksums.txt not found"
+            exit 1
+          fi
+          
+          # Verify checksum
+          sha256sum -c checksums.txt
+          
+          # Verify zip structure
+          echo "Verifying zip structure..."
+          unzip -l "$ARTIFACT" | head -20
+          
+          # Check for required directories
+          unzip -l "$ARTIFACT" | grep -q "framework_core/" || (echo "❌ Missing framework_core/" && exit 1)
+          unzip -l "$ARTIFACT" | grep -q "scripts/" || (echo "❌ Missing scripts/" && exit 1)
+          unzip -l "$ARTIFACT" | grep -q "META/" || (echo "❌ Missing META/" && exit 1)
+          
+          # Extract and verify META files
+          unzip -q "$ARTIFACT"
+          EXTRACT_DIR="quickstart-framework-${{ steps.version.outputs.version }}"
+          
+          if [ ! -f "$EXTRACT_DIR/META/MANIFEST.yml" ]; then
+            echo "❌ Missing META/MANIFEST.yml"
+            exit 1
+          fi
+          
+          if [ ! -f "$EXTRACT_DIR/META/metadata.json" ]; then
+            echo "❌ Missing META/metadata.json"
+            exit 1
+          fi
+          
+          if [ ! -f "$EXTRACT_DIR/META/RELEASE_NOTES.md" ]; then
+            echo "❌ Missing META/RELEASE_NOTES.md"
+            exit 1
+          fi
+          
+          echo "✅ Artifact verification passed"
+      
+      - name: Generate build report
+        run: |
+          cd output/releases
+          ARTIFACT="quickstart-framework-${{ steps.version.outputs.version }}.zip"
+          EXTRACT_DIR="quickstart-framework-${{ steps.version.outputs.version }}"
+          
+          echo "# Release Build Report" > build-report.md
+          echo "" >> build-report.md
+          echo "**Version:** ${{ steps.version.outputs.version }}" >> build-report.md
+          echo "**Build Date:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> build-report.md
+          echo "**Git Commit:** ${{ github.sha }}" >> build-report.md
+          echo "**Git Ref:** ${{ github.ref }}" >> build-report.md
+          echo "" >> build-report.md
+          echo "## Artifact Details" >> build-report.md
+          echo "" >> build-report.md
+          echo "- **Filename:** $ARTIFACT" >> build-report.md
+          echo "- **Size:** $(stat -c%s "$ARTIFACT" | numfmt --to=iec-i --suffix=B)" >> build-report.md
+          echo "- **SHA256:** $(cat checksums.txt | cut -d' ' -f1)" >> build-report.md
+          echo "" >> build-report.md
+          echo "## Contents Summary" >> build-report.md
+          echo "" >> build-report.md
+          echo "From META/MANIFEST.yml:" >> build-report.md
+          echo "" >> build-report.md
+          echo '```' >> build-report.md
+          grep -E "^(version|generated_at|total_files|total_size):" "$EXTRACT_DIR/META/MANIFEST.yml" >> build-report.md
+          echo '```' >> build-report.md
+          
+          cat build-report.md
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-artifact-${{ steps.version.outputs.version }}
+          path: |
+            output/releases/quickstart-framework-${{ steps.version.outputs.version }}.zip
+            output/releases/checksums.txt
+            output/releases/build-report.md
+          retention-days: 90
+      
+      - name: Create Release
+        if: |
+          github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') || 
+          (github.event_name == 'workflow_dispatch' && inputs.upload_artifacts)
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.event_name == 'push' && github.ref_name || format('v{0}', steps.version.outputs.version) }}
+          name: Release ${{ steps.version.outputs.version }}
+          draft: false
+          prerelease: ${{ contains(steps.version.outputs.version, '-') }}
+          body_path: output/releases/build-report.md
+          files: |
+            output/releases/quickstart-framework-${{ steps.version.outputs.version }}.zip
+            output/releases/checksums.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Log to work directory
+        if: always()
+        run: |
+          mkdir -p work/reports/logs/build-automation
+          LOG_FILE="work/reports/logs/build-automation/$(date -u +%Y-%m-%dT%H%M)-release-build.md"
+          
+          cat > "$LOG_FILE" <<EOF
+          # Release Build Log
+          
+          **Agent:** DevOps Danny (Build Automation)
+          **Date:** $(date -u +"%Y-%m-%dT%H:%M:%S%z")
+          **Status:** ${{ job.status }}
+          **Mode:** /programming
+          
+          ## Context
+          
+          - **Workflow:** Release Packaging
+          - **Trigger:** ${{ github.event_name }}
+          - **Version:** ${{ steps.version.outputs.version }}
+          - **Git Ref:** ${{ github.ref }}
+          - **Commit:** ${{ github.sha }}
+          
+          ## Execution
+          
+          Built release artifact for version ${{ steps.version.outputs.version }}.
+          
+          ## Artifacts
+          
+          - quickstart-framework-${{ steps.version.outputs.version }}.zip
+          - checksums.txt
+          - build-report.md
+          
+          ## Outcome
+          
+          Job status: ${{ job.status }}
+          
+          See workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          EOF
+          
+          cat "$LOG_FILE"
+
+  test-artifact:
+    name: Test Release Artifact
+    runs-on: ubuntu-latest
+    needs: build-release
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+      
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: release-artifact-${{ needs.build-release.outputs.version || github.ref_name }}
+          path: ./test-artifacts
+      
+      - name: Run smoke tests
+        run: |
+          # This would run additional validation tests
+          # For now, just verify the artifact can be extracted
+          cd test-artifacts
+          ARTIFACT=$(ls quickstart-framework-*.zip)
+          echo "Testing artifact: $ARTIFACT"
+          
+          # Verify checksum
+          sha256sum -c checksums.txt
+          
+          # Extract
+          unzip -q "$ARTIFACT"
+          
+          # Basic structure tests
+          EXTRACT_DIR="${ARTIFACT%.zip}"
+          test -d "$EXTRACT_DIR/framework_core"
+          test -d "$EXTRACT_DIR/scripts"
+          test -d "$EXTRACT_DIR/META"
+          test -f "$EXTRACT_DIR/META/MANIFEST.yml"
+          test -f "$EXTRACT_DIR/META/metadata.json"
+          
+          echo "✅ Smoke tests passed"

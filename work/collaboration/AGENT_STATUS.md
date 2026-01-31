@@ -1,19 +1,20 @@
 # Agent Status Dashboard
 
-_Last updated: 2025-11-24 17:56:17 UTC_
+_Last updated: 2026-01-31 06:38:03 UTC_
 
 ## architect
 
 - **Status**: Idle
 - **Assigned**: 4 tasks
 - **In Progress**: 0 tasks
-- **Last seen**: 2025-11-24 17:56:16
+- **Last seen**: 2026-01-31 06:38:02
 
 ## backend-dev
 
 - **Status**: Idle
-- **Assigned**: 0 tasks
+- **Assigned**: 2 tasks
 - **In Progress**: 0 tasks
+- **Last seen**: 2026-01-31 06:38:02
 
 ## bootstrap-bill
 
@@ -24,9 +25,9 @@ _Last updated: 2025-11-24 17:56:17 UTC_
 ## build-automation
 
 - **Status**: Idle
-- **Assigned**: 6 tasks
+- **Assigned**: 14 tasks
 - **In Progress**: 0 tasks
-- **Last seen**: 2025-11-24 17:56:16
+- **Last seen**: 2026-01-31 06:38:02
 
 ## coordinator
 
@@ -39,13 +40,14 @@ _Last updated: 2025-11-24 17:56:17 UTC_
 - **Status**: Idle
 - **Assigned**: 4 tasks
 - **In Progress**: 0 tasks
-- **Last seen**: 2025-11-24 17:56:16
+- **Last seen**: 2026-01-31 06:38:02
 
 ## diagrammer
 
 - **Status**: Idle
-- **Assigned**: 0 tasks
+- **Assigned**: 2 tasks
 - **In Progress**: 0 tasks
+- **Last seen**: 2026-01-31 06:38:02
 
 ## frontend
 
@@ -62,9 +64,9 @@ _Last updated: 2025-11-24 17:56:17 UTC_
 ## manager
 
 - **Status**: Idle
-- **Assigned**: 1 tasks
+- **Assigned**: 2 tasks
 - **In Progress**: 0 tasks
-- **Last seen**: 2025-11-24 17:56:16
+- **Last seen**: 2026-01-31 06:38:02
 
 ## planning
 
@@ -87,8 +89,9 @@ _Last updated: 2025-11-24 17:56:17 UTC_
 ## scribe
 
 - **Status**: Idle
-- **Assigned**: 0 tasks
+- **Assigned**: 1 tasks
 - **In Progress**: 0 tasks
+- **Last seen**: 2026-01-31 06:38:02
 
 ## structural
 
@@ -99,9 +102,8 @@ _Last updated: 2025-11-24 17:56:17 UTC_
 ## synthesizer
 
 - **Status**: Idle
-- **Assigned**: 1 tasks
+- **Assigned**: 0 tasks
 - **In Progress**: 0 tasks
-- **Last seen**: 2025-11-24 17:56:16
 
 ## test-agent
 
@@ -118,7 +120,7 @@ _Last updated: 2025-11-24 17:56:17 UTC_
 ## writer-editor
 
 - **Status**: Idle
-- **Assigned**: 1 tasks
+- **Assigned**: 4 tasks
 - **In Progress**: 0 tasks
-- **Last seen**: 2025-11-24 17:56:16
+- **Last seen**: 2026-01-31 06:38:02
 
