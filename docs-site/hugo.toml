@@ -1,0 +1,116 @@
+# Quickstart Agent-Augmented Development Framework Documentation Site
+# Configuration for Hugo static site generator with Hugo Book theme
+
+baseURL = '/'  # Will be overridden by GitHub Pages deployment
+languageCode = 'en-us'
+title = 'Quickstart Agent-Augmented Development Framework'
+theme = 'hugo-book'
+
+# Enable emoji support in markdown
+enableEmoji = true
+
+# Enable Git info for last modified dates
+enableGitInfo = true
+
+# Output formats
+[outputs]
+  home = ['HTML', 'RSS', 'JSON']
+
+# Markup configuration
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true  # Allow HTML in markdown
+  [markup.tableOfContents]
+    endLevel = 4
+    startLevel = 1
+  [markup.highlight]
+    style = 'monokai'
+
+# Menu configuration
+[menu]
+  [[menu.main]]
+    name = 'Home'
+    url = '/'
+    weight = 1
+  
+  [[menu.main]]
+    name = 'Getting Started'
+    url = '/getting-started/'
+    weight = 2
+  
+  [[menu.main]]
+    name = 'Guides'
+    url = '/guides/'
+    weight = 3
+  
+  [[menu.main]]
+    name = 'Architecture'
+    url = '/architecture/'
+    weight = 4
+  
+  [[menu.main]]
+    name = 'Reference'
+    url = '/reference/'
+    weight = 5
+  
+  [[menu.main]]
+    name = 'Contributing'
+    url = '/contributing/'
+    weight = 6
+
+# Hugo Book theme parameters
+[params]
+  # (Optional) Set this to true if you use capital letters in file names
+  BookCollapseSection = false
+  
+  # (Optional) Set this to true to enable 'Last Modified by' date and git author
+  BookEnableGitInfo = true
+  
+  # (Optional) Set this to true to hide TOC in pages
+  BookHideTOC = false
+  
+  # (Optional) Theme variant: light, dark, auto (default)
+  BookTheme = 'auto'
+  
+  # (Optional) Set source repository location.
+  BookRepo = 'https://github.com/sd-development/quickstart_agent-augmented-development'
+  
+  # (Optional) Enable "Edit this page" links for contributing
+  BookEditPath = 'edit/main/docs-site/content'
+  
+  # (Optional) Set the path to a logo for the book site
+  # BookLogo = '/logo.png'
+  
+  # (Optional) Enable search (requires search index)
+  BookSearch = true
+  
+  # (Optional) Configure page ordering
+  BookMenuBundle = 'menu'
+  
+  # (Optional) Enable/disable comments
+  BookComments = false
+  
+  # Site description for SEO
+  description = 'Comprehensive documentation for the Quickstart Agent-Augmented Development Framework - guides, tutorials, and architecture reference for AI-augmented software development workflows.'
+  
+  # Site keywords for SEO
+  keywords = ['agent-augmented development', 'AI agents', 'software development', 'automation', 'CI/CD', 'GitHub Actions', 'development workflows']
+
+# Privacy and analytics
+[privacy]
+  [privacy.googleAnalytics]
+    disable = true  # Enable when analytics added
+
+# Build configuration
+[build]
+  writeStats = true
+  
+[minify]
+  minifyOutput = true
+
+# Module configuration for symlinks (future ADR-022 support)
+[module]
+  [[module.mounts]]
+    source = "content"
+    target = "content"
+    # followSymlinks = true  # Uncomment when ADR-022 implemented
