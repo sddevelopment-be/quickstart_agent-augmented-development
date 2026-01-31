@@ -1,0 +1,27 @@
+objective: "Fix bug"
+
+deliverables:
+  - file: "src/fix"
+    type: "code"
+    validation: "Check it"
+
+success_criteria:
+  - "Ensure quality"
+  - "Review code"
+
+constraints:
+  do:
+    - "Fix the issue"
+  
+  dont:
+    - "Break things"
+  
+  time_box: 45
+
+context_files:
+  critical:
+    - path: "./relative/path.md"
+      reason: "Needed"
+  
+  skip:
+    - "old"

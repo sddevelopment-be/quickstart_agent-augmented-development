@@ -9,6 +9,9 @@
   "scripts": {
     "test": "npm run test:validator && npm run validate:cross-references && npm run validate:definitions",
     "test:exporters": "jest validation/agent_exports/",
+    "test:context-loader": "jest validation/agent_exports/context-loader.test.js",
+    "test:context-loader:watch": "jest validation/agent_exports/context-loader.test.js --watch",
+    "test:context-loader:coverage": "jest validation/agent_exports/context-loader.test.js --coverage",
     "test:parser": "jest validation/agent_exports/parser.test.js",
     "test:parser:watch": "jest validation/agent_exports/parser.test.js --watch",
     "test:parser:coverage": "jest validation/agent_exports/parser.test.js --coverage",
@@ -23,6 +26,10 @@
     "test:validator": "node --test ops/scripts/test-markua-validator.mjs ops/scripts/test-markua-validator-integration.mjs",
     "validate:cross-references": "node ops/scripts/validate-cross-references.mjs",
     "validate:definitions": "node ops/scripts/validate-definition-lists.mjs",
+    "validate:prompts": "node ops/validation/prompt-validator-cli.js examples/prompts",
+    "validate:prompts:strict": "node ops/validation/prompt-validator-cli.js examples/prompts --threshold 85",
+    "validate:prompts:verbose": "node ops/validation/prompt-validator-cli.js examples/prompts --verbose",
+    "validate:prompts:json": "node ops/validation/prompt-validator-cli.js examples/prompts --format json",
     "test:anchors": "node ops/scripts/test-markua-anchors.mjs",
     "validate:definition-anchors": "node ops/scripts/validate-definition-anchors.mjs",
     "spell": "cspell lint 'manuscript/**/*.md' --no-progress --show-suggestions",
@@ -34,6 +41,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "tiktoken": "^1.0.22"
+  },
   "devDependencies": {
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
