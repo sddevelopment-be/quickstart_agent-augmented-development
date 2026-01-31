@@ -3,7 +3,9 @@ module.exports = {
   coverageDirectory: 'coverage',
   collectCoverageFrom: [
     'ops/exporters/**/*.js',
-    '!ops/exporters/**/*.test.js'
+    'ops/deploy-skills.js',
+    '!ops/exporters/**/*.test.js',
+    '!ops/__tests__/**/*.js'
   ],
   coverageThreshold: {
     global: {
@@ -14,7 +16,8 @@ module.exports = {
     }
   },
   testMatch: [
-    '**/validation/agent_exports/**/*.test.js'
+    '**/validation/agent_exports/**/*.test.js',
+    '**/ops/__tests__/**/*.test.js'
   ],
   verbose: true
 };

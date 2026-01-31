@@ -1,0 +1,111 @@
+{
+  "version": "1.0.0",
+  "description": "Claude prompt templates for common development tasks",
+  "generated": "2026-01-31T03:13:41.038Z",
+  "prompts": [
+    {
+      "id": "ARCHITECT_ADR",
+      "file": "ARCHITECT_ADR.prompt.md",
+      "type": "markdown",
+      "description": "",
+      "agent": "",
+      "category": ""
+    },
+    {
+      "id": "AUTOMATION_SCRIPT",
+      "file": "AUTOMATION_SCRIPT.prompt.md",
+      "type": "markdown",
+      "description": "",
+      "agent": "",
+      "category": ""
+    },
+    {
+      "id": "BOOTSTRAP_REPO",
+      "file": "BOOTSTRAP_REPO.prompt.md",
+      "type": "markdown",
+      "description": "",
+      "agent": "",
+      "category": ""
+    },
+    {
+      "id": "CURATE_DIRECTORY",
+      "file": "CURATE_DIRECTORY.prompt.md",
+      "type": "markdown",
+      "description": "",
+      "agent": "",
+      "category": ""
+    },
+    {
+      "id": "EDITOR_REVISION",
+      "file": "EDITOR_REVISION.prompt.md",
+      "type": "markdown",
+      "description": "",
+      "agent": "",
+      "category": ""
+    },
+    {
+      "id": "LEXICAL_ANALYSIS",
+      "file": "LEXICAL_ANALYSIS.prompt.md",
+      "type": "markdown",
+      "description": "",
+      "agent": "",
+      "category": ""
+    },
+    {
+      "id": "NEW_AGENT",
+      "file": "NEW_AGENT.prompt.md",
+      "type": "markdown",
+      "description": "Prompt to request creation of a new specialized agent (Manager Mike runs it)",
+      "agent": "manager-mike",
+      "category": "agent-management"
+    },
+    {
+      "id": "TEST_READABILITY_CHECK",
+      "file": "TEST_READABILITY_CHECK.prompt.md",
+      "type": "markdown",
+      "description": "",
+      "agent": "",
+      "category": ""
+    },
+    {
+      "id": "architecture-decision",
+      "file": "architecture-decision.yaml",
+      "type": "yaml",
+      "description": "",
+      "agent": "",
+      "category": ""
+    },
+    {
+      "id": "assessment",
+      "file": "assessment.yaml",
+      "type": "yaml",
+      "description": "",
+      "agent": "",
+      "category": ""
+    },
+    {
+      "id": "bug-fix",
+      "file": "bug-fix.yaml",
+      "type": "yaml",
+      "description": "",
+      "agent": "",
+      "category": ""
+    },
+    {
+      "id": "documentation",
+      "file": "documentation.yaml",
+      "type": "yaml",
+      "description": "",
+      "agent": "",
+      "category": ""
+    },
+    {
+      "id": "task-execution",
+      "file": "task-execution.yaml",
+      "type": "yaml",
+      "description": "",
+      "agent": "",
+      "category": ""
+    }
+  ]
+}

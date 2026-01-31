@@ -4,15 +4,20 @@
  *
  * Deploys exported skills from dist/ to tool-specific locations:
  * - Claude Code: .claude/skills/<name>/SKILL.md
+ * - Claude Agents: .claude/agents/*.agent.md
+ * - Claude Prompts: .claude/prompts/*.{md,yaml}
  * - GitHub Copilot: .github/instructions/<name>.instructions.md
  * - OpenCode: .opencode/agents/, .opencode/skills/
  *
  * Usage:
- *   node ops/deploy-skills.js [--claude] [--copilot] [--opencode] [--all]
+ *   node ops/deploy-skills.js [--claude] [--agents] [--prompts] [--copilot] [--opencode] [--all]
  *   npm run deploy:skills
+ *   npm run deploy:claude:agents
+ *   npm run deploy:claude:prompts
  *
  * Prerequisites:
- *   Run `npm run export:all` first to generate dist/ files
+ *   Run `npm run export:all` first to generate dist/ files (for skills)
+ *   Agents and prompts deploy directly from source
  */
 
 const fs = require('fs').promises;
@@ -23,8 +28,14 @@ const DIST_DIR = path.join(__dirname, '..', 'dist');
 const SKILLS_DIR = path.join(DIST_DIR, 'skills');
 const OPENCODE_DIR = path.join(DIST_DIR, 'opencode');
 
+// Source directories (direct)
+const AGENTS_SOURCE_DIR = path.join(__dirname, '..', '.github', 'agents');
+const PROMPTS_SOURCE_DIR = path.join(__dirname, '..', 'docs', 'templates', 'prompts');
+
 // Target directories (tool-specific)
 const CLAUDE_SKILLS_DIR = path.join(__dirname, '..', '.claude', 'skills');
+const CLAUDE_AGENTS_DIR = path.join(__dirname, '..', '.claude', 'agents');
+const CLAUDE_PROMPTS_DIR = path.join(__dirname, '..', '.claude', 'prompts');
 const COPILOT_INSTRUCTIONS_DIR = path.join(__dirname, '..', '.github', 'instructions');
 const OPENCODE_TARGET_DIR = path.join(__dirname, '..', '.opencode');
 
@@ -475,31 +486,378 @@ async function deployOpenCode() {
 }
 
 /**
+ * Deploy Claude Agents
+ * Copies agent files from .github/agents/*.agent.md to .claude/agents/
+ */
+async function deployClaudeAgents() {
+  console.log('🤖 Deploying Claude agents...');
+
+  try {
+    await fs.access(AGENTS_SOURCE_DIR);
+  } catch {
+    console.log('   ⚠️  No agents found in .github/agents/');
+    return { deployed: 0, errors: [] };
+  }
+
+  // Create target directory
+  await fs.mkdir(CLAUDE_AGENTS_DIR, { recursive: true });
+
+  const files = await fs.readdir(AGENTS_SOURCE_DIR);
+  const agentFiles = files.filter(f => f.endsWith('.agent.md'));
+
+  const results = { deployed: 0, errors: [] };
+  const manifest = {
+    version: '1.0.0',
+    description: 'Claude agent profiles for specialist roles',
+    generated: new Date().toISOString(),
+    agents: []
+  };
+
+  for (const file of agentFiles) {
+    try {
+      const sourcePath = path.join(AGENTS_SOURCE_DIR, file);
+      const targetPath = path.join(CLAUDE_AGENTS_DIR, file);
+      
+      // Read source content
+      const content = await fs.readFile(sourcePath, 'utf-8');
+      
+      // Copy to target
+      await fs.writeFile(targetPath, content);
+
+      // Parse frontmatter to get agent metadata
+      const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
+      let metadata = { name: file.replace('.agent.md', ''), description: '' };
+      
+      if (frontmatterMatch) {
+        const frontmatter = frontmatterMatch[1];
+        const nameMatch = frontmatter.match(/name:\s*(.+)/);
+        const descMatch = frontmatter.match(/description:\s*(.+)/);
+        if (nameMatch) metadata.name = nameMatch[1].trim();
+        if (descMatch) metadata.description = descMatch[1].trim();
+      }
+
+      // Add to manifest
+      manifest.agents.push({
+        id: file.replace('.agent.md', ''),
+        name: metadata.name,
+        description: metadata.description,
+        file: file
+      });
+
+      console.log(`   ✅ ${file}`);
+      results.deployed++;
+    } catch (error) {
+      console.log(`   ❌ ${file}: ${error.message}`);
+      results.errors.push({ file, error: error.message });
+    }
+  }
+
+  // Write manifest
+  try {
+    await fs.writeFile(
+      path.join(CLAUDE_AGENTS_DIR, 'manifest.json'),
+      JSON.stringify(manifest, null, 2)
+    );
+    console.log('   ✅ manifest.json');
+  } catch (error) {
+    console.log(`   ⚠️  Could not write manifest: ${error.message}`);
+  }
+
+  // Write README
+  const readme = generateAgentsReadme(manifest);
+  try {
+    await fs.writeFile(
+      path.join(CLAUDE_AGENTS_DIR, 'README.md'),
+      readme
+    );
+    console.log('   ✅ README.md');
+  } catch (error) {
+    console.log(`   ⚠️  Could not write README: ${error.message}`);
+  }
+
+  return results;
+}
+
+/**
+ * Generate README for agents directory
+ */
+function generateAgentsReadme(manifest) {
+  let content = `# Claude Agents
+
+Specialist agent profiles for Claude Code integration.
+
+## Overview
+
+This directory contains ${manifest.agents.length} specialist agent profiles that define roles, capabilities, and workflows for different development tasks.
+
+## Available Agents
+
+`;
+
+  manifest.agents.forEach(agent => {
+    content += `### ${agent.name}\n\n`;
+    if (agent.description) {
+      content += `${agent.description}\n\n`;
+    }
+    content += `**File:** \`${agent.file}\`\n\n`;
+  });
+
+  content += `
+## Usage
+
+These agent profiles can be used with Claude Code to:
+- Bootstrap specialized development contexts
+- Ensure consistent workflows across tasks
+- Reference domain-specific directives and approaches
+- Maintain alignment with project architecture
+
+## Integration
+
+Agents reference:
+- **Directives:** \`.github/agents/directives/\` - Operational guidelines
+- **Approaches:** \`.github/agents/approaches/\` - Workflow patterns
+- **Guidelines:** \`.github/agents/guidelines/\` - General principles
+
+## Manifest
+
+See \`manifest.json\` for structured metadata including agent IDs, names, and descriptions.
+
+---
+*Generated: ${manifest.generated}*
+`;
+
+  return content;
+}
+
+/**
+ * Deploy Claude Prompts
+ * Copies prompt templates from docs/templates/prompts/ to .claude/prompts/
+ */
+async function deployClaudePrompts() {
+  console.log('📝 Deploying Claude prompts...');
+
+  try {
+    await fs.access(PROMPTS_SOURCE_DIR);
+  } catch {
+    console.log('   ⚠️  No prompts found in docs/templates/prompts/');
+    return { deployed: 0, errors: [] };
+  }
+
+  // Create target directory
+  await fs.mkdir(CLAUDE_PROMPTS_DIR, { recursive: true });
+
+  const files = await fs.readdir(PROMPTS_SOURCE_DIR);
+  const promptFiles = files.filter(f => 
+    (f.endsWith('.prompt.md') || f.endsWith('.yaml')) && f !== 'README.md'
+  );
+
+  const results = { deployed: 0, errors: [] };
+  const manifest = {
+    version: '1.0.0',
+    description: 'Claude prompt templates for common development tasks',
+    generated: new Date().toISOString(),
+    prompts: []
+  };
+
+  for (const file of promptFiles) {
+    try {
+      const sourcePath = path.join(PROMPTS_SOURCE_DIR, file);
+      const targetPath = path.join(CLAUDE_PROMPTS_DIR, file);
+      
+      // Read source content
+      const content = await fs.readFile(sourcePath, 'utf-8');
+      
+      // Copy to target
+      await fs.writeFile(targetPath, content);
+
+      // Parse metadata (frontmatter for .md, YAML for .yaml)
+      let metadata = { 
+        id: file.replace('.prompt.md', '').replace('.yaml', ''),
+        description: '',
+        agent: '',
+        category: ''
+      };
+      
+      if (file.endsWith('.prompt.md')) {
+        const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
+        if (frontmatterMatch) {
+          const fm = frontmatterMatch[1];
+          const descMatch = fm.match(/description:\s*['"]?(.+?)['"]?\n/);
+          const agentMatch = fm.match(/agent:\s*(.+)/);
+          const catMatch = fm.match(/category:\s*(.+)/);
+          if (descMatch) metadata.description = descMatch[1].trim();
+          if (agentMatch) metadata.agent = agentMatch[1].trim();
+          if (catMatch) metadata.category = catMatch[1].trim();
+        }
+      } else if (file.endsWith('.yaml')) {
+        // Basic YAML parsing for name/description
+        const nameMatch = content.match(/name:\s*(.+)/);
+        const descMatch = content.match(/description:\s*['"]?(.+?)['"]?\n/);
+        if (nameMatch) metadata.id = nameMatch[1].trim();
+        if (descMatch) metadata.description = descMatch[1].trim();
+      }
+
+      // Add to manifest
+      manifest.prompts.push({
+        id: metadata.id,
+        file: file,
+        type: file.endsWith('.yaml') ? 'yaml' : 'markdown',
+        description: metadata.description,
+        agent: metadata.agent,
+        category: metadata.category
+      });
+
+      console.log(`   ✅ ${file}`);
+      results.deployed++;
+    } catch (error) {
+      console.log(`   ❌ ${file}: ${error.message}`);
+      results.errors.push({ file, error: error.message });
+    }
+  }
+
+  // Write manifest
+  try {
+    await fs.writeFile(
+      path.join(CLAUDE_PROMPTS_DIR, 'manifest.json'),
+      JSON.stringify(manifest, null, 2)
+    );
+    console.log('   ✅ manifest.json');
+  } catch (error) {
+    console.log(`   ⚠️  Could not write manifest: ${error.message}`);
+  }
+
+  // Write README
+  const readme = generatePromptsReadme(manifest);
+  try {
+    await fs.writeFile(
+      path.join(CLAUDE_PROMPTS_DIR, 'README.md'),
+      readme
+    );
+    console.log('   ✅ README.md');
+  } catch (error) {
+    console.log(`   ⚠️  Could not write README: ${error.message}`);
+  }
+
+  return results;
+}
+
+/**
+ * Generate README for prompts directory
+ */
+function generatePromptsReadme(manifest) {
+  let content = `# Claude Prompts
+
+Task-specific prompt templates for Claude Code integration.
+
+## Overview
+
+This directory contains ${manifest.prompts.length} prompt templates for common development tasks.
+
+## Available Prompts
+
+### Markdown Templates (.prompt.md)
+
+`;
+
+  const mdPrompts = manifest.prompts.filter(p => p.type === 'markdown');
+  const yamlPrompts = manifest.prompts.filter(p => p.type === 'yaml');
+
+  mdPrompts.forEach(prompt => {
+    content += `#### ${prompt.id}\n`;
+    if (prompt.description) {
+      content += `${prompt.description}\n\n`;
+    }
+    if (prompt.agent) {
+      content += `**Agent:** ${prompt.agent}  \n`;
+    }
+    if (prompt.category) {
+      content += `**Category:** ${prompt.category}  \n`;
+    }
+    content += `**File:** \`${prompt.file}\`\n\n`;
+  });
+
+  content += `### YAML Templates (.yaml)
+
+`;
+
+  yamlPrompts.forEach(prompt => {
+    content += `#### ${prompt.id}\n`;
+    if (prompt.description) {
+      content += `${prompt.description}\n\n`;
+    }
+    content += `**File:** \`${prompt.file}\`\n\n`;
+  });
+
+  content += `
+## Usage
+
+These prompts can be used:
+1. **Direct execution** - Copy and fill in template variables
+2. **Agent context** - Reference in agent workflows
+3. **Tool integration** - Import into Claude Code or other AI tools
+
+## Format
+
+- **Markdown templates** (.prompt.md): Include frontmatter with metadata and structured instructions
+- **YAML templates** (.yaml): Structured format with sections, inputs, outputs, and constraints
+
+## Manifest
+
+See \`manifest.json\` for structured metadata including prompt IDs, types, agents, and categories.
+
+---
+*Generated: ${manifest.generated}*
+`;
+
+  return content;
+}
+
+/**
  * Main deployment function
  */
 async function main() {
   const args = process.argv.slice(2);
   const deployAll = args.includes('--all') || args.length === 0;
   const deployClaude = deployAll || args.includes('--claude');
+  const deployAgents = deployAll || args.includes('--agents');
+  const deployPrompts = deployAll || args.includes('--prompts');
   const deployCopilot = deployAll || args.includes('--copilot');
   const deployOpenCodeFlag = deployAll || args.includes('--opencode');
 
-  console.log('🚀 Deploying skills to tool-specific locations...\n');
+  console.log('🚀 Deploying to Claude Code...\n');
 
   let totalDeployed = 0;
   let totalErrors = 0;
 
-  // Check if dist/ exists
-  try {
-    await fs.access(DIST_DIR);
-  } catch {
-    console.error('❌ dist/ directory not found.');
-    console.error('   Run `npm run export:all` first to generate exports.');
-    process.exit(1);
+  // Check if dist/ exists (only needed for skills deployment)
+  if (deployClaude || deployAll) {
+    try {
+      await fs.access(DIST_DIR);
+    } catch {
+      console.error('⚠️  dist/ directory not found for skills deployment.');
+      console.error('   Run `npm run export:all` first if deploying skills.');
+      if (deployClaude && !deployAgents && !deployPrompts) {
+        process.exit(1);
+      }
+    }
   }
 
   if (deployClaude) {
     const results = await deployClaudeSkills();
+    totalDeployed += results.deployed;
+    totalErrors += results.errors.length;
+    console.log();
+  }
+
+  if (deployAgents) {
+    const results = await deployClaudeAgents();
+    totalDeployed += results.deployed;
+    totalErrors += results.errors.length;
+    console.log();
+  }
+
+  if (deployPrompts) {
+    const results = await deployClaudePrompts();
     totalDeployed += results.deployed;
     totalErrors += results.errors.length;
     console.log();
@@ -527,9 +885,11 @@ async function main() {
   }
   console.log();
   console.log('Deployed locations:');
-  if (deployClaude) console.log('   └─ Claude Code:  .claude/skills/*/SKILL.md');
-  if (deployCopilot) console.log('   └─ Copilot:      .github/instructions/*.instructions.md');
-  if (deployOpenCodeFlag) console.log('   └─ OpenCode:     .opencode/agents/, .opencode/skills/');
+  if (deployClaude) console.log('   └─ Claude Skills:   .claude/skills/*/SKILL.md');
+  if (deployAgents) console.log('   └─ Claude Agents:   .claude/agents/*.agent.md');
+  if (deployPrompts) console.log('   └─ Claude Prompts:  .claude/prompts/*.{md,yaml}');
+  if (deployCopilot) console.log('   └─ Copilot:         .github/instructions/*.instructions.md');
+  if (deployOpenCodeFlag) console.log('   └─ OpenCode:        .opencode/agents/, .opencode/skills/');
 }
 
 main().catch(error => {
