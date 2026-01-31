@@ -1,6 +1,24 @@
 # Agent Status Dashboard
 
-_Last updated: 2026-01-31 06:38:03 UTC_
+_Last updated: 2026-01-31 06:56:00 UTC_
+
+## build-automation
+
+- **Status**: Active - Completed 2 distribution enabler tasks
+- **Assigned**: 12 tasks
+- **In Progress**: 0 tasks
+- **Last seen**: 2026-01-31 06:56:00
+- **Recent completions**:
+  - 2025-12-05T1010: Release packaging pipeline ✅
+  - 2025-12-05T1012: Install/upgrade scripts ✅
+
+## manager
+
+- **Status**: Active - Orchestration cycle in progress
+- **Assigned**: 2 tasks
+- **In Progress**: 1 task (orchestration)
+- **Last seen**: 2026-01-31 06:56:00
+- **Current focus**: Distribution/delivery enablers iteration
 
 ## architect
 
@@ -21,13 +39,6 @@ _Last updated: 2026-01-31 06:38:03 UTC_
 - **Status**: Idle
 - **Assigned**: 0 tasks
 - **In Progress**: 0 tasks
-
-## build-automation
-
-- **Status**: Idle
-- **Assigned**: 14 tasks
-- **In Progress**: 0 tasks
-- **Last seen**: 2026-01-31 06:38:02
 
 ## coordinator
 
@@ -60,13 +71,6 @@ _Last updated: 2026-01-31 06:38:03 UTC_
 - **Status**: Idle
 - **Assigned**: 0 tasks
 - **In Progress**: 0 tasks
-
-## manager
-
-- **Status**: Idle
-- **Assigned**: 2 tasks
-- **In Progress**: 0 tasks
-- **Last seen**: 2026-01-31 06:38:02
 
 ## planning
 
