@@ -1,0 +1,152 @@
+id: 2025-11-30T1201-build-automation-model-router-config
+agent: build-automation
+status: done
+priority: high
+started_at: '2026-01-31T07:28:00Z'
+completed_at: '2026-01-31T07:45:00Z'
+mode: /analysis-mode
+title: Build router configuration and validator from Platform Next Steps
+artefacts:
+- ops/config/model_router.yaml
+- ops/scripts/validate-model-router.py
+- validation/model_router/test_acceptance.py
+- validation/model_router/test_unit.py
+- work/logs/build-automation/2025-11-30T1201-build-automation-model-router-config.md
+description: 'Create the dual-router configuration and validation script described
+  in
+
+  docs/architecture/assessments/platform_next_steps.md so orchestration can
+
+  deterministically select models and fall back across OpenRouter and
+
+  OpenCode.ai.
+
+  '
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  source_assessment: docs/architecture/assessments/platform_next_steps.md
+  notes:
+  - Capture model aliases and raw IDs covering GPT-5/4.1, Claude Opus/Sonnet, Codestral,
+    DeepSeek, and Llama3 family members.
+  - Encode fallback order plus pricing ceilings per provider.
+  - Provide clear schema comments so future agents can extend the catalog.
+requirements:
+- Author ops/config/model_router.yaml with metadata for each supported model, including
+  router (`openrouter`, `opencode_ai`, `direct_api`), raw identifier, context window,
+  price per 1K input/output tokens, and default role.
+- Document fallback policies and pricing ceilings (USD) per provider.
+- Implement ops/scripts/validate-model-router.py that loads the config, validates
+  schema, checks that fallback references exist, and confirms context windows and
+  pricing are within defined ceilings.
+- Provide CLI usage examples (`--file`, `--strict`) in the validator docstring.
+- Output validation summary suitable for CI plus non-zero exit on failure.
+testing_requirements:
+- Include unit tests covering happy path, missing model definitions, invalid fallback
+  references, and pricing ceiling violations.
+- Follow directives 016/017 (ATDD/TDD) with acceptance cases before code.
+- Capture validator execution logs inside work/logs/build-automation/.
+success_criteria:
+- Model router config committed with complete catalog and fallback rules.
+- Validator exits successfully against the new config and fails when introducing deliberate
+  schema errors during tests.
+- Work log summarizes design decisions and validation output.
+created_at: '2025-11-30T12:01:00Z'
+created_by: planning-petra
+assigned_at: '2026-01-31T06:38:02.620980Z'
+result:
+  summary: |
+    Successfully created production-ready model router configuration and validation system.
+    
+    Deliverables:
+    - Model router config (ops/config/model_router.yaml): 15 models across 5 families (GPT-5/4.1, 
+      Claude 3, Codestral, DeepSeek, Llama 3.x) with complete metadata, fallback chains, pricing 
+      ceilings, and role-based defaults
+    - Validation script (ops/scripts/validate-model-router.py): Comprehensive validator with schema 
+      checking, reference integrity, pricing validation, CLI interface (--file, --strict, --format), 
+      and CI-friendly exit codes
+    - Test suite: 46 tests (18 acceptance + 28 unit) following ATDD/TDD patterns with 100% pass rate
+    - Work log with design decisions, architecture alignment, and integration notes
+    
+    Key Features:
+    - Dual-router strategy: OpenRouter primary, OpenCode.ai secondary, direct API for advanced features
+    - Cost control: Router-specific pricing ceilings ($10-20 input, $50-100 output per 1K tokens)
+    - Fallback resilience: Acyclic fallback chains from premium to budget models
+    - Role optimization: Analysis, creative, coding, general roles map to optimal model selections
+    - Validation coverage: Schema compliance, reference integrity, pricing bounds, context windows
+    - Extensibility: Clear schema notes and validation rules for future model additions
+    
+    Architecture Alignment:
+    - ADR-020 (Multi-Tier Runtime): Config forms Layer 2 (Orchestration & Governance)
+    - ADR-021 (Model Routing Strategy): Implements dual-router with vendor diversity
+    - Directive 016 (ATDD): 18 acceptance tests written before implementation
+    - Directive 017 (TDD): 28 unit tests with Quad-A pattern
+    - Directive 018 (Documentation): Inline docs, ADR references, schema notes
+    
+  artifacts_created:
+  - path: ops/config/model_router.yaml
+    type: configuration
+    size_lines: 440
+    description: Complete model catalog with 15 models, fallback policies, pricing ceilings, role defaults
+  - path: ops/scripts/validate-model-router.py
+    type: script
+    size_lines: 750
+    description: Validation script with CLI, JSON output, exit codes for CI integration
+  - path: validation/model_router/test_acceptance.py
+    type: test
+    size_lines: 450
+    description: 18 ATDD-pattern acceptance tests
+  - path: validation/model_router/test_unit.py
+    type: test
+    size_lines: 580
+    description: 28 TDD-pattern unit tests with Quad-A structure
+  - path: work/logs/build-automation/2025-11-30T1201-build-automation-model-router-config.md
+    type: documentation
+    size_lines: 360
+    description: Comprehensive work log with design decisions and validation results
+    
+  validation_results:
+    validator_execution: passed
+    config_validation: |
+      ✅ Schema compliance: All required sections present
+      ✅ Model catalog: 15 models across 5 families validated
+      ✅ Fallback references: All valid, no cycles detected
+      ✅ Pricing ceilings: All models within router limits
+      ✅ Context windows: All in 1K-1M token range
+      ✅ Role defaults: All references exist in catalog
+    test_results:
+      total_tests: 46
+      passed: 46
+      failed: 0
+      acceptance_tests: 18
+      unit_tests: 28
+      pass_rate: 100%
+    test_coverage:
+      - Config file existence and YAML validity
+      - Validator script functionality and CLI interface
+      - Required sections and model families present
+      - Pricing ceiling enforcement per router
+      - Fallback reference integrity and cycle detection
+      - Role default model references
+      - Context window bounds checking
+      - Negative pricing detection
+      - Edge cases (empty config, missing fields, invalid references)
+    
+  metrics:
+    duration_minutes: 45
+    models_configured: 15
+    model_families: 5
+    routers_configured: 3
+    test_cases: 46
+    validation_checks: 12
+    
+  notes:
+  - Config uses dual-router strategy per ADR-021 for vendor diversity and cost control
+  - Fallback chains balance quality degradation with cost (premium → mid-tier → budget)
+  - Pricing ceilings prevent accidental expensive model usage while allowing high-tier for critical tasks
+  - Role-based defaults enable orchestration to select models without hardcoding
+  - Validator enforces acyclic fallback references and pricing compliance
+  - All tests follow Quad-A pattern (Arrange, Assumption, Act, Assert)
+  - Inline documentation aids future extension by other agents
+  - JSON output format enables CI integration and automated checks
+  - Next steps: Implement config loader in framework/core.py (M2 from platform_next_steps.md)

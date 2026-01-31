@@ -6,9 +6,23 @@ set -euo pipefail
 # Reference: Directive 001 (CLI & Shell Tooling)
 # Platform: Linux (apt) and macOS (brew)
 # Performance target: <2 minutes
+# Security: SHA256 checksum verification for binary downloads
 
-SCRIPT_VERSION="1.0.0"
+SCRIPT_VERSION="1.1.0"
 SETUP_START_TIME=$(date +%s)
+
+# SHA256 checksums for binary downloads (security hardening)
+# To update checksums when upgrading tool versions:
+# 1. Download the new binary: curl -sL <URL> -o /tmp/binary
+# 2. Calculate checksum: sha256sum /tmp/binary
+# 3. Update the constant below with the new checksum
+# 4. Update the version variable in the installation section
+# 5. Test the installation: bash .github/copilot/setup.sh
+readonly YQ_VERSION="v4.40.5"
+readonly YQ_LINUX_AMD64_SHA256="0d6aaf1cf44a8d18fbc7ed0ef14f735a8df8d2e314c4cc0f0242d35c0a440c95"
+
+readonly AST_GREP_VERSION="0.15.1"
+readonly AST_GREP_LINUX_X86_64_SHA256="c30cd436e7e33ebe8a25e2dd1be0e8ae9650610991a51f723211a5e70bb23377"
 
 # Color output for better readability
 RED='\033[0;31m'
@@ -53,6 +67,36 @@ command_exists() {
 # Version comparison helper
 version_ge() {
     [ "$(printf '%s\n' "$1" "$2" | sort -V | head -n1)" = "$2" ]
+}
+
+# Verify SHA256 checksum of downloaded file
+# Usage: verify_checksum <file_path> <expected_sha256> <tool_name>
+# Returns: 0 if checksum matches, 1 if mismatch
+verify_checksum() {
+    local file_path="$1"
+    local expected_checksum="$2"
+    local tool_name="$3"
+    
+    if [ ! -f "$file_path" ]; then
+        log_error "File not found for checksum verification: $file_path"
+        return 1
+    fi
+    
+    log_info "Verifying SHA256 checksum for $tool_name..."
+    local actual_checksum
+    actual_checksum=$(sha256sum "$file_path" | awk '{print $1}')
+    
+    if [ "$actual_checksum" = "$expected_checksum" ]; then
+        log_success "Checksum verification passed for $tool_name"
+        return 0
+    else
+        log_error "Checksum verification FAILED for $tool_name"
+        log_error "Expected: $expected_checksum"
+        log_error "Actual:   $actual_checksum"
+        log_error "This may indicate a compromised download or version mismatch."
+        log_error "DO NOT install this binary. Please investigate."
+        return 1
+    fi
 }
 
 # Install tool with idempotency check
@@ -141,15 +185,26 @@ main() {
     
     # Install yq - YAML processor (using mikefarah/yq via binary download for consistency)
     if ! command_exists "yq"; then
-        log_info "Installing yq..."
-        local yq_version="v4.40.5"
+        log_info "Installing yq ${YQ_VERSION}..."
         if [ "$os" = "linux" ]; then
-            if curl -sL "https://github.com/mikefarah/yq/releases/download/${yq_version}/yq_linux_amd64" -o /tmp/yq && \
-               sudo install /tmp/yq /usr/local/bin/yq && \
-               rm /tmp/yq; then
-                log_success "yq installed successfully"
+            local yq_url="https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64"
+            local yq_tmp="/tmp/yq_download"
+            
+            # Download binary
+            if ! curl -sL "$yq_url" -o "$yq_tmp"; then
+                log_error "Failed to download yq from $yq_url"
+                failed_tools+=("yq")
+            # Verify checksum
+            elif ! verify_checksum "$yq_tmp" "$YQ_LINUX_AMD64_SHA256" "yq"; then
+                log_error "Checksum verification failed for yq - aborting installation"
+                rm -f "$yq_tmp"
+                failed_tools+=("yq")
+            # Install if verification passes
+            elif sudo install "$yq_tmp" /usr/local/bin/yq && rm -f "$yq_tmp"; then
+                log_success "yq installed successfully with verified checksum"
             else
                 log_error "Failed to install yq"
+                rm -f "$yq_tmp"
                 failed_tools+=("yq")
             fi
         else
@@ -172,20 +227,33 @@ main() {
         fi
     fi
     
-    # Install ast-grep - structural code search (via npm)
+    # Install ast-grep - structural code search (via direct binary download with checksum verification)
     if ! command_exists "ast-grep"; then
-        log_info "Installing ast-grep via npm..."
+        log_info "Installing ast-grep ${AST_GREP_VERSION}..."
         if [ "$os" = "linux" ]; then
-            # Install ast-grep globally via npm (GitHub Actions runners have Node.js pre-installed)
-            if command_exists "npm"; then
-                if sudo npm install -g @ast-grep/cli; then
-                    log_success "ast-grep installed successfully via npm"
-                else
-                    log_error "Failed to install ast-grep via npm"
-                    failed_tools+=("ast-grep")
-                fi
+            local sg_url="https://github.com/ast-grep/ast-grep/releases/download/${AST_GREP_VERSION}/sg-x86_64-unknown-linux-gnu.zip"
+            local sg_zip="/tmp/ast-grep.zip"
+            local sg_tmp_dir="/tmp/ast-grep-extract"
+            
+            # Download binary archive
+            if ! curl -sL "$sg_url" -o "$sg_zip"; then
+                log_error "Failed to download ast-grep from $sg_url"
+                failed_tools+=("ast-grep")
+            # Verify checksum
+            elif ! verify_checksum "$sg_zip" "$AST_GREP_LINUX_X86_64_SHA256" "ast-grep"; then
+                log_error "Checksum verification failed for ast-grep - aborting installation"
+                rm -f "$sg_zip"
+                failed_tools+=("ast-grep")
+            # Extract and install if verification passes (binary is named 'sg', create ast-grep symlink)
+            elif mkdir -p "$sg_tmp_dir" && \
+                 unzip -q "$sg_zip" -d "$sg_tmp_dir" && \
+                 sudo install "$sg_tmp_dir/sg" /usr/local/bin/sg && \
+                 sudo ln -sf /usr/local/bin/sg /usr/local/bin/ast-grep; then
+                log_success "ast-grep installed successfully with verified checksum"
+                rm -rf "$sg_zip" "$sg_tmp_dir"
             else
-                log_error "npm not found - cannot install ast-grep"
+                log_error "Failed to install ast-grep"
+                rm -rf "$sg_zip" "$sg_tmp_dir"
                 failed_tools+=("ast-grep")
             fi
         else

@@ -339,11 +339,52 @@ The workflow runs on:
 
 ## Security Considerations
 
-### Tool Sources
+### Tool Sources & Verification
 
-- **Package managers (apt/brew):** Official repositories, signed packages
-- **Direct downloads (yq, ast-grep):** GitHub Releases, verified URLs
-- **Checksum verification:** Consider adding SHA256 checks for binary downloads
+- **Package managers (apt/brew):** Official repositories, signed packages with automatic GPG verification
+- **Direct downloads (yq, ast-grep):** GitHub Releases with SHA256 checksum verification
+- **Checksum verification:** All binary downloads are verified before installation to prevent supply chain attacks
+
+### SHA256 Checksum Verification
+
+The setup script implements robust security verification for binary downloads:
+
+1. **yq (Linux):** Downloads from GitHub Releases and verifies SHA256 checksum before installation
+2. **ast-grep (Linux):** Downloads from GitHub Releases and verifies SHA256 checksum before installation
+3. **Failure handling:** Installation is aborted if checksum verification fails, with clear error messages
+
+**Security guarantee:** Binary downloads are cryptographically verified to match expected checksums, preventing:
+- Man-in-the-middle attacks during download
+- Compromised binaries from supply chain attacks
+- Accidental version mismatches
+
+### Updating Tool Versions
+
+When updating tool versions that use checksum verification:
+
+1. **Download the new binary:**
+   ```bash
+   curl -sL <URL> -o /tmp/binary
+   ```
+
+2. **Calculate SHA256 checksum:**
+   ```bash
+   sha256sum /tmp/binary
+   ```
+
+3. **Update the setup script:**
+   - Update the version constant (e.g., `YQ_VERSION`)
+   - Update the checksum constant (e.g., `YQ_LINUX_AMD64_SHA256`)
+   - Both are defined at the top of `.github/copilot/setup.sh`
+
+4. **Test the installation:**
+   ```bash
+   bash .github/copilot/setup.sh
+   ```
+
+5. **Update documentation:**
+   - Update version in the tool versions table below
+   - Update this section if the update process changes
 
 ### Best Practices
 
@@ -355,12 +396,14 @@ The workflow runs on:
 
 ### Security Review Checklist
 
-- [ ] All tool sources are official/trusted
-- [ ] Downloads use HTTPS
-- [ ] Versions are pinned for reproducibility
-- [ ] Script uses minimal privileges
-- [ ] No credentials or secrets in script
-- [ ] Installation paths are standard (/usr/local/bin)
+- [x] All tool sources are official/trusted
+- [x] Downloads use HTTPS
+- [x] Versions are pinned for reproducibility
+- [x] Binary downloads have SHA256 checksum verification
+- [x] Installation fails gracefully if checksum verification fails
+- [x] Script uses minimal privileges
+- [x] No credentials or secrets in script
+- [x] Installation paths are standard (/usr/local/bin)
 
 ## Next Steps
 
