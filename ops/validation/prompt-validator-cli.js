@@ -131,7 +131,10 @@ async function findYamlFiles(directory) {
         const subFiles = await findYamlFiles(fullPath);
         files.push(...subFiles);
       } else if (entry.isFile() && /\.ya?ml$/i.test(entry.name)) {
-        files.push(fullPath);
+        // Skip test fixtures (files starting with "invalid-")
+        if (!entry.name.startsWith('invalid-')) {
+          files.push(fullPath);
+        }
       }
     }
   } catch (error) {
