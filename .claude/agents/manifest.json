@@ -1,0 +1,97 @@
+{
+  "version": "1.0.0",
+  "description": "Claude agent profiles for specialist roles",
+  "generated": "2026-01-31T03:13:41.032Z",
+  "agents": [
+    {
+      "id": "architect",
+      "name": "architect-alphonso",
+      "description": "Clarify complex systems with contextual trade-offs.",
+      "file": "architect.agent.md"
+    },
+    {
+      "id": "backend-dev",
+      "name": "backend-benny",
+      "description": "Shape resilient service backends and integration surfaces with traceable decisions.",
+      "file": "backend-dev.agent.md"
+    },
+    {
+      "id": "bootstrap-bill",
+      "name": "bootstrap-bill",
+      "description": "Describe repository structure and generate scaffolding artifacts for efficient multi-agent collaboration.",
+      "file": "bootstrap-bill.agent.md"
+    },
+    {
+      "id": "build-automation",
+      "name": "devops-danny",
+      "description": "Design reproducible build, test, and release pipelines for SDD repositories.",
+      "file": "build-automation.agent.md"
+    },
+    {
+      "id": "curator",
+      "name": "curator-claire",
+      "description": "Maintain structural, tonal, and metadata integrity across artifacts.",
+      "file": "curator.agent.md"
+    },
+    {
+      "id": "diagrammer",
+      "name": "diagram-daisy",
+      "description": "Transform conceptual and architectural structures into clear, semantically aligned diagrams.",
+      "file": "diagrammer.agent.md"
+    },
+    {
+      "id": "frontend",
+      "name": "frontend-freddy",
+      "description": "Integrate design, technical architecture, and usability reasoning for coherent front-end systems.",
+      "file": "frontend.agent.md"
+    },
+    {
+      "id": "lexical",
+      "name": "lexical-larry",
+      "description": "Ensure writing adheres to style rules with minimal, voice-preserving edits.",
+      "file": "lexical.agent.md"
+    },
+    {
+      "id": "manager",
+      "name": "manager-mike",
+      "description": "Coordinate multi-agent workflows, routing decisions, and status traceability.",
+      "file": "manager.agent.md"
+    },
+    {
+      "id": "project-planner",
+      "name": "planning-petra",
+      "description": "Translate strategic intent into executable, assumption-aware plans and cadences.",
+      "file": "project-planner.agent.md"
+    },
+    {
+      "id": "researcher",
+      "name": "researcher-ralph",
+      "description": "Deliver grounded, verifiable insights for systemic reasoning.",
+      "file": "researcher.agent.md"
+    },
+    {
+      "id": "scribe",
+      "name": "scribe-sally",
+      "description": "Maintain traceable, neutral documentation integrity.",
+      "file": "scribe.agent.md"
+    },
+    {
+      "id": "synthesizer",
+      "name": "synthesizer-sam",
+      "description": "Integrate multi-agent outputs into coherent, context-aligned insight systems.",
+      "file": "synthesizer.agent.md"
+    },
+    {
+      "id": "translator",
+      "name": "translator-tanya",
+      "description": "Preserve authorial tone and rhythm during accurate cross-language translation.",
+      "file": "translator.agent.md"
+    },
+    {
+      "id": "writer-editor",
+      "name": "editor-eddy",
+      "description": "Revise and refine existing written content for tone, clarity, and strategic/operational alignment without introducing new facts.",
+      "file": "writer-editor.agent.md"
+    }
+  ]
+}

@@ -55,7 +55,13 @@ You can use the specialist agents in `.github/agents/` as a starting point. On g
     - Read [`.github/agents/QUICKSTART.md`](.github/agents/QUICKSTART.md).
     - Review the generic guidelines in [`.github/agents/general_guidelines.md`](.github/agents/general_guidelines.md).
     - Keep, rename, or remove specialist agents in [`.github/agents/*.agent.md`](agents).
-3. **Use the shared spaces**
+3. **Deploy to Claude Code** (optional)
+    ```bash
+    npm run deploy:claude
+    ```
+    This deploys specialist agents, prompt templates, and skills to `.claude/` for Claude Code integration.
+    See [Claude Deployment Guide](docs/HOW_TO_USE/claude-deployment-guide.md) for details.
+4. **Use the shared spaces**
     - Use [`work/`](work) for notes, progress logs, and coordination between agents and humans.
     - Use [`output/`](output) for generated files that you review and copy into your actual code / content structure.
 
