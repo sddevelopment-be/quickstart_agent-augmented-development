@@ -1,0 +1,95 @@
+id: 2026-01-31T0714-writer-editor-distribution-user-guide
+agent: writer-editor
+status: new
+priority: high
+mode: /creative-mode
+title: Write comprehensive user guide for framework distribution and installation
+
+description: |
+  Create user-friendly documentation that explains how to distribute, install, and
+  upgrade the Quickstart Agent-Augmented Development Framework. The guide should
+  target downstream teams and individual developers who want to adopt the framework.
+  
+  This documentation should complement the existing technical documentation by
+  focusing on user experience, common scenarios, and troubleshooting.
+
+artefacts:
+  - docs/USER_GUIDE_distribution.md
+  - docs/USER_GUIDE_installation.md
+  - docs/USER_GUIDE_upgrade.md
+  - docs/quickstart/GETTING_STARTED.md (enhance existing or create)
+
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: copilot/run-orchestration-cycle
+  related_tasks:
+    - 2025-12-05T1010-build-automation-release-packaging-pipeline (completed)
+    - 2025-12-05T1012-build-automation-install-upgrade-scripts (completed)
+  notes:
+    - Base content on existing technical docs in docs/HOW_TO_USE/framework_install.md
+    - Transform technical specs into user-friendly narrative
+    - Include step-by-step tutorials with expected output examples
+    - Address common questions and gotchas
+    - Add visual aids (diagrams, screenshots if applicable)
+    - Target audience: Developers and team leads adopting the framework
+    - Follow Directive 022 (Audience-Oriented Writing)
+
+requirements:
+  user_guide_distribution:
+    - Explain what gets distributed (artifacts, structure, profiles)
+    - Describe the four distribution profiles (full, minimal, documentation, platform_exports)
+    - Clarify when to use each profile
+    - Explain included export directories (.claude, .opencode) and their purpose
+    - Provide examples of building releases locally and via CI/CD
+    - Include troubleshooting section for common build issues
+  
+  user_guide_installation:
+    - Step-by-step walkthrough for first-time installation
+    - Prerequisites and system requirements
+    - What to expect during installation (file counts, structure)
+    - Verification steps to confirm successful installation
+    - Common installation scenarios (empty repo, existing project)
+    - What NOT to do (common mistakes)
+  
+  user_guide_upgrade:
+    - Explain upgrade workflow and safety mechanisms
+    - How conflict detection works (checksums, .framework-new files)
+    - Step-by-step upgrade process with examples
+    - How to handle conflicts (review, merge, reject)
+    - Backup and rollback procedures
+    - Upgrade planning with --plan mode
+    - Protected directories and preservation rules
+  
+  getting_started:
+    - Quick start for impatient users (5-minute setup)
+    - "Hello World" equivalent for framework adoption
+    - First task creation and execution
+    - Next steps and learning path
+    - Links to deeper documentation
+
+style_guidelines:
+  - Conversational but professional tone
+  - Short paragraphs, bullet points where appropriate
+  - Use "you" to address the reader directly
+  - Provide context before commands
+  - Show example output after commands
+  - Use callout boxes for warnings/tips/notes
+  - Progressive disclosure (start simple, add complexity gradually)
+  - Real-world scenarios and use cases
+
+testing_requirements:
+  - Have a non-technical team member review for clarity
+  - Test all command examples
+  - Validate that documentation can be followed without prior knowledge
+  - Ensure consistency with technical documentation
+  - Check that all links work
+
+dependencies:
+  - docs/HOW_TO_USE/framework_install.md (technical reference)
+  - ops/release/README.md (build system docs)
+  - ops/release/distribution-config.yaml (configuration reference)
+  - work/collaboration/ITERATION_2026-01-31_SUMMARY.md (context)
+
+created_at: '2026-01-31T07:14:00Z'
+created_by: manager-mike
+origin_comment_id: orchestration-cycle-followup
