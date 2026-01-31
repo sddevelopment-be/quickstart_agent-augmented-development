@@ -123,34 +123,34 @@ profiles:
   full:
     description: "Complete framework with all optional components"
     include:
-      - core_directories: all
-      - export_directories: all
-      - root_files: all
-      - scripts: all
+      core_directories: all
+      export_directories: all
+      root_files: all
+      scripts: all
   
   minimal:
     description: "Minimal framework (agents, templates, core only)"
     include:
-      - core_directories: [".github/agents", "work/templates", "framework"]
-      - export_directories: []
-      - root_files: ["README.md", "AGENTS.md"]
-      - scripts: all
+      core_directories: [".github/agents", "work/templates", "framework"]
+      export_directories: []
+      root_files: ["README.md", "AGENTS.md"]
+      scripts: all
   
   documentation:
     description: "Documentation-focused distribution"
     include:
-      - core_directories: [".github/agents", "docs/templates", "docs/architecture"]
-      - export_directories: []
-      - root_files: ["README.md", "AGENTS.md"]
-      - scripts: []
+      core_directories: [".github/agents", "docs/templates", "docs/architecture"]
+      export_directories: []
+      root_files: ["README.md", "AGENTS.md"]
+      scripts: []
   
   platform_exports:
     description: "Only platform-specific agent exports"
     include:
-      - core_directories: []
-      - export_directories: all
-      - root_files: ["README.md", "AGENTS.md"]
-      - scripts: []
+      core_directories: []
+      export_directories: all
+      root_files: ["README.md", "AGENTS.md"]
+      scripts: []
 
 # Default profile to use if not specified
 default_profile: "full"
