@@ -35,13 +35,17 @@ jobs:
           fetch-depth: 1
       
       - name: Cache tool installations
-        uses: actions/cache@v3
+        id: cache-tools
+        uses: actions/cache@v4
         with:
           path: |
             /usr/local/bin
             ~/.local/bin
-          key: ${{ runner.os }}-copilot-tools-v1-${{ hashFiles('.github/copilot/setup.sh') }}
+            ~/.cargo/bin
+            /home/runner/.cargo/bin
+          key: ${{ runner.os }}-copilot-tools-v2-${{ hashFiles('.github/copilot/setup.sh') }}
           restore-keys: |
+            ${{ runner.os }}-copilot-tools-v2-
             ${{ runner.os }}-copilot-tools-v1-
       
       - name: Run setup script
@@ -51,6 +55,16 @@ jobs:
           echo "Starting Copilot tooling setup..."
           start_time=$(date +%s)
           
+          # Check if cache was restored
+          if [ "${{ steps.cache-tools.outputs.cache-hit }}" = "true" ]; then
+            echo "✅ Tools restored from cache" >> $GITHUB_STEP_SUMMARY
+            echo "cache_status=restored" >> $GITHUB_OUTPUT
+          else
+            echo "ℹ️ Cache not found, installing tools..." >> $GITHUB_STEP_SUMMARY
+            echo "cache_status=installing" >> $GITHUB_OUTPUT
+          fi
+          
+          # Run setup script (idempotent - will skip already installed tools)
           bash .github/copilot/setup.sh
           
           end_time=$(date +%s)
@@ -58,12 +72,25 @@ jobs:
           
           echo "setup_duration=${duration}" >> $GITHUB_OUTPUT
           
-          if [ $duration -gt 120 ]; then
-            echo "⚠️ Setup took ${duration}s (target: <120s)" >> $GITHUB_STEP_SUMMARY
-            echo "setup_performance=warning" >> $GITHUB_OUTPUT
+          # Adjust performance expectations based on cache status
+          if [ "${{ steps.cache-tools.outputs.cache-hit }}" = "true" ]; then
+            target=30
+            if [ $duration -gt $target ]; then
+              echo "⚠️ Setup took ${duration}s with cache (target: <${target}s)" >> $GITHUB_STEP_SUMMARY
+              echo "setup_performance=warning" >> $GITHUB_OUTPUT
+            else
+              echo "✅ Setup completed in ${duration}s with cache (target: <${target}s)" >> $GITHUB_STEP_SUMMARY
+              echo "setup_performance=success" >> $GITHUB_OUTPUT
+            fi
           else
-            echo "✅ Setup completed in ${duration}s (target: <120s)" >> $GITHUB_STEP_SUMMARY
-            echo "setup_performance=success" >> $GITHUB_OUTPUT
+            target=120
+            if [ $duration -gt $target ]; then
+              echo "⚠️ Setup took ${duration}s without cache (target: <${target}s)" >> $GITHUB_STEP_SUMMARY
+              echo "setup_performance=warning" >> $GITHUB_OUTPUT
+            else
+              echo "✅ Setup completed in ${duration}s without cache (target: <${target}s)" >> $GITHUB_STEP_SUMMARY
+              echo "setup_performance=success" >> $GITHUB_OUTPUT
+            fi
           fi
       
       - name: Verify tool availability
@@ -245,13 +272,17 @@ jobs:
         with:
           script: |
             const setupDuration = '${{ steps.setup.outputs.setup_duration }}';
+            const cacheStatus = '${{ steps.setup.outputs.cache_status }}';
+            const cacheHit = '${{ steps.cache-tools.outputs.cache-hit }}';
             const verificationStatus = '${{ steps.verify.outputs.verification_status }}';
             const performanceStatus = '${{ steps.setup.outputs.setup_performance }}';
             
             let body = '## 🔧 Copilot Tooling Setup Validation\n\n';
             
             body += '### Performance\n';
-            body += `- **Setup duration:** ${setupDuration}s (target: <120s)\n`;
+            body += `- **Cache status:** ${cacheStatus}\n`;
+            body += `- **Setup duration:** ${setupDuration}s\n`;
+            body += `- **Target:** ${cacheHit === 'true' ? '<30s (cached)' : '<120s (fresh install)'}\n`;
             body += `- **Status:** ${performanceStatus === 'success' ? '✅ Target met' : '⚠️ Target exceeded'}\n\n`;
             
             body += '### Tool Verification\n';
@@ -260,6 +291,9 @@ jobs:
             if (verificationStatus === 'success' && performanceStatus === 'success') {
               body += '### ✅ Validation passed!\n\n';
               body += 'The Copilot tooling setup is working correctly and meets performance targets.\n';
+              if (cacheHit === 'true') {
+                body += '\n**Note:** Tools were restored from cache, significantly reducing setup time.\n';
+              }
             } else {
               body += '### ⚠️ Issues detected\n\n';
               body += 'Please review the [workflow logs](' + context.payload.repository.html_url + '/actions/runs/' + context.runId + ') for details.\n';
