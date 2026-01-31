@@ -1,0 +1,44 @@
+id: 2025-12-05T1014-architect-framework-guardian-agent-definition
+agent: architect
+status: assigned
+priority: high
+mode: /analysis-mode
+title: Define Framework Guardian agent profile, templates, and validation hooks
+description: "Materialize the Framework Guardian role described in ADR-014 so future\n\
+  iterations can enforce release integrity. Deliver a `.agent.md` profile,\nsupporting\
+  \ directives/templates, and validation checklists that slot directly\ninto file-based\
+  \ orchestration (Manager Mike\u2019s run-iteration template).\n"
+artefacts:
+- .github/agents/framework-guardian.agent.md
+- .github/agents/directives/0XX_framework_guardian.md
+- docs/templates/GUARDIAN_AUDIT_REPORT.md
+- docs/templates/GUARDIAN_UPGRADE_PLAN.md
+- work/collaboration/AGENT_STATUS.md (update guardian row)
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  related_pr: ''
+  notes:
+  - Align tone + responsibilities with operational guidelines and AGENTS.md.
+  - Document how Guardian hooks into packaging + install tasks during iterations.
+  - Ensure templates capture metadata needed for ADR coverage + release metrics.
+  - Provide instructions for invoking Guardian during `.github/ISSUE_TEMPLATE/run-iteration.md`
+    cycles.
+requirements:
+- Draft agent profile detailing purpose, authorities, required directives.
+- Create Guardian-specific directive capturing audit workflow + escalation markers.
+- Provide Markdown templates for audit report + upgrade plan, referencing release
+  artefacts.
+- Update AGENT_STATUS to include Guardian readiness + contact cadence.
+- Describe how Guardian outputs integrate with work logs + iteration summaries.
+testing_requirements:
+- Peer review via Curator Claire checklist (include as acceptance note).
+- Dry-run template fill using sample data from packaging pipeline.
+- Validate directive numbering + manifest entries (Directive 006).
+dependencies:
+- docs/architecture/design/distribution_of_releases_architecture.md
+- .github/ISSUE_TEMPLATE/run-iteration.md
+created_at: '2025-12-05T10:14:00Z'
+created_by: planning-petra
+origin_comment_id: null
+assigned_at: '2026-01-31T06:38:02.556549Z'

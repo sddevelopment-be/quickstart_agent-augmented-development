@@ -1,0 +1,47 @@
+id: 2025-12-05T1016-writer-editor-release-documentation-checklist
+agent: writer-editor
+status: assigned
+priority: medium-high
+mode: /analysis-mode
+title: Publish release/upgrade documentation and checklist aligned to iteration workflow
+description: 'Produce the documentation set that teaches downstream teams how to consume
+  the
+
+  packaged release, run Framework Guardian, and coordinate via the
+
+  run-iteration workflow. Content should reference ADR-013/ADR-014 decisions,
+
+  list prerequisites, and include a Guardian-ready publishing checklist.
+
+  '
+artefacts:
+- docs/HOW_TO_USE/release_and_upgrade.md
+- docs/checklists/release_publishing_checklist.md
+- docs/templates/RELEASE_NOTES.md (update)
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  related_pr: ''
+  notes:
+  - Coordinate with Guardian + build-automation tasks to keep instructions accurate.
+  - Document how Manager Mike should reference these docs during iteration summaries.
+  - Cross-link `.github/ISSUE_TEMPLATE/run-iteration.md` and `work/collaboration/AGENT_STATUS.md`.
+requirements:
+- Document end-to-end release workflow (package build, install/upgrade, Guardian validation).
+- Provide quickstart and deep-dive sections with clear prerequisites + commands.
+- Build checklist covering artefact verification, script invocation, log capture,
+  comms.
+- Refresh release notes template to include Guardian + distribution metadata fields.
+- Highlight iteration hooks (when to run template-status-checker, how to log metrics).
+testing_requirements:
+- Run doc clarity pass with Curator guidelines.
+- Validate instructions by shadowing packaging/install task owners (tabletop review).
+- Ensure Markdown passes Vale/lint checks if configured.
+dependencies:
+- 2025-12-05T1010-build-automation-release-packaging-pipeline
+- 2025-12-05T1012-build-automation-install-upgrade-scripts
+- 2025-12-05T1014-architect-framework-guardian-agent-definition
+created_at: '2025-12-05T10:16:00Z'
+created_by: planning-petra
+origin_comment_id: null
+assigned_at: '2026-01-31T06:38:02.560754Z'

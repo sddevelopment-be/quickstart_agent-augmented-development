@@ -1,0 +1,45 @@
+id: 2025-11-30T1202-architect-model-client-interface
+agent: architect
+status: assigned
+priority: high
+mode: /analysis-mode
+title: Draft model_client interface for router-agnostic orchestration
+artefacts:
+- ops/orchestration/model_client.py
+- docs/architecture/design/distribution_of_releases_architecture.md
+- work/logs/architect/2025-11-30T1202-architect-model-client-interface.md
+description: 'Translate the Platform Next Steps assessment into a concrete orchestrator
+
+  interface that cleanly separates router specifics from agent contracts. The
+
+  module must expose selection, invocation, and fallback helpers that other
+
+  automation layers can call without leaking provider details.
+
+  '
+context:
+  repo: sddevelopment-be/quickstart_agent-augmented-development
+  branch: main
+  source_assessment: docs/architecture/assessments/platform_next_steps.md
+  notes:
+  - Keep the interface light-weight but cover select/invoke/fallback behavior.
+  - Align docstrings with ADR-020 (multi-tier runtime) and ADR-021 (model routing).
+  - Provide stub implementations plus TODO markers for downstream agents.
+requirements:
+- Create ops/orchestration/model_client.py with:
+  - select_model(task_type, constraints) returning a structured response (model_id,
+    router, justification, fallback chain).
+  - invoke(model_id, prompt, tools, **kwargs) stub that documents expected router
+    contracts (OpenRouter, OpenCode.ai, direct APIs).
+  - fallback_chain(model_id, error) stub that consults router config produced by build-automation.
+- Include dataclasses or TypedDicts for selection constraints and responses.
+- Reference router config file path and validation script in module docstring.
+- Add TODO comments for telemetry hooks needed by ADR-009.
+success_criteria:
+- Module imports cleanly (lint pass) and is referenced from docs/architecture/ vision
+  + ADRs where appropriate.
+- Work log summarises design decisions and open questions for DevOps.
+- Follow-up tasks identified if deeper implementation required.
+created_at: '2025-11-30T12:02:00Z'
+created_by: planning-petra
+assigned_at: '2026-01-31T06:38:02.607040Z'
