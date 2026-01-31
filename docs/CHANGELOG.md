@@ -13,6 +13,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > Scope / plan for upcoming release. Items below group recent branch changes and retained baseline assets until the next tagged release.
 
 ### Added
+- **Framework distribution system (2026-01-31)**
+  - Release packaging pipeline (`ops/release/build_release_artifact.py`) with semantic versioning, SHA256 checksums, YAML manifests, and JSON metadata
+  - Install/upgrade scripts (`ops/release/framework_install.sh`, `ops/release/framework_upgrade.sh`) with POSIX compliance, conflict detection, and automatic backups
+  - Distribution configuration system (`ops/release/distribution-config.yaml`) with 4 profiles: full, minimal, documentation, platform_exports
+  - Export directories (.claude, .opencode) now included in releases for multi-platform agent definitions
+  - CI/CD workflow (`.github/workflows/release-packaging.yml`) for automated tagged releases
+  - Comprehensive documentation (`docs/HOW_TO_USE/framework_install.md`, `ops/release/README.md`)
+  - 102 tests (54 packaging + 48 install/upgrade) with 100% pass rate following ATDD/TDD directives
 - README coverage across repository directories, each with packaging/audience metadata blocks for clarity and release guidance.
 - **Test readability experiment & reports**
   - Dual-helper artifacts: Ralph analysis, Alphonso review, work log, prompt storage.
