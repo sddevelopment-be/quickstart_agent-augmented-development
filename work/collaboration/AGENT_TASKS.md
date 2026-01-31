@@ -1,32 +1,71 @@
 # Agent Task Assignments
 
-**Last Updated**: 2026-01-31 08:57:00 UTC  
+**Last Updated**: 2026-01-31 (Iteration 2 Planning)  
 **Updated By**: Planning Petra  
 **Purpose**: Clear mapping of which agent should work on which tasks and artefacts
 
 ---
 
-## Next Batch Assignments (Recommended for Immediate Execution)
+## Iteration 2: Next Batch Assignments (5 TASKS SELECTED)
 
-### Primary Assignment: writer-editor
+### Critical Priority: curator ⚡
+
+**Task ID**: `2026-01-31T0900-curator-fix-yaml-format-errors`  
+**Priority**: HIGH (CRITICAL - UNBLOCKS ADR-023)  
+**Status**: Ready in inbox → assign immediately  
+**Estimated Effort**: 2-3 hours  
+**Mode**: `/analysis-mode`
+
+**Why This Task**:
+- ❗ BLOCKS $140-300k ROI initiative (ADR-023)
+- Affects 6 high-value tasks across 3 agents
+- Restores orchestrator health monitoring
+- Mechanical task, low risk, highest strategic unblocking value
+
+**Artefacts to Fix**:
+1. `assigned/backend-dev/2026-01-30T1642-adr023-phase2-prompt-validator.yaml`
+2. `assigned/backend-dev/2026-01-30T1643-adr023-phase3-context-loader.yaml`
+3. `assigned/build-automation/2026-01-30T1644-adr023-phase2-ci-workflow.yaml`
+4. `assigned/build-automation/2026-01-29T0935-mfd-task-0.1-workflow-review.yaml`
+5. `assigned/architect/2026-01-30T1120-design-prompt-optimization-framework.yaml`
+6. `assigned/architect/2026-01-29T0730-mfd-task-1.3-schema-conventions.yaml`
+7. UPDATE: `work/reports/2026-01-31-yaml-format-fixes.md`
+
+**Success Criteria**:
+- All 6 files pass `python validation/validate-task-schema.py <file>`
+- No information loss from original format
+- Orchestrator can parse all files without errors
+- System health: 🟡 → 🟢
+
+**Dependencies**: None ✅ (immediate execution)
+
+---
+
+### High Priority: writer-editor ⭐
 
 **Task ID**: `2026-01-31T0714-writer-editor-distribution-user-guide`  
 **Priority**: HIGH  
-**Status**: Ready (currently in inbox)  
+**Status**: Ready in inbox → assign immediately  
 **Estimated Effort**: 8-10 hours  
 **Mode**: `/creative-mode`
 
+**Why This Task**:
+- Direct continuation of Iteration 1 success
+- All prerequisites completed (102/102 tests passing)
+- High user impact: 60% adoption friction reduction
+- Completes distribution capability end-to-end
+
 **Artefacts to Create**:
-- `docs/USER_GUIDE_distribution.md` - Distribution profiles and build process
+- `docs/USER_GUIDE_distribution.md` - Distribution profiles, building releases
 - `docs/USER_GUIDE_installation.md` - First-time installation walkthrough
-- `docs/USER_GUIDE_upgrade.md` - Upgrade workflow and conflict resolution
-- `docs/quickstart/GETTING_STARTED.md` - Quick start guide
+- `docs/USER_GUIDE_upgrade.md` - Upgrade workflow, conflict handling
+- `docs/quickstart/GETTING_STARTED.md` - 5-minute quick start
 
 **Context Files to Load**:
-- `docs/HOW_TO_USE/framework_install.md` (technical reference)
-- `ops/release/README.md` (build system documentation)
-- `ops/release/distribution-config.yaml` (configuration reference)
-- `work/collaboration/ITERATION_2026-01-31_SUMMARY.md` (last iteration context)
+- `docs/HOW_TO_USE/framework_install.md` (technical reference, 570 lines)
+- `ops/release/README.md` (build system, 300+ lines)
+- `ops/release/distribution-config.yaml` (configuration)
+- `work/collaboration/ITERATION_2026-01-31_SUMMARY.md` (Iteration 1 context)
 
 **Success Criteria**:
 - Conversational, user-friendly tone
@@ -35,27 +74,83 @@
 - Consistent with technical documentation
 - Troubleshooting sections included
 
-**Dependencies**: ✅ All met (scripts completed 2026-01-31)
+**Dependencies**: ✅ All met (install/upgrade scripts completed Iteration 1)
 
 **Validation**:
 - Test every command example
-- Have non-technical person review for clarity
+- Non-technical person review for clarity
 - Validate all links and cross-references
 
 ---
 
-### Optional Assignment (If Capacity Available): architect
+### High Priority: architect ⭐
+
+**Task ID**: `2026-01-31T0930-architect-docsite-foundation-setup`  
+**Priority**: HIGH (STRATEGIC INITIATIVE START)  
+**Status**: Ready in inbox → assign immediately  
+**Estimated Effort**: 6-8 hours  
+**Mode**: `/analysis-mode`
+
+**Why This Task**:
+- Starts critical documentation website initiative (10-14 weeks total)
+- No blockers or dependencies
+- Creates foundation for professional framework presentation
+- Generates handoff tasks for 3 agents (completes Batch 1)
+
+**Artefacts to Create**:
+- `work/analysis/docsite-technology-selection.md` - Hugo rationale
+- `docs-site/ARCHITECTURE.md` - Site structure, audience mapping
+- `docs-site/README.md` - Setup instructions
+- `docs-site/config.toml` - Hugo configuration
+- `docs-site/content/_index.md` - Homepage skeleton
+- `work/planning/docsite-batch-1-implementation-plan.md` - Plan update
+
+**Handoff Tasks to Create**:
+1. `2026-01-31T1000-build-automation-docsite-deployment-workflow` (4-6h)
+2. `2026-01-31T1030-writer-editor-docsite-homepage-content` (6-8h)
+3. `2026-01-31T1100-diagrammer-docsite-structure-diagram` (2-3h)
+
+**Context Files to Load**:
+- `work/planning/documentation-website-roadmap.md` (full roadmap)
+- `docs/architecture/adrs/ADR-022-docsite-separated-metadata.md` (metadata strategy)
+- Existing HOW_TO_USE guides (content to eventually migrate)
+
+**Success Criteria**:
+- Hugo site builds without errors (`hugo` succeeds)
+- Development server runs (`hugo server -D` works)
+- Architecture documented with clear rationale
+- Handoff tasks created with clear prerequisites
+- Supports all 5 planned batches
+
+**Dependencies**: None ✅ (immediate execution)
+
+**Strategic Impact**:
+- Enables Batch 2: Content migration (3 weeks, 50-70 hours)
+- Enables Batch 3: User onboarding (2-3 weeks, 40-60 hours)
+- Enables Batch 4: Developer/architect content (2-3 weeks, 45-65 hours)
+- Enables Batch 5: Polish & launch (1-2 weeks, 25-40 hours)
+
+---
+
+### Medium Priority: architect (FOLLOW-UP)
 
 **Task ID**: `2025-12-05T1014-architect-framework-guardian-agent-definition`  
 **Priority**: MEDIUM  
-**Status**: Assigned  
+**Status**: Assigned (ready for execution after Task 3 or in parallel)  
 **Estimated Effort**: 4-6 hours  
 **Mode**: `/analysis-mode`
 
+**Why This Task**:
+- Prerequisites completed in Iteration 1
+- Natural companion to distribution work
+- Enables automated health monitoring
+- Can execute after primary architect task (Task 3) or in parallel if capacity
+
 **Artefacts to Create**:
-- `agents/framework-guardian.agent.md` (agent profile)
-- `agents/directives/025_framework_audit_guidelines.md` (directive)
+- `agents/framework-guardian.agent.md` - Agent profile
+- `agents/directives/025_framework_audit_guidelines.md` - Audit directive
 - Templates for framework audits (in `docs/templates/`)
+- Integration points documentation
 
 **Context Files to Load**:
 - `ops/release/build_release_artifact.py` (packaging system)
@@ -65,13 +160,94 @@
 
 **Success Criteria**:
 - Agent profile follows established patterns
-- Directive 025 provides clear audit guidelines
-- Templates are actionable and clear
-- Integration points with install/upgrade system defined
+- Directive 025 provides clear, actionable guidelines
+- Templates usable by non-technical users
+- Integration with install/upgrade system defined
 
-**Dependencies**: ✅ All met (packaging system complete)
+**Dependencies**: ✅ All met (packaging system complete from Iteration 1)
 
-**Can Execute**: Parallel with writer-editor task (no conflicts)
+**Execution Strategy**: Execute after Task 3 completes (sequential) OR in parallel if architect capacity available
+
+---
+
+### Medium Priority: writer-editor (FOLLOW-UP)
+
+**Task ID**: `2025-12-05T1016-writer-editor-release-documentation-checklist`  
+**Priority**: MEDIUM  
+**Status**: Assigned (ready for execution after Task 2 or in parallel)  
+**Estimated Effort**: 3-4 hours  
+**Mode**: `/creative-mode`
+
+**Why This Task**:
+- Same agent as Task 2 (natural follow-up)
+- Completes release process documentation
+- Low complexity, well-defined scope
+- Supports release manager workflow
+
+**Artefacts to Create**:
+- Release documentation checklist (Markdown template in `ops/release/`)
+- Release process documentation (integrate with existing `ops/release/`)
+- Quality gates for release documentation
+
+**Context Files to Load**:
+- `ops/release/README.md` (build system docs)
+- `ops/release/build_release_artifact.py` (packaging script)
+- USER_GUIDE_* from Task 2 (for consistency)
+
+**Success Criteria**:
+- Checklist covers all release documentation aspects
+- Integrated into existing release workflow
+- Clear, actionable items
+- Usable by any team member
+
+**Dependencies**: ✅ All met (install/upgrade scripts complete from Iteration 1)
+
+**Execution Strategy**: Execute after Task 2 completes (sequential) OR in parallel if capacity available
+
+---
+
+## Current Agent Queue Breakdown (Updated for Iteration 2)
+
+### Iteration 2 Selected Agents
+
+**curator** - Task 1 (NEW, critical)
+**writer-editor** - Tasks 2, 5 (NEW + existing)
+**architect** - Tasks 3, 4 (NEW + existing)
+
+All other agents remain unchanged from previous status.
+
+---
+- Usable by any team member
+
+**Dependencies**: ✅ All met (install/upgrade scripts complete from Iteration 1)
+
+**Execution Strategy**: Execute after Task 2 completes (sequential) OR in parallel if capacity available
+
+---
+
+## Execution Summary
+
+| Agent | Tasks | Total Hours | Priority | Timeline |
+|-------|-------|-------------|----------|----------|
+| **curator** | 1 | 2-3h | HIGH (critical) | Day 1 morning |
+| **writer-editor** | 2 | 11-14h | HIGH + MEDIUM | Days 1-2 |
+| **architect** | 2 | 10-14h | HIGH + MEDIUM | Days 1-2 |
+| **Total** | **5 tasks** | **26-35h** | **Mixed** | **1-2 days** |
+
+### Parallel Execution Strategy
+
+**Phase 1** (Independent, parallel):
+```
+curator (Task 1)         → YAML Format Fixes         [2-3h]
+writer-editor (Task 2)   → Distribution User Guide   [8-10h]
+architect (Task 3)       → Doc Website Foundation    [6-8h]
+```
+
+**Phase 2** (Sequential or parallel):
+```
+architect (Task 4)       → Framework Guardian        [4-6h]  (after Task 3)
+writer-editor (Task 5)   → Release Checklist         [3-4h]  (after Task 2)
+```
 
 ---
 
