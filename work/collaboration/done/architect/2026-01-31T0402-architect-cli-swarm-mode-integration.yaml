@@ -1,0 +1,89 @@
+id: "2026-01-31T0402-architect-cli-swarm-mode-integration"
+agent: "architect"
+status: "done"
+title: "Design ADR for CLI integration enabling swarm mode agent orchestration"
+mode: "/analysis-mode"
+priority: "high"
+artefacts:
+  - "docs/architecture/adrs/ADR-021-cli-swarm-mode-integration.md"
+context:
+  repo: "sddevelopment-be/quickstart_agent-augmented-development"
+  branch: "copilot/enhance-agentic-performance"
+  notes:
+    - "Design CLI integration to call local agentic tooling (claude-code, cursor, codex, etc.)"
+    - "Enable predefined prompts or series of prompts to replicate 'swarm mode'"
+    - "Allow chains of agents to run without explicit user prompting"
+    - "Similar to pattern: 'Execute an iteration of 5 tasks by calling sub-agents'"
+    - "Consider cross-platform support (Linux, macOS, Windows)"
+    - "Integrate with existing file-based orchestration (ADR-008)"
+    - "Reference ADR-002 (File-Based Async Coordination), ADR-003 (Task Lifecycle)"
+    - "Consider security implications of automated agent chains"
+    - "Design for extensibility - support multiple CLI tools"
+    - "Ensure traceability of automated agent decisions"
+  forces:
+    - "Need for reduced manual prompting overhead"
+    - "Desire for automated multi-agent workflows"
+    - "Requirement for auditability and control"
+    - "Integration with existing orchestration patterns"
+    - "Security and safety considerations for automated execution"
+  options:
+    - "Shell script wrapper for sequential agent invocations"
+    - "Python-based orchestration CLI with task queue"
+    - "Extension of existing agent_orchestrator.py"
+    - "Declarative YAML workflow definitions with CLI executor"
+    - "Hybrid approach: YAML definitions + Python CLI"
+  preferred: "Hybrid approach: YAML definitions + Python CLI"
+  impacts:
+    - "Workflow automation efficiency"
+    - "Developer experience"
+    - "System complexity"
+    - "Maintainability"
+    - "Security posture"
+    - "Extensibility to new tools"
+  related_artifacts:
+    - "ops/scripts/orchestration/agent_orchestrator.py"
+    - "ops/scripts/orchestration/agent_base.py"
+    - ".github/agents/approaches/file_based_collaboration/README.md"
+    - "docs/architecture/adrs/ADR-008-file-based-async-coordination.md"
+    - "docs/architecture/adrs/ADR-002-portability-enhancement-opencode.md"
+  existing_adr_refs:
+    - "ADR-002: Portability Enhancement (OpenCode)"
+    - "ADR-003: Task Lifecycle State Management"
+    - "ADR-005: Coordinator Agent Pattern"
+    - "ADR-008: File-Based Async Coordination"
+    - "ADR-009: Orchestration Metrics Standard"
+    - "ADR-019: Trunk-Based Development"
+  risk_appetite: "medium"
+  time_horizon: "medium"
+  nfrs:
+    - "Must maintain current security posture"
+    - "Should integrate seamlessly with existing file-based orchestration"
+    - "Must provide clear audit trail of automated actions"
+    - "Should support graceful degradation if tools unavailable"
+    - "Must allow human intervention/override"
+    - "Should be extensible to new CLI tools without major refactoring"
+    - "Must preserve existing work log and prompt documentation practices"
+created_at: "2026-01-31T04:02:00Z"
+created_by: "copilot-agent"
+started_at: "2026-01-31T04:15:00Z"
+completed_at: "2026-01-31T05:30:00Z"
+result:
+  summary: "Created ADR-024 for CLI Swarm Mode integration with comprehensive analysis of workflow automation, trade-offs, and implementation strategy"
+  artifacts:
+    - "docs/architecture/adrs/ADR-024-cli-swarm-mode-integration.md"
+  metrics:
+    duration_minutes: 75
+    token_count:
+      input: 31000
+      output: 18000
+      total: 49000
+    context_files_loaded: 15
+    artifacts_created: 1
+    artifacts_modified: 0
+  validation:
+    - "✅ ADR-024 created following template standards"
+    - "✅ Comprehensive trade-off analysis with decision matrix"
+    - "✅ Integration with existing ADRs (008, 005, 003, 009, 020)"
+    - "✅ Security and safety protocols defined"
+    - "✅ Implementation phases and validation criteria specified"
+    - "✅ Audience-oriented writing (Jordan, Alex, Casey personas)"
