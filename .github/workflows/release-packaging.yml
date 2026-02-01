@@ -295,13 +295,16 @@ jobs:
           
           # Verify checksum
           sha256sum -c checksums.txt
+         
+          EXTRACT_DIR="${ARTIFACT%.zip}"
           
           # Extract
-          unzip -q "$ARTIFACT"
+          echo "Extracting into: $EXTRACT_DIR" 
+          unzip -q "$ARTIFACT" -d "$EXTRACT_DIR"
           
           # Basic structure tests
-          EXTRACT_DIR="${ARTIFACT%.zip}"
           test -d "$EXTRACT_DIR/framework_core"
+          test -d "$EXTRACT_DIR/agents"
           test -d "$EXTRACT_DIR/scripts"
           test -d "$EXTRACT_DIR/META"
           test -f "$EXTRACT_DIR/META/MANIFEST.yml"
