@@ -33,7 +33,7 @@ jobs:
           extended: true
 
       - name: Build site
-        run: hugo --minify
+        run: hugo --minify --baseURL https://sddevelopment-be.github.io/quickstart_agent-augmented-development/
         working-directory: docs-site
 
       - name: Deploy to gh-pages
