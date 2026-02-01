@@ -304,6 +304,46 @@ The editor automatically categorizes selections into:
 - **Export directories**: Platform-specific exports (`.claude/`, `.opencode/`)
 - **Root files**: Top-level files like `README.md`, `AGENTS.md`
 
+## Downstream Deployment
+
+For consuming the framework in your own repository, use the tools in `ops/release/downstream/`:
+
+### Shell Script (Manual)
+
+```bash
+# Copy the deployment script to your repo
+curl -O https://raw.githubusercontent.com/sddevelopment-be/quickstart_agent-augmented-development/main/ops/release/downstream/deploy_framework.sh
+chmod +x deploy_framework.sh
+
+# Fresh installation
+./deploy_framework.sh
+
+# Upgrade existing installation
+./deploy_framework.sh --upgrade
+```
+
+### GitHub Actions (Automated)
+
+Copy `ops/release/downstream/framework-update.yml` to your repo's `.github/workflows/`:
+
+```bash
+# In your downstream repository
+mkdir -p .github/workflows
+curl -o .github/workflows/framework-update.yml \
+  https://raw.githubusercontent.com/sddevelopment-be/quickstart_agent-augmented-development/main/ops/release/downstream/framework-update.yml
+```
+
+Then trigger via GitHub Actions UI or enable scheduled updates.
+
+### Post-Deployment Verification
+
+After deployment, use the Framework Guardian agent to verify your installation:
+
+1. **Audit Mode**: Verify integrity against manifest
+2. **Upgrade Mode**: Resolve `.framework-new` conflicts
+
+See `downstream/README.md` for detailed documentation.
+
 ## References
 
 - [ADR-013: Zip-Based Framework Distribution](../../docs/architecture/adrs/ADR-013-zip-distribution.md)

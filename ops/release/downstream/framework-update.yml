@@ -1,0 +1,356 @@
+# Framework Update Workflow - Template for Downstream Repositories
+#
+# Copy this workflow to your repository's .github/workflows/ directory to enable
+# automatic or manual framework updates from the upstream SDD Agent Framework.
+#
+# Usage:
+#   1. Copy this file to: .github/workflows/framework-update.yml
+#   2. Customize the configuration section below
+#   3. Trigger manually via Actions tab, or enable scheduled updates
+#
+# References:
+#   - ADR-013: Zip-Based Framework Distribution
+#   - ADR-014: Framework Guardian Agent
+#   - https://github.com/sddevelopment-be/quickstart_agent-augmented-development
+
+name: Framework Update
+
+on:
+  # Manual trigger with options
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Framework version to install (leave empty for latest)'
+        required: false
+        type: string
+        default: ''
+      mode:
+        description: 'Installation mode'
+        required: true
+        type: choice
+        options:
+          - upgrade
+          - install
+        default: 'upgrade'
+      dry_run:
+        description: 'Dry run (preview changes without applying)'
+        required: false
+        type: boolean
+        default: false
+      create_pr:
+        description: 'Create a PR with changes instead of direct commit'
+        required: false
+        type: boolean
+        default: true
+
+  # Optional: Schedule regular checks for updates
+  # Uncomment to enable weekly checks on Monday at 9am UTC
+  # schedule:
+  #   - cron: '0 9 * * 1'
+
+# Configuration - Customize these values for your repository
+env:
+  UPSTREAM_REPO: sddevelopment-be/quickstart_agent-augmented-development
+  # Branch to update (usually main or master)
+  TARGET_BRANCH: main
+  # PR branch prefix
+  PR_BRANCH_PREFIX: framework-update
+
+jobs:
+  check-update:
+    name: Check for Framework Updates
+    runs-on: ubuntu-latest
+    outputs:
+      current_version: ${{ steps.current.outputs.version }}
+      latest_version: ${{ steps.latest.outputs.version }}
+      needs_update: ${{ steps.compare.outputs.needs_update }}
+      target_version: ${{ steps.target.outputs.version }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get current framework version
+        id: current
+        run: |
+          if [ -f .framework_meta.yml ]; then
+            VERSION=$(grep 'framework_version:' .framework_meta.yml | sed 's/.*: *//' | tr -d '"'"'")
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+            echo "Current framework version: $VERSION"
+          else
+            echo "version=none" >> $GITHUB_OUTPUT
+            echo "No framework installed"
+          fi
+
+      - name: Get latest upstream version
+        id: latest
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          LATEST=$(gh api repos/${{ env.UPSTREAM_REPO }}/releases/latest --jq '.tag_name' 2>/dev/null | sed 's/^v//' || echo "")
+          if [ -z "$LATEST" ]; then
+            echo "No releases found in upstream repository"
+            echo "version=" >> $GITHUB_OUTPUT
+          else
+            echo "version=$LATEST" >> $GITHUB_OUTPUT
+            echo "Latest upstream version: $LATEST"
+          fi
+
+      - name: Determine target version
+        id: target
+        run: |
+          INPUT_VERSION="${{ inputs.version }}"
+          LATEST_VERSION="${{ steps.latest.outputs.version }}"
+
+          if [ -n "$INPUT_VERSION" ]; then
+            echo "version=$INPUT_VERSION" >> $GITHUB_OUTPUT
+            echo "Target version (from input): $INPUT_VERSION"
+          elif [ -n "$LATEST_VERSION" ]; then
+            echo "version=$LATEST_VERSION" >> $GITHUB_OUTPUT
+            echo "Target version (latest): $LATEST_VERSION"
+          else
+            echo "version=" >> $GITHUB_OUTPUT
+            echo "No target version available"
+          fi
+
+      - name: Compare versions
+        id: compare
+        run: |
+          CURRENT="${{ steps.current.outputs.version }}"
+          TARGET="${{ steps.target.outputs.version }}"
+
+          if [ -z "$TARGET" ]; then
+            echo "needs_update=false" >> $GITHUB_OUTPUT
+            echo "No target version available - skipping update"
+          elif [ "$CURRENT" = "$TARGET" ]; then
+            echo "needs_update=false" >> $GITHUB_OUTPUT
+            echo "Already at version $TARGET - no update needed"
+          else
+            echo "needs_update=true" >> $GITHUB_OUTPUT
+            echo "Update available: $CURRENT -> $TARGET"
+          fi
+
+  update-framework:
+    name: Update Framework
+    runs-on: ubuntu-latest
+    needs: check-update
+    if: |
+      needs.check-update.outputs.needs_update == 'true' ||
+      github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TARGET_BRANCH }}
+          fetch-depth: 0
+
+      - name: Download framework release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ needs.check-update.outputs.target_version }}"
+
+          if [ -z "$VERSION" ]; then
+            echo "❌ No version to install"
+            exit 1
+          fi
+
+          echo "Downloading framework version $VERSION..."
+
+          # Get the release asset URL
+          ASSET_URL=$(gh api repos/${{ env.UPSTREAM_REPO }}/releases/tags/v${VERSION} \
+            --jq '.assets[] | select(.name | contains("quickstart-framework")) | .browser_download_url' \
+            2>/dev/null | head -1)
+
+          if [ -z "$ASSET_URL" ]; then
+            echo "❌ No framework artifact found for version $VERSION"
+            exit 1
+          fi
+
+          echo "Downloading from: $ASSET_URL"
+          curl -fsSL -o framework.zip "$ASSET_URL"
+
+          # Extract
+          unzip -q framework.zip
+          echo "✅ Downloaded and extracted framework $VERSION"
+
+      - name: Run framework update
+        id: update
+        run: |
+          VERSION="${{ needs.check-update.outputs.target_version }}"
+          MODE="${{ inputs.mode || 'upgrade' }}"
+          DRY_RUN="${{ inputs.dry_run }}"
+
+          RELEASE_DIR="quickstart-framework-${VERSION}"
+
+          if [ ! -d "$RELEASE_DIR" ]; then
+            echo "❌ Release directory not found: $RELEASE_DIR"
+            exit 1
+          fi
+
+          # Determine which script to run
+          if [ "$MODE" = "install" ] || [ ! -f .framework_meta.yml ]; then
+            SCRIPT="$RELEASE_DIR/scripts/framework_install.sh"
+            SCRIPT_MODE="install"
+          else
+            SCRIPT="$RELEASE_DIR/scripts/framework_upgrade.sh"
+            SCRIPT_MODE="upgrade"
+          fi
+
+          echo "Running $SCRIPT_MODE..."
+
+          ARGS=""
+          if [ "$DRY_RUN" = "true" ]; then
+            ARGS="--dry-run"
+          fi
+
+          sh "$SCRIPT" $ARGS "$RELEASE_DIR" "."
+
+          echo "script_mode=$SCRIPT_MODE" >> $GITHUB_OUTPUT
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "Changes detected:"
+            git status --short
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "No changes detected"
+          fi
+
+      - name: Create branch for PR
+        if: |
+          steps.changes.outputs.has_changes == 'true' &&
+          inputs.create_pr == true &&
+          inputs.dry_run != true
+        run: |
+          VERSION="${{ needs.check-update.outputs.target_version }}"
+          BRANCH="${{ env.PR_BRANCH_PREFIX }}/v${VERSION}"
+
+          git checkout -b "$BRANCH"
+          echo "branch=$BRANCH" >> $GITHUB_ENV
+
+      - name: Commit changes
+        if: |
+          steps.changes.outputs.has_changes == 'true' &&
+          inputs.dry_run != true
+        run: |
+          VERSION="${{ needs.check-update.outputs.target_version }}"
+          MODE="${{ steps.update.outputs.script_mode }}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add -A
+          git commit -m "chore: ${MODE} framework to v${VERSION}
+
+          Automated framework ${MODE} from upstream release.
+
+          Source: https://github.com/${{ env.UPSTREAM_REPO }}/releases/tag/v${VERSION}
+
+          Next steps:
+          - Review changes for any conflicts (.framework-new files)
+          - Run Framework Guardian agent for verification
+          - See docs/HOW_TO_USE/framework_install.md for guidance"
+
+      - name: Push changes and create PR
+        if: |
+          steps.changes.outputs.has_changes == 'true' &&
+          inputs.create_pr == true &&
+          inputs.dry_run != true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ needs.check-update.outputs.target_version }}"
+          CURRENT="${{ needs.check-update.outputs.current_version }}"
+          MODE="${{ steps.update.outputs.script_mode }}"
+          BRANCH="${{ env.branch }}"
+
+          git push -u origin "$BRANCH"
+
+          # Check for conflicts
+          CONFLICTS=$(find . -name "*.framework-new" -type f 2>/dev/null | wc -l)
+
+          BODY="## Framework ${MODE^} to v${VERSION}
+
+          This PR updates the SDD Agent Framework from \`${CURRENT}\` to \`v${VERSION}\`.
+
+          ### Source
+          - Repository: [${{ env.UPSTREAM_REPO }}](https://github.com/${{ env.UPSTREAM_REPO }})
+          - Release: [v${VERSION}](https://github.com/${{ env.UPSTREAM_REPO }}/releases/tag/v${VERSION})
+
+          ### Changes
+          $(git diff --stat HEAD~1)
+
+          ### Conflicts
+          $(if [ "$CONFLICTS" -gt 0 ]; then echo "⚠️ **${CONFLICTS} conflict(s) detected**. Review \`.framework-new\` files."; else echo "✅ No conflicts detected."; fi)
+
+          ### Next Steps
+          1. Review the changes in this PR
+          $(if [ "$CONFLICTS" -gt 0 ]; then echo "2. Resolve conflicts in \`.framework-new\` files"; fi)
+          3. Run Framework Guardian agent for verification (recommended)
+          4. Merge when ready
+
+          ### Documentation
+          - [Framework Installation Guide](docs/HOW_TO_USE/framework_install.md)
+          - [Framework Guardian Agent](docs/architecture/adrs/ADR-014-framework-guardian-agent.md)
+
+          ---
+          *This PR was created automatically by the Framework Update workflow.*"
+
+          gh pr create \
+            --title "chore: ${MODE} framework to v${VERSION}" \
+            --body "$BODY" \
+            --base "${{ env.TARGET_BRANCH }}" \
+            --head "$BRANCH"
+
+      - name: Push directly (no PR)
+        if: |
+          steps.changes.outputs.has_changes == 'true' &&
+          inputs.create_pr != true &&
+          inputs.dry_run != true
+        run: |
+          git push origin ${{ env.TARGET_BRANCH }}
+          echo "✅ Changes pushed directly to ${{ env.TARGET_BRANCH }}"
+
+      - name: Generate summary
+        if: always()
+        run: |
+          VERSION="${{ needs.check-update.outputs.target_version }}"
+          CURRENT="${{ needs.check-update.outputs.current_version }}"
+          MODE="${{ steps.update.outputs.script_mode }}"
+          DRY_RUN="${{ inputs.dry_run }}"
+          HAS_CHANGES="${{ steps.changes.outputs.has_changes }}"
+
+          echo "## Framework Update Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Property | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Current Version | \`${CURRENT}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| Target Version | \`${VERSION}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| Mode | ${MODE} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Dry Run | ${DRY_RUN} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Changes Detected | ${HAS_CHANGES} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ "$HAS_CHANGES" = "true" ] && [ "$DRY_RUN" != "true" ]; then
+            echo "### ⚠️ Framework Guardian Verification Recommended" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "After merging, run the Framework Guardian agent to:" >> $GITHUB_STEP_SUMMARY
+            echo "- Verify framework integrity against manifest" >> $GITHUB_STEP_SUMMARY
+            echo "- Resolve any \`.framework-new\` conflicts" >> $GITHUB_STEP_SUMMARY
+            echo "- Ensure all files are correctly placed" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "See: \`.github/agents/framework-guardian.agent.md\`" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Cleanup
+        if: always()
+        run: |
+          rm -rf quickstart-framework-* framework.zip
