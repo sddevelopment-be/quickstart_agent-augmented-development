@@ -7,6 +7,18 @@
 
 ---
 
+## Python Virtual Environment
+
+If a Python virtual environment (`.venv`) is available at the repository root, activate it **once per session** before running Python commands:
+
+```bash
+source .venv/bin/activate
+```
+
+After activation, the virtual environment remains active for all subsequent commands in the same shell session. Do not re-activate on every command.
+
+---
+
 Use this rubric for shell operations:
 
 - Find files: `fd`
