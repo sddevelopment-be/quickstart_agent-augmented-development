@@ -200,9 +200,11 @@ hugo server -D
 **GitHub Actions** automatically deploys the site when changes are pushed to `main`:
 
 1. **Trigger**: Push to `docs-site/` on `main` branch
-2. **Build**: Hugo builds static site in ~1-2 seconds
+2. **Build**: Hugo builds static site in ~1-2 seconds with correct baseURL
 3. **Deploy**: Static files deployed to `gh-pages` branch
-4. **Live**: Site updates at https://[org].github.io/[repo] in 2-3 minutes
+4. **Live**: Site updates at https://sddevelopment-be.github.io/quickstart_agent-augmented-development/ in 2-3 minutes
+
+**Note**: The workflow automatically configures the correct `baseURL` for GitHub Pages subdirectory deployment using the `--baseURL` flag during the build step. This ensures all links work correctly in the deployed environment.
 
 ### Manual Deployment (if needed)
 
