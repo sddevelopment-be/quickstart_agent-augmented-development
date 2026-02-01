@@ -1,234 +1,276 @@
-# Distribution Configuration
-# Controls what content is included in framework release packages
-# Version: 1.0.0
-# Last Updated: 2026-01-31
-
-version: "1.0.0"
-
-# Core framework directories to include (always)
+version: 1.0.0
 core_directories:
-  - path: ".github/agents"
-    description: "Agent profiles and directives"
-    required: true
-  - path: "docs/templates"
-    description: "Document templates"
-    required: true
-  - path: "docs/architecture"
-    description: "Architecture documentation"
-    required: false
-  - path: "validation"
-    description: "Validation and test infrastructure"
-    required: false
-  - path: "work/templates"
-    description: "Work item templates"
-    required: true
-  - path: "framework"
-    description: "Python framework modules"
-    required: true
-
-# Export artifacts (generated agent definitions for various platforms)
+- path: .github/ISSUE_TEMPLATE
+  description: 'Core directory: .github/ISSUE_TEMPLATE'
+  required: false
+- path: .github/actions/setup-python-env
+  description: 'Core directory: .github/actions/setup-python-env'
+  required: false
+- path: .github/actions/setup-validation-env
+  description: 'Core directory: .github/actions/setup-validation-env'
+  required: false
+- path: .github/agents
+  description: 'Core directory: .github/agents'
+  required: false
+- path: .github/copilot
+  description: 'Core directory: .github/copilot'
+  required: false
+- path: .github/instructions
+  description: 'Core directory: .github/instructions'
+  required: false
+- path: agents
+  description: 'Core directory: agents'
+  required: false
+- path: docs/architecture
+  description: 'Core directory: docs/architecture'
+  required: false
+- path: docs/audience
+  description: 'Core directory: docs/audience'
+  required: false
+- path: docs/styleguides
+  description: 'Core directory: docs/styleguides'
+  required: false
+- path: docs/templates
+  description: 'Core directory: docs/templates'
+  required: false
+- path: framework
+  description: 'Core directory: framework'
+  required: false
+- path: ops/common
+  description: 'Core directory: ops/common'
+  required: false
+- path: ops/config
+  description: 'Core directory: ops/config'
+  required: false
+- path: ops/dashboards
+  description: 'Core directory: ops/dashboards'
+  required: false
+- path: ops/exporters
+  description: 'Core directory: ops/exporters'
+  required: false
+- path: ops/framework-core
+  description: 'Core directory: ops/framework-core'
+  required: false
+- path: ops/orchestration
+  description: 'Core directory: ops/orchestration'
+  required: false
+- path: ops/planning
+  description: 'Core directory: ops/planning'
+  required: false
+- path: ops/portability
+  description: 'Core directory: ops/portability'
+  required: false
+- path: ops/scripts
+  description: 'Core directory: ops/scripts'
+  required: false
+- path: ops/utils
+  description: 'Core directory: ops/utils'
+  required: false
+- path: ops/validation
+  description: 'Core directory: ops/validation'
+  required: false
+- path: work/templates
+  description: 'Core directory: work/templates'
+  required: false
 export_directories:
-  - path: ".claude"
-    description: "Claude Desktop / Anthropic format agent exports"
-    required: false
-    subdirs:
-      - agents
-      - prompts
-      - skills
-  - path: ".opencode"
-    description: "OpenCode.ai format agent exports"
-    required: false
-    subdirs:
-      - agents
-      - skills
-
-# Root files to include
+- path: .claude
+  description: 'Export directory: .claude'
+  required: false
+- path: .opencode
+  description: 'Export directory: .opencode'
+  required: false
 root_files:
-  - path: "README.md"
-    description: "Main documentation"
-    required: true
-  - path: "AGENTS.md"
-    description: "Agent specification document"
-    required: true
-  - path: "pyproject.toml"
-    description: "Python project configuration"
-    required: false
-  - path: "requirements.txt"
-    description: "Python dependencies"
-    required: false
-  - path: "LICENSE"
-    description: "Software license"
-    required: false
-
-# Scripts to include
+- path: AGENTS.md
+  description: 'Root file: AGENTS.md'
+  required: false
+- path: LICENSE
+  description: 'Root file: LICENSE'
+  required: false
+- path: README.md
+  description: 'Root file: README.md'
+  required: false
+- path: jest.config.js
+  description: 'Root file: jest.config.js'
+  required: false
+- path: opencode-config.json
+  description: 'Root file: opencode-config.json'
+  required: false
+- path: package-lock.json
+  description: 'Root file: package-lock.json'
+  required: false
+- path: package.json
+  description: 'Root file: package.json'
+  required: false
+- path: pyproject.toml
+  description: 'Root file: pyproject.toml'
+  required: false
+- path: requirements-dev.txt
+  description: 'Root file: requirements-dev.txt'
+  required: false
+- path: requirements.txt
+  description: 'Root file: requirements.txt'
+  required: false
 scripts:
-  - path: "ops/release/framework_install.sh"
-    description: "Installation script"
-    required: true
-  - path: "ops/release/framework_upgrade.sh"
-    description: "Upgrade script"
-    required: true
-
-# Exclusion patterns (glob-style patterns for files/dirs to skip)
+- path: ops/release/framework_install.sh
+  description: Installation script
+  required: true
+- path: ops/release/framework_upgrade.sh
+  description: Upgrade script
+  required: true
 exclusions:
   version_control:
-    - ".git"
-    - ".gitignore"
-    - ".gitattributes"
-  
+  - .git
+  - .gitignore
+  - .gitattributes
   python_cache:
-    - "__pycache__"
-    - "*.pyc"
-    - "*.pyo"
-    - "*.pyd"
-    - ".pytest_cache"
-    - ".coverage"
-    - ".mutmut-cache"
-    - "*.egg-info"
-  
+  - __pycache__
+  - '*.pyc'
+  - '*.pyo'
+  - '*.pyd'
+  - .pytest_cache
+  - .coverage
+  - .mutmut-cache
+  - '*.egg-info'
   work_artifacts:
-    - "work/logs"
-    - "work/reports"
-    - "work/collaboration"
-    - "work/notes"
-    - "work/analysis"
-    - "work/articles"
-    - "work/planning"
-  
+  - work/logs
+  - work/reports
+  - work/collaboration
+  - work/notes
+  - work/analysis
+  - work/articles
+  - work/planning
   local_overrides:
-    - "local"
-    - "local/**"
-  
+  - local
+  - local/**
   temporary_files:
-    - "tmp"
-    - "tmp/**"
-    - "output"
-    - "output/**"
-    - "*.tmp"
-    - "*.bak"
-    - "*.swp"
-  
+  - tmp
+  - tmp/**
+  - output
+  - output/**
+  - '*.tmp'
+  - '*.bak'
+  - '*.swp'
   ide_files:
-    - ".vscode"
-    - ".idea"
-    - "*.iml"
-  
+  - .vscode
+  - .idea
+  - '*.iml'
   build_artifacts:
-    - "dist"
-    - "build"
-    - "node_modules"
-
-# Distribution profiles (presets for different use cases)
+  - dist
+  - build
+  - node_modules
 profiles:
   full:
-    description: "Complete framework with all optional components"
+    description: Complete framework with all optional components
     include:
       core_directories: all
       export_directories: all
       root_files: all
       scripts: all
-  
   minimal:
-    description: "Minimal framework (agents, templates, core only)"
+    description: Minimal framework (agents, templates, core only)
     include:
-      core_directories: [".github/agents", "work/templates", "framework"]
+      core_directories:
+      - .github/agents
+      - work/templates
+      - framework
       export_directories: []
-      root_files: ["README.md", "AGENTS.md"]
+      root_files:
+      - README.md
+      - AGENTS.md
       scripts: all
-  
   documentation:
-    description: "Documentation-focused distribution"
+    description: Documentation-focused distribution
     include:
-      core_directories: [".github/agents", "docs/templates", "docs/architecture"]
+      core_directories:
+      - .github/agents
+      - docs/templates
+      - docs/architecture
       export_directories: []
-      root_files: ["README.md", "AGENTS.md"]
+      root_files:
+      - README.md
+      - AGENTS.md
       scripts: []
-  
   platform_exports:
-    description: "Only platform-specific agent exports"
+    description: Only platform-specific agent exports
     include:
       core_directories: []
       export_directories: all
-      root_files: ["README.md", "AGENTS.md"]
+      root_files:
+      - README.md
+      - AGENTS.md
       scripts: []
-
-# Default profile to use if not specified
-default_profile: "full"
-
-# Downstream deployment configuration
-# Describes how consumers fetch and deploy the framework
+default_profile: full
 downstream:
-  # Upstream repository information
   upstream:
-    repository: "sddevelopment-be/quickstart_agent-augmented-development"
-    releases_url: "https://github.com/sddevelopment-be/quickstart_agent-augmented-development/releases"
-    api_endpoint: "https://api.github.com/repos/sddevelopment-be/quickstart_agent-augmented-development"
-
-  # Deployment methods available to downstream consumers
+    repository: sddevelopment-be/quickstart_agent-augmented-development
+    releases_url: https://github.com/sddevelopment-be/quickstart_agent-augmented-development/releases
+    api_endpoint: https://api.github.com/repos/sddevelopment-be/quickstart_agent-augmented-development
   deployment_methods:
     shell_script:
-      name: "Shell Script (Manual/Local)"
-      description: "POSIX-compliant script for manual framework deployment"
-      script: "ops/release/downstream/deploy_framework.sh"
-      usage: |
-        # Fresh installation
+      name: Shell Script (Manual/Local)
+      description: POSIX-compliant script for manual framework deployment
+      script: ops/release/downstream/deploy_framework.sh
+      usage: '# Fresh installation
+
         ./deploy_framework.sh
 
+
         # Upgrade existing
+
         ./deploy_framework.sh --upgrade
 
+
         # Specific version
+
         ./deploy_framework.sh --version 1.0.0
+
+        '
       requirements:
-        - "curl or wget"
-        - "unzip"
-        - "POSIX shell (sh/bash/zsh)"
-
+      - curl or wget
+      - unzip
+      - POSIX shell (sh/bash/zsh)
     github_actions:
-      name: "GitHub Actions Workflow"
-      description: "Automated workflow for CI/CD integration"
-      template: "ops/release/downstream/framework-update.yml"
-      usage: |
-        1. Copy framework-update.yml to .github/workflows/
-        2. Configure TARGET_BRANCH and other variables
-        3. Trigger via Actions tab or enable scheduled runs
-      features:
-        - "Manual or scheduled triggers"
-        - "PR-based review workflow"
-        - "Conflict detection"
-        - "Guardian verification reminder"
+      name: GitHub Actions Workflow
+      description: Automated workflow for CI/CD integration
+      template: ops/release/downstream/framework-update.yml
+      usage: '1. Copy framework-update.yml to .github/workflows/
 
-  # Post-deployment verification
+        2. Configure TARGET_BRANCH and other variables
+
+        3. Trigger via Actions tab or enable scheduled runs
+
+        '
+      features:
+      - Manual or scheduled triggers
+      - PR-based review workflow
+      - Conflict detection
+      - Guardian verification reminder
   verification:
     recommended: true
-    agent: "framework-guardian"
-    agent_profile: ".github/agents/framework-guardian.agent.md"
+    agent: framework-guardian
+    agent_profile: .github/agents/framework-guardian.agent.md
     modes:
       audit:
-        description: "Verify framework integrity against manifest"
-        output: "validation/FRAMEWORK_AUDIT_REPORT.md"
+        description: Verify framework integrity against manifest
+        output: validation/FRAMEWORK_AUDIT_REPORT.md
       upgrade:
-        description: "Analyze and resolve .framework-new conflicts"
-        output: "validation/FRAMEWORK_UPGRADE_PLAN.md"
-
-  # Files created during deployment
+        description: Analyze and resolve .framework-new conflicts
+        output: validation/FRAMEWORK_UPGRADE_PLAN.md
   deployment_artifacts:
     metadata_file:
-      path: ".framework_meta.yml"
-      description: "Tracks installed framework version and metadata"
+      path: .framework_meta.yml
+      description: Tracks installed framework version and metadata
     conflict_files:
-      pattern: "*.framework-new"
-      description: "New versions of files with local modifications"
+      pattern: '*.framework-new'
+      description: New versions of files with local modifications
     backup_files:
-      pattern: "*.bak.*"
-      description: "Backups of modified files during upgrade"
+      pattern: '*.bak.*'
+      description: Backups of modified files during upgrade
     upgrade_report:
-      path: "upgrade-report.txt"
-      description: "Summary of upgrade actions and conflicts"
-
-# Metadata
+      path: upgrade-report.txt
+      description: Summary of upgrade actions and conflicts
 metadata:
-  config_version: "1.1.0"
-  last_updated: "2026-02-01T00:00:00Z"
-  maintained_by: "build-automation"
-  validation_schema: "ops/release/schemas/distribution-config-schema.yaml"
+  config_version: 1.0.0
+  last_updated: '2026-02-01T09:05:30Z'
+  maintained_by: build-automation
+  validation_schema: ops/release/schemas/distribution-config-schema.yaml
