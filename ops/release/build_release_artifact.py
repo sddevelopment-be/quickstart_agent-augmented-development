@@ -40,7 +40,8 @@ import yaml
 CORE_DIRECTORIES = [
     ".github/agents",
     "docs/templates",
-    "docs/architecture",
+    "docs/styleguides",
+    "docs/architecture/patterns",
     "validation",
     "work/templates",
     "framework",

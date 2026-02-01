@@ -1,0 +1,44 @@
+name: Deploy Docs Site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "docs-site/**"
+      - ".github/workflows/docs-site-gh-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: docs-site-gh-pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: "0.146.0"
+          extended: true
+
+      - name: Build site
+        run: hugo --minify
+        working-directory: docs-site
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: docs-site/public

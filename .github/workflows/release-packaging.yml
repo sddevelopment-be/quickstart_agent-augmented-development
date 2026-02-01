@@ -303,7 +303,7 @@ jobs:
           unzip -q "$ARTIFACT" -d "$EXTRACT_DIR"
           
           # Basic structure tests
-          echo "Checking `agents` is present"
-          test -d "$EXTRACT_DIR/agents"
+          echo "Checking `agents` is present in the release..."
+          test -d "$EXTRACT_DIR/framework_core/agents"
           
           echo "✅ Smoke tests passed"
