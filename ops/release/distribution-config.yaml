@@ -155,9 +155,80 @@ profiles:
 # Default profile to use if not specified
 default_profile: "full"
 
+# Downstream deployment configuration
+# Describes how consumers fetch and deploy the framework
+downstream:
+  # Upstream repository information
+  upstream:
+    repository: "sddevelopment-be/quickstart_agent-augmented-development"
+    releases_url: "https://github.com/sddevelopment-be/quickstart_agent-augmented-development/releases"
+    api_endpoint: "https://api.github.com/repos/sddevelopment-be/quickstart_agent-augmented-development"
+
+  # Deployment methods available to downstream consumers
+  deployment_methods:
+    shell_script:
+      name: "Shell Script (Manual/Local)"
+      description: "POSIX-compliant script for manual framework deployment"
+      script: "ops/release/downstream/deploy_framework.sh"
+      usage: |
+        # Fresh installation
+        ./deploy_framework.sh
+
+        # Upgrade existing
+        ./deploy_framework.sh --upgrade
+
+        # Specific version
+        ./deploy_framework.sh --version 1.0.0
+      requirements:
+        - "curl or wget"
+        - "unzip"
+        - "POSIX shell (sh/bash/zsh)"
+
+    github_actions:
+      name: "GitHub Actions Workflow"
+      description: "Automated workflow for CI/CD integration"
+      template: "ops/release/downstream/framework-update.yml"
+      usage: |
+        1. Copy framework-update.yml to .github/workflows/
+        2. Configure TARGET_BRANCH and other variables
+        3. Trigger via Actions tab or enable scheduled runs
+      features:
+        - "Manual or scheduled triggers"
+        - "PR-based review workflow"
+        - "Conflict detection"
+        - "Guardian verification reminder"
+
+  # Post-deployment verification
+  verification:
+    recommended: true
+    agent: "framework-guardian"
+    agent_profile: ".github/agents/framework-guardian.agent.md"
+    modes:
+      audit:
+        description: "Verify framework integrity against manifest"
+        output: "validation/FRAMEWORK_AUDIT_REPORT.md"
+      upgrade:
+        description: "Analyze and resolve .framework-new conflicts"
+        output: "validation/FRAMEWORK_UPGRADE_PLAN.md"
+
+  # Files created during deployment
+  deployment_artifacts:
+    metadata_file:
+      path: ".framework_meta.yml"
+      description: "Tracks installed framework version and metadata"
+    conflict_files:
+      pattern: "*.framework-new"
+      description: "New versions of files with local modifications"
+    backup_files:
+      pattern: "*.bak.*"
+      description: "Backups of modified files during upgrade"
+    upgrade_report:
+      path: "upgrade-report.txt"
+      description: "Summary of upgrade actions and conflicts"
+
 # Metadata
 metadata:
-  config_version: "1.0.0"
-  last_updated: "2026-01-31T06:50:00Z"
+  config_version: "1.1.0"
+  last_updated: "2026-02-01T00:00:00Z"
   maintained_by: "build-automation"
   validation_schema: "ops/release/schemas/distribution-config-schema.yaml"
