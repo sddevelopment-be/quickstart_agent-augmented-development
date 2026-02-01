@@ -8,8 +8,8 @@ artefacts:
 - docs/architecture/adrs/ADR-015-follow-up-task-lookup-pattern.md
 - work/reports/logs/architect/2025-11-24T1210-follow-up-lookup-assessment.md
 artefacts_not_created:
-- docs/templates/agent-tasks/follow-up-lookup-table-example.yaml
-artefacts_not_created_reason: "Lookup table pattern rejected after analysis; creating example would contradict recommendation"
+  - name: docs/templates/agent-tasks/follow-up-lookup-table-example.yaml
+    rationale: "Lookup table pattern rejected after analysis; creating example would contradict recommendation"
 context:
   repo: sddevelopment-be/quickstart_agent-augmented-development
   branch: copilot/continue-orchestration-framework-implementation

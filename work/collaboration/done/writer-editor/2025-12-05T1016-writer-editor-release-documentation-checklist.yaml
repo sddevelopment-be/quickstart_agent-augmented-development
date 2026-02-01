@@ -1,7 +1,7 @@
 id: 2025-12-05T1016-writer-editor-release-documentation-checklist
 agent: writer-editor
 status: done
-priority: medium-high
+priority: medium
 started_at: '2026-01-31T07:22:00Z'
 completed_at: '2026-01-31T08:45:00Z'
 mode: /analysis-mode
@@ -57,7 +57,7 @@ result:
     approach targeting framework core team and downstream adopters. Cross-linked
     with run-iteration template, installation guides, and Guardian agent profile.
     Integration points documented for Manager Mike iteration summaries.'
-  artifacts_created:
+  artifacts:
   - docs/HOW_TO_USE/release_and_upgrade.md
   - docs/checklists/release_publishing_checklist.md
   - docs/templates/RELEASE_NOTES.md
