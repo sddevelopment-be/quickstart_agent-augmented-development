@@ -277,6 +277,33 @@ To change what's excluded:
 3. Verify manifest and artifact size
 4. Document changes
 
+### Using the Config Editor (Web UI)
+
+For a visual way to configure which directories and files are included in releases:
+
+```bash
+# Start the web-based config editor
+python ops/release/config_editor.py
+
+# Use a custom port
+python ops/release/config_editor.py --port 9000
+
+# Don't auto-open browser
+python ops/release/config_editor.py --no-browser
+```
+
+This opens a web interface at `http://localhost:8765` where you can:
+
+- Browse the repository structure as a collapsible tree
+- Select/deselect directories and files with checkboxes
+- See a summary of selected items
+- Save changes directly to `distribution-config.yaml`
+
+The editor automatically categorizes selections into:
+- **Core directories**: Main framework content
+- **Export directories**: Platform-specific exports (`.claude/`, `.opencode/`)
+- **Root files**: Top-level files like `README.md`, `AGENTS.md`
+
 ## References
 
 - [ADR-013: Zip-Based Framework Distribution](../../docs/architecture/adrs/ADR-013-zip-distribution.md)
