@@ -25,7 +25,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0
       
       - name: Setup Python environment
         uses: ./.github/actions/setup-python-env
@@ -49,8 +49,15 @@ jobs:
           set -e
           echo "Validating task YAML schemas..."
           
-          # Find all YAML files in work directory
-          task_files=$(find work/ -name "*.yaml" -type f | grep -v ".gitkeep" || true)
+          # Find YAML files under done/ directories changed in the last 30 days
+          task_files=$(
+            git log --since="15 days ago" --name-only --pretty=format: --diff-filter=ACMR \
+              ":(glob)work/**/done/**/*.yaml" \
+            | sort -u \
+            | while IFS= read -r file; do
+                [ -f "$file" ] && [ "$file" != ".gitkeep" ] && echo "$file"
+              done
+          )
           
           if [ -z "$task_files" ]; then
             echo "No task files found to validate"

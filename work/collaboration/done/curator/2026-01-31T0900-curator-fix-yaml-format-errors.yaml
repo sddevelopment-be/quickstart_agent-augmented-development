@@ -151,7 +151,7 @@ result:
     multi-document YAML (with multiple --- separators) to single-document format.
     All information preserved, validation successful.
   
-  artefacts_completed:
+  artefacts:
     - work/collaboration/assigned/backend-dev/2026-01-30T1642-adr023-phase2-prompt-validator.yaml
     - work/collaboration/assigned/backend-dev/2026-01-30T1643-adr023-phase3-context-loader.yaml
     - work/collaboration/assigned/build-automation/2026-01-30T1644-adr023-phase2-ci-workflow.yaml
