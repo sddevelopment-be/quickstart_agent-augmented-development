@@ -273,6 +273,22 @@ result:
     and initialized with Book theme. Build performance exceeds targets (85ms vs 5s
     target). Created 15 files including architecture docs, site config, homepage, and
     5 section placeholders. Generated 3 handoff tasks for follow-up work.
+  artefacts:
+    - work/analysis/docsite-technology-selection.md
+    - work/planning/docsite-batch-1-implementation-plan.md
+    - work/reports/docsite-foundation-completion-report.md
+    - docs-site/ARCHITECTURE.md
+    - docs-site/README.md
+    - docs-site/hugo.toml
+    - docs-site/content/_index.md
+    - docs-site/content/getting-started/_index.md
+    - docs-site/content/guides/_index.md
+    - docs-site/content/architecture/_index.md
+    - docs-site/content/reference/_index.md
+    - docs-site/content/contributing/_index.md
+    - work/tasks/docsite-batch-1-build-automation.md
+    - work/tasks/docsite-batch-2-content-migration.md
+    - work/tasks/docsite-batch-1-diagrams.md
   
   artefacts_completed:
     # Analysis & Planning (3 files, ~58KB)

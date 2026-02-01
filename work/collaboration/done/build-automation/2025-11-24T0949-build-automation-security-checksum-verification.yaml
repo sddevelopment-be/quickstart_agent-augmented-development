@@ -39,6 +39,9 @@ result:
   summary: |
     Successfully implemented SHA256 checksum verification for binary downloads in .github/copilot/setup.sh.
     Both yq and ast-grep now have cryptographic verification before installation to prevent supply chain attacks.
+  artefacts:
+    - .github/copilot/setup.sh
+    - docs/HOW_TO_USE/copilot-tooling-setup.md
   
   security_improvements:
     - Added SHA256 checksum constants at top of script for yq v4.40.5 and ast-grep v0.15.1

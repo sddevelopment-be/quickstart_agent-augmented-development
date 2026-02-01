@@ -49,6 +49,14 @@ result:
     Successfully defined Framework Guardian agent profile, directive, and templates per ADR-014.
     Guardian is production-ready for framework audits and upgrade guidance while preserving local intent.
     All artifacts integrated with file-based orchestration and distribution architecture.
+  artefacts:
+    - .github/agents/framework-guardian.agent.md
+    - .github/agents/directives/025_framework_guardian.md
+    - docs/templates/GUARDIAN_AUDIT_REPORT.md
+    - docs/templates/GUARDIAN_UPGRADE_PLAN.md
+    - work/collaboration/AGENT_STATUS.md
+    - .github/agents/directives/manifest.json
+    - work/logs/framework-guardian/2025-12-05T1014-guardian-definition-worklog.md
   artifacts_created:
     - .github/agents/framework-guardian.agent.md (agent profile with authorities, constraints, operating procedures)
     - .github/agents/directives/025_framework_guardian.md (audit/upgrade workflow, escalation triggers, integration protocols)

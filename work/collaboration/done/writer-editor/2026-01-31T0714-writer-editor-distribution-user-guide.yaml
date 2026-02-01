@@ -64,7 +64,7 @@ requirements:
   
   getting_started:
     - Quick start for impatient users (5-minute setup)
-    - "Hello World" equivalent for framework adoption
+    - '"Hello World" equivalent for framework adoption'
     - First task creation and execution
     - Next steps and learning path
     - Links to deeper documentation
@@ -101,6 +101,11 @@ result:
     Created 4 comprehensive user guides totaling 88 pages (~10,595 words) with 113 code
     examples and 22 troubleshooting scenarios. Documentation enables self-service
     framework adoption with <30 minute onboarding target.
+  artefacts:
+    - docs/quickstart/GETTING_STARTED.md
+    - docs/USER_GUIDE_distribution.md
+    - docs/USER_GUIDE_installation.md
+    - docs/USER_GUIDE_upgrade.md
   
   artefacts_completed:
     - docs/quickstart/GETTING_STARTED.md (9 KB, 5-minute quick start)
