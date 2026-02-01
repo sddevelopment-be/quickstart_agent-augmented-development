@@ -61,6 +61,12 @@ result:
     Scripts enable safe framework distribution and upgrades without overwriting local
     customizations. Conflict detection uses SHA256 checksums. Guardian-ready outputs
     prepared for automated conflict analysis.
+  artefacts:
+    - ops/release/framework_install.sh
+    - ops/release/framework_upgrade.sh
+    - docs/HOW_TO_USE/framework_install.md
+    - validation/tests/framework_install_upgrade_tests.py
+    - work/logs/2026-01-31T0659-framework-install-upgrade-implementation.md
   
   artifacts_created:
     - ops/release/framework_install.sh (395 lines, POSIX-compliant)
@@ -194,4 +200,3 @@ result:
       total: 2536
     test_coverage: 48 tests (all passing)
     documentation_coverage: Complete (installation, upgrade, troubleshooting, reference)
-

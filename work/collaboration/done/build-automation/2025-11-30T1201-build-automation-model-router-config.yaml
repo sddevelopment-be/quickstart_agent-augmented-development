@@ -83,6 +83,13 @@ result:
     - Directive 017 (TDD): 28 unit tests with Quad-A pattern
     - Directive 018 (Documentation): Inline docs, ADR references, schema notes
     
+  artefacts:
+    - ops/config/model_router.yaml
+    - ops/scripts/validate-model-router.py
+    - validation/model_router/test_acceptance.py
+    - validation/model_router/test_unit.py
+    - work/logs/build-automation/2025-11-30T1201-build-automation-model-router-config.md
+
   artifacts_created:
   - path: ops/config/model_router.yaml
     type: configuration

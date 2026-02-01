@@ -88,7 +88,14 @@ result:
     - Found missing directive 024_self_observation_protocol.md
     - Found metadata inconsistency in 012_operating_procedures.md
     - Auto-fix mode successfully updated manifest
-    
+  artefacts:
+    - ops/scripts/maintenance/__init__.py
+    - ops/scripts/maintenance/update_directives_manifest.py
+    - ops/scripts/maintenance/README.md
+    - validation/maintenance/test_directives_manifest_acceptance.py
+    - validation/maintenance/test_directives_manifest_unit.py
+    - work/logs/build-automation/2025-11-28T0426-directives-manifest-maintenance.md
+  
   artifacts_created:
   - ops/scripts/maintenance/__init__.py
   - ops/scripts/maintenance/update_directives_manifest.py (528 lines)

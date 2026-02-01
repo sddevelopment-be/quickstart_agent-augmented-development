@@ -63,6 +63,14 @@ result:
     Successfully implemented complete release packaging pipeline following ADR-013/ADR-014.
     Created Python build script, comprehensive test suite, GitHub Actions workflow, and documentation.
     Pipeline builds versioned zip artifacts with manifest, checksums, and metadata for Guardian consumption.
+  artefacts:
+    - ops/release/build_release_artifact.py
+    - ops/release/README.md
+    - .github/workflows/release-packaging.yml
+    - validation/release/test_release_packaging_acceptance.py
+    - validation/release/test_build_release_artifact.py
+    - validation/release/test_integration.py
+    - work/logs/2026-01-31T0645-release-packaging-implementation.md
   
   artifacts_created:
     - ops/release/build_release_artifact.py (500+ lines)
