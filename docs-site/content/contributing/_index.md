@@ -216,7 +216,7 @@ Not sure where to start? Here are some ideas:
 **Questions?**
 - Open a [GitHub Discussion](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/discussions)
 - Check existing [Issues](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/issues)
-- Review [documentation](/guides/)
+- Review [documentation]({{< relref "/guides" >}})
 
 **Found a Bug?**
 - Search [existing issues](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/issues)

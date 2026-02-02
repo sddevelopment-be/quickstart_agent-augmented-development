@@ -179,10 +179,10 @@ Common workflows:
 ## What's Next?
 
 **After Quickstart**:
-- [Explore How-To Guides](/guides/) (19 comprehensive guides)
-- [Understand Architecture](/architecture/) (design decisions and patterns)
-- [Create Custom Agents](/guides/creating-agents/) (tailor to your workflow)
-- [Integrate with CI/CD](/guides/ci-orchestration/) (automate with GitHub Actions)
+- [Explore How-To Guides]({{< relref "/guides" >}}) (19 comprehensive guides)
+- [Understand Architecture]({{< relref "/architecture" >}}) (design decisions and patterns)
+- [Create Custom Agents](guides/creating-agents/) (tailor to your workflow)
+- [Integrate with CI/CD](guides/ci-orchestration/) (automate with GitHub Actions)
 
 ---
 
