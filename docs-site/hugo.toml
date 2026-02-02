@@ -1,7 +1,7 @@
 # Quickstart Agent-Augmented Development Framework Documentation Site
 # Configuration for Hugo static site generator with Hugo Book theme
 
-baseURL = '/'  # Overridden in CI/CD by --baseURL flag for GitHub Pages subdirectory deployment
+baseURL = '/quickstart_agent-augmented-development/'  # Overridden in CI/CD by --baseURL flag for GitHub Pages subdirectory deployment
 languageCode = 'en-us'
 title = 'Quickstart Agent-Augmented Development Framework'
 theme = 'hugo-book'
