@@ -24,3 +24,8 @@ __pycache__/
 tmp/
 dist/
 node_modules/
+
+# Hugo build artifacts
+docs-site/public/
+docs-site/resources/
+docs-site/hugo_stats.json
