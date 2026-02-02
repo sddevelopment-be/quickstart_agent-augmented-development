@@ -38,7 +38,7 @@ Current ADRs in the repository (will be linked/indexed here):
 - **ADR-022**: Docsite Separated Metadata Architecture
 - _...and more_
 
-[View Current ADRs in Repository](https://github.com/sd-development/quickstart/tree/main/docs/architecture/adrs)
+[View Current ADRs in Repository](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/tree/main/docs/architecture/adrs)
 
 ---
 
@@ -94,9 +94,9 @@ Topics to be covered:
 
 ### In This Repository
 
-- [Architectural Vision](https://github.com/sd-development/quickstart/blob/main/docs/architecture/architectural_vision.md)
-- [Design Documents](https://github.com/sd-development/quickstart/tree/main/docs/architecture/design)
-- [Synthesis Reports](https://github.com/sd-development/quickstart/tree/main/docs/architecture/synthesis)
+- [Architectural Vision](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/blob/main/docs/architecture/architectural_vision.md)
+- [Design Documents](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/tree/main/docs/architecture/design)
+- [Synthesis Reports](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/tree/main/docs/architecture/synthesis)
 
 ### Related Documentation
 

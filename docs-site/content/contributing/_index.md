@@ -214,17 +214,17 @@ Not sure where to start? Here are some ideas:
 ## 📞 Getting Help
 
 **Questions?**
-- Open a [GitHub Discussion](https://github.com/sd-development/quickstart/discussions)
-- Check existing [Issues](https://github.com/sd-development/quickstart/issues)
+- Open a [GitHub Discussion](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/discussions)
+- Check existing [Issues](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/issues)
 - Review [documentation](/guides/)
 
 **Found a Bug?**
-- Search [existing issues](https://github.com/sd-development/quickstart/issues)
+- Search [existing issues](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/issues)
 - Open a new issue with clear reproduction steps
 - Include environment details (OS, tools, versions)
 
 **Feature Request?**
-- Open a [GitHub Issue](https://github.com/sd-development/quickstart/issues/new) with `enhancement` label
+- Open a [GitHub Issue](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/issues/new) with `enhancement` label
 - Describe use case and expected behavior
 - Discuss with maintainers before implementing large features
 

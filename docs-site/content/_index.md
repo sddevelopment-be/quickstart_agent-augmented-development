@@ -11,6 +11,19 @@ The Quickstart Agent-Augmented Development Framework provides a comprehensive, p
 
 ---
 
+## 📦 Download & Install
+
+**Latest Release**: [Download v1.0.0](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/releases/latest) | [View All Releases](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/releases)
+
+```bash
+# Quick install (latest release)
+curl -fsSL https://github.com/sddevelopment-be/quickstart_agent-augmented-development/releases/latest/download/deploy_framework.sh | bash
+```
+
+[Full Installation Guide →](/getting-started/#installation)
+
+---
+
 ## 🎯 What You Can Do
 
 ### For New Users
@@ -89,7 +102,9 @@ Optimized for AI agent context windows. Modular directives, separated metadata (
 
 **Start Here**: [Quickstart Guide](/getting-started/) (5 minutes)
 
-1. **Install the framework** in your repository
+**Download Latest Release**: [GitHub Releases](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/releases/latest)
+
+1. **Install the framework** - Download from releases or clone repository
 2. **Run your first agent task** (documentation generation)
 3. **Understand agent profiles** and how agents collaborate
 4. **Explore next steps**: CI/CD integration, custom agents, advanced patterns
@@ -130,7 +145,7 @@ Optimized for AI agent context windows. Modular directives, separated metadata (
 
 ### Community
 
-- **GitHub Repository**: [sd-development/quickstart](https://github.com/sd-development/quickstart_agent-augmented-development)
+- **GitHub Repository**: [sddevelopment-be/quickstart_agent-augmented-development](https://github.com/sddevelopment-be/quickstart_agent-augmented-development)
 - **Issues & Discussions**: Report bugs, request features, ask questions
 - **Contributing**: [How to Contribute](/contributing/)
 
@@ -230,7 +245,7 @@ Agents load directives on demand with `/require-directive <code>` command.
 
 **Questions?** Open an issue on GitHub or check the [FAQ](/about/#faq).
 
-**Found a bug?** Report it in [GitHub Issues](https://github.com/sd-development/quickstart/issues).
+**Found a bug?** Report it in [GitHub Issues](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/issues).
 
 **Want to contribute?** See [Contributing Guide](/contributing/).
 

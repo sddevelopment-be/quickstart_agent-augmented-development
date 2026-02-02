@@ -24,7 +24,7 @@ _Detailed agent profile reference planned for Batch 4._
 - **Planning Petra**: Project planning, roadmap creation, task breakdown
 - **Researcher Rachel**: Analysis, investigation, knowledge synthesis
 
-[View Agent Profiles in Repository](https://github.com/sd-development/quickstart/tree/main/.github/agents)
+[View Agent Profiles in Repository](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/tree/main/.github/agents)
 
 ---
 
@@ -56,7 +56,7 @@ _Comprehensive glossary planned for Batch 3-4._
 - **Primer**: Initialization context loaded by agents before tasks
 - **Bootstrap**: Initial setup instructions for agents (`bootstrap.md`)
 
-[View Full Glossary in Repository](https://github.com/sd-development/quickstart/blob/main/.github/agents/GLOSSARY.md)
+[View Full Glossary in Repository](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/blob/main/.github/agents/GLOSSARY.md)
 
 ---
 
@@ -76,10 +76,10 @@ _API documentation planned for Batch 4 (if applicable)._
 
 While reference documentation is being built, you can access current reference material in the repository:
 
-- [Agent Profiles](https://github.com/sd-development/quickstart/tree/main/.github/agents)
-- [Directives](https://github.com/sd-development/quickstart/tree/main/.github/agents/directives)
-- [Glossary](https://github.com/sd-development/quickstart/blob/main/.github/agents/GLOSSARY.md)
-- [Configuration Templates](https://github.com/sd-development/quickstart/tree/main/docs/templates)
+- [Agent Profiles](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/tree/main/.github/agents)
+- [Directives](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/tree/main/.github/agents/directives)
+- [Glossary](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/blob/main/.github/agents/GLOSSARY.md)
+- [Configuration Templates](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/tree/main/docs/templates)
 
 ---
 

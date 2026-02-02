@@ -67,7 +67,7 @@ In Batch 2, the following 19 guides will be migrated to this section:
 
 While content migration is in progress, you can access the current guides in the repository:
 
-- [View All HOW_TO_USE Guides](https://github.com/sd-development/quickstart/tree/main/docs/HOW_TO_USE)
+- [View All HOW_TO_USE Guides](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/tree/main/docs/HOW_TO_USE)
 
 ---
 
