@@ -264,30 +264,41 @@ on:
     paths:
       - 'docs-site/**'  # Only build on docsite changes
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: true  # Fetch Hugo themes
-      - uses: peaceiris/actions-hugo@v2
+      - uses: peaceiris/actions-hugo@v3
         with:
-          hugo-version: '0.140.1'
+          hugo-version: '0.146.0'
           extended: true
-      - run: cd docs-site && hugo --minify
-      - uses: peaceiris/actions-gh-pages@v3
+      - uses: actions/configure-pages@v4
+        id: pages
+      - run: |
+          hugo --gc --minify \
+            --baseURL "${{ steps.pages.outputs.base_url }}/"
+        working-directory: docs-site
+      - uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs-site/public
+          path: ./docs-site/public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/deploy-pages@v4
 ```
 
 **Deployment Timeline**:
 1. Push to `main` → Trigger workflow (0s)
 2. Checkout & setup (~30s)
 3. Build site (~1-2s)
-4. Deploy to `gh-pages` branch (~30s)
-5. GitHub Pages propagation (~30-60s)
-6. **Total: 2-3 minutes** from commit to live
+4. Upload artifact (~5s)
+5. Deploy via GitHub Pages (~30s)
+6. GitHub Pages propagation (~30-60s)
+7. **Total: 2-3 minutes** from commit to live
 
 ### Environments
 
