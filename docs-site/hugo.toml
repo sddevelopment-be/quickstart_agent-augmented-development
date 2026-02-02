@@ -73,7 +73,7 @@ enableGitInfo = true
   BookTheme = 'auto'
   
   # (Optional) Set source repository location.
-  BookRepo = 'https://github.com/sd-development/quickstart_agent-augmented-development'
+  BookRepo = 'https://github.com/sddevelopment-be/quickstart_agent-augmented-development'
   
   # (Optional) Enable "Edit this page" links for contributing
   BookEditPath = 'edit/main/docs-site/content'

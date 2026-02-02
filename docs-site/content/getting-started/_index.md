@@ -40,7 +40,7 @@ Understand the key concepts: agent profiles, file-based coordination, directives
 
 ```bash
 # Clone the quickstart template
-git clone https://github.com/sd-development/quickstart_agent-augmented-development.git
+git clone https://github.com/sddevelopment-be/quickstart_agent-augmented-development.git
 cd quickstart_agent-augmented-development
 
 # Or fork on GitHub and clone your fork
@@ -81,16 +81,59 @@ Check `work/summaries/repo-overview.md` for the agent-generated summary.
 
 ## Installation
 
-_Detailed installation guide coming in Batch 2._
+### Option 1: Download Latest Release (Recommended)
 
-**Preview**: The framework is a Git repository template. Installation involves:
+**For downstream projects:** Download the packaged framework from GitHub Releases.
 
-1. Fork/clone the repository
-2. Customize `docs/VISION.md` for your project
-3. Review/modify agent profiles in `.github/agents/`
-4. (Optional) Deploy agents to Claude Code with `npm run deploy:claude`
+```bash
+# Download and install the latest release
+curl -fsSL https://github.com/sddevelopment-be/quickstart_agent-augmented-development/releases/latest/download/deploy_framework.sh | bash
 
-See [`docs/HOW_TO_USE/framework_install.md`](https://github.com/sd-development/quickstart/blob/main/docs/HOW_TO_USE/framework_install.md) for current instructions.
+# Or install a specific version
+curl -fsSL https://github.com/sddevelopment-be/quickstart_agent-augmented-development/releases/latest/download/deploy_framework.sh | bash -s -- --version 1.0.0
+```
+
+**Manual download:**
+1. Visit [GitHub Releases](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/releases/latest)
+2. Download `quickstart-framework-X.Y.Z.zip`
+3. Extract to your project root
+4. Run the included installation script
+
+### Option 2: Clone Repository (For Development)
+
+**For contributing or customizing:** Clone the full repository.
+
+```bash
+# Clone the repository
+git clone https://github.com/sddevelopment-be/quickstart_agent-augmented-development.git
+cd quickstart_agent-augmented-development
+
+# Initialize submodules (if any)
+git submodule update --init --recursive
+```
+
+### Post-Installation Steps
+
+1. **Customize for your project:**
+   - Edit `docs/VISION.md` with your project goals
+   - Review agent profiles in `.github/agents/`
+   - Adjust workflows in `.github/workflows/`
+
+2. **Verify installation:**
+   ```bash
+   # Check framework files are present
+   ls .github/agents/
+   ls docs/
+   ```
+
+3. **(Optional) Deploy to AI assistants:**
+   ```bash
+   npm install
+   npm run deploy:claude:prompts  # Deploy to Claude Code
+   npm run deploy:copilot         # Deploy to GitHub Copilot
+   ```
+
+For complete installation instructions, see [`docs/HOW_TO_USE/framework_install.md`](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/blob/main/docs/HOW_TO_USE/framework_install.md).
 
 ---
 
