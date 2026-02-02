@@ -20,7 +20,7 @@ The Quickstart Agent-Augmented Development Framework provides a comprehensive, p
 curl -fsSL https://github.com/sddevelopment-be/quickstart_agent-augmented-development/releases/latest/download/deploy_framework.sh | bash
 ```
 
-[Full Installation Guide →](/getting-started/#installation)
+[Full Installation Guide →]({{< relref "/getting-started#installation" >}})
 
 ---
 
@@ -30,15 +30,15 @@ curl -fsSL https://github.com/sddevelopment-be/quickstart_agent-augmented-develo
 
 **🚀 Get Started Quickly**  
 Go from zero to your first agent task in under 30 minutes. Our quickstart guide walks you through installation, configuration, and your first AI-augmented workflow.  
-[Get Started →](/getting-started/)
+[Get Started →]({{< relref "/getting-started" >}})
 
 **📚 Learn the Concepts**  
 Understand agent profiles, task orchestration, file-based coordination, and the architectural patterns that make agent-augmented development scalable.  
-[Core Concepts →](/getting-started/#concepts)
+[Core Concepts →]({{< relref "/getting-started#concepts" >}})
 
 **🎓 Follow Tutorials**  
 Hands-on tutorials guide you through common scenarios: documentation generation, code refactoring, CI/CD integration, and multi-agent orchestration.  
-[Tutorials →](/guides/)
+[Tutorials →]({{< relref "/guides" >}})
 
 ---
 
@@ -46,15 +46,15 @@ Hands-on tutorials guide you through common scenarios: documentation generation,
 
 **🔧 Integrate with Your Tools**  
 Connect agents to your CI/CD pipelines, GitHub workflows, IDE extensions, and existing development tools. Comprehensive guides for GitHub Actions, Claude Code, and custom integrations.  
-[Integration Guides →](/guides/)
+[Integration Guides →]({{< relref "/guides" >}})
 
 **🤝 Orchestrate Multiple Agents**  
 Coordinate specialized agents (architects, developers, testers, writers) to work together on complex tasks with file-based async coordination patterns.  
-[Multi-Agent Orchestration →](/guides/multi-agent-orchestration/)
+[Multi-Agent Orchestration →](guides/multi-agent-orchestration/)
 
 **🎨 Create Custom Agents**  
 Build agent profiles tailored to your workflow. Learn how to define capabilities, responsibilities, decision frameworks, and collaboration contracts.  
-[Agent Creation Guide →](/guides/creating-agents/)
+[Agent Creation Guide →](guides/creating-agents/)
 
 ---
 
@@ -62,15 +62,15 @@ Build agent profiles tailored to your workflow. Learn how to define capabilities
 
 **🏗️ Explore Architecture**  
 Deep dive into architectural decisions, design patterns, and the philosophy behind agent-augmented development. Understand trade-offs and governance models.  
-[Architecture Docs →](/architecture/)
+[Architecture Docs →]({{< relref "/architecture" >}})
 
 **📋 Review ADRs**  
 Architecture Decision Records document key design choices: modular directives, file-based coordination, token economy, versioning, and separated metadata.  
-[ADRs →](/architecture/adrs/)
+[ADRs →](architecture/adrs/)
 
 **📐 Apply Patterns**  
 Reusable patterns for common scenarios: task decomposition, context management, validation workflows, and agent specialization.  
-[Design Patterns →](/architecture/patterns/)
+[Design Patterns →](architecture/patterns/)
 
 ---
 
@@ -100,7 +100,7 @@ Optimized for AI agent context windows. Modular directives, separated metadata (
 
 ### I'm New Here
 
-**Start Here**: [Quickstart Guide](/getting-started/) (5 minutes)
+**Start Here**: [Quickstart Guide]({{< relref "/getting-started" >}}) (5 minutes)
 
 **Download Latest Release**: [GitHub Releases](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/releases/latest)
 
@@ -116,8 +116,8 @@ Optimized for AI agent context windows. Modular directives, separated metadata (
 **Evaluating the framework?** Here's what to review:
 
 - **[Executive Summary](/about/#executive-summary)**: High-level overview, benefits, ROI
-- **[Architecture Vision](/architecture/)**: Philosophy, design principles, trade-offs
-- **[Use Cases](/guides/#use-cases)**: Real-world scenarios and success stories
+- **[Architecture Vision]({{< relref "/architecture" >}})**: Philosophy, design principles, trade-offs
+- **[Use Cases]({{< relref "/guides#use-cases" >}})**: Real-world scenarios and success stories
 - **[FAQ](/about/#faq)**: Common questions and answers
 
 ---
@@ -126,11 +126,11 @@ Optimized for AI agent context windows. Modular directives, separated metadata (
 
 **Ready to integrate?** Here's your roadmap:
 
-1. **[Installation Guide](/getting-started/installation/)**: Set up in your repository
-2. **[CI/CD Integration](/guides/ci-orchestration/)**: Automate with GitHub Actions
-3. **[Agent Customization](/guides/creating-agents/)**: Tailor agents to your workflow
-4. **[Multi-Agent Orchestration](/guides/multi-agent-orchestration/)**: Coordinate complex tasks
-5. **[Best Practices](/guides/#best-practices)**: Patterns, anti-patterns, lessons learned
+1. **[Installation Guide](getting-started/installation/)**: Set up in your repository
+2. **[CI/CD Integration](guides/ci-orchestration/)**: Automate with GitHub Actions
+3. **[Agent Customization](guides/creating-agents/)**: Tailor agents to your workflow
+4. **[Multi-Agent Orchestration](guides/multi-agent-orchestration/)**: Coordinate complex tasks
+5. **[Best Practices]({{< relref "/guides#best-practices" >}})**: Patterns, anti-patterns, lessons learned
 
 ---
 
@@ -138,16 +138,16 @@ Optimized for AI agent context windows. Modular directives, separated metadata (
 
 ### Documentation
 
-- **[How-To Guides](/guides/)**: Task-oriented step-by-step instructions (19 guides)
-- **[Troubleshooting](/guides/#troubleshooting)**: Common issues and solutions
-- **[Reference](/reference/)**: Agent profiles, configuration options, glossary
-- **[Architecture](/architecture/)**: Deep dives, ADRs, design patterns
+- **[How-To Guides]({{< relref "/guides" >}})**: Task-oriented step-by-step instructions (19 guides)
+- **[Troubleshooting]({{< relref "/guides#troubleshooting" >}})**: Common issues and solutions
+- **[Reference]({{< relref "/reference" >}})**: Agent profiles, configuration options, glossary
+- **[Architecture]({{< relref "/architecture" >}})**: Deep dives, ADRs, design patterns
 
 ### Community
 
 - **GitHub Repository**: [sddevelopment-be/quickstart_agent-augmented-development](https://github.com/sddevelopment-be/quickstart_agent-augmented-development)
 - **Issues & Discussions**: Report bugs, request features, ask questions
-- **Contributing**: [How to Contribute](/contributing/)
+- **Contributing**: [How to Contribute]({{< relref "/contributing" >}})
 
 ---
 
@@ -218,9 +218,9 @@ Agents load directives on demand with `/require-directive <code>` command.
 
 ## 🚀 Next Steps
 
-**[Get Started (5 min) →](/getting-started/)**  
-**[Explore Guides →](/guides/)**  
-**[Understand Architecture →](/architecture/)**
+**[Get Started (5 min) →]({{< relref "/getting-started" >}})**  
+**[Explore Guides →]({{< relref "/guides" >}})**  
+**[Understand Architecture →]({{< relref "/architecture" >}})**
 
 ---
 
@@ -247,7 +247,7 @@ Agents load directives on demand with `/require-directive <code>` command.
 
 **Found a bug?** Report it in [GitHub Issues](https://github.com/sddevelopment-be/quickstart_agent-augmented-development/issues).
 
-**Want to contribute?** See [Contributing Guide](/contributing/).
+**Want to contribute?** See [Contributing Guide]({{< relref "/contributing" >}}).
 
 ---
 
