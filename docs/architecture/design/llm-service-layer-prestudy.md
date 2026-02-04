@@ -1,9 +1,10 @@
 # Technical Design: LLM Service Layer for Agent-Tool Orchestration
 
-**Version:** 0.1.0 (Prestudy)  
-**Status:** Proposed  
+**Version:** 0.2.0 (Approved Prestudy)  
+**Status:** Approved - Ready for Implementation  
 **Author:** Architect Alphonso  
 **Date:** 2026-02-04  
+**Approved By:** Human-in-Charge (2026-02-04)  
 **Target Audience:** Process Architects, Software Engineers, AI Power Users
 
 ---
@@ -1049,14 +1050,20 @@ policies:
 
 ## Tech Stack Recommendations (Detailed)
 
-### Recommended: Python-based Minimal Implementation
+### Approved Options: Python or Node.js
+
+The human-in-charge has approved **both Python and Node.js** as viable options for the initial implementation. The choice depends on team expertise and organizational context.
+
+---
+
+### Option A: Python-based Implementation (Recommended for ML/AI Teams)
 
 **Rationale:**
 
 - **Ubiquity:** Python installed on all target platforms (Linux, macOS, WSL2)
 - **Agent Familiarity:** Most AI/ML practitioners comfortable with Python
 - **Rapid Prototyping:** Fast iteration on configuration schemas and routing logic
-- **Rich Ecosystem:** Libraries for CLI (Click), config (PyYAML), database (sqlite3), testing (pytest)
+- **Rich Ecosystem:** Libraries for CLI (Click/Typer), config (PyYAML), database (sqlite3), testing (pytest)
 - **Distribution:** PyInstaller or Nuitka create standalone executables
 
 **Core Dependencies:**
@@ -1080,10 +1087,9 @@ llm-service/
 │   ├── router.py           # Agent-to-tool routing logic
 │   ├── executor.py         # Subprocess execution manager
 │   ├── adapters/           # Tool-specific adapters
-│   │   ├── cursor.py
-│   │   ├── claude.py
-│   │   ├── codex.py
-│   │   └── gemini.py
+│   │   ├── claude_code.py  # Claude-Code adapter (MVP)
+│   │   ├── codex.py        # Codex adapter (MVP)
+│   │   └── base.py         # Base adapter interface
 │   ├── telemetry.py        # Usage tracking and cost calculation
 │   └── utils.py            # Shared utilities
 ├── config/
@@ -1139,29 +1145,130 @@ class Router:
 
 ---
 
-### Alternative: Go-based Production Implementation
+### Option B: Node.js-based Implementation (Recommended for JavaScript-Centric Teams)
 
-**When to Consider:**
+**Rationale:**
 
-- Performance requirements exceed Python capabilities (unlikely for local CLI usage)
-- Distribution simplicity preferred (single static binary with no dependencies)
-- Team expertise in Go development
-- Long-term production deployment planned
+- **Familiarity:** Web developers and DevOps teams comfortable with Node.js
+- **Async Excellence:** Native async/await for concurrent tool invocations (future enhancement)
+- **Rich Ecosystem:** Libraries for CLI (Commander, Yargs), config (js-yaml), database (better-sqlite3)
+- **Distribution:** `pkg` or Bun create standalone executables
+- **Cross-Platform:** Node.js runtime available on all target platforms
 
-**Trade-offs:**
+**Core Dependencies:**
 
-- **Pros:** Fast execution, simple deployment, strong concurrency primitives
-- **Cons:** Slower initial development, less agent-friendly, smaller ecosystem for AI tools
+```json
+{
+  "dependencies": {
+    "commander": "^11.0.0",
+    "js-yaml": "^4.1.0",
+    "better-sqlite3": "^9.0.0",
+    "chalk": "^5.3.0"
+  }
+}
+```
 
-**Migration Path:**
+**Project Structure:**
 
-1. Prototype in Python (1-2 weeks)
-2. Validate with users and gather feedback
-3. If performance or distribution issues arise, rewrite in Go (2-3 weeks)
-4. Maintain configuration schema compatibility (users keep existing YAML files)
+```
+llm-service/
+├── src/
+│   ├── cli.js              # Commander-based CLI interface
+│   ├── config.js           # Configuration loading and validation
+│   ├── router.js           # Agent-to-tool routing logic
+│   ├── executor.js         # Child process execution manager
+│   ├── adapters/           # Tool-specific adapters
+│   │   ├── claudeCode.js   # Claude-Code adapter (MVP)
+│   │   ├── codex.js        # Codex adapter (MVP)
+│   │   └── base.js         # Base adapter interface
+│   ├── telemetry.js        # Usage tracking and cost calculation
+│   └── utils.js            # Shared utilities
+├── config/
+│   ├── agents.yaml
+│   ├── tools.yaml
+│   ├── models.yaml
+│   └── policies.yaml
+├── tests/
+│   ├── router.test.js
+│   ├── adapters.test.js
+│   └── fixtures/
+├── package.json
+└── README.md
+```
+
+**Key Implementation Details:**
+
+```javascript
+// Example: router.js (simplified)
+import yaml from 'js-yaml';
+import { readFileSync } from 'fs';
+
+class Router {
+  constructor(configPath) {
+    this.agents = this._loadConfig(configPath);
+  }
+  
+  route(agent, taskType) {
+    const agentCfg = this.agents[agent];
+    if (!agentCfg) {
+      throw new Error(`Unknown agent: ${agent}`);
+    }
+    
+    // Check task-specific overrides
+    if (agentCfg.task_types?.[taskType]) {
+      const model = agentCfg.task_types[taskType];
+      const tool = this._modelToTool(model);
+      return { tool, model };
+    }
+    
+    // Use preferred defaults
+    return {
+      tool: agentCfg.preferred_tool,
+      model: agentCfg.preferred_model
+    };
+  }
+}
+```
+
+**Testing Strategy:**
+
+- **Unit Tests:** Jest with mocks for child processes
+- **Integration Tests:** Real tool invocation with test prompts
+- **CI/CD:** GitHub Actions with matrix strategy (Linux, macOS, Windows/WSL2)
 
 ---
 
+### Comparison Matrix
+
+| Criteria | Python | Node.js |
+|----------|--------|---------|
+| **Team Familiarity** | AI/ML practitioners, data scientists | Web developers, DevOps engineers |
+| **Async Support** | Good (asyncio) | Excellent (native async/await) |
+| **CLI Libraries** | Click, Typer | Commander, Yargs |
+| **Distribution** | PyInstaller, Nuitka | pkg, Bun |
+| **Startup Time** | ~100-200ms | ~50-100ms (faster) |
+| **Memory Footprint** | ~30-50MB | ~20-40MB (lighter) |
+| **Ecosystem Maturity** | Excellent for data/ML tools | Excellent for web/infra tools |
+| **Cross-Platform** | Native (via Python runtime) | Native (via Node.js runtime) |
+| **Learning Curve** | Low for ML teams | Low for web teams |
+
+---
+
+### Recommended Decision Process
+
+**Choose Python if:**
+- Team has ML/AI background (Python-native workflows)
+- Existing tooling/scripts are Python-based
+- Need rich data analysis capabilities (future enhancements)
+- Prioritize rapid prototyping with mature ML ecosystem
+
+**Choose Node.js if:**
+- Team has web development background (JavaScript-native workflows)
+- Need best-in-class async performance (future parallel invocations)
+- Existing infrastructure is Node.js-based (CI/CD, deployment tools)
+- Prioritize fast startup time and lightweight distribution
+
+**Both are viable:** The architecture is language-agnostic. Configuration files (YAML) and tool adapters (subprocess-based) work identically in both implementations.
 ## Next Steps for Implementation
 
 This prestudy provides the architectural foundation. The following steps are recommended:
@@ -1217,14 +1324,133 @@ This prestudy provides the architectural foundation. The following steps are rec
 
 ---
 
-## Open Questions for Human Decision
+## Human Decisions (Approved 2026-02-04)
 
-1. **Tech Stack Selection:** Approve Python for initial implementation, or prefer Go from start?
-2. **Configuration Complexity:** Accept YAML-based approach, or prefer simpler INI/TOML format?
-3. **Telemetry Privacy:** Default to metadata-only logging, or offer full prompt logging opt-in?
-4. **Distribution Strategy:** PyInstaller standalone executable sufficient, or need package managers (brew, apt)?
-5. **Budget Enforcement:** Hard limits (block over-budget requests) or soft limits (warn only)?
-6. **Tool Coverage:** Prioritize Cursor and Claude, or add Codex/Gemini in MVP?
+The following architectural decisions have been approved by the human-in-charge:
+
+1. **Tech Stack Selection:** ✅ **Python or Node.js** for initial implementation
+   - Both options approved; choose based on team expertise
+   - Python: Better for ML/AI practitioners, rich ecosystem for CLI tools
+   - Node.js: Familiar for JavaScript-centric teams, excellent async capabilities
+   - **Recommendation:** Start with Python for prototype, consider Node.js if performance issues arise
+
+2. **Configuration Format:** ✅ **YAML** confirmed
+   - Human-readable and Git-friendly
+   - Widely adopted in DevOps/infrastructure tooling
+   - Strong library support in both Python (PyYAML) and Node.js (js-yaml)
+
+3. **Budget Enforcement:** ✅ **Both hard and soft limits** (configurable)
+   - Implement `limit.type` configuration setting: `soft` (warn only) or `hard` (block execution)
+   - Default to `soft` for user-friendliness
+   - Allow per-agent or per-project override via configuration
+
+4. **Tool Coverage:** ✅ **Start with Claude-Code and Codex**
+   - MVP focuses on `claude-code` and `codex` as primary tools
+   - **Extensible design:** Allow adding new tool invocations via YAML configuration
+   - Tool definition includes command template for easy integration (no code changes required)
+
+### Configuration Examples (Approved Design)
+
+**Policy Rules with Configurable Budget Enforcement (`config/policies.yaml`):**
+
+```yaml
+policies:
+  default:
+    daily_budget_usd: 10.00
+    limit:
+      type: soft              # Options: "soft" (warn), "hard" (block)
+      threshold_percent: 80    # Warn/block at 80% of budget
+    prefer_cheaper_models_under_tokens: 2000
+    auto_fallback_on_rate_limit: true
+    log_prompts: false
+    log_metadata: true
+
+  production:
+    daily_budget_usd: 50.00
+    limit:
+      type: hard              # Block requests over budget
+      threshold_percent: 90
+    require_justification_over_usd: 10.00
+```
+
+**Tool Definitions with Command Templates (`config/tools.yaml`):**
+
+```yaml
+tools:
+  claude-code:
+    binary: claude
+    command_template: "{binary} {prompt_file} --model {model} --output {output_file}"
+    platforms:
+      linux: /usr/local/bin/claude
+      macos: /usr/local/bin/claude
+      windows: /usr/bin/claude  # Via WSL2
+    models:
+      - claude-opus-20240229
+      - claude-sonnet-20240229
+      - claude-haiku-20240307
+    capabilities:
+      - code_generation
+      - code_review
+      - long_context
+
+  codex:
+    binary: codex
+    command_template: "{binary} generate --prompt={prompt_file} --model={model}"
+    platforms:
+      linux: /usr/local/bin/codex
+      macos: /usr/local/bin/codex
+      windows: /usr/bin/codex  # Via WSL2
+    models:
+      - code-davinci-002
+      - gpt-4-turbo
+      - gpt-5.2-preview
+    capabilities:
+      - code_generation
+      - code_completion
+      - technical_documentation
+
+  # Example: Adding new tool via YAML (no code changes)
+  gemini-cli:
+    binary: gemini
+    command_template: "{binary} --input {prompt_file} --model {model} --format json"
+    platforms:
+      linux: /usr/local/bin/gemini
+      macos: /usr/local/bin/gemini
+      windows: /usr/bin/gemini  # Via WSL2
+    models:
+      - gemini-pro
+      - gemini-pro-vision
+    capabilities:
+      - multimodal
+      - data_analysis
+      - vision
+```
+
+### Implications of Approved Decisions
+
+**1. Python/Node.js Flexibility:**
+- Implementation team can choose based on expertise
+- Both have mature CLI frameworks (Python: Click/Typer, Node.js: Commander/Yargs)
+- Both support YAML parsing, subprocess execution, and SQLite integration
+- **Action:** Document dual-path implementation guide in Phase 1
+
+**2. YAML-Based Tool Extensibility:**
+- Users can add new LLM tools without modifying service code
+- Command template pattern enables flexible CLI invocation syntax
+- Platform-specific binary paths support cross-OS deployments
+- **Action:** Create tool adapter plugin architecture that reads command templates
+
+**3. Configurable Budget Enforcement:**
+- `soft` mode: Warn users, log overage, allow override (default for development)
+- `hard` mode: Block execution, require explicit budget increase (recommended for production)
+- Per-agent budget overrides possible (e.g., architect gets higher budget for complex analysis)
+- **Action:** Implement budget policy engine with warning/blocking logic
+
+**4. MVP Tool Focus:**
+- `claude-code` for code generation and review (Anthropic)
+- `codex` for code completion and technical docs (OpenAI)
+- Clear path to add Gemini, Cursor, or custom tools via YAML
+- **Action:** Build two reference adapters (claude-code, codex), document template for community contributions
 
 ---
 
@@ -1264,9 +1490,10 @@ The following diagrams should be created by the Diagrammer specialist:
 
 ## Metadata
 
-- **Version:** 0.1.0 (Prestudy)
-- **Status:** Awaiting Human Review and Decision
-- **Approval Required:** Yes (architectural decision)
-- **Next Steps:** Human review → Diagram creation → Implementation approval → Phase 1 kickoff
+- **Version:** 0.2.0 (Approved Prestudy)
+- **Status:** Approved - Ready for Implementation
+- **Approval Date:** 2026-02-04
+- **Approved Decisions:** Python/Node.js tech stack, YAML configuration, configurable budget limits, claude-code+codex MVP tools
+- **Next Steps:** Implementation planning (milestones and task assignment) → Diagram creation → Phase 1 kickoff
 - **Estimated Implementation Effort:** 3-4 weeks for Phases 1-3 (MVP)
 - **Estimated Value:** $3,000 - $6,000 annual cost savings for typical engineering team
