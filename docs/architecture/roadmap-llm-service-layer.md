@@ -27,26 +27,32 @@ Enable seamless agent-to-LLM interaction through a configuration-driven service 
 ---
 
 ### 🔄 Phase 1: Foundation (Milestone 1)
-**Status:** Planned  
+**Status:** In Progress  
 **Duration:** Weeks 1-2  
-**Start Date:** TBD (pending tech stack decision)  
+**Start Date:** 2026-02-04 (Tech stack decision: Python)  
 **Goal:** Establish core infrastructure and configuration management
 
 **Key Deliverables:**
-- [ ] Configuration schema (YAML) with validation
+- [x] Tech stack decision (Python 3.10+ selected)
+- [x] Configuration schema (YAML) with Pydantic validation
 - [ ] CLI interface foundation (exec, config validate, init, version)
 - [ ] Routing engine core (agent-to-tool mapping, fallback chains)
 - [ ] Unit test coverage >80%
 
 **Tasks:**
-1. Config schema definition (Backend-Dev) - 3-4 days
-2. Config loader implementation (Backend-Dev) - 2-3 days
-3. CLI interface foundation (Backend-Dev) - 2-3 days
-4. Routing engine core (Backend-Dev) - 3-4 days
+1. ✅ Config schema definition (Backend-Dev) - COMPLETED 2026-02-04
+   - Created Pydantic v2 schemas for agents, tools, models, policies
+   - Implemented cross-reference validation
+   - Created example YAML files for MVP tools
+2. 🔄 Config loader implementation (Backend-Dev) - 2-3 days - NEXT
+3. 📋 CLI interface foundation (Backend-Dev) - 2-3 days
+4. 📋 Routing engine core (Backend-Dev) - 3-4 days
 
 **Dependencies:**
-- Tech stack decision (Python vs. Node.js) required before start
-- Sample YAML files for claude-code and codex
+- ✅ Tech stack decision (Python) - RESOLVED 2026-02-04
+- ✅ Sample YAML files for claude-code and codex - COMPLETED
+
+**Progress:** 25% complete (1 of 4 tasks done)
 
 ---
 
@@ -144,29 +150,33 @@ Enable seamless agent-to-LLM interaction through a configuration-driven service 
 
 ## Task List Summary
 
-| ID | Task | Agent | Milestone | Status |
-|----|------|-------|-----------|--------|
-| 1 | Config schema definition | Backend-Dev | M1 | 📋 Planned |
-| 2 | Config loader implementation | Backend-Dev | M1 | 📋 Planned |
-| 3 | CLI interface foundation | Backend-Dev | M1 | 📋 Planned |
-| 4 | Routing engine core | Backend-Dev | M1 | 📋 Planned |
-| 5 | Adapter base interface | Backend-Dev | M2 | 📋 Planned |
-| 6 | Claude-Code adapter | Backend-Dev | M2 | 📋 Planned |
-| 7 | Codex adapter | Backend-Dev | M2 | 📋 Planned |
-| 8 | Generic YAML adapter | Backend-Dev | M2 | 📋 Planned |
-| 9 | Telemetry infrastructure | Backend-Dev | M3 | 📋 Planned |
-| 10 | Policy engine | Backend-Dev | M3 | 📋 Planned |
-| 11 | Stats reporting | Backend-Dev | M3 | 📋 Planned |
-| 12 | Acceptance tests | Backend-Dev | M4 | 📋 Planned |
-| 13 | CI integration | Framework-Guardian | M4 | 📋 Planned |
-| 14 | User guide | Writer-Editor | M4 | 📋 Planned |
-| 15 | Persona workflows | Scribe | M4 | 📋 Planned |
-| 16 | Packaging | Build-Automation | M4 | 📋 Planned |
-| 17 | Installation scripts | Build-Automation | M4 | 📋 Planned |
+| ID | Task | Agent | Milestone | Status | Completed |
+|----|------|-------|-----------|--------|-----------|
+| 1 | Config schema definition | Backend-Dev | M1 | ✅ Complete | 2026-02-04 |
+| 2 | Config loader implementation | Backend-Dev | M1 | 🔄 Next | - |
+| 3 | CLI interface foundation | Backend-Dev | M1 | 📋 Planned | - |
+| 4 | Routing engine core | Backend-Dev | M1 | 📋 Planned | - |
+| 5 | Adapter base interface | Backend-Dev | M2 | 📋 Planned | - |
+| 6 | Claude-Code adapter | Backend-Dev | M2 | 📋 Planned | - |
+| 7 | Codex adapter | Backend-Dev | M2 | 📋 Planned | - |
+| 8 | Generic YAML adapter | Backend-Dev | M2 | 📋 Planned | - |
+| 9 | Telemetry infrastructure | Backend-Dev | M3 | 📋 Planned | - |
+| 10 | Policy engine | Backend-Dev | M3 | 📋 Planned | - |
+| 11 | Stats reporting | Backend-Dev | M3 | 📋 Planned | - |
+| 12 | Acceptance tests | Backend-Dev | M4 | 📋 Planned | - |
+| 13 | CI integration | Framework-Guardian | M4 | 📋 Planned | - |
+| 14 | User guide | Writer-Editor | M4 | 📋 Planned | - |
+| 15 | Persona workflows | Scribe | M4 | 📋 Planned | - |
+| 16 | Packaging | Build-Automation | M4 | 📋 Planned | - |
+| 17 | Installation scripts | Build-Automation | M4 | 📋 Planned | - |
 
 **Total Tasks:** 17  
+**Completed:** 1 (6%)  
+**In Progress:** 0  
+**Remaining:** 16  
 **Estimated Duration:** 4 weeks (assuming 1-2 developers)  
-**Critical Path:** Tasks 1→2→3→4→5→6/7→9→10→12→16/17
+**Critical Path:** Tasks 1→2→3→4→5→6/7→9→10→12→16/17  
+**Actual Progress:** Milestone 1 - 25% complete (1 of 4 tasks)
 
 ---
 
@@ -213,7 +223,7 @@ Enable seamless agent-to-LLM interaction through a configuration-driven service 
 
 ### Internal Dependencies
 - **Architecture Approval:** ✅ Complete (2026-02-04)
-- **Tech Stack Decision:** ⏳ Pending (Python vs. Node.js)
+- **Tech Stack Decision:** ✅ Complete (Python 3.10+ selected 2026-02-04)
 - **Team Capacity:** ⏳ Pending (1-2 developers allocated)
 
 ---
@@ -224,6 +234,7 @@ Enable seamless agent-to-LLM interaction through a configuration-driven service 
 |------|---------|--------|--------|
 | 2026-02-04 | 1.0.0 | Initial roadmap creation with 4 milestones, 17 tasks | Planning Petra |
 | 2026-02-04 | 1.1.0 | Added ADR-025 reference for formal architectural decision | Architect Alphonso |
+| 2026-02-04 | 1.2.0 | Updated Milestone 1 progress: Task 1 complete, Python selected, 25% done | Planning Petra |
 
 ---
 
