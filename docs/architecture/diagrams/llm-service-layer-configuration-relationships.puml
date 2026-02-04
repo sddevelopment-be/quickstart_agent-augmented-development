@@ -1,0 +1,110 @@
+@startuml llm-service-layer-configuration-relationships
+title LLM Service Layer - Configuration Relationships
+
+package "Configuration Files (YAML)" {
+    rectangle "agents.yaml" as agents {
+        agent architect {
+            preferred_tool: cursor
+            preferred_model: gpt-4-turbo
+            fallback_chain: [...]
+            task_types: {...}
+        }
+        agent backend-dev {
+            preferred_tool: claude-code
+            preferred_model: claude-sonnet
+        }
+    }
+    
+    rectangle "tools.yaml" as tools {
+        tool cursor {
+            binary: cursor
+            command_template: "..."
+            models: [...]
+            capabilities: [...]
+        }
+        tool claude-code {
+            binary: claude
+            command_template: "..."
+            models: [...]
+        }
+        tool codex {
+            binary: codex
+            command_template: "..."
+            models: [...]
+        }
+    }
+    
+    rectangle "models.yaml" as models {
+        model gpt-4-turbo {
+            provider: openai
+            cost_per_1k_tokens: {...}
+            context_window: 128000
+            task_suitability: [...]
+        }
+        model claude-sonnet {
+            provider: anthropic
+            cost_per_1k_tokens: {...}
+            task_suitability: [...]
+        }
+    }
+    
+    rectangle "policies.yaml" as policies {
+        policy default {
+            daily_budget_usd: 10.00
+            limit:
+              type: soft
+              threshold_percent: 80
+        }
+        policy cost_optimization {
+            simple_task_threshold: 1500
+            simple_task_models: [...]
+        }
+    }
+}
+
+rectangle "Routing Decision" as routing {
+    User invokes:
+    llm-service exec
+      --agent=architect
+      --prompt=file.md
+}
+
+routing ..> agents: 1. Lookup agent config
+agents ..> tools: 2. Resolve preferred_tool
+agents ..> models: 3. Resolve preferred_model
+routing ..> policies: 4. Apply budget rules
+policies ..> models: 5. Check cost implications
+routing ..> tools: 6. Get command_template
+routing --> "CLI Invocation": 7. Build final command
+
+note right of agents
+  Agent references:
+  - Tool name (must exist in tools.yaml)
+  - Model name (must exist in models.yaml)
+  - Fallback chain (list of tool:model pairs)
+end note
+
+note right of tools
+  Tool references:
+  - Model names (validated against models.yaml)
+  - Command template with placeholders
+  - Platform-specific binary paths
+end note
+
+note right of policies
+  Policy uses:
+  - Model costs from models.yaml
+  - Current spending from telemetry DB
+  - Task complexity (token count)
+end note
+
+note bottom of routing
+  Configuration composition:
+  1. agents.yaml → preferred_tool
+  2. tools.yaml → command_template, models
+  3. models.yaml → cost, capabilities
+  4. policies.yaml → budget limits, optimization rules
+  → Final: cursor --prompt-file file.md --model gpt-4-turbo
+end note
+
+@enduml
