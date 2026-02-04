@@ -24,6 +24,10 @@ Architecture Decision Records (ADRs) are concise documents that capture importan
 | [ADR-017](ADR-017-traceable-decision-integration.md)            | Traceable Decision Integration                | 2025-11-25 | Accepted           | Establishes mandatory decision traceability patterns integrating ideation, ADRs, and artifacts.|
 | [ADR-018](ADR-018-multi-repository-orchestration-strategy.md)   | Multi-Repository Orchestration Strategy       | 2025-11-25 | Accepted           | Defines strategies for cross-repository agent coordination and task distribution.              |
 | [ADR-019](ADR-019-trunk-based-development.md)                   | Adopt Trunk-Based Development                 | 2025-11-30 | Accepted           | Adopts trunk-based development to minimize conflicts and accelerate feedback in agent workflows.|
+| [ADR-020](ADR-020-multi-tier-agentic-runtime.md)                | Multi-Tier Agentic Runtime                    | 2025-12-01 | Proposed           | Defines multi-tier agent runtime architecture for scalable orchestration.                      |
+| [ADR-023](ADR-023-prompt-optimization-framework.md)              | Prompt Optimization Framework                 | 2026-01-30 | Accepted           | Establishes framework for optimizing prompts through measurement and iteration.                |
+| [ADR-024](ADR-024-cli-swarm-mode-integration.md)                | CLI Swarm Mode Integration                    | 2026-01-31 | Proposed           | Introduces swarm-mode coordination patterns for parallel agent execution.                      |
+| [ADR-025](ADR-025-llm-service-layer.md)                         | LLM Service Layer for Agent-Tool Orchestration| 2026-02-04 | Accepted           | Configuration-driven service layer routing agent requests to LLM tools with cost optimization.|
 
 
 > Uniqueness Guarantee: Each ADR number in the table above maps to exactly one canonical ADR file. Historical superseded ADRs MUST NOT be edited except to archive them (recommended future path:

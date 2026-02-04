@@ -223,11 +223,13 @@ Enable seamless agent-to-LLM interaction through a configuration-driven service 
 | Date | Version | Change | Author |
 |------|---------|--------|--------|
 | 2026-02-04 | 1.0.0 | Initial roadmap creation with 4 milestones, 17 tasks | Planning Petra |
+| 2026-02-04 | 1.1.0 | Added ADR-025 reference for formal architectural decision | Architect Alphonso |
 
 ---
 
 ## References
 
+- **ADR:** [ADR-025: LLM Service Layer for Agent-Tool Orchestration](adrs/ADR-025-llm-service-layer.md) (formal architectural decision record)
 - **Architecture Prestudy:** `docs/architecture/design/llm-service-layer-prestudy.md`
 - **Implementation Plan:** `docs/planning/llm-service-layer-implementation-plan.md`
 - **Diagrams:** `docs/architecture/diagrams/llm-service-layer-*.puml`
