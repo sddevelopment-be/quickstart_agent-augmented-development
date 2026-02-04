@@ -8,6 +8,12 @@ from pathlib import Path
 
 from llm_service.routing import RoutingEngine, RoutingDecision, RoutingError
 from llm_service.config.loader import load_configuration
+from llm_service.config.schemas import (
+    AgentsSchema, AgentConfig,
+    ToolsSchema, ToolConfig,
+    ModelsSchema, ModelConfig,
+    PoliciesSchema, PolicyConfig,
+)
 
 
 @pytest.fixture
@@ -206,3 +212,187 @@ def test_routing_decision_dataclass():
     assert decision.fallback_used is True
     assert decision.original_tool == 'original-tool'
     assert decision.original_model == 'original-model'
+
+
+def test_routing_engine_fallback_on_unavailable_tool():
+    """Test fallback chain when primary tool doesn't exist."""
+    # Directly create schemas to bypass validation (testing routing logic, not config validation)
+    agents = AgentsSchema(agents={
+        'test-agent': AgentConfig(
+            preferred_tool='nonexistent-tool',
+            preferred_model='model1',
+            fallback_chain=['backup-tool:model1', 'test-tool:model2']
+        )
+    })
+    tools = ToolsSchema(tools={
+        'backup-tool': ToolConfig(
+            binary='backup',
+            command_template='{binary} {prompt_file} {model}',
+            models=['model1']
+        ),
+        'test-tool': ToolConfig(
+            binary='test',
+            command_template='{binary} {prompt_file} {model}',
+            models=['model2']
+        )
+    })
+    models = ModelsSchema(models={
+        'model1': ModelConfig(
+            provider='test',
+            cost_per_1k_tokens={'input': 0.01, 'output': 0.03},
+            context_window=8000
+        ),
+        'model2': ModelConfig(
+            provider='test',
+            cost_per_1k_tokens={'input': 0.02, 'output': 0.04},
+            context_window=8000
+        )
+    })
+    policies = PoliciesSchema(policies={
+        'default': PolicyConfig(daily_budget_usd=10.0)
+    })
+    
+    engine = RoutingEngine(agents, tools, models, policies)
+    
+    decision = engine.route('test-agent')
+    
+    assert decision.fallback_used is True
+    assert decision.tool_name == 'backup-tool'
+    assert decision.model_name == 'model1'
+    assert decision.original_tool == 'nonexistent-tool'
+    assert 'fallback' in decision.reason.lower()
+
+
+def test_routing_engine_fallback_exhausted():
+    """Test error when all fallback options are exhausted."""
+    # Directly create schemas to bypass validation
+    agents = AgentsSchema(agents={
+        'test-agent': AgentConfig(
+            preferred_tool='nonexistent-tool',
+            preferred_model='model1',
+            fallback_chain=['also-nonexistent:model1']
+        )
+    })
+    tools = ToolsSchema(tools={})
+    models = ModelsSchema(models={
+        'model1': ModelConfig(
+            provider='test',
+            cost_per_1k_tokens={'input': 0.01, 'output': 0.03},
+            context_window=8000
+        )
+    })
+    policies = PoliciesSchema(policies={
+        'default': PolicyConfig(daily_budget_usd=10.0)
+    })
+    
+    engine = RoutingEngine(agents, tools, models, policies)
+    
+    with pytest.raises(RoutingError, match="no valid fallback available"):
+        engine.route('test-agent')
+
+
+def test_routing_engine_tool_switching_for_model_compatibility():
+    """Test automatic tool switching when preferred tool doesn't support selected model."""
+    # Directly create schemas to bypass validation
+    agents = AgentsSchema(agents={
+        'test-agent': AgentConfig(
+            preferred_tool='tool1',
+            preferred_model='model-special',
+            fallback_chain=[]
+        )
+    })
+    tools = ToolsSchema(tools={
+        'tool1': ToolConfig(
+            binary='tool1',
+            command_template='{binary} {prompt_file} {model}',
+            models=['model-common']  # Doesn't support model-special
+        ),
+        'tool2': ToolConfig(
+            binary='tool2',
+            command_template='{binary} {prompt_file} {model}',
+            models=['model-special']  # Supports model-special
+        )
+    })
+    models = ModelsSchema(models={
+        'model-common': ModelConfig(
+            provider='test',
+            cost_per_1k_tokens={'input': 0.01, 'output': 0.03},
+            context_window=8000
+        ),
+        'model-special': ModelConfig(
+            provider='test',
+            cost_per_1k_tokens={'input': 0.02, 'output': 0.04},
+            context_window=8000
+        )
+    })
+    policies = PoliciesSchema(policies={
+        'default': PolicyConfig(daily_budget_usd=10.0)
+    })
+    
+    engine = RoutingEngine(agents, tools, models, policies)
+    
+    decision = engine.route('test-agent')
+    
+    assert decision.tool_name == 'tool2'
+    assert decision.model_name == 'model-special'
+    assert 'tool switched' in decision.reason.lower() or 'compatibility' in decision.reason.lower()
+
+
+def test_routing_engine_model_not_found_error():
+    """Test error when selected model doesn't exist."""
+    # Directly create schemas to bypass validation
+    agents = AgentsSchema(agents={
+        'test-agent': AgentConfig(
+            preferred_tool='test-tool',
+            preferred_model='nonexistent-model',
+            fallback_chain=[]
+        )
+    })
+    tools = ToolsSchema(tools={
+        'test-tool': ToolConfig(
+            binary='test',
+            command_template='{binary} {prompt_file} {model}',
+            models=['existing-model']
+        )
+    })
+    models = ModelsSchema(models={
+        'existing-model': ModelConfig(
+            provider='test',
+            cost_per_1k_tokens={'input': 0.01, 'output': 0.03},
+            context_window=8000
+        )
+    })
+    policies = PoliciesSchema(policies={
+        'default': PolicyConfig(daily_budget_usd=10.0)
+    })
+    
+    engine = RoutingEngine(agents, tools, models, policies)
+    
+    with pytest.raises(RoutingError, match="Model.*not found"):
+        engine.route('test-agent')
+
+
+def test_routing_engine_get_model_cost_not_found(basic_config):
+    """Test error when getting cost for nonexistent model."""
+    engine = RoutingEngine(
+        basic_config['agents'],
+        basic_config['tools'],
+        basic_config['models'],
+        basic_config['policies'],
+    )
+    
+    with pytest.raises(RoutingError, match="not found"):
+        engine.get_model_cost('nonexistent-model')
+
+
+def test_routing_engine_list_agent_capabilities_not_found(basic_config):
+    """Test error when listing capabilities for nonexistent agent."""
+    engine = RoutingEngine(
+        basic_config['agents'],
+        basic_config['tools'],
+        basic_config['models'],
+        basic_config['policies'],
+    )
+    
+    with pytest.raises(RoutingError, match="not found"):
+        engine.list_agent_capabilities('nonexistent-agent')

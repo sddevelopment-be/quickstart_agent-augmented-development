@@ -25,7 +25,7 @@ class AgentConfig(BaseModel):
         default_factory=list,
         description="Fallback tool:model pairs (e.g., 'claude-code:claude-sonnet-20240229')"
     )
-    task_types: Optional[Dict[str, str]] = Field(
+    task_types: Dict[str, str] = Field(
         default_factory=dict,
         description="Task type to model mapping"
     )
@@ -206,6 +206,16 @@ def validate_agent_references(
                 f"Agent '{agent_name}' references unknown model: {agent_config.preferred_model}"
             )
         
+        # Validate tool-model compatibility for preferred configuration
+        if (agent_config.preferred_tool in tools.tools and 
+            agent_config.preferred_model in models.models):
+            tool_config = tools.tools[agent_config.preferred_tool]
+            if agent_config.preferred_model not in tool_config.models:
+                errors.append(
+                    f"Agent '{agent_name}' preferred_model '{agent_config.preferred_model}' "
+                    f"is not supported by tool '{agent_config.preferred_tool}'"
+                )
+        
         # Validate fallback chain references
         for fallback in agent_config.fallback_chain:
             tool_name, model_name = fallback.split(':')
@@ -219,7 +229,7 @@ def validate_agent_references(
                 )
         
         # Validate task_types models exist
-        for task_type, model_name in (agent_config.task_types or {}).items():
+        for task_type, model_name in agent_config.task_types.items():
             if model_name not in models.models:
                 errors.append(
                     f"Agent '{agent_name}' task type '{task_type}' references unknown model: {model_name}"
