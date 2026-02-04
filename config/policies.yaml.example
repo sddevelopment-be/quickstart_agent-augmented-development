@@ -1,0 +1,50 @@
+# Example Policy Configuration
+# This file defines budget limits, cost optimization rules, and enforcement policies
+
+policies:
+  default:
+    daily_budget_usd: 10.00
+    monthly_budget_usd: 200.00
+    limit:
+      type: soft  # Options: "soft" (warn), "hard" (block)
+      threshold_percent: 80  # Warn/block at 80% of budget
+    prefer_cheaper_models_under_tokens: 2000
+    auto_fallback_on_rate_limit: true
+    log_prompts: false
+    log_metadata: true
+
+  production:
+    daily_budget_usd: 50.00
+    monthly_budget_usd: 1000.00
+    limit:
+      type: hard  # Block requests over budget
+      threshold_percent: 90
+    require_justification_over_usd: 10.00
+
+  development:
+    daily_budget_usd: 5.00
+    limit:
+      type: soft
+      threshold_percent: 80
+    log_prompts: true  # Enable full logging for debugging
+    log_metadata: true
+
+cost_optimization:
+  simple_task_threshold_tokens: 1500
+  simple_task_models:
+    - claude-haiku-20240307
+    - gpt-3.5-turbo
+  complex_task_models:
+    - gpt-4-turbo
+    - claude-opus-20240229
+    - claude-sonnet-20240229
+
+rate_limiting:
+  max_requests_per_minute:
+    cursor: 20
+    claude-code: 50
+    codex: 10
+  max_requests_per_hour:
+    cursor: 200
+    claude-code: 500
+    codex: 100

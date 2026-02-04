@@ -1,0 +1,36 @@
+# Example Agent Configuration
+# This file defines agent-to-tool mappings and model preferences
+
+agents:
+  architect:
+    preferred_tool: cursor
+    preferred_model: gpt-4-turbo
+    fallback_chain:
+      - cursor:gpt-4-turbo
+      - claude-code:claude-opus-20240229
+      - codex:gpt-4
+    task_types:
+      analysis: gpt-4-turbo
+      synthesis: claude-opus-20240229
+      diagramming: gpt-4-turbo
+
+  backend-dev:
+    preferred_tool: claude-code
+    preferred_model: claude-sonnet-20240229
+    fallback_chain:
+      - claude-code:claude-sonnet-20240229
+      - codex:gpt-4
+      - claude-code:claude-haiku-20240307
+    task_types:
+      coding: claude-sonnet-20240229
+      debugging: gpt-4
+      refactoring: claude-haiku-20240307
+      simple: claude-haiku-20240307
+
+  planner:
+    preferred_tool: codex
+    preferred_model: gpt-4-turbo
+    fallback_chain:
+      - codex:gpt-4-turbo
+      - cursor:gpt-4-turbo
+      - claude-code:claude-opus-20240229
