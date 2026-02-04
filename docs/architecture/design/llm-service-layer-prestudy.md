@@ -1,10 +1,11 @@
 # Technical Design: LLM Service Layer for Agent-Tool Orchestration
 
 **Version:** 0.2.0 (Approved Prestudy)  
-**Status:** Approved - Ready for Implementation  
+**Status:** Approved - Formalized in ADR-025  
 **Author:** Architect Alphonso  
 **Date:** 2026-02-04  
 **Approved By:** Human-in-Charge (2026-02-04)  
+**ADR:** [ADR-025: LLM Service Layer for Agent-Tool Orchestration](../adrs/ADR-025-llm-service-layer.md)  
 **Target Audience:** Process Architects, Software Engineers, AI Power Users
 
 ---
@@ -1522,11 +1523,13 @@ Depicts local machine setup across Linux, macOS, and Windows/WSL2 environments. 
 
 ## References
 
+- **ADR:** [ADR-025: LLM Service Layer for Agent-Tool Orchestration](../adrs/ADR-025-llm-service-layer.md) (formal architectural decision record)
 - **Agent Profiles:** `.github/agents/*.agent.md`
 - **Personas:** `docs/audience/*.md`
 - **Directives:** `.github/agents/directives/`
 - **Templates:** `docs/templates/architecture/`
-- **Related ADRs:** (To be created upon human approval of this prestudy)
+- **Roadmap:** `docs/architecture/roadmap-llm-service-layer.md`
+- **Implementation Plan:** `docs/planning/llm-service-layer-implementation-plan.md`
 
 ---
 
