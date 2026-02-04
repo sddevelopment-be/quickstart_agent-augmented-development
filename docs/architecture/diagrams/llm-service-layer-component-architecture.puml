@@ -1,0 +1,44 @@
+@startuml llm-service-layer-component-architecture
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title LLM Service Layer - Component Architecture (C4 Container Level)
+
+Person(user, "User", "Developer or AI Agent")
+System_Boundary(llm_service, "LLM Service Layer") {
+    Container(cli, "CLI Interface", "Click/Commander", "Handles user commands, parses arguments, formats output")
+    Container(router, "Routing Engine", "Python/Node.js", "Selects appropriate tool and model based on agent identity and task type")
+    Container(config_mgr, "Configuration Manager", "PyYAML/js-yaml", "Loads and validates YAML configuration files")
+    Container(policy_engine, "Policy Engine", "Python/Node.js", "Enforces budget limits, cost optimization rules")
+    Container(executor, "Execution Manager", "subprocess", "Builds CLI commands, invokes external tools, captures output")
+    ContainerDb(telemetry_db, "Telemetry Database", "SQLite", "Stores invocation logs, token usage, cost tracking")
+    
+    Container_Boundary(adapters, "Tool Adapters") {
+        Container(claude_adapter, "Claude-Code Adapter", "Python/Node.js", "Invokes claude CLI with command template")
+        Container(codex_adapter, "Codex Adapter", "Python/Node.js", "Invokes codex CLI with command template")
+        Container(generic_adapter, "Generic Adapter", "Python/Node.js", "YAML-configured tool invocation")
+    }
+}
+
+System_Ext(claude_cli, "Claude CLI", "Anthropic Claude tool")
+System_Ext(codex_cli, "Codex CLI", "OpenAI Codex tool")
+System_Ext(other_llm, "Other LLM CLI", "Gemini, Cursor, etc.")
+
+Rel(user, cli, "Executes", "llm-service exec --agent=X --prompt=file.md")
+Rel(cli, config_mgr, "Loads configuration")
+Rel(cli, router, "Requests routing decision")
+Rel(router, config_mgr, "Reads agent/tool mappings")
+Rel(router, policy_engine, "Applies policies")
+Rel(policy_engine, config_mgr, "Reads budget rules")
+Rel(router, executor, "Selects tool and model")
+Rel(executor, claude_adapter, "Delegates to adapter")
+Rel(executor, codex_adapter, "Delegates to adapter")
+Rel(executor, generic_adapter, "Delegates to adapter")
+Rel(claude_adapter, claude_cli, "Invokes via subprocess", "command template")
+Rel(codex_adapter, codex_cli, "Invokes via subprocess", "command template")
+Rel(generic_adapter, other_llm, "Invokes via subprocess", "YAML-configured")
+Rel(executor, telemetry_db, "Logs invocation metadata")
+Rel(policy_engine, telemetry_db, "Queries usage data")
+Rel(cli, user, "Returns response", "stdout/file")
+
+SHOW_LEGEND()
+@enduml

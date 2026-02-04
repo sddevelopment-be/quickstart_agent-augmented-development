@@ -1,0 +1,92 @@
+@startuml llm-service-layer-deployment-architecture
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Deployment.puml
+
+title LLM Service Layer - Deployment Architecture (Cross-OS)
+
+Deployment_Node(linux, "Linux Workstation", "Ubuntu 20.04+") {
+    Deployment_Node(user_space, "User Space") {
+        Container(llm_service_linux, "llm-service", "Python/Node.js", "Single binary or runtime-based")
+        ContainerDb(config_linux, "Configuration", "YAML files", "~/.config/llm-service/")
+        ContainerDb(telemetry_linux, "Telemetry", "SQLite", "~/.local/share/llm-service/")
+    }
+    
+    Deployment_Node(tools_linux, "Installed LLM Tools") {
+        System_Ext(claude_linux, "Claude CLI", "/usr/local/bin/claude")
+        System_Ext(codex_linux, "Codex CLI", "/usr/local/bin/codex")
+    }
+}
+
+Deployment_Node(macos, "macOS Workstation", "macOS 12+ Monterey") {
+    Deployment_Node(user_space_mac, "User Space") {
+        Container(llm_service_mac, "llm-service", "Python/Node.js", "Single binary or runtime-based")
+        ContainerDb(config_mac, "Configuration", "YAML files", "~/.config/llm-service/")
+        ContainerDb(telemetry_mac, "Telemetry", "SQLite", "~/.local/share/llm-service/")
+    }
+    
+    Deployment_Node(tools_mac, "Installed LLM Tools") {
+        System_Ext(claude_mac, "Claude CLI", "/usr/local/bin/claude")
+        System_Ext(codex_mac, "Codex CLI", "/usr/local/bin/codex")
+    }
+}
+
+Deployment_Node(windows, "Windows Workstation", "Windows 10+ with WSL2") {
+    Deployment_Node(wsl2, "WSL2 (Ubuntu 20.04)") {
+        Deployment_Node(user_space_wsl, "User Space") {
+            Container(llm_service_wsl, "llm-service", "Python/Node.js", "Runs in WSL2 environment")
+            ContainerDb(config_wsl, "Configuration", "YAML files", "~/.config/llm-service/")
+            ContainerDb(telemetry_wsl, "Telemetry", "SQLite", "~/.local/share/llm-service/")
+        }
+        
+        Deployment_Node(tools_wsl, "Installed LLM Tools") {
+            System_Ext(claude_wsl, "Claude CLI", "/usr/bin/claude (WSL path)")
+            System_Ext(codex_wsl, "Codex CLI", "/usr/bin/codex (WSL path)")
+        }
+    }
+}
+
+Rel(llm_service_linux, config_linux, "Reads config")
+Rel(llm_service_linux, telemetry_linux, "Logs invocations")
+Rel(llm_service_linux, claude_linux, "Invokes via subprocess")
+Rel(llm_service_linux, codex_linux, "Invokes via subprocess")
+
+Rel(llm_service_mac, config_mac, "Reads config")
+Rel(llm_service_mac, telemetry_mac, "Logs invocations")
+Rel(llm_service_mac, claude_mac, "Invokes via subprocess")
+Rel(llm_service_mac, codex_mac, "Invokes via subprocess")
+
+Rel(llm_service_wsl, config_wsl, "Reads config")
+Rel(llm_service_wsl, telemetry_wsl, "Logs invocations")
+Rel(llm_service_wsl, claude_wsl, "Invokes via subprocess")
+Rel(llm_service_wsl, codex_wsl, "Invokes via subprocess")
+
+note right of linux
+  Native Linux deployment:
+  - Standard PATH resolution
+  - XDG Base Directory spec
+  - Native binary execution
+end note
+
+note right of macos
+  Native macOS deployment:
+  - Homebrew or manual install
+  - XDG-like config paths
+  - Native binary execution
+end note
+
+note right of windows
+  Windows via WSL2:
+  - Linux layer for portability
+  - WSL2 filesystem integration
+  - Path translation when needed
+  - Tools installed in WSL environment
+end note
+
+note bottom
+  Cross-platform considerations:
+  - Configuration paths: XDG spec (Linux/macOS), adapted for WSL2
+  - Binary paths: Platform-specific in tools.yaml
+  - Subprocess invocation: Standard across all platforms (Python subprocess / Node.js child_process)
+  - Distribution: Standalone binary or runtime-based (pip/npm install)
+end note
+
+@enduml

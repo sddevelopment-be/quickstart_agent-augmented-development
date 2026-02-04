@@ -1,0 +1,88 @@
+@startuml llm-service-layer-request-flow-sequence
+title LLM Service Layer - Request Flow Sequence
+
+actor User
+participant "CLI Interface" as CLI
+participant "Configuration Manager" as Config
+participant "Routing Engine" as Router
+participant "Policy Engine" as Policy
+participant "Execution Manager" as Executor
+participant "Tool Adapter" as Adapter
+participant "LLM CLI Tool" as LLM
+database "Telemetry DB" as Telemetry
+
+User -> CLI: llm-service exec --agent=architect --prompt=design.md
+activate CLI
+
+CLI -> Config: load_configuration()
+activate Config
+Config --> CLI: agents.yaml, tools.yaml, models.yaml, policies.yaml
+deactivate Config
+
+CLI -> Router: route(agent="architect", task_type="analysis")
+activate Router
+
+Router -> Config: get_agent_config("architect")
+Config --> Router: preferred_tool=cursor, preferred_model=gpt-4-turbo
+
+Router -> Policy: check_task_complexity(prompt="design.md")
+activate Policy
+Policy --> Router: tokens=3000, complexity=high
+deactivate Policy
+
+Router -> Policy: apply_cost_optimization(tokens=3000, agent="architect")
+activate Policy
+Policy -> Telemetry: get_daily_spending()
+Telemetry --> Policy: current_spend=$8.50, budget=$10.00
+Policy --> Router: model=gpt-4-turbo (complex task, within budget)
+deactivate Policy
+
+Router --> CLI: tool=cursor, model=gpt-4-turbo
+deactivate Router
+
+CLI -> Executor: execute(tool=cursor, model=gpt-4-turbo, prompt=design.md)
+activate Executor
+
+Executor -> Adapter: invoke(prompt=design.md, model=gpt-4-turbo)
+activate Adapter
+
+Adapter -> LLM: cursor --prompt-file design.md --model gpt-4-turbo
+activate LLM
+LLM --> Adapter: response (stdout)
+deactivate LLM
+
+Adapter --> Executor: normalized_response
+deactivate Adapter
+
+Executor -> Telemetry: log_invocation(agent, tool, model, tokens, cost, latency)
+activate Telemetry
+Telemetry --> Executor: logged
+deactivate Telemetry
+
+Executor --> CLI: response
+deactivate Executor
+
+CLI -> User: display response (stdout)
+deactivate CLI
+
+note right of Policy
+  Policy checks:
+  - Daily budget limit
+  - Token threshold for model selection
+  - Rate limiting
+  - Warning/blocking based on limit.type
+end note
+
+note right of Telemetry
+  Logged data:
+  - timestamp
+  - agent: architect
+  - tool: cursor
+  - model: gpt-4-turbo
+  - input_tokens: 2800
+  - output_tokens: 1200
+  - cost_usd: 0.064
+  - latency_ms: 3200
+end note
+
+@enduml

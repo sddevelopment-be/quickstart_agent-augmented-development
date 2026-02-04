@@ -1454,27 +1454,69 @@ tools:
 
 ---
 
-## Diagrams (To Be Delegated)
+## Diagrams
 
-The following diagrams should be created by the Diagrammer specialist:
+The following architecture diagrams have been created in PlantUML format by Diagram Daisy:
 
-1. **Component Architecture Diagram (C4 Container Level):**
-   - Show service core, CLI interface, tool adapters, configuration layer, telemetry database
-   - Illustrate data flow from agent invocation to tool execution to response
+### 1. Component Architecture Diagram (C4 Container Level)
 
-2. **Request Flow Sequence Diagram:**
-   - Detail step-by-step interaction from `llm-service exec` command to tool invocation and response
-   - Include configuration lookup, policy application, fallback logic
+**Location:** `docs/architecture/diagrams/llm-service-layer-component-architecture.puml`
 
-3. **Configuration Relationships Diagram:**
-   - Show relationships between `agents.yaml`, `tools.yaml`, `models.yaml`, `policies.yaml`
-   - Illustrate how configuration files compose to determine routing decisions
+Shows the service core, CLI interface, tool adapters, configuration layer, and telemetry database. Illustrates data flow from agent invocation through routing, policy enforcement, tool execution, and response delivery.
 
-4. **Deployment Architecture Diagram:**
-   - Depict local machine setup with LLM Service, installed LLM CLI tools, and configuration files
-   - Show cross-OS support (Linux, macOS, Windows/WSL2)
+**Key Components:**
+- CLI Interface (user interaction)
+- Routing Engine (agent-to-tool mapping)
+- Configuration Manager (YAML loading)
+- Policy Engine (budget enforcement, cost optimization)
+- Execution Manager (subprocess orchestration)
+- Tool Adapters (Claude-Code, Codex, Generic)
+- Telemetry Database (SQLite)
 
-**Delegation Note:** Create sub-agent task for Diagrammer to generate PlantUML diagrams based on this document.
+### 2. Request Flow Sequence Diagram
+
+**Location:** `docs/architecture/diagrams/llm-service-layer-request-flow-sequence.puml`
+
+Details the step-by-step interaction from `llm-service exec` command through configuration lookup, policy application, tool invocation, telemetry logging, and response return.
+
+**Sequence Steps:**
+1. User invokes CLI command
+2. Configuration loading (agents, tools, models, policies)
+3. Routing decision (agent → tool+model)
+4. Policy enforcement (budget check, cost optimization)
+5. Tool adapter invocation (subprocess execution)
+6. Telemetry logging (tokens, cost, latency)
+7. Response delivery to user
+
+### 3. Configuration Relationships Diagram
+
+**Location:** `docs/architecture/diagrams/llm-service-layer-configuration-relationships.puml`
+
+Shows relationships between `agents.yaml`, `tools.yaml`, `models.yaml`, and `policies.yaml`. Illustrates how configuration files compose to determine routing decisions.
+
+**Configuration Flow:**
+1. `agents.yaml` → preferred_tool (references `tools.yaml`)
+2. `agents.yaml` → preferred_model (references `models.yaml`)
+3. `tools.yaml` → command_template + available models
+4. `models.yaml` → cost data + capabilities
+5. `policies.yaml` → budget rules + optimization thresholds
+6. Composition → final CLI invocation command
+
+### 4. Deployment Architecture Diagram
+
+**Location:** `docs/architecture/diagrams/llm-service-layer-deployment-architecture.puml`
+
+Depicts local machine setup across Linux, macOS, and Windows/WSL2 environments. Shows LLM Service installation, configuration file locations, telemetry database, and installed LLM CLI tools.
+
+**Platform-Specific Details:**
+- **Linux:** Native deployment with XDG paths
+- **macOS:** Native deployment with Homebrew support
+- **Windows:** WSL2-based deployment with path translation
+
+**Configuration Paths:**
+- Config: `~/.config/llm-service/`
+- Telemetry: `~/.local/share/llm-service/`
+- Tools: Platform-specific (defined in `tools.yaml`)
 
 ---
 
