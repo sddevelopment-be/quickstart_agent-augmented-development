@@ -1,0 +1,35 @@
+id: 2026-02-04T1705-backend-dev-claude-code-adapter
+agent: backend-dev
+status: new
+title: "Implement Claude-Code adapter with command template execution"
+artefacts:
+  - src/llm_service/adapters/claude_code.py  # or claudeCode.js
+  - tests/test_claude_code_adapter.py  # or claudeCode.test.js
+  - docs/adapters/claude-code-adapter.md
+context:
+  project: "LLM Service Layer"
+  architecture_ref: "docs/architecture/design/llm-service-layer-prestudy.md"
+  milestone: "Milestone 2: Tool Integration"
+  batch: "Batch 2.2: Claude-Code Adapter"
+  notes:
+    - "Implement adapter inheriting from base adapter interface"
+    - "Read command_template from tools.yaml: '{binary} {prompt_file} --model {model} --output {output_file}'"
+    - "Perform parameter substitution with actual values"
+    - "Invoke claude CLI via subprocess with proper error handling"
+    - "Normalize output to common response format"
+    - "Handle platform-specific binary paths (Linux, macOS, Windows/WSL2)"
+    - "Implement timeout and retry logic for network issues"
+acceptance_criteria:
+  - "Adapter successfully invokes mocked claude CLI with correct parameters"
+  - "Parameter substitution works for all placeholders (binary, prompt_file, model, output_file)"
+  - "Error handling covers: binary not found, auth failures, rate limits, timeout"
+  - "Platform detection resolves correct binary path from tools.yaml"
+  - "Integration tests achieve >70% coverage"
+  - "Documentation explains adapter configuration and usage"
+dependencies:
+  - "Task 5: Adapter base interface must be complete"
+  - "Config schema (Task 1) must support tools.yaml structure"
+estimated_effort: "2-3 days"
+priority: "high"
+created_at: "2026-02-04T17:05:00Z"
+created_by: "planning-petra"
