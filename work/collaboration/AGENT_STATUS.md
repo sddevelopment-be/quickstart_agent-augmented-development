@@ -1,20 +1,24 @@
 # Agent Status Dashboard
 
-_Last updated: 2026-02-04 19:26:06 UTC_
+_Last updated: 2026-02-04 19:45:43 UTC_
 
 ## architect
 
-- **Status**: Idle
+- **Status**: ✅ Task Completed (Milestone 1 Review)
 - **Assigned**: 5 tasks
-- **In Progress**: 0 tasks
-- **Last seen**: 2026-02-04 19:26:05
+- **Completed**: 1 task (LLM Service Layer M1 Review)
+- **In Progress**: 3 ADR documentation tasks (pending)
+- **Last seen**: 2026-02-04 19:36:00
+- **Recent Work**: Architectural review of LLM Service Layer - APPROVED for M2
 
 ## backend-dev
 
-- **Status**: Idle
+- **Status**: ✅ Task Completed (Code Enhancement)
 - **Assigned**: 7 tasks
+- **Completed**: 1 task (LLM Service M1 Code Review)
 - **In Progress**: 0 tasks
-- **Last seen**: 2026-02-04 19:26:05
+- **Last seen**: 2026-02-04 19:36:00
+- **Recent Work**: Enhanced LLM Service Layer (93% coverage, 65 tests, all passing)
 
 ## bootstrap-bill
 

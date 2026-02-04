@@ -1,398 +1,292 @@
 # Next Batch: Implementation Plan
 
-**Batch ID**: 2026-01-31-batch-3 (Iteration 2)  
-**Created**: 2026-01-31  
-**Updated**: 2026-01-31 (Iteration 2 Planning)  
+**Batch ID**: 2026-02-04-llm-service-m2-prep (Pre-Milestone 2)  
+**Created**: 2026-02-04  
+**Updated**: 2026-02-04 (Post-M1 Completion)  
 **Prepared By**: Planning Petra  
-**Status**: ✅ Ready for Execution  
-**Estimated Duration**: 1-2 days
+**Status**: 🟡 Ready for Assignment  
+**Estimated Duration**: 1 day (4-6 hours + buffer)
 
 ---
 
 ## Batch Objective
 
-Execute a **strategic multi-initiative batch** that:
-1. **Continues Iteration 1 momentum** (distribution user documentation)
-2. **Starts documentation website initiative** (strategic foundation)
-3. **Unblocks high-value work** (YAML fixes enable ADR-023)
-4. **Completes automation capabilities** (Framework Guardian, release checklist)
+Complete **pre-Milestone 2 documentation requirements** for LLM Service Layer to unblock Tool Integration work:
+
+1. **Document tactical ADRs** (3 decisions made during M1 implementation)
+2. **Review adapter interface design** (prepare for M2 Tool Integration)
+3. **Plan command template security** (injection prevention strategy)
 
 **Success Criteria**:
-- 5/5 tasks completed within 2 days
-- System health: 🟡 → 🟢 (YAML fixes)
-- ADR-023 unblocked for next iteration
-- Doc website Batch 1 foundation complete
-- Distribution capability end-to-end complete
-- Framework Guardian operational
+- 3 tactical ADRs documented (ADR-026, ADR-027, ADR-028)
+- Adapter interface design reviewed and decision captured
+- Security posture documented
+- Milestone 2 kickoff unblocked
+- 1-day buffer before M2 start
 
 ---
 
-## Iteration 2 Strategy
+## Context: LLM Service Layer Milestone 1 Complete
 
-**Key Changes from Batch 2 (Iteration 1)**:
-- **Scale Up**: 2 tasks → 5 tasks (manageable increase)
-- **Parallelization**: 1 agent → 4 agents (curator, writer-editor, architect)
-- **Strategic Balance**: 3 strategic initiatives + 2 operational tasks
-- **Risk Management**: Mix of NEW work + cleanup/completion work
+**Achievement:** ✅ Milestone 1 (Foundation) COMPLETE
+- 93% test coverage (target: 80%) ✅ EXCEEDED
+- 65/65 tests passing ✅ PERFECT
+- Architect Alphonso APPROVED for M2 ✅
+- Production-ready foundation ✅
 
-**Why This Approach**:
-✅ Builds on Iteration 1 success (proven patterns)  
-✅ Maintains momentum (distribution → doc website)  
-✅ Unblocks future high-value work (YAML fixes → ADR-023)  
-✅ Engages multiple agents (parallel execution)  
-✅ Manageable scope (1-2 days, 26-35 hours total)
+**Gap Identified:** 3 tactical ADRs needed to document implementation decisions made during M1:
+1. ADR-026: Pydantic V2 for Schema Validation
+2. ADR-027: Click for CLI Framework
+3. ADR-028: Tool-Model Compatibility Validation
 
----
-
+**Why Critical:**
+- Preserves decision context for future maintainers
+- Satisfies Directive 018 (Traceable Decisions)
+- Unblocks Milestone 2 progression
+- Required by Architect Alphonso's review recommendations
 ## Selected Tasks (5 Total - Priority Order)
 
-### Critical Priority Tasks (Execute First)
+### Task 1: ADR-026 - Pydantic V2 for Schema Validation
 
-#### Task 1: YAML Format Fixes (CRITICAL - UNBLOCKS ADR-023)
-- **ID**: `2026-01-31T0900-curator-fix-yaml-format-errors`
-- **Agent**: curator
+- **ID**: `2026-02-04T2000-architect-adr026-pydantic-v2-validation`
+- **Agent**: architect (Alphonso)
 - **Priority**: HIGH
-- **Status**: Ready in inbox
-- **Estimated Effort**: 2-3 hours
+- **Status**: Ready to assign
+- **Estimated Effort**: 1 hour
 - **Mode**: `/analysis-mode`
-- **Strategic Value**: ⭐⭐⭐⭐⭐ Unblocks $140-300k ROI initiative
+- **Strategic Value**: ⭐⭐⭐⭐ Preserves decision context
 
-**Why Critical**:
-- Blocks entire ADR-023 Prompt Optimization Initiative
-- Affects 6 high-value tasks across 3 agents
-- Restores orchestrator health monitoring
-- Mechanical task, low risk, high impact
+**Why This ADR:**
+- Decision made during M1: Chose Pydantic v2 over JSON Schema, Marshmallow, attrs
+- Trade-offs: Strong type integration + validation vs. learning curve + v1→v2 migration risk
+- Impact: Affects validation performance, developer experience, type safety
+- Required per Directive 018 (Traceable Decisions)
 
 **Deliverables**:
-1. Fix 6 YAML files (convert to pure YAML format):
-   - `assigned/backend-dev/2026-01-30T1642-adr023-phase2-prompt-validator.yaml`
-   - `assigned/backend-dev/2026-01-30T1643-adr023-phase3-context-loader.yaml`
-   - `assigned/build-automation/2026-01-30T1644-adr023-phase2-ci-workflow.yaml`
-   - `assigned/build-automation/2026-01-29T0935-mfd-task-0.1-workflow-review.yaml`
-   - `assigned/architect/2026-01-30T1120-design-prompt-optimization-framework.yaml`
-   - `assigned/architect/2026-01-29T0730-mfd-task-1.3-schema-conventions.yaml`
-2. Update: `work/reports/2026-01-31-yaml-format-fixes.md`
-3. Validation: All files pass `validate-task-schema.py`
+1. `docs/architecture/adrs/ADR-026-pydantic-v2-validation.md`
+   - Context: Configuration validation framework choice
+   - Decision: Use Pydantic v2 for schema validation
+   - Trade-offs: Pros (type integration, field validators) vs. Cons (learning curve, v2 breaking changes)
+   - Consequences: Strong validation, Python-native, excellent DX
 
 **Dependencies**: None (immediate execution)
 
 **Success Criteria**:
-- All 6 files validate without errors
-- No information loss from original format
-- Orchestrator can parse all files
-- System health improves: 🟡 → 🟢
+- ADR follows standard template (Context, Decision, Status, Consequences)
+- Trade-offs clearly articulated
+- References LLM Service Layer prestudy
+- Decision rationale preserved for future maintainers
 
 ---
 
-#### Task 2: Distribution User Guide (HIGH-VALUE CONTINUATION)
-- **ID**: `2026-01-31T0714-writer-editor-distribution-user-guide.yaml`
-- **Agent**: writer-editor
+### Task 2: ADR-027 - Click for CLI Framework
+
+- **ID**: `2026-02-04T2001-architect-adr027-click-cli-framework`
+- **Agent**: architect (Alphonso)
 - **Priority**: HIGH
-- **Status**: Currently in inbox, ready to assign
-- **Estimated Effort**: 8-10 hours implementation + 2 hours review
-- **Mode**: `/creative-mode`
-- **Strategic Value**: ⭐⭐⭐⭐⭐ Enables framework adoption
-
-**Why Selected**:
-- Direct continuation of Iteration 1 (distribution enablers)
-- All prerequisites completed (102/102 tests passing)
-- High impact: 60% adoption friction reduction
-- Completes distribution capability end-to-end
-
-**Deliverables**:
-1. `docs/USER_GUIDE_distribution.md` - What gets distributed, profiles, building releases
-2. `docs/USER_GUIDE_installation.md` - Step-by-step first-time installation
-3. `docs/USER_GUIDE_upgrade.md` - Upgrade workflow, conflict handling
-4. `docs/quickstart/GETTING_STARTED.md` - Quick start for impatient users
-
-**Dependencies**: 
-- ✅ `docs/HOW_TO_USE/framework_install.md` (exists, completed in previous iteration)
-- ✅ `ops/release/README.md` (exists)
-- ✅ `ops/release/distribution-config.yaml` (exists)
-- ✅ Install/upgrade scripts (completed)
-
-**Success Criteria**:
-- Conversational, user-friendly tone
-- Step-by-step walkthroughs with expected output
-- Troubleshooting sections for common issues
-- Non-technical team member can follow the guides
-- All command examples tested
-- Consistent with technical documentation
-
-**Validation Requirements**:
-- Have non-technical team member review for clarity
-- Test all command examples
-- Validate links and cross-references
-- Ensure consistency with `docs/HOW_TO_USE/framework_install.md`
-
----
-
-#### Task 3: Documentation Website Foundation (STRATEGIC INITIATIVE)
-- **ID**: `2026-01-31T0930-architect-docsite-foundation-setup`
-- **Agent**: architect
-- **Priority**: HIGH
-- **Status**: Ready in inbox
-- **Estimated Effort**: 6-8 hours
+- **Status**: Ready to assign
+- **Estimated Effort**: 45 minutes
 - **Mode**: `/analysis-mode`
-- **Strategic Value**: ⭐⭐⭐⭐⭐ Enables 10-14 week initiative
+- **Strategic Value**: ⭐⭐⭐⭐ Documents CLI framework choice
 
-**Why Selected**:
-- Starts critical documentation website initiative
-- No blockers or dependencies
-- Creates foundation for professional framework presentation
-- Generates handoff tasks for 3 agents (Batch 1 completion)
-- Aligns with Task 2 (user guides become website content)
+**Why This ADR:**
+- Decision made during M1: Chose Click over argparse, Typer, raw sys.argv
+- Trade-offs: Mature ecosystem + testing vs. not type-safe by default
+- Impact: Affects CLI extensibility, testing, user experience
 
 **Deliverables**:
-1. `work/analysis/docsite-technology-selection.md` - Hugo selection rationale
-2. `docs-site/ARCHITECTURE.md` - Site structure, audience mapping
-3. `docs-site/README.md` - Setup instructions
-4. `docs-site/config.toml` - Hugo configuration
-5. `docs-site/content/_index.md` - Homepage skeleton
-6. Handoff tasks: build-automation (deployment), writer-editor (content), diagrammer (diagrams)
+1. `docs/architecture/adrs/ADR-027-click-cli-framework.md`
+   - Context: CLI interface framework selection
+   - Decision: Use Click for CLI implementation
+   - Trade-offs: Pros (mature, testable, composable) vs. Cons (not type-safe like Typer)
+   - Consequences: Excellent testing support (CliRunner), subcommand composition
 
 **Dependencies**: None (immediate execution)
 
 **Success Criteria**:
-- Hugo site builds without errors (`hugo` command succeeds)
-- Development server runs (`hugo server -D` works)
-- Architecture documented with clear rationale
-- Handoff tasks created with clear prerequisites
-- Supports all 5 planned batches (10-14 weeks total)
-
-**Strategic Impact**:
-- Enables Batch 2: Content migration (3 weeks, 50-70 hours)
-- Enables Batch 3: User onboarding (2-3 weeks, 40-60 hours)
-- Enables Batch 4: Developer/architect content (2-3 weeks, 45-65 hours)
-- Enables Batch 5: Polish & launch (1-2 weeks, 25-40 hours)
-
-**Related Documentation**:
-- Full roadmap: `work/planning/documentation-website-roadmap.md`
-- Metadata strategy: `docs/architecture/adrs/ADR-022-docsite-separated-metadata.md`
-
----
-- **ID**: `2026-01-31T0714-writer-editor-distribution-user-guide.yaml`
-- **Agent**: writer-editor
-- **Priority**: HIGH
-- **Status**: Currently in inbox, ready to assign
-- **Estimated Effort**: 6-8 hours implementation + 2 hours review
-- **Mode**: `/creative-mode`
-
-**Deliverables**:
-1. `docs/USER_GUIDE_distribution.md` - What gets distributed, profiles, building releases
-2. `docs/USER_GUIDE_installation.md` - Step-by-step first-time installation
-3. `docs/USER_GUIDE_upgrade.md` - Upgrade workflow, conflict handling
-4. `docs/quickstart/GETTING_STARTED.md` - Quick start for impatient users
-
-**Dependencies**: 
-- ✅ `docs/HOW_TO_USE/framework_install.md` (exists, completed in previous iteration)
-- ✅ `ops/release/README.md` (exists)
-- ✅ `ops/release/distribution-config.yaml` (exists)
-- ✅ Install/upgrade scripts (completed)
-
-**Success Criteria**:
-- Conversational, user-friendly tone
-- Step-by-step walkthroughs with expected output
-- Troubleshooting sections for common issues
-- Non-technical team member can follow the guides
-- All command examples tested
-- Consistent with technical documentation
-
-**Validation Requirements**:
-- Have non-technical team member review for clarity
-- Test all command examples
-- Validate links and cross-references
-- Ensure consistency with `docs/HOW_TO_USE/framework_install.md`
+- ADR documents Click selection rationale
+- Trade-off analysis includes Typer comparison
+- References cli.py implementation
+- Connects to user experience goals
 
 ---
 
-### Supporting Tasks (Execute In Parallel or After Primary)
+### Task 3: ADR-028 - Tool-Model Compatibility Validation
 
-#### Task 4: Framework Guardian Agent Definition (AUTOMATION COMPLETION)
-- **ID**: `2025-12-05T1014-architect-framework-guardian-agent-definition.yaml`
-- **Agent**: architect
+- **ID**: `2026-02-04T2002-architect-adr028-tool-model-compatibility`
+- **Agent**: architect (Alphonso)
 - **Priority**: MEDIUM
-- **Status**: Assigned (ready for execution)
-- **Estimated Effort**: 4-6 hours
+- **Status**: Ready to assign
+- **Estimated Effort**: 1 hour
 - **Mode**: `/analysis-mode`
-- **Strategic Value**: ⭐⭐⭐⭐ Automated health monitoring
+- **Strategic Value**: ⭐⭐⭐⭐ Documents enhancement decision
 
-**Rationale for Inclusion**: 
-- Prerequisites completed in Iteration 1
-- Natural companion to distribution work (Tasks 2 & 3)
-- Agent profile already shows as "Ready"
-- Can execute in parallel with Tasks 1-3 or after Task 3
-- Follows established agent profile patterns
+**Why This ADR:**
+- Decision made during M1 code review: Added by Backend-dev Benny
+- Enhancement not in original prestudy
+- Trade-offs: Configuration quality vs. validation complexity
+- Impact: Prevents runtime errors, improves config validation
 
 **Deliverables**:
-- `agents/framework-guardian.agent.md` - Agent profile
-- `agents/directives/025_framework_audit_guidelines.md` - Audit directive
-- Templates for framework audits (in `docs/templates/`)
-- Integration points with install/upgrade system
+1. `docs/architecture/adrs/ADR-028-tool-model-compatibility-validation.md`
+   - Context: Configuration validation enhancement
+   - Decision: Validate agent's preferred_model is supported by preferred_tool
+   - Rationale: Catches misconfigurations at validation time vs. runtime
+   - Consequences: Higher config quality, better error messages
 
-**Dependencies**: ✅ Release packaging complete (Iteration 1)
+**Dependencies**: None (immediate execution)
 
 **Success Criteria**:
-- Agent profile follows established patterns
-- Directive 025 provides clear, actionable guidelines
-- Templates usable by non-technical users
-- Integration with install/upgrade system defined
-
-**Decision Point**: Execute after Task 3 completes or in parallel if architect capacity available.
+- ADR documents validation enhancement
+- Credits Backend-dev Benny as proposer
+- Explains why added (not in prestudy)
+- Shows example of caught error
 
 ---
 
-#### Task 5: Release Documentation Checklist (PROCESS COMPLETION)
-- **ID**: `2025-12-05T1016-writer-editor-release-documentation-checklist.yaml`
-- **Agent**: writer-editor
-- **Priority**: MEDIUM
-- **Status**: Assigned (ready for execution)
-- **Estimated Effort**: 3-4 hours
-- **Mode**: `/creative-mode`
-- **Strategic Value**: ⭐⭐⭐ Zero documentation regressions
+### Task 4: Adapter Interface Design Review
 
-**Rationale for Inclusion**:
-- Same agent as Task 2 (sequential execution after Task 2)
-- Completes release process documentation
-- Low complexity, well-defined scope
-- Natural follow-up to distribution user guides
+- **ID**: `2026-02-04T2003-architect-adapter-interface-review`
+- **Agent**: architect (Alphonso)
+- **Priority**: HIGH
+- **Status**: Ready to assign
+- **Estimated Effort**: 1 hour
+- **Mode**: `/analysis-mode`
+- **Strategic Value**: ⭐⭐⭐⭐⭐ Unblocks Milestone 2
+
+**Why Critical:**
+- Milestone 2 (Tool Integration) starts with adapter base interface
+- Decision point: Abstract base class vs. Protocol vs. duck typing
+- Impacts extensibility, testing, community contributions
+- Must be decided before M2 implementation begins
 
 **Deliverables**:
-- Release documentation checklist (Markdown template)
-- Release process documentation (integrated into `ops/release/`)
-- Quality gates for release documentation
+1. Design review document: `work/analysis/llm-service-adapter-interface-review.md`
+   - Options: ABC vs. Protocol vs. duck typing
+   - Trade-offs: Type safety, testability, extensibility
+   - Recommendation: Preferred approach with rationale
+2. ADR-029 draft: `docs/architecture/adrs/ADR-029-adapter-interface-design.md`
+   - Decision: Adapter base interface approach
+   - Context: Tool adapter extensibility strategy
+   - Consequences: Affects M2 implementation, community tool additions
 
-**Dependencies**: ✅ Install/upgrade scripts complete (Iteration 1)
+**Dependencies**: None (M1 complete, foundation in place)
 
 **Success Criteria**:
-- Checklist covers all release documentation aspects
-- Integrated into existing release workflow
-- Clear, actionable items
-- Usable by any team member
-
-**Decision Point**: Execute after Task 2 completes or in parallel if capacity available.
+- 3 options evaluated with pros/cons
+- Clear recommendation with rationale
+- ADR-029 ready for finalization during M2 Batch 2.1
+- Unblocks M2 kickoff
 
 ---
-- **ID**: `2025-12-05T1014-architect-framework-guardian-agent-definition.yaml`
-- **Agent**: architect
-- **Priority**: MEDIUM
-- **Status**: Assigned
-- **Estimated Effort**: 4-6 hours
-- **Dependencies**: ✅ Release packaging complete
 
-**Rationale for Inclusion**: 
-- Prerequisites completed in last iteration
-- Natural companion to distribution work
-- Agent profile already shows as "Ready"
-- Can be executed in parallel with Task 1
+### Task 5: Command Template Security Review
+
+- **ID**: `2026-02-04T2004-architect-command-template-security`
+- **Agent**: architect (Alphonso)
+- **Priority**: MEDIUM
+- **Status**: Ready to assign
+- **Estimated Effort**: 30 minutes
+- **Mode**: `/analysis-mode`
+- **Strategic Value**: ⭐⭐⭐ Documents security posture
+
+**Why Important:**
+- Command template substitution could be injection vector
+- Current mitigation: YAML is trusted configuration (not user input)
+- Future risk: If YAML becomes user-editable, need safeguards
 
 **Deliverables**:
-- Agent profile for Framework Guardian
-- Directive 025 (framework audit guidelines)
-- Templates for framework audits
+1. Security posture document: `work/analysis/llm-service-command-template-security.md`
+   - Current approach: Trusted YAML configuration
+   - Risk assessment: Injection scenarios
+   - Mitigation options: Whitelist placeholders, escape args, subprocess with shell=False
+   - Recommendation: Security strategy for M2
 
-**Decision Point**: Execute if architect capacity available and Task 1 progresses smoothly.
+**Dependencies**: None (immediate execution)
+
+**Success Criteria**:
+- Security risks identified and assessed
+- Current posture documented (trusted YAML)
+- Mitigation options outlined for M2
+- Clear recommendation for tool adapter implementation
+
+---
 
 ## Execution Plan
 
-### Phase 1: Immediate Parallel Start (Hour 0)
+### Phase 1: ADR Documentation (Hours 0-3)
 
-**Independent Execution Block**:
+**Sequential Execution (Architect Alphonso):**
 ```
-curator (Task 1)         → YAML Format Fixes         [2-3h]  CRITICAL
-writer-editor (Task 2)   → Distribution User Guide   [8-10h] HIGH
-architect (Task 3)       → Doc Website Foundation    [6-8h]  HIGH
+Task 1: ADR-026 (Pydantic V2)         [1h]   HIGH
+Task 2: ADR-027 (Click CLI)           [45m]  HIGH
+Task 3: ADR-028 (Tool-Model Compat)   [1h]   MEDIUM
 ```
 
-**Characteristics**:
-- All 3 tasks fully independent (no conflicts)
-- Different agents, different artifacts
-- Can execute simultaneously
-- Task 1 shortest (critical path for next iteration)
-- Task 2 longest (start early)
+**Time Estimate:** 2.75 hours (round to 3 hours)
 
-**Immediate Actions**:
-1. ✅ Assign Task 1 to curator (move from inbox to assigned)
-2. ✅ Assign Task 2 to writer-editor (move from inbox to assigned)
-3. ✅ Assign Task 3 to architect (move from inbox to assigned)
-4. Update all task status to `assigned`
-5. Stamp `assigned_at` timestamp
-6. Commit task assignments
-
-**Time Estimate**: 10-21 hours across 3 agents (parallel execution: Day 1)
+**Immediate Actions:**
+1. Assign all 3 ADR tasks to architect
+2. Execute sequentially (dependencies on shared ADR template)
+3. Validate ADRs follow Directive 018 format
 
 ---
 
-### Phase 2: Continuation (After Task 3 or In Parallel)
+### Phase 2: M2 Preparation (Hours 3-5)
 
-**Sequential or Parallel Block**:
+**Parallel Execution (Can Start After ADRs or In Parallel):**
 ```
-architect (Task 4)       → Framework Guardian        [4-6h]  MEDIUM
-  (after Task 3 OR in parallel if capacity available)
-
-writer-editor (Task 5)   → Release Checklist         [3-4h]  MEDIUM
-  (after Task 2 OR in parallel if capacity available)
+Task 4: Adapter Interface Review      [1h]   HIGH
+Task 5: Security Review               [30m]  MEDIUM
 ```
 
-**Characteristics**:
-- Task 4 can start after Task 3 completes (same agent)
-- Task 5 can start after Task 2 completes (same agent)
-- Both can execute in parallel with each other
-- Optional: Execute in parallel with Phase 1 if multiple agent sessions available
+**Time Estimate:** 1.5 hours
 
-**Time Estimate**: 7-10 hours across 2 agents (sequential: Day 2, parallel: Day 1)
+**Characteristics:**
+- Can execute in parallel with ADRs (different artifacts)
+- Task 4 is blocking for M2 kickoff (adapter design decision)
+- Task 5 informs M2 implementation but not blocking
 
 ---
 
 ### Timeline Estimates
 
-**Pessimistic** (Sequential Execution): 2-3 days
-- Day 1: Tasks 1, 3 complete (curator, architect)
-- Day 2: Task 2 in progress (writer-editor, 50-75%)
-- Day 3: Tasks 2, 4, 5 complete
+**Realistic** (Sequential Execution): 1 day
+- Morning: Tasks 1-3 complete (ADRs)
+- Afternoon: Tasks 4-5 complete (M2 prep)
+- Buffer: 2-3 hours for review/refinement
 
-**Realistic** (Mostly Parallel): 1-2 days
-- Day 1: Tasks 1, 3 complete; Task 2 at 75%; Tasks 4-5 not started
-- Day 2: Tasks 2, 4, 5 complete
+**Optimistic** (Some Parallelization): 4-6 hours
+- ADRs + Reviews can overlap if architect switches contexts
+- All tasks complete same day
+- No buffer needed
 
-**Optimistic** (Full Parallel): 1 day
-- All agents work simultaneously
-- Multiple sessions available
-- All tasks complete within 10-12 hours
+**Recommended:** Plan for 1 day with buffer before M2 kickoff
 
 ---
 
 ## Checkpoints & Milestones
 
-### Checkpoint 1: Day 1 Morning (Hour 3-4)
-**Check**: Task 1 (YAML fixes) progress  
-**Expected**: 50-75% complete (3-4 files fixed)  
-**Decision**: On track OR needs support  
-**Trigger**: Curator update
+### Checkpoint 1: ADR Completion (Hour 3)
+**Check**: Tasks 1-3 (ADRs) complete  
+**Expected**: 3 ADRs documented, validated, committed  
+**Decision**: Proceed to M2 prep OR refine ADRs  
+**Trigger**: Architect completes Task 3
 
-### Checkpoint 2: Day 1 Afternoon (Hour 6-8)
-**Check**: Tasks 1, 3 completion; Task 2 at 50%  
+### Checkpoint 2: M2 Readiness (Hour 5)
+**Check**: Tasks 4-5 (M2 prep) complete  
 **Expected**: 
-- Task 1 complete ✅ (YAML fixes done)
-- Task 3 complete or near complete ✅ (Hugo foundation)
-- Task 2 at 50% (2/4 guides drafted)  
-**Decision**: Proceed to Phase 2 OR extend Phase 1  
-**Trigger**: Agent status updates
+- Adapter interface decision documented ✅
+- Security posture reviewed ✅
+- ADRs complete ✅
+**Decision**: Approve M2 kickoff OR extend prep  
+**Trigger**: All 5 tasks complete
 
-### Checkpoint 3: Day 2 Morning (Hour 12-16)
-**Check**: Task 2 completion, Tasks 4-5 progress  
-**Expected**:
-- Task 2 complete ✅ (all 4 guides)
-- Task 4 in progress (Framework Guardian)
-- Task 5 in progress (Release checklist)  
-**Decision**: On track for completion OR adjust scope  
-**Trigger**: 80% milestone
-
-### Checkpoint 4: Day 2 Afternoon (Hour 20-24)
-**Check**: All tasks complete, validation passed  
-**Expected**: 5/5 tasks complete ✅  
-**Decision**: Close batch OR extend for polish  
-**Trigger**: All success criteria met
+### Checkpoint 3: M2 Kickoff Gate (Day 2)
+**Check**: All deliverables reviewed, buffer day complete  
+**Expected**: M2 Batch 2.1 (Adapter Base Interface) ready to assign  
+**Decision**: Start Milestone 2 OR address gaps  
+**Trigger**: 1-day buffer complete, human approval
 
 ---
 
@@ -400,114 +294,79 @@ writer-editor (Task 5)   → Release Checklist         [3-4h]  MEDIUM
 
 | Agent | Tasks | Total Hours | Complexity | Timeline |
 |-------|-------|-------------|------------|----------|
-| **curator** | 1 | 2-3h | LOW | Day 1 morning |
-| **writer-editor** | 2 | 11-14h | MEDIUM | Days 1-2 |
-| **architect** | 2 | 10-14h | MEDIUM | Days 1-2 |
-| **Total** | **5 tasks** | **26-35h** | **Mixed** | **1-2 days** |
+| **architect** | 5 | 4.25h | LOW-MEDIUM | 1 day |
+| **Total** | **5 tasks** | **4.25h** | **Low** | **1 day** |
 
-### Agent Workload Balance
+### Agent Workload: Architect Alphonso
 
-**curator**: Light (2-3h single task)
-- Focused, mechanical work
-- Critical path for next iteration
-- Quick turnaround expected
+**Workload:** Light (4.25 hours concentrated work)
+- Task 1: 1 hour (ADR-026)
+- Task 2: 45 min (ADR-027)
+- Task 3: 1 hour (ADR-028)
+- Task 4: 1 hour (Adapter interface review)
+- Task 5: 30 min (Security review)
 
-**writer-editor**: Heavy (11-14h across 2 tasks)
-- Primary workload in this batch
-- Task 2 is longest single task (8-10h)
-- Task 5 is follow-up (3-4h)
-- Sequential execution recommended
-
-**architect**: Heavy (10-14h across 2 tasks)
-- Task 3 (docsite foundation) is strategic (6-8h)
-- Task 4 (Framework Guardian) is follow-up (4-6h)
-- Can execute sequentially or overlap if capacity
+**Characteristics:**
+- All tasks same agent (sequential or contextual parallelization)
+- Low complexity (documentation, not implementation)
+- High strategic value (unblocks M2)
+- Fits in 1 working day with buffer
 
 ---
 
 ## Risk Assessment & Mitigation
 
-### Risk 1: Writer-Editor Task Scope Creep (Task 2)
-**Description**: User guide creation expands beyond 4 documents  
-**Probability**: MEDIUM  
-**Impact**: HIGH (delays completion, blocks Task 5)  
+### Risk 1: ADR Documentation Scope Creep
+**Description**: ADRs expand beyond tactical decision documentation  
+**Probability**: LOW  
+**Impact**: MEDIUM (delays M2 kickoff)  
 **Mitigation**: 
-- Clear deliverable list (4 documents only)
-- Time-box to 10 hours
-- Defer visual enhancements (diagrams, videos) to follow-up tasks
-- Escalate if expanding beyond scope
+- Time-box each ADR to 1 hour max
+- Use standard ADR template
+- Focus on decision + trade-offs, not exhaustive analysis
+- Defer deep dives to design docs if needed
 
-### Risk 2: Documentation Website Handoff Clarity (Task 3)
-**Description**: Handoff tasks not clear enough for next agents  
+### Risk 2: Adapter Interface Analysis Paralysis
+**Description**: Too many options, difficult to choose  
 **Probability**: MEDIUM  
-**Impact**: MEDIUM (delays Batch 2 start)  
+**Impact**: MEDIUM (delays M2)  
 **Mitigation**:
-- Require detailed handoff task specifications
-- Clear prerequisites in each handoff task
-- Reference architecture doc in handoffs
-- Review handoff tasks before task completion
-- Use task template from inbox examples
+- Limit to 3 options (ABC, Protocol, duck typing)
+- Use lightweight spike if needed (30 min code exploration)
+- Make recommendation, finalize during M2 Batch 2.1
+- Don't block on perfect decision
 
-### Risk 3: Parallel Execution Coordination
-**Description**: Multiple agents working simultaneously causes conflicts  
+### Risk 3: Security Review Rabbit Hole
+**Description**: Security analysis becomes exhaustive threat modeling  
 **Probability**: LOW  
-**Impact**: LOW (minor delays)  
+**Impact**: LOW (not blocking M2)  
 **Mitigation**:
-- All 5 tasks work on different artifacts (no file conflicts)
-- Different agents, different directories
-- Clear ownership boundaries
-- Manager monitors progress and resolves conflicts
-
-### Risk 4: YAML Fix Information Loss (Task 1)
-**Description**: Converting YAML format loses original content  
-**Probability**: LOW  
-**Impact**: MEDIUM (requires rework of original tasks)  
-**Mitigation**:
-- Validation checklist provided in task
-- Test with schema validator before commit
-- Manual review of each conversion
-- Preserve all original content in YAML description fields
-- Can revert git commits if needed
-
-### Risk 5: Architect Overload (Tasks 3 & 4)
-**Description**: Two architect tasks (10-14h) may be too much  
-**Probability**: LOW-MEDIUM  
-**Impact**: MEDIUM (Task 4 deferred to next iteration)  
-**Mitigation**:
-- Task 3 is priority (strategic foundation)
-- Task 4 is optional/deferred (can move to next iteration)
-- Monitor architect progress after Task 3
-- Accept partial completion (3-4/5 tasks still excellent)
+- Time-box to 30 minutes
+- Focus on current posture + M2 guidance
+- Defer comprehensive security audit to post-MVP
+- Document assumptions, not solutions
 
 ---
 
 ## Success Metrics
 
 ### Task-Level Metrics
-- ✅ 5/5 tasks completed within 2 days
-- ✅ All deliverables meet acceptance criteria
-- ✅ All validation checks pass (YAML, commands, Hugo build)
-- ✅ Work logs created per Directive 014 for all tasks
-- ✅ No blocking issues or regressions
-
-### System Health Metrics
-- ✅ System health: 🟡 → 🟢 (YAML fixes restore parsing)
-- ✅ Orchestrator can parse all 6 fixed files
-- ✅ ADR-023 initiative unblocked (6 tasks ready for next iteration)
-- ✅ Framework health monitoring operational (Framework Guardian)
+- ✅ 5/5 tasks completed within 1 day
+- ✅ All ADRs follow Directive 018 template
+- ✅ Adapter interface decision documented
+- ✅ Security posture reviewed
+- ✅ M2 kickoff unblocked
 
 ### Strategic Metrics
-- ✅ Documentation website Batch 1 foundation complete
-- ✅ Handoff tasks created for 3 agents (docsite Batch 1 continuation)
-- ✅ Distribution capability end-to-end complete (guides + scripts + packaging)
-- ✅ User adoption friction reduced by 60% target
-- ✅ 3 major initiatives advanced: docsite, distribution, ADR-023 unblocking
+- ✅ Decision context preserved (3 tactical ADRs)
+- ✅ Milestone 2 preparation complete
+- ✅ No blocking issues for M2 Tool Integration
+- ✅ 1-day buffer achieved before M2 start
 
 ### Value Realization
-- **Immediate**: System health restored, 2 capabilities completed
-- **Short-term** (1-2 months): ADR-023 execution ($140-300k ROI)
-- **Medium-term** (3-6 months): Doc website enables adoption, community growth
-- **Annual**: Combined value $200-400k (efficiency + support reduction + adoption velocity)
+- **Immediate**: M2 unblocked, decision context preserved
+- **Short-term** (M2-M4): Clear architectural guidance for implementation
+- **Long-term**: Future maintainers understand decision rationale
 
 ---
 
@@ -517,139 +376,114 @@ writer-editor (Task 5)   → Release Checklist         [3-4h]  MEDIUM
 
 | Dependency | Status | Location | Notes |
 |------------|--------|----------|-------|
-| Install/Upgrade Scripts | ✅ Complete | `ops/release/framework_*.sh` | Completed Iteration 1 |
-| Technical Documentation | ✅ Complete | `docs/HOW_TO_USE/framework_install.md` | 570 lines |
-| Build System Docs | ✅ Complete | `ops/release/README.md` | 300+ lines |
-| Distribution Config | ✅ Complete | `ops/release/distribution-config.yaml` | Includes profiles |
-| Release Packaging | ✅ Complete | `ops/release/build_release_artifact.py` | 500+ lines, tested |
-| Hugo Available | ✅ Available | System/installable | Documented in roadmap |
-| Corporate Theme | ✅ Available | (for future) | Hugo theme outline exists |
+| Milestone 1 Complete | ✅ | M1 foundation | 93% coverage, approved |
+| Architectural Review | ✅ | Alphonso review | APPROVED, 5 recommendations |
+| Prestudy Documentation | ✅ | ADR-025, prestudy | 4,400+ lines |
+| Implementation Code | ✅ | src/llm_service/ | Production-ready |
+| Test Suite | ✅ | tests/unit/ | 65 tests, all passing |
 
 ### Internal Dependencies (This Batch)
 
-**No Sequential Dependencies Between Priority Tasks**:
-- Task 1 (curator) independent
-- Task 2 (writer-editor) independent
-- Task 3 (architect) independent
-- ✅ All 3 can execute in parallel
-
-**Sequential Dependencies in Phase 2**:
-- Task 4 depends on Task 3 completion (same agent: architect)
-- Task 5 depends on Task 2 completion (same agent: writer-editor)
-- OR: Can execute in parallel if multiple sessions available
-
-**No Cross-Task Dependencies**:
-- Different agents, different artifacts
-- No file conflicts
-- Clean separation of concerns
+**No Blocking Dependencies:**
+- All 5 tasks can execute in parallel (different artifacts)
+- ADRs benefit from sequential execution (shared template)
+- Recommended: Tasks 1-3 sequential, Tasks 4-5 parallel
 
 ---
 
-## Handoff Tasks Created (From Task 3)
+## Handoff to Milestone 2
 
-### Expected Handoffs After Task 3 Completion
+### Expected Outputs After This Batch
 
-Task 3 (Documentation Website Foundation) will create 3 handoff tasks:
+**Documentation:**
+1. ✅ `docs/architecture/adrs/ADR-026-pydantic-v2-validation.md`
+2. ✅ `docs/architecture/adrs/ADR-027-click-cli-framework.md`
+3. ✅ `docs/architecture/adrs/ADR-028-tool-model-compatibility-validation.md`
+4. ✅ `work/analysis/llm-service-adapter-interface-review.md`
+5. ✅ `work/analysis/llm-service-command-template-security.md`
+6. 🟡 `docs/architecture/adrs/ADR-029-adapter-interface-design.md` (DRAFT)
 
-1. **build-automation**: `2026-01-31T1000-build-automation-docsite-deployment-workflow`
-   - Create GitHub Actions workflow
-   - Deploy Hugo site to GitHub Pages
-   - Est: 4-6 hours
+**M2 Readiness Checklist:**
+- ✅ Tactical decisions documented
+- ✅ Adapter interface approach decided
+- ✅ Security posture defined
+- ✅ ADR backlog cleared
+- ✅ 1-day buffer complete
 
-2. **writer-editor**: `2026-01-31T1030-writer-editor-docsite-homepage-content`
-   - Write homepage content
-   - Create section overviews
-   - Est: 6-8 hours
-
-3. **diagrammer**: `2026-01-31T1100-diagrammer-docsite-structure-diagram`
-   - Create site structure diagram (PlantUML)
-   - Est: 2-3 hours
-
-These handoff tasks form the completion of **Documentation Website Batch 1**. Next iteration can execute them to complete the foundation before moving to Batch 2 (content migration).
-
----
-
-## Alternative Batches (If Primary Not Feasible)
-
-### Alternative 1: YAML Fixes + Doc Website Only (Reduced Scope)
-
-**If**: Writer-editor unavailable  
-**Execute**: Tasks 1 (curator) + Task 3 (architect) only  
-**Duration**: 8-11 hours  
-**Value**: System health + strategic foundation
-
-**Rationale**: Still advances 2 critical initiatives without writer-editor dependency
+**Next Batch (M2 Batch 2.1):**
+- Task: Implement adapter base interface (ADR-029 decision)
+- Agent: Backend-dev Benny
+- Estimated Effort: 2 days
+- Deliverable: Base adapter architecture with command template parsing
 
 ---
 
-### Alternative 2: Distribution Focus Only (Iteration 1 Continuation)
+## Alternative Batches
 
-**If**: Multiple agents unavailable, focus on single initiative  
-**Execute**: Task 2 (writer-editor) only  
-**Duration**: 8-10 hours  
-**Value**: Complete distribution capability end-to-end
+### Alternative 1: ADRs Only (Minimal Scope)
 
-**Rationale**: Proven pattern from Iteration 1, high user impact, clear deliverables
+**If**: Architect has limited availability  
+**Execute**: Tasks 1-3 (ADRs only)  
+**Duration**: 2.75 hours  
+**Value**: Decision context preserved, partial M2 unblocking
 
----
-
-### Alternative 3: Unblocking + Automation (Operational Focus)
-
-**If**: Strategic work delayed, focus on operational improvements  
-**Execute**: Tasks 1 (curator) + 4 (architect) + 5 (writer-editor)  
-**Duration**: 9-13 hours  
-**Value**: System health + automation capabilities + process quality
-
-**Rationale**: Highest ROI per hour, enables future high-value work
+**Rationale**: ADRs are highest priority per Directive 018. M2 prep can be done during M2 Batch 2.1 if needed.
 
 ---
 
-## Comparison to Iteration 1
+### Alternative 2: M2 Prep Only (Defer ADRs)
 
-| Metric | Iteration 1 (Batch 2) | Iteration 2 (Batch 3) | Change |
-|--------|------------------------|------------------------|--------|
-| **Tasks** | 2 | 5 | +150% |
-| **Agents** | 1 (build-automation) | 3-4 (curator, writer-editor, architect) | +200-300% |
-| **Total Effort** | ~20-30h | 26-35h | +30% |
-| **Duration** | 1-2 days | 1-2 days | Same |
-| **Strategic** | 1 (distribution enablers) | 3 (docsite, guides, ADR-023 unblock) | +200% |
-| **Operational** | 2 (packaging, scripts) | 2 (YAML fixes, checklist) | Same |
-| **Test Coverage** | 102 tests created | N/A (doc work) | Different focus |
-| **Parallelization** | Sequential (1 agent) | High (3-4 agents) | Major improvement |
+**If**: M2 kickoff is urgent  
+**Execute**: Tasks 4-5 (Adapter interface + Security)  
+**Duration**: 1.5 hours  
+**Value**: M2 immediately unblocked
+
+**Rationale**: ADRs can be created in parallel with M2 work. Not blocking for implementation.
+
+**Risk**: Decision context may be lost if not documented soon.
+
+---
+
+## Comparison to Previous Batch
+
+| Metric | Previous Batch | This Batch | Change |
+|--------|----------------|------------|--------|
+| **Tasks** | 5 (multi-initiative) | 5 (focused prep) | Same count |
+| **Agents** | 3-4 (parallel) | 1 (sequential) | Simplified |
+| **Total Effort** | 26-35h | 4.25h | -85% |
+| **Duration** | 1-2 days | 1 day | Same |
+| **Strategic** | 3 initiatives | 1 initiative (M2 prep) | Focused |
+| **Complexity** | Mixed | LOW | Reduced |
 
 **Key Insights**:
-- Scale up: More tasks, more agents, similar timeline
-- Balance: Strategic + operational mix
-- Risk management: Proven patterns + new initiatives
-- Momentum: Build on Iteration 1 success
+- Lighter batch (documentation vs. implementation)
+- Single agent focus (no coordination overhead)
+- High strategic value (unblocks M2)
+- Low risk (no code changes)
 
 ---
 
 ## Sign-off
 
 **Prepared By**: Planning Petra  
-**Date**: 2026-01-31  
-**Status**: ✅ Ready for Execution  
-**Batch ID**: 2026-01-31-batch-3 (Iteration 2)  
-**Recommended Start**: Immediate (all prerequisites met)  
-**Expected Completion**: 1-2 days (within this iteration cycle)
+**Date**: 2026-02-04  
+**Status**: 🟡 Ready for Assignment  
+**Batch ID**: 2026-02-04-llm-service-m2-prep  
+**Recommended Start**: Immediate (M1 complete, dependencies met)  
+**Expected Completion**: 1 day (with buffer before M2)
 
 **Next Steps**:
-1. Confirm agent availability (curator, writer-editor, architect)
-2. Assign 5 tasks (update status, timestamps)
-3. Monitor progress per checkpoint schedule
-4. Execute reviews at checkpoints
-5. Complete iteration with retrospective
+1. Assign Tasks 1-5 to Architect Alphonso
+2. Monitor progress per checkpoint schedule
+3. Review ADRs for Directive 018 compliance
+4. Approve M2 kickoff after 1-day buffer
+5. Prepare M2 Batch 2.1 (Adapter Base Interface)
 
 ---
 
 **Related Documents**:
-- Task Selection Report: `work/reports/2026-01-31-iteration2-task-selection.md` (detailed rationale)
-- Agent Assignments: `work/collaboration/AGENT_TASKS.md` (updated with 5 tasks)
-- Dependencies: `work/collaboration/DEPENDENCIES.md` (validated)
-- Status: `work/collaboration/AGENT_STATUS.md` (updated)
-- Iteration 1 Summary: `work/collaboration/ITERATION_2026-01-31_SUMMARY.md`
-- Documentation Roadmap: `work/planning/documentation-website-roadmap.md`
-- Planning Assessment: `work/reports/2026-01-31-planning-petra-status-assessment.md`
-
-
+- **M1 Completion Summary:** `work/collaboration/ITERATION_2026-02-04_LLM_SERVICE_M1_SUMMARY.md`
+- **Architectural Review:** `work/reports/2026-02-04-architect-alphonso-milestone1-review.md`
+- **Implementation Plan:** `docs/planning/llm-service-layer-implementation-plan.md`
+- **Agent Status:** `work/collaboration/AGENT_STATUS.md`
+- **Prestudy:** `docs/architecture/design/llm-service-layer-prestudy.md`
