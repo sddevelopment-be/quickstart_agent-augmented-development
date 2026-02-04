@@ -8,7 +8,7 @@ Tech Stack: Python 3.10+, Pydantic v2
 """
 
 from typing import Dict, List, Optional, Literal
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 
 # Agent Configuration Schema
@@ -30,7 +30,8 @@ class AgentConfig(BaseModel):
         description="Task type to model mapping"
     )
 
-    @validator('fallback_chain')
+    @field_validator('fallback_chain')
+    @classmethod
     def validate_fallback_format(cls, v):
         """Ensure fallback chain entries follow 'tool:model' format."""
         for entry in v:
@@ -69,7 +70,8 @@ class ToolConfig(BaseModel):
         description="Tool capabilities (e.g., code_generation, code_review)"
     )
 
-    @validator('command_template')
+    @field_validator('command_template')
+    @classmethod
     def validate_template_placeholders(cls, v):
         """Ensure command template contains required placeholders."""
         required = ['{binary}', '{prompt_file}', '{model}']

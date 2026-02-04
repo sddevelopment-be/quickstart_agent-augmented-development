@@ -11,6 +11,11 @@ from .schemas import (
     PoliciesSchema,
     validate_agent_references,
 )
+from .loader import (
+    ConfigurationLoader,
+    ConfigurationError,
+    load_configuration,
+)
 
 __all__ = [
     "AgentConfig",
@@ -22,4 +27,7 @@ __all__ = [
     "PolicyConfig",
     "PoliciesSchema",
     "validate_agent_references",
+    "ConfigurationLoader",
+    "ConfigurationError",
+    "load_configuration",
 ]
