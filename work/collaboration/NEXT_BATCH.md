@@ -1,292 +1,336 @@
-# Next Batch: Implementation Plan
+# Next Batch: M2 Batch 2.1 - Adapter Base Interface
 
-**Batch ID**: 2026-02-04-llm-service-m2-prep (Pre-Milestone 2)  
+**Batch ID**: `2026-02-04-llm-service-m2-batch-2.1`  
 **Created**: 2026-02-04  
-**Updated**: 2026-02-04 (Post-M1 Completion)  
+**Updated**: 2026-02-04 20:45:00 UTC (Post-M2 Prep Completion)  
 **Prepared By**: Planning Petra  
-**Status**: 🟡 Ready for Assignment  
-**Estimated Duration**: 1 day (4-6 hours + buffer)
+**Status**: 🟢 **READY FOR ASSIGNMENT**  
+**Estimated Duration**: 2 days (12-16 hours + testing buffer)
 
 ---
 
 ## Batch Objective
 
-Complete **pre-Milestone 2 documentation requirements** for LLM Service Layer to unblock Tool Integration work:
+Implement **Adapter Base Interface** for LLM Service Layer Tool Integration (Milestone 2):
 
-1. **Document tactical ADRs** (3 decisions made during M1 implementation)
-2. **Review adapter interface design** (prepare for M2 Tool Integration)
-3. **Plan command template security** (injection prevention strategy)
+1. **Base adapter abstract class** (per ADR-029)
+2. **Command template parsing** and substitution
+3. **Subprocess execution wrapper** with error handling
+4. **Output normalization framework**
+5. **Unit tests** with >80% coverage
 
 **Success Criteria**:
-- 3 tactical ADRs documented (ADR-026, ADR-027, ADR-028)
-- Adapter interface design reviewed and decision captured
-- Security posture documented
-- Milestone 2 kickoff unblocked
-- 1-day buffer before M2 start
+- Base adapter interface implemented and tested
+- Command template system working with placeholder substitution
+- Subprocess execution handles errors gracefully
+- Output normalization enables consistent tool responses
+- >80% test coverage on adapter base
+- Ready for claude-code and codex adapter implementations (Batches 2.2-2.3)
 
 ---
 
-## Context: LLM Service Layer Milestone 1 Complete
+## Context: M2 Prep Batch Complete - Milestone 2 Ready
 
-**Achievement:** ✅ Milestone 1 (Foundation) COMPLETE
-- 93% test coverage (target: 80%) ✅ EXCEEDED
-- 65/65 tests passing ✅ PERFECT
-- Architect Alphonso APPROVED for M2 ✅
-- Production-ready foundation ✅
+**Achievement:** ✅ M2 Prep COMPLETE (5/5 tasks done in 3h 10m)
+- 4 ADRs documented (ADR-026, 027, 028, 029) ✅
+- Adapter interface design decided (ABC approach) ✅
+- Security posture reviewed ✅
+- Decision traceability: 100% compliance ✅
+- M2 fully unblocked - NO BLOCKERS ✅
 
-**Gap Identified:** 3 tactical ADRs needed to document implementation decisions made during M1:
-1. ADR-026: Pydantic V2 for Schema Validation
-2. ADR-027: Click for CLI Framework
-3. ADR-028: Tool-Model Compatibility Validation
+**Previous Batch Performance:**
+- Agent: Architect Alphonso
+- Efficiency: ⭐ 134% (25% faster than estimate)
+- Quality: 100% Directive 018 compliance
+- Deliverables: 7 comprehensive documents (~75KB)
 
-**Why Critical:**
-- Preserves decision context for future maintainers
-- Satisfies Directive 018 (Traceable Decisions)
-- Unblocks Milestone 2 progression
-- Required by Architect Alphonso's review recommendations
-## Selected Tasks (5 Total - Priority Order)
+**Why M2 Batch 2.1 Now:**
+- Foundation complete: 93% test coverage, 65/65 tests passing
+- Architecture approved: Alphonso APPROVED for M2
+- Design decided: ADR-029 specifies ABC approach for adapters
+- Security reviewed: Command template injection risks assessed and mitigated
+- Milestone 2 (Tool Integration) ready to start immediately
+## Selected Tasks (4 Total - Milestone 2 Batch 2.1)
 
-### Task 1: ADR-026 - Pydantic V2 for Schema Validation
+### Task 1: Base Adapter Abstract Class
 
-- **ID**: `2026-02-04T2000-architect-adr026-pydantic-v2-validation`
-- **Agent**: architect (Alphonso)
+- **ID**: `2026-02-04T2100-backend-dev-adapter-base-class`
+- **Agent**: backend-dev (Benny)
 - **Priority**: HIGH
 - **Status**: Ready to assign
-- **Estimated Effort**: 1 hour
-- **Mode**: `/analysis-mode`
-- **Strategic Value**: ⭐⭐⭐⭐ Preserves decision context
+- **Estimated Effort**: 4-6 hours
+- **Mode**: `/analysis-mode` (design) + implementation
+- **Strategic Value**: ⭐⭐⭐⭐⭐ Foundation for all tool adapters
 
-**Why This ADR:**
-- Decision made during M1: Chose Pydantic v2 over JSON Schema, Marshmallow, attrs
-- Trade-offs: Strong type integration + validation vs. learning curve + v1→v2 migration risk
-- Impact: Affects validation performance, developer experience, type safety
-- Required per Directive 018 (Traceable Decisions)
+**Why This Task:**
+- Implements ADR-029 decision (Abstract Base Class approach)
+- Defines contract for all tool adapters (claude-code, codex, future tools)
+- Enables extensibility + type safety
+- Critical path for M2 Tool Integration
+
+**Implementation Requirements:**
+1. Abstract base class `ToolAdapter` in `src/llm_service/adapters/base.py`
+2. Required methods:
+   - `execute(prompt: str, params: Dict) -> ToolResponse`
+   - `validate_config(tool_config: ToolConfig) -> bool`
+   - `get_tool_name() -> str`
+3. Template method pattern for common logic
+4. Type hints and docstrings (Google style)
 
 **Deliverables**:
-1. `docs/architecture/adrs/ADR-026-pydantic-v2-validation.md`
-   - Context: Configuration validation framework choice
-   - Decision: Use Pydantic v2 for schema validation
-   - Trade-offs: Pros (type integration, field validators) vs. Cons (learning curve, v2 breaking changes)
-   - Consequences: Strong validation, Python-native, excellent DX
+1. `src/llm_service/adapters/base.py`
+   - `ToolAdapter` abstract base class
+   - `ToolResponse` dataclass for standardized output
+   - Type definitions for adapter contract
+2. `src/llm_service/adapters/__init__.py` (package setup)
 
-**Dependencies**: None (immediate execution)
+**Dependencies**: ADR-029 (COMPLETE ✅)
 
 **Success Criteria**:
-- ADR follows standard template (Context, Decision, Status, Consequences)
-- Trade-offs clearly articulated
-- References LLM Service Layer prestudy
-- Decision rationale preserved for future maintainers
+- Abstract base class with clear contract
+- Type-safe method signatures
+- Docstrings for all public methods
+- Ready for concrete adapter implementations
+- Passes basic instantiation tests
 
 ---
 
-### Task 2: ADR-027 - Click for CLI Framework
+### Task 2: Command Template Parser
 
-- **ID**: `2026-02-04T2001-architect-adr027-click-cli-framework`
-- **Agent**: architect (Alphonso)
+- **ID**: `2026-02-04T2101-backend-dev-command-template-parser`
+- **Agent**: backend-dev (Benny)
 - **Priority**: HIGH
 - **Status**: Ready to assign
-- **Estimated Effort**: 45 minutes
-- **Mode**: `/analysis-mode`
-- **Strategic Value**: ⭐⭐⭐⭐ Documents CLI framework choice
+- **Estimated Effort**: 3-4 hours
+- **Mode**: Implementation
+- **Strategic Value**: ⭐⭐⭐⭐ Enables dynamic tool invocation
 
-**Why This ADR:**
-- Decision made during M1: Chose Click over argparse, Typer, raw sys.argv
-- Trade-offs: Mature ecosystem + testing vs. not type-safe by default
-- Impact: Affects CLI extensibility, testing, user experience
+**Why This Task:**
+- Parses command templates from YAML tool definitions
+- Substitutes placeholders ({{model}}, {{prompt}}, {{params}})
+- Implements security mitigations per security review
+- Enables YAML-based tool extensibility
+
+**Implementation Requirements:**
+1. Template parser in `src/llm_service/adapters/template_parser.py`
+2. Placeholder substitution:
+   - `{{model}}` → agent's preferred model
+   - `{{prompt}}` → user prompt (escaped)
+   - `{{param_name}}` → additional parameters
+3. Security features:
+   - Whitelist allowed placeholders
+   - Escape shell metacharacters
+   - Validate template format
+4. Error handling for invalid templates
 
 **Deliverables**:
-1. `docs/architecture/adrs/ADR-027-click-cli-framework.md`
-   - Context: CLI interface framework selection
-   - Decision: Use Click for CLI implementation
-   - Trade-offs: Pros (mature, testable, composable) vs. Cons (not type-safe like Typer)
-   - Consequences: Excellent testing support (CliRunner), subcommand composition
+1. `src/llm_service/adapters/template_parser.py`
+   - `TemplateParser` class
+   - `parse_template(template: str, context: Dict) -> str`
+   - Security validation methods
+2. Unit tests for:
+   - Basic placeholder substitution
+   - Edge cases (missing placeholders, invalid syntax)
+   - Security scenarios (injection attempts)
 
-**Dependencies**: None (immediate execution)
+**Dependencies**: None (can run in parallel with Task 1)
 
 **Success Criteria**:
-- ADR documents Click selection rationale
-- Trade-off analysis includes Typer comparison
-- References cli.py implementation
-- Connects to user experience goals
+- Template parser handles all placeholder types
+- Security validation prevents injection attacks
+- Clear error messages for invalid templates
+- >80% test coverage on template parser
+- Examples work with real YAML tool definitions
 
 ---
 
-### Task 3: ADR-028 - Tool-Model Compatibility Validation
+### Task 3: Subprocess Execution Wrapper
 
-- **ID**: `2026-02-04T2002-architect-adr028-tool-model-compatibility`
-- **Agent**: architect (Alphonso)
+- **ID**: `2026-02-04T2102-backend-dev-subprocess-wrapper`
+- **Agent**: backend-dev (Benny)
+- **Priority**: HIGH
+- **Status**: Ready to assign
+- **Estimated Effort**: 3-4 hours
+- **Mode**: Implementation
+- **Strategic Value**: ⭐⭐⭐⭐ Executes external tools safely
+
+**Why This Task:**
+- Executes tool commands via subprocess
+- Captures stdout/stderr
+- Handles timeouts, errors, and crashes
+- Enables integration with claude-code, codex CLIs
+
+**Implementation Requirements:**
+1. Subprocess wrapper in `src/llm_service/adapters/subprocess_wrapper.py`
+2. Features:
+   - Execute command with timeout (configurable)
+   - Capture stdout/stderr streams
+   - Return exit code + output
+   - Handle platform differences (Linux/macOS/Windows)
+3. Error handling:
+   - Command not found
+   - Timeout exceeded
+   - Non-zero exit codes
+   - Subprocess crashes
+4. Security:
+   - Use `shell=False` (per security review)
+   - No shell expansion
+   - Environment variable control
+
+**Deliverables**:
+1. `src/llm_service/adapters/subprocess_wrapper.py`
+   - `SubprocessExecutor` class
+   - `execute(command: List[str], timeout: int) -> ExecutionResult`
+   - `ExecutionResult` dataclass (exit_code, stdout, stderr, duration)
+2. Unit tests for:
+   - Successful execution
+   - Timeout scenarios
+   - Error handling (command not found, non-zero exit)
+   - Platform compatibility
+
+**Dependencies**: Task 2 (template parser) for command generation
+
+**Success Criteria**:
+- Subprocess execution works on all platforms
+- Timeouts handled gracefully
+- Error messages are user-friendly
+- >80% test coverage on subprocess wrapper
+- Integration tests with fake CLI scripts
+
+---
+
+### Task 4: Output Normalization Framework
+
+- **ID**: `2026-02-04T2103-backend-dev-output-normalization`
+- **Agent**: backend-dev (Benny)
 - **Priority**: MEDIUM
 - **Status**: Ready to assign
-- **Estimated Effort**: 1 hour
-- **Mode**: `/analysis-mode`
-- **Strategic Value**: ⭐⭐⭐⭐ Documents enhancement decision
+- **Estimated Effort**: 2-3 hours
+- **Mode**: Implementation
+- **Strategic Value**: ⭐⭐⭐ Standardizes tool responses
 
-**Why This ADR:**
-- Decision made during M1 code review: Added by Backend-dev Benny
-- Enhancement not in original prestudy
-- Trade-offs: Configuration quality vs. validation complexity
-- Impact: Prevents runtime errors, improves config validation
+**Why This Task:**
+- Normalizes different tool output formats
+- Extracts response, metadata, errors
+- Enables consistent telemetry and error handling
+- Prepares for M3 telemetry integration
 
-**Deliverables**:
-1. `docs/architecture/adrs/ADR-028-tool-model-compatibility-validation.md`
-   - Context: Configuration validation enhancement
-   - Decision: Validate agent's preferred_model is supported by preferred_tool
-   - Rationale: Catches misconfigurations at validation time vs. runtime
-   - Consequences: Higher config quality, better error messages
-
-**Dependencies**: None (immediate execution)
-
-**Success Criteria**:
-- ADR documents validation enhancement
-- Credits Backend-dev Benny as proposer
-- Explains why added (not in prestudy)
-- Shows example of caught error
-
----
-
-### Task 4: Adapter Interface Design Review
-
-- **ID**: `2026-02-04T2003-architect-adapter-interface-review`
-- **Agent**: architect (Alphonso)
-- **Priority**: HIGH
-- **Status**: Ready to assign
-- **Estimated Effort**: 1 hour
-- **Mode**: `/analysis-mode`
-- **Strategic Value**: ⭐⭐⭐⭐⭐ Unblocks Milestone 2
-
-**Why Critical:**
-- Milestone 2 (Tool Integration) starts with adapter base interface
-- Decision point: Abstract base class vs. Protocol vs. duck typing
-- Impacts extensibility, testing, community contributions
-- Must be decided before M2 implementation begins
+**Implementation Requirements:**
+1. Output normalizer in `src/llm_service/adapters/output_normalizer.py`
+2. Normalize outputs:
+   - Extract LLM response text
+   - Parse metadata (tokens, model, cost)
+   - Identify errors vs. warnings
+   - Standardize format across tools
+3. Support different output formats:
+   - JSON (structured)
+   - Plain text (unstructured)
+   - Mixed (text + metadata)
+4. Extensibility for new tools
 
 **Deliverables**:
-1. Design review document: `work/analysis/llm-service-adapter-interface-review.md`
-   - Options: ABC vs. Protocol vs. duck typing
-   - Trade-offs: Type safety, testability, extensibility
-   - Recommendation: Preferred approach with rationale
-2. ADR-029 draft: `docs/architecture/adrs/ADR-029-adapter-interface-design.md`
-   - Decision: Adapter base interface approach
-   - Context: Tool adapter extensibility strategy
-   - Consequences: Affects M2 implementation, community tool additions
+1. `src/llm_service/adapters/output_normalizer.py`
+   - `OutputNormalizer` class
+   - `normalize(raw_output: str, tool_name: str) -> NormalizedResponse`
+   - `NormalizedResponse` dataclass (response_text, metadata, errors)
+2. Unit tests for:
+   - JSON parsing
+   - Plain text extraction
+   - Error detection
+   - Metadata extraction
 
-**Dependencies**: None (M1 complete, foundation in place)
-
-**Success Criteria**:
-- 3 options evaluated with pros/cons
-- Clear recommendation with rationale
-- ADR-029 ready for finalization during M2 Batch 2.1
-- Unblocks M2 kickoff
-
----
-
-### Task 5: Command Template Security Review
-
-- **ID**: `2026-02-04T2004-architect-command-template-security`
-- **Agent**: architect (Alphonso)
-- **Priority**: MEDIUM
-- **Status**: Ready to assign
-- **Estimated Effort**: 30 minutes
-- **Mode**: `/analysis-mode`
-- **Strategic Value**: ⭐⭐⭐ Documents security posture
-
-**Why Important:**
-- Command template substitution could be injection vector
-- Current mitigation: YAML is trusted configuration (not user input)
-- Future risk: If YAML becomes user-editable, need safeguards
-
-**Deliverables**:
-1. Security posture document: `work/analysis/llm-service-command-template-security.md`
-   - Current approach: Trusted YAML configuration
-   - Risk assessment: Injection scenarios
-   - Mitigation options: Whitelist placeholders, escape args, subprocess with shell=False
-   - Recommendation: Security strategy for M2
-
-**Dependencies**: None (immediate execution)
+**Dependencies**: Task 3 (subprocess wrapper) for raw output
 
 **Success Criteria**:
-- Security risks identified and assessed
-- Current posture documented (trusted YAML)
-- Mitigation options outlined for M2
-- Clear recommendation for tool adapter implementation
+- Output normalization handles JSON and plain text
+- Metadata extracted when available
+- Errors identified and standardized
+- >80% test coverage on normalizer
+- Ready for claude-code and codex adapters (different formats)
 
 ---
 
 ## Execution Plan
 
-### Phase 1: ADR Documentation (Hours 0-3)
+### Phase 1: Core Infrastructure (Hours 0-8)
 
-**Sequential Execution (Architect Alphonso):**
+**Parallel Execution:**
 ```
-Task 1: ADR-026 (Pydantic V2)         [1h]   HIGH
-Task 2: ADR-027 (Click CLI)           [45m]  HIGH
-Task 3: ADR-028 (Tool-Model Compat)   [1h]   MEDIUM
+Task 1: Base Adapter Class              [4-6h]  HIGH  (backend-dev)
+Task 2: Command Template Parser         [3-4h]  HIGH  (backend-dev)
 ```
 
-**Time Estimate:** 2.75 hours (round to 3 hours)
+**Characteristics:**
+- Can execute in parallel (different modules)
+- Task 1 is blocking for concrete adapters (Batches 2.2-2.3)
+- Task 2 is independent, can complete first
 
-**Immediate Actions:**
-1. Assign all 3 ADR tasks to architect
-2. Execute sequentially (dependencies on shared ADR template)
-3. Validate ADRs follow Directive 018 format
+**Time Estimate:** 1 day (max 6 hours for Task 1)
 
 ---
 
-### Phase 2: M2 Preparation (Hours 3-5)
+### Phase 2: Execution & Normalization (Hours 8-16)
 
-**Parallel Execution (Can Start After ADRs or In Parallel):**
+**Sequential Execution (Depends on Task 2):**
 ```
-Task 4: Adapter Interface Review      [1h]   HIGH
-Task 5: Security Review               [30m]  MEDIUM
+Task 3: Subprocess Wrapper              [3-4h]  HIGH  (depends on Task 2)
+Task 4: Output Normalization            [2-3h]  MEDIUM (depends on Task 3)
 ```
-
-**Time Estimate:** 1.5 hours
 
 **Characteristics:**
-- Can execute in parallel with ADRs (different artifacts)
-- Task 4 is blocking for M2 kickoff (adapter design decision)
-- Task 5 informs M2 implementation but not blocking
+- Task 3 needs template parser (Task 2) for command generation
+- Task 4 needs subprocess wrapper (Task 3) for raw output
+- Sequential execution required
+
+**Time Estimate:** 1 day (7 hours with buffer)
 
 ---
 
 ### Timeline Estimates
 
-**Realistic** (Sequential Execution): 1 day
-- Morning: Tasks 1-3 complete (ADRs)
-- Afternoon: Tasks 4-5 complete (M2 prep)
-- Buffer: 2-3 hours for review/refinement
+**Realistic** (Sequential Execution): 2 days
+- Day 1: Tasks 1-2 complete (base class + template parser)
+- Day 2: Tasks 3-4 complete (subprocess + normalization)
+- Buffer: 4 hours for integration testing + refinement
 
-**Optimistic** (Some Parallelization): 4-6 hours
-- ADRs + Reviews can overlap if architect switches contexts
-- All tasks complete same day
-- No buffer needed
+**Optimistic** (Partial Parallelization): 1.5 days
+- Day 1: All 4 tasks complete if Task 1 finishes quickly
+- Day 2 Morning: Integration testing + buffer
+- No significant blockers expected
 
-**Recommended:** Plan for 1 day with buffer before M2 kickoff
+**Recommended:** Plan for 2 days with 4-hour buffer for testing
 
 ---
 
 ## Checkpoints & Milestones
 
-### Checkpoint 1: ADR Completion (Hour 3)
-**Check**: Tasks 1-3 (ADRs) complete  
-**Expected**: 3 ADRs documented, validated, committed  
-**Decision**: Proceed to M2 prep OR refine ADRs  
-**Trigger**: Architect completes Task 3
-
-### Checkpoint 2: M2 Readiness (Hour 5)
-**Check**: Tasks 4-5 (M2 prep) complete  
+### Checkpoint 1: Core Infrastructure Complete (Day 1 EOD)
+**Check**: Tasks 1-2 (base class + template parser) complete  
 **Expected**: 
-- Adapter interface decision documented ✅
-- Security posture reviewed ✅
-- ADRs complete ✅
-**Decision**: Approve M2 kickoff OR extend prep  
-**Trigger**: All 5 tasks complete
+- Base adapter abstract class implemented and tested ✅
+- Command template parser working with placeholder substitution ✅
+- Unit tests passing (>80% coverage) ✅
+**Decision**: Proceed to execution layer OR refine base infrastructure  
+**Trigger**: Backend-dev completes Task 2
 
-### Checkpoint 3: M2 Kickoff Gate (Day 2)
-**Check**: All deliverables reviewed, buffer day complete  
-**Expected**: M2 Batch 2.1 (Adapter Base Interface) ready to assign  
-**Decision**: Start Milestone 2 OR address gaps  
-**Trigger**: 1-day buffer complete, human approval
+### Checkpoint 2: Execution Layer Complete (Day 2 Mid)
+**Check**: Task 3 (subprocess wrapper) complete  
+**Expected**: 
+- Subprocess execution working on all platforms ✅
+- Timeouts and error handling validated ✅
+- Integration tests with fake CLI scripts passing ✅
+**Decision**: Proceed to normalization OR enhance execution  
+**Trigger**: Backend-dev completes Task 3
+
+### Checkpoint 3: M2 Batch 2.1 Complete (Day 2 EOD)
+**Check**: All 4 tasks complete + integration tests passing  
+**Expected**: 
+- Full adapter infrastructure ready ✅
+- All unit tests passing (>80% coverage) ✅
+- Integration tests with fake tools working ✅
+- Ready for concrete adapter implementations (Batches 2.2-2.3) ✅
+**Decision**: Start M2 Batch 2.2 (Claude-Code Adapter) OR address gaps  
+**Trigger**: All 4 tasks complete, human approval
 
 ---
 
@@ -294,79 +338,78 @@ Task 5: Security Review               [30m]  MEDIUM
 
 | Agent | Tasks | Total Hours | Complexity | Timeline |
 |-------|-------|-------------|------------|----------|
-| **architect** | 5 | 4.25h | LOW-MEDIUM | 1 day |
-| **Total** | **5 tasks** | **4.25h** | **Low** | **1 day** |
+| **backend-dev** | 4 | 12-16h | MEDIUM | 2 days |
+| **Total** | **4 tasks** | **12-16h** | **Medium** | **2 days** |
 
-### Agent Workload: Architect Alphonso
+### Agent Workload: Backend-dev Benny
 
-**Workload:** Light (4.25 hours concentrated work)
-- Task 1: 1 hour (ADR-026)
-- Task 2: 45 min (ADR-027)
-- Task 3: 1 hour (ADR-028)
-- Task 4: 1 hour (Adapter interface review)
-- Task 5: 30 min (Security review)
+**Workload:** Moderate (12-16 hours over 2 days)
+- Task 1: 4-6 hours (Base adapter class)
+- Task 2: 3-4 hours (Template parser)
+- Task 3: 3-4 hours (Subprocess wrapper)
+- Task 4: 2-3 hours (Output normalization)
 
 **Characteristics:**
-- All tasks same agent (sequential or contextual parallelization)
-- Low complexity (documentation, not implementation)
-- High strategic value (unblocks M2)
-- Fits in 1 working day with buffer
+- Single agent (no coordination overhead)
+- Medium complexity (infrastructure, not algorithms)
+- High strategic value (unblocks M2 Batches 2.2-2.3)
+- Fits in 2 working days with 4-hour testing buffer
 
 ---
 
 ## Risk Assessment & Mitigation
 
-### Risk 1: ADR Documentation Scope Creep
-**Description**: ADRs expand beyond tactical decision documentation  
-**Probability**: LOW  
-**Impact**: MEDIUM (delays M2 kickoff)  
-**Mitigation**: 
-- Time-box each ADR to 1 hour max
-- Use standard ADR template
-- Focus on decision + trade-offs, not exhaustive analysis
-- Defer deep dives to design docs if needed
-
-### Risk 2: Adapter Interface Analysis Paralysis
-**Description**: Too many options, difficult to choose  
+### Risk 1: Platform Compatibility Issues
+**Description**: Subprocess execution behaves differently on Windows/Linux/macOS  
 **Probability**: MEDIUM  
-**Impact**: MEDIUM (delays M2)  
-**Mitigation**:
-- Limit to 3 options (ABC, Protocol, duck typing)
-- Use lightweight spike if needed (30 min code exploration)
-- Make recommendation, finalize during M2 Batch 2.1
-- Don't block on perfect decision
+**Impact**: MEDIUM (delays M2 Batch 2.1)  
+**Mitigation**: 
+- Use `subprocess.run()` with `shell=False` (cross-platform)
+- Test on multiple platforms early
+- Document platform-specific behaviors
+- Defer Windows support if blocked (focus on Linux/macOS)
 
-### Risk 3: Security Review Rabbit Hole
-**Description**: Security analysis becomes exhaustive threat modeling  
+### Risk 2: Template Parser Complexity
+**Description**: Command template substitution becomes complex with edge cases  
 **Probability**: LOW  
-**Impact**: LOW (not blocking M2)  
+**Impact**: LOW (not blocking)  
 **Mitigation**:
-- Time-box to 30 minutes
-- Focus on current posture + M2 guidance
-- Defer comprehensive security audit to post-MVP
-- Document assumptions, not solutions
+- Keep template syntax simple (only {{placeholder}})
+- Use whitelist for allowed placeholders
+- Defer advanced features (conditionals, loops) to post-MVP
+- Validate templates at config load time
+
+### Risk 3: Test Coverage Target
+**Description**: Difficulty achieving >80% test coverage on all modules  
+**Probability**: LOW  
+**Impact**: LOW (quality concern)  
+**Mitigation**:
+- Focus on critical paths (execution, error handling)
+- Use mocks for external dependencies
+- Accept lower coverage on edge cases if needed
+- Track coverage per-module, not just overall
 
 ---
 
 ## Success Metrics
 
 ### Task-Level Metrics
-- ✅ 5/5 tasks completed within 1 day
-- ✅ All ADRs follow Directive 018 template
-- ✅ Adapter interface decision documented
-- ✅ Security posture reviewed
-- ✅ M2 kickoff unblocked
+- ✅ 4/4 tasks completed within 2 days
+- ✅ All unit tests passing (no failures)
+- ✅ >80% test coverage per module
+- ✅ Integration tests working with fake CLI scripts
+- ✅ Code follows Python style guide (PEP 8)
 
 ### Strategic Metrics
-- ✅ Decision context preserved (3 tactical ADRs)
-- ✅ Milestone 2 preparation complete
-- ✅ No blocking issues for M2 Tool Integration
-- ✅ 1-day buffer achieved before M2 start
+- ✅ Adapter infrastructure ready for concrete adapters
+- ✅ M2 Batch 2.2 (Claude-Code Adapter) unblocked
+- ✅ M2 Batch 2.3 (Codex Adapter) unblocked
+- ✅ Generic adapter pattern established
 
 ### Value Realization
-- **Immediate**: M2 unblocked, decision context preserved
-- **Short-term** (M2-M4): Clear architectural guidance for implementation
-- **Long-term**: Future maintainers understand decision rationale
+- **Immediate**: Foundation for tool adapter implementations
+- **Short-term** (M2 Batches 2.2-2.4): Concrete adapters built on this base
+- **Long-term**: Extensibility enables community-contributed tools
 
 ---
 
@@ -376,114 +419,125 @@ Task 5: Security Review               [30m]  MEDIUM
 
 | Dependency | Status | Location | Notes |
 |------------|--------|----------|-------|
-| Milestone 1 Complete | ✅ | M1 foundation | 93% coverage, approved |
-| Architectural Review | ✅ | Alphonso review | APPROVED, 5 recommendations |
-| Prestudy Documentation | ✅ | ADR-025, prestudy | 4,400+ lines |
-| Implementation Code | ✅ | src/llm_service/ | Production-ready |
-| Test Suite | ✅ | tests/unit/ | 65 tests, all passing |
+| M1 Foundation Complete | ✅ | src/llm_service/ | 93% coverage, approved |
+| M2 Prep Complete | ✅ | ADRs 026-029 | All ADRs documented |
+| Adapter Design Decided | ✅ | ADR-029 | ABC approach chosen |
+| Security Review Done | ✅ | Security analysis | Risks assessed |
+| Test Infrastructure | ✅ | tests/unit/ | Pytest + coverage |
 
 ### Internal Dependencies (This Batch)
 
-**No Blocking Dependencies:**
-- All 5 tasks can execute in parallel (different artifacts)
-- ADRs benefit from sequential execution (shared template)
-- Recommended: Tasks 1-3 sequential, Tasks 4-5 parallel
+**Task Dependencies:**
+- Task 1 (Base class): No dependencies, can start immediately
+- Task 2 (Template parser): No dependencies, can run in parallel with Task 1
+- Task 3 (Subprocess wrapper): Depends on Task 2 (needs template parser for commands)
+- Task 4 (Output normalizer): Depends on Task 3 (needs subprocess output)
+
+**Recommended Execution:**
+- **Day 1**: Tasks 1-2 in parallel (independent modules)
+- **Day 2**: Tasks 3-4 sequentially (Task 3 → Task 4)
 
 ---
 
-## Handoff to Milestone 2
+## Handoff to M2 Batch 2.2
 
 ### Expected Outputs After This Batch
 
-**Documentation:**
-1. ✅ `docs/architecture/adrs/ADR-026-pydantic-v2-validation.md`
-2. ✅ `docs/architecture/adrs/ADR-027-click-cli-framework.md`
-3. ✅ `docs/architecture/adrs/ADR-028-tool-model-compatibility-validation.md`
-4. ✅ `work/analysis/llm-service-adapter-interface-review.md`
-5. ✅ `work/analysis/llm-service-command-template-security.md`
-6. 🟡 `docs/architecture/adrs/ADR-029-adapter-interface-design.md` (DRAFT)
+**Code:**
+1. ✅ `src/llm_service/adapters/base.py` - Base adapter abstract class
+2. ✅ `src/llm_service/adapters/template_parser.py` - Command template parser
+3. ✅ `src/llm_service/adapters/subprocess_wrapper.py` - Subprocess executor
+4. ✅ `src/llm_service/adapters/output_normalizer.py` - Output normalizer
+5. ✅ `src/llm_service/adapters/__init__.py` - Package initialization
 
-**M2 Readiness Checklist:**
-- ✅ Tactical decisions documented
-- ✅ Adapter interface approach decided
-- ✅ Security posture defined
-- ✅ ADR backlog cleared
-- ✅ 1-day buffer complete
+**Tests:**
+1. ✅ `tests/unit/adapters/test_base.py` - Base adapter tests
+2. ✅ `tests/unit/adapters/test_template_parser.py` - Template parser tests
+3. ✅ `tests/unit/adapters/test_subprocess_wrapper.py` - Subprocess tests
+4. ✅ `tests/unit/adapters/test_output_normalizer.py` - Normalizer tests
+5. ✅ `tests/integration/adapters/test_fake_tool.py` - Integration tests
 
-**Next Batch (M2 Batch 2.1):**
-- Task: Implement adapter base interface (ADR-029 decision)
+**M2 Batch 2.2 Readiness Checklist:**
+- ✅ Base adapter interface defined and tested
+- ✅ Command template system working
+- ✅ Subprocess execution framework ready
+- ✅ Output normalization framework ready
+- ✅ >80% test coverage on adapter base
+- ✅ Integration tests passing
+
+**Next Batch (M2 Batch 2.2):**
+- Task: Implement Claude-Code adapter (concrete implementation)
 - Agent: Backend-dev Benny
-- Estimated Effort: 2 days
-- Deliverable: Base adapter architecture with command template parsing
+- Estimated Effort: 2-3 days
+- Deliverable: Working claude-code adapter with integration tests
 
 ---
 
 ## Alternative Batches
 
-### Alternative 1: ADRs Only (Minimal Scope)
+### Alternative 1: Core Only (Minimal Scope)
 
-**If**: Architect has limited availability  
-**Execute**: Tasks 1-3 (ADRs only)  
-**Duration**: 2.75 hours  
-**Value**: Decision context preserved, partial M2 unblocking
+**If**: Backend-dev has limited availability  
+**Execute**: Tasks 1-2 (base class + template parser)  
+**Duration**: 1 day  
+**Value**: Core infrastructure ready, subprocess layer can be deferred
 
-**Rationale**: ADRs are highest priority per Directive 018. M2 prep can be done during M2 Batch 2.1 if needed.
-
----
-
-### Alternative 2: M2 Prep Only (Defer ADRs)
-
-**If**: M2 kickoff is urgent  
-**Execute**: Tasks 4-5 (Adapter interface + Security)  
-**Duration**: 1.5 hours  
-**Value**: M2 immediately unblocked
-
-**Rationale**: ADRs can be created in parallel with M2 work. Not blocking for implementation.
-
-**Risk**: Decision context may be lost if not documented soon.
+**Rationale**: Base adapter + template parser are critical for concrete adapters. Subprocess wrapper can be built during M2 Batch 2.2 if needed.
 
 ---
 
-## Comparison to Previous Batch
+### Alternative 2: Extended Scope (Add Fake Adapter)
 
-| Metric | Previous Batch | This Batch | Change |
-|--------|----------------|------------|--------|
-| **Tasks** | 5 (multi-initiative) | 5 (focused prep) | Same count |
-| **Agents** | 3-4 (parallel) | 1 (sequential) | Simplified |
-| **Total Effort** | 26-35h | 4.25h | -85% |
-| **Duration** | 1-2 days | 1 day | Same |
-| **Strategic** | 3 initiatives | 1 initiative (M2 prep) | Focused |
-| **Complexity** | Mixed | LOW | Reduced |
+**If**: More time available OR need validation  
+**Add**: Task 5 - Fake tool adapter for testing  
+**Duration**: 2.5 days (add 4 hours)  
+**Value**: Full end-to-end validation before claude-code adapter
+
+**Rationale**: Fake adapter validates entire infrastructure with no external dependencies. Reduces risk for M2 Batch 2.2.
+
+---
+
+## Comparison to Previous Batch (M2 Prep)
+
+| Metric | M2 Prep Batch | M2 Batch 2.1 | Change |
+|--------|---------------|--------------|--------|
+| **Tasks** | 5 (documentation) | 4 (implementation) | -1 task |
+| **Agents** | 1 (architect) | 1 (backend-dev) | Same |
+| **Total Effort** | 4.25h | 12-16h | +280% |
+| **Duration** | 1 day | 2 days | +100% |
+| **Complexity** | LOW | MEDIUM | Increased |
+| **Strategic** | Docs/ADRs | Core implementation | Shift to code |
 
 **Key Insights**:
-- Lighter batch (documentation vs. implementation)
-- Single agent focus (no coordination overhead)
-- High strategic value (unblocks M2)
-- Low risk (no code changes)
+- Higher effort (documentation → implementation)
+- Single agent still (no coordination complexity)
+- Higher strategic value (unblocks 3 more batches)
+- Medium risk (platform compatibility, test coverage)
 
 ---
 
 ## Sign-off
 
 **Prepared By**: Planning Petra  
-**Date**: 2026-02-04  
-**Status**: 🟡 Ready for Assignment  
-**Batch ID**: 2026-02-04-llm-service-m2-prep  
-**Recommended Start**: Immediate (M1 complete, dependencies met)  
-**Expected Completion**: 1 day (with buffer before M2)
+**Date**: 2026-02-04 20:45:00 UTC  
+**Status**: 🟢 **READY FOR ASSIGNMENT**  
+**Batch ID**: `2026-02-04-llm-service-m2-batch-2.1`  
+**Recommended Start**: Immediate (M2 prep complete, dependencies met)  
+**Expected Completion**: 2 days (with 4-hour testing buffer)
 
 **Next Steps**:
-1. Assign Tasks 1-5 to Architect Alphonso
+1. Assign Tasks 1-4 to Backend-dev Benny
 2. Monitor progress per checkpoint schedule
-3. Review ADRs for Directive 018 compliance
-4. Approve M2 kickoff after 1-day buffer
-5. Prepare M2 Batch 2.1 (Adapter Base Interface)
+3. Review code quality and test coverage daily
+4. Approve M2 Batch 2.2 after completion
+5. Prepare M2 Batch 2.2 (Claude-Code Adapter)
 
 ---
 
 **Related Documents**:
-- **M1 Completion Summary:** `work/collaboration/ITERATION_2026-02-04_LLM_SERVICE_M1_SUMMARY.md`
-- **Architectural Review:** `work/reports/2026-02-04-architect-alphonso-milestone1-review.md`
+- **M2 Prep Summary:** `work/collaboration/ITERATION_2026-02-04_M2_PREP_SUMMARY.md`
 - **Implementation Plan:** `docs/planning/llm-service-layer-implementation-plan.md`
 - **Agent Status:** `work/collaboration/AGENT_STATUS.md`
-- **Prestudy:** `docs/architecture/design/llm-service-layer-prestudy.md`
+- **ADR-029:** `docs/architecture/adrs/ADR-029-adapter-interface-design.md`
+- **Security Review:** `work/analysis/llm-service-command-template-security.md`
+- **Adapter Design Review:** `work/analysis/llm-service-adapter-interface-review.md`
