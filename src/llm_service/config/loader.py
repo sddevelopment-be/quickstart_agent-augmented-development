@@ -104,7 +104,10 @@ class ConfigurationLoader:
         """
         file_path = self._find_config_file('agents')
         if not file_path:
-            raise ConfigurationError("agents.yaml not found in configuration directory")
+            raise ConfigurationError(
+                f"agents.yaml not found in configuration directory: {self.config_dir}\n"
+                f"Expected location: {self.config_dir / 'agents.yaml'} or {self.config_dir / 'agents.yml'}"
+            )
         
         data = self._load_yaml_file(file_path)
         
@@ -125,7 +128,10 @@ class ConfigurationLoader:
         """
         file_path = self._find_config_file('tools')
         if not file_path:
-            raise ConfigurationError("tools.yaml not found in configuration directory")
+            raise ConfigurationError(
+                f"tools.yaml not found in configuration directory: {self.config_dir}\n"
+                f"Expected location: {self.config_dir / 'tools.yaml'} or {self.config_dir / 'tools.yml'}"
+            )
         
         data = self._load_yaml_file(file_path)
         
@@ -146,7 +152,10 @@ class ConfigurationLoader:
         """
         file_path = self._find_config_file('models')
         if not file_path:
-            raise ConfigurationError("models.yaml not found in configuration directory")
+            raise ConfigurationError(
+                f"models.yaml not found in configuration directory: {self.config_dir}\n"
+                f"Expected location: {self.config_dir / 'models.yaml'} or {self.config_dir / 'models.yml'}"
+            )
         
         data = self._load_yaml_file(file_path)
         
@@ -167,7 +176,10 @@ class ConfigurationLoader:
         """
         file_path = self._find_config_file('policies')
         if not file_path:
-            raise ConfigurationError("policies.yaml not found in configuration directory")
+            raise ConfigurationError(
+                f"policies.yaml not found in configuration directory: {self.config_dir}\n"
+                f"Expected location: {self.config_dir / 'policies.yaml'} or {self.config_dir / 'policies.yml'}"
+            )
         
         data = self._load_yaml_file(file_path)
         
