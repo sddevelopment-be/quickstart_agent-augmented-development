@@ -1,0 +1,73 @@
+id: 2026-02-04T2002-architect-adr028-tool-model-compatibility
+agent: architect
+status: completed
+priority: medium
+title: 'ADR-028: Tool-Model Compatibility Validation'
+artefacts:
+- docs/architecture/adrs/ADR-028-tool-model-compatibility-validation.md
+context:
+  background: 'During M1 code review, Backend-dev Benny added tool-model compatibility
+    validation.
+
+    This enhancement was not in the original prestudy and needs to be documented.
+
+    '
+  decision_made: Validate that agent's preferred_model is supported by preferred_tool
+    at configuration load time
+  proposer: Backend-dev Benny
+  enhancement_reason: '- Catches misconfigured tool:model pairs early
+
+    - Prevents runtime errors during execution
+
+    - Improves configuration quality
+
+    - Better error messages for users
+
+    '
+  example_caught_error: 'Agent ''test-agent'' references tool ''claude-code'' with
+    model ''gpt-4''
+
+    Error: Tool ''claude-code'' does not support model ''gpt-4''
+
+    '
+  implementation_reference: '- src/llm_service/config/schemas.py (validate_agent_references
+    function)
+
+    - tests/unit/config/test_schemas.py (test_validate_agent_references_*)
+
+    '
+  review_reference: work/reports/2026-02-04T1927-backend-dev-code-review-analysis.md
+acceptance_criteria:
+- ADR documents validation enhancement
+- Credits Backend-dev Benny as proposer
+- Explains why added (not in prestudy)
+- Shows example of caught error
+- Follows Directive 018 format
+created_at: '2026-02-04T20:02:00Z'
+created_by: orchestrator
+estimated_hours: 1.0
+assigned_at: '2026-02-04T20:26:14.925497Z'
+started_at: '2026-02-04T21:30:00Z'
+completed_at: '2026-02-04T22:30:00Z'
+result:
+  status: success
+  summary: |
+    Created ADR-028 documenting tool-model compatibility validation enhancement.
+    - Followed standard ADR template (Context, Decision, Rationale, Consequences, Alternatives)
+    - Properly credited Backend-dev Benny as proposer and implementer
+    - Explained evolution during implementation (not prestudy oversight)
+    - Documented fail-fast principle and user experience benefits
+    - Included concrete example of caught error with before/after configs
+    - Referenced code review that identified the gap
+    - 3 alternatives considered with rejection rationale
+    - Aligned with Directive 018 (Traceable Decisions)
+  deliverables:
+  - docs/architecture/adrs/ADR-028-tool-model-compatibility-validation.md
+  quality_notes: |
+    ADR documents an important implementation enhancement that wasn't in original prestudy:
+    - Clear distinction: evolution vs oversight (natural discovery during implementation)
+    - Fail-fast validation principle (catch errors at load time, not runtime)
+    - User experience focus (clear error messages guide fixes)
+    - 7 tests cover all validation paths including tool-model compatibility
+    - Example scenario shows invalid config → error → fixed config flow
+    All acceptance criteria met, properly credits Backend-dev Benny.

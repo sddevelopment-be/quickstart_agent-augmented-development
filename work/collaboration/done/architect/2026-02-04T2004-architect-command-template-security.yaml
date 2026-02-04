@@ -1,0 +1,79 @@
+id: 2026-02-04T2004-architect-command-template-security
+agent: architect
+status: completed
+priority: medium
+title: Command Template Security Review
+artefacts:
+- work/analysis/llm-service-command-template-security.md
+context:
+  background: 'Command template substitution in tool adapters could be an injection
+    vector.
+
+    Need to assess current security posture and plan mitigations for M2.
+
+    '
+  current_approach: YAML configuration is trusted (admin-controlled, not user input)
+  security_concern: If YAML becomes user-editable in future, command injection risk
+  implementation_reference: '- src/llm_service/config/schemas.py (ToolConfig.command_template
+    field)
+
+    - Future: Adapter implementations will use subprocess to execute commands
+
+    '
+  risk_scenarios:
+  - Malicious YAML with shell metacharacters in command_template
+  - User-supplied model names with injection payloads
+  - Tool binary paths pointing to malicious executables
+  mitigation_options:
+  - Whitelist allowed placeholders in templates
+  - Escape arguments before substitution
+  - Use subprocess with shell=False (list of args)
+  - Validate YAML source (file permissions, checksum)
+acceptance_criteria:
+- Security risks identified and assessed
+- Current posture documented (trusted YAML)
+- Mitigation options outlined for M2 implementation
+- Clear recommendation for tool adapter implementation
+- Risk assessment appropriate for M2 scope (MVP)
+created_at: '2026-02-04T20:04:00Z'
+created_by: orchestrator
+estimated_hours: 0.5
+assigned_at: '2026-02-04T20:26:14.922039Z'
+started_at: '2026-02-04T23:30:00Z'
+completed_at: '2026-02-04T23:55:00Z'
+result:
+  status: success
+  summary: |
+    Completed time-boxed security review (30 minutes).
+    
+    SECURITY POSTURE: ✅ ACCEPTABLE FOR MVP (LOW RISK)
+    
+    FINDINGS:
+    - Current risk: LOW (trusted YAML, admin-controlled, local machine)
+    - 4 threat vectors identified and assessed
+    - Trusted configuration source mitigates most risks
+    
+    KEY RECOMMENDATION: Use subprocess with shell=False (CRITICAL)
+    
+    MITIGATION STRATEGY FOR M2:
+    1. subprocess with shell=False (CRITICAL - must implement in Batch 2.1)
+    2. File path validation (HIGH - should implement in Batch 2.1/2.2)
+    3. Placeholder whitelist (MEDIUM - can defer to M3)
+    4. Binary validation (LOW - nice-to-have for MVP)
+    
+    Documented security assumptions and future hardening path.
+  deliverables:
+  - work/analysis/llm-service-command-template-security.md (13KB security review)
+  quality_notes: |
+    Security review includes:
+    - Threat model with 4 attack vectors
+    - Risk assessment matrix (likelihood + impact + mitigation)
+    - Current security posture (M1) vs M2 requirements
+    - 4 mitigation recommendations with priority levels
+    - Security assumptions for MVP scope (trusted YAML)
+    - Future hardening roadmap (user-editable YAML, API exposure)
+    - Implementation checklist for M2 (must/should/nice-to-have)
+    
+    Time-boxed to 30 minutes as requested.
+    Appropriate level of detail for MVP scope.
+    Clear guidance for M2 implementation team.
