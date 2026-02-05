@@ -50,287 +50,241 @@ Implement **Adapter Base Interface** for LLM Service Layer Tool Integration (Mil
 - Design decided: ADR-029 specifies ABC approach for adapters
 - Security reviewed: Command template injection risks assessed and mitigated
 - Milestone 2 (Tool Integration) ready to start immediately
-## Selected Tasks (4 Total - Milestone 2 Batch 2.1)
+## Selected Tasks (3 Total - Milestone 2 Batch 2.2)
 
-### Task 1: Base Adapter Abstract Class
+### Task 1: ClaudeCodeAdapter Implementation
 
-- **ID**: `2026-02-04T2100-backend-dev-adapter-base-class`
+- **ID**: `2026-02-05T0900-backend-dev-claude-code-adapter`
 - **Agent**: backend-dev (Benny)
 - **Priority**: HIGH
 - **Status**: Ready to assign
-- **Estimated Effort**: 4-6 hours
-- **Mode**: `/analysis-mode` (design) + implementation
-- **Strategic Value**: ⭐⭐⭐⭐⭐ Foundation for all tool adapters
+- **Estimated Effort**: 2-4 hours
+- **Mode**: Implementation
+- **Strategic Value**: ⭐⭐⭐⭐⭐ First concrete adapter, validates infrastructure
 
 **Why This Task:**
-- Implements ADR-029 decision (Abstract Base Class approach)
-- Defines contract for all tool adapters (claude-code, codex, future tools)
-- Enables extensibility + type safety
-- Critical path for M2 Tool Integration
+- Implements concrete adapter for claude-code CLI
+- Validates Batch 2.1 adapter infrastructure
+- Enables real agent-LLM interactions via claude-code
+- Critical path for M2 completion
 
 **Implementation Requirements:**
-1. Abstract base class `ToolAdapter` in `src/llm_service/adapters/base.py`
-2. Required methods:
+1. ClaudeCodeAdapter class in `src/llm_service/adapters/claude_code_adapter.py`
+2. Extends `ToolAdapter` base class from Batch 2.1
+3. Methods to implement:
    - `execute(prompt: str, params: Dict) -> ToolResponse`
    - `validate_config(tool_config: ToolConfig) -> bool`
-   - `get_tool_name() -> str`
-3. Template method pattern for common logic
-4. Type hints and docstrings (Google style)
+   - `get_tool_name() -> str` (returns "claude-code")
+4. Model parameter mapping:
+   - Support claude-3.5-sonnet, claude-3-opus, etc.
+   - Map service layer model names to claude CLI parameters
+5. CLI command generation:
+   - Use `CommandTemplateHandler` from Batch 2.1
+   - Generate: `claude-code --model {{model}} --prompt "{{prompt}}"`
+6. Error handling:
+   - Binary not found
+   - Invalid model name
+   - CLI execution failures
 
 **Deliverables**:
-1. `src/llm_service/adapters/base.py`
-   - `ToolAdapter` abstract base class
-   - `ToolResponse` dataclass for standardized output
-   - Type definitions for adapter contract
-2. `src/llm_service/adapters/__init__.py` (package setup)
+1. `src/llm_service/adapters/claude_code_adapter.py`
+   - `ClaudeCodeAdapter` class
+   - Model mapping logic
+   - CLI command generation
+2. Unit tests (4-6 tests):
+   - Basic execution flow
+   - Model parameter mapping
+   - Error handling scenarios
 
-**Dependencies**: ADR-029 (COMPLETE ✅)
+**Dependencies**: Batch 2.1 complete ✅
 
 **Success Criteria**:
-- Abstract base class with clear contract
-- Type-safe method signatures
-- Docstrings for all public methods
-- Ready for concrete adapter implementations
-- Passes basic instantiation tests
+- ClaudeCodeAdapter extends ToolAdapter correctly
+- Model mapping works for all supported models
+- CLI command generation uses template system
+- Error handling provides user-friendly messages
+- Unit tests passing with >80% coverage
 
 ---
 
-### Task 2: Command Template Parser
+### Task 2: Platform Binary Path Resolution
 
-- **ID**: `2026-02-04T2101-backend-dev-command-template-parser`
+- **ID**: `2026-02-05T0901-backend-dev-binary-path-resolution`
 - **Agent**: backend-dev (Benny)
 - **Priority**: HIGH
 - **Status**: Ready to assign
-- **Estimated Effort**: 3-4 hours
+- **Estimated Effort**: 1-2 hours
 - **Mode**: Implementation
-- **Strategic Value**: ⭐⭐⭐⭐ Enables dynamic tool invocation
+- **Strategic Value**: ⭐⭐⭐⭐ Enables cross-platform compatibility
 
 **Why This Task:**
-- Parses command templates from YAML tool definitions
-- Substitutes placeholders ({{model}}, {{prompt}}, {{params}})
-- Implements security mitigations per security review
-- Enables YAML-based tool extensibility
+- Resolves claude-code binary path on different platforms
+- Handles different installation locations (system, user, custom)
+- Enables cross-platform compatibility (Linux/macOS/Windows)
+- Validates platform support from Batch 2.1
 
 **Implementation Requirements:**
-1. Template parser in `src/llm_service/adapters/template_parser.py`
-2. Placeholder substitution:
-   - `{{model}}` → agent's preferred model
-   - `{{prompt}}` → user prompt (escaped)
-   - `{{param_name}}` → additional parameters
-3. Security features:
-   - Whitelist allowed placeholders
-   - Escape shell metacharacters
-   - Validate template format
-4. Error handling for invalid templates
+1. Binary path resolution in `ClaudeCodeAdapter` or helper module
+2. Platform-specific logic:
+   - Linux: Check `/usr/local/bin/claude-code`, `~/.local/bin/claude-code`
+   - macOS: Check `/usr/local/bin/claude-code`, `~/bin/claude-code`
+   - Windows: Check `C:\Program Files\claude-code\claude.exe`, user AppData
+3. Use `shutil.which()` for cross-platform path lookup
+4. Fallback to YAML configuration if binary not found
+5. Error handling:
+   - Binary not found (user-friendly message with install instructions)
+   - Binary not executable (permission issues)
 
 **Deliverables**:
-1. `src/llm_service/adapters/template_parser.py`
-   - `TemplateParser` class
-   - `parse_template(template: str, context: Dict) -> str`
-   - Security validation methods
-2. Unit tests for:
-   - Basic placeholder substitution
-   - Edge cases (missing placeholders, invalid syntax)
-   - Security scenarios (injection attempts)
+1. Binary path resolution logic in `ClaudeCodeAdapter`
+2. Configuration option: `tool.binary_path` (optional override)
+3. Unit tests (2-3 tests):
+   - Binary found via shutil.which()
+   - Binary found via config override
+   - Binary not found (error handling)
 
-**Dependencies**: None (can run in parallel with Task 1)
+**Dependencies**: Task 1 (ClaudeCodeAdapter base)
 
 **Success Criteria**:
-- Template parser handles all placeholder types
-- Security validation prevents injection attacks
-- Clear error messages for invalid templates
-- >80% test coverage on template parser
-- Examples work with real YAML tool definitions
+- Binary resolution works on Linux/macOS
+- Windows compatibility validated (or documented as deferred)
+- Config override works correctly
+- Clear error message when binary not found
+- Unit tests passing
 
 ---
 
-### Task 3: Subprocess Execution Wrapper
+### Task 3: Integration Tests with Mocked CLI
 
-- **ID**: `2026-02-04T2102-backend-dev-subprocess-wrapper`
-- **Agent**: backend-dev (Benny)
-- **Priority**: HIGH
-- **Status**: Ready to assign
-- **Estimated Effort**: 3-4 hours
-- **Mode**: Implementation
-- **Strategic Value**: ⭐⭐⭐⭐ Executes external tools safely
-
-**Why This Task:**
-- Executes tool commands via subprocess
-- Captures stdout/stderr
-- Handles timeouts, errors, and crashes
-- Enables integration with claude-code, codex CLIs
-
-**Implementation Requirements:**
-1. Subprocess wrapper in `src/llm_service/adapters/subprocess_wrapper.py`
-2. Features:
-   - Execute command with timeout (configurable)
-   - Capture stdout/stderr streams
-   - Return exit code + output
-   - Handle platform differences (Linux/macOS/Windows)
-3. Error handling:
-   - Command not found
-   - Timeout exceeded
-   - Non-zero exit codes
-   - Subprocess crashes
-4. Security:
-   - Use `shell=False` (per security review)
-   - No shell expansion
-   - Environment variable control
-
-**Deliverables**:
-1. `src/llm_service/adapters/subprocess_wrapper.py`
-   - `SubprocessExecutor` class
-   - `execute(command: List[str], timeout: int) -> ExecutionResult`
-   - `ExecutionResult` dataclass (exit_code, stdout, stderr, duration)
-2. Unit tests for:
-   - Successful execution
-   - Timeout scenarios
-   - Error handling (command not found, non-zero exit)
-   - Platform compatibility
-
-**Dependencies**: Task 2 (template parser) for command generation
-
-**Success Criteria**:
-- Subprocess execution works on all platforms
-- Timeouts handled gracefully
-- Error messages are user-friendly
-- >80% test coverage on subprocess wrapper
-- Integration tests with fake CLI scripts
-
----
-
-### Task 4: Output Normalization Framework
-
-- **ID**: `2026-02-04T2103-backend-dev-output-normalization`
+- **ID**: `2026-02-05T0902-backend-dev-claude-adapter-integration-tests`
 - **Agent**: backend-dev (Benny)
 - **Priority**: MEDIUM
 - **Status**: Ready to assign
 - **Estimated Effort**: 2-3 hours
-- **Mode**: Implementation
-- **Strategic Value**: ⭐⭐⭐ Standardizes tool responses
+- **Mode**: Testing
+- **Strategic Value**: ⭐⭐⭐⭐ Validates end-to-end adapter flow
 
 **Why This Task:**
-- Normalizes different tool output formats
-- Extracts response, metadata, errors
-- Enables consistent telemetry and error handling
-- Prepares for M3 telemetry integration
+- Validates ClaudeCodeAdapter with mocked claude CLI
+- Tests full execution flow: config → command → execution → response
+- Prepares for real claude-code CLI validation
+- Ensures error handling works in realistic scenarios
 
 **Implementation Requirements:**
-1. Output normalizer in `src/llm_service/adapters/output_normalizer.py`
-2. Normalize outputs:
-   - Extract LLM response text
-   - Parse metadata (tokens, model, cost)
-   - Identify errors vs. warnings
-   - Standardize format across tools
-3. Support different output formats:
-   - JSON (structured)
-   - Plain text (unstructured)
-   - Mixed (text + metadata)
-4. Extensibility for new tools
+1. Integration tests in `tests/integration/adapters/test_claude_code_adapter.py`
+2. Mock claude CLI using fake script:
+   - Accepts `--model` and `--prompt` parameters
+   - Returns realistic output (JSON or plain text)
+   - Simulates errors (invalid model, timeout, etc.)
+3. Test scenarios:
+   - **Successful execution**: Prompt → response
+   - **Model mapping**: Different models → correct CLI parameters
+   - **Error handling**: Binary not found, invalid model, timeout
+   - **Output parsing**: JSON response → ToolResponse
+4. Use `SubprocessExecutor` from Batch 2.1 for execution
 
 **Deliverables**:
-1. `src/llm_service/adapters/output_normalizer.py`
-   - `OutputNormalizer` class
-   - `normalize(raw_output: str, tool_name: str) -> NormalizedResponse`
-   - `NormalizedResponse` dataclass (response_text, metadata, errors)
-2. Unit tests for:
-   - JSON parsing
-   - Plain text extraction
-   - Error detection
-   - Metadata extraction
+1. `tests/integration/adapters/test_claude_code_adapter.py` (4-6 tests)
+2. `tests/fixtures/fake_claude_cli.py` or shell script
+3. Integration test suite covering:
+   - Happy path (successful execution)
+   - Error scenarios (binary not found, timeout, etc.)
+   - Output parsing (JSON, plain text)
 
-**Dependencies**: Task 3 (subprocess wrapper) for raw output
+**Dependencies**: Tasks 1-2 (ClaudeCodeAdapter + binary resolution)
 
 **Success Criteria**:
-- Output normalization handles JSON and plain text
-- Metadata extracted when available
-- Errors identified and standardized
-- >80% test coverage on normalizer
-- Ready for claude-code and codex adapters (different formats)
+- Integration tests passing with fake claude CLI
+- All error scenarios validated
+- Output parsing works for JSON and plain text
+- Test coverage >80% on ClaudeCodeAdapter
+- Ready for real claude-code CLI validation (manual)
 
 ---
 
 ## Execution Plan
 
-### Phase 1: Core Infrastructure (Hours 0-8)
+### Phase 1: Adapter Implementation (Hours 0-4)
 
-**Parallel Execution:**
+**Sequential Execution:**
 ```
-Task 1: Base Adapter Class              [4-6h]  HIGH  (backend-dev)
-Task 2: Command Template Parser         [3-4h]  HIGH  (backend-dev)
+Task 1: ClaudeCodeAdapter Implementation  [2-4h]  HIGH  (backend-dev)
 ```
 
 **Characteristics:**
-- Can execute in parallel (different modules)
-- Task 1 is blocking for concrete adapters (Batches 2.2-2.3)
-- Task 2 is independent, can complete first
+- Leverages Batch 2.1 infrastructure (base class, template parser, subprocess executor)
+- Single focused task: concrete adapter implementation
+- Low complexity (infrastructure already proven in Batch 2.1)
 
-**Time Estimate:** 1 day (max 6 hours for Task 1)
+**Time Estimate:** Half day (2-4 hours)
 
 ---
 
-### Phase 2: Execution & Normalization (Hours 8-16)
+### Phase 2: Platform & Integration (Hours 4-8)
 
-**Sequential Execution (Depends on Task 2):**
+**Sequential Execution (Depends on Task 1):**
 ```
-Task 3: Subprocess Wrapper              [3-4h]  HIGH  (depends on Task 2)
-Task 4: Output Normalization            [2-3h]  MEDIUM (depends on Task 3)
+Task 2: Binary Path Resolution          [1-2h]  HIGH  (depends on Task 1)
+Task 3: Integration Tests               [2-3h]  MEDIUM (depends on Task 1-2)
 ```
 
 **Characteristics:**
-- Task 3 needs template parser (Task 2) for command generation
-- Task 4 needs subprocess wrapper (Task 3) for raw output
-- Sequential execution required
+- Task 2 adds platform compatibility to Task 1
+- Task 3 validates full adapter flow with mocked CLI
+- Both depend on ClaudeCodeAdapter base (Task 1)
 
-**Time Estimate:** 1 day (7 hours with buffer)
+**Time Estimate:** Half day (3-5 hours)
 
 ---
 
 ### Timeline Estimates
 
-**Realistic** (Sequential Execution): 2 days
-- Day 1: Tasks 1-2 complete (base class + template parser)
-- Day 2: Tasks 3-4 complete (subprocess + normalization)
-- Buffer: 4 hours for integration testing + refinement
+**Optimistic** (Based on Batch 2.1 Efficiency): 4-6 hours
+- Morning: Task 1 complete (ClaudeCodeAdapter implementation)
+- Afternoon: Tasks 2-3 complete (binary resolution + integration tests)
+- Assumption: Benny maintains 6x efficiency from Batch 2.1
 
-**Optimistic** (Partial Parallelization): 1.5 days
-- Day 1: All 4 tasks complete if Task 1 finishes quickly
-- Day 2 Morning: Integration testing + buffer
-- No significant blockers expected
+**Realistic** (Conservative Estimate): 1-2 days
+- Day 1: Tasks 1-2 complete (adapter + binary resolution)
+- Day 2 Morning: Task 3 complete (integration tests)
+- Buffer: 4 hours for platform testing + refinement
 
-**Recommended:** Plan for 2 days with 4-hour buffer for testing
+**Recommended:** Plan for 1-2 days with buffer for real CLI validation (optional)
 
 ---
 
 ## Checkpoints & Milestones
 
-### Checkpoint 1: Core Infrastructure Complete (Day 1 EOD)
-**Check**: Tasks 1-2 (base class + template parser) complete  
+### Checkpoint 1: Adapter Implementation Complete (Half Day)
+**Check**: Task 1 (ClaudeCodeAdapter) complete  
 **Expected**: 
-- Base adapter abstract class implemented and tested ✅
-- Command template parser working with placeholder substitution ✅
+- ClaudeCodeAdapter class implemented and tested ✅
+- Model parameter mapping working ✅
+- CLI command generation using template system ✅
 - Unit tests passing (>80% coverage) ✅
-**Decision**: Proceed to execution layer OR refine base infrastructure  
+**Decision**: Proceed to platform compatibility OR refine adapter  
+**Trigger**: Backend-dev completes Task 1
+
+### Checkpoint 2: Platform Compatibility Complete (Day 1 EOD)
+**Check**: Task 2 (binary path resolution) complete  
+**Expected**: 
+- Binary resolution working on Linux/macOS ✅
+- Config override functionality validated ✅
+- Error handling for binary not found ✅
+- Unit tests passing ✅
+**Decision**: Proceed to integration testing OR enhance compatibility  
 **Trigger**: Backend-dev completes Task 2
 
-### Checkpoint 2: Execution Layer Complete (Day 2 Mid)
-**Check**: Task 3 (subprocess wrapper) complete  
+### Checkpoint 3: M2 Batch 2.2 Complete (Day 1-2)
+**Check**: All 3 tasks complete + integration tests passing  
 **Expected**: 
-- Subprocess execution working on all platforms ✅
-- Timeouts and error handling validated ✅
-- Integration tests with fake CLI scripts passing ✅
-**Decision**: Proceed to normalization OR enhance execution  
-**Trigger**: Backend-dev completes Task 3
-
-### Checkpoint 3: M2 Batch 2.1 Complete (Day 2 EOD)
-**Check**: All 4 tasks complete + integration tests passing  
-**Expected**: 
-- Full adapter infrastructure ready ✅
+- ClaudeCodeAdapter fully functional ✅
+- Integration tests passing with mocked CLI ✅
 - All unit tests passing (>80% coverage) ✅
-- Integration tests with fake tools working ✅
-- Ready for concrete adapter implementations (Batches 2.2-2.3) ✅
-**Decision**: Start M2 Batch 2.2 (Claude-Code Adapter) OR address gaps  
-**Trigger**: All 4 tasks complete, human approval
+- Platform compatibility validated ✅
+- Ready for M2 Batch 2.3 (CodexAdapter) OR real CLI validation ✅
+**Decision**: Start M2 Batch 2.3 (CodexAdapter) OR validate with real claude-code CLI  
+**Trigger**: All 3 tasks complete, human approval
 
 ---
 
@@ -338,55 +292,55 @@ Task 4: Output Normalization            [2-3h]  MEDIUM (depends on Task 3)
 
 | Agent | Tasks | Total Hours | Complexity | Timeline |
 |-------|-------|-------------|------------|----------|
-| **backend-dev** | 4 | 12-16h | MEDIUM | 2 days |
-| **Total** | **4 tasks** | **12-16h** | **Medium** | **2 days** |
+| **backend-dev** | 3 | 4-8h | LOW-MEDIUM | 1-2 days |
+| **Total** | **3 tasks** | **4-8h** | **Low-Medium** | **1-2 days** |
 
 ### Agent Workload: Backend-dev Benny
 
-**Workload:** Moderate (12-16 hours over 2 days)
-- Task 1: 4-6 hours (Base adapter class)
-- Task 2: 3-4 hours (Template parser)
-- Task 3: 3-4 hours (Subprocess wrapper)
-- Task 4: 2-3 hours (Output normalization)
+**Workload:** Light-Moderate (4-8 hours over 1-2 days)
+- Task 1: 2-4 hours (ClaudeCodeAdapter implementation)
+- Task 2: 1-2 hours (Binary path resolution)
+- Task 3: 2-3 hours (Integration tests with mocked CLI)
 
 **Characteristics:**
 - Single agent (no coordination overhead)
-- Medium complexity (infrastructure, not algorithms)
-- High strategic value (unblocks M2 Batches 2.2-2.3)
-- Fits in 2 working days with 4-hour testing buffer
+- Low-Medium complexity (leverages Batch 2.1 infrastructure)
+- High strategic value (first concrete adapter, validates infrastructure)
+- Estimated based on Batch 2.1 efficiency (6x faster than initial estimates)
+- Fits in 1 working day (optimistic) or 2 days (conservative)
 
 ---
 
 ## Risk Assessment & Mitigation
 
-### Risk 1: Platform Compatibility Issues
-**Description**: Subprocess execution behaves differently on Windows/Linux/macOS  
+### Risk 1: Claude-Code CLI Availability
+**Description**: claude-code CLI not available in CI environment  
 **Probability**: MEDIUM  
-**Impact**: MEDIUM (delays M2 Batch 2.1)  
+**Impact**: MEDIUM (blocks real CLI validation)  
 **Mitigation**: 
-- Use `subprocess.run()` with `shell=False` (cross-platform)
-- Test on multiple platforms early
-- Document platform-specific behaviors
-- Defer Windows support if blocked (focus on Linux/macOS)
+- Use mocked CLI for integration tests (primary approach)
+- Document manual validation steps for real CLI
+- Defer real CLI testing to local development environment
+- Focus on adapter logic correctness, not CLI integration
 
-### Risk 2: Template Parser Complexity
-**Description**: Command template substitution becomes complex with edge cases  
+### Risk 2: Platform-Specific Binary Paths
+**Description**: Binary path resolution differs across platforms  
 **Probability**: LOW  
-**Impact**: LOW (not blocking)  
+**Impact**: LOW (config override available)  
 **Mitigation**:
-- Keep template syntax simple (only {{placeholder}})
-- Use whitelist for allowed placeholders
-- Defer advanced features (conditionals, loops) to post-MVP
-- Validate templates at config load time
+- Use `shutil.which()` for cross-platform path lookup
+- Provide config override for custom binary paths
+- Document common installation locations per platform
+- Test on Linux/macOS, document Windows as deferred
 
 ### Risk 3: Test Coverage Target
-**Description**: Difficulty achieving >80% test coverage on all modules  
+**Description**: Difficulty achieving >80% test coverage on adapter  
 **Probability**: LOW  
 **Impact**: LOW (quality concern)  
 **Mitigation**:
 - Focus on critical paths (execution, error handling)
-- Use mocks for external dependencies
-- Accept lower coverage on edge cases if needed
+- Use mocked CLI for integration tests
+- Leverage Batch 2.1 test infrastructure (already 93% coverage)
 - Track coverage per-module, not just overall
 
 ---
@@ -394,22 +348,22 @@ Task 4: Output Normalization            [2-3h]  MEDIUM (depends on Task 3)
 ## Success Metrics
 
 ### Task-Level Metrics
-- ✅ 4/4 tasks completed within 2 days
+- ✅ 3/3 tasks completed within 1-2 days
 - ✅ All unit tests passing (no failures)
-- ✅ >80% test coverage per module
-- ✅ Integration tests working with fake CLI scripts
+- ✅ >80% test coverage on ClaudeCodeAdapter
+- ✅ Integration tests passing with mocked CLI
 - ✅ Code follows Python style guide (PEP 8)
 
 ### Strategic Metrics
-- ✅ Adapter infrastructure ready for concrete adapters
-- ✅ M2 Batch 2.2 (Claude-Code Adapter) unblocked
-- ✅ M2 Batch 2.3 (Codex Adapter) unblocked
-- ✅ Generic adapter pattern established
+- ✅ ClaudeCodeAdapter fully functional
+- ✅ First concrete adapter validates Batch 2.1 infrastructure
+- ✅ M2 Batch 2.3 (CodexAdapter) unblocked
+- ✅ Real agent-LLM interactions enabled (with real CLI)
 
 ### Value Realization
-- **Immediate**: Foundation for tool adapter implementations
-- **Short-term** (M2 Batches 2.2-2.4): Concrete adapters built on this base
-- **Long-term**: Extensibility enables community-contributed tools
+- **Immediate**: First concrete adapter for claude-code CLI
+- **Short-term** (M2 Batch 2.3): CodexAdapter can reuse same pattern
+- **Long-term**: Validates adapter infrastructure for future tools
 
 ---
 
@@ -419,125 +373,124 @@ Task 4: Output Normalization            [2-3h]  MEDIUM (depends on Task 3)
 
 | Dependency | Status | Location | Notes |
 |------------|--------|----------|-------|
-| M1 Foundation Complete | ✅ | src/llm_service/ | 93% coverage, approved |
+| M1 Foundation Complete | ✅ | src/llm_service/ | 93% coverage, 65/65 tests |
 | M2 Prep Complete | ✅ | ADRs 026-029 | All ADRs documented |
-| Adapter Design Decided | ✅ | ADR-029 | ABC approach chosen |
-| Security Review Done | ✅ | Security analysis | Risks assessed |
-| Test Infrastructure | ✅ | tests/unit/ | Pytest + coverage |
+| M2 Batch 2.1 Complete | ✅ | src/llm_service/adapters/ | Base infrastructure ready |
+| Adapter Base Class | ✅ | base.py | ToolAdapter ABC ready |
+| Command Template System | ✅ | command_template.py | Template handler ready |
+| Subprocess Executor | ✅ | subprocess_executor.py | Execution wrapper ready |
+| Test Infrastructure | ✅ | tests/ | 93% coverage, 78/78 tests |
 
 ### Internal Dependencies (This Batch)
 
 **Task Dependencies:**
-- Task 1 (Base class): No dependencies, can start immediately
-- Task 2 (Template parser): No dependencies, can run in parallel with Task 1
-- Task 3 (Subprocess wrapper): Depends on Task 2 (needs template parser for commands)
-- Task 4 (Output normalizer): Depends on Task 3 (needs subprocess output)
+- Task 1 (ClaudeCodeAdapter): Depends on Batch 2.1 (base class, template parser, subprocess executor)
+- Task 2 (Binary resolution): Depends on Task 1 (integrates into ClaudeCodeAdapter)
+- Task 3 (Integration tests): Depends on Tasks 1-2 (validates full adapter)
 
 **Recommended Execution:**
-- **Day 1**: Tasks 1-2 in parallel (independent modules)
-- **Day 2**: Tasks 3-4 sequentially (Task 3 → Task 4)
+- **Phase 1**: Task 1 (ClaudeCodeAdapter implementation)
+- **Phase 2**: Tasks 2-3 sequentially (Task 2 → Task 3)
 
 ---
 
-## Handoff to M2 Batch 2.2
+## Handoff to M2 Batch 2.3
 
 ### Expected Outputs After This Batch
 
 **Code:**
-1. ✅ `src/llm_service/adapters/base.py` - Base adapter abstract class
-2. ✅ `src/llm_service/adapters/template_parser.py` - Command template parser
-3. ✅ `src/llm_service/adapters/subprocess_wrapper.py` - Subprocess executor
-4. ✅ `src/llm_service/adapters/output_normalizer.py` - Output normalizer
-5. ✅ `src/llm_service/adapters/__init__.py` - Package initialization
+1. ✅ `src/llm_service/adapters/claude_code_adapter.py` - ClaudeCodeAdapter class
+2. ✅ Model parameter mapping for claude-code CLI
+3. ✅ Binary path resolution (platform-specific)
+4. ✅ CLI command generation using template system
+5. ✅ Error handling for tool-specific failures
 
 **Tests:**
-1. ✅ `tests/unit/adapters/test_base.py` - Base adapter tests
-2. ✅ `tests/unit/adapters/test_template_parser.py` - Template parser tests
-3. ✅ `tests/unit/adapters/test_subprocess_wrapper.py` - Subprocess tests
-4. ✅ `tests/unit/adapters/test_output_normalizer.py` - Normalizer tests
-5. ✅ `tests/integration/adapters/test_fake_tool.py` - Integration tests
+1. ✅ `tests/unit/adapters/test_claude_code_adapter.py` - Unit tests (4-6 tests)
+2. ✅ `tests/integration/adapters/test_claude_code_adapter.py` - Integration tests (4-6 tests)
+3. ✅ `tests/fixtures/fake_claude_cli.py` - Mocked CLI for testing
 
-**M2 Batch 2.2 Readiness Checklist:**
-- ✅ Base adapter interface defined and tested
-- ✅ Command template system working
-- ✅ Subprocess execution framework ready
-- ✅ Output normalization framework ready
-- ✅ >80% test coverage on adapter base
-- ✅ Integration tests passing
+**M2 Batch 2.3 Readiness Checklist:**
+- ✅ ClaudeCodeAdapter fully functional
+- ✅ Integration tests passing with mocked CLI
+- ✅ Platform compatibility validated (Linux/macOS)
+- ✅ >80% test coverage on ClaudeCodeAdapter
+- ✅ Error handling validated
+- ✅ Ready for CodexAdapter implementation (same pattern)
 
-**Next Batch (M2 Batch 2.2):**
-- Task: Implement Claude-Code adapter (concrete implementation)
+**Next Batch (M2 Batch 2.3):**
+- Task: Implement CodexAdapter (concrete implementation)
 - Agent: Backend-dev Benny
-- Estimated Effort: 2-3 days
-- Deliverable: Working claude-code adapter with integration tests
+- Estimated Effort: 1-2 days (same pattern as ClaudeCodeAdapter)
+- Deliverable: Working codex adapter with integration tests
 
 ---
 
 ## Alternative Batches
 
-### Alternative 1: Core Only (Minimal Scope)
+### Alternative 1: Minimal Scope (Adapter Only)
 
 **If**: Backend-dev has limited availability  
-**Execute**: Tasks 1-2 (base class + template parser)  
-**Duration**: 1 day  
-**Value**: Core infrastructure ready, subprocess layer can be deferred
+**Execute**: Task 1 only (ClaudeCodeAdapter implementation)  
+**Duration**: Half day (2-4 hours)  
+**Value**: Core adapter ready, binary resolution and integration tests can be deferred
 
-**Rationale**: Base adapter + template parser are critical for concrete adapters. Subprocess wrapper can be built during M2 Batch 2.2 if needed.
-
----
-
-### Alternative 2: Extended Scope (Add Fake Adapter)
-
-**If**: More time available OR need validation  
-**Add**: Task 5 - Fake tool adapter for testing  
-**Duration**: 2.5 days (add 4 hours)  
-**Value**: Full end-to-end validation before claude-code adapter
-
-**Rationale**: Fake adapter validates entire infrastructure with no external dependencies. Reduces risk for M2 Batch 2.2.
+**Rationale**: ClaudeCodeAdapter is the primary deliverable. Binary resolution and integration tests can be added incrementally if needed.
 
 ---
 
-## Comparison to Previous Batch (M2 Prep)
+### Alternative 2: Extended Scope (Add Real CLI Validation)
 
-| Metric | M2 Prep Batch | M2 Batch 2.1 | Change |
-|--------|---------------|--------------|--------|
-| **Tasks** | 5 (documentation) | 4 (implementation) | -1 task |
-| **Agents** | 1 (architect) | 1 (backend-dev) | Same |
-| **Total Effort** | 4.25h | 12-16h | +280% |
-| **Duration** | 1 day | 2 days | +100% |
-| **Complexity** | LOW | MEDIUM | Increased |
-| **Strategic** | Docs/ADRs | Core implementation | Shift to code |
+**If**: Real claude-code CLI available  
+**Add**: Task 4 - Real CLI validation and testing  
+**Duration**: 2-3 days (add 4-6 hours)  
+**Value**: Full validation with real claude-code CLI, not just mocked
+
+**Rationale**: Real CLI validation confirms adapter works in production environment. Reduces risk for pilot deployment.
+
+---
+
+## Comparison to Previous Batch (M2 Batch 2.1)
+
+| Metric | M2 Batch 2.1 | M2 Batch 2.2 | Change |
+|--------|--------------|--------------|--------|
+| **Tasks** | 4 (infrastructure) | 3 (concrete adapter) | -1 task |
+| **Agents** | 1 (backend-dev) | 1 (backend-dev) | Same |
+| **Total Effort** | ~2.5h (actual) | 4-8h (estimated) | +3-5.5h |
+| **Duration** | ~2.5h | 1-2 days | Conservative |
+| **Complexity** | MEDIUM | LOW-MEDIUM | Decreased |
+| **Strategic** | Infrastructure | First concrete adapter | Validation |
 
 **Key Insights**:
-- Higher effort (documentation → implementation)
-- Single agent still (no coordination complexity)
-- Higher strategic value (unblocks 3 more batches)
-- Medium risk (platform compatibility, test coverage)
+- Lower complexity (leverages Batch 2.1 infrastructure)
+- Same agent (Benny demonstrated 6x efficiency in Batch 2.1)
+- More conservative estimate (1-2 days vs. realistic 4-8h)
+- High strategic value (first concrete adapter validates infrastructure)
+- Low risk (infrastructure already proven in Batch 2.1)
 
 ---
 
 ## Sign-off
 
 **Prepared By**: Planning Petra  
-**Date**: 2026-02-04 20:45:00 UTC  
+**Date**: 2026-02-05 08:30:00 UTC  
 **Status**: 🟢 **READY FOR ASSIGNMENT**  
-**Batch ID**: `2026-02-04-llm-service-m2-batch-2.1`  
-**Recommended Start**: Immediate (M2 prep complete, dependencies met)  
-**Expected Completion**: 2 days (with 4-hour testing buffer)
+**Batch ID**: `2026-02-05-llm-service-m2-batch-2.2`  
+**Recommended Start**: Immediate (M2 Batch 2.1 complete, dependencies met)  
+**Expected Completion**: 1-2 days (with buffer for platform testing)
 
 **Next Steps**:
-1. Assign Tasks 1-4 to Backend-dev Benny
+1. Assign Tasks 1-3 to Backend-dev Benny
 2. Monitor progress per checkpoint schedule
-3. Review code quality and test coverage daily
-4. Approve M2 Batch 2.2 after completion
-5. Prepare M2 Batch 2.2 (Claude-Code Adapter)
+3. Review code quality and test coverage after Task 1
+4. Validate platform compatibility (Linux/macOS) after Task 2
+5. Approve M2 Batch 2.3 (CodexAdapter) after completion
 
 ---
 
 **Related Documents**:
-- **M2 Prep Summary:** `work/collaboration/ITERATION_2026-02-04_M2_PREP_SUMMARY.md`
+- **M2 Batch 2.1 Summary:** `work/collaboration/ITERATION_2026-02-05_M2_BATCH_2.1_SUMMARY.md`
 - **Implementation Plan:** `docs/planning/llm-service-layer-implementation-plan.md`
 - **Agent Status:** `work/collaboration/AGENT_STATUS.md`
 - **ADR-029:** `docs/architecture/adrs/ADR-029-adapter-interface-design.md`
-- **Security Review:** `work/analysis/llm-service-command-template-security.md`
-- **Adapter Design Review:** `work/analysis/llm-service-adapter-interface-review.md`
+- **Batch 2.1 Code:** `src/llm_service/adapters/` (base.py, command_template.py, subprocess_executor.py)
