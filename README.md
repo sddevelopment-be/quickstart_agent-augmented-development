@@ -227,3 +227,28 @@ You can use the specialist agents in `.github/agents/` as a starting point. On g
 
 **Template Status:** This repository serves as both a working example and a reusable template. Fork and adapt for your project needs.
 
+## Attribution & Inspiration
+
+This project draws inspiration from and acknowledges:
+
+### spec-kitty
+
+**Source:** [github.com/Priivacy-ai/spec-kitty](https://github.com/Priivacy-ai/spec-kitty)  
+**License:** MIT  
+**Contributions:**
+
+- **Specification-Driven Development methodology** (adapted) - Code serves specifications, not vice versa
+- **Dashboard interface design patterns** - Live kanban board with WebSocket updates for real-time workflow visibility
+- **Multi-agent orchestration insights** - Work package lane management and agent coordination patterns
+- **Template-based configuration approach** - Quick-start templates with variable substitution and environment scanning
+- **Rich CLI feedback** - Extensive use of the `rich` library for structured, colorful terminal output with progress indicators
+
+We're grateful to the spec-kitty team for their innovative work in agent-augmented development. Their `spec-driven.md` guide and comparative architectural patterns have been particularly influential in shaping our workflow patterns and user experience enhancements.
+
+**Comparative Analysis:** See [docs/architecture/design/comparative_study/2026-02-05-spec-kitty-comparative-analysis.md](docs/architecture/design/comparative_study/2026-02-05-spec-kitty-comparative-analysis.md) for detailed analysis of adopted patterns.
+
+---
+
+> **REPLACE THIS README WHEN READY!**
+> Use this README as a template to create your own project README.
+
