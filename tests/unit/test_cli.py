@@ -51,8 +51,8 @@ def test_config_validate_valid(runner, valid_config):
     """Test config validate with valid configuration."""
     result = runner.invoke(cli, ['--config-dir', str(valid_config), 'config', 'validate'])
     assert result.exit_code == 0
-    assert '✓ Configuration is valid!' in result.output
-    assert 'Agents:' in result.output
+    assert 'Configuration is valid' in result.output
+    assert 'Agents' in result.output  # Now in table, not "Agents:"
 
 
 def test_config_validate_missing_dir(runner, tmp_path):
@@ -81,7 +81,7 @@ def test_exec_command_valid_agent(runner, valid_config):
         '--prompt-file', str(prompt_file)
     ])
     assert result.exit_code == 0
-    assert '✓ Agent configuration loaded' in result.output
+    assert 'Agent configuration loaded' in result.output
     assert 'test-tool' in result.output
 
 

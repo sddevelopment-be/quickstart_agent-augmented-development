@@ -1,0 +1,48 @@
+---
+id: 2026-02-05T1400-backend-dev-rich-terminal-ui
+title: "Rich Terminal UI Implementation"
+agent: backend-dev
+priority: HIGH
+status: pending
+estimated_hours: 2-3
+created_at: "2026-02-05T14:00:00Z"
+milestone: M4
+batch: 4.1
+dependencies: []
+
+description: |
+  Integrate the `rich` Python library to provide structured, colorful CLI output 
+  across all llm-service commands for professional user experience.
+
+acceptance_criteria:
+  - All CLI commands use rich formatting (panels, colors, progress bars)
+  - Progress bars display for operations >2 seconds
+  - Automatic fallback to plain text in non-TTY environments
+  - --no-color flag available for color disable
+  - Unit tests for console output module
+  - Manual visual tests (TTY and non-TTY modes)
+  - Test coverage >80% maintained
+
+deliverables:
+  - Add rich>=13.0.0 dependency to pyproject.toml
+  - Create console wrapper module (src/llm_service/ui/console.py)
+  - Update CLI commands to use rich output
+  - Implement automatic fallback for CI/CD
+  - Unit tests for console module
+  - Visual validation screenshots
+
+references:
+  - "docs/architecture/adrs/ADR-030-rich-terminal-ui-cli-feedback.md"
+  - "docs/architecture/design/comparative_study/2026-02-05-spec-kitty-comparative-analysis.md"
+
+technical_notes: |
+  - Use rich.console.Console for output
+  - Use rich.progress for long operations
+  - Use rich.panel for summaries
+  - Use rich.table for structured data
+  - Detect TTY via sys.stdout.isatty()
+
+context: |
+  This task implements ADR-030 based on learnings from spec-kitty's excellent
+  CLI UX. Rich terminal output improves user experience and professionalism.
+  This is the foundation for the dashboard UI (M4 Batch 4.2).
