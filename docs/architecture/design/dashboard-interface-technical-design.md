@@ -22,8 +22,19 @@ This document provides detailed technical design for the real-time web-based das
 **Technology Stack:**
 - **Backend:** Flask + Flask-SocketIO (Python 3.9+)
 - **Frontend:** Vanilla JavaScript + Chart.js + Socket.IO Client
-- **Event System:** In-process Observer pattern
-- **Persistence:** Optional SQLite for history
+- **Event System:** In-process Observer pattern + File system watching
+- **Task Tracking:** YAML files (work/collaboration/) - **NO DATABASE REQUIRED**
+- **Metrics Storage:** Optional SQLite for historical cost/token data only
+
+**Critical Design Constraint:**
+This dashboard integrates with our **existing file-based orchestration approach** (`.github/agents/approaches/work-directory-orchestration.md`). Task state is tracked via YAML files in `work/collaboration/{inbox,assigned,done}/`, NOT a database. The dashboard uses file system watching to detect task lifecycle transitions and emit real-time WebSocket events.
+
+**Infrastructure Benefits:**
+- ✅ No database server for task management (reduces setup complexity)
+- ✅ Git audit trail preserved (all task transitions committed)
+- ✅ Human-readable task files (can create/edit manually)
+- ✅ Agent-compatible (existing workflows unchanged)
+- ✅ Simplicity maintained (file operations are transparent)
 
 ---
 
