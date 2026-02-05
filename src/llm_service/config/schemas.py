@@ -2,12 +2,13 @@
 LLM Service Layer - Configuration Schemas
 
 This module defines Pydantic models for validating YAML configuration files.
-Supports agents.yaml, tools.yaml, models.yaml, and policies.yaml.
+Supports agents.yaml, tools.yaml, models.yaml, policies.yaml, and telemetry configuration.
 
 Tech Stack: Python 3.10+, Pydantic v2
 """
 
 from typing import Dict, List, Optional, Literal
+from pathlib import Path
 from pydantic import BaseModel, Field, field_validator
 
 
@@ -191,6 +192,49 @@ class PoliciesSchema(BaseModel):
     rate_limiting: Optional[RateLimiting] = None
 
 
+# Telemetry Configuration Schema
+class TelemetryConfig(BaseModel):
+    """
+    Telemetry configuration for cost tracking and performance monitoring.
+    
+    Attributes:
+        enabled: Whether telemetry logging is active (default: True)
+        db_path: Path to SQLite database file (default: ~/.llm-service/telemetry.db)
+        privacy_level: Logging detail level - metadata (metrics only), full (everything), none (disabled)
+        retention_days: Days to retain detailed invocation logs (default: 30, 0 = keep forever)
+    """
+    enabled: bool = Field(
+        True,
+        description="Enable/disable telemetry logging"
+    )
+    db_path: str = Field(
+        "~/.llm-service/telemetry.db",
+        description="Path to SQLite telemetry database"
+    )
+    privacy_level: Literal['metadata', 'full', 'none'] = Field(
+        'metadata',
+        description="Privacy level: metadata (metrics only), full (everything), none (disabled)"
+    )
+    retention_days: int = Field(
+        30,
+        ge=0,
+        description="Days to retain detailed logs (0 = keep forever)"
+    )
+    
+    @field_validator('privacy_level')
+    @classmethod
+    def validate_privacy_level(cls, v):
+        """Ensure privacy level is valid."""
+        valid_levels = {'metadata', 'full', 'none'}
+        if v not in valid_levels:
+            raise ValueError(f"privacy_level must be one of {valid_levels}, got: {v}")
+        return v
+    
+    def get_db_path(self) -> Path:
+        """Get resolved database path with ~ expansion."""
+        return Path(self.db_path).expanduser()
+
+
 # Cross-Validation Functions
 def validate_agent_references(
     agents: AgentsSchema,
@@ -255,5 +299,6 @@ __all__ = [
     'ToolConfig', 'ToolsSchema',
     'ModelConfig', 'ModelsSchema',
     'PolicyConfig', 'PoliciesSchema',
+    'TelemetryConfig',
     'validate_agent_references'
 ]
