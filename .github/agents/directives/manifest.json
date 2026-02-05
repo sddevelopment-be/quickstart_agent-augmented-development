@@ -363,6 +363,22 @@
       "safetyCritical": true,
       "directive_version": "1.0.0",
       "status": "active"
+    },
+    {
+      "code": "034",
+      "slug": "spec_driven_development",
+      "title": "Spec-Driven Development",
+      "file": "034_spec_driven_development.md",
+      "purpose": "Define when and how to create specifications as bridge between strategic intent and implementation",
+      "dependencies": [
+        "016",
+        "018",
+        "022"
+      ],
+      "requiredInAgents": false,
+      "safetyCritical": false,
+      "directive_version": "1.0.0",
+      "status": "active"
     }
   ]
 }

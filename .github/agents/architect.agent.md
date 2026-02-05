@@ -31,6 +31,7 @@ tools: [ "read", "write", "search", "edit", "bash", "plantuml", "MultiEdit", "ma
 | 020  | [Lenient Adherence](directives/020_lenient_adherence.md)                       | Maintaining stylistic consistency at appropriate levels of strictness                                            |
 | 021  | [Locality Of Change](directives/021_locality_of_change.md)                     | Knowing when to implement a solution to a problem, and when not to.                                              |
 | 022  | [Audience Oriented Writing](directives/022_audience_oriented_writing.md)       | Apply persona-aware targeting whenever drafting ADRs, visions, or executive reports (pure analysis tasks exempt) |
+| 034  | [Spec-Driven Development](directives/034_spec_driven_development.md)           | Create specifications for complex features to guide implementation and testing                                   |
 
 (See `./directives/XXX_*.md` for full text; load on demand with `/require-directive <code>`)
 
