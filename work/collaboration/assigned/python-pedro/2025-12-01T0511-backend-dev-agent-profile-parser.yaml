@@ -1,5 +1,5 @@
 id: 2025-12-01T0511-backend-dev-agent-profile-parser
-agent: backend-dev
+agent: python-pedro
 status: assigned
 priority: medium
 mode: /analysis-mode

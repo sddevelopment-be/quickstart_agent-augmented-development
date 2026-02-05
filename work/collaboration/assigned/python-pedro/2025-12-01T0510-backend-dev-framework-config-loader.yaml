@@ -1,5 +1,5 @@
 id: 2025-12-01T0510-backend-dev-framework-config-loader
-agent: backend-dev
+agent: python-pedro
 status: assigned
 priority: high
 mode: /analysis-mode
@@ -48,3 +48,13 @@ success_criteria:
 created_at: '2025-12-01T05:10:00Z'
 created_by: planning-petra
 assigned_at: '2026-01-31T06:38:02.569141Z'
+reassigned_from: backend-dev
+reassigned_to: python-pedro
+reassigned_at: '2026-02-05T09:35:00Z'
+reassignment_reason: |
+  Configuration loading and validation is pure Python work suited for Python Pedro:
+  - Pydantic V2 expertise for YAML schema validation (ADR-026)
+  - Test-first approach ensures edge cases (invalid YAML, missing files) covered
+  - Type hints for configuration structures (typed returns from load_router_config)
+  - Self-contained module with clear testing requirements (Quad-A pattern)
+  - Backend-dev retains integration and orchestration architecture focus

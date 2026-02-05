@@ -1,5 +1,5 @@
 id: 2026-02-05T1000-backend-dev-generic-yaml-adapter
-agent: backend-dev
+agent: python-pedro
 status: assigned
 priority: high
 title: GenericYAMLAdapter Implementation
@@ -51,3 +51,13 @@ created_at: '2026-02-05T10:00:00Z'
 created_by: planning-petra
 estimated_hours: 2.5
 assigned_at: '2026-02-05T06:09:53.500794Z'
+reassigned_from: backend-dev
+reassigned_to: python-pedro
+reassigned_at: '2026-02-05T09:35:00Z'
+reassignment_reason: |
+  Pure Python implementation suits Python Pedro's specialization:
+  - Test-heavy work benefits from ATDD + TDD expertise (Directives 016/017)
+  - Self-contained adapter module with clear acceptance criteria
+  - Type hints and code quality focus (mypy, ruff, black)
+  - Self-review protocol ensures quality before integration handoff
+  - Backend-dev retains integration focus (Routing Integration task)
