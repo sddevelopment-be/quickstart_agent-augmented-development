@@ -16,6 +16,19 @@ These are reusable task-specific prompts:
 - **lexical-analysis**: Prompt for Lexical Larry to perform a lexical style diagnostic and minimal diff pass
 - **new-agent**: Prompt to request creation of a new specialized agent (Manager Mike runs it)
 
+### Specialist Agents
+
+These are specialized development agents with domain expertise:
+
+- **backend-dev**: Backend Benny - Service backends and integration surfaces with traceable decisions
+- **python-pedro**: Python Pedro - Python specialist with ATDD + TDD workflow, self-review capabilities ⭐ NEW
+- **frontend**: Frontend specialist for UI/UX implementations
+- **build-automation**: DevOps Danny - CI/CD, automation scripts, and deployment pipelines
+- **architect**: Architect Alphonso - System design, ADRs, and architectural decisions
+- **project-planner**: Planning Petra - Roadmaps, milestones, and task orchestration
+- **writer-editor**: Editor Eddy - Documentation revision and content improvement
+- **curator**: Curator Claire - Directory structure and metadata consistency
+
 ### Operational Approaches
 
 These are workflow patterns and operational guides:
@@ -32,6 +45,38 @@ These are workflow patterns and operational guides:
 - **approach-traceable-decisions-detailed-guide**: 
 - **approach-trunk-based-development**: Trunk-based development (TBD) is a branching strategy where all developers (agents and humans) commit frequently to a single shared branch (`main`), with short-lived feature branches (<24 hours) us...
 - **approach-work-directory-orchestration**: Provide a single, precise reference for the file-based asynchronous orchestration model that powers the `work/` directory. The approach keeps exploratory and operational work visible inside Git by ...
+
+## Custom Commands
+
+### `/iterate-with-review`
+**Purpose:** Execute a complete orchestration iteration cycle with comprehensive review.
+
+**Workflow:**
+1. Check `work/collaboration/NEXT_BATCH.md` for pending work
+2. Review `work/collaboration/AGENT_STATUS.md` for agent availability
+3. Execute highest-priority batch via appropriate custom agent
+4. Create work logs per Directive 014
+5. **Review Phase:** Initialize as Architect Alphonso to review completed work
+6. **Status Update:** Initialize as Planning Petra to update roadmap and status
+7. **Summary:** Initialize as Manager Mike for executive recap
+8. Commit progress with `report_progress`
+
+**Usage:** When user says "run next iteration" or "/iterate-with-review"
+
+### `/report-progress`
+**Purpose:** Generate executive summary of work completed and planned with multi-agent collaboration.
+
+**Workflow:**
+1. Commit current changes with standard progress report
+2. **Collaborative Summary Generation:**
+   - Initialize as Architect Alphonso: Technical architecture review
+   - Initialize as Planning Petra: Roadmap status and next steps
+   - Initialize as Writer-Editor Eddy: Synthesize into executive summary
+3. Create comprehensive summary document in `work/reports/exec_summaries/`
+4. Include: achievements, metrics, next steps, strategic impact
+5. Format: Executive-friendly (not technical deep-dive)
+
+**Usage:** When user says "report progress" or "/report-progress"
 
 ## Detailed Instructions
 
