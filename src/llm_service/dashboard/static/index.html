@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Service Dashboard - Real-Time Monitoring</title>
+    <link rel="stylesheet" href="/static/dashboard.css">
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="container">
+            <h1>🚀 LLM Service Dashboard</h1>
+            <div class="connection-status">
+                <span id="connection-indicator" class="status-indicator status-connecting">●</span>
+                <span id="connection-text">Connecting...</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard Grid -->
+    <main class="dashboard-main">
+        <div class="container">
+            
+            <!-- Cost Summary Cards -->
+            <section class="metrics-row">
+                <div class="metric-card">
+                    <div class="metric-icon">💰</div>
+                    <div class="metric-content">
+                        <h3>Today</h3>
+                        <p class="metric-value" id="cost-today">$0.00</p>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">📅</div>
+                    <div class="metric-content">
+                        <h3>This Month</h3>
+                        <p class="metric-value" id="cost-month">$0.00</p>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">📊</div>
+                    <div class="metric-content">
+                        <h3>Total</h3>
+                        <p class="metric-value" id="cost-total">$0.00</p>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">⚡</div>
+                    <div class="metric-content">
+                        <h3>Active Tasks</h3>
+                        <p class="metric-value" id="tasks-active">0</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Kanban Board - Live Task Tracking -->
+            <section class="kanban-section">
+                <h2>📋 Live Task Board</h2>
+                <div class="kanban-board">
+                    <!-- Inbox Column -->
+                    <div class="kanban-column">
+                        <div class="column-header inbox-header">
+                            <h3>📥 Inbox</h3>
+                            <span class="task-count" id="inbox-count">0</span>
+                        </div>
+                        <div class="task-list" id="inbox-tasks">
+                            <div class="empty-state">No tasks in inbox</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Assigned Column -->
+                    <div class="kanban-column">
+                        <div class="column-header assigned-header">
+                            <h3>🔄 Assigned</h3>
+                            <span class="task-count" id="assigned-count">0</span>
+                        </div>
+                        <div class="task-list" id="assigned-tasks">
+                            <div class="empty-state">No assigned tasks</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Done Column -->
+                    <div class="kanban-column">
+                        <div class="column-header done-header">
+                            <h3>✅ Done</h3>
+                            <span class="task-count" id="done-count">0</span>
+                        </div>
+                        <div class="task-list" id="done-tasks">
+                            <div class="empty-state">No completed tasks</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Charts Section -->
+            <section class="charts-section">
+                <div class="chart-container">
+                    <h2>📈 Cost Trends</h2>
+                    <canvas id="cost-chart"></canvas>
+                </div>
+                
+                <div class="chart-container">
+                    <h2>🤖 Model Usage</h2>
+                    <canvas id="model-chart"></canvas>
+                </div>
+            </section>
+
+            <!-- Recent Activity -->
+            <section class="activity-section">
+                <h2>🔔 Recent Activity</h2>
+                <div id="activity-feed" class="activity-feed">
+                    <div class="empty-state">No recent activity</div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Task Detail Modal -->
+    <div id="task-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Task Details</h2>
+                <button class="modal-close" onclick="closeTaskModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Task details populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Loading dashboard...</p>
+    </div>
+
+    <footer class="dashboard-footer">
+        <div class="container">
+            <p>LLM Service Dashboard v0.1.0 | Last updated: <span id="last-updated">Never</span></p>
+        </div>
+    </footer>
+
+    <script src="/static/dashboard.js"></script>
+</body>
+</html>
