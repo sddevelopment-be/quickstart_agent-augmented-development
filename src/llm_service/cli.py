@@ -3,6 +3,8 @@ LLM Service Layer CLI
 
 Command-line interface for the LLM service layer.
 Provides commands for configuration validation, initialization, and service execution.
+
+Enhanced with rich terminal UI (ADR-030).
 """
 
 import click
@@ -12,6 +14,9 @@ from typing import Optional
 
 from llm_service import __version__
 from llm_service.config.loader import load_configuration, ConfigurationError
+from llm_service.ui.console import console, print_success, print_error, print_warning
+from rich.panel import Panel
+from rich.table import Table
 
 
 @click.group()
@@ -23,8 +28,14 @@ from llm_service.config.loader import load_configuration, ConfigurationError
     help='Path to configuration directory (default: ./config)',
     show_default=True,
 )
+@click.option(
+    '--no-color',
+    is_flag=True,
+    help='Disable colored output',
+    default=False,
+)
 @click.pass_context
-def cli(ctx, config_dir):
+def cli(ctx, config_dir, no_color):
     """
     LLM Service Layer - Configuration-driven agent-to-LLM routing.
     
@@ -33,6 +44,11 @@ def cli(ctx, config_dir):
     """
     ctx.ensure_object(dict)
     ctx.obj['config_dir'] = config_dir
+    ctx.obj['no_color'] = no_color
+    
+    # Update console color setting if --no-color flag is used
+    if no_color:
+        console.no_color = True
 
 
 @cli.group(name='config')
@@ -58,29 +74,51 @@ def config_validate(ctx):
     """
     config_dir = ctx.obj['config_dir']
     
-    click.echo(f"Validating configuration in: {config_dir}")
-    click.echo()
+    # Header
+    console.print(Panel.fit(
+        "[bold cyan]Configuration Validation[/bold cyan]",
+        subtitle=f"Directory: {config_dir}",
+        border_style="blue"
+    ))
+    console.print()
     
     try:
         config = load_configuration(str(config_dir))
         
-        # Report what was loaded
-        click.secho("✓ Configuration is valid!", fg='green', bold=True)
-        click.echo()
-        click.echo(f"  Agents:   {len(config['agents'].agents)} configured")
-        click.echo(f"  Tools:    {len(config['tools'].tools)} configured")
-        click.echo(f"  Models:   {len(config['models'].models)} configured")
-        click.echo(f"  Policies: {len(config['policies'].policies)} configured")
+        # Success panel
+        print_success("Configuration is valid!")
+        console.print()
+        
+        # Create metrics table
+        table = Table(title="Configuration Summary", show_header=True, header_style="bold cyan")
+        table.add_column("Component", style="cyan", width=12)
+        table.add_column("Count", justify="right", style="magenta")
+        
+        table.add_row("Agents", str(len(config['agents'].agents)))
+        table.add_row("Tools", str(len(config['tools'].tools)))
+        table.add_row("Models", str(len(config['models'].models)))
+        table.add_row("Policies", str(len(config['policies'].policies)))
+        
+        console.print(table)
         
         sys.exit(0)
     except ConfigurationError as e:
-        click.secho("✗ Configuration validation failed!", fg='red', bold=True)
-        click.echo()
-        click.echo(str(e), err=True)
+        print_error("Configuration validation failed!")
+        console.print()
+        console.print(Panel(
+            str(e),
+            title="[red]Error Details[/red]",
+            border_style="red"
+        ))
         sys.exit(1)
     except Exception as e:
-        click.secho("✗ Unexpected error!", fg='red', bold=True)
-        click.echo(f"{type(e).__name__}: {e}", err=True)
+        print_error("Unexpected error!")
+        console.print()
+        console.print(Panel(
+            f"[red]{type(e).__name__}:[/red] {e}",
+            title="[red]Unexpected Error[/red]",
+            border_style="red"
+        ))
         sys.exit(1)
 
 
@@ -105,32 +143,40 @@ def config_init(ctx, force):
     """
     config_dir = ctx.obj['config_dir']
     
-    click.echo(f"Initializing configuration in: {config_dir}")
-    click.echo()
+    console.print(Panel.fit(
+        "[bold cyan]Configuration Initialization[/bold cyan]",
+        subtitle=f"Directory: {config_dir}",
+        border_style="blue"
+    ))
+    console.print()
     
     # For MVP, just inform user about example files
     example_files = ['agents.yaml.example', 'tools.yaml.example', 'models.yaml.example', 'policies.yaml.example']
     
-    click.echo("Example configuration files are available in the config/ directory:")
+    console.print("[bold]Example configuration files are available in the config/ directory:[/bold]")
     for filename in example_files:
-        click.echo(f"  - {filename}")
+        console.print(f"  [cyan]•[/cyan] {filename}")
     
-    click.echo()
-    click.echo("To use them:")
-    click.echo("  1. Copy .example files to remove the .example suffix")
-    click.echo("  2. Edit the files to match your environment")
-    click.echo("  3. Run 'llm-service config validate' to check")
+    console.print()
+    console.print("[bold]To use them:[/bold]")
+    console.print("  [cyan]1.[/cyan] Copy .example files to remove the .example suffix")
+    console.print("  [cyan]2.[/cyan] Edit the files to match your environment")
+    console.print("  [cyan]3.[/cyan] Run 'llm-service config validate' to check")
     
-    click.secho("\n✓ Refer to example files for configuration setup", fg='green')
+    console.print()
+    print_success("Refer to example files for configuration setup")
 
 
 @cli.command(name='version')
 def version_command():
     """Display version information."""
-    click.echo(f"llm-service version {__version__}")
-    click.echo()
-    click.echo("LLM Service Layer - Configuration-driven agent-to-LLM routing")
-    click.echo("Python implementation with Pydantic validation")
+    console.print(Panel(
+        f"[bold cyan]llm-service[/bold cyan] version [bold magenta]{__version__}[/bold magenta]\n\n"
+        "LLM Service Layer - Configuration-driven agent-to-LLM routing\n"
+        "Python implementation with Pydantic validation",
+        title="Version Information",
+        border_style="cyan"
+    ))
 
 
 @cli.command(name='exec')
@@ -165,11 +211,18 @@ def exec_command(ctx, agent, prompt_file, task_type):
     """
     config_dir = ctx.obj['config_dir']
     
-    click.echo(f"Executing request for agent: {agent}")
-    click.echo(f"Prompt file: {prompt_file}")
+    # Header
+    console.print(Panel.fit(
+        "[bold cyan]Agent Request Execution[/bold cyan]",
+        subtitle=f"Agent: {agent}",
+        border_style="blue"
+    ))
+    console.print()
+    
+    console.print(f"[bold]Prompt file:[/bold] {prompt_file}")
     if task_type:
-        click.echo(f"Task type: {task_type}")
-    click.echo()
+        console.print(f"[bold]Task type:[/bold] {task_type}")
+    console.print()
     
     try:
         # Load configuration
@@ -178,31 +231,50 @@ def exec_command(ctx, agent, prompt_file, task_type):
         # Check agent exists
         if agent not in config['agents'].agents:
             available = ', '.join(config['agents'].agents.keys())
-            click.secho(f"✗ Agent '{agent}' not found in configuration", fg='red', bold=True)
-            click.echo(f"Available agents: {available}", err=True)
+            print_error(f"Agent '{agent}' not found in configuration")
+            console.print(f"[yellow]Available agents:[/yellow] {available}")
             sys.exit(1)
         
-        # For MVP: Just show routing decision
+        # For MVP: Show routing decision
         agent_config = config['agents'].agents[agent]
-        click.secho("✓ Agent configuration loaded", fg='green')
-        click.echo(f"  Preferred tool: {agent_config.preferred_tool}")
-        click.echo(f"  Preferred model: {agent_config.preferred_model}")
+        
+        print_success("Agent configuration loaded")
+        
+        # Create routing info table
+        table = Table(title="Routing Information", show_header=True, header_style="bold cyan")
+        table.add_column("Property", style="cyan")
+        table.add_column("Value", style="magenta")
+        
+        table.add_row("Preferred Tool", agent_config.preferred_tool)
+        table.add_row("Preferred Model", agent_config.preferred_model)
         
         if task_type and task_type in (agent_config.task_types or {}):
             override_model = agent_config.task_types[task_type]
-            click.echo(f"  Task-specific override: {override_model}")
+            table.add_row("Task Override", override_model)
         
-        click.echo()
-        click.secho("Note: Tool execution not yet implemented (Milestone 2)", fg='yellow')
-        click.echo("This command will invoke the actual LLM tool in a future release.")
+        console.print(table)
+        console.print()
+        
+        print_warning("Tool execution not yet implemented (Milestone 2)")
+        console.print("[dim]This command will invoke the actual LLM tool in a future release.[/dim]")
         
     except ConfigurationError as e:
-        click.secho("✗ Configuration error!", fg='red', bold=True)
-        click.echo(str(e), err=True)
+        print_error("Configuration error!")
+        console.print()
+        console.print(Panel(
+            str(e),
+            title="[red]Error Details[/red]",
+            border_style="red"
+        ))
         sys.exit(1)
     except Exception as e:
-        click.secho("✗ Unexpected error!", fg='red', bold=True)
-        click.echo(f"{type(e).__name__}: {e}", err=True)
+        print_error("Unexpected error!")
+        console.print()
+        console.print(Panel(
+            f"[red]{type(e).__name__}:[/red] {e}",
+            title="[red]Unexpected Error[/red]",
+            border_style="red"
+        ))
         sys.exit(1)
 
 
