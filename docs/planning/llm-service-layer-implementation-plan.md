@@ -1,23 +1,24 @@
 # Implementation Plan: LLM Service Layer
 
 **Project:** LLM Service Layer for Agent-Tool Orchestration  
-**Status:** 🟢 MILESTONE 2 READY TO START - M2 Prep Complete  
+**Status:** 🟢 MILESTONE 2 IN PROGRESS - M4 (UX Enhancements) Added  
 **Planning Date:** 2026-02-04  
-**Last Updated:** 2026-02-04 20:45:00 UTC (M2 Prep Complete)  
+**Last Updated:** 2026-02-05 14:00:00 UTC (M4 UX Enhancements Integrated)  
 **Planner:** Planning Petra  
 **Architecture Reference:** `docs/architecture/design/llm-service-layer-prestudy.md`  
 **Orchestration Approach:** File-Based Task Coordination (see `.github/agents/approaches/work-directory-orchestration.md`)
 
 **Current Progress:**
 - ✅ Milestone 1: COMPLETE (Foundation) - 100% acceptance criteria met
-- ✅ Implementation roadmap complete (17 tasks, 4 milestones)
-- ✅ Code quality: 93% coverage, 78/78 tests passing (updated)
+- ✅ Implementation roadmap complete (23 tasks, 5 milestones) ⭐ UPDATED
+- ✅ Code quality: 93% coverage, 78/78 tests passing
 - ✅ Architecture review: APPROVED by Architect Alphonso
 - ✅ M2 Prep: COMPLETE (5/5 tasks, 3h 10m) - 25% faster than estimate
 - ✅ M2 Batch 2.1: COMPLETE (4/4 tasks, ~2.5h) - ⭐ 84% faster than estimate
 - ✅ M2 Batch 2.2: COMPLETE - ClaudeCodeAdapter (reference implementation)
-- ✅ ADRs: 5 documented (ADR-026, 027, 028, 029 + Generic Adapter decision)
+- ✅ ADRs: 9 documented (ADR-026 through ADR-033) ⭐ +4 NEW (spec-kitty inspired)
 - 🚀 Milestone 2: IN PROGRESS - Generic YAML-driven adapter approach
+- 📋 Milestone 4: PLANNED - User Experience Enhancements (spec-kitty inspired) ⭐ NEW
 - 📋 Next: M2 Batch 2.3 - Generic YAML Adapter Implementation
 
 ---
@@ -164,31 +165,122 @@
 
 ---
 
-### Milestone 4: End-to-End Integration & Testing (Week 4)
-**Goal:** Connect all components and validate with acceptance tests
+### Milestone 4: User Experience Enhancements (Week 5-6) ⭐ NEW
+**Goal:** Implement spec-kitty inspired UX improvements for professional CLI experience
+
+**Strategic Context:**
+- Inspired by [spec-kitty comparative analysis](../architecture/design/comparative_study/2026-02-05-spec-kitty-comparative-analysis.md)
+- Human-in-Charge priority: ⭐⭐⭐⭐⭐ (Dashboard), ⭐⭐⭐⭐⭐ (Rich CLI), ⭐⭐⭐⭐⭐ (Template Config)
+- Target: Reduce onboarding time from 30 minutes to 2 minutes
+- File-based task tracking (no database) maintains audit trail and simplicity
 
 **Batches:**
-1. **Batch 4.1: Integration Testing** (2-3 days)
+
+1. **Batch 4.1: Rich CLI + Template Generation** (Week 5 / 6-9 hours)
+   
+   **Phase 1: Rich Terminal UI** (2-3 hours)
+   - Integrate `rich` library for structured CLI output
+   - Implement panels for execution summaries
+   - Add progress bars for long operations (>2 seconds)
+   - Status indicators (✅ ✗ ⚠️) for quick scanning
+   - Syntax highlighting for code/YAML output
+   - **Reference:** ADR-030
+   
+   **Phase 2: Template-Based Config Generation** (4-6 hours)
+   - Implement `llm-service config init` command
+   - Create 4 templates (quick-start, claude-only, cost-optimized, development)
+   - Environment scanning (API keys, binaries, platform detection)
+   - Add `llm-service tool add/remove/list` commands
+   - Variable substitution (`${VAR}`) support
+   - **Reference:** ADR-031
+   - **Target:** 30 minutes → 2 minutes onboarding time
+
+2. **Batch 4.2: Dashboard MVP** (Week 6 / 12-16 hours) ⭐ HUMAN PRIORITY
+   
+   **Phase 1: Backend Infrastructure** (6-8 hours)
+   - Flask + Flask-SocketIO setup
+   - File watcher for YAML task files (`work/collaboration/{inbox,assigned,done}/`)
+   - Event system (Observer pattern for file changes)
+   - WebSocket event emission on task state changes
+   - SQLite telemetry integration (cost/metrics)
+   - **Reference:** ADR-032
+   
+   **Phase 2: Frontend Dashboard** (6-8 hours)
+   - Single-page web interface (vanilla JS + Chart.js)
+   - Live execution view (active operations with progress)
+   - Cost tracking dashboard (real-time tokens, cost accumulation)
+   - Task Kanban board (inbox → assigned → done lanes)
+   - Metrics visualization (daily/monthly trends)
+   - WebSocket integration for real-time updates
+   - **Reference:** ADR-032
+   
+   **Critical Constraint:** File-based task tracking maintained (no database for tasks)
+   - Tasks tracked via YAML in `work/collaboration/`
+   - Git audit trail preserved
+   - Human-readable and agent-friendly
+   - Dashboard watches files, doesn't replace them
+
+3. **Batch 4.3: Step Tracker + Integration** (Week 6 / 5-7 hours)
+   
+   **Phase 1: Step Tracker Pattern** (2-3 hours)
+   - Implement `StepTracker` context manager
+   - Multi-step operation progress tracking
+   - Error context preservation (which step failed)
+   - Dashboard event emission (step start/complete/error)
+   - **Reference:** ADR-033
+   
+   **Phase 2: Integration & Polish** (3-4 hours)
+   - Apply rich UI to all CLI commands
+   - Integrate step tracker in multi-step operations
+   - Connect dashboard to execution events
+   - End-to-end testing (CLI → events → dashboard)
+   - Documentation updates
+
+**Deliverables:**
+- ✅ Rich terminal UI for professional CLI experience
+- ✅ Template-based configuration (2-minute onboarding)
+- ✅ Real-time web dashboard (file-based task tracking)
+- ✅ Step tracker pattern for complex operations
+- ✅ Integrated UX across CLI and dashboard
+
+**New ADRs Created:**
+- [ADR-030: Rich Terminal UI for CLI Feedback](../architecture/adrs/ADR-030-rich-terminal-ui-cli-feedback.md)
+- [ADR-031: Template-Based Configuration Generation](../architecture/adrs/ADR-031-template-based-config-generation.md)
+- [ADR-032: Real-Time Execution Dashboard](../architecture/adrs/ADR-032-real-time-execution-dashboard.md)
+- [ADR-033: Step Tracker Pattern](../architecture/adrs/ADR-033-step-tracker-pattern.md)
+
+---
+
+### Milestone 5: End-to-End Integration & Testing (Week 7)
+**Goal:** Connect all components and validate with acceptance tests
+
+**Note:** Previously Milestone 4, renumbered to accommodate new M4 (User Experience Enhancements)
+
+**Batches:**
+1. **Batch 5.1: Integration Testing** (2-3 days)
    - Implement 8 acceptance tests from prestudy (Gherkin scenarios)
-   - End-to-end workflows (config → routing → execution → telemetry)
+   - End-to-end workflows (config → routing → execution → telemetry → dashboard)
    - Cross-platform testing matrix (Linux, macOS, WSL2)
    - Error scenarios and fallback validation
+   - Dashboard real-time update testing
 
-2. **Batch 4.2: Documentation & Examples** (2 days)
-   - User guide and quickstart
+2. **Batch 5.2: Documentation & Examples** (2 days)
+   - User guide and quickstart (updated with templates)
    - Configuration reference with all options explained
    - Example workflows for 3 personas (AI Power User, Software Engineer, Process Architect)
+   - Dashboard usage guide
    - Troubleshooting guide
 
-3. **Batch 4.3: Distribution & Packaging** (1-2 days)
+3. **Batch 5.3: Distribution & Packaging** (1-2 days)
    - PyInstaller/pkg standalone executable
    - Installation script for Linux/macOS
    - WSL2 setup instructions for Windows
+   - Dashboard bundling (static assets)
    - GitHub Release preparation
 
 **Deliverables:**
-- Passing acceptance test suite (all 8 scenarios)
-- Comprehensive documentation
+- Passing acceptance test suite (all 8 scenarios + dashboard tests)
+- Comprehensive documentation (including UX enhancements)
 - Distributable binaries for all platforms
 - MVP ready for pilot deployment
 
@@ -253,36 +345,77 @@ Tasks will be created as YAML files in `work/collaboration/inbox/` following the
     - Stats command implementation
     - Report generation (daily/monthly)
 
+### User Experience Tasks → Multiple Agents ⭐ NEW
+
+**Backend Tasks (Backend-Dev):**
+12. `2026-02-05T1400-backend-dev-rich-terminal-ui.yaml` ⭐ NEW
+    - Integrate `rich` library for CLI output
+    - Panels, progress bars, tables, syntax highlighting
+    - **Reference:** ADR-030
+
+13. `2026-02-05T1401-backend-dev-template-config-generation.yaml` ⭐ NEW
+    - Template-based `config init` command
+    - Tool management CLI (add/remove/list)
+    - Environment scanning
+    - **Reference:** ADR-031
+
+14. `2026-02-05T1402-backend-dev-dashboard-backend.yaml` ⭐ HIGH PRIORITY
+    - Flask + Flask-SocketIO setup
+    - File watcher for YAML task tracking
+    - Event system and WebSocket emission
+    - **Reference:** ADR-032
+
+15. `2026-02-05T1403-backend-dev-step-tracker-pattern.yaml` ⭐ NEW
+    - `StepTracker` context manager
+    - Progress tracking for multi-step operations
+    - **Reference:** ADR-033
+
+**Frontend Tasks (Frontend-Dev):**
+16. `2026-02-05T1404-frontend-dev-dashboard-interface.yaml` ⭐ HIGH PRIORITY
+    - Single-page web dashboard (vanilla JS + Chart.js)
+    - Live execution view, cost tracking, Kanban board
+    - WebSocket integration
+    - **Reference:** ADR-032
+
+**Documentation Tasks (Writer-Editor):**
+17. `2026-02-05T1400-writer-editor-spec-driven-primer.yaml` 📋 READY
+    - Create Specification-Driven Development PRIMER
+    - Adapt spec-kitty methodology to our context
+    - **Target:** `.github/agents/approaches/spec-driven-development.md`
+
 ### Testing Tasks → Backend-Dev + Framework-Guardian
 
 **Tasks:**
-12. `2026-02-04T1711-backend-dev-acceptance-tests.yaml`
+18. `2026-02-04T1711-backend-dev-acceptance-tests.yaml` (Updated)
     - Implement 8 Gherkin scenarios from prestudy
-    - End-to-end test suite
+    - End-to-end test suite (including dashboard)
+    - UX enhancement testing
 
-13. `2026-02-04T1712-framework-guardian-ci-integration.yaml`
+19. `2026-02-04T1712-framework-guardian-ci-integration.yaml`
     - GitHub Actions workflow for cross-platform testing
     - Automated test execution
 
 ### Documentation Tasks → Writer-Editor + Scribe
 
 **Tasks:**
-14. `2026-02-04T1713-writer-editor-user-guide.yaml`
-    - User guide and quickstart
+20. `2026-02-04T1713-writer-editor-user-guide.yaml` (Updated)
+    - User guide and quickstart (with templates)
     - Configuration reference
+    - Dashboard usage guide
 
-15. `2026-02-04T1714-scribe-persona-workflows.yaml`
+21. `2026-02-04T1714-scribe-persona-workflows.yaml`
     - Example workflows for 3 personas
     - Troubleshooting guide
 
 ### Distribution Tasks → Build-Automation
 
 **Tasks:**
-16. `2026-02-04T1715-build-automation-packaging.yaml`
+22. `2026-02-04T1715-build-automation-packaging.yaml` (Updated)
     - PyInstaller/pkg configuration
     - Standalone executables
+    - Dashboard static asset bundling
 
-17. `2026-02-04T1716-build-automation-installation-scripts.yaml`
+23. `2026-02-04T1716-build-automation-installation-scripts.yaml`
     - Installation scripts for Linux/macOS/WSL2
     - GitHub Release preparation
 
@@ -292,48 +425,74 @@ Tasks will be created as YAML files in `work/collaboration/inbox/` following the
 
 **Critical Path:**
 1. Configuration Schema (Task 1) → Config Loader (Task 2) → CLI Foundation (Task 3) → Routing Engine (Task 4)
-2. Adapter Base (Task 5) → Claude Adapter (Task 6) + Codex Adapter (Task 7) → Generic Adapter (Task 8)
+2. Adapter Base (Task 5) → Claude Adapter (Task 6) + Generic Adapter (Task 8)
 3. Telemetry (Task 9) → Policy Engine (Task 10) → Stats Reporting (Task 11)
-4. All core tasks (1-11) → Acceptance Tests (Task 12)
-5. Acceptance Tests (Task 12) → Documentation (Tasks 14-15) → Packaging (Tasks 16-17)
+4. **Rich CLI (Task 12) → Template Config (Task 13)** ⭐ NEW
+5. **Template Config (Task 13) → Dashboard Backend (Task 14)** ⭐ NEW
+6. **Dashboard Backend (Task 14) + Step Tracker (Task 15) → Dashboard Frontend (Task 16)** ⭐ NEW
+7. All core tasks (1-11) + All UX tasks (12-16) → Acceptance Tests (Task 18)
+8. Acceptance Tests (Task 18) → Documentation (Tasks 20-21) → Packaging (Tasks 22-23)
 
 **Parallel Work Streams:**
 - Batch 1.1-1.3 (Foundation) can progress in parallel after configuration schema is defined
 - Batch 2.2-2.3 (Adapters) can be built in parallel after base interface exists
-- Documentation (Tasks 14-15) can start early with draft content, finalized after testing
+- **Batch 4.1 (Rich CLI + Templates) can start after M2 completion** ⭐ NEW
+- **Task 17 (Spec-Driven PRIMER) can start immediately (no dependencies)** ⭐ NEW
+- **Batch 4.2 (Dashboard) can start in parallel with Batch 3.1 (Telemetry)** ⭐ NEW
+- Documentation (Tasks 20-21) can start early with draft content, finalized after testing
 
 **Blocking Risks:**
-- Tech stack choice (Python vs. Node.js) must be decided before implementation begins
+- Tech stack choice (Python vs. Node.js) must be decided before implementation begins ✅ RESOLVED (Python chosen)
 - Real tool availability (claude-code, codex CLIs) needed for integration testing
 - Cross-platform testing requires access to Linux, macOS, and Windows/WSL2 environments
+- **Dashboard frontend expertise** (vanilla JS + Chart.js + WebSockets) ⭐ NEW RISK
 
 ---
 
 ## Assumptions
 
-1. **Team Capacity:** 1-2 developers available for 4-week sprint
+1. **Team Capacity:** 1-2 developers available for 7-week sprint (extended from 4 weeks) ⭐ UPDATED
 2. **Tool Access:** claude-code and codex CLIs available for testing (or mocks acceptable for MVP)
 3. **Platform Access:** CI/CD supports Linux + macOS + Windows/WSL2 matrix testing
-4. **Tech Stack Decision:** Python or Node.js chosen within first week
+4. **Tech Stack Decision:** Python chosen ✅ RESOLVED
 5. **Configuration Stability:** YAML schema finalized in Batch 1.1 (minimal changes after)
+6. **UX Priority:** Human-in-Charge approved spec-kitty inspired enhancements ⭐ NEW
+7. **Dashboard Approach:** File-based task tracking maintained (no database for tasks) ⭐ NEW
+8. **Frontend Skills:** Team has JavaScript + WebSocket experience for dashboard ⭐ NEW
 
 ---
 
 ## Re-Planning Triggers
 
-- **Tech Stack Change:** If Python/Node.js choice changes mid-project, re-estimate 2-3 days for port
+- **Tech Stack Change:** ~~If Python/Node.js choice changes mid-project~~ ✅ RESOLVED (Python chosen)
 - **Scope Expansion:** If additional tools (gemini, cursor) required for MVP, add 1 week per tool
 - **Platform Issues:** If WSL2 testing blocked, may need to defer Windows support to Phase 2
 - **Performance Problems:** If routing/execution latency >500ms, may need optimization sprint (add 3-5 days)
+- **Dashboard Complexity:** If file-watching or WebSocket implementation takes >20h, may need to simplify MVP ⭐ NEW
+- **UX Scope Creep:** If template/rich CLI features expand beyond ADR scope, re-estimate M4 timeline ⭐ NEW
+- **Frontend Resource Gap:** If JavaScript/WebSocket skills unavailable, may need to defer dashboard to Phase 2 ⭐ NEW
 
 ---
 
 ## Next Steps
 
-1. **Immediate:** Create task YAML files in `work/collaboration/inbox/` for all 17 tasks
-2. **Week 1 Start:** Begin Batch 1.1 (Configuration Schema) after tech stack decision
-3. **Weekly Sync:** Review progress against milestones, adjust batches as needed
-4. **Human Gates:** Approval required before Milestone 3 (cost implications) and Milestone 4 (distribution)
+1. **Immediate:** 
+   - ✅ Create task YAML for spec-driven PRIMER (Task 17)
+   - 📋 Milestone 2 Batch 2.3 (Generic YAML Adapter) ready for assignment
+   - 📋 Milestone 4 ready for planning after M3 completion
+   
+2. **Week 3-4 Start:** Begin Milestone 3 (Telemetry & Cost Optimization) after M2 completion
+
+3. **Week 5-6 Start:** Begin Milestone 4 (User Experience Enhancements) ⭐ NEW
+   - Week 5: Rich CLI + Template Generation (Batch 4.1)
+   - Week 6: Dashboard MVP + Step Tracker (Batches 4.2 & 4.3)
+
+4. **Weekly Sync:** Review progress against milestones, adjust batches as needed
+
+5. **Human Gates:** 
+   - Approval required before Milestone 3 (cost implications)
+   - ✅ Milestone 4 APPROVED (Human-in-Charge priority)
+   - Approval required before Milestone 5 (distribution)
 
 ---
 
@@ -344,6 +503,22 @@ Tasks will be created as YAML files in `work/collaboration/inbox/` following the
 - **Orchestration Approach:** `.github/agents/approaches/work-directory-orchestration.md`
 - **Agent Profiles:** `.github/agents/*.agent.md`
 - **Planning Artifacts:** `docs/planning/` (this directory)
+- **Spec-Kitty Comparative Analysis:** `docs/architecture/design/comparative_study/2026-02-05-spec-kitty-comparative-analysis.md` ⭐ NEW
+- **Spec-Kitty Enhancements Overview:** `docs/architecture/design/spec-kitty-inspired-enhancements.md` ⭐ NEW
+
+**ADR References:**
+- **Core Service Layer:**
+  - [ADR-025: LLM Service Layer Architecture](../architecture/adrs/ADR-025-llm-service-layer.md)
+  - [ADR-026: Pydantic V2 for Schema Validation](../architecture/adrs/ADR-026-pydantic-v2-validation.md)
+  - [ADR-027: Click CLI Framework](../architecture/adrs/ADR-027-click-cli-framework.md)
+  - [ADR-028: Tool-Model Compatibility Validation](../architecture/adrs/ADR-028-tool-model-compatibility-validation.md)
+  - [ADR-029: Adapter Interface Design](../architecture/adrs/ADR-029-adapter-interface-design.md)
+
+- **User Experience Enhancements (spec-kitty inspired):** ⭐ NEW
+  - [ADR-030: Rich Terminal UI for CLI Feedback](../architecture/adrs/ADR-030-rich-terminal-ui-cli-feedback.md)
+  - [ADR-031: Template-Based Configuration Generation](../architecture/adrs/ADR-031-template-based-config-generation.md)
+  - [ADR-032: Real-Time Execution Dashboard](../architecture/adrs/ADR-032-real-time-execution-dashboard.md)
+  - [ADR-033: Step Tracker Pattern for Complex Operations](../architecture/adrs/ADR-033-step-tracker-pattern.md)
 
 ---
 

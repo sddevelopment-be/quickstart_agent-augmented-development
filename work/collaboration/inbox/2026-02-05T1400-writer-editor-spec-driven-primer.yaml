@@ -1,0 +1,60 @@
+id: 2026-02-05T1400-writer-editor-spec-driven-primer
+agent: writer-editor
+status: new
+priority: medium
+title: "Create Spec-Driven Development PRIMER Document"
+artefacts:
+  - .github/agents/approaches/spec-driven-development.md
+context:
+  background: |
+    Translate spec-kitty's spec-driven.md methodology into a PRIMER document 
+    for our approach directory. Ties in closely with existing ATDD directive 
+    (016) but from a process/architectural point of view.
+  source_reference: docs/architecture/design/comparative_study/references/spec-kitty-spec-driven.md
+  related_directive: .github/agents/directives/016_acceptance_test_driven_dev.md
+  target_audience: All agents (especially Alphonso and Petra)
+  comparative_analysis: docs/architecture/design/comparative_study/2026-02-05-spec-kitty-comparative-analysis.md
+requirements:
+  approach_document:
+    - Explain Specification-Driven Development methodology
+    - How it differs from and complements ATDD
+    - When to use specifications vs. acceptance tests
+    - Integration with our workflow patterns
+  structure:
+    - Purpose section
+    - Core principles
+    - When to use guidance
+    - Example prompts
+    - Metadata (capabilities, tags)
+  adaptation:
+    - Adapt spec-kitty patterns to our context
+    - Reference our existing approaches (ATDD, Decision-First Dev)
+    - Include cross-references to directives
+    - Highlight differences from spec-kitty's approach
+  integration:
+    - How SDD fits into our file-based orchestration
+    - When to create specifications during planning phase
+    - Specification formats and templates
+    - Relationship to ADRs and acceptance criteria
+acceptance_criteria:
+  - PRIMER document follows our approach template
+  - Clear differentiation between SDD and ATDD explained
+  - Practical examples for agent usage
+  - Cross-references to relevant directives (016, 018, 034)
+  - Metadata properly formatted
+  - Document placed in .github/agents/approaches/
+  - References spec-kitty analysis and original source
+created_at: "2026-02-05T14:00:00Z"
+created_by: "planning-petra"
+estimated_hours: 2.0
+notes: |
+  This task supports the creation of Directive 034 (Spec-Driven Development)
+  which will formalize spec-driven practices across the framework.
+  
+  Key distinctions from spec-kitty:
+  - We use YAML task files for orchestration (not just specs)
+  - Our ADRs serve a different role than their specs
+  - We have stronger ATDD integration (Directive 016)
+  
+  The PRIMER should help agents understand WHEN to write specifications
+  vs. when to write ADRs vs. when to write acceptance tests.

@@ -26,6 +26,7 @@ tools: [ "read", "write", "search", "edit", "bash", "todo", "github" ]
 | 006  | [Version Governance](directives/006_version_governance.md)                     | Check version alignment before milestone updates          |
 | 007  | [Agent Declaration](directives/007_agent_declaration.md)                       | Authority confirmation before publishing plan artefacts   |
 | 018  | [Documentation Level Framework](directives/018_traceable_decisions.md)         | Document plans and roadmaps at stable architectural level |
+| 034  | [Spec-Driven Development](directives/034_spec_driven_development.md)           | Identify features requiring specifications during planning |
 
 Invoke with `/require-directive <code>`.
 
