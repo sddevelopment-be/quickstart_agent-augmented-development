@@ -71,8 +71,19 @@ The [spec-kitty comparative analysis](../design/comparative_study/2026-02-05-spe
 **Technology Stack:**
 - **Backend:** Flask + Flask-SocketIO (WebSocket support)
 - **Frontend:** Vanilla JavaScript + Chart.js (metrics visualization)
-- **Event System:** Observer pattern (in-process event bus)
-- **Persistence:** Optional SQLite (execution history)
+- **Event System:** File-based + Observer pattern (YAML state changes emit events)
+- **Task Tracking:** YAML files in `work/collaboration/` (NO DATABASE REQUIRED)
+- **Telemetry Storage:** SQLite (optional, only for cost/metrics history)
+
+**Critical Design Constraint:**
+Our existing **file-based orchestration approach** (see `.github/agents/approaches/work-directory-orchestration.md`) MUST be maintained. Task state is tracked via YAML files in `work/collaboration/{inbox,assigned,done}/`, not a database. The dashboard watches these files and emits WebSocket events on changes.
+
+**Why File-Based Task Tracking:**
+- ✅ **Git audit trail** - All task transitions committed to version control
+- ✅ **No infrastructure** - No database server required for task management
+- ✅ **Human-readable** - Tasks can be created/edited manually
+- ✅ **Agent-friendly** - Existing agents already use YAML task files
+- ✅ **Simplicity** - File system operations are deterministic and transparent
 
 **Key Features:**
 
@@ -536,7 +547,222 @@ class EventType(str, Enum):
     # Tool events
     TOOL_INVOKED = "tool.invoked"
     TOOL_RESPONSE = "tool.response"
+    
+    # Task lifecycle events (from file-based orchestration)
+    TASK_CREATED = "task.created"
+    TASK_ASSIGNED = "task.assigned"
+    TASK_STARTED = "task.started"
+    TASK_COMPLETED = "task.completed"
+    TASK_FAILED = "task.failed"
 ```
+
+**3. File-Based Task Tracking Integration:**
+
+**CRITICAL:** The dashboard must integrate with our existing file-based orchestration system, NOT replace it with a database.
+
+```python
+# src/llm_service/events/file_watcher.py
+
+import os
+import time
+from pathlib import Path
+from typing import Dict, Set
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+import yaml
+
+from .bus import event_bus, EventType
+
+class TaskFileWatcher(FileSystemEventHandler):
+    """
+    Watches work/collaboration/ directories for YAML task file changes.
+    Emits events when tasks are created, moved, or modified.
+    
+    This maintains compatibility with our file-based orchestration approach
+    while enabling real-time dashboard updates.
+    """
+    
+    def __init__(self, collaboration_dir: Path):
+        self.collaboration_dir = collaboration_dir
+        self.inbox_dir = collaboration_dir / "inbox"
+        self.assigned_dir = collaboration_dir / "assigned"
+        self.done_dir = collaboration_dir / "done"
+        
+        # Track file checksums to detect modifications vs. moves
+        self._file_checksums: Dict[str, str] = {}
+        self._known_files: Set[str] = set()
+    
+    def on_created(self, event):
+        """New YAML file created in inbox."""
+        if not event.is_directory and event.src_path.endswith('.yaml'):
+            task = self._load_task(event.src_path)
+            if task and 'inbox' in event.src_path:
+                event_bus.emit(EventType.TASK_CREATED, {
+                    "task_id": task.get('id'),
+                    "agent": task.get('agent'),
+                    "title": task.get('title'),
+                    "priority": task.get('priority', 'normal'),
+                    "file_path": event.src_path,
+                    "status": "new"
+                })
+    
+    def on_moved(self, event):
+        """Task moved between directories (lifecycle transition)."""
+        if not event.is_directory and event.dest_path.endswith('.yaml'):
+            task = self._load_task(event.dest_path)
+            if not task:
+                return
+            
+            # Detect lifecycle transition by directory change
+            if 'inbox' in event.src_path and 'assigned' in event.dest_path:
+                event_bus.emit(EventType.TASK_ASSIGNED, {
+                    "task_id": task.get('id'),
+                    "agent": task.get('agent'),
+                    "assigned_at": task.get('assigned_at'),
+                    "file_path": event.dest_path
+                })
+            
+            elif 'assigned' in event.src_path and 'done' in event.dest_path:
+                event_bus.emit(EventType.TASK_COMPLETED, {
+                    "task_id": task.get('id'),
+                    "agent": task.get('agent'),
+                    "completed_at": task.get('completed_at'),
+                    "result": task.get('result', {}),
+                    "file_path": event.dest_path
+                })
+    
+    def on_modified(self, event):
+        """Task YAML file modified (status update, progress)."""
+        if not event.is_directory and event.src_path.endswith('.yaml'):
+            task = self._load_task(event.src_path)
+            if not task:
+                return
+            
+            # Detect status changes within same directory
+            status = task.get('status')
+            if status == 'in_progress' and 'assigned' in event.src_path:
+                event_bus.emit(EventType.TASK_STARTED, {
+                    "task_id": task.get('id'),
+                    "agent": task.get('agent'),
+                    "started_at": task.get('started_at'),
+                    "file_path": event.src_path
+                })
+            
+            elif status == 'error':
+                event_bus.emit(EventType.TASK_FAILED, {
+                    "task_id": task.get('id'),
+                    "agent": task.get('agent'),
+                    "error": task.get('error', {}),
+                    "file_path": event.src_path
+                })
+    
+    def _load_task(self, file_path: str) -> Dict:
+        """Load and parse YAML task file."""
+        try:
+            with open(file_path, 'r') as f:
+                return yaml.safe_load(f)
+        except Exception as e:
+            logger.error(f"Failed to load task {file_path}: {e}")
+            return None
+
+
+def start_file_watcher(collaboration_dir: Path = None):
+    """
+    Start watching work/collaboration/ for task lifecycle events.
+    
+    This enables real-time dashboard updates WITHOUT requiring a database.
+    Task state remains in YAML files (Git-tracked, human-readable).
+    """
+    if collaboration_dir is None:
+        collaboration_dir = Path("work/collaboration")
+    
+    event_handler = TaskFileWatcher(collaboration_dir)
+    observer = Observer()
+    
+    # Watch inbox, assigned/*, and done/* directories
+    observer.schedule(event_handler, str(collaboration_dir / "inbox"), recursive=False)
+    observer.schedule(event_handler, str(collaboration_dir / "assigned"), recursive=True)
+    observer.schedule(event_handler, str(collaboration_dir / "done"), recursive=True)
+    
+    observer.start()
+    logger.info(f"File watcher started on {collaboration_dir}")
+    
+    return observer
+
+
+# Integration with dashboard server
+def init_dashboard_with_file_watching():
+    """
+    Initialize dashboard with file-based task tracking.
+    NO DATABASE REQUIRED for task state.
+    """
+    # Start file watcher
+    observer = start_file_watcher()
+    
+    # Subscribe dashboard WebSocket handler to task events
+    event_bus.subscribe(EventType.TASK_CREATED, broadcast_to_dashboard)
+    event_bus.subscribe(EventType.TASK_ASSIGNED, broadcast_to_dashboard)
+    event_bus.subscribe(EventType.TASK_STARTED, broadcast_to_dashboard)
+    event_bus.subscribe(EventType.TASK_COMPLETED, broadcast_to_dashboard)
+    event_bus.subscribe(EventType.TASK_FAILED, broadcast_to_dashboard)
+    
+    return observer
+```
+
+**Why This Approach:**
+
+1. **✅ Maintains File-Based Orchestration:**
+   - Tasks remain in YAML files (work/collaboration/)
+   - Git audit trail preserved
+   - No database dependency for task management
+
+2. **✅ Real-Time Updates:**
+   - File system events (watchdog library) detect changes
+   - Events emitted to WebSocket clients instantly
+   - Dashboard shows live task transitions
+
+3. **✅ Backward Compatible:**
+   - Existing agent workflows unchanged
+   - Manual task creation still works
+   - Orchestrator scripts function normally
+
+4. **✅ Infrastructure Simplicity:**
+   - No database server required for tasks
+   - SQLite only for optional telemetry history (costs, metrics)
+   - File system is single source of truth
+
+**Data Separation:**
+
+| Data Type | Storage | Purpose |
+|-----------|---------|---------|
+| **Task State** | YAML files | Lifecycle, assignments, results (Git-tracked) |
+| **Execution Metrics** | SQLite (optional) | Historical costs, token usage, model stats |
+| **Live Events** | Memory (EventBus) | Real-time updates to dashboard clients |
+
+**Example Task Lifecycle Visualization:**
+
+```
+File: work/collaboration/inbox/2026-02-05T1030-backend-dev-feature.yaml
+Status: new
+   │
+   │  (Orchestrator assigns)
+   ▼
+File: work/collaboration/assigned/backend-dev/2026-02-05T1030-backend-dev-feature.yaml
+Status: assigned
+   │
+   │  (Agent starts work, updates status in YAML)
+   ▼
+File: work/collaboration/assigned/backend-dev/2026-02-05T1030-backend-dev-feature.yaml
+Status: in_progress ← File modified, event emitted, dashboard updates
+   │
+   │  (Agent completes, adds result, moves file)
+   ▼
+File: work/collaboration/done/backend-dev/2026-02-05T1030-backend-dev-feature.yaml
+Status: done ← File moved, event emitted, dashboard updates
+```
+
+**Dashboard sees all transitions in real-time via file system events, NO database queries needed.**
+
 
 **3. Integrate Events into Routing Engine:**
 ```python
