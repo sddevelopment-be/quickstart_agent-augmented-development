@@ -110,9 +110,19 @@ Our existing **file-based orchestration approach** (see `.github/agents/approach
    - Routing engine decision rationale
    - Model performance metrics (latency, cost)
 
-5. **Intervention Controls**
+5. **MCP Server Health Monitoring** ✨ NEW (M4)
+   - Real-time server status (running/stopped/unhealthy)
+   - Active MCP tool list per server
+   - Server connection health indicators
+   - Tool availability validation display
+   - Server resource usage (memory, CPU)
+   - Auto-restart status and history
+
+6. **Intervention Controls**
    - Stop running operations
    - View intermediate results
+   - Start/stop MCP servers (M4)
+   - Restart unhealthy servers (M4)
    - Retry failed operations (future)
 
 **Deployment Mode:**
@@ -122,12 +132,104 @@ $ llm-service dashboard start --port 8080
 
 Dashboard running at http://localhost:8080
 WebSocket connected ✓
+MCP monitoring enabled ✓
 
 # Dashboard runs in background thread
 # CLI operations emit events to dashboard
 
 # Stop dashboard
 $ llm-service dashboard stop
+```
+
+### MCP Server Health Panel (M4 Addition)
+
+**Visual Layout:**
+```
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ MCP Server Status                                ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ Server        Status      Health    Tools  Uptime│
+├───────────────────────────────────────────────────┤
+│ filesystem    🟢 Running  ✅ Healthy  5     2h 15m│
+│ git           🟢 Running  ✅ Healthy  8     2h 15m│
+│ code-search   🟡 Manual   ⏸️  User    12    -     │
+│ github        🔴 Stopped  ❌ Down     -     -     │
+└───────────────────────────────────────────────────┘
+
+Actions: [Start Server] [Stop Server] [Restart Server] [Discover Tools]
+
+📊 Server Metrics:
+  • Healthy: 2/4 (50%)
+  • Auto-managed: 2/4
+  • Total Tools: 25
+```
+
+**Server Detail View (Expand):**
+```
+filesystem Server Details:
+├─ Package: @modelcontextprotocol/server-filesystem
+├─ PID: 12345
+├─ Started: 2026-02-05 14:30:00
+├─ Last Health Check: 2026-02-05 16:45:23 (✅ OK)
+├─ Resource Usage: 45 MB RAM, 0.2% CPU
+├─ Auto-start: Enabled
+├─ Restart Count: 0
+└─ Available Tools:
+   • filesystem.read
+   • filesystem.write
+   • filesystem.search
+   • filesystem.list_directory
+   • filesystem.create_directory
+```
+
+**WebSocket Events for MCP:**
+```javascript
+// Dashboard receives MCP server events
+socket.on("mcp.server.started", (data) => {
+    updateServerStatus(data.server_name, "running");
+});
+
+socket.on("mcp.server.health_check", (data) => {
+    updateServerHealth(data.server_name, data.status);
+});
+
+socket.on("mcp.server.stopped", (data) => {
+    updateServerStatus(data.server_name, "stopped");
+});
+
+socket.on("mcp.tools.discovered", (data) => {
+    updateServerTools(data.server_name, data.tools);
+});
+```
+
+**Dashboard Actions for MCP:**
+```python
+# Dashboard backend API
+@app.route("/api/mcp/server/<server_name>/start", methods=["POST"])
+def start_mcp_server(server_name: str):
+    """Start MCP server from dashboard."""
+    mcp_manager.start_server(server_name)
+    emit_event("mcp.server.started", {"server_name": server_name})
+    return {"status": "ok"}
+
+@app.route("/api/mcp/server/<server_name>/stop", methods=["POST"])
+def stop_mcp_server(server_name: str):
+    """Stop MCP server from dashboard."""
+    mcp_manager.stop_server(server_name)
+    emit_event("mcp.server.stopped", {"server_name": server_name})
+    return {"status": "ok"}
+
+@app.route("/api/mcp/server/<server_name>/restart", methods=["POST"])
+def restart_mcp_server(server_name: str):
+    """Restart MCP server from dashboard."""
+    mcp_manager.restart_server(server_name)
+    return {"status": "ok"}
+
+@app.route("/api/mcp/server/<server_name>/discover", methods=["GET"])
+def discover_mcp_tools(server_name: str):
+    """Discover tools from MCP server."""
+    tools = mcp_manager.discover_tools(server_name)
+    return {"tools": tools}
 ```
 
 ## Rationale
@@ -1309,8 +1411,11 @@ $ llm-service execute --prompt file3.txt --model auto &
 **Related ADRs:**
 - [ADR-030: Rich Terminal UI](ADR-030-rich-terminal-ui-cli-feedback.md) - CLI enhancements
 - [ADR-033: Step Tracker Pattern](ADR-033-step-tracker-pattern.md) - Progress tracking
+- [ADR-034: MCP Server Integration](ADR-034-mcp-server-integration-strategy.md) - MCP server health monitoring
 
 **Related Documents:**
+- [Architecture Impact Analysis](../../../work/reports/architecture/2026-02-05-kitty-cli-architecture-impact-analysis.md) - MCP dashboard requirements
+- [kitty-cli Architecture Analysis](../../../work/reports/research/2026-02-05-kitty-cli-architecture-analysis.md) - Dashboard patterns
 - [spec-kitty Comparative Analysis](../design/comparative_study/2026-02-05-spec-kitty-comparative-analysis.md)
 - [spec-kitty Inspired Enhancements](../design/spec-kitty-inspired-enhancements.md)
 - [Dashboard Technical Design](../design/dashboard-interface-technical-design.md) - Detailed design
@@ -1319,11 +1424,12 @@ $ llm-service execute --prompt file3.txt --model auto &
 - [Flask-SocketIO Documentation](https://flask-socketio.readthedocs.io/)
 - [Socket.IO Client](https://socket.io/docs/v4/client-api/)
 - [Chart.js Documentation](https://www.chartjs.org/docs/)
+- [Model Context Protocol](https://modelcontextprotocol.io/) - MCP specification
 
 ---
 
 **Status:** ✅ Accepted (⭐⭐⭐⭐⭐ HIGH Priority)  
 **Implementation Target:** Milestone 4, Phase 2 (Week 2)  
-**Estimated Effort:** 12-16 hours  
-**Dependencies:** ADR-030 (Rich CLI)  
-**Next Steps:** Create detailed technical design document
+**Estimated Effort:** 12-16 hours (+ 2-3 hours for MCP health panel)  
+**Dependencies:** ADR-030 (Rich CLI), ADR-034 (MCP Integration for M4 MCP panel)  
+**Next Steps:** Create detailed technical design document, implement MCP health monitoring (M4)
