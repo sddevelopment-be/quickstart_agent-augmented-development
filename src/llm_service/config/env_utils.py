@@ -91,7 +91,8 @@ def expand_env_vars(env_vars: Optional[Dict[str, str]]) -> Dict[str, str]:
                 # No value and no default - raise error
                 raise EnvVarNotFoundError(
                     f"Environment variable '{var_name}' not found and no default provided. "
-                    f"Referenced in env_vars['{key}'] = '{value}'"
+                    f"Referenced in env_vars['{key}'] = '{value}'\n"
+                    f"Set the environment variable with: export {var_name}=<value>"
                 )
         else:
             # Literal value - pass through unchanged

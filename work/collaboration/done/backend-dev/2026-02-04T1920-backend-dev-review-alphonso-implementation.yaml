@@ -72,9 +72,9 @@ result:
     - 'src/llm_service/README.md (NEW - comprehensive documentation)'
     - 'src/llm_service/config/schemas.py (IMPROVED - tool-model validation)'
     - 'src/llm_service/config/loader.py (IMPROVED - error messages)'
-  artifacts:
-    code_review: work/reports/2026-02-04T1927-backend-dev-code-review-analysis.md
-    work_log: work/reports/logs/backend-dev/2026-02-04T1927-backend-dev-alphonso-review.md
+  artefacts:
+    - work/reports/2026-02-04T1927-backend-dev-code-review-analysis.md
+    - work/reports/logs/backend-dev/2026-02-04T1927-backend-dev-alphonso-review.md
   milestone_1_status:
     acceptance_criteria_met: 10/10
     ready_for_milestone_2: true
