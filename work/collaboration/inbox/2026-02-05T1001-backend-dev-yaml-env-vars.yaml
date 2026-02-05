@@ -1,0 +1,175 @@
+---
+task_id: "2026-02-05T1001-backend-dev-yaml-env-vars"
+created: "2026-02-05T10:00:00Z"
+assigned_to: "backend-dev"
+priority: "MEDIUM"
+status: "ready"
+batch: "M2 Batch 2.3 - Generic YAML Adapter"
+estimated_hours: 1.5
+
+title: "Add ENV Variable Support to YAML Configuration Schema"
+
+context: |
+  GenericYAMLAdapter (Task 1) needs ENV variable support for API keys and tool
+  configuration. Current SubprocessExecutor supports ENV vars via params, but
+  YAML config schema doesn't have env_vars field for tool definitions.
+  
+  This task enhances the YAML schema to support tool-specific environment variables
+  with ${VAR} expansion from system environment.
+
+objective: |
+  Extend ToolConfig schema to support environment variable definitions in YAML,
+  enabling tools to declare required/optional ENV vars and default values with
+  variable expansion.
+
+requirements:
+  - Add env_vars field to ToolConfig schema (Dict[str, str])
+  - Support ${VAR} expansion from system environment (os.path.expandvars)
+  - Add env_required field for validation (List[str])
+  - Update ToolConfig Pydantic model with validation
+  - Update YAML example configurations
+  - GenericYAMLAdapter uses env_vars from config
+
+deliverables:
+  - file: "src/llm_service/config/schemas.py"
+    description: "Updated ToolConfig schema with ENV variable support"
+    changes:
+      - "Add env_vars: Optional[Dict[str, str]] field"
+      - "Add env_required: Optional[List[str]] field"
+      - "Add validator for env_required (check vars exist)"
+    
+  - file: "config/tools.yaml.example"
+    description: "Updated example with ENV variable usage"
+    example_syntax: |
+      tools:
+        claude-code:
+          binary: claude-code
+          command_template: "{binary} --model {model} --prompt {prompt_file}"
+          env_vars:
+            ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY}"
+            CLAUDE_HOME: "${HOME}/.claude"
+          env_required:
+            - ANTHROPIC_API_KEY
+          models:
+            - claude-3-5-sonnet-20240620
+    
+  - file: "tests/unit/config/test_schemas_env_vars.py"
+    description: "Tests for ENV variable schema validation"
+    test_cases:
+      - "test_env_vars_expansion" - ${VAR} expansion works
+      - "test_env_required_validation" - Missing required var raises error
+      - "test_env_vars_optional" - env_vars field is optional
+      - "test_env_vars_merge" - Config env_vars merge with params
+
+technical_approach: |
+  1. Update src/llm_service/config/schemas.py ToolConfig:
+     ```python
+     class ToolConfig(BaseModel):
+         name: str
+         binary: str
+         command_template: str
+         models: List[str]
+         platforms: Optional[Dict[str, str]] = None
+         binary_path: Optional[str] = None
+         env_vars: Optional[Dict[str, str]] = None  # NEW
+         env_required: Optional[List[str]] = None    # NEW
+         
+         @validator('env_vars')
+         def expand_env_vars(cls, v):
+             """Expand ${VAR} references in environment variables."""
+             if v is None:
+                 return None
+             return {k: os.path.expandvars(val) for k, val in v.items()}
+         
+         @validator('env_required')
+         def validate_required_env(cls, v, values):
+             """Validate required environment variables exist."""
+             if v is None:
+                 return None
+             for var in v:
+                 if var not in os.environ:
+                     raise ValueError(f"Required environment variable {var} not set")
+             return v
+     ```
+  
+  2. Update GenericYAMLAdapter._prepare_env() to use tool_config.env_vars:
+     ```python
+     def _prepare_env(self, params: Dict = None) -> Dict[str, str]:
+         env = os.environ.copy()
+         
+         # Add tool-specific env vars from YAML config
+         if self.tool_config.env_vars:
+             env.update(self.tool_config.env_vars)  # Already expanded in validator
+         
+         # Override with params
+         if params and "env" in params:
+             env.update(params["env"])
+         
+         return env
+     ```
+  
+  3. Update example configs to show ENV variable usage
+  
+  4. Add comprehensive tests for validation and expansion
+
+dependencies:
+  - "Task 1: GenericYAMLAdapter" - This task enhances the adapter's ENV handling
+  - "M2 Batch 2.1: COMPLETE" - Schema infrastructure exists
+
+success_criteria:
+  - ToolConfig schema accepts env_vars and env_required fields
+  - ${VAR} expansion works correctly (os.path.expandvars)
+  - Validation fails if required ENV var missing (clear error message)
+  - GenericYAMLAdapter uses env_vars from config
+  - Example YAML configs show ENV variable usage
+  - Tests passing with >80% coverage on new code
+
+integration_points:
+  - GenericYAMLAdapter._prepare_env() - uses tool_config.env_vars
+  - Configuration loader - validates env_required on load
+  - CLI config validate - checks required ENV vars exist
+
+examples:
+  yaml_config: |
+    tools:
+      claude-code:
+        env_vars:
+          ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY}"
+          CLAUDE_CONFIG_DIR: "${HOME}/.claude"
+        env_required:
+          - ANTHROPIC_API_KEY
+  
+  usage: |
+    # YAML provides default env vars
+    # Params can override specific vars
+    adapter.execute(
+        prompt="Generate code",
+        model="claude-3-opus",
+        params={
+            "env": {
+                "CLAUDE_DEBUG": "true"  # Override/add to config env_vars
+            }
+        }
+    )
+
+references:
+  - "src/llm_service/config/schemas.py" - Current schema
+  - "src/llm_service/adapters/subprocess_executor.py" - ENV var usage
+  - "work/analysis/generic-yaml-adapter-architecture-review.md" - Design rationale
+
+notes: |
+  This enhancement makes ENV variable management declarative via YAML instead of
+  requiring code changes or manual params passing. Tools can declare their ENV
+  requirements, and the system validates them at config load time.
+  
+  Security consideration: ENV vars are read from system environment, not stored
+  in YAML files. YAML only declares which vars to read and their expansion patterns.
+
+time_breakdown:
+  schema_update: "30 minutes"
+  validation_logic: "30 minutes"
+  adapter_integration: "15 minutes"
+  testing: "30 minutes"
+  documentation: "15 minutes"
+  total: "2 hours"
+---
