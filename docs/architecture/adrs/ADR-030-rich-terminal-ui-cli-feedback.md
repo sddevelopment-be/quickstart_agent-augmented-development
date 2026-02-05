@@ -539,24 +539,64 @@ Setting up telemetry
 
 **Rejected Because:** Not cost-effective. `rich` provides everything we need with better quality than we could build in reasonable time.
 
+## Validation from kitty-cli Research
+
+**Research Confirmation:** The [kitty-cli architecture analysis](../../../work/reports/research/2026-02-05-kitty-cli-architecture-analysis.md) by Researcher Ralph (2026-02-05) provides **HIGH-confidence validation** of this decision.
+
+**Evidence from Production Usage:**
+- ✅ kitty-cli uses Rich library extensively across 17 command modules (6,327 LOC)
+- ✅ Consistent patterns: panels for structured output, tables for data, progress bars
+- ✅ Professional terminal UX matches modern tools (pip, httpie)
+- ✅ Automatic TTY detection and plain-text fallback confirmed working in production
+
+**Implementation Patterns from kitty-cli:**
+```python
+# Panel usage for execution results
+console.print(Panel.fit(
+    "[bold cyan]Execution Complete[/bold cyan]",
+    subtitle=f"Agent: {agent_name}",
+    border_style="green"
+))
+
+# Table usage for structured metrics
+table = Table(title="Execution Metrics")
+table.add_column("Metric", style="cyan")
+table.add_column("Value", style="magenta")
+table.add_row("Tokens", f"{tokens:,}")
+table.add_row("Cost", f"${cost:.4f}")
+console.print(table)
+
+# Progress bars for long operations
+with Progress() as progress:
+    task = progress.add_task("[cyan]Processing...", total=100)
+    # ... operation ...
+    progress.update(task, completed=100)
+```
+
+**Confidence Boost:** This ADR's technical decisions are validated by real-world production usage in kitty-cli, reducing implementation risk.
+
 ## References
 
 **Related ADRs:**
 - [ADR-027: Click CLI Framework](ADR-027-click-cli-framework.md) - CLI structure
 - [ADR-032: Real-Time Execution Dashboard](ADR-032-real-time-execution-dashboard.md) - Dashboard UI
+- [ADR-033: Step Tracker Pattern](ADR-033-step-tracker-pattern.md) - Progress tracking
+- [ADR-034: MCP Server Integration](ADR-034-mcp-server-integration-strategy.md) - MCP CLI output
 
 **Related Documents:**
+- [Architecture Impact Analysis](../../../work/reports/architecture/2026-02-05-kitty-cli-architecture-impact-analysis.md) - Research validation
+- [kitty-cli Architecture Analysis](../../../work/reports/research/2026-02-05-kitty-cli-architecture-analysis.md) - Detailed findings
 - [spec-kitty Comparative Analysis](../design/comparative_study/2026-02-05-spec-kitty-comparative-analysis.md)
 - [spec-kitty Inspired Enhancements](../design/spec-kitty-inspired-enhancements.md) - Overall architecture
 
 **External References:**
 - [Rich Library Documentation](https://rich.readthedocs.io/)
 - [Rich GitHub Repository](https://github.com/Textualize/rich)
-- [spec-kitty Repository](https://github.com/Priivacy-ai/spec-kitty) - Usage examples
+- [spec-kitty Repository](https://github.com/Priivacy-ai/spec-kitty) - Production usage examples
 
 ---
 
-**Status:** ✅ Accepted  
-**Implementation Target:** Milestone 4, Phase 1 (Week 1)  
+**Status:** ✅ Accepted (Validated by kitty-cli production usage)  
+**Implementation Target:** Milestone 3, Phase 1  
 **Estimated Effort:** 2-3 hours  
 **Dependencies:** None (foundational)

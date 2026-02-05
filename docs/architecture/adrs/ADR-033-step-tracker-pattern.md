@@ -826,23 +826,84 @@ $ llm-service batch process files/*.txt
 
 (See Rationale section for detailed analysis)
 
+## Validation from kitty-cli Research
+
+**Research Confirmation:** The [kitty-cli architecture analysis](../../../work/reports/research/2026-02-05-kitty-cli-architecture-analysis.md) by Researcher Ralph (2026-02-05) provides **HIGH-confidence validation** of the StepTracker pattern.
+
+**Evidence from Production Usage:**
+- ✅ kitty-cli implements StepTracker class used across multiple command modules
+- ✅ Provides clear step-by-step progress for complex workflows (setup, migrations, orchestration)
+- ✅ Visual progress indicators: ⏳ (in progress), ✅ (complete), ❌ (error)
+- ✅ Error context preserved (which step failed, what succeeded before)
+
+**Implementation Pattern from kitty-cli:**
+```python
+# specify_cli/cli/step_tracker.py (simplified)
+class StepTracker:
+    def add(self, key: str, description: str):
+        """Add a new step."""
+        self.steps[key] = {"status": "running", "desc": description}
+        self.console.print(f"[cyan]⋯[/cyan] {description}")
+    
+    def complete(self, key: str, detail: str = ""):
+        """Mark step as complete."""
+        self.steps[key]["status"] = "complete"
+        desc = self.steps[key]["desc"]
+        self.console.print(f"[green]✓[/green] {desc} {detail}")
+    
+    def error(self, key: str, error_msg: str):
+        """Mark step as error."""
+        self.steps[key]["status"] = "error"
+        desc = self.steps[key]["desc"]
+        self.console.print(f"[red]✗[/red] {desc}: {error_msg}")
+```
+
+**Usage Example from kitty-cli:**
+```python
+# specify_cli/cli/commands/migrate.py
+tracker = StepTracker()
+
+tracker.add("validate", "Validating configuration")
+validate_config()
+tracker.complete("validate", "93 lines checked")
+
+tracker.add("backup", "Creating backup")
+create_backup()
+tracker.complete("backup", "backup_2024.yaml created")
+
+tracker.add("migrate", "Migrating schema")
+try:
+    migrate_schema()
+    tracker.complete("migrate", "Schema v2 applied")
+except Exception as e:
+    tracker.error("migrate", str(e))
+    raise
+```
+
+**Confidence Boost:** This ADR's StepTracker pattern is validated by production usage in kitty-cli, confirming it solves real-world multi-step operation clarity problems.
+
 ## References
 
 **Related ADRs:**
 - [ADR-030: Rich Terminal UI](ADR-030-rich-terminal-ui-cli-feedback.md) - Visual feedback
 - [ADR-032: Real-Time Dashboard](ADR-032-real-time-execution-dashboard.md) - Dashboard integration
+- [ADR-034: MCP Server Integration](ADR-034-mcp-server-integration-strategy.md) - MCP server lifecycle tracking
 
 **Related Documents:**
+- [Architecture Impact Analysis](../../../work/reports/architecture/2026-02-05-kitty-cli-architecture-impact-analysis.md) - Research validation
+- [kitty-cli Architecture Analysis](../../../work/reports/research/2026-02-05-kitty-cli-architecture-analysis.md) - Detailed StepTracker findings
+- [kitty-cli Key Learnings](../../../work/reports/research/kitty-cli-key-learnings.md) - Implementation patterns
 - [spec-kitty Comparative Analysis](../design/comparative_study/2026-02-05-spec-kitty-comparative-analysis.md)
 - [spec-kitty Inspired Enhancements](../design/spec-kitty-inspired-enhancements.md)
 
 **External References:**
 - [Context Manager Protocol (PEP 343)](https://www.python.org/dev/peps/pep-0343/)
 - [Rich Progress Bars](https://rich.readthedocs.io/en/latest/progress.html)
+- [spec-kitty Repository](https://github.com/Priivacy-ai/spec-kitty) - StepTracker production usage
 
 ---
 
-**Status:** ✅ Accepted  
-**Implementation Target:** Milestone 4, Phase 3 (Week 3)  
+**Status:** ✅ Accepted (Validated by kitty-cli production usage)  
+**Implementation Target:** Milestone 3, Phase 1  
 **Estimated Effort:** 2-3 hours  
 **Dependencies:** ADR-030 (Rich CLI), ADR-032 (Dashboard events)
