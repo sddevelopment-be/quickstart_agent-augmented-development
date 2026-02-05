@@ -1,0 +1,45 @@
+id: 2026-02-04T2101-backend-dev-command-template-parser
+agent: backend-dev
+status: assigned
+priority: high
+title: Command Template Parser Implementation
+artefacts:
+- src/llm_service/adapters/template_parser.py
+- tests/unit/adapters/test_template_parser.py
+context:
+  background: 'Tool adapters need to parse command templates from YAML with placeholder
+    substitution.
+
+    Security review identified injection risks - implement mitigations.
+
+    '
+  security_reference: work/analysis/llm-service-command-template-security.md
+  milestone: 'Milestone 2: Tool Integration'
+  batch: 'M2 Batch 2.1: Adapter Base Interface'
+  strategic_value: Enables dynamic YAML-based tool invocation
+requirements:
+  template_parsing:
+  - Parse command templates with placeholders
+  - Support {{model}}, {{prompt}}, {{param_name}} syntax
+  - Placeholder substitution with context dictionary
+  - Error handling for invalid templates
+  security:
+  - Whitelist allowed placeholders
+  - Escape shell metacharacters
+  - Validate template format before execution
+  - Prevent command injection attacks
+  error_handling:
+  - Clear error messages for missing placeholders
+  - Template syntax validation
+  - User-friendly error reporting
+acceptance_criteria:
+- Template parser handles all placeholder types
+- Security validation prevents injection attacks
+- Clear error messages for invalid templates
+- '>80% test coverage on template parser'
+- Examples work with real YAML tool definitions
+- Unit tests cover security scenarios
+created_at: '2026-02-05T05:01:00Z'
+created_by: orchestrator
+estimated_hours: 3.5
+assigned_at: '2026-02-05T05:11:56.370837Z'

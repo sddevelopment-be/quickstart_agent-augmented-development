@@ -1,0 +1,46 @@
+id: 2026-02-04T2100-backend-dev-adapter-base-class
+agent: backend-dev
+status: assigned
+priority: high
+title: Base Adapter Abstract Class Implementation
+artefacts:
+- src/llm_service/adapters/base.py
+- src/llm_service/adapters/__init__.py
+- tests/unit/adapters/test_base.py
+context:
+  background: 'Milestone 2 (Tool Integration) requires a base adapter interface for
+    all tool adapters.
+
+    ADR-029 decided on Abstract Base Class (ABC) approach for type safety and enforcement.
+
+    '
+  adr_reference: docs/architecture/adrs/ADR-029-adapter-interface-design.md
+  prestudy_reference: docs/architecture/design/llm-service-layer-prestudy.md
+  milestone: 'Milestone 2: Tool Integration'
+  batch: 'M2 Batch 2.1: Adapter Base Interface'
+  strategic_value: Foundation for all tool adapters (claude-code, codex, future tools)
+requirements:
+  abstract_base_class:
+  - Define ToolAdapter abstract base class
+  - Required methods: execute, validate_config, get_tool_name
+  - Template method pattern for common logic
+  - Type hints and docstrings (Google style)
+  data_structures:
+  - ToolResponse dataclass for standardized output
+  - Type definitions for adapter contract
+  - Extensibility for future tool types
+  package_structure:
+  - Create src/llm_service/adapters/ package
+  - __init__.py with public API exports
+  - Clear module organization
+acceptance_criteria:
+- Abstract base class with clear contract
+- Type-safe method signatures with proper hints
+- Comprehensive docstrings for all public methods
+- Ready for concrete adapter implementations
+- Basic instantiation tests passing
+- Follows ADR-029 design decision
+created_at: '2026-02-05T05:00:00Z'
+created_by: orchestrator
+estimated_hours: 5.0
+assigned_at: '2026-02-05T05:11:56.366709Z'
