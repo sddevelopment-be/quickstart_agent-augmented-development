@@ -15,9 +15,10 @@
 - ✅ Architecture review: APPROVED by Architect Alphonso
 - ✅ M2 Prep: COMPLETE (5/5 tasks, 3h 10m) - 25% faster than estimate
 - ✅ M2 Batch 2.1: COMPLETE (4/4 tasks, ~2.5h) - ⭐ 84% faster than estimate
-- ✅ ADRs: 4 documented (ADR-026, 027, 028, 029)
-- 🚀 Milestone 2: IN PROGRESS - Adapter infrastructure ready
-- 📋 Next: M2 Batch 2.2 - ClaudeCodeAdapter Implementation (Backend-dev Benny)
+- ✅ M2 Batch 2.2: COMPLETE - ClaudeCodeAdapter (reference implementation)
+- ✅ ADRs: 5 documented (ADR-026, 027, 028, 029 + Generic Adapter decision)
+- 🚀 Milestone 2: IN PROGRESS - Generic YAML-driven adapter approach
+- 📋 Next: M2 Batch 2.3 - Generic YAML Adapter Implementation
 
 ---
 
@@ -82,11 +83,18 @@
 
 ### Milestone 2: Tool Integration (Weeks 2-3) - 🚀 IN PROGRESS
 
-**Status:** 🚀 **IN PROGRESS** - Batch 2.1 complete, ready for 2.2  
-**Blockers:** ✅ NONE - Adapter infrastructure ready  
+**Status:** 🚀 **IN PROGRESS** - Batches 2.1 & 2.2 complete, ready for 2.3  
+**Blockers:** ✅ NONE - Adapter infrastructure ready, strategic pivot approved  
 **Estimated Completion:** End of week 3
 
-**Goal:** Implement tool adapters and subprocess execution
+**Strategic Pivot (2026-02-05):** ⭐ **Generic YAML-Driven Adapter Approach**
+- **Decision:** Use single `GenericYAMLAdapter` instead of multiple concrete adapters
+- **Rationale:** Eliminates code duplication, YAML-based extensibility, faster to MVP
+- **Impact:** Add new tools via YAML configuration, no code changes needed
+- **ClaudeCodeAdapter:** Kept as reference implementation and test fixture
+- **Reference:** ADR-029 updated (2026-02-05), Architecture review in `work/analysis/`
+
+**Goal:** Implement generic YAML-driven adapter with tool extensibility
 
 **Batches:**
 1. ✅ **Batch 2.1: Tool Adapter Architecture** (~2.5 hours) **COMPLETE**
@@ -97,27 +105,32 @@
    - **Achievement:** 84% faster than 12-16h estimate, 93% coverage, 78/78 tests passing
    - **Agent:** Backend-dev Benny (exceptional performance)
 
-2. 📋 **Batch 2.2: Claude-Code Adapter** (1-2 days) **READY TO START**
-   - Implement ClaudeCodeAdapter using command template
-   - Platform-specific binary path resolution
-   - Model parameter mapping
-   - Integration tests with mocked claude CLI
+2. ✅ **Batch 2.2: ClaudeCodeAdapter Reference Implementation** (1-2 days) **COMPLETE**
+   - ✅ Implemented ClaudeCodeAdapter using command template
+   - ✅ Platform-specific binary path resolution
+   - ✅ Model parameter mapping
+   - ✅ Integration tests with mocked claude CLI (`fake_claude_cli.py`)
+   - **Status:** Kept as reference implementation and test fixture
+   - **Decision:** Generic YAML adapter is production path (see ADR-029 update)
 
-3. **Batch 2.3: Codex Adapter** (2-3 days)
-   - Implement Codex adapter using command template
-   - Parameter formatting for codex CLI
-   - Error handling for rate limits and auth issues
-   - Integration tests with mocked codex CLI
+3. 📋 **Batch 2.3: Generic YAML Adapter** (1 day / 5-8 hours) **READY TO START**
+   - Implement `GenericYAMLAdapter` that reads tool definitions from YAML
+   - Single adapter works with ANY tool defined in YAML configuration
+   - Binary resolution from config or PATH
+   - ENV variable support for API keys and tool configuration
+   - Demonstrate adding new tools (codex, gemini, etc.) via YAML only
+   - **Strategic Value:** ⭐⭐⭐⭐⭐ Eliminates code duplication, enables YAML-driven extensibility
+   - **Decision:** Production implementation path per ADR-029 (2026-02-05)
 
-4. **Batch 2.4: Generic YAML-Based Adapter** (2 days)
-   - Implement generic adapter that reads tool definitions from YAML
-   - Demonstrate adding a new tool without code changes
-   - Documentation and examples for community contributions
+4. ~~**Batch 2.4: Codex Adapter**~~ **REMOVED - Replaced by Generic Adapter**
+   - ❌ No longer needed - Generic adapter handles codex via YAML
+   - ✅ Add codex tool via YAML config instead of code
 
 **Deliverables:**
 - ✅ Adapter base infrastructure (Batch 2.1)
-- 📋 Functional claude-code and codex adapters (Batches 2.2-2.3)
-- Generic adapter enabling YAML-based tool extensibility (Batch 2.4)
+- ✅ ClaudeCodeAdapter reference implementation (Batch 2.2) - kept as test fixture
+- 📋 Generic YAML adapter enabling tool extensibility without code changes (Batch 2.3)
+- Integration with routing engine using GenericYAMLAdapter
 - Integration test suite with >70% coverage
 
 ---
@@ -207,21 +220,23 @@ Tasks will be created as YAML files in `work/collaboration/inbox/` following the
 ### Tool Integration Tasks → Backend-Dev
 
 **Tasks:**
-5. `2026-02-04T1704-backend-dev-adapter-base-interface.yaml`
+5. `2026-02-04T1704-backend-dev-adapter-base-interface.yaml` ✅ COMPLETE
    - Base adapter architecture
    - Command template parsing
 
-6. `2026-02-04T1705-backend-dev-claude-code-adapter.yaml`
-   - Claude-Code adapter implementation
+6. `2026-02-04T1705-backend-dev-claude-code-adapter.yaml` ✅ COMPLETE
+   - Claude-Code reference adapter implementation
    - Integration tests
+   - **Status:** Kept as reference/test fixture
 
-7. `2026-02-04T1706-backend-dev-codex-adapter.yaml`
-   - Codex adapter implementation
-   - Integration tests
+7. ~~`2026-02-04T1706-backend-dev-codex-adapter.yaml`~~ ❌ REMOVED
+   - Replaced by generic YAML adapter approach
 
-8. `2026-02-04T1707-backend-dev-generic-yaml-adapter.yaml`
-   - Generic YAML-configured adapter
-   - Extensibility documentation
+8. `2026-02-04T1707-backend-dev-generic-yaml-adapter.yaml` 📋 NEXT
+   - Generic YAML-configured adapter (production implementation)
+   - Extensibility for any tool via YAML configuration
+   - ENV variable support for API keys
+   - **Priority:** HIGH - Production path for all tools
 
 ### Telemetry & Policy Tasks → Backend-Dev
 
@@ -462,29 +477,58 @@ Tasks will be created as YAML files in `work/collaboration/inbox/` following the
 
 ---
 
-### 📋 NEXT: Milestone 2 Batch 2.2 - ClaudeCodeAdapter Implementation
+### ✅ MILESTONE 2 BATCH 2.2 COMPLETE (2026-02-05)
+
+**Status:** ✅ **COMPLETE** - Reference implementation delivered
+
+**Achievement:** M2 Batch 2.2 - ClaudeCodeAdapter Reference Implementation  
+**Agent:** Backend-dev Benny  
+**Purpose:** Reference implementation and test fixture  
+**Strategic Decision:** Generic YAML adapter is production path (ADR-029 updated)
+
+**Completed Deliverables:**
+1. ✅ ClaudeCodeAdapter class (~400 lines)
+2. ✅ Model parameter mapping
+3. ✅ Platform-specific binary path resolution
+4. ✅ Integration tests with `fake_claude_cli.py` mock
+5. ✅ User-friendly error handling
+
+**Strategic Outcome:**
+- ✅ **Validates Infrastructure:** Proves Batch 2.1 base classes work correctly
+- ✅ **Reference Implementation:** Documents adapter best practices
+- ✅ **Test Fixture:** `fake_claude_cli.py` used for testing framework
+- ✅ **Decision Made:** Generic YAML adapter approach approved for production
+- ✅ **No Code Duplication:** Future tools added via YAML, not new adapter classes
+
+**Files Delivered:**
+- `src/llm_service/adapters/claude_code_adapter.py` - Reference adapter (kept for tests)
+- `tests/integration/adapters/test_claude_code_adapter.py` - Integration tests
+- `tests/fixtures/fake_claude_cli.py` - Mocked CLI for testing
+
+---
+
+### 📋 NEXT: Milestone 2 Batch 2.3 - Generic YAML Adapter Implementation
 
 **Status:** 🟢 **READY FOR ASSIGNMENT**
 
-**Task:** Implement concrete adapter for claude-code CLI  
+**Task:** Implement production generic adapter for YAML-driven tool extensibility  
 **Agent:** Backend-dev Benny  
-**Estimated Effort:** 1-2 days  
-**Dependencies:** ✅ All met (Batch 2.1 complete)
+**Estimated Effort:** 1 day (5-8 hours)  
+**Dependencies:** ✅ All met (Batches 2.1 & 2.2 complete)
 
 **Deliverables:**
-- ClaudeCodeAdapter class extending ToolAdapter base
-- Platform-specific binary path resolution (Linux/macOS/Windows)
-- Model parameter mapping (claude-3.5-sonnet, etc.)
-- Integration tests with mocked claude CLI
-- Error handling for tool-specific failures
-- Documentation and usage examples
+- GenericYAMLAdapter class that works with any YAML-defined tool
+- ENV variable support (${VAR} expansion from YAML config)
+- Binary resolution from config or PATH
+- Integration with routing engine
+- Update YAML schema to support env_vars configuration
+- Demonstrate adding new tools via YAML without code changes
 
 **Focus Areas:**
-- Concrete adapter implementation using Batch 2.1 foundation
-- CLI command generation and execution
-- Platform compatibility validation
-- Integration testing strategy
-- Error handling for claude-code specific scenarios
+- Single adapter replaces need for concrete tool-specific adapters
+- YAML-driven extensibility (add tools via config, not code)
+- ENV variable support for API keys and configuration
+- Production-ready implementation (ClaudeCodeAdapter becomes test-only)
 
 ---
 

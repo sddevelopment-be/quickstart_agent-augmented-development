@@ -1,7 +1,8 @@
 # ADR-029: Use Abstract Base Class for Tool Adapter Interface
 
-**status**: Draft (To be finalized in Milestone 2)  
-**date**: 2026-02-04
+**status**: Accepted (Updated 2026-02-05 with Generic Adapter Decision)  
+**date**: 2026-02-04  
+**updated**: 2026-02-05
 
 ## Context
 
@@ -379,5 +380,166 @@ class ClaudeCodeAdapter(ToolAdapter):
 
 **Decision Made By:** Architect Alphonso (design review)  
 **Date:** 2026-02-04  
-**Status:** Draft - To be finalized during Milestone 2 Batch 2.1 implementation  
-**Next Step:** Implement `ToolAdapter` base class in `src/llm_service/adapters/base.py`
+**Status:** Accepted  
+**Updated:** 2026-02-05 - Generic Adapter Decision  
+**Next Step:** Implement `GenericYAMLAdapter` using the validated base infrastructure
+
+---
+
+## Update (2026-02-05): Generic YAML-Driven Adapter Decision
+
+**Context:** After implementing M2 Batch 2.1 (adapter base infrastructure) and M2 Batch 2.2 (ClaudeCodeAdapter as reference implementation), architecture review identified that concrete adapters are largely redundant with YAML configuration.
+
+### Architecture Review Findings
+
+**Analysis Document:** `work/analysis/generic-yaml-adapter-architecture-review.md`
+
+**Key Finding:** ClaudeCodeAdapter (~400 lines) primarily delegates to generic infrastructure:
+- Model mapping → Redundant (YAML lists models)
+- Binary path resolution → Redundant (YAML has platform-specific paths)
+- Command generation → Delegates to TemplateParser
+- Subprocess execution → Delegates to SubprocessWrapper
+- Output normalization → Delegates to OutputNormalizer
+
+**Value-Add from Concrete Adapter:**
+- User-friendly error messages
+- Reference implementation for patterns
+- Test fixtures validating tool integration
+
+### Decision: Generic YAML-Driven Adapter
+
+**We will implement a single `GenericYAMLAdapter` that reads configuration from YAML files.**
+
+This approach:
+1. ✅ **Eliminates code duplication** - One adapter implementation for all tools
+2. ✅ **Enables YAML-based extensibility** - Add new tools without code changes
+3. ✅ **Faster to MVP** - No need for per-tool adapter implementations
+4. ✅ **Community-friendly** - Contributors add tools via YAML config, not Python code
+5. ✅ **Aligns with design philosophy** - YAML-driven configuration throughout system
+
+### Implementation Strategy
+
+**GenericYAMLAdapter class:**
+```python
+class GenericYAMLAdapter(ToolAdapter):
+    """
+    Generic adapter that reads tool configuration from YAML.
+    No code changes needed to add new tools.
+    """
+    
+    def __init__(self, tool_name: str, tool_config: ToolConfig):
+        self.tool_name = tool_name
+        self.tool_config = tool_config
+        self.template_parser = TemplateParser()
+        self.subprocess_wrapper = SubprocessWrapper()
+        self.output_normalizer = OutputNormalizer()
+    
+    def execute(self, prompt: str, model: str, params: Dict = None) -> ToolResponse:
+        # 1. Validate model is in YAML config
+        if model not in self.tool_config.models:
+            raise InvalidModelError(f"Model {model} not supported")
+        
+        # 2. Resolve binary path from YAML or PATH
+        binary = self._resolve_binary()
+        
+        # 3. Generate command from YAML template
+        context = {"binary": binary, "model": model, "prompt": prompt}
+        command = self.template_parser.parse(
+            self.tool_config.command_template, 
+            context
+        )
+        
+        # 4. Execute via subprocess with ENV vars from YAML
+        env = self._prepare_env(params)
+        result = self.subprocess_wrapper.execute(command, env=env)
+        
+        # 5. Normalize output
+        normalized = self.output_normalizer.normalize(result.stdout, self.tool_name)
+        
+        return ToolResponse(
+            output=normalized.response_text,
+            metadata=normalized.metadata
+        )
+```
+
+### Role of ClaudeCodeAdapter
+
+**ClaudeCodeAdapter is retained as:**
+1. **Reference Implementation** - Demonstrates adapter pattern for contributors
+2. **Test Fixture** - Integration tests validate tool integration patterns
+3. **Documentation** - Shows how adapters work with real tool
+
+**NOT used for production** - `GenericYAMLAdapter` handles all tools via YAML config.
+
+### Benefits of This Approach
+
+**Extensibility:**
+```yaml
+# Add new tool by editing YAML - no code changes
+tools:
+  gemini-cli:
+    binary: gemini
+    command_template: "{binary} --model {model} < {prompt_file}"
+    models: [gemini-1.5-pro, gemini-1.5-flash]
+    env_vars:
+      GOOGLE_API_KEY: "${GOOGLE_API_KEY}"
+```
+
+**Simplicity:**
+- ~100 lines of generic adapter code vs. ~400 lines per concrete adapter
+- Single adapter handles all tools (claude-code, codex, gemini, future tools)
+
+**Maintenance:**
+- Changes to adapter logic happen in one place
+- Tool-specific configuration in YAML (easy to update)
+
+### Test Strategy
+
+**Integration tests are kept as documentation:**
+- `tests/integration/adapters/test_claude_code_adapter.py` - Validates claude-code integration
+- `tests/fixtures/fake_claude_cli.py` - Mock CLI for testing
+- Can add similar tests for other tools (codex, gemini) as needed
+
+These tests:
+1. Document expected tool behavior
+2. Validate generic adapter works with different tools
+3. Serve as examples for community contributors
+
+### Consequences
+
+**Positive:**
+1. ✅ Faster development (one adapter vs. many)
+2. ✅ More extensible (YAML config vs. code)
+3. ✅ Easier community contributions
+4. ✅ Lower maintenance burden
+5. ✅ Test fixtures provide clear documentation
+
+**Trade-offs:**
+1. ⚠️ Less tool-specific optimization (acceptable for MVP)
+2. ⚠️ Complex tools might need custom normalizers (handled via pluggable normalizers)
+3. ⚠️ Must ensure generic adapter handles edge cases (validated by integration tests)
+
+### Migration Plan
+
+**Phase 1: Implement Generic Adapter (Immediate)**
+- Task: `2026-02-05T1000-backend-dev-generic-yaml-adapter.yaml`
+- Deliverable: `src/llm_service/adapters/generic_adapter.py`
+- Uses existing infrastructure from Batch 2.1
+- Estimated effort: 2-3 hours
+
+**Phase 2: Update Routing Engine (Next Batch)**
+- Integrate `GenericYAMLAdapter` with routing engine
+- Remove concrete adapter dependency
+- Keep ClaudeCodeAdapter for tests only
+
+**Phase 3: Documentation (Concurrent)**
+- Update README with YAML-based tool addition
+- Document how to add new tools
+- Provide YAML templates for common tools
+
+---
+
+**Decision Rationale:** Generic adapter maximizes extensibility and minimizes code duplication while maintaining test coverage and documentation through integration test fixtures. ClaudeCodeAdapter validated the infrastructure and now serves as reference implementation.
+
+**Approved By:** Human-in-Charge  
+**Date:** 2026-02-05
