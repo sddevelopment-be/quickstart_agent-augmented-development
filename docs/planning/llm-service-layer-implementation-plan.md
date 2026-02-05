@@ -290,26 +290,36 @@
 
 Tasks will be created as YAML files in `work/collaboration/inbox/` following the work directory orchestration approach. Each task will be assigned to the appropriate specialist agent.
 
-### Configuration & Foundation Tasks → Backend-Dev
+**Agent Assignment Strategy (Updated 2026-02-05):**
+- **Python Pedro:** Pure Python implementation, test-heavy work, self-contained modules
+- **Backend-dev:** Integration, orchestration, schema architecture, cross-cutting concerns
+
+### Configuration & Foundation Tasks → Python Pedro ⭐ REASSIGNED
 
 **Tasks:**
-1. `2026-02-04T1700-backend-dev-config-schema-definition.yaml`
+1. `2026-02-04T1700-backend-dev-config-schema-definition.yaml` ✅ COMPLETE
    - Define YAML schemas (agents, tools, models, policies)
    - Implement Pydantic models for validation
 
-2. `2026-02-04T1701-backend-dev-config-loader-implementation.yaml`
+2. `2025-12-01T0510-backend-dev-framework-config-loader.yaml` ⭐ **REASSIGNED TO PYTHON PEDRO**
    - Implement configuration loader with validation
    - Error handling and user-friendly messages
+   - **Rationale:** Pydantic validation expertise, test-heavy, self-contained module
 
-3. `2026-02-04T1702-backend-dev-cli-interface-foundation.yaml`
+3. `2026-02-04T1702-backend-dev-cli-interface-foundation.yaml` ✅ COMPLETE
    - Implement CLI using Click/Commander
    - Commands: exec, config validate, config init, version
 
-4. `2026-02-04T1703-backend-dev-routing-engine-core.yaml`
+4. `2026-02-04T1703-backend-dev-routing-engine-core.yaml` ✅ COMPLETE
    - Agent-to-tool mapping logic
    - Fallback chain implementation
 
-### Tool Integration Tasks → Backend-Dev
+5. `2025-12-01T0511-backend-dev-agent-profile-parser.yaml` ⭐ **REASSIGNED TO PYTHON PEDRO**
+   - Parse agent profile YAML/Markdown files
+   - Structured profile data extraction
+   - **Rationale:** Data parsing, pytest parametrization, edge case testing
+
+### Tool Integration Tasks → Python Pedro + Backend-Dev
 
 **Tasks:**
 5. `2026-02-04T1704-backend-dev-adapter-base-interface.yaml` ✅ COMPLETE
@@ -324,11 +334,22 @@ Tasks will be created as YAML files in `work/collaboration/inbox/` following the
 7. ~~`2026-02-04T1706-backend-dev-codex-adapter.yaml`~~ ❌ REMOVED
    - Replaced by generic YAML adapter approach
 
-8. `2026-02-04T1707-backend-dev-generic-yaml-adapter.yaml` 📋 NEXT
+8. `2026-02-05T1000-backend-dev-generic-yaml-adapter.yaml` ⭐ **REASSIGNED TO PYTHON PEDRO** 📋 NEXT
    - Generic YAML-configured adapter (production implementation)
    - Extensibility for any tool via YAML configuration
    - ENV variable support for API keys
    - **Priority:** HIGH - Production path for all tools
+   - **Rationale:** Pure Python implementation, test-heavy, M2 Batch 2.3 critical path
+
+9. `2026-02-05T1001-backend-dev-yaml-env-vars.yaml` → Backend-Dev
+   - ENV variable schema enhancement
+   - Integration with config validation system
+   - **Rationale:** Schema architecture, cross-cutting integration
+
+10. `2026-02-05T1002-backend-dev-routing-integration.yaml` → Backend-Dev
+    - Integrate GenericYAMLAdapter with routing engine
+    - Cross-component integration testing
+    - **Rationale:** Orchestration focus, system-wide coordination
 
 ### Telemetry & Policy Tasks → Backend-Dev
 
