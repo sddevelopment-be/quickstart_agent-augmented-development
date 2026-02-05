@@ -1,6 +1,6 @@
 id: 2026-02-04T2003-architect-adapter-interface-review
 agent: architect
-status: completed
+status: done
 priority: high
 title: Adapter Interface Design Review for Milestone 2
 artefacts:
@@ -57,6 +57,9 @@ result:
   deliverables:
   - work/analysis/llm-service-adapter-interface-review.md (comprehensive 20KB review)
   - docs/architecture/adrs/ADR-029-adapter-interface-design.md (draft ADR)
+  artefacts:
+    - work/analysis/llm-service-adapter-interface-review.md
+    - docs/architecture/adrs/ADR-029-adapter-interface-design.md
   quality_notes: |
     Design review includes:
     - Executive summary with clear recommendation

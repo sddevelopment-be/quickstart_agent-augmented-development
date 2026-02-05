@@ -1,6 +1,6 @@
 id: 2026-02-04T2000-architect-adr026-pydantic-v2-validation
 agent: architect
-status: completed
+status: done
 priority: high
 title: 'ADR-026: Pydantic V2 for Schema Validation'
 artefacts:
@@ -54,8 +54,8 @@ result:
     - Referenced implementation evidence (schemas.py, 93% coverage, 25 tests)
     - Cross-referenced ADR-025 and prestudy documentation
     - Aligned with Directive 018 (Traceable Decisions)
-  deliverables:
-  - docs/architecture/adrs/ADR-026-pydantic-v2-validation.md
+  artefacts:
+    - docs/architecture/adrs/ADR-026-pydantic-v2-validation.md
   quality_notes: |
     ADR provides comprehensive rationale for Pydantic V2 choice, including:
     - Developer experience benefits (IDE support, type hints)

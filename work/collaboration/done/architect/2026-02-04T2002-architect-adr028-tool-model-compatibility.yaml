@@ -1,6 +1,6 @@
 id: 2026-02-04T2002-architect-adr028-tool-model-compatibility
 agent: architect
-status: completed
+status: done
 priority: medium
 title: 'ADR-028: Tool-Model Compatibility Validation'
 artefacts:
@@ -63,6 +63,8 @@ result:
     - Aligned with Directive 018 (Traceable Decisions)
   deliverables:
   - docs/architecture/adrs/ADR-028-tool-model-compatibility-validation.md
+  artefacts:
+    - docs/architecture/adrs/ADR-028-tool-model-compatibility-validation.md
   quality_notes: |
     ADR documents an important implementation enhancement that wasn't in original prestudy:
     - Clear distinction: evolution vs oversight (natural discovery during implementation)

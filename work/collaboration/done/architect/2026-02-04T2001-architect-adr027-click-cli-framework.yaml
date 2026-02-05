@@ -1,6 +1,6 @@
 id: 2026-02-04T2001-architect-adr027-click-cli-framework
 agent: architect
-status: completed
+status: done
 priority: high
 title: 'ADR-027: Click for CLI Framework'
 artefacts:
@@ -60,6 +60,8 @@ result:
     - Aligned with Directive 018 (Traceable Decisions)
   deliverables:
   - docs/architecture/adrs/ADR-027-click-cli-framework.md
+  artefacts:
+    - docs/architecture/adrs/ADR-027-click-cli-framework.md
   quality_notes: |
     ADR provides comprehensive rationale for Click over Typer:
     - Maturity and ecosystem size (10+ years vs 4 years)

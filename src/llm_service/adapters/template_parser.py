@@ -186,13 +186,41 @@ class TemplateParser:
                 f"{close_braces} '}}}}'"
             )
 
-        # Check for single braces that might indicate errors
-        single_open = template.count("{") - (open_braces * 2)
-        single_close = template.count("}") - (close_braces * 2)
+        # Check for single braces that might indicate errors, and report their positions
+        single_open_positions: List[int] = []
+        single_close_positions: List[int] = []
 
-        if single_open > 0 or single_close > 0:
+        i = 0
+        length = len(template)
+        while i < length:
+            # Skip valid double-brace sequences
+            if template.startswith("{{", i) or template.startswith("}}", i):
+                i += 2
+                continue
+
+            ch = template[i]
+            if ch == "{":
+                single_open_positions.append(i)
+            elif ch == "}":
+                single_close_positions.append(i)
+
+            i += 1
+
+        if single_open_positions or single_close_positions:
+            details = []
+            if single_open_positions:
+                details.append(
+                    f"opening '{{' at position {single_open_positions[0]}"
+                )
+            if single_close_positions:
+                details.append(
+                    f"closing '}}' at position {single_close_positions[0]}"
+                )
+
+            detail_str = "; ".join(details)
             raise TemplateSyntaxError(
-                f"Single braces found in template - use '{{{{placeholder}}}}' syntax"
+                f"Single braces found in template ({detail_str}) - "
+                f"use '{{{{placeholder}}}}' syntax"
             )
 
     def _sanitize_value(self, value: str) -> str:

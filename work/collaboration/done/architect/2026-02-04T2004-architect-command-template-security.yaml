@@ -1,6 +1,6 @@
 id: 2026-02-04T2004-architect-command-template-security
 agent: architect
-status: completed
+status: done
 priority: medium
 title: Command Template Security Review
 artefacts:
@@ -64,6 +64,8 @@ result:
     Documented security assumptions and future hardening path.
   deliverables:
   - work/analysis/llm-service-command-template-security.md (13KB security review)
+  artefacts:
+    - work/analysis/llm-service-command-template-security.md
   quality_notes: |
     Security review includes:
     - Threat model with 4 attack vectors
