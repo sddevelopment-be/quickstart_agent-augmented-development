@@ -1,0 +1,176 @@
+# Cost-Optimized Configuration Template
+# Multi-model setup with aggressive cost routing and budget controls
+
+# Service Configuration
+service:
+  name: "llm-service-cost-optimized"
+  version: "1.0.0"
+  log_level: "INFO"
+
+# Agent Configurations
+agents:
+  budget-agent:
+    preferred_tool: "claude-code"
+    preferred_model: "claude-3-haiku"
+    fallback_chain:
+      - "claude-code:claude-3.5-sonnet"
+      - "openai:gpt-4o-mini"
+    task_types:
+      simple: "claude-3-haiku"
+      complex: "claude-3.5-sonnet"
+      critical: "claude-3-opus"
+
+  multi-model-agent:
+    preferred_tool: "openai"
+    preferred_model: "gpt-4o-mini"
+    fallback_chain:
+      - "openai:gpt-4o"
+      - "claude-code:claude-3-haiku"
+    task_types:
+      quick: "gpt-4o-mini"
+      standard: "gpt-4o"
+
+# Tool Configurations
+tools:
+  claude-code:
+    binary: "{{ claude_binary|default('claude') }}"
+    command_template: "{binary} --model {model} < {prompt_file}"
+    models:
+      - "claude-3.5-sonnet"
+      - "claude-3-opus"
+      - "claude-3-haiku"
+    capabilities:
+      - "code_generation"
+      - "code_review"
+      - "general_qa"
+    env_vars:
+      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY}"
+    env_required:
+      - "ANTHROPIC_API_KEY"
+    platforms:
+      linux: "/usr/local/bin/claude"
+      macos: "/usr/local/bin/claude"
+      windows: "C:\\Program Files\\Claude\\claude.exe"
+
+  openai:
+    binary: "{{ openai_binary|default('openai') }}"
+    command_template: "{binary} --model {model} --input {prompt_file}"
+    models:
+      - "gpt-4o"
+      - "gpt-4o-mini"
+      - "gpt-4-turbo"
+    capabilities:
+      - "code_generation"
+      - "analysis"
+      - "general_qa"
+    env_vars:
+      OPENAI_API_KEY: "${OPENAI_API_KEY}"
+    env_required:
+      - "OPENAI_API_KEY"
+    platforms:
+      linux: "/usr/local/bin/openai"
+      macos: "/usr/local/bin/openai"
+      windows: "C:\\Program Files\\OpenAI\\openai.exe"
+
+# Model Configurations
+models:
+  # Claude Models (Anthropic)
+  claude-3-haiku:
+    provider: "anthropic"
+    cost_per_1k_tokens:
+      input: 0.00025
+      output: 0.00125
+    context_window: 200000
+    task_suitability:
+      - "simple"
+      - "quick"
+      - "batch"
+  
+  claude-3.5-sonnet:
+    provider: "anthropic"
+    cost_per_1k_tokens:
+      input: 0.003
+      output: 0.015
+    context_window: 200000
+    task_suitability:
+      - "complex"
+      - "coding"
+  
+  claude-3-opus:
+    provider: "anthropic"
+    cost_per_1k_tokens:
+      input: 0.015
+      output: 0.075
+    context_window: 200000
+    task_suitability:
+      - "critical"
+      - "reasoning"
+
+  # OpenAI Models
+  gpt-4o-mini:
+    provider: "openai"
+    cost_per_1k_tokens:
+      input: 0.00015
+      output: 0.0006
+    context_window: 128000
+    task_suitability:
+      - "simple"
+      - "quick"
+  
+  gpt-4o:
+    provider: "openai"
+    cost_per_1k_tokens:
+      input: 0.0025
+      output: 0.01
+    context_window: 128000
+    task_suitability:
+      - "complex"
+      - "coding"
+  
+  gpt-4-turbo:
+    provider: "openai"
+    cost_per_1k_tokens:
+      input: 0.01
+      output: 0.03
+    context_window: 128000
+    task_suitability:
+      - "complex"
+      - "analysis"
+
+# Policy Configurations
+policies:
+  default:
+    daily_budget_usd: 5.0
+    monthly_budget_usd: 150.0
+    limit:
+      type: "hard"
+      threshold_percent: 85
+    prefer_cheaper_models_under_tokens: 3000
+    auto_fallback_on_rate_limit: true
+    log_prompts: false
+    log_metadata: true
+    require_justification_over_usd: 1.0
+
+  cost_optimization:
+    simple_task_threshold_tokens: 3000
+    simple_task_models:
+      - "gpt-4o-mini"
+      - "claude-3-haiku"
+    complex_task_models:
+      - "gpt-4o"
+      - "claude-3.5-sonnet"
+
+  rate_limiting:
+    max_requests_per_minute:
+      claude-code: 40
+      openai: 60
+    max_requests_per_hour:
+      claude-code: 800
+      openai: 1200
+
+# Telemetry Configuration
+telemetry:
+  enabled: true
+  db_path: "~/.llm-service/telemetry.db"
+  privacy_level: "full"
+  retention_days: 60

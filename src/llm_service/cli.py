@@ -124,47 +124,257 @@ def config_validate(ctx):
 
 @config_group.command(name='init')
 @click.option(
+    '--template',
+    type=click.Choice(['quick-start', 'claude-only', 'cost-optimized', 'development']),
+    default='quick-start',
+    help='Configuration template to use (default: quick-start)',
+)
+@click.option(
+    '--output',
+    type=click.Path(path_type=Path),
+    default=None,
+    help='Output file path (default: ./config/generated-config.yaml)',
+)
+@click.option(
     '--force',
     is_flag=True,
-    help='Overwrite existing configuration files',
+    help='Overwrite existing configuration file',
 )
 @click.pass_context
-def config_init(ctx, force):
+def config_init(ctx, template, output, force):
     """
-    Initialize configuration directory with example files.
+    Generate configuration from template.
     
-    Creates example configuration files:
-    - agents.yaml.example
-    - tools.yaml.example
-    - models.yaml.example
-    - policies.yaml.example
+    Creates a working configuration file from predefined templates:
+    - quick-start: Minimal setup with Claude (recommended)
+    - claude-only: Claude-focused configuration
+    - cost-optimized: Multi-model with budget controls
+    - development: All features with debug logging
+    
+    Automatically detects:
+    - API keys in environment (ANTHROPIC_API_KEY, etc.)
+    - Tool binaries in PATH
+    - Operating system platform
     
     Use --force to overwrite existing files.
     """
+    from llm_service.templates.manager import TemplateManager
+    from llm_service.utils.env_scanner import EnvironmentScanner
+    
     config_dir = ctx.obj['config_dir']
     
+    # Determine output path
+    if output is None:
+        output = Path(config_dir) / "generated-config.yaml"
+    else:
+        output = Path(output)
+    
+    # Check if file exists
+    if output.exists() and not force:
+        console.print(Panel(
+            f"Configuration file already exists: [cyan]{output}[/cyan]\n\n"
+            "Use [bold]--force[/bold] to overwrite",
+            title="⚠️  File Exists",
+            border_style="yellow"
+        ))
+        sys.exit(1)
+    
+    # Header
     console.print(Panel.fit(
-        "[bold cyan]Configuration Initialization[/bold cyan]",
-        subtitle=f"Directory: {config_dir}",
+        "[bold cyan]Configuration Generation[/bold cyan]",
+        subtitle=f"Template: {template}",
         border_style="blue"
     ))
     console.print()
     
-    # For MVP, just inform user about example files
-    example_files = ['agents.yaml.example', 'tools.yaml.example', 'models.yaml.example', 'policies.yaml.example']
+    try:
+        # Scan environment
+        console.print("[cyan]→[/cyan] Scanning environment...")
+        scanner = EnvironmentScanner()
+        env_info = scanner.scan_all()
+        context = scanner.generate_context_for_template()
+        
+        # Generate config
+        console.print("[cyan]→[/cyan] Generating configuration...")
+        manager = TemplateManager()
+        manager.generate_config(template, output, context)
+        
+        # Success
+        console.print()
+        print_success(f"Configuration generated: [cyan]{output}[/cyan]")
+        console.print()
+        
+        # Show environment status
+        table = Table(title="Environment Status", show_header=True, header_style="bold cyan")
+        table.add_column("Dependency", style="cyan", width=20)
+        table.add_column("Status", style="magenta", width=15)
+        
+        # API keys
+        for key, present in env_info['api_keys'].items():
+            symbol = "✅" if present else "❌"
+            status = "Found" if present else "Missing"
+            table.add_row(key, f"{symbol} {status}")
+        
+        # Binaries
+        for tool, path in env_info['binaries'].items():
+            if path:
+                table.add_row(f"{tool} binary", f"✅ {path}")
+        
+        # Platform
+        table.add_row("Platform", f"✅ {env_info['platform']}")
+        
+        console.print(table)
+        console.print()
+        
+        # Next steps
+        missing_keys = scanner.get_missing_api_keys()
+        if missing_keys:
+            console.print(Panel(
+                "[bold]Next Steps:[/bold]\n\n"
+                f"1. Set missing API keys: {', '.join(missing_keys)}\n"
+                f"2. Review configuration: [cyan]llm-service config show {output}[/cyan]\n"
+                "3. Validate configuration: [cyan]llm-service config validate[/cyan]\n"
+                f"4. Update config file to use your settings: [cyan]{output}[/cyan]",
+                title="📋 Setup Instructions",
+                border_style="blue"
+            ))
+        else:
+            console.print(Panel(
+                "[bold]Next Steps:[/bold]\n\n"
+                f"1. Review configuration: [cyan]llm-service config show {output}[/cyan]\n"
+                "2. Validate configuration: [cyan]llm-service config validate[/cyan]\n"
+                "3. Start using: [cyan]llm-service exec --agent default-agent --prompt-file prompt.txt[/cyan]",
+                title="✅ Ready to Use",
+                border_style="green"
+            ))
+        
+    except Exception as e:
+        console.print()
+        console.print(Panel(
+            f"[red]Error:[/red] {str(e)}",
+            title="❌ Configuration Failed",
+            border_style="red"
+        ))
+        sys.exit(1)
+
+
+@config_group.command(name='templates')
+def config_templates():
+    """
+    List available configuration templates.
     
-    console.print("[bold]Example configuration files are available in the config/ directory:[/bold]")
-    for filename in example_files:
-        console.print(f"  [cyan]•[/cyan] {filename}")
+    Shows all predefined templates with descriptions.
+    """
+    from llm_service.templates import AVAILABLE_TEMPLATES
     
+    console.print(Panel.fit(
+        "[bold cyan]Available Configuration Templates[/bold cyan]",
+        border_style="blue"
+    ))
     console.print()
-    console.print("[bold]To use them:[/bold]")
-    console.print("  [cyan]1.[/cyan] Copy .example files to remove the .example suffix")
-    console.print("  [cyan]2.[/cyan] Edit the files to match your environment")
-    console.print("  [cyan]3.[/cyan] Run 'llm-service config validate' to check")
     
+    table = Table(title="Configuration Templates", show_header=True, header_style="bold cyan")
+    table.add_column("Template", style="cyan", width=18)
+    table.add_column("Description", style="white", width=40)
+    table.add_column("Suitable For", style="dim", width=30)
+    
+    for name, info in AVAILABLE_TEMPLATES.items():
+        table.add_row(name, info['description'], info['suitable_for'])
+    
+    console.print(table)
     console.print()
-    print_success("Refer to example files for configuration setup")
+    
+    console.print(Panel(
+        "[bold]Usage:[/bold]\n\n"
+        "[cyan]llm-service config init --template <name>[/cyan]\n\n"
+        "Example:\n"
+        "[cyan]llm-service config init --template quick-start[/cyan]",
+        title="💡 How to Use",
+        border_style="blue"
+    ))
+
+
+@config_group.command(name='show')
+@click.argument('config_file', type=click.Path(exists=True, path_type=Path), required=False)
+@click.pass_context
+def config_show(ctx, config_file):
+    """
+    Display configuration file with syntax highlighting.
+    
+    Shows the current or specified configuration file in formatted YAML.
+    
+    Arguments:
+        config_file: Path to configuration file (optional)
+    """
+    from rich.syntax import Syntax
+    import yaml
+    
+    # Determine which file to show
+    if config_file is None:
+        config_dir = ctx.obj['config_dir']
+        # Look for generated config first, then default files
+        possible_files = [
+            Path(config_dir) / "generated-config.yaml",
+            Path(config_dir) / "config.yaml",
+            Path(config_dir) / "agents.yaml",
+        ]
+        
+        config_file = None
+        for f in possible_files:
+            if f.exists():
+                config_file = f
+                break
+        
+        if config_file is None:
+            console.print(Panel(
+                f"[yellow]No configuration file found in {config_dir}[/yellow]\n\n"
+                "Run [cyan]llm-service config init[/cyan] to generate a configuration.",
+                title="⚠️  No Config Found",
+                border_style="yellow"
+            ))
+            sys.exit(1)
+    else:
+        config_file = Path(config_file)
+    
+    # Header
+    console.print(Panel.fit(
+        "[bold cyan]Configuration Display[/bold cyan]",
+        subtitle=f"File: {config_file}",
+        border_style="blue"
+    ))
+    console.print()
+    
+    try:
+        # Read and display file
+        yaml_content = config_file.read_text()
+        
+        # Validate it's valid YAML
+        yaml.safe_load(yaml_content)
+        
+        # Display with syntax highlighting
+        syntax = Syntax(
+            yaml_content,
+            "yaml",
+            theme="monokai",
+            line_numbers=True,
+            word_wrap=False
+        )
+        console.print(syntax)
+        
+    except yaml.YAMLError as e:
+        console.print(Panel(
+            f"[red]Invalid YAML:[/red] {str(e)}",
+            title="❌ YAML Error",
+            border_style="red"
+        ))
+        sys.exit(1)
+    except Exception as e:
+        console.print(Panel(
+            f"[red]Error:[/red] {str(e)}",
+            title="❌ Error Reading File",
+            border_style="red"
+        ))
+        sys.exit(1)
 
 
 @cli.command(name='version')
@@ -177,6 +387,139 @@ def version_command():
         title="Version Information",
         border_style="cyan"
     ))
+
+
+@cli.group(name='tool')
+def tool_group():
+    """Tool management commands."""
+    pass
+
+
+@tool_group.command(name='list')
+@click.pass_context
+def tool_list(ctx):
+    """
+    List configured tools.
+    
+    Displays all tools defined in configuration with their models and status.
+    """
+    config_dir = ctx.obj['config_dir']
+    
+    console.print(Panel.fit(
+        "[bold cyan]Configured Tools[/bold cyan]",
+        subtitle=f"Config: {config_dir}",
+        border_style="blue"
+    ))
+    console.print()
+    
+    try:
+        # Load configuration
+        config = load_configuration(str(config_dir))
+        tools = config['tools'].tools
+        
+        if not tools:
+            console.print("[yellow]No tools configured[/yellow]")
+            sys.exit(0)
+        
+        # Create table
+        table = Table(title="Tools", show_header=True, header_style="bold cyan")
+        table.add_column("Tool", style="cyan", width=15)
+        table.add_column("Models", style="magenta", width=40)
+        table.add_column("Binary", style="white", width=25)
+        table.add_column("Status", style="green", width=10)
+        
+        for tool_name, tool_config in tools.items():
+            models = ", ".join(tool_config.models[:3])  # Show first 3
+            if len(tool_config.models) > 3:
+                models += f" +{len(tool_config.models) - 3} more"
+            
+            binary = tool_config.binary
+            
+            # Check if binary exists (simplified check)
+            status = "✓" if binary else "?"
+            
+            table.add_row(tool_name, models, binary, status)
+        
+        console.print(table)
+        console.print()
+        console.print(f"[dim]Total: {len(tools)} tools[/dim]")
+        
+    except ConfigurationError as e:
+        print_error("Configuration error!")
+        console.print(Panel(str(e), title="[red]Error[/red]", border_style="red"))
+        sys.exit(1)
+
+
+@tool_group.command(name='add')
+@click.argument('tool_name')
+@click.option('--binary', required=True, help='Binary path or command')
+@click.option('--models', required=True, help='Comma-separated list of model names')
+@click.option('--command-template', help='Command template (optional)')
+@click.pass_context
+def tool_add(ctx, tool_name, binary, models, command_template):
+    """
+    Add a new tool to configuration.
+    
+    Arguments:
+        tool_name: Name for the tool (e.g., 'gemini', 'claude-code')
+    
+    Examples:
+        llm-service tool add gemini --binary gemini-cli --models "gemini-1.5-pro,gemini-1.5-flash"
+    """
+    console.print(Panel.fit(
+        f"[bold cyan]Adding Tool: {tool_name}[/bold cyan]",
+        border_style="blue"
+    ))
+    console.print()
+    
+    console.print("[yellow]⚠️  Note: Tool management commands are planned for Milestone 5[/yellow]")
+    console.print()
+    console.print("[dim]For now, please manually edit your configuration files:[/dim]")
+    console.print(f"[dim]1. Open tools.yaml[/dim]")
+    console.print(f"[dim]2. Add tool configuration for '{tool_name}'[/dim]")
+    console.print(f"[dim]3. Run 'llm-service config validate' to verify[/dim]")
+    console.print()
+    
+    # Show what the entry would look like
+    models_list = [m.strip() for m in models.split(',')]
+    template = command_template or f"{{binary}} --model {{model}} < {{prompt_file}}"
+    
+    console.print(Panel(
+        f"[bold]Example configuration:[/bold]\n\n"
+        f"```yaml\n"
+        f"{tool_name}:\n"
+        f"  binary: \"{binary}\"\n"
+        f"  command_template: \"{template}\"\n"
+        f"  models:\n" +
+        "\n".join(f"    - \"{m}\"" for m in models_list) +
+        "\n```",
+        title="💡 Configuration Template",
+        border_style="blue"
+    ))
+
+
+@tool_group.command(name='remove')
+@click.argument('tool_name')
+@click.pass_context
+def tool_remove(ctx, tool_name):
+    """
+    Remove a tool from configuration.
+    
+    Arguments:
+        tool_name: Name of tool to remove
+    """
+    console.print(Panel.fit(
+        f"[bold cyan]Removing Tool: {tool_name}[/bold cyan]",
+        border_style="blue"
+    ))
+    console.print()
+    
+    console.print("[yellow]⚠️  Note: Tool management commands are planned for Milestone 5[/yellow]")
+    console.print()
+    console.print("[dim]For now, please manually edit your configuration files:[/dim]")
+    console.print(f"[dim]1. Open tools.yaml[/dim]")
+    console.print(f"[dim]2. Remove tool configuration for '{tool_name}'[/dim]")
+    console.print(f"[dim]3. Run 'llm-service config validate' to verify[/dim]")
 
 
 @cli.command(name='exec')
