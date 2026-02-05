@@ -1,0 +1,49 @@
+id: 2026-02-05T0900-backend-dev-claude-code-adapter
+agent: backend-dev
+status: assigned
+priority: high
+title: ClaudeCodeAdapter Implementation
+artefacts:
+- src/llm_service/adapters/claude_code_adapter.py
+- tests/unit/adapters/test_claude_code_adapter.py
+context:
+  background: 'First concrete adapter implementation for claude-code CLI.
+
+    Validates Batch 2.1 adapter infrastructure with real tool integration.
+
+    '
+  milestone: 'Milestone 2: Tool Integration'
+  batch: 'M2 Batch 2.2: ClaudeCodeAdapter Implementation'
+  batch_2_1_reference: M2 Batch 2.1 complete - adapter infrastructure ready
+  strategic_value: First concrete adapter, validates infrastructure, enables real
+    agent-LLM interactions
+requirements:
+  adapter_class:
+  - Extends ToolAdapter base class from Batch 2.1
+  - Implements execute, validate_config, get_tool_name methods
+  - Returns "claude-code" from get_tool_name()
+  model_mapping:
+  - Support claude-3.5-sonnet, claude-3-opus, claude-3-haiku
+  - Map service layer model names to claude CLI parameters
+  - Handle model name variations and aliases
+  cli_command_generation:
+  - Use CommandTemplateHandler from Batch 2.1
+  - Generate command: claude-code --model {{model}} --prompt "{{prompt}}"
+  - Support additional parameters as needed
+  error_handling:
+  - Binary not found (clear install instructions)
+  - Invalid model name (list supported models)
+  - CLI execution failures (timeout, crash, etc.)
+acceptance_criteria:
+- ClaudeCodeAdapter extends ToolAdapter correctly
+- Model mapping works for all supported models
+- CLI command generation uses template system from Batch 2.1
+- Error handling provides user-friendly messages
+- Unit tests passing with >80% coverage on adapter
+- Follows patterns from Batch 2.1 infrastructure
+dependencies:
+- M2 Batch 2.1 complete (adapter base infrastructure)
+created_at: '2026-02-05T09:00:00Z'
+created_by: orchestrator
+estimated_hours: 3.0
+assigned_at: '2026-02-05T05:32:53.950470Z'

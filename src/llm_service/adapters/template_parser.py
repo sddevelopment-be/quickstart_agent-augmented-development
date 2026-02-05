@@ -197,10 +197,11 @@ class TemplateParser:
 
     def _sanitize_value(self, value: str) -> str:
         """
-        Sanitize placeholder value for security.
+        Sanitize placeholder value for security and shell parsing.
         
         Note: Since we use subprocess with shell=False, most injection attacks
-        are already prevented. This provides defense in depth.
+        are already prevented. However, we need to escape quotes for shlex.split()
+        to handle the template string correctly.
         
         Args:
             value: Placeholder value to sanitize
@@ -208,12 +209,12 @@ class TemplateParser:
         Returns:
             Sanitized value
         """
-        # For shell=False usage, we don't need aggressive escaping
-        # The key security is that shell metacharacters won't be interpreted
-        # However, we still check for obviously dangerous patterns
-
         # Remove null bytes (can cause issues in some contexts)
         value = value.replace("\x00", "")
+        
+        # Escape double quotes for shlex.split() processing
+        # This allows prompts with quotes to be handled correctly
+        value = value.replace('"', '\\"')
 
         # Note: With shell=False, characters like ; | & $ are treated as
         # literal arguments, which is what we want. No escaping needed.

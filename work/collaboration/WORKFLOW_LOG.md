@@ -145,3 +145,17 @@ but found another document
 **2026-02-05 05:11:56 UTC** - Assigned task 2026-02-04T2102-backend-dev-subprocess-wrapper to backend-dev
 **2026-02-05 05:11:56 UTC** - Assigned task 2026-02-04T2103-backend-dev-output-normalization to backend-dev
 **2026-02-05 05:11:56 UTC** - Coordinator cycle: 4 assigned, 0 follow-ups, 0 timeouts, 0 conflicts, 0 archived
+**2026-02-05 05:32:53 UTC** - Assigned task 2026-02-05T0902-backend-dev-claude-adapter-integration-tests to backend-dev
+**2026-02-05 05:32:53 UTC** - ❗️ Error assigning 2026-02-05T0901-backend-dev-binary-path-resolution.yaml: while scanning a block scalar
+  in "work/collaboration/inbox/2026-02-05T0901-backend-dev-binary-path-resolution.yaml", line 38, column 5
+expected chomping or indentation indicators, but found '0'
+  in "work/collaboration/inbox/2026-02-05T0901-backend-dev-binary-path-resolution.yaml", line 38, column 7
+**2026-02-05 05:32:53 UTC** - Assigned task 2026-02-05T0900-backend-dev-claude-code-adapter to backend-dev
+**2026-02-05 05:32:54 UTC** - Coordinator cycle: 2 assigned, 0 follow-ups, 0 timeouts, 0 conflicts, 0 archived
+**2026-02-05 05:33:06 UTC** - ❗️ Error assigning 2026-02-05T0901-backend-dev-binary-path-resolution.yaml: while scanning a block scalar
+  in "work/collaboration/inbox/2026-02-05T0901-backend-dev-binary-path-resolution.yaml", line 38, column 5
+expected chomping or indentation indicators, but found '0'
+  in "work/collaboration/inbox/2026-02-05T0901-backend-dev-binary-path-resolution.yaml", line 38, column 7
+**2026-02-05 05:33:06 UTC** - Coordinator cycle: 0 assigned, 0 follow-ups, 0 timeouts, 0 conflicts, 0 archived
+**2026-02-05 05:33:29 UTC** - Assigned task 2026-02-05T0901-backend-dev-binary-path-resolution to backend-dev
+**2026-02-05 05:33:30 UTC** - Coordinator cycle: 1 assigned, 0 follow-ups, 0 timeouts, 0 conflicts, 0 archived
