@@ -16,6 +16,11 @@ from .loader import (
     ConfigurationError,
     load_configuration,
 )
+from .env_utils import (
+    expand_env_vars,
+    validate_required_env_vars,
+    EnvVarNotFoundError,
+)
 
 __all__ = [
     "AgentConfig",
@@ -30,4 +35,7 @@ __all__ = [
     "ConfigurationLoader",
     "ConfigurationError",
     "load_configuration",
+    "expand_env_vars",
+    "validate_required_env_vars",
+    "EnvVarNotFoundError",
 ]

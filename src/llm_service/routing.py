@@ -9,6 +9,8 @@ from typing import Optional, Dict, Any, Tuple, List
 from dataclasses import dataclass
 
 from .config.schemas import AgentsSchema, ToolsSchema, ModelsSchema, PoliciesSchema
+from .adapters.generic_adapter import GenericYAMLAdapter
+from .adapters.base import ToolResponse
 
 
 @dataclass
@@ -38,6 +40,11 @@ class RoutingEngine:
     - Task-specific overrides (task_types mapping)
     - Fallback chains (when primary tool/model unavailable)
     - Cost optimization (simple tasks → cheaper models)
+    
+    Additionally manages adapter instances for tool execution:
+    - Creates GenericYAMLAdapter for each configured tool
+    - Provides adapter registry for tool execution
+    - Supports execute() method for routing + execution in one call
     """
     
     def __init__(
@@ -60,6 +67,9 @@ class RoutingEngine:
         self.tools = tools
         self.models = models
         self.policies = policies
+        
+        # Initialize adapter registry (creates GenericYAMLAdapter for each tool)
+        self.adapters = self._create_adapter_registry()
     
     def route(
         self,
@@ -284,3 +294,104 @@ class RoutingEngine:
             'fallback_chain': agent_config.fallback_chain,
             'task_types': agent_config.task_types or {},
         }
+    
+    def _create_adapter_registry(self) -> Dict[str, GenericYAMLAdapter]:
+        """
+        Create adapter registry with GenericYAMLAdapter for each configured tool.
+        
+        Instantiates GenericYAMLAdapter for every tool in tools configuration.
+        Adapters are stored in dictionary keyed by tool name.
+        
+        Returns:
+            Dictionary mapping tool name to adapter instance
+        
+        Examples:
+            >>> engine.adapters["claude-code"]  # Returns GenericYAMLAdapter instance
+        """
+        adapters = {}
+        
+        for tool_name, tool_config in self.tools.tools.items():
+            # Convert Pydantic model to dict for adapter
+            config_dict = tool_config.model_dump() if hasattr(tool_config, 'model_dump') else dict(tool_config)
+            
+            # Create GenericYAMLAdapter for this tool
+            adapters[tool_name] = GenericYAMLAdapter(tool_name, config_dict)
+        
+        return adapters
+    
+    def get_adapter(self, tool_name: str) -> GenericYAMLAdapter:
+        """
+        Get adapter instance for a tool.
+        
+        Args:
+            tool_name: Name of the tool
+        
+        Returns:
+            GenericYAMLAdapter instance for the tool
+        
+        Raises:
+            RoutingError: If tool not found
+        
+        Examples:
+            >>> adapter = engine.get_adapter("claude-code")
+            >>> response = adapter.execute(prompt="...", model="...")
+        """
+        if tool_name not in self.adapters:
+            raise RoutingError(
+                f"Tool '{tool_name}' not found. Available tools: {', '.join(self.adapters.keys())}"
+            )
+        
+        return self.adapters[tool_name]
+    
+    def execute(
+        self,
+        agent_name: str,
+        prompt: str,
+        model: Optional[str] = None,
+        task_type: Optional[str] = None,
+        prompt_size_tokens: Optional[int] = None,
+        **kwargs
+    ) -> ToolResponse:
+        """
+        Route request and execute tool in one call.
+        
+        Combines routing logic with tool execution. Routes the request to
+        determine tool and model, then executes via the appropriate adapter.
+        
+        Args:
+            agent_name: Name of the agent making the request
+            prompt: Prompt text for the LLM
+            model: Optional model override (uses routing logic if not provided)
+            task_type: Optional task type for routing
+            prompt_size_tokens: Optional prompt size for cost optimization
+            **kwargs: Additional parameters passed to adapter
+        
+        Returns:
+            ToolResponse from adapter execution
+        
+        Raises:
+            RoutingError: If routing fails
+        
+        Examples:
+            >>> response = engine.execute(
+            ...     agent_name="backend-dev",
+            ...     prompt="Write a function",
+            ...     task_type="coding"
+            ... )
+            >>> print(response.output)
+        """
+        # Route to determine tool and model
+        decision = self.route(
+            agent_name=agent_name,
+            task_type=task_type,
+            prompt_size_tokens=prompt_size_tokens
+        )
+        
+        # Use explicit model if provided, otherwise use routed model
+        selected_model = model if model is not None else decision.model_name
+        
+        # Get adapter for routed tool
+        adapter = self.get_adapter(decision.tool_name)
+        
+        # Execute via adapter
+        return adapter.execute(prompt=prompt, model=selected_model, **kwargs)
