@@ -1,0 +1,46 @@
+id: 2026-02-05T0901-backend-dev-binary-path-resolution
+agent: backend-dev
+status: assigned
+priority: high
+title: Platform Binary Path Resolution
+artefacts:
+- src/llm_service/adapters/claude_code_adapter.py
+- tests/unit/adapters/test_claude_code_adapter.py
+context:
+  background: 'Cross-platform binary path resolution for claude-code CLI.
+
+    Handles different installation locations and platform differences.
+
+    '
+  milestone: 'Milestone 2: Tool Integration'
+  batch: 'M2 Batch 2.2: ClaudeCodeAdapter Implementation'
+  strategic_value: Enables cross-platform compatibility (Linux/macOS/Windows)
+requirements:
+  binary_resolution:
+  - Use shutil.which() for cross-platform path lookup
+  - Platform-specific paths:
+    - Linux: /usr/local/bin/claude-code, ~/.local/bin/claude-code
+    - macOS: /usr/local/bin/claude-code, ~/bin/claude-code
+    - Windows: C:\Program Files\claude-code\claude.exe, AppData
+  - Fallback to YAML configuration tool.binary_path
+  configuration:
+  - Optional tool.binary_path override in YAML
+  - Platform-specific binary paths in YAML
+  - Clear precedence: config override > shutil.which() > default paths
+  error_handling:
+  - Binary not found: user-friendly message with install instructions
+  - Binary not executable: permission issues detection
+  - Clear error messages for debugging
+acceptance_criteria:
+- Binary resolution works on Linux/macOS
+- Windows compatibility validated or documented as deferred
+- Config override (tool.binary_path) works correctly
+- Clear error message when binary not found
+- Unit tests covering all resolution paths
+- Test coverage greater than 80% on binary resolution logic
+dependencies:
+- 2026-02-05T0900-backend-dev-claude-code-adapter
+created_at: '2026-02-05T09:01:00Z'
+created_by: orchestrator
+estimated_hours: 1.5
+assigned_at: '2026-02-05T05:33:29.714275Z'

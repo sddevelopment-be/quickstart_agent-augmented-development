@@ -1,0 +1,48 @@
+id: 2026-02-05T0902-backend-dev-claude-adapter-integration-tests
+agent: backend-dev
+status: assigned
+priority: medium
+title: Integration Tests with Mocked CLI
+artefacts:
+- tests/integration/adapters/test_claude_code_adapter.py
+- tests/fixtures/fake_claude_cli.py
+context:
+  background: 'End-to-end integration tests for ClaudeCodeAdapter using mocked claude
+    CLI.
+
+    Validates full execution flow before real CLI deployment.
+
+    '
+  milestone: 'Milestone 2: Tool Integration'
+  batch: 'M2 Batch 2.2: ClaudeCodeAdapter Implementation'
+  strategic_value: Validates end-to-end adapter flow, prepares for real CLI validation
+requirements:
+  mock_cli:
+  - Create fake claude CLI script
+  - Accepts --model and --prompt parameters
+  - Returns realistic output (JSON or plain text)
+  - Simulates errors (invalid model, timeout, etc.)
+  test_scenarios:
+  - Successful execution: "prompt \u2192 response"
+  - Model mapping: "different models \u2192 correct CLI parameters"
+  - Error handling: binary not found, invalid model, timeout
+  - Output parsing: "JSON response \u2192 ToolResponse"
+  integration_coverage:
+  - Happy path (successful execution)
+  - Error scenarios (binary not found, timeout, invalid model)
+  - Output parsing (JSON, plain text formats)
+  - Use SubprocessExecutor from Batch 2.1
+acceptance_criteria:
+- Integration tests passing with fake claude CLI
+- All error scenarios validated (not found, timeout, invalid model)
+- Output parsing works for JSON and plain text responses
+- Test coverage >80% on ClaudeCodeAdapter
+- Ready for real claude-code CLI validation (manual)
+- Integration test suite is maintainable and extensible
+dependencies:
+- 2026-02-05T0900-backend-dev-claude-code-adapter
+- 2026-02-05T0901-backend-dev-binary-path-resolution
+created_at: '2026-02-05T09:02:00Z'
+created_by: orchestrator
+estimated_hours: 2.5
+assigned_at: '2026-02-05T05:32:53.943396Z'
