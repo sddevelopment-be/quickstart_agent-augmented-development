@@ -5,10 +5,11 @@ Unit tests for routing engine.
 import pytest
 import yaml
 from pathlib import Path
+from unittest.mock import patch
 
-from llm_service.routing import RoutingEngine, RoutingDecision, RoutingError
-from llm_service.config.loader import load_configuration
-from llm_service.config.schemas import (
+from src.llm_service.routing import RoutingEngine, RoutingDecision, RoutingError
+from src.llm_service.config.loader import load_configuration
+from src.llm_service.config.schemas import (
     AgentsSchema, AgentConfig,
     ToolsSchema, ToolConfig,
     ModelsSchema, ModelConfig,
@@ -83,12 +84,13 @@ def basic_config(tmp_path):
 
 def test_routing_engine_basic_routing(basic_config):
     """Test basic routing with agent preferences."""
-    engine = RoutingEngine(
-        basic_config['agents'],
-        basic_config['tools'],
-        basic_config['models'],
-        basic_config['policies'],
-    )
+    with patch("shutil.which", return_value="/usr/bin/mock"):
+        engine = RoutingEngine(
+            basic_config['agents'],
+            basic_config['tools'],
+            basic_config['models'],
+            basic_config['policies'],
+        )
     
     decision = engine.route('test-agent')
     
@@ -100,7 +102,8 @@ def test_routing_engine_basic_routing(basic_config):
 
 def test_routing_engine_task_type_override(basic_config):
     """Test task type override for model selection."""
-    engine = RoutingEngine(
+    with patch("shutil.which", return_value="/usr/bin/mock"):
+            engine = RoutingEngine(
         basic_config['agents'],
         basic_config['tools'],
         basic_config['models'],
@@ -116,7 +119,8 @@ def test_routing_engine_task_type_override(basic_config):
 
 def test_routing_engine_cost_optimization(basic_config):
     """Test cost optimization for small prompts."""
-    engine = RoutingEngine(
+    with patch("shutil.which", return_value="/usr/bin/mock"):
+            engine = RoutingEngine(
         basic_config['agents'],
         basic_config['tools'],
         basic_config['models'],
@@ -132,7 +136,8 @@ def test_routing_engine_cost_optimization(basic_config):
 
 def test_routing_engine_no_cost_optimization_large_prompt(basic_config):
     """Test that large prompts don't trigger cost optimization."""
-    engine = RoutingEngine(
+    with patch("shutil.which", return_value="/usr/bin/mock"):
+            engine = RoutingEngine(
         basic_config['agents'],
         basic_config['tools'],
         basic_config['models'],
@@ -148,7 +153,8 @@ def test_routing_engine_no_cost_optimization_large_prompt(basic_config):
 
 def test_routing_engine_agent_not_found(basic_config):
     """Test error when agent doesn't exist."""
-    engine = RoutingEngine(
+    with patch("shutil.which", return_value="/usr/bin/mock"):
+            engine = RoutingEngine(
         basic_config['agents'],
         basic_config['tools'],
         basic_config['models'],
@@ -161,7 +167,8 @@ def test_routing_engine_agent_not_found(basic_config):
 
 def test_routing_engine_get_model_cost(basic_config):
     """Test getting model cost information."""
-    engine = RoutingEngine(
+    with patch("shutil.which", return_value="/usr/bin/mock"):
+            engine = RoutingEngine(
         basic_config['agents'],
         basic_config['tools'],
         basic_config['models'],
@@ -179,7 +186,8 @@ def test_routing_engine_get_model_cost(basic_config):
 
 def test_routing_engine_list_agent_capabilities(basic_config):
     """Test listing agent capabilities."""
-    engine = RoutingEngine(
+    with patch("shutil.which", return_value="/usr/bin/mock"):
+            engine = RoutingEngine(
         basic_config['agents'],
         basic_config['tools'],
         basic_config['models'],
@@ -252,8 +260,9 @@ def test_routing_engine_fallback_on_unavailable_tool():
         'default': PolicyConfig(daily_budget_usd=10.0)
     })
     
-    engine = RoutingEngine(agents, tools, models, policies)
-    
+    with patch("shutil.which", return_value="/usr/bin/mock"):
+        engine = RoutingEngine(agents, tools, models, policies)
+        
     decision = engine.route('test-agent')
     
     assert decision.fallback_used is True
@@ -285,8 +294,9 @@ def test_routing_engine_fallback_exhausted():
         'default': PolicyConfig(daily_budget_usd=10.0)
     })
     
-    engine = RoutingEngine(agents, tools, models, policies)
-    
+    with patch("shutil.which", return_value="/usr/bin/mock"):
+        engine = RoutingEngine(agents, tools, models, policies)
+        
     with pytest.raises(RoutingError, match="no valid fallback available"):
         engine.route('test-agent')
 
@@ -329,8 +339,9 @@ def test_routing_engine_tool_switching_for_model_compatibility():
         'default': PolicyConfig(daily_budget_usd=10.0)
     })
     
-    engine = RoutingEngine(agents, tools, models, policies)
-    
+    with patch("shutil.which", return_value="/usr/bin/mock"):
+        engine = RoutingEngine(agents, tools, models, policies)
+        
     decision = engine.route('test-agent')
     
     assert decision.tool_name == 'tool2'
@@ -366,15 +377,17 @@ def test_routing_engine_model_not_found_error():
         'default': PolicyConfig(daily_budget_usd=10.0)
     })
     
-    engine = RoutingEngine(agents, tools, models, policies)
-    
+    with patch("shutil.which", return_value="/usr/bin/mock"):
+        engine = RoutingEngine(agents, tools, models, policies)
+        
     with pytest.raises(RoutingError, match="Model.*not found"):
         engine.route('test-agent')
 
 
 def test_routing_engine_get_model_cost_not_found(basic_config):
     """Test error when getting cost for nonexistent model."""
-    engine = RoutingEngine(
+    with patch("shutil.which", return_value="/usr/bin/mock"):
+            engine = RoutingEngine(
         basic_config['agents'],
         basic_config['tools'],
         basic_config['models'],
@@ -387,7 +400,8 @@ def test_routing_engine_get_model_cost_not_found(basic_config):
 
 def test_routing_engine_list_agent_capabilities_not_found(basic_config):
     """Test error when listing capabilities for nonexistent agent."""
-    engine = RoutingEngine(
+    with patch("shutil.which", return_value="/usr/bin/mock"):
+            engine = RoutingEngine(
         basic_config['agents'],
         basic_config['tools'],
         basic_config['models'],

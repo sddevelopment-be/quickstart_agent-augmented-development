@@ -1,0 +1,53 @@
+id: 2026-02-05T1000-backend-dev-generic-yaml-adapter
+agent: backend-dev
+status: assigned
+priority: high
+title: GenericYAMLAdapter Implementation
+artefacts:
+- src/llm_service/adapters/generic_adapter.py
+- tests/unit/adapters/test_generic_adapter.py
+context:
+  background: 'Implement single generic adapter that reads tool configuration from
+    YAML.
+
+    Eliminates need for concrete adapters per tool - add tools via YAML config.
+
+    '
+  strategic_decision: ADR-029 updated 2026-02-05 - Use generic YAML-driven adapter
+  batch: 'M2 Batch 2.3: Generic YAML Adapter Implementation'
+  reference_implementation: ClaudeCodeAdapter (kept as test fixture)
+  infrastructure: Batch 2.1 complete - base, template parser, subprocess, normalizer
+requirements:
+  adapter_class:
+  - Extends ToolAdapter base class from Batch 2.1
+  - Takes tool_name and tool_config in constructor
+  - Implements execute method using generic infrastructure
+  - No tool-specific code - all behavior from YAML config
+  binary_resolution:
+  - Check tool_config.binary_path override first
+  - Use shutil.which for PATH lookup
+  - Fall back to platform-specific paths from YAML
+  - Clear error if binary not found
+  command_generation:
+  - Use TemplateParser from Batch 2.1
+  - Read command_template from YAML tool config
+  - Support placeholders from YAML
+  execution:
+  - Use SubprocessWrapper from Batch 2.1
+  - Pass ENV variables from config and params
+  - Handle timeouts from tool config
+  output_handling:
+  - Use OutputNormalizer from Batch 2.1
+  - Return ToolResponse with normalized output
+acceptance_criteria:
+- GenericYAMLAdapter extends ToolAdapter correctly
+- Works with claude-code YAML config (validates with existing tests)
+- Binary resolution follows config > which > platform precedence
+- Command generation uses TemplateParser
+- ENV variable support from YAML and params
+- Unit tests with greater than 80 percent coverage
+- Integration test validates adding new tool via YAML only
+created_at: '2026-02-05T10:00:00Z'
+created_by: planning-petra
+estimated_hours: 2.5
+assigned_at: '2026-02-05T06:09:53.500794Z'

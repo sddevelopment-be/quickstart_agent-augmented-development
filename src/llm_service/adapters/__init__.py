@@ -62,6 +62,12 @@ from .subprocess_wrapper import (
     SubprocessExecutionError,
 )
 from .output_normalizer import OutputNormalizer, NormalizedResponse
+from .generic_adapter import (
+    GenericYAMLAdapter,
+    BinaryNotFoundError,
+    InvalidModelError,
+    GenericYAMLAdapterError,
+)
 
 __all__ = [
     # Base adapter
@@ -80,4 +86,9 @@ __all__ = [
     # Output normalizer
     "OutputNormalizer",
     "NormalizedResponse",
+    # Generic YAML adapter
+    "GenericYAMLAdapter",
+    "BinaryNotFoundError",
+    "InvalidModelError",
+    "GenericYAMLAdapterError",
 ]

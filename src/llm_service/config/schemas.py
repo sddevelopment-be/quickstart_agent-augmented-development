@@ -69,15 +69,26 @@ class ToolConfig(BaseModel):
         default_factory=list,
         description="Tool capabilities (e.g., code_generation, code_review)"
     )
+    env_vars: Optional[Dict[str, str]] = Field(
+        default=None,
+        description="Environment variables to set for tool execution. Supports ${VAR} expansion from system environment."
+    )
+    env_required: Optional[List[str]] = Field(
+        default=None,
+        description="List of environment variables that must be set in system environment before tool execution."
+    )
 
     @field_validator('command_template')
     @classmethod
     def validate_template_placeholders(cls, v):
-        """Ensure command template contains required placeholders."""
-        required = ['{binary}', '{prompt_file}', '{model}']
-        for placeholder in required:
-            if placeholder not in v:
-                raise ValueError(f"Command template missing required placeholder: {placeholder}")
+        """Ensure command template contains at minimum a binary placeholder."""
+        # Relaxed validation - only check that template has some structure
+        # Supports both {binary} and {{binary}} syntax
+        if not v or len(v.strip()) == 0:
+            raise ValueError("Command template cannot be empty")
+        # At minimum, should reference the binary somehow
+        if 'binary' not in v.lower():
+            raise ValueError("Command template should reference the binary")
         return v
 
 
