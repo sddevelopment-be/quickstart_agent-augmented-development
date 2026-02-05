@@ -1,0 +1,49 @@
+# Telemetry Configuration
+# Tracks LLM invocations for cost optimization and performance monitoring
+
+# Enable or disable telemetry logging
+# Set to false to completely disable tracking
+enabled: true
+
+# SQLite database path for telemetry data
+# Supports ~ expansion for home directory
+# Example: ~/.llm-service/telemetry.db
+db_path: "~/.llm-service/telemetry.db"
+
+# Privacy level for logging
+# Options:
+#   - metadata: Log only metrics (tokens, cost, latency) - no prompt/response content
+#   - full: Log everything including prompts and responses (future feature)
+#   - none: Disable all logging (same as enabled: false)
+# 
+# Recommendation: Use 'metadata' for cost tracking without exposing sensitive data
+privacy_level: "metadata"
+
+# Retention period for detailed invocation logs (in days)
+# Set to 0 to keep logs forever (not recommended for production)
+# Daily aggregates are kept regardless of retention period
+# 
+# Example: 30 days = ~1 month of detailed history for debugging
+retention_days: 30
+
+# Usage Notes:
+# 
+# 1. Database Growth:
+#    - Metadata mode: ~500-1000 bytes per invocation
+#    - 10,000 invocations ≈ 5-10 MB
+#    - Daily aggregates add minimal overhead
+# 
+# 2. Query Examples:
+#    - Total cost by agent: SELECT agent_name, SUM(total_cost_usd) FROM daily_costs GROUP BY agent_name
+#    - Error rate: SELECT COUNT(*) FILTER (WHERE status='error') * 100.0 / COUNT(*) FROM invocations
+#    - Avg latency: SELECT agent_name, AVG(latency_ms) FROM invocations GROUP BY agent_name
+# 
+# 3. Privacy:
+#    - metadata mode does NOT log prompts or responses
+#    - Only numerical metrics (tokens, cost, timing) are stored
+#    - Agent names, tool names, and model names are logged
+# 
+# 4. Performance:
+#    - Telemetry logging adds <10ms overhead per invocation
+#    - Uses connection pooling and bulk operations where possible
+#    - Indexes optimize common query patterns
