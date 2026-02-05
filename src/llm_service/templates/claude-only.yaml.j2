@@ -1,0 +1,127 @@
+# Claude-Only Configuration Template
+# Optimized for Claude models with fine-tuned cost controls
+
+# Service Configuration
+service:
+  name: "llm-service-claude-focused"
+  version: "1.0.0"
+  log_level: "INFO"
+
+# Agent Configurations
+agents:
+  primary-agent:
+    preferred_tool: "claude-code"
+    preferred_model: "claude-3.5-sonnet"
+    fallback_chain:
+      - "claude-code:claude-3-haiku"
+      - "claude-code:claude-3-opus"
+    task_types:
+      simple: "claude-3-haiku"
+      complex: "claude-3.5-sonnet"
+      critical: "claude-3-opus"
+
+  coding-agent:
+    preferred_tool: "claude-code"
+    preferred_model: "claude-3.5-sonnet"
+    fallback_chain:
+      - "claude-code:claude-3-opus"
+    task_types:
+      review: "claude-3.5-sonnet"
+      generation: "claude-3.5-sonnet"
+
+# Tool Configurations
+tools:
+  claude-code:
+    binary: "{{ claude_binary|default('claude') }}"
+    command_template: "{binary} --model {model} < {prompt_file}"
+    models:
+      - "claude-3.5-sonnet"
+      - "claude-3-opus"
+      - "claude-3-haiku"
+    capabilities:
+      - "code_generation"
+      - "code_review"
+      - "refactoring"
+      - "documentation"
+      - "debugging"
+      - "general_qa"
+    env_vars:
+      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY}"
+    env_required:
+      - "ANTHROPIC_API_KEY"
+    platforms:
+      linux: "/usr/local/bin/claude"
+      macos: "/usr/local/bin/claude"
+      windows: "C:\\Program Files\\Claude\\claude.exe"
+
+# Model Configurations
+models:
+  claude-3.5-sonnet:
+    provider: "anthropic"
+    cost_per_1k_tokens:
+      input: 0.003
+      output: 0.015
+    context_window: 200000
+    task_suitability:
+      - "complex"
+      - "coding"
+      - "analysis"
+      - "reasoning"
+  
+  claude-3-opus:
+    provider: "anthropic"
+    cost_per_1k_tokens:
+      input: 0.015
+      output: 0.075
+    context_window: 200000
+    task_suitability:
+      - "complex"
+      - "critical"
+      - "reasoning"
+      - "creative"
+  
+  claude-3-haiku:
+    provider: "anthropic"
+    cost_per_1k_tokens:
+      input: 0.00025
+      output: 0.00125
+    context_window: 200000
+    task_suitability:
+      - "simple"
+      - "quick"
+      - "batch"
+
+# Policy Configurations
+policies:
+  default:
+    daily_budget_usd: 25.0
+    monthly_budget_usd: 750.0
+    limit:
+      type: "hard"
+      threshold_percent: 90
+    prefer_cheaper_models_under_tokens: 2000
+    auto_fallback_on_rate_limit: true
+    log_prompts: false
+    log_metadata: true
+    require_justification_over_usd: 5.0
+
+  cost_optimization:
+    simple_task_threshold_tokens: 2000
+    simple_task_models:
+      - "claude-3-haiku"
+    complex_task_models:
+      - "claude-3.5-sonnet"
+      - "claude-3-opus"
+
+  rate_limiting:
+    max_requests_per_minute:
+      claude-code: 50
+    max_requests_per_hour:
+      claude-code: 1000
+
+# Telemetry Configuration
+telemetry:
+  enabled: true
+  db_path: "~/.llm-service/telemetry.db"
+  privacy_level: "metadata"
+  retention_days: 90
