@@ -1,6 +1,6 @@
 # ADR-035: Dashboard Task Priority Editing
 
-**Status:** Proposed  
+**Status:** Accepted  
 **Date:** 2026-02-06  
 **Deciders:** Architect Alphonso, Human-in-Charge  
 **Related Specs:** [Task Priority Editing Specification](../../specifications/llm-dashboard/task-priority-editing.md)  
@@ -257,5 +257,5 @@ Response: { "success": true, "task": {...} }
 
 **Author:** Architect Alphonso  
 **Reviewers:** Human-in-Charge, Backend-dev Benny  
-**Status:** Proposed (awaiting approval)  
+**Status:** Accepted (awaiting approval)  
 **Next Steps:** Approval → Create implementation tasks → Assign to Backend-dev

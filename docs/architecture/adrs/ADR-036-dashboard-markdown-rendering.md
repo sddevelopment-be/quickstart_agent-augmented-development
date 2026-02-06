@@ -1,6 +1,6 @@
 # ADR-036: Dashboard Markdown Rendering
 
-**Status:** Proposed  
+**Status:** Accepted  
 **Date:** 2026-02-06  
 **Deciders:** Architect Alphonso, Human-in-Charge  
 **Related Specs:** [Markdown Rendering Specification](../../specifications/llm-dashboard/markdown-rendering.md)  
@@ -369,5 +369,5 @@ Content-Security-Policy:
 
 **Author:** Architect Alphonso  
 **Reviewers:** Human-in-Charge, Frontend Specialist  
-**Status:** Proposed (awaiting approval)  
+**Status:** Accepted (awaiting approval)  
 **Next Steps:** Approval → Create implementation tasks → Assign to Frontend
