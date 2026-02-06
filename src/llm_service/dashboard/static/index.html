@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LLM Service Dashboard - Real-Time Monitoring</title>
+    <link rel="icon" type="image/x-icon" href="/static/images/favicon.ico">
     <link rel="stylesheet" href="/static/dashboard.css">
     <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -12,7 +13,10 @@
     <!-- Header -->
     <header class="dashboard-header">
         <div class="container">
-            <h1>🚀 LLM Service Dashboard</h1>
+            <div class="header-logo">
+                <img src="/static/images/LOGO_BASE.svg" alt="SDD Logo" class="logo-image">
+                <h1>LLM Service Dashboard</h1>
+            </div>
             <div class="connection-status">
                 <span id="connection-indicator" class="status-indicator status-connecting">●</span>
                 <span id="connection-text">Connecting...</span>

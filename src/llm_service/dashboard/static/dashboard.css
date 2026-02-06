@@ -48,6 +48,23 @@ body {
     align-items: center;
 }
 
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo-image {
+    height: 40px;
+    width: auto;
+}
+
+.dashboard-header h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
 .dashboard-header h1 {
     font-size: 1.5rem;
     font-weight: 700;
