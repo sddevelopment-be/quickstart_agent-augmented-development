@@ -120,6 +120,11 @@ The orchestration system automatically:
 3. Moves completed tasks to `work/collaboration/done/<agent>/`
 4. Creates a work log in `work/reports/logs/<agent>/` documenting the execution
 
+**Script locations (current):**
+- Orchestrator logic: `ops/orchestration/agent_orchestrator.py`
+- Task utilities: `ops/orchestration/task_utils.py`
+- Validation scripts: `validation/validate-task-schema.py`, `validation/validate-work-structure.sh`, `validation/validate-task-naming.sh`
+
 Track task progress by viewing the YAML file:
 
 ```bash

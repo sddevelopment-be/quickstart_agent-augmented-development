@@ -58,6 +58,20 @@
 **Additional improvements delivered:**
 - ✅ Sidebar layout (metrics on left, content in center)
 - ✅ Task sorting by latest change/creation date
+
+---
+
+## 🧹 Debt / Docs / Low-Priority Track (Background)
+
+**Completed this iteration (2026-02-06):**
+- `work/collaboration/done/curator/2025-11-25T1837-curator-validate-refactor.yaml` — Validate script reorganization and code quality improvements.
+- `work/collaboration/done/writer-editor/2025-11-25T1838-writer-editor-update-docs.yaml` — Update documentation to reflect new script organization.
+- `work/collaboration/done/curator/2025-11-24T0951-curator-tooling-best-practices-guide.yaml` — Tooling setup best practices guide confirmed.
+- `work/collaboration/done/curator/2025-11-24T0952-curator-maintenance-checklist-templates.yaml` — Maintenance checklist templates confirmed.
+- `work/collaboration/done/architect/2025-11-24T0950-architect-version-policy-documentation.yaml` — Tool versioning policy documented.
+
+**Remaining (open):**
+- `work/collaboration/assigned/architect/2025-11-24T1736-architect-framework-efficiency-assessment.yaml`
 - ✅ Recent Activity moved to top
 - ✅ Charts moved to bottom
 - ✅ Responsive design (desktop/tablet/mobile)

@@ -30,6 +30,7 @@ tools: [ "read", "write", "search", "edit", "Grep", "Bash", "Python", "SQL" ]
 | 016  | [Acceptance Test Driven Development](directives/016_acceptance_test_driven_development.md) | Ensure requirements map to executable tests               |
 | 018  | [Traceable Decisions](directives/018_traceable_decisions.md)                   | Record rationale, evidence, and validation outcomes                 |
 | 034  | [Spec-Driven Development](directives/034_spec_driven_development.md)           | Use specifications to define WHAT before HOW                        |
+| 035  | [Specification Frontmatter Standards](directives/035_specification_frontmatter_standards.md) | **MANDATORY**: YAML frontmatter format for all specs       |
 
 Load as needed: `/require-directive <code>`.
 

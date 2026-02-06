@@ -1,6 +1,6 @@
 id: 2025-11-25T1837-curator-validate-refactor
 agent: curator
-status: assigned
+status: done
 title: Validate script reorganization and code quality improvements
 artefacts:
 - work/logs/curator/2025-11-25T1837-curator-validate-refactor.md
