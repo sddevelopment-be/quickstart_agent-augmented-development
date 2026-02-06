@@ -47,6 +47,19 @@ class TestDashboardApp:
         
         assert 'Access-Control-Allow-Origin' in response.headers
 
+    def test_cors_explicit_port_8080(self):
+        """Test: CORS accepts explicit localhost:8080 origin."""
+        from llm_service.dashboard.app import create_app
+        
+        app, _ = create_app()
+        client = app.test_client()
+        
+        response = client.get('/health', headers={'Origin': 'http://localhost:8080'})
+        
+        # Should allow localhost:8080 explicitly
+        assert response.status_code == 200
+        assert 'Access-Control-Allow-Origin' in response.headers
+
     def test_websocket_connection(self):
         """Test: WebSocket client can connect to /dashboard namespace."""
         from llm_service.dashboard.app import create_app

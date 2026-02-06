@@ -33,7 +33,9 @@ def create_app(config: Optional[Dict[str, Any]] = None) -> tuple[Flask, SocketIO
     
     # Default configuration
     app.config['SECRET_KEY'] = os.environ.get('DASHBOARD_SECRET_KEY', secrets.token_hex(32))
-    app.config['CORS_ORIGINS'] = ['http://localhost:*', 'http://127.0.0.1:*']
+    # CORS origins: Flask-SocketIO doesn't support wildcard ports, use explicit list or '*'
+    # For development: allow all origins. For production: set explicit list via config
+    app.config['CORS_ORIGINS'] = os.environ.get('DASHBOARD_CORS_ORIGINS', '*')
     
     # Override with custom config
     if config:
