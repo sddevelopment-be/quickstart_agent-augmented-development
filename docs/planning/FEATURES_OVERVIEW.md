@@ -20,6 +20,19 @@ The latest ADRs (ADR-019 through ADR-021) expand runtime responsibilities across
 
 > Distribution / Release enablement currently lacks concrete tasks but remains a mandatory feature before the next release cycle per ADR-013/014 and the 2025-11-24 distribution work log.
 
+## Initiative: Debt / Docs / or Low-Priority Tasks
+
+- **Intent:** Consolidate documentation, tooling governance, and cleanup work that is aging in the work queue so it does not drift further from current repo conventions.
+- **Scope:** Documentation updates, policy drafts, checklists, and follow-up validations tied to earlier refactors.
+
+Work Items (from oldest open tasks):
+- `work/collaboration/assigned/architect/2025-11-24T0950-architect-version-policy-documentation.yaml` — Document version update policy for preinstalled tools.
+- `work/collaboration/assigned/curator/2025-11-24T0951-curator-tooling-best-practices-guide.yaml` — Create tooling setup best practices guide.
+- `work/collaboration/assigned/curator/2025-11-24T0952-curator-maintenance-checklist-templates.yaml` — Create maintenance checklist templates.
+- `work/collaboration/assigned/architect/2025-11-24T1736-architect-framework-efficiency-assessment.yaml` — Assess agentic framework efficiency trends.
+- `work/collaboration/assigned/curator/2025-11-25T1837-curator-validate-refactor.yaml` — Validate script reorganization and code quality improvements.
+- `work/collaboration/assigned/writer-editor/2025-11-25T1838-writer-editor-update-docs.yaml` — Update documentation to reflect new script organization.
+
 ## Feature: Distribution & Release Enablement
 
 - **Value Proposition:** Ship a portable, auditable release artifact (`quickstart-framework-<version>.zip`) plus Guardian workflows so downstream teams can adopt updates without risking local customizations. Protects portability, auditability, and upgrade confidence.
