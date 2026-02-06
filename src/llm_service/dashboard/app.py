@@ -200,6 +200,131 @@ def register_routes(app: Flask) -> None:
             }
         )
 
+    @app.route("/api/portfolio")
+    def portfolio():
+        """
+        Return portfolio view with initiatives, features, and tasks.
+        
+        Implements ADR-037: Dashboard Initiative Tracking.
+        
+        Returns:
+            JSON with initiative hierarchy and progress:
+            {
+                "initiatives": [
+                    {
+                        "id": "spec-id",
+                        "title": "Initiative Title",
+                        "status": "in_progress",
+                        "priority": "HIGH",
+                        "progress": 65,
+                        "features": [
+                            {
+                                "id": "feat-001",
+                                "title": "Feature Title",
+                                "status": "in_progress",
+                                "progress": 75,
+                                "tasks": [...]
+                            }
+                        ]
+                    }
+                ],
+                "orphans": [...]
+            }
+        """
+        from .spec_parser import SpecificationParser
+        from .task_linker import TaskLinker
+        from .progress_calculator import ProgressCalculator
+        
+        # Get directories from config
+        spec_dir = app.config.get("SPEC_DIR", "specifications")
+        work_dir = app.config.get("WORK_DIR", "work/collaboration")
+        
+        # Initialize components
+        parser = SpecificationParser(spec_dir)
+        linker = TaskLinker(work_dir, spec_dir=spec_dir)
+        calculator = ProgressCalculator()
+        
+        # Parse all specifications
+        specifications = parser.scan_specifications(spec_dir)
+        
+        # Group tasks by specification
+        task_groups = linker.group_by_specification()
+        
+        # Build initiative list
+        initiatives = []
+        
+        for spec_meta in specifications:
+            # Get tasks for this specification
+            spec_tasks = task_groups.get(spec_meta.relative_path, [])
+            
+            # Build feature list with progress
+            features = []
+            for feature in spec_meta.features:
+                # Get tasks for this feature
+                feature_tasks = [
+                    t for t in spec_tasks 
+                    if t.get("feature") == feature.id
+                ]
+                
+                # Calculate feature progress
+                feature_progress = calculator.calculate_feature_progress(feature_tasks)
+                
+                # Build feature response
+                features.append({
+                    "id": feature.id,
+                    "title": feature.title,
+                    "status": feature.status or "unknown",
+                    "progress": feature_progress,
+                    "task_count": len(feature_tasks),
+                    "tasks": [
+                        {
+                            "id": t.get("id"),
+                            "title": t.get("title"),
+                            "status": t.get("status"),
+                            "priority": t.get("priority"),
+                            "agent": t.get("agent"),
+                        }
+                        for t in feature_tasks
+                    ]
+                })
+            
+            # Calculate initiative progress (with manual override support)
+            initiative_progress = calculator.calculate_initiative_progress(
+                features,
+                manual_override=spec_meta.completion
+            )
+            
+            # Build initiative response
+            initiatives.append({
+                "id": spec_meta.id,
+                "title": spec_meta.title,
+                "status": spec_meta.status,
+                "priority": spec_meta.priority,
+                "initiative": spec_meta.initiative,
+                "progress": initiative_progress,
+                "features": features,
+                "specification_path": spec_meta.relative_path,
+            })
+        
+        # Get orphan tasks (tasks without specification links)
+        orphan_tasks = linker.get_orphan_tasks()
+        orphans = [
+            {
+                "id": t.get("id"),
+                "title": t.get("title"),
+                "status": t.get("status"),
+                "priority": t.get("priority"),
+                "agent": t.get("agent"),
+            }
+            for t in orphan_tasks
+        ]
+        
+        return jsonify({
+            "initiatives": initiatives,
+            "orphans": orphans,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+        })
+
     @app.route("/api/tasks/<task_id>/priority", methods=["PATCH"])
     def update_task_priority(task_id: str):
         """
