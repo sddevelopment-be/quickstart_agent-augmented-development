@@ -72,22 +72,23 @@ Dashboard MVP delivered with real-time monitoring, cost tracking, and task visua
 
 ---
 
-## 🎯 Next Batch: M4 Batch 4.3 - Dashboard Enhancements
+## 🎯 Next Batch: M4 Batch 4.3 - Dashboard Enhancements (Batch 1)
 
 **Priority:** ⭐⭐⭐⭐⭐ HIGH  
 **Estimated Duration:** 27-35 hours (MVP: 21-28 hours)  
-**Goal:** Transform dashboard into interactive task management interface with strategic visibility
+**Goal:** Transform dashboard into interactive task management interface with strategic visibility  
+**Status:** Ready for implementation (Specs ✅, ADRs ✅, Tasks ✅)
 
 ### Background
 
-Dashboard MVP (Batch 4.2) delivered real-time monitoring. Now enhance with:
+Dashboard MVP (Batch 4.2) delivered real-time monitoring. Batch 1 enhances with:
 - **Readability:** Markdown rendering for task descriptions
 - **Interaction:** In-place priority editing
 - **Strategy:** Initiative tracking linking specs to tasks
 
 **Related Work:**
-- ✅ Specifications created by Analyst Annie (3 detailed specs)
-- ✅ ADRs drafted by Architect Alphonso (ADR-035, ADR-036, ADR-037)
+- ✅ Specifications created by Analyst Annie (SPEC-DASH-001, 002, 003)
+- ✅ ADRs approved (ADR-035, ADR-036, ADR-037 - Accepted status)
 - ✅ Technical design document completed
 - ✅ Implementation tasks created
 
@@ -190,7 +191,7 @@ Dashboard MVP (Batch 4.2) delivered real-time monitoring. Now enhance with:
 
 **For Planning Petra (after completion):**
 1. Create M4 Batch 4.3 iteration summary
-2. Update roadmap for Batch 4.4 (Step Tracker + Integration)
+2. Update roadmap for Batch 4.4 (Dashboard Enhancements Batch 2)
 3. Coordinate architecture review with Architect Alphonso
 4. Update executive summary
 
@@ -202,14 +203,129 @@ Dashboard MVP (Batch 4.2) delivered real-time monitoring. Now enhance with:
 
 ---
 
+## 🎯 Future Batch: M4 Batch 4.4 - Dashboard Enhancements (Batch 2)
+
+**Priority:** ⭐⭐⭐⭐ HIGH  
+**Estimated Duration:** 48-63 hours (MVP: 37-48 hours)  
+**Goal:** Add productivity automation and configuration management to dashboard  
+**Status:** Ready for planning (Specs ✅, ADRs ✅, Tasks ✅)
+
+### Background
+
+After Batch 1 delivers core interactivity (markdown, priority editing, portfolio view), Batch 2 adds:
+- **Documentation Access:** Context-aware docsite links + help toolbar
+- **Automation:** Repository initialization via Bootstrap Bill web UI
+- **Configuration:** Schema-validated config editing interface
+
+**Related Work:**
+- ✅ Specifications created by Analyst Annie (SPEC-DASH-004, 005, 006)
+- ✅ ADRs created by Architect Alphonso (ADR-038, ADR-039, ADR-040)
+- ✅ Technical design document completed (dashboard-enhancements-batch2-technical-design.md)
+- ✅ Implementation tasks created
+
+### Scope
+
+**Phase 4: Docsite Integration** (9-12 hours) - `2026-02-06T1220-dashboard-docsite-integration`
+- Pattern-based link resolver (agent names → profiles, ADR-XXX → docs)
+- Help toolbar with documentation shortcuts
+- Auto-linkification in task descriptions
+- **Reference:** ADR-038, specifications/llm-dashboard/docsite-integration.md
+
+**Phase 5: Repository Initialization** (16-21 hours, MVP: 14-18h) - `2026-02-06T1221-dashboard-repository-initialization`
+- Web form for vision/constraints/guidelines input
+- Bootstrap Bill subprocess integration
+- Progress streaming (WebSocket or polling fallback)
+- Re-bootstrap warning dialog
+- **Reference:** ADR-039, specifications/llm-dashboard/repository-initialization.md
+- **MVP Option:** Use polling (14-18h) instead of WebSocket streaming (16-21h)
+
+**Phase 6: Configuration Management** (23-30 hours, MVP: 14-18h) - `2026-02-06T1222-dashboard-configuration-management`
+- Tabbed config viewer (LLM Service, Agent Stack, Agent Profiles)
+- Inline editing with schema validation
+- Agent profile editor (frontmatter + markdown)
+- Optimistic locking for concurrent edits
+- **Reference:** ADR-040, specifications/llm-dashboard/configuration-management.md
+- **MVP Option:** Simple textarea (14-18h) instead of rich markdown editor (23-30h)
+
+### Success Criteria
+
+**Docsite Integration:**
+- Agent names and ADR references auto-linkify correctly
+- Help toolbar displays 5+ documentation shortcuts
+- Links open in new tab, preserve dashboard state
+- Performance: Link resolution <1ms
+
+**Repository Initialization:**
+- Form validates vision length (50-5000 chars)
+- Bootstrap Bill executes successfully (2-5 minutes)
+- Progress feedback displays real-time output
+- Re-bootstrap warning prevents accidental overwrites
+
+**Configuration Management:**
+- All three config tabs render correctly (<200ms)
+- Agent-model mappings editable with validation
+- YAML comments preserved after edits (ruamel.yaml)
+- Concurrent edits detected (optimistic locking)
+- Performance: Config updates <500ms P95
+
+### Implementation Order
+
+1. **Week 4:** Docsite Integration (low risk, independent)
+2. **Week 5:** Repository Initialization (medium risk, subprocess management)
+3. **Week 6-7:** Configuration Management (high risk, multi-file editing)
+
+Rationale: Start with lowest-risk feature, build confidence before complex config editing
+
+### Action Items
+
+**For Frontend Specialist:**
+1. Phase 4: Docsite integration
+   - Link resolver + auto-linkification
+   - Help toolbar UI
+   - Accessibility testing
+
+**For Backend-Dev Benny:**
+1. Phase 5: Repository initialization
+   - Bootstrap Bill subprocess integration
+   - Progress streaming (polling or WebSocket)
+   - Error handling + timeout protection
+
+2. Phase 6: Configuration management
+   - Config viewer (tabbed UI)
+   - Inline editing + schema validation
+   - Agent profile editor
+   - File writers with comment preservation
+
+**For Planning Petra (before start):**
+1. Confirm MVP options (polling vs WebSocket, textarea vs rich editor)
+2. Schedule implementation timeline (Week 4-7)
+3. Coordinate with Batch 1 completion
+4. Prepare Batch 4.4 kickoff
+
+**For Architect Alphonso (review):**
+1. Security audit (subprocess injection, path traversal, YAML injection)
+2. Performance validation (Bootstrap Bill 2-5min, config updates <500ms)
+3. ADR compliance check (ADR-038, ADR-039, ADR-040)
+4. Production readiness assessment
+
+---
+
 ## Documentation
 
-**Created:**
-- ✅ 3 specifications in specifications/llm-dashboard/
-- ✅ 3 ADRs (ADR-035, ADR-036, ADR-037)
+**Batch 1 (M4 Batch 4.3) Created:**
+- ✅ 3 specifications in specifications/llm-dashboard/ (SPEC-DASH-001, 002, 003)
+- ✅ 3 ADRs (ADR-035, ADR-036, ADR-037) - **Status: Accepted**
 - ✅ Technical design document (dashboard-enhancements-technical-design.md)
 - ✅ Implementation roadmap (dashboard-enhancements-roadmap.md)
 - ✅ 3 task files in work/collaboration/inbox/
+
+**Batch 2 (M4 Batch 4.4) Created:**
+- ✅ 3 specifications in specifications/llm-dashboard/ (SPEC-DASH-004, 005, 006)
+- ✅ 3 ADRs (ADR-038, ADR-039, ADR-040) - **Status: Proposed**
+- ✅ Technical design document (dashboard-enhancements-batch2-technical-design.md)
+- ✅ Roadmap updated with Batch 2 phases
+- ✅ 3 task files in work/collaboration/inbox/
+
 
 **Pending:**
 - [ ] User guide updates (markdown syntax, priority editing, portfolio navigation)

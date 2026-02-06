@@ -1,28 +1,39 @@
 # Dashboard Enhancements Roadmap
 
 **Initiative:** Dashboard Enhancements  
-**Status:** Ready for Implementation  
-**Total Effort:** 27-35 hours (MVP: 21-28 hours)  
+**Status:** Implementation in Progress (Batch 1 Ready, Batch 2 Ready)  
+**Total Effort:**
+- Batch 1: 27-35 hours (MVP: 21-28 hours)
+- Batch 2: 48-63 hours (MVP: 37-48 hours)
+- **Combined Total: 75-98 hours (MVP: 58-76 hours)**  
 **Priority:** HIGH  
 **Start Date:** 2026-02-06  
-**Related ADRs:** ADR-035, ADR-036, ADR-037  
+**Related ADRs:** ADR-035, ADR-036, ADR-037 (Batch 1) + ADR-038, ADR-039, ADR-040 (Batch 2)  
 **Related Specs:** specifications/llm-dashboard/
 
 ---
 
 ## Executive Summary
 
-Three coordinated enhancements to improve dashboard usability, readability, and strategic visibility:
+Six coordinated enhancements across two implementation batches to transform dashboard from read-only monitoring to interactive management platform:
 
-1. **Markdown Rendering** (9-11 hours) - Formatted task descriptions with XSS prevention
-2. **Priority Editing** (7-9 hours) - In-place priority updates with in-progress protection
-3. **Initiative Tracking** (11-15 hours) - Portfolio view linking specs to tasks
+### Batch 1: Core Interactivity (27-35 hours)
+1. **Markdown Rendering** (9-11h) - Formatted task descriptions with XSS prevention
+2. **Priority Editing** (7-9h) - In-place priority updates with in-progress protection
+3. **Initiative Tracking** (11-15h) - Portfolio view linking specs to tasks
 
-**Key Achievement:** Transform dashboard from read-only monitoring tool to interactive task management interface with strategic context.
+### Batch 2: Productivity & Automation (48-63 hours)
+4. **Docsite Integration** (9-12h) - Context-aware documentation links + help toolbar
+5. **Repository Initialization** (16-21h) - Bootstrap Bill web UI with progress streaming
+6. **Configuration Management** (23-30h) - Schema-validated config editing interface
+
+**Key Achievement:** Complete dashboard ecosystem covering task management, documentation access, repository setup, and system configuration.
 
 ---
 
-## Implementation Phases
+## Batch 1: Core Interactivity
+
+### Implementation Phases
 
 ### Phase 1: Markdown Rendering (Week 1)
 **Effort:** 9-11 hours  
@@ -247,6 +258,224 @@ Three coordinated enhancements to improve dashboard usability, readability, and 
 - **Target Date:** 3 weeks from implementation start
 - **Format:** Live demo + documentation review + code walkthrough
 - **Deliverables:** Review report with approval/conditional approval/revision needed
+
+---
+
+## Batch 2: Productivity & Automation
+
+### Implementation Phases
+
+### Phase 4: Docsite Integration (Week 4)
+**Effort:** 9-12 hours  
+**Agent:** Frontend Specialist  
+**Task:** `2026-02-06T1220-dashboard-docsite-integration`  
+**Priority:** MEDIUM  
+**Dependencies:** None
+
+**Deliverables:**
+- ✅ Pattern-based link resolver (dashboard-doc-links.js)
+- ✅ /api/config/docsite configuration endpoint
+- ✅ Auto-linkification (agent names → profiles, ADR-XXX → docs)
+- ✅ Help toolbar UI (bottom-right, toggle menu)
+- ✅ CSS styling for doc links (external icon, hover states)
+- ✅ Accessibility testing (keyboard nav, ARIA labels)
+
+**Success Criteria:**
+- Agent names clickable, open profile pages in new tab
+- ADR references auto-linkify (regex: ADR-\d{3})
+- Help toolbar visible with 5+ documentation shortcuts
+- Broken links gracefully handled (404 acceptable)
+- Performance: Link resolution <1ms, config fetch <50ms
+
+---
+
+### Phase 5: Repository Initialization (Week 5)
+**Effort:** 16-21 hours (MVP: 14-18 hours with polling fallback)  
+**Agent:** Backend-dev Benny  
+**Task:** `2026-02-06T1221-dashboard-repository-initialization`  
+**Priority:** MEDIUM  
+**Dependencies:** None
+
+**Deliverables:**
+- ✅ Initialization modal with form (vision, constraints, guidelines)
+- ✅ /api/init/check endpoint (re-bootstrap detection)
+- ✅ /api/init/execute endpoint (Bootstrap Bill subprocess)
+- ✅ Progress streaming (WebSocket or polling fallback)
+- ✅ Re-bootstrap warning dialog
+- ✅ Error handling and timeout protection (10 minutes)
+
+**Success Criteria:**
+- Form validates vision length (50-5000 chars)
+- Re-bootstrap warning shows if repository initialized
+- Bootstrap Bill executes successfully (2-5 minutes)
+- Progress log displays real-time output
+- Subprocess hangs killed after timeout
+- Dashboard reloads after successful initialization
+
+**MVP Option:** Use polling fallback (4-5h Phase 3) instead of WebSocket streaming (6-8h)
+- Simpler implementation, acceptable 2s latency
+- Upgrade to WebSocket in future iteration if needed
+
+---
+
+### Phase 6: Configuration Management (Week 6-7)
+**Effort:** 23-30 hours (MVP: 14-18 hours without rich markdown editor)  
+**Agent:** Backend-dev Benny + Frontend Specialist  
+**Task:** `2026-02-06T1222-dashboard-configuration-management`  
+**Priority:** HIGH  
+**Dependencies:** None
+
+**Deliverables:**
+- ✅ Tabbed config viewer (LLM Service, Agent Stack, Agent Profiles)
+- ✅ Inline editing for agent-model mappings
+- ✅ Schema validation (jsonschema library)
+- ✅ File writers with comment preservation (ruamel.yaml)
+- ✅ Agent profile editor (frontmatter form + markdown textarea)
+- ✅ Optimistic locking (mtime checks)
+- ✅ Security validation (path traversal, YAML injection prevention)
+
+**Success Criteria:**
+- Config viewer loads all three tabs (<200ms)
+- Agent-model mappings editable inline (dropdown)
+- Validation errors display before file writes
+- YAML comments preserved after edits
+- Agent profiles editable (frontmatter + markdown)
+- Concurrent edits detected (409 Conflict on mtime mismatch)
+- Performance: <500ms P95 for config updates
+
+**MVP Option:** Simple textarea for markdown (Phase 1-3 only)
+- No rich editor (EasyMDE/SimpleMDE)
+- No live preview panel
+- Sufficient for most editing tasks
+- Defer rich editor to Phase 2 if needed (adds 9-12h)
+
+---
+
+## Batch 2: Milestone Timeline
+
+### Week 4: Docsite Integration
+**Duration:** 2-3 days (9-12 hours)
+
+| Day | Focus | Hours |
+|-----|-------|-------|
+| 1-2 | Link resolver + auto-linkification | 7-8h |
+| 3   | Help toolbar + testing | 2-4h |
+
+**Milestone Completion Criteria:**
+- ✅ Agent links and ADR refs clickable
+- ✅ Help toolbar functional
+- ✅ Accessibility tests passing
+
+---
+
+### Week 5: Repository Initialization
+**Duration:** 3-4 days (14-21 hours)
+
+| Day | Focus | Hours |
+|-----|-------|-------|
+| 1   | UI form + validation | 4-5h |
+| 2-3 | Bootstrap Bill integration | 6-8h |
+| 4   | Progress streaming (polling or WebSocket) | 4-8h |
+
+**Milestone Completion Criteria:**
+- ✅ Initialization modal functional
+- ✅ Bootstrap Bill subprocess executes
+- ✅ Progress feedback working
+- ✅ Re-bootstrap warning prevents accidents
+
+---
+
+### Week 6-7: Configuration Management
+**Duration:** 5-6 days (14-30 hours depending on MVP vs full)
+
+| Day | Focus | Hours |
+|-----|-------|-------|
+| 1-2 | Config viewer (tabbed UI) | 6-8h |
+| 3-4 | Inline editing + validation | 8-10h |
+| 5-6 | Agent profile editor | 6-12h (MVP) or 15-24h (full) |
+
+**Milestone Completion Criteria:**
+- ✅ All config tabs render correctly
+- ✅ Inline editing saves to files
+- ✅ Schema validation prevents errors
+- ✅ Agent profiles editable
+- ✅ Security tests passing
+
+---
+
+## Batch 2: Risk Management
+
+### Risk Matrix
+
+| Risk | Likelihood | Impact | Mitigation Strategy | Owner |
+|------|------------|--------|---------------------|-------|
+| Bootstrap Bill subprocess hangs | MEDIUM | HIGH | 10-minute timeout + kill signal | Backend-dev |
+| Configuration validation too strict | MEDIUM | MEDIUM | Provide clear error messages, allow overrides | Backend-dev |
+| Concurrent config edits cause conflicts | LOW | MEDIUM | Optimistic locking with mtime checks | Backend-dev |
+| Documentation links break after docsite restructure | MEDIUM | LOW | Pattern-based URLs, easy to update | Frontend |
+| WebSocket streaming adds complexity | MEDIUM | LOW | Use polling fallback for MVP | Backend-dev |
+
+---
+
+## Batch 2: Success Metrics
+
+### Usability Metrics
+- **Docsite Integration:** Documentation link clicks per session >2
+- **Repository Initialization:** Initialization completion rate >90%
+- **Configuration Management:** Config edit error rate <5%
+
+### Technical Metrics
+- **Docsite:** Link resolution <1ms, config fetch <50ms
+- **Initialization:** Bootstrap Bill execution 2-5 minutes (unchanged)
+- **Config Management:** Update latency <500ms P95
+
+### Adoption Metrics
+- **Docsite:** Percentage of sessions with doc link clicks >50%
+- **Initialization:** New repositories initialized via dashboard >50%
+- **Config Management:** Config edits via dashboard >30% of total
+
+---
+
+## Combined Batch 1 + Batch 2: Documentation Requirements
+
+### User Documentation (Batch 2 Additions)
+- [ ] Docsite integration user guide
+- [ ] Repository initialization tutorial
+- [ ] Configuration management guide
+- [ ] Update DASHBOARD_QUICKSTART.md with new features
+
+### Technical Documentation (Batch 2 Additions)
+- [ ] /api/config/docsite, /api/init/*, /api/config/* API documentation
+- [ ] Link resolution patterns and URL templates
+- [ ] Bootstrap Bill integration architecture
+- [ ] Configuration schema documentation
+- [ ] Security validation rules
+
+---
+
+## Post-Implementation Review (Updated for Both Batches)
+
+### Review Criteria
+- **Batch 1:** Markdown rendering, priority editing, initiative tracking
+- **Batch 2:** Docsite integration, repository initialization, config management
+- All acceptance criteria met (from 6 specifications)
+- ADR compliance verified (ADR-035 through ADR-040)
+- Security audit passed (XSS, YAML injection, path traversal, subprocess injection)
+- Performance benchmarks met (all SLOs satisfied)
+- User feedback collected and addressed
+
+### Review Participants
+- **Architect Alphonso:** Technical design compliance (6 ADRs)
+- **Backend-dev Benny:** Implementation quality (4 of 6 features)
+- **Frontend Specialist:** UI/UX polish (2 of 6 features)
+- **Human-in-Charge:** Stakeholder acceptance
+
+### Review Schedule
+- **Batch 1 Review:** 3 weeks from start (Week 3)
+- **Batch 2 Review:** 7 weeks from start (Week 7)
+- **Format:** Live demo + documentation review + code walkthrough
+- **Deliverables:** Review report with approval/conditional approval/revision needed
+
 
 ---
 
