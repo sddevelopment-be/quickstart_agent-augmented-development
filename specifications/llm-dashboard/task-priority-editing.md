@@ -1,6 +1,33 @@
+---
+id: "SPEC-DASH-001"
+title: "Dashboard Task Priority Editing"
+status: "implemented"
+initiative: "Dashboard Enhancements"
+priority: "HIGH"
+epic: "Dashboard Core Features"
+target_personas: ["software-engineer", "project-manager", "backend-dev-benny"]
+features:
+  - id: "FEAT-DASH-001-01"
+    title: "Priority Dropdown UI Component"
+    status: "done"
+  - id: "FEAT-DASH-001-02"
+    title: "YAML Update with Comment Preservation"
+    status: "done"
+  - id: "FEAT-DASH-001-03"
+    title: "Real-Time WebSocket Sync"
+    status: "done"
+  - id: "FEAT-DASH-001-04"
+    title: "In-Progress Task Protection"
+    status: "done"
+completion: 100
+created: "2026-02-06"
+updated: "2026-02-06"
+author: "analyst-annie"
+---
+
 # Specification: Dashboard Task Priority Editing
 
-**Status:** Draft  
+**Status:** Implemented ✅  
 **Created:** 2026-02-06  
 **Last Updated:** 2026-02-06  
 **Author:** Analyst Annie  

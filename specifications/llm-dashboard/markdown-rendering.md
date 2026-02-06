@@ -1,6 +1,30 @@
+---
+id: "SPEC-DASH-002"
+title: "Dashboard Markdown Rendering in Task Details"
+status: "implemented"
+initiative: "Dashboard Enhancements"
+priority: "HIGH"
+epic: "Dashboard Core Features"
+target_personas: ["software-engineer", "backend-dev-benny", "documentation-writer"]
+features:
+  - id: "FEAT-DASH-002-01"
+    title: "Core Markdown Parser Integration"
+    status: "done"
+  - id: "FEAT-DASH-002-02"
+    title: "Selective Field Rendering"
+    status: "done"
+  - id: "FEAT-DASH-002-03"
+    title: "Security Hardening with XSS Prevention"
+    status: "done"
+completion: 100
+created: "2026-02-06"
+updated: "2026-02-06"
+author: "analyst-annie"
+---
+
 # Specification: Dashboard Markdown Rendering in Task Details
 
-**Status:** Draft  
+**Status:** Implemented ✅  
 **Created:** 2026-02-06  
 **Last Updated:** 2026-02-06  
 **Author:** Analyst Annie  
