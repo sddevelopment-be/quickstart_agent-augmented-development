@@ -249,8 +249,8 @@ Location: `.github/agents/directives/XXX_name.md` Example load pattern:
 
 ## 10. Instruction Hierarchy
 
-ALWAYS USE THE PRIME SYSTEM DIRECTIVES FROM THE SDD AGENTIC FRAMEWORK.
-Reference: [`sddevelopment-be/templates/agents/AGENTS.md`](https://github.com/sddevelopment-be/templates/tree/main/agents).
+ALWAYS USE THE GENERAL GUIDELINES FROM THIS REPOSITORY.
+Reference: `agents/guidelines/general_guidelines.md`.
 
 - System directives outrank developer guidance; developer outranks user requests.
 - Developer instructions: use `bash -lc` with explicit `workdir`, prefer `rg`, avoid destructive git or reverting unrelated changes.
