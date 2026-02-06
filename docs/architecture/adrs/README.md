@@ -36,6 +36,9 @@ Architecture Decision Records (ADRs) are concise documents that capture importan
 | [ADR-035](ADR-035-dashboard-task-priority-editing.md)            | Dashboard Task Priority Editing               | 2026-02-06 | Proposed           | Enables in-place priority editing in dashboard with in-progress task protection.              |
 | [ADR-036](ADR-036-dashboard-markdown-rendering.md)               | Dashboard Markdown Rendering                  | 2026-02-06 | Proposed           | Client-side markdown rendering with XSS prevention for task detail views.                     |
 | [ADR-037](ADR-037-dashboard-initiative-tracking.md)              | Dashboard Initiative Tracking (Portfolio View)| 2026-02-06 | Proposed           | Portfolio view linking specifications to tasks with automated progress rollup.                |
+| [ADR-038](ADR-038-dashboard-docsite-integration.md)              | Dashboard-Docsite Content Integration         | 2026-02-06 | Proposed           | Minimal documentation linking with context-aware agent/ADR links and help toolbar.            |
+| [ADR-039](ADR-039-dashboard-repository-initialization.md)        | Dashboard-Driven Repository Initialization    | 2026-02-06 | Proposed           | Web form for Bootstrap Bill initialization with live progress streaming.                      |
+| [ADR-040](ADR-040-dashboard-configuration-management.md)         | Dashboard Configuration Management Interface  | 2026-02-06 | Proposed           | Hybrid inline/form editing for agent configs with schema validation.                          |
 
 
 > Uniqueness Guarantee: Each ADR number in the table above maps to exactly one canonical ADR file. Historical superseded ADRs MUST NOT be edited except to archive them (recommended future path:
