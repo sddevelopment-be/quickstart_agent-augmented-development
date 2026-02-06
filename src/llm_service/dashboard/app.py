@@ -54,13 +54,19 @@ def create_app(config: Optional[Dict[str, Any]] = None) -> tuple[Flask, SocketIO
         cors_allowed_origins=app.config['CORS_ORIGINS'],
         async_mode='threading'
     )
-    
+
+    # Initialize TelemetryAPI
+    from .telemetry_api import TelemetryAPI
+    telemetry_db = app.config.get('TELEMETRY_DB', 'telemetry.db')
+    telemetry = TelemetryAPI(telemetry_db, socketio)
+    app.config['TELEMETRY_API'] = telemetry
+
     # Register routes
     register_routes(app)
-    
+
     # Register WebSocket handlers
     register_socketio_handlers(socketio)
-    
+
     return app, socketio
 
 
@@ -93,10 +99,25 @@ def register_routes(app: Flask) -> None:
     def stats():
         """
         Return current dashboard statistics.
-        
+
         Returns:
             JSON with task counts and cost metrics
         """
+        # Get telemetry API
+        telemetry = app.config.get('TELEMETRY_API')
+
+        # Prepare cost data
+        costs = {
+            'today': 0.0,
+            'month': 0.0,
+            'total': 0.0
+        }
+
+        if telemetry:
+            costs['today'] = telemetry.get_today_cost()
+            costs['month'] = telemetry.get_monthly_cost()
+            costs['total'] = telemetry.get_total_cost()
+
         # TODO: Integrate with file watcher for real task counts
         return jsonify({
             'tasks': {
@@ -105,11 +126,7 @@ def register_routes(app: Flask) -> None:
                 'done': 0,
                 'total': 0
             },
-            'costs': {
-                'today': 0.0,
-                'month': 0.0,
-                'total': 0.0
-            },
+            'costs': costs,
             'timestamp': datetime.now(timezone.utc).isoformat()
         })
     
@@ -117,11 +134,16 @@ def register_routes(app: Flask) -> None:
     def tasks():
         """
         Return current task state across all workflow directories.
-        
+
         Returns:
             JSON with tasks grouped by status (inbox/assigned/done)
         """
-        # TODO: Integrate with file watcher for real task data
+        # Get task snapshot from file watcher
+        watcher = app.config.get('FILE_WATCHER')
+        if watcher:
+            return jsonify(watcher.get_task_snapshot())
+
+        # Fallback if watcher not initialized
         return jsonify({
             'inbox': [],
             'assigned': {},
@@ -193,25 +215,43 @@ class DashboardNamespace(Namespace):
         })
 
 
-def run_dashboard(host: str = 'localhost', port: int = 8080, debug: bool = False) -> None:
+def run_dashboard(
+    host: str = 'localhost',
+    port: int = 8080,
+    debug: bool = False,
+    watch_dir: str = 'work/collaboration'
+) -> None:
     """
-    Run the dashboard server.
-    
+    Run the dashboard server with file watcher.
+
     Args:
         host: Host to bind to (default: localhost)
         port: Port to bind to (default: 8080)
         debug: Enable debug mode (default: False)
-        
+        watch_dir: Directory to watch for task files (default: work/collaboration)
+
     Example:
         >>> run_dashboard(host='0.0.0.0', port=5000, debug=True)
     """
+    from .file_watcher import FileWatcher
+
     app, socketio = create_app()
-    
+
+    # Initialize file watcher
+    watcher = FileWatcher(watch_dir, socketio)
+    app.config['FILE_WATCHER'] = watcher
+
     print(f"🚀 Dashboard starting at http://{host}:{port}")
     print(f"📡 WebSocket namespace: /dashboard")
     print(f"💚 Health check: http://{host}:{port}/health")
-    
-    socketio.run(app, host=host, port=port, debug=debug)
+    print(f"👀 Watching: {watch_dir}")
+
+    # Start file watcher and run server with cleanup
+    try:
+        watcher.start()
+        socketio.run(app, host=host, port=port, debug=debug)
+    finally:
+        watcher.stop()
 
 
 if __name__ == '__main__':

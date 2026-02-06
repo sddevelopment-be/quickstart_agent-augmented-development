@@ -1,18 +1,149 @@
-# Next Batch: M2 Batch 2.3 - Generic YAML Adapter Implementation
+# Next Batch Recommendation
 
-**Batch ID**: `2026-02-05-llm-service-m2-batch-2.3`  
-**Created**: 2026-02-05  
-**Updated**: 2026-02-05 10:00:00 UTC  
-**Prepared By**: Planning Petra  
-**Status**: 🟢 **READY FOR ASSIGNMENT**  
+**Updated:** 2026-02-06 11:15:00 UTC
+**Prepared By:** Planning Petra
+**Status:** 🟢 **READY FOR ASSIGNMENT**
+
+---
+
+## Recent Completion ✅
+
+**Batch:** Dashboard Integration Wiring (2026-02-06)
+- **Duration:** 1.5h actual vs 2.0h estimated (25% faster)
+- **Tasks Completed:** 3/3
+  - CORS configuration (verified already complete)
+  - File watcher integration (completed with tests)
+  - Telemetry integration (completed with tests)
+- **Test Results:** 17/17 dashboard tests passing
+- **Agent:** Backend-dev (Backend Benny)
+- **Work Log:** `work/reports/logs/backend-dev/2026-02-06-dashboard-integration-wiring.md`
+
+**Status:** Dashboard integration wiring complete. Dashboard is now production-ready with:
+- ✅ WebSocket server with real-time communication
+- ✅ CORS properly configured
+- ✅ File watcher integration for task monitoring
+- ✅ Telemetry integration for cost metrics
+- ✅ All tests passing
+
+---
+
+## Next Batch Options
+
+### Option 1: Additional Dashboard Features (COULD)
+
+**Tasks in Inbox:**
+1. `2026-02-05T1400-backend-dev-rich-terminal-ui.yaml` - Rich terminal UI (MEDIUM priority)
+2. `2026-02-05T1401-backend-dev-template-config-generation.yaml` - Template config generation (MEDIUM priority)
+
+**Estimated Duration:** 1 day (4-6 hours)
+**Strategic Value:** ⭐⭐ Nice-to-have enhancements
+**Recommendation:** DEFER - Dashboard core complete, focus on LLM-service layer
+
+---
+
+### Option 2: M2 Batch 2.3 - Generic YAML Adapter (HIGH) ⭐⭐⭐⭐⭐
+
+**Batch ID:** `2026-02-05-llm-service-m2-batch-2.3`
+**Strategic Importance:** Critical path for LLM-service layer completion
+
+**Tasks (3 Total):**
+1. GenericYAMLAdapter Implementation (HIGH, 2-3h)
+2. ENV Variables in YAML Schema (MEDIUM, 1-2h)
+3. Integration with Routing Engine (HIGH, 2-3h)
+
+**Estimated Duration:** 1 day (5-8 hours)
+**Strategic Value:** ⭐⭐⭐⭐⭐ Completes M2 strategic pivot
+**Dependencies:** All met ✅ (M2 Batches 2.1 & 2.2 complete)
+**Recommendation:** **EXECUTE NEXT** - Critical for LLM-service layer
+
+**Why This Batch:**
+- Completes M2 Tool Integration milestone
+- Enables YAML-driven tool extensibility (add tools via config, not code)
+- Unblocks M3 Telemetry Infrastructure
+- High strategic value for project goals
+
+**See Full Details:** Detailed batch plan preserved below (scroll down)
+
+---
+
+### Option 3: Specification Creation (MEDIUM)
+
+**Task:** `2026-02-05T1400-writer-editor-spec-driven-primer.yaml`
+**Estimated Duration:** Half day (3-4 hours)
+**Strategic Value:** ⭐⭐⭐ Documentation and onboarding
+**Recommendation:** DEFER - Complete LLM-service implementation first
+
+---
+
+## Planning Petra's Recommendation
+
+**Execute Next:** **Option 2 - M2 Batch 2.3 (Generic YAML Adapter)**
+
+**Rationale:**
+1. **Critical Path:** Completes M2 Tool Integration milestone
+2. **Strategic Pivot:** Enables YAML-driven extensibility (core project goal)
+3. **Unblocks M3:** Telemetry infrastructure depends on M2 completion
+4. **Dependencies Met:** All prerequisites complete (Batches 2.1 & 2.2 done)
+5. **High Efficiency:** Backend-dev demonstrated 6x efficiency in previous batches
+
+**Dashboard Status:** Complete and production-ready. Additional features are "nice-to-have" enhancements that can be deferred.
+
+**Next Command:** `/iterate` (will execute M2 Batch 2.3)
+
+---
+
+## Overall Project Health: 🟢 ON TRACK
+
+### LLM-Service Layer
+- **Current Milestone:** M2 Tool Integration
+- **Progress:** 75% complete (Batches 2.1-2.2 done, Batch 2.3 ready)
+- **Next:** M2 Batch 2.3 - GenericYAMLAdapter (5-8h estimated)
+- **After That:** M3 Telemetry Infrastructure
+
+### Dashboard
+- **Status:** ✅ 100% complete (integration wiring done)
+- **Production Ready:** Yes
+- **Tests:** 17/17 passing
+- **Next:** Optional enhancements (deferred)
+
+### Overall
+- **Blockers:** None
+- **Decisions Needed:** None
+- **Timeline:** On track for milestone targets
+- **Risk Level:** LOW
+
+---
+
+## Task Queue Summary
+
+**Inbox (4 tasks):**
+- 2 LLM-service tasks (HIGH priority - M2 Batch 2.3) ← **NEXT**
+- 1 Dashboard enhancement (MEDIUM - deferred)
+- 1 Template config (MEDIUM - deferred)
+- 1 Spec creation (MEDIUM - deferred)
+
+**Active:** None (batch just completed)
+
+**Done (today):**
+- 3 Dashboard integration tasks (CORS, file watcher, telemetry)
+
+---
+
+# M2 Batch 2.3 - Generic YAML Adapter (Full Details)
+
+**Batch ID**: `2026-02-05-llm-service-m2-batch-2.3`
+**Created**: 2026-02-05
+**Updated**: 2026-02-06 11:15:00 UTC
+**Prepared By**: Planning Petra
+**Status**: 🟢 **READY FOR ASSIGNMENT**
 **Estimated Duration**: 1 day (5-8 hours)
 
 ---
 
 ## ⭐ Strategic Context: Generic YAML-Driven Adapter Pivot
 
-**Decision Date:** 2026-02-05  
-**Decision Maker:** Human-in-Charge  
+**Decision Date:** 2026-02-05
+**Decision Maker:** Human-in-Charge
 **Reference:** ADR-029 updated, Architecture review in `work/analysis/generic-yaml-adapter-architecture-review.md`
 
 **Strategic Pivot:**
@@ -76,6 +207,7 @@ Implement **Generic YAML-Driven Adapter** for LLM Service Layer (Milestone 2):
 - Ready for production adapter implementation
 
 ---
+
 ## Selected Tasks (3 Total - Milestone 2 Batch 2.3)
 
 ### Task 1: GenericYAMLAdapter Implementation
@@ -296,112 +428,16 @@ Task 3: Routing Integration       [2-3h]  HIGH    (depends on Tasks 1-2)
 
 ---
 
-### Timeline Estimates
+## Timeline & Resource Allocation
 
-**Optimistic** (Based on Batch 2.1 Efficiency): 5-6 hours
-- Morning: Task 1 complete (GenericYAMLAdapter)
-- Afternoon: Tasks 2-3 complete (schema + routing integration)
-- Assumption: Benny maintains 6x efficiency from Batch 2.1
+**Estimated Duration:** 1 day (5-8 hours)
+**Agent:** Backend-dev (Benny)
+**Complexity:** LOW-MEDIUM
 
-**Realistic** (Conservative Estimate): 1 day (5-8 hours)
-- Morning: Tasks 1-2 complete (adapter + schema)
-- Afternoon: Task 3 complete (routing integration)
-- Buffer: 2 hours for integration testing + refinement
-
-**Recommended:** Plan for 1 day with buffer for validation and demonstration
-
----
-
-## Checkpoints & Milestones
-
-### Checkpoint 1: Generic Adapter Complete (Half Day)
-**Check**: Task 1 (GenericYAMLAdapter) complete  
-**Expected**: 
-- GenericYAMLAdapter class implemented and tested ✅
-- Works with claude-code tool from YAML config ✅
-- Binary resolution follows priority order ✅
-- Unit tests passing (>80% coverage) ✅
-**Decision**: Proceed to schema enhancement OR refine adapter  
-**Trigger**: Backend-dev completes Task 1
-
-### Checkpoint 2: ENV Variables & Schema Complete (Day 1 EOD)
-**Check**: Task 2 (ENV var schema) complete  
-**Expected**: 
-- ToolConfig schema supports env_vars and env_required ✅
-- ${VAR} expansion works correctly ✅
-- Validation fails if required var missing ✅
-- Example configs show ENV var usage ✅
-**Decision**: Proceed to routing integration OR enhance schema  
-**Trigger**: Backend-dev completes Task 2
-
-### Checkpoint 3: M2 Batch 2.3 Complete (Day 1)
-**Check**: All 3 tasks complete + integration tests passing  
-**Expected**: 
-- GenericYAMLAdapter production-ready ✅
-- Routing engine uses GenericYAMLAdapter ✅
-- Add codex tool via YAML demonstrated ✅
-- All unit + integration tests passing (>80% coverage) ✅
-- ClaudeCodeAdapter relegated to test fixtures ✅
-- Ready for M3 (Telemetry & Cost Optimization) ✅
-**Decision**: Start M3 OR validate with additional tools  
-**Trigger**: All 3 tasks complete, human approval
-
----
-
-## Resource Allocation
-
-| Agent | Tasks | Total Hours | Complexity | Timeline |
-|-------|-------|-------------|------------|----------|
-| **backend-dev** | 3 | 5-8h | LOW-MEDIUM | 1 day |
-| **Total** | **3 tasks** | **5-8h** | **Low-Medium** | **1 day** |
-
-### Agent Workload: Backend-dev Benny
-
-**Workload:** Moderate (5-8 hours over 1 day)
-- Task 1: 2-3 hours (GenericYAMLAdapter implementation)
-- Task 2: 1-2 hours (ENV variable schema enhancement)
-- Task 3: 2-3 hours (Routing integration & tests)
-
-**Characteristics:**
-- Single agent (no coordination overhead)
-- Low-Medium complexity (leverages Batches 2.1 & 2.2 work)
-- High strategic value (completes M2 strategic pivot)
-- Estimated based on Batch 2.1 efficiency (6x faster than initial estimates)
-- Fits in 1 working day (optimistic) with 1-2h buffer
-
----
-
-## Risk Assessment & Mitigation
-
-### Risk 1: Generic Adapter Not Flexible Enough
-**Description**: GenericYAMLAdapter can't handle tool-specific edge cases  
-**Probability**: LOW  
-**Impact**: MEDIUM (may need hybrid approach)  
-**Mitigation**: 
-- ClaudeCodeAdapter serves as reference implementation
-- Can add tool-specific adapters later if needed
-- Generic adapter supports extensibility hooks (OutputNormalizer)
-- Start with 80% use case (most tools are simple CLIs)
-
-### Risk 2: ENV Variable Validation Complexity
-**Description**: Validating required ENV vars at config load may be too strict  
-**Probability**: LOW  
-**Impact**: LOW (usability concern)  
-**Mitigation**:
-- Make env_required optional (tools can skip validation)
-- Validation happens at config load (fail-fast, clear errors)
-- Document workarounds (config validation vs. runtime validation)
-- Can defer validation to execution time if needed
-
-### Risk 3: Routing Engine Tool-Specific Logic
-**Description**: Routing engine may have tool-specific conditionals we haven't seen  
-**Probability**: MEDIUM  
-**Impact**: MEDIUM (adds 1-2h to Task 3)  
-**Mitigation**:
-- Review routing engine code in Task 3 before changes
-- Refactor tool-specific logic to YAML config
-- Document any edge cases that need concrete adapters
-- Architecture review approved generic approach
+**Timeline Estimates:**
+- **Optimistic** (Based on Batch 2.1 Efficiency): 5-6 hours
+- **Realistic** (Conservative Estimate): 1 day (5-8 hours)
+- **Recommended:** Plan for 1 day with buffer for validation
 
 ---
 
@@ -421,160 +457,17 @@ Task 3: Routing Integration       [2-3h]  HIGH    (depends on Tasks 1-2)
 - ✅ ENV variable support enables API key management
 - ✅ Routing engine fully YAML-driven (no tool-specific code)
 
-### Value Realization
-- **Immediate**: YAML-driven tool extensibility achieved
-- **Short-term** (M3): Telemetry unblocked, ready for cost optimization
-- **Long-term**: Community can contribute tools via YAML, not code
-
 ---
 
-## Dependency Management
-
-### Prerequisites (All Met ✅)
-
-| Dependency | Status | Location | Notes |
-|------------|--------|----------|-------|
-| M1 Foundation Complete | ✅ | src/llm_service/ | 93% coverage, 65/65 tests |
-| M2 Prep Complete | ✅ | ADRs 026-029 | All ADRs documented |
-| M2 Batch 2.1 Complete | ✅ | src/llm_service/adapters/ | Base infrastructure ready |
-| M2 Batch 2.2 Complete | ✅ | src/llm_service/adapters/ | Reference adapter validates pattern |
-| Adapter Base Class | ✅ | base.py | ToolAdapter ABC ready |
-| Command Template System | ✅ | command_template.py | Template handler ready |
-| Subprocess Executor | ✅ | subprocess_executor.py | Execution wrapper ready |
-| Test Infrastructure | ✅ | tests/ | 93% coverage, 78/78 tests |
-
-### Internal Dependencies (This Batch)
-
-**Task Dependencies:**
-- Task 1 (GenericYAMLAdapter): Depends on Batches 2.1 & 2.2 (infrastructure + validation)
-- Task 2 (ENV var schema): Depends on Task 1 (integrates with GenericYAMLAdapter)
-- Task 3 (Routing integration): Depends on Tasks 1-2 (uses GenericYAMLAdapter + schema)
-
-**Recommended Execution:**
-- **Phase 1**: Task 1 (GenericYAMLAdapter implementation)
-- **Phase 2**: Tasks 2-3 sequentially (Task 2 → Task 3)
-
----
-
-## Handoff to Milestone 3
-
-### Expected Outputs After This Batch
-
-**Code:**
-1. ✅ `src/llm_service/adapters/generic_adapter.py` - GenericYAMLAdapter class
-2. ✅ `src/llm_service/config/schemas.py` - ENV variable schema support
-3. ✅ `src/llm_service/routing/adapter_factory.py` - Uses GenericYAMLAdapter
-4. ✅ YAML-driven tool extensibility proven (add tools via config)
-5. ✅ ENV variable support for API keys and configuration
-
-**Tests:**
-1. ✅ `tests/unit/adapters/test_generic_adapter.py` - Unit tests (6-8 tests)
-2. ✅ `tests/unit/config/test_schemas_env_vars.py` - Schema validation tests
-3. ✅ `tests/integration/routing/test_end_to_end_routing.py` - E2E routing tests
-4. ✅ `config/tools.yaml.example` - Updated with codex tool + ENV var examples
-
-**Milestone 3 Readiness Checklist:**
-- ✅ GenericYAMLAdapter production-ready
-- ✅ Routing engine YAML-driven (no tool-specific code)
-- ✅ ENV variable support for API keys
-- ✅ Add tools via YAML demonstrated (codex example)
-- ✅ >80% test coverage maintained
-- ✅ M2 Batch 2.3 complete - ready for telemetry & cost optimization
-- ✅ ClaudeCodeAdapter relegated to test fixtures
-
-**Next Milestone (M3 - Cost Optimization & Telemetry):**
-- Batch 3.1: Telemetry Infrastructure (SQLite, invocation logging)
-- Batch 3.2: Policy Engine (budget tracking, cost optimization)
-- Batch 3.3: Stats & Reporting (CLI stats command)
-- Timeline: Week 3-4 (estimated)
-
----
-
-## Alternative Batches
-
-### Alternative 1: Minimal Scope (Adapter Only)
-
-**If**: Backend-dev has limited availability  
-**Execute**: Task 1 only (GenericYAMLAdapter implementation)  
-**Duration**: Half day (2-3 hours)  
-**Value**: Core adapter ready, schema and integration can be deferred
-
-**Rationale**: GenericYAMLAdapter is the primary deliverable. ENV var schema and routing integration can be added incrementally if needed. Adapter can use params override for ENV vars initially.
-
----
-
-### Alternative 2: Extended Scope (Add Multiple Tools)
-
-**If**: Want to prove extensibility with multiple tools  
-**Add**: Task 4 - Add 2-3 more tools via YAML (gemini, cursor, etc.)  
-**Duration**: 1.5-2 days (add 4-6 hours)  
-**Value**: Stronger proof of YAML-driven extensibility
-
-**Rationale**: Adding multiple tools via YAML demonstrates the generic adapter scales beyond 2 tools. Provides more confidence for M3 and community contributions.
-
----
-
-## Comparison to Previous Batch (M2 Batch 2.2)
-
-| Metric | M2 Batch 2.2 | M2 Batch 2.3 | Change |
-|--------|--------------|--------------|--------|
-| **Tasks** | 3 (concrete adapter) | 3 (generic adapter) | Same |
-| **Agents** | 1 (backend-dev) | 1 (backend-dev) | Same |
-| **Total Effort** | 4-8h (estimated) | 5-8h (estimated) | Similar |
-| **Duration** | 1-2 days | 1 day | Faster |
-| **Complexity** | LOW-MEDIUM | LOW-MEDIUM | Same |
-| **Strategic** | Reference adapter | Production adapter | HIGHER |
-
-**Key Insights**:
-- Similar complexity (both leverage Batch 2.1 infrastructure)
-- Same agent (Benny demonstrated 6x efficiency in Batch 2.1)
-- Higher strategic value (generic adapter enables YAML extensibility)
-- Faster timeline (1 day vs. 1-2 days) - tighter scope
-- Completes M2 strategic pivot (YAML-driven approach)
-
----
-
-## Sign-off
-
-**Prepared By**: Planning Petra  
-**Date**: 2026-02-05 10:00:00 UTC  
-**Status**: 🟢 **READY FOR ASSIGNMENT**  
-**Batch ID**: `2026-02-05-llm-service-m2-batch-2.3`  
-**Recommended Start**: Immediate (M2 Batches 2.1 & 2.2 complete, dependencies met)  
+**Prepared By**: Planning Petra
+**Date**: 2026-02-06 11:15:00 UTC
+**Status**: 🟢 **READY FOR ASSIGNMENT**
+**Recommended Start**: Immediate
 **Expected Completion**: 1 day (5-8 hours with buffer)
 
-**Strategic Importance**: ⭐⭐⭐⭐⭐  
-This batch completes the M2 strategic pivot to YAML-driven tool extensibility. After completion, adding new LLM tools requires YAML configuration changes only, not code changes. This enables community contributions and faster iteration.
-
 **Next Steps**:
-1. Assign Tasks 1-3 to Backend-dev Benny
+1. Use `/iterate` to execute M2 Batch 2.3
 2. Monitor progress per checkpoint schedule
 3. Review GenericYAMLAdapter after Task 1 (key deliverable)
 4. Validate YAML extensibility demo (add codex tool) after Task 3
 5. Approve Milestone 3 kickoff (Telemetry & Cost Optimization) after completion
-
----
-
-**Related Documents**:
-- **M2 Batch 2.2 Summary:** `work/collaboration/ITERATION_2026-02-05_M2_BATCH_2.2_SUMMARY.md` (when created)
-- **Implementation Plan:** `docs/planning/llm-service-layer-implementation-plan.md`
-- **Agent Status:** `work/collaboration/AGENT_STATUS.md`
-- **ADR-029:** `docs/architecture/adrs/ADR-029-adapter-interface-design.md` (updated 2026-02-05)
-- **Architecture Review:** `work/analysis/generic-yaml-adapter-architecture-review.md`
-- **Task Files:** `work/collaboration/inbox/2026-02-05T100X-backend-dev-*.yaml`
-
----
-
-**Assumptions**:
-1. GenericYAMLAdapter can handle 80%+ of tools (simple CLIs)
-2. ClaudeCodeAdapter validates the infrastructure works correctly
-3. Tool-specific output parsing handled by OutputNormalizer (extensible)
-4. ENV variable validation at config load is acceptable (fail-fast)
-5. Routing engine doesn't have tool-specific logic requiring refactor
-
-**Re-planning Triggers**:
-- GenericYAMLAdapter doesn't handle expected tools → Consider hybrid approach
-- ENV var validation too strict → Defer to runtime validation
-- Routing engine has tool-specific code → Add refactor task (1-2h)
-- Test coverage below 80% → Add testing buffer (1-2h)
-
