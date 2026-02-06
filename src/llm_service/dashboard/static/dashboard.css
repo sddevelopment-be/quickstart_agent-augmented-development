@@ -247,10 +247,18 @@ body {
 
 /* Charts */
 .charts-section {
+    margin-bottom: 2rem;
+}
+
+.charts-section h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.charts-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
     gap: 1.5rem;
-    margin-bottom: 2rem;
 }
 
 .chart-container {
@@ -260,7 +268,7 @@ body {
     box-shadow: var(--shadow);
 }
 
-.chart-container h2 {
+.chart-container h3 {
     margin-bottom: 1rem;
     font-size: 1.25rem;
 }
@@ -437,7 +445,7 @@ canvas {
         grid-template-columns: 1fr;
     }
     
-    .charts-section {
+    .charts-grid {
         grid-template-columns: 1fr;
     }
 }
