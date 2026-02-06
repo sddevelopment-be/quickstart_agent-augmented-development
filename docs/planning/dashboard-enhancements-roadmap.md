@@ -1,22 +1,23 @@
 # Dashboard Enhancements Roadmap
 
 **Initiative:** Dashboard Enhancements  
-**Status:** Batch 1 COMPLETE (3/3 features) + Batch 1.1 Specification Ready  
+**Status:** Batch 1 COMPLETE (3/3 features) + Batch 1.2 CRITICAL (Multi-Page Navigation)  
 **Total Effort:**
 - Batch 1 (Complete): 26.33h actual vs 27-35h estimated
 - Batch 1.1 (Orphan Assignment - Ready): 6-8 hours estimated
+- **Batch 1.2 (Multi-Page Navigation - CRITICAL): 7 hours estimated**
 - Batch 2 (Pending): 48-63 hours (MVP: 37-48 hours)
-- **Combined Total: 80-107 hours (MVP: 69-91 hours)**  
-**Priority:** HIGH  
+- **Combined Total: 87-114 hours (MVP: 76-98 hours)**  
+**Priority:** CRITICAL (Batch 1.2) / HIGH (other batches)  
 **Start Date:** 2026-02-06  
-**Related ADRs:** ADR-035, ADR-036, ADR-037 (Batch 1) + ADR-038, ADR-039, ADR-040 (Batch 2)  
+**Related ADRs:** ADR-035, ADR-036, ADR-037 (Batch 1) + ADR-041 (Batch 1.2) + ADR-038, ADR-039, ADR-040 (Batch 2)  
 **Related Specs:** specifications/llm-dashboard/
 
 ---
 
 ## Executive Summary
 
-Seven coordinated enhancements across three implementation batches to transform dashboard from read-only monitoring to interactive management platform:
+Eight coordinated enhancements across four implementation batches to transform dashboard from read-only monitoring to interactive management platform:
 
 ### Batch 1: Core Interactivity (COMPLETE - 26.33 hours)
 1. ✅ **Markdown Rendering** (6h actual vs 9-11h) - Formatted task descriptions with XSS prevention
@@ -26,10 +27,13 @@ Seven coordinated enhancements across three implementation batches to transform 
 ### Batch 1.1: Task Organization (SPECIFICATION READY - 6-8 hours)
 4. **Orphan Task Assignment** (6-8h estimated) - Feature-level task linking via modal UI
 
+### Batch 1.2: Information Architecture (CRITICAL - 7 hours)
+5. **Multi-Page Navigation** (7h estimated) - 3-page structure to eliminate information overload
+
 ### Batch 2: Productivity & Automation (48-63 hours)
-5. **Docsite Integration** (9-12h) - Context-aware documentation links + help toolbar
-6. **Repository Initialization** (16-21h) - Bootstrap Bill web UI with progress streaming
-7. **Configuration Management** (23-30h) - Schema-validated config editing interface
+6. **Docsite Integration** (9-12h) - Context-aware documentation links + help toolbar
+7. **Repository Initialization** (16-21h) - Bootstrap Bill web UI with progress streaming
+8. **Configuration Management** (23-30h) - Schema-validated config editing interface
 
 **Key Achievement (Batch 1):** Delivered 3/3 core features 25% under estimate with production quality (63-85% test coverage, <100ms latency).
 
@@ -117,6 +121,86 @@ Seven coordinated enhancements across three implementation batches to transform 
 - Simple list view (no accordion)
 - Manual progress only (skip calculation)
 - Reduced effort: 6-8 hours
+
+---
+
+## Batch 1.2: Information Architecture (CRITICAL)
+
+### Phase 5: Multi-Page Navigation (NEW - Week 5)
+**Effort:** 7 hours  
+**Agent:** Frontend Freddy  
+**Task:** TBD - `2026-02-06T1700-dashboard-multi-page-navigation`  
+**Priority:** CRITICAL  
+**Dependencies:** Initiative Tracking (Phase 3) ✅  
+**Specification:** [Multi-Page Navigation (SPEC-DASH-009)](../../specifications/llm-dashboard/multi-page-navigation.md)  
+**Architecture:** [ADR-041: Dashboard Multi-Page Navigation](../../docs/architecture/adrs/ADR-041-dashboard-multi-page-navigation.md)
+
+**Context:**
+Dashboard has grown to 4 major sections (Recent Activity, Task Board, Portfolio, Cost Analytics) causing cognitive overload. Single-page layout requires ~5000px scrolling with users spending 30% of time scrolling vs. reading. CRITICAL priority to prevent further feature accumulation exacerbating problem.
+
+**Problem Statement:**
+- 🔴 **CRITICAL:** Information overload - too many sections competing for attention
+- 🔴 **CRITICAL:** Difficult to focus - context switching requires extensive scrolling
+- 🟡 **HIGH:** No deep linking - can't bookmark/share specific dashboard views
+- 🟡 **HIGH:** Poor mobile experience - vertical scroll becomes unwieldy
+
+**Deliverables:**
+- [ ] Navigation bar component (3 tabs: Dashboard, Initiatives, Accounting)
+- [ ] Hash-based client-side routing (`#dashboard`, `#initiatives`, `#accounting`)
+- [ ] Page visibility toggling (CSS `.hidden` class)
+- [ ] URL hash update on tab click
+- [ ] Browser back/forward navigation support (`hashchange` event)
+- [ ] Active tab visual highlighting
+- [ ] Page 1: Dashboard (Recent Activity + Task Board)
+- [ ] Page 2: Initiatives & Milestones (Portfolio + Orphans)
+- [ ] Page 3: Accounting (Cost & Model Analytics)
+- [ ] Metrics sidebar persistent across all pages
+- [ ] Page transition fade animation (<200ms)
+- [ ] Accessibility: ARIA roles, keyboard navigation, 4.5:1 contrast
+- [ ] sessionStorage for accordion state preservation
+- [ ] Mobile responsive navigation (collapse on <768px)
+
+**Success Criteria:**
+- Page transition completes in <200ms (P95)
+- Initial load time <1.5s (no regression from current)
+- Navigation bar accessible (WCAG 2.1 AA)
+- All MUST-have requirements implemented (9 total: FR-M1 through FR-M9)
+- All acceptance criteria pass (10 scenarios: AC1 through AC10)
+- Cross-browser testing passes (Chrome, Firefox, Safari)
+- 80% scroll reduction achieved (measured via scroll depth analytics)
+- WebSocket updates continue across page transitions
+
+**Test Coverage:**
+- Unit: 6+ tests (showPage, validatePageName, hash routing)
+- Integration: 7+ tests (tab clicks, browser navigation, WebSocket updates)
+- Accessibility: ARIA audit, keyboard navigation, screen reader
+- Performance: Lighthouse (<250ms transitions, <1.5s TTI)
+
+**Technical Highlights:**
+- Hash-based routing (no server-side changes)
+- CSS class toggling (instant transitions, cached DOM state)
+- WebSocket connection persists across page switches
+- Whitelist validation prevents XSS via hash injection
+- Lazy loading deferred to v2 (eager load acceptable for MVP)
+
+**Non-Functional:**
+- Performance: <200ms page transitions, <1.5s initial load (no regression)
+- Security: XSS prevention (hash whitelist), CSP compliance (no inline handlers)
+- Accessibility: WCAG 2.1 AA (keyboard nav, ARIA roles, color contrast)
+- Reliability: Invalid hash fallback to default, WebSocket reconnect resilience
+
+**Implementation Phases:**
+1. HTML Structure (1h): Add navigation bar, wrap sections in page containers
+2. JavaScript Routing (2h): Hash-based routing, page switching logic
+3. CSS Styling (1h): Navigation bar styles, fade transitions
+4. Testing (2h): Manual, cross-browser, mobile, accessibility
+5. Documentation (0.5h): Update README, add screenshots
+
+**Success Metrics (Post-Launch):**
+- Page transition time tracked via Performance API
+- Scroll depth analytics (verify 80% reduction)
+- Deep link usage (% sessions starting on non-default page)
+- User feedback survey (4.5/5 stars target)
 
 ---
 

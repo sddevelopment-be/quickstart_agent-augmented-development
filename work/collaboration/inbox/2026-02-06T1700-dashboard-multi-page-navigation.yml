@@ -1,0 +1,89 @@
+id: "2026-02-06T1700-dashboard-multi-page-navigation"
+agent: frontend
+status: new
+priority: critical
+
+title: "Implement Dashboard Multi-Page Navigation"
+
+specification: "specifications/llm-dashboard/multi-page-navigation.md"
+feature: "Multi-Page Navigation (All Features)"
+
+artefacts:
+  - src/llm_service/dashboard/static/index.html
+  - src/llm_service/dashboard/static/dashboard.js
+  - src/llm_service/dashboard/static/dashboard.css
+  - docs/architecture/adrs/ADR-041-dashboard-multi-page-navigation.md
+  - specifications/llm-dashboard/multi-page-navigation.md
+
+context:
+  repo: "quickstart_agent-augmented-development"
+  branch: "main"
+  effort_estimate: "7 hours"
+  notes:
+    - "CRITICAL priority - information overload causing UX degradation"
+    - "Hash-based client-side routing (no server changes)"
+    - "3 pages: Dashboard (default), Initiatives & Milestones, Accounting"
+    - "Preserve WebSocket connection across page transitions"
+    - "Performance target: <200ms page transitions, <1.5s initial load"
+    - "Accessibility: WCAG 2.1 AA (keyboard nav, ARIA roles, 4.5:1 contrast)"
+    - "Follow ADR-041 implementation phases (HTML → JS → CSS → Testing)"
+    - "Adhere to directive 014 (work log creation)"
+    - "Adhere to directive 016 (ATDD - acceptance tests for navigation)"
+    - "Adhere to directive 017 (TDD - unit tests for routing functions)"
+
+tasks:
+  - subtask: "HTML Structure (1h)"
+    description: "Add navigation bar, wrap sections in page containers with ARIA roles"
+    acceptance:
+      - "Navigation bar with 3 tabs visible"
+      - "Recent Activity + Task Board in #dashboard-content"
+      - "Portfolio + Orphans in #initiatives-content"
+      - "Cost Analytics in #accounting-content"
+      - "role='tablist', role='tab', role='tabpanel' attributes present"
+  
+  - subtask: "JavaScript Routing (2h)"
+    description: "Implement hash-based routing and page switching logic"
+    acceptance:
+      - "validatePageName() rejects non-whitelisted hashes"
+      - "showPage() hides all pages, shows active, updates tab highlighting"
+      - "hashchange event listener triggers page display"
+      - "Tab clicks update window.location.hash"
+      - "document.title updates on page switch"
+      - "Browser back/forward navigation works"
+  
+  - subtask: "CSS Styling (1h)"
+    description: "Style navigation bar, active tabs, page transitions"
+    acceptance:
+      - "Active tab has distinct color + border-bottom indicator"
+      - "Hover state on tabs"
+      - "Fade-in animation on page show (<200ms)"
+      - "prefers-reduced-motion override"
+      - "Mobile responsive (<768px: flex-wrap)"
+  
+  - subtask: "Testing (2h)"
+    description: "Unit, integration, accessibility, and cross-browser testing"
+    acceptance:
+      - "6+ unit tests passing (routing functions)"
+      - "7+ integration tests passing (tab clicks, browser nav)"
+      - "ARIA audit passes (axe DevTools)"
+      - "Keyboard navigation functional (Tab + Enter)"
+      - "Cross-browser tested (Chrome, Firefox, Safari)"
+      - "Lighthouse performance audit (<250ms, <1.5s TTI)"
+  
+  - subtask: "Documentation (0.5h)"
+    description: "Update README with navigation instructions"
+    acceptance:
+      - "README documents 3-page structure"
+      - "Screenshot of navigation bar added"
+      - "Keyboard shortcuts documented (if implemented)"
+
+success_criteria:
+  - "All 9 MUST-have requirements implemented (FR-M1 through FR-M9)"
+  - "All 10 acceptance criteria pass (AC1 through AC10)"
+  - "Page transition time <200ms (P95)"
+  - "Initial load time <1.5s (no regression)"
+  - "WCAG 2.1 AA compliant"
+  - "WebSocket updates continue across page transitions"
+
+created_at: "2026-02-06T17:00:00Z"
+created_by: "planning-petra"
