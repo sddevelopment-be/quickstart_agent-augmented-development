@@ -2,7 +2,7 @@ id: "2026-02-06T1221-dashboard-repository-initialization"
 title: "Dashboard-Driven Repository Initialization"
 status: "inbox"
 priority: "MEDIUM"
-agent: "backend-dev-benny"
+agent: "python-pedro"
 estimated_hours: 18
 specification: "specifications/llm-dashboard/repository-initialization.md"
 related_adrs:
