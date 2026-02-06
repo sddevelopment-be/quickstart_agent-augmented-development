@@ -1,0 +1,18 @@
+# Python dependencies for LLM Service Dashboard
+# Real-time WebSocket-based monitoring dashboard for LLM operations
+# Reference: ADR-032 Real-Time Execution Dashboard
+
+# Web framework
+Flask>=3.0.0
+
+# WebSocket support for real-time updates
+flask-socketio>=5.3.0
+
+# CORS support for localhost connections
+flask-cors>=4.0.0
+
+# File system monitoring for task tracking
+watchdog>=3.0.0
+
+# YAML parsing for task files (also in project root requirements.txt)
+PyYAML>=6.0
