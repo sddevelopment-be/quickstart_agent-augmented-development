@@ -1,11 +1,12 @@
 # Dashboard Enhancements Roadmap
 
 **Initiative:** Dashboard Enhancements  
-**Status:** Implementation in Progress (Batch 1 Ready, Batch 2 Ready)  
+**Status:** Batch 1 COMPLETE (3/3 features) + Batch 1.1 Specification Ready  
 **Total Effort:**
-- Batch 1: 27-35 hours (MVP: 21-28 hours)
-- Batch 2: 48-63 hours (MVP: 37-48 hours)
-- **Combined Total: 75-98 hours (MVP: 58-76 hours)**  
+- Batch 1 (Complete): 26.33h actual vs 27-35h estimated
+- Batch 1.1 (Orphan Assignment - Ready): 6-8 hours estimated
+- Batch 2 (Pending): 48-63 hours (MVP: 37-48 hours)
+- **Combined Total: 80-107 hours (MVP: 69-91 hours)**  
 **Priority:** HIGH  
 **Start Date:** 2026-02-06  
 **Related ADRs:** ADR-035, ADR-036, ADR-037 (Batch 1) + ADR-038, ADR-039, ADR-040 (Batch 2)  
@@ -15,23 +16,28 @@
 
 ## Executive Summary
 
-Six coordinated enhancements across two implementation batches to transform dashboard from read-only monitoring to interactive management platform:
+Seven coordinated enhancements across three implementation batches to transform dashboard from read-only monitoring to interactive management platform:
 
-### Batch 1: Core Interactivity (27-35 hours)
-1. **Markdown Rendering** (9-11h) - Formatted task descriptions with XSS prevention
-2. **Priority Editing** (7-9h) - In-place priority updates with in-progress protection
-3. **Initiative Tracking** (11-15h) - Portfolio view linking specs to tasks
+### Batch 1: Core Interactivity (COMPLETE - 26.33 hours)
+1. ✅ **Markdown Rendering** (6h actual vs 9-11h) - Formatted task descriptions with XSS prevention
+2. ✅ **Priority Editing** (5.83h actual vs 7-9h) - In-place priority updates with in-progress protection
+3. ✅ **Initiative Tracking** (14.5h actual vs 11-15h) - Portfolio view linking specs to tasks
+
+### Batch 1.1: Task Organization (SPECIFICATION READY - 6-8 hours)
+4. **Orphan Task Assignment** (6-8h estimated) - Feature-level task linking via modal UI
 
 ### Batch 2: Productivity & Automation (48-63 hours)
-4. **Docsite Integration** (9-12h) - Context-aware documentation links + help toolbar
-5. **Repository Initialization** (16-21h) - Bootstrap Bill web UI with progress streaming
-6. **Configuration Management** (23-30h) - Schema-validated config editing interface
+5. **Docsite Integration** (9-12h) - Context-aware documentation links + help toolbar
+6. **Repository Initialization** (16-21h) - Bootstrap Bill web UI with progress streaming
+7. **Configuration Management** (23-30h) - Schema-validated config editing interface
 
-**Key Achievement:** Complete dashboard ecosystem covering task management, documentation access, repository setup, and system configuration.
+**Key Achievement (Batch 1):** Delivered 3/3 core features 25% under estimate with production quality (63-85% test coverage, <100ms latency).
+
+**Next Milestone (Batch 1.1):** Orphan task assignment enables users to organize unlinked work into initiative hierarchy via feature-level modal selector.
 
 ---
 
-## Batch 1: Core Interactivity
+## Batch 1: Core Interactivity (COMPLETE ✅)
 
 ### Implementation Phases
 
@@ -111,6 +117,72 @@ Six coordinated enhancements across two implementation batches to transform dash
 - Simple list view (no accordion)
 - Manual progress only (skip calculation)
 - Reduced effort: 6-8 hours
+
+---
+
+## Batch 1.1: Task Organization Enhancement
+
+### Phase 4: Orphan Task Assignment (NEW - Week 4)
+**Effort:** 6-8 hours  
+**Agent:** Python Pedro (Backend + Frontend)  
+**Task:** TBD - `2026-02-06T1530-dashboard-orphan-assignment`  
+**Priority:** MEDIUM  
+**Dependencies:** Initiative Tracking (Phase 3) ✅  
+**Specification:** [Orphan Task Assignment (SPEC-DASH-007)](../../specifications/llm-dashboard/orphan-task-assignment.md)
+
+**Context:**
+Initiative Tracking delivered orphan task visibility, but users cannot assign them to specifications without manual YAML editing. This feature completes the workflow by enabling feature-level task linking via intuitive modal UI.
+
+**Deliverables:**
+- [ ] `GET /api/initiatives` endpoint (feature hierarchy for modal)
+- [ ] `PATCH /api/tasks/:id/assignment` endpoint (update spec + feature)
+- [ ] `task.assigned` WebSocket event
+- [ ] Assignment modal UI (initiative → feature tree, expandable)
+- [ ] Search/filter for large initiative lists
+- [ ] Task context display in modal (title, agent, priority)
+- [ ] Bulk assignment support (multi-select orphans)
+- [ ] Real-time portfolio refresh after assignment
+- [ ] YAML comment preservation during write
+- [ ] Path traversal validation + optimistic locking
+
+**Success Criteria:**
+- Modal loads in <500ms (P95)
+- Specification frontmatter parsing <200ms per spec
+- YAML write completes in <300ms (P95)
+- Search/filter returns results in <100ms (50 initiatives)
+- Orphan task moves to correct portfolio section immediately
+- All connected clients see update via WebSocket
+- Comments and field order preserved in task YAML
+- In-progress tasks cannot be assigned (UI disabled)
+
+**Test Coverage:**
+- Unit: 15+ tests (assignment handler, spec registry, validation)
+- Integration: 8+ tests (API endpoints, WebSocket events)
+- Functional: 5+ acceptance tests (end-to-end workflows)
+- Manual: Keyboard navigation, mobile responsive, multi-browser sync
+
+**Technical Highlights:**
+- Reuses `task_priority_updater.py` YAML writing patterns
+- Caches parsed frontmatter (invalidate on file watcher events)
+- Feature-level precision (not just spec-level assignment)
+- AI suggestion capability (SHOULD-have: keyword matching)
+
+**Non-Functional:**
+- Security: Path traversal prevention, XSS sanitization, optimistic locking
+- Performance: <500ms modal load, <200ms frontmatter parsing, <300ms write
+- Accessibility: WCAG 2.1 AA, keyboard navigation, screen reader support
+- Usability: Error messages non-technical, mobile responsive
+
+**Specification Breakdown:**
+- MUST: 10 critical requirements (FR-M1 through FR-M10)
+- SHOULD: 7 usability enhancements (FR-S1 through FR-S7)
+- COULD: 4 nice-to-have features (FR-C1 through FR-C4)
+- WON'T: 3 explicitly excluded (reassignment, spec modification, custom metadata)
+
+**User Workflows Covered:**
+1. Basic assignment: Orphan task → Modal → Select feature → Assigned
+2. Bulk assignment: Multi-select orphans → Single modal → All to same feature
+3. AI-suggested: 1-click assignment based on task metadata (SHOULD-have)
 
 ---
 
