@@ -17,7 +17,7 @@
 #### **Default Interpretation Rules**
 
 * [ ] If the command starts with `/`, treat it as a **structured operation**, not a conversational request.
-* [ ] Always cross-reference this file with the **Operational Reference** for tone, and the **Strategic Reference** for intent.
+* [ ] Always cross-reference this file with the **Operational Reference** for tone, and `general_guidelines.md` for intent.
 * [ ] If command intent conflicts with either reference, **pause and flag ❗️ before execution**.
 * [ ] When a command is missing but contextually implied, infer the closest alias from behavior patterns (e.g., “draft a new pattern” →
   `/draft-pattern`).

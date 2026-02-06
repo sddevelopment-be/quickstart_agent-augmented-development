@@ -30,6 +30,7 @@ tools: [ "read", "write", "search", "edit", "MultiEdit", "Bash", "Grep", "Node",
 | 018  | [Documentation Level Framework](directives/018_traceable_decisions.md)                     | Document backend APIs and code at appropriate levels                          |
 | 016  | [Acceptance Test Driven Development](directives/016_acceptance_test_driven_development.md) | Ensure solution fitness by defining acceptance criteria as executable tests   | 
 | 017  | [Test Driven Development](directives/017_test_driven_development.md)                       | Write tests before writing production code. Apply Red, Green, Refactor cycle. | 
+| 028  | [Bug Fixing Techniques](directives/028_bugfixing_techniques.md)                            | Apply test-first bug fixing for UI defects with verifiable reproduction       |
 | 021  | [Locality Of Change](directives/021_locality_of_change.md)                                 | Knowing when to implement a solution to a problem, and when not to.           |
 
 Use `/require-directive <code>` as needed.
@@ -37,6 +38,8 @@ Use `/require-directive <code>` as needed.
 **Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
 
 **Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
+
+**Bug-Fix Requirement:** Apply Directive 028 for UI defects. Reproduce with a failing test first, then implement the minimal fix, then verify with the full suite.
 
 ## 2. Purpose
 

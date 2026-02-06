@@ -8,5 +8,5 @@ note: Coding and documentation style references.
 
 Purpose: Central place for coding, documentation, and version control style guides.
 
-What belongs: Language- or process-specific style guidance (e.g., Python conventions, VCS hygiene).  
+What belongs: Language- or process-specific style guidance (e.g., Python conventions, Java guidelines, VCS hygiene).  
 What doesn’t: One-off notes or team-specific agreements (use `work/notes/`).

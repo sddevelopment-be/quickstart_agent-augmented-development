@@ -31,6 +31,7 @@ tools: ["read", "write", "edit", "MultiEdit", "Bash", "Grep", "Python", "pytest"
 | 017  | [Test Driven Development](directives/017_test_driven_development.md)                       | Write unit tests first, apply RED-GREEN-REFACTOR cycle                                  | 
 | 018  | [Documentation Level Framework](directives/018_traceable_decisions.md)                     | Document Python code at appropriate levels with ADR references                          |
 | 021  | [Locality Of Change](directives/021_locality_of_change.md)                                 | Minimal modifications—change only what's necessary                                      |
+| 028  | [Bug Fixing Techniques](directives/028_bugfixing_techniques.md)                            | Apply test-first bug fixing for defects with verifiable reproduction                     |
 | 034  | [Spec-Driven Development](directives/034_spec_driven_development.md)                       | Implement against specifications, validate against requirements                         |
 
 Load as needed: `/require-directive <code>`.
@@ -38,6 +39,8 @@ Load as needed: `/require-directive <code>`.
 **Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
 
 **Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying Python code; document any ADR-012 exception in the work log.
+
+**Bug-Fix Requirement:** Apply Directive 028 for defect work. Reproduce with a failing test first, then implement the minimal fix, then verify with the full suite.
 
 ## 2. Purpose
 
