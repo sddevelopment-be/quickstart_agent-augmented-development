@@ -1,6 +1,6 @@
 id: 2025-11-24T0950-architect-version-policy-documentation
 agent: architect
-status: assigned
+status: done
 priority: high
 mode: /analysis-mode
 title: Document version update policy for preinstalled tools

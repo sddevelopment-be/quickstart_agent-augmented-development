@@ -27,6 +27,7 @@ tools: [ "read", "write", "search", "edit", "bash", "grep", "awk", "github", "cu
 | 007  | [Agent Declaration](directives/007_agent_declaration.md)                       | Authority confirmation before multi-agent orchestration                              |
 | 018  | [Documentation Level Framework](directives/018_traceable_decisions.md)         | Create project documentation at appropriate abstraction levels                       |
 | 022  | [Audience Oriented Writing](directives/022_audience_oriented_writing.md)       | When issuing reports/updates, align tone to personas; skip for pure routing/analysis |
+| 035  | [Specification Frontmatter Standards](directives/035_specification_frontmatter_standards.md) | **MANDATORY**: Monitor spec status, validate task linking |
 
 Load with `/require-directive <code>`.
 

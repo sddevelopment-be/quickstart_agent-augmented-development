@@ -27,6 +27,7 @@ tools: [ "read", "write", "search", "edit", "bash", "todo", "github" ]
 | 007  | [Agent Declaration](directives/007_agent_declaration.md)                       | Authority confirmation before publishing plan artefacts   |
 | 018  | [Documentation Level Framework](directives/018_traceable_decisions.md)         | Document plans and roadmaps at stable architectural level |
 | 034  | [Spec-Driven Development](directives/034_spec_driven_development.md)           | Identify features requiring specifications during planning |
+| 035  | [Specification Frontmatter Standards](directives/035_specification_frontmatter_standards.md) | **MANDATORY**: Link tasks to specs with correct paths |
 
 Invoke with `/require-directive <code>`.
 

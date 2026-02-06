@@ -1,7 +1,7 @@
 # GitHub Copilot Tooling Setup Guide
 
-**Version:** 1.0.0  
-**Last Updated:** 2025-11-23  
+**Version:** 1.1.0  
+**Last Updated:** 2026-02-06  
 **Directive Reference:** 001 (CLI & Shell Tooling)  
 **Audience:** Repository maintainers setting up Copilot environments for agents (see `docs/audience/agentic-framework-core-team.md`).
 
@@ -56,6 +56,10 @@ The setup script installs specific versions for reproducibility:
 - **yq:** v4.40.5 (mikefarah/yq)
 - **fzf:** Latest from package manager (apt/brew)
 - **ast-grep:** v0.15.1
+
+## Version Update Policy
+
+Tool version changes follow the policy defined in `docs/architecture/policies/tool-versioning-policy.md`.
 
 ## Setup Script Usage
 

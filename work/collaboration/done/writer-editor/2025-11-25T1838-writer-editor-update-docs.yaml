@@ -1,6 +1,6 @@
 id: 2025-11-25T1838-writer-editor-update-docs
 agent: writer-editor
-status: assigned
+status: done
 title: Update documentation to reflect new script organization
 artefacts:
 - docs/HOW_TO_USE/multi-agent-orchestration.md
