@@ -1,0 +1,140 @@
+id: "2026-02-06T1149-dashboard-priority-editing"
+title: "Dashboard Task Priority Editing (ADR-035)"
+agent: "backend-dev-benny"
+status: "inbox"
+priority: "HIGH"
+created: "2026-02-06T11:49:00Z"
+estimated_hours: 8
+specification: "specifications/llm-dashboard/task-priority-editing.md"
+
+description: |
+  Implement in-place priority editing in the dashboard with in-progress task protection.
+  
+  ## Scope
+  ### Backend (5 hours)
+  - Create PATCH /api/tasks/:id/priority endpoint
+  - Implement YAML file writer with comment preservation (ruamel.yaml)
+  - Add priority validation (CRITICAL, HIGH, MEDIUM, LOW, normal)
+  - Add status validation (reject if status: in_progress)
+  - Implement atomic file writes (temp file → rename)
+  - Add optimistic locking with last_modified timestamp
+  - Unit tests for YAML operations and validation
+  
+  ### Frontend (3 hours)
+  - Replace static priority badge with dropdown component
+  - Wire to PATCH endpoint
+  - Handle loading/success/error states
+  - Add in-progress indicator (pulsing dot + "In Progress" badge)
+  - Disable dropdown for in-progress and done tasks
+  - WebSocket event handling for real-time updates
+
+context: |
+  This is Phase 2 of the dashboard enhancements initiative. Can be developed in
+  parallel with Phase 1 (Markdown Rendering) as there are no dependencies.
+  
+  **Related ADRs:**
+  - ADR-035: Dashboard Task Priority Editing (primary)
+  - ADR-032: Real-Time Execution Dashboard (foundation)
+  
+  **Technical Design:**
+  - docs/architecture/design/dashboard-enhancements-technical-design.md
+  
+  **Implementation Order:** 2nd of 3 features (Markdown → Priority → Portfolio)
+
+acceptance_criteria: |
+  **Backend:**
+  - [ ] PATCH /api/tasks/:id/priority endpoint implemented
+  - [ ] ruamel.yaml library integrated for comment preservation
+  - [ ] Priority validation: only allow valid enum values
+  - [ ] Status validation: return 409 if status == "in_progress"
+  - [ ] Atomic file writes implemented (no corruption on failure)
+  - [ ] Optimistic locking: check last_modified timestamp
+  - [ ] Unit tests: 80%+ coverage for priority operations
+  - [ ] Error handling: 400 (invalid priority), 404 (not found), 409 (conflict)
+  
+  **Frontend:**
+  - [ ] Priority dropdown component replaces static badge
+  - [ ] Dropdown disabled for in_progress and done tasks
+  - [ ] In-progress indicator: pulsing dot animation + badge
+  - [ ] Loading spinner shows during save
+  - [ ] Success/error toasts for user feedback
+  - [ ] WebSocket updates priority display on all clients
+  - [ ] Performance: <500ms P95 for priority save
+  
+  **Integration:**
+  - [ ] End-to-end test: Select priority → YAML updated → WebSocket received
+  - [ ] Concurrent edit scenario tested (optimistic locking works)
+  - [ ] Multi-browser real-time sync tested
+
+implementation_notes: |
+  **Phase 1: Backend API (2-3 hours)**
+  ```python
+  @app.route('/api/tasks/<task_id>/priority', methods=['PATCH'])
+  def update_priority(task_id):
+      data = request.json
+      priority = data['priority']
+      last_modified = data.get('last_modified')
+      
+      # Validate priority enum
+      if priority not in ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW', 'normal']:
+          return jsonify({'error': 'Invalid priority'}), 400
+      
+      # Load task, check status
+      task = load_task(task_id)
+      if task['status'] == 'in_progress':
+          return jsonify({'error': 'Cannot edit in-progress task'}), 409
+      
+      # Optimistic locking check
+      if last_modified and task['updated'] != last_modified:
+          return jsonify({'error': 'Concurrent modification'}), 409
+      
+      # Atomic write with ruamel.yaml
+      update_task_priority(task_id, priority)
+      
+      return jsonify({'success': True, 'task': task})
+  ```
+  
+  **Phase 2: Frontend Dropdown (2-3 hours)**
+  - Create PriorityDropdown Vue/React component (or vanilla JS)
+  - Wire to API endpoint
+  - Handle states: enabled, disabled, loading, error
+  
+  **Phase 3: In-Progress Indicator (2 hours)**
+  - CSS pulsing animation for active tasks
+  - Conditional rendering based on task.status
+  
+  **Phase 4: Testing (1 hour)**
+  - E2E: Priority change flow
+  - Security: Path traversal, YAML injection attempts
+  - Concurrent edit scenario
+
+dependencies: []
+
+blocked_by: []
+
+blocks:
+  - "2026-02-06T1150-dashboard-initiative-tracking"  # Portfolio view needs priority dropdown
+
+tags:
+  - dashboard
+  - backend
+  - frontend
+  - yaml
+  - adr-035
+  - m4-batch-4.3
+
+notes: |
+  **Security Considerations:**
+  - Validate priority against whitelist (prevent YAML injection)
+  - Sanitize task_id to prevent path traversal
+  - Use ruamel.yaml.safe_load() to prevent code execution
+  
+  **Performance Targets:**
+  - YAML parse + write + file sync: <200ms
+  - WebSocket broadcast: <100ms
+  - End-to-end latency: <500ms P95
+  
+  **Concurrency:**
+  - Optimistic locking prevents most conflicts
+  - In rare race conditions, last write wins (acceptable for priority)
+  - File watcher detects change and broadcasts update

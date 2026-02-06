@@ -1,0 +1,175 @@
+id: "2026-02-06T1150-dashboard-initiative-tracking"
+title: "Dashboard Initiative Tracking - Portfolio View (ADR-037)"
+agent: "backend-dev-benny"
+status: "inbox"
+priority: "MEDIUM"
+created: "2026-02-06T11:50:00Z"
+estimated_hours: 13
+specification: "specifications/llm-dashboard/initiative-tracking.md"
+
+description: |
+  Implement portfolio view linking specifications to tasks with automated progress rollup.
+  
+  ## Scope
+  ### Backend (8 hours)
+  - Specification parser: Parse YAML frontmatter from markdown files
+  - Task linker: Find tasks with `specification:` field
+  - Progress calculator: Aggregate task status → feature → initiative
+  - Portfolio cache: In-memory cache with file watcher invalidation
+  - GET /api/portfolio endpoint
+  - WebSocket events for portfolio updates
+  
+  ### Frontend (5 hours)
+  - Portfolio view UI: Hierarchical accordion/tree view
+  - Initiative cards with progress bars
+  - Feature drill-down with task lists
+  - Orphan tasks section (tasks without spec links)
+  - Responsive design
+
+context: |
+  This is Phase 3 of the dashboard enhancements initiative. Depends on Phases 1 & 2
+  for full experience (markdown rendering + priority dropdown in portfolio view).
+  
+  **Related ADRs:**
+  - ADR-037: Dashboard Initiative Tracking (primary)
+  - ADR-032: Real-Time Execution Dashboard (foundation)
+  - ADR-034: Specification-Driven Development (spec frontmatter schema)
+  
+  **Technical Design:**
+  - docs/architecture/design/dashboard-enhancements-technical-design.md
+  
+  **Implementation Order:** 3rd of 3 features (Markdown → Priority → Portfolio)
+  
+  **MVP Option Available:** Skip progress calculation, simple list view (6-8 hours)
+
+acceptance_criteria: |
+  **Backend:**
+  - [ ] SpecificationParser: Parse frontmatter from specifications/**/*.md
+  - [ ] Extract initiative, features, status, priority metadata
+  - [ ] TaskLinker: Match tasks via `specification:` field to spec file paths
+  - [ ] ProgressCalculator: Aggregate task status (done=100%, in_progress=50%, etc.)
+  - [ ] Roll up feature progress → initiative progress
+  - [ ] PortfolioCache: In-memory with file watcher invalidation
+  - [ ] GET /api/portfolio endpoint returns hierarchy JSON
+  - [ ] Handle orphan tasks (no specification link)
+  - [ ] Unit tests: 80%+ coverage for parser, linker, calculator
+  
+  **Frontend:**
+  - [ ] Portfolio view with initiative list
+  - [ ] Expandable accordion for features
+  - [ ] Progress bars with percentages
+  - [ ] Drill-down to task details
+  - [ ] Orphan tasks section at bottom
+  - [ ] Real-time updates via WebSocket
+  - [ ] Responsive design (desktop + tablet)
+  
+  **Performance:**
+  - [ ] Portfolio load (cached): <50ms
+  - [ ] Portfolio load (uncached, 50 specs): <500ms
+  - [ ] Cache invalidation: <100ms after file change
+  
+  **Integration:**
+  - [ ] End-to-end: Spec file → parsed → API response → UI rendered
+  - [ ] File watcher triggers cache invalidation
+  - [ ] Task completion updates initiative progress
+
+implementation_notes: |
+  **Phase 1: Specification Parser (4 hours)**
+  ```python
+  class SpecificationParser:
+      def parse_frontmatter(self, spec_path: str) -> SpecMetadata:
+          with open(spec_path) as f:
+              content = f.read()
+          
+          # Extract YAML frontmatter
+          match = re.match(r'^---\n(.*?)\n---', content, re.DOTALL)
+          if not match:
+              return None
+          
+          frontmatter = yaml.safe_load(match.group(1))
+          return SpecMetadata(
+              id=frontmatter['id'],
+              title=frontmatter['title'],
+              status=frontmatter.get('status', 'draft'),
+              initiative=frontmatter.get('initiative'),
+              priority=frontmatter.get('priority', 'MEDIUM'),
+              features=frontmatter.get('features', []),
+              completion=frontmatter.get('completion'),  # Manual override
+              path=spec_path
+          )
+  ```
+  
+  **Phase 2: Task Linker (3 hours)**
+  - Scan work/collaboration/ for tasks with `specification:` field
+  - Group tasks by specification path
+  - Handle missing/invalid spec references
+  
+  **Phase 3: Progress Calculator (2 hours)**
+  ```python
+  def calculate_feature_progress(tasks: List[Task]) -> int:
+      weights = {"done": 1.0, "in_progress": 0.5, "blocked": 0.25}
+      total = sum(weights.get(t.status, 0) for t in tasks)
+      return int((total / len(tasks)) * 100) if tasks else 0
+  
+  def calculate_initiative_progress(initiative: Initiative) -> int:
+      # Use manual override if present
+      if initiative.metadata.completion is not None:
+          return initiative.metadata.completion
+      
+      # Otherwise aggregate from features
+      if not initiative.features:
+          return 0
+      avg = sum(f.progress for f in initiative.features) / len(initiative.features)
+      return int(avg)
+  ```
+  
+  **Phase 4: API Endpoint (2 hours)**
+  - GET /api/portfolio returns initiative hierarchy
+  - Cache with file watcher invalidation
+  - WebSocket events on portfolio changes
+  
+  **Phase 5: Frontend Portfolio View (5 hours)**
+  - Hierarchical UI (initiative → feature → task)
+  - Progress bars with percentages
+  - Expandable/collapsible sections
+  - Responsive styling
+
+dependencies:
+  - "2026-02-06T1148-dashboard-markdown-rendering"  # Markdown in portfolio view
+  - "2026-02-06T1149-dashboard-priority-editing"    # Priority dropdown in portfolio
+
+blocked_by: []
+
+blocks: []
+
+tags:
+  - dashboard
+  - backend
+  - frontend
+  - specifications
+  - adr-037
+  - m4-batch-4.3
+
+notes: |
+  **MVP Option (6-8 hours):**
+  If time-constrained, can launch with:
+  - Simple list view (no accordion hierarchy)
+  - Manual progress only (skip calculation)
+  - Basic initiative → feature mapping
+  - Enhanced version can follow in Batch 4.4
+  
+  **Specification Migration:**
+  - Existing specs need frontmatter added
+  - Use ops/scripts/add-spec-frontmatter.py to bootstrap
+  - Validate with ops/scripts/validate-specs.py
+  
+  **Performance Optimization:**
+  - Parse specs on startup, cache in memory
+  - File watcher invalidates cache on spec changes
+  - For 50+ specs, consider spec metadata index file
+  
+  **Future Enhancements:**
+  - Gantt chart timeline view
+  - Burndown charts for initiatives
+  - Dependency visualization
+  - GitHub Projects sync (optional)
