@@ -1,4 +1,3 @@
----
 task_id: "mfd-task-1.4-create-5-schemas"
 from_agent: "Project Manager"
 to_agent: "Backend Benny"
@@ -12,7 +11,6 @@ milestone: "Milestone 1: Schema Complete"
 dependencies: ["mfd-task-1.3-schema-conventions"]
 reviewers: ["Architect Alphonso"]
 
----
 
 # Task 1.4: Create Schemas for 5 Representative Agents
 
@@ -136,13 +134,11 @@ ajv validate -s architect-alphonso.input.schema.json -d examples/architect-input
 **Duration:** 4 hours  
 **Deadline:** End of Batch 1, Week 1
 
----
 
 **Task Status:** TODO - Waiting on Task 1.3  
 **Blocking Tasks:** Task 2.4 (Complete 12 Schemas)  
 **Critical Path:** Yes
 
----
 
 *Created by: Project Manager*  
 *Date: 2026-01-29*  
