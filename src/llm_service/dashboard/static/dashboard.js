@@ -1027,12 +1027,116 @@
         }
     });
 
+    // ===========================================
+    // Multi-Page Navigation (ADR-041)
+    // ===========================================
+    
+    /**
+     * Validate page name against whitelist (security: prevent XSS via hash injection)
+     * @param {string} pageName - Page name from URL hash
+     * @returns {string} - Valid page name or 'dashboard' fallback
+     */
+    function validatePageName(pageName) {
+        const validPages = ['dashboard', 'initiatives', 'accounting'];
+        return validPages.includes(pageName) ? pageName : 'dashboard';
+    }
+    
+    /**
+     * Show specified page, hide others, update navigation state
+     * @param {string} pageName - Page to display
+     */
+    function showPage(pageName) {
+        // Validate and sanitize page name
+        pageName = validatePageName(pageName);
+        
+        // Hide all page content
+        document.querySelectorAll('.page-content').forEach(el => {
+            el.classList.add('hidden');
+            el.setAttribute('aria-hidden', 'true');
+        });
+        
+        // Show active page
+        const activeContent = document.getElementById(`${pageName}-content`);
+        if (activeContent) {
+            activeContent.classList.remove('hidden');
+            activeContent.setAttribute('aria-hidden', 'false');
+        }
+        
+        // Update tab highlighting
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            const isActive = tab.dataset.page === pageName;
+            tab.classList.toggle('active', isActive);
+            tab.setAttribute('aria-selected', isActive.toString());
+        });
+        
+        // Update document title
+        const pageTitles = {
+            'dashboard': 'Dashboard',
+            'initiatives': 'Initiatives & Milestones',
+            'accounting': 'Accounting'
+        };
+        document.title = `${pageTitles[pageName]} - LLM Service Dashboard`;
+        
+        console.log(`📄 Navigated to: ${pageName}`);
+    }
+    
+    /**
+     * Handle navigation tab clicks
+     */
+    function handleNavigationClick(event) {
+        const tab = event.target.closest('.nav-tab');
+        if (!tab) return;
+        
+        const pageName = tab.dataset.page;
+        if (pageName) {
+            window.location.hash = pageName;
+        }
+    }
+    
+    /**
+     * Handle browser navigation (back/forward buttons)
+     */
+    function handleHashChange() {
+        const pageName = window.location.hash.slice(1) || 'dashboard';
+        showPage(pageName);
+    }
+    
+    /**
+     * Initialize navigation on page load
+     */
+    function initializeNavigation() {
+        // Set up hash change listener (browser back/forward)
+        window.addEventListener('hashchange', handleHashChange);
+        
+        // Set up tab click listener
+        const nav = document.querySelector('.page-navigation');
+        if (nav) {
+            nav.addEventListener('click', handleNavigationClick);
+        }
+        
+        // Show initial page based on URL hash
+        const initialPage = window.location.hash.slice(1) || 'dashboard';
+        showPage(initialPage);
+        
+        console.log('✅ Multi-page navigation initialized');
+    }
+    
+    // Initialize navigation on dashboard load
+    document.addEventListener('DOMContentLoaded', initializeNavigation);
+    
+    // ===========================================
+    // End Multi-Page Navigation
+    // ===========================================
+
     // Export for debugging
     window.dashboard = {
         socket,
         loadDashboardData,
         updateCharts,
-        loadPortfolioData
+        loadPortfolioData,
+        // Navigation exports for testing
+        showPage,
+        validatePageName
     };
 
     console.log('✅ Dashboard initialized successfully');

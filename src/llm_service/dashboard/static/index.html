@@ -28,6 +28,22 @@
         </div>
     </header>
 
+    <!-- Multi-Page Navigation (ADR-041) -->
+    <nav class="page-navigation" role="tablist" aria-label="Dashboard pages">
+        <button id="tab-dashboard" class="nav-tab active" data-page="dashboard" 
+                role="tab" aria-selected="true" aria-controls="dashboard-content">
+            Dashboard
+        </button>
+        <button id="tab-initiatives" class="nav-tab" data-page="initiatives" 
+                role="tab" aria-selected="false" aria-controls="initiatives-content">
+            Initiatives & Milestones
+        </button>
+        <button id="tab-accounting" class="nav-tab" data-page="accounting" 
+                role="tab" aria-selected="false" aria-controls="accounting-content">
+            Accounting
+        </button>
+    </nav>
+
     <!-- Main Dashboard Grid -->
     <main class="dashboard-main">
         <!-- Left Sidebar: Metrics -->
@@ -70,34 +86,19 @@
         <!-- Main Content Area -->
         <div class="container main-content">
 
-            <!-- Recent Activity -->
-            <section class="activity-section">
-                <h2>🔔 Recent Activity</h2>
-                <div id="activity-feed" class="activity-feed">
-                    <div class="empty-state">No recent activity</div>
-                </div>
-            </section>
-
-            <!-- Portfolio Overview - Initiative Tracking -->
-            <section class="portfolio-section">
-                <h2>📊 Portfolio Overview</h2>
-                <div id="portfolio-container" class="portfolio-container">
-                    <div class="empty-state">Loading portfolio...</div>
-                </div>
-                
-                <!-- Orphan Tasks Section -->
-                <div id="orphan-section" class="orphan-section hidden">
-                    <h3>⚠️ Orphan Tasks</h3>
-                    <p class="orphan-description">Tasks without specification links</p>
-                    <div id="orphan-tasks" class="orphan-tasks-list">
-                        <!-- Populated by JS -->
+            <!-- Page 1: Dashboard (Default) - Operational Focus -->
+            <div id="dashboard-content" class="page-content" role="tabpanel" aria-labelledby="tab-dashboard">
+                <!-- Recent Activity -->
+                <section class="activity-section">
+                    <h2>🔔 Recent Activity</h2>
+                    <div id="activity-feed" class="activity-feed">
+                        <div class="empty-state">No recent activity</div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            <!-- Kanban Board - Live Task Tracking -->
-            <section class="kanban-section">
-                <h2>📋 Live Task Board</h2>
+                <!-- Kanban Board - Live Task Tracking -->
+                <section class="kanban-section">
+                    <h2>📋 Live Task Board</h2>
                 <div class="kanban-board">
                     <!-- Inbox Column -->
                     <div class="kanban-column">
@@ -133,10 +134,35 @@
                     </div>
                 </div>
             </section>
+            </div>
+            <!-- End Page 1: Dashboard -->
 
-            <!-- Charts Section -->
-            <section class="charts-section">
-                <h2>📊 Cost & Model Analytics</h2>
+            <!-- Page 2: Initiatives & Milestones - Strategic Focus -->
+            <div id="initiatives-content" class="page-content hidden" role="tabpanel" aria-labelledby="tab-initiatives">
+                <!-- Portfolio Overview - Initiative Tracking -->
+                <section class="portfolio-section">
+                    <h2>📊 Portfolio Overview</h2>
+                    <div id="portfolio-container" class="portfolio-container">
+                        <div class="empty-state">Loading portfolio...</div>
+                    </div>
+                    
+                    <!-- Orphan Tasks Section -->
+                    <div id="orphan-section" class="orphan-section hidden">
+                        <h3>⚠️ Orphan Tasks</h3>
+                        <p class="orphan-description">Tasks without specification links</p>
+                        <div id="orphan-tasks" class="orphan-tasks-list">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <!-- End Page 2: Initiatives -->
+
+            <!-- Page 3: Accounting - Financial Focus -->
+            <div id="accounting-content" class="page-content hidden" role="tabpanel" aria-labelledby="tab-accounting">
+                <!-- Charts Section -->
+                <section class="charts-section">
+                    <h2>📊 Cost & Model Analytics</h2>
                 <div class="charts-grid">
                     <div class="chart-container">
                         <h3>📈 Cost Trends</h3>
@@ -149,6 +175,9 @@
                     </div>
                 </div>
             </section>
+            </div>
+            <!-- End Page 3: Accounting -->
+
         </div>
     </main>
 

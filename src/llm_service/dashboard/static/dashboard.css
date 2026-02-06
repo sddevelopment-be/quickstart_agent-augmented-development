@@ -85,6 +85,99 @@ body {
 .status-connected { color: var(--success-color); }
 .status-disconnected { color: var(--danger-color); }
 
+/* ========================================== */
+/* Multi-Page Navigation (ADR-041) */
+/* ========================================== */
+
+.page-navigation {
+    display: flex;
+    gap: 0;
+    background-color: var(--bg-secondary);
+    border-bottom: 2px solid var(--border-color);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow);
+}
+
+.nav-tab {
+    flex: 0 0 auto;
+    padding: 1rem 2rem;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.nav-tab:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+}
+
+.nav-tab.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+    background-color: var(--bg-card);
+}
+
+.nav-tab:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: -2px;
+}
+
+/* Page content containers */
+.page-content {
+    display: block;
+    animation: fadeIn 0.2s ease-in;
+}
+
+.page-content.hidden {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(-10px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .page-content {
+        animation: none;
+    }
+    .nav-tab {
+        transition: none;
+    }
+}
+
+/* Mobile responsive navigation */
+@media (max-width: 768px) {
+    .page-navigation {
+        flex-wrap: wrap;
+    }
+    
+    .nav-tab {
+        flex: 1 1 auto;
+        padding: 0.75rem 1rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* ========================================== */
+/* End Multi-Page Navigation */
+/* ========================================== */
+
 /* Main Dashboard */
 /* Main Layout: Sidebar + Content */
 .dashboard-main {
