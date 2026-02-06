@@ -424,6 +424,326 @@ canvas {
     color: var(--text-muted);
 }
 
+/* ========================================
+   Portfolio Overview Section (ADR-037)
+   ======================================== */
+
+/* Portfolio Section */
+.portfolio-section {
+    margin-bottom: 2rem;
+}
+
+.portfolio-section h2 {
+    margin-bottom: 1rem;
+}
+
+.portfolio-container {
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+/* Initiative Card */
+.initiative-card {
+    background-color: var(--bg-card);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.2s;
+}
+
+.initiative-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.initiative-header {
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background-color: rgba(59, 130, 246, 0.1);
+    border-left: 4px solid var(--primary-color);
+    transition: background-color 0.2s;
+}
+
+.initiative-header:hover {
+    background-color: rgba(59, 130, 246, 0.15);
+}
+
+.initiative-toggle {
+    font-size: 1.2rem;
+    transition: transform 0.2s;
+    user-select: none;
+}
+
+.initiative-toggle.expanded {
+    transform: rotate(90deg);
+}
+
+.initiative-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.initiative-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.initiative-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.initiative-meta .badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge.status-draft { background-color: #64748b; color: #fff; }
+.badge.status-in_progress { background-color: #f59e0b; color: #fff; }
+.badge.status-completed { background-color: #10b981; color: #fff; }
+.badge.status-archived { background-color: #6b7280; color: #fff; }
+
+.badge.priority-critical { background-color: var(--danger-color); color: #fff; }
+.badge.priority-high { background-color: var(--warning-color); color: #fff; }
+.badge.priority-medium { background-color: var(--primary-color); color: #fff; }
+.badge.priority-low { background-color: #64748b; color: #fff; }
+
+/* Progress Bar */
+.progress-container {
+    min-width: 200px;
+}
+
+.progress-bar-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: var(--success-color);
+    transition: width 0.3s ease, background-color 0.3s ease;
+    border-radius: 5px;
+}
+
+.progress-fill.progress-0-33 { background-color: var(--danger-color); }
+.progress-fill.progress-34-66 { background-color: var(--warning-color); }
+.progress-fill.progress-67-99 { background-color: #eab308; }
+.progress-fill.progress-100 { background-color: var(--success-color); }
+
+.progress-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    min-width: 80px;
+    text-align: right;
+}
+
+/* Initiative Body (Features) */
+.initiative-body {
+    display: none;
+    padding: 0 1.25rem 1rem 1.25rem;
+}
+
+.initiative-body.expanded {
+    display: block;
+    animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Feature Item */
+.feature-item {
+    margin-left: 1.5rem;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 6px;
+    border-left: 3px solid var(--text-muted);
+}
+
+.feature-header {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    margin: -0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.feature-header:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.feature-toggle {
+    font-size: 1rem;
+    transition: transform 0.2s;
+    user-select: none;
+}
+
+.feature-toggle.expanded {
+    transform: rotate(90deg);
+}
+
+.feature-info {
+    flex: 1;
+}
+
+.feature-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin: 0 0 0.25rem 0;
+}
+
+.feature-meta {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* Task List */
+.task-list-container {
+    display: none;
+    margin-top: 0.75rem;
+    margin-left: 1.5rem;
+}
+
+.task-list-container.expanded {
+    display: block;
+}
+
+.task-item {
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-left: 2px solid transparent;
+}
+
+.task-item:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    transform: translateX(4px);
+}
+
+.task-item.status-done { border-left-color: var(--success-color); }
+.task-item.status-in_progress { border-left-color: var(--warning-color); }
+.task-item.status-assigned { border-left-color: var(--primary-color); }
+.task-item.status-inbox { border-left-color: var(--text-muted); }
+
+.task-status-icon {
+    font-size: 1rem;
+}
+
+.task-title-text {
+    flex: 1;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.task-agent {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* Orphan Section */
+.orphan-section {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 8px;
+}
+
+.orphan-section h3 {
+    margin: 0 0 0.5rem 0;
+    color: var(--danger-color);
+    font-size: 1rem;
+}
+
+.orphan-description {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 0 0 1rem 0;
+}
+
+.orphan-tasks-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 0.75rem;
+}
+
+.orphan-task-card {
+    padding: 0.75rem;
+    background-color: var(--bg-card);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    border-left: 3px solid var(--danger-color);
+}
+
+.orphan-task-card:hover {
+    background-color: var(--bg-secondary);
+    transform: translateX(2px);
+}
+
+.orphan-task-title {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.orphan-task-meta {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Hidden utility */
+.hidden {
+    display: none !important;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
     .dashboard-main {

@@ -34,8 +34,12 @@
         // Load initial data
         loadDashboardData();
         
+        // Load portfolio data (ADR-037)
+        loadPortfolioData();
+        
         // Set up periodic refresh (fallback if WebSocket fails)
         setInterval(loadDashboardData, 30000); // Every 30 seconds
+        setInterval(loadPortfolioData, 60000); // Portfolio every 60 seconds
         
         // Hide loading overlay
         setTimeout(() => {
@@ -94,6 +98,8 @@
             console.log('✅ Task completed:', data);
             handleTaskCompleted(data);
             addActivity('Task Completed', data.task.title || data.task.id, 'completed');
+            // Refresh portfolio on task completion
+            loadPortfolioData();
         });
 
         socket.on('task.updated', (data) => {
@@ -105,6 +111,10 @@
             }
             
             handleTaskUpdated(data);
+            // Refresh portfolio on task status changes
+            if (data.field === 'status') {
+                loadPortfolioData();
+            }
         });
 
         socket.on('cost.update', (data) => {
@@ -726,11 +736,268 @@
         return div.innerHTML;
     }
 
+    // ========================================
+    // Portfolio Functions (ADR-037)
+    // ========================================
+    
+    /**
+     * Load portfolio data from API
+     */
+    async function loadPortfolioData() {
+        try {
+            const response = await fetch('/api/portfolio');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            renderPortfolio(data);
+        } catch (error) {
+            console.error('Failed to load portfolio data:', error);
+            const container = document.getElementById('portfolio-container');
+            container.innerHTML = '<div class="empty-state">Failed to load portfolio. Please refresh.</div>';
+        }
+    }
+    
+    /**
+     * Render portfolio hierarchy
+     */
+    function renderPortfolio(data) {
+        const container = document.getElementById('portfolio-container');
+        const orphanSection = document.getElementById('orphan-section');
+        const orphanTasks = document.getElementById('orphan-tasks');
+        
+        const initiatives = data.initiatives || [];
+        const orphans = data.orphans || [];
+        
+        // Render initiatives
+        if (initiatives.length === 0) {
+            container.innerHTML = '<div class="empty-state">No initiatives found. Add specifications with frontmatter to see them here.</div>';
+        } else {
+            container.innerHTML = initiatives.map(initiative => createInitiativeCard(initiative)).join('');
+        }
+        
+        // Render orphan tasks
+        if (orphans.length > 0) {
+            orphanSection.classList.remove('hidden');
+            orphanTasks.innerHTML = orphans.map(task => createOrphanTaskCard(task)).join('');
+            
+            // Update section header with count
+            const orphanHeader = orphanSection.querySelector('h3');
+            orphanHeader.textContent = `⚠️ Orphan Tasks (${orphans.length})`;
+        } else {
+            orphanSection.classList.add('hidden');
+        }
+    }
+    
+    /**
+     * Create initiative card HTML
+     */
+    function createInitiativeCard(initiative) {
+        const progress = initiative.progress || 0;
+        const hasFeatures = initiative.features && initiative.features.length > 0;
+        
+        return `
+            <div class="initiative-card" data-initiative-id="${escapeHtml(initiative.id)}">
+                <div class="initiative-header" onclick="toggleInitiative('${escapeHtml(initiative.id)}')">
+                    <span class="initiative-toggle" id="toggle-${escapeHtml(initiative.id)}">▶</span>
+                    <div class="initiative-info">
+                        <h3 class="initiative-title">${escapeHtml(initiative.title)}</h3>
+                        <div class="initiative-meta">
+                            <span class="badge status-${initiative.status || 'draft'}">${escapeHtml(initiative.status || 'draft')}</span>
+                            <span class="badge priority-${(initiative.priority || 'medium').toLowerCase()}">${escapeHtml(initiative.priority || 'MEDIUM')}</span>
+                            <span>${hasFeatures ? initiative.features.length : 0} features</span>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        ${createProgressBar(progress, initiative.features)}
+                    </div>
+                </div>
+                <div class="initiative-body" id="body-${escapeHtml(initiative.id)}">
+                    ${hasFeatures ? initiative.features.map(feature => createFeatureItem(feature, initiative.id)).join('') : '<div class="empty-state">No features defined</div>'}
+                </div>
+            </div>
+        `;
+    }
+    
+    /**
+     * Create feature item HTML
+     */
+    function createFeatureItem(feature, initiativeId) {
+        const progress = feature.progress || 0;
+        const hasTasks = feature.tasks && feature.tasks.length > 0;
+        const taskCount = feature.task_count || feature.tasks?.length || 0;
+        const completedTasks = hasTasks ? feature.tasks.filter(t => t.status === 'done').length : 0;
+        
+        return `
+            <div class="feature-item" data-feature-id="${escapeHtml(feature.id)}">
+                <div class="feature-header" onclick="toggleFeature('${escapeHtml(initiativeId)}', '${escapeHtml(feature.id)}')">
+                    <span class="feature-toggle" id="toggle-${escapeHtml(initiativeId)}-${escapeHtml(feature.id)}">▶</span>
+                    <div class="feature-info">
+                        <h4 class="feature-title">${escapeHtml(feature.title)}</h4>
+                        <div class="feature-meta">
+                            <span class="badge status-${feature.status || 'draft'}">${escapeHtml(feature.status || 'draft')}</span>
+                            <span>${taskCount} task${taskCount !== 1 ? 's' : ''}</span>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        ${createProgressBar(progress, feature.tasks, `${completedTasks}/${taskCount}`)}
+                    </div>
+                </div>
+                <div class="task-list-container" id="tasks-${escapeHtml(initiativeId)}-${escapeHtml(feature.id)}">
+                    ${hasTasks ? feature.tasks.map(task => createTaskItem(task)).join('') : '<div class="empty-state">No tasks linked to this feature</div>'}
+                </div>
+            </div>
+        `;
+    }
+    
+    /**
+     * Create task item HTML
+     */
+    function createTaskItem(task) {
+        const statusIcon = getTaskStatusIcon(task.status);
+        return `
+            <div class="task-item status-${task.status || 'inbox'}" 
+                 onclick="openTaskFromPortfolio('${escapeHtml(task.id)}')">
+                <span class="task-status-icon">${statusIcon}</span>
+                <span class="task-title-text">${escapeHtml(task.title || task.id)}</span>
+                <span class="task-agent">👤 ${escapeHtml(task.agent || 'unassigned')}</span>
+            </div>
+        `;
+    }
+    
+    /**
+     * Create orphan task card HTML
+     */
+    function createOrphanTaskCard(task) {
+        const statusIcon = getTaskStatusIcon(task.status);
+        return `
+            <div class="orphan-task-card" onclick="openTaskFromPortfolio('${escapeHtml(task.id)}')">
+                <div class="orphan-task-title">
+                    ${statusIcon} ${escapeHtml(task.title || task.id)}
+                </div>
+                <div class="orphan-task-meta">
+                    <span>👤 ${escapeHtml(task.agent || 'unassigned')}</span>
+                    <span class="badge priority-${(task.priority || 'medium').toLowerCase()}">${escapeHtml(task.priority || 'MEDIUM')}</span>
+                </div>
+            </div>
+        `;
+    }
+    
+    /**
+     * Create progress bar HTML
+     */
+    function createProgressBar(progress, items, customText) {
+        const progressClass = getProgressClass(progress);
+        const progressText = customText || `${progress}%`;
+        
+        return `
+            <div class="progress-bar-wrapper">
+                <div class="progress-bar">
+                    <div class="progress-fill ${progressClass}" style="width: ${progress}%"></div>
+                </div>
+                <span class="progress-text">${progressText}</span>
+            </div>
+        `;
+    }
+    
+    /**
+     * Get progress color class
+     */
+    function getProgressClass(progress) {
+        if (progress === 0) return 'progress-0-33';
+        if (progress <= 33) return 'progress-0-33';
+        if (progress <= 66) return 'progress-34-66';
+        if (progress < 100) return 'progress-67-99';
+        return 'progress-100';
+    }
+    
+    /**
+     * Get task status icon
+     */
+    function getTaskStatusIcon(status) {
+        const icons = {
+            'done': '✅',
+            'in_progress': '⏳',
+            'assigned': '🔄',
+            'inbox': '📋',
+            'blocked': '🚫',
+            'failed': '❌'
+        };
+        return icons[status] || '📋';
+    }
+    
+    /**
+     * Toggle initiative expand/collapse
+     */
+    /**
+     * Toggle initiative expand/collapse
+     */
+    window.toggleInitiative = function(initiativeId) {
+        const toggle = document.getElementById(`toggle-${initiativeId}`);
+        const body = document.getElementById(`body-${initiativeId}`);
+        
+        if (body && toggle) {
+            body.classList.toggle('expanded');
+            toggle.classList.toggle('expanded');
+        }
+    };
+    
+    /**
+     * Toggle feature expand/collapse
+     */
+    window.toggleFeature = function(initiativeId, featureId) {
+        const toggle = document.getElementById(`toggle-${initiativeId}-${featureId}`);
+        const tasks = document.getElementById(`tasks-${initiativeId}-${featureId}`);
+        
+        if (tasks && toggle) {
+            tasks.classList.toggle('expanded');
+            toggle.classList.toggle('expanded');
+        }
+    };
+    
+    /**
+     * Open task modal from portfolio
+     */
+    async function openTaskFromPortfolio(taskId) {
+        try {
+            // Fetch task details
+            const response = await fetch(`/api/tasks`);
+            const data = await response.json();
+            
+            // Find task in all categories
+            let task = null;
+            if (data.inbox) {
+                task = data.inbox.find(t => t.id === taskId);
+            }
+            if (!task && data.assigned) {
+                for (const agent in data.assigned) {
+                    task = data.assigned[agent].find(t => t.id === taskId);
+                    if (task) break;
+                }
+            }
+            if (!task && data.done) {
+                for (const agent in data.done) {
+                    task = data.done[agent].find(t => t.id === taskId);
+                    if (task) break;
+                }
+            }
+            
+            if (task) {
+                showTaskModal(task);
+            } else {
+                console.error('Task not found:', taskId);
+            }
+        } catch (error) {
+            console.error('Failed to load task:', error);
+        }
+    }
+
     // Export for debugging
     window.dashboard = {
         socket,
         loadDashboardData,
-        updateCharts
+        updateCharts,
+        loadPortfolioData
     };
 
     console.log('✅ Dashboard initialized successfully');
