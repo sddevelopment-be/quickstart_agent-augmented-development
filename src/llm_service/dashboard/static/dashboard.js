@@ -798,7 +798,7 @@
         
         return `
             <div class="initiative-card" data-initiative-id="${escapeHtml(initiative.id)}">
-                <div class="initiative-header" onclick="toggleInitiative('${escapeHtml(initiative.id)}')">
+                <div class="initiative-header" data-action="toggle-initiative" data-initiative-id="${escapeHtml(initiative.id)}">
                     <span class="initiative-toggle" id="toggle-${escapeHtml(initiative.id)}">▶</span>
                     <div class="initiative-info">
                         <h3 class="initiative-title">${escapeHtml(initiative.title)}</h3>
@@ -830,7 +830,7 @@
         
         return `
             <div class="feature-item" data-feature-id="${escapeHtml(feature.id)}">
-                <div class="feature-header" onclick="toggleFeature('${escapeHtml(initiativeId)}', '${escapeHtml(feature.id)}')">
+                <div class="feature-header" data-action="toggle-feature" data-initiative-id="${escapeHtml(initiativeId)}" data-feature-id="${escapeHtml(feature.id)}">
                     <span class="feature-toggle" id="toggle-${escapeHtml(initiativeId)}-${escapeHtml(feature.id)}">▶</span>
                     <div class="feature-info">
                         <h4 class="feature-title">${escapeHtml(feature.title)}</h4>
@@ -857,7 +857,7 @@
         const statusIcon = getTaskStatusIcon(task.status);
         return `
             <div class="task-item status-${task.status || 'inbox'}" 
-                 onclick="openTaskFromPortfolio('${escapeHtml(task.id)}')">
+                 data-action="open-task" data-task-id="${escapeHtml(task.id)}">
                 <span class="task-status-icon">${statusIcon}</span>
                 <span class="task-title-text">${escapeHtml(task.title || task.id)}</span>
                 <span class="task-agent">👤 ${escapeHtml(task.agent || 'unassigned')}</span>
@@ -871,7 +871,7 @@
     function createOrphanTaskCard(task) {
         const statusIcon = getTaskStatusIcon(task.status);
         return `
-            <div class="orphan-task-card" onclick="openTaskFromPortfolio('${escapeHtml(task.id)}')">
+            <div class="orphan-task-card" data-action="open-task" data-task-id="${escapeHtml(task.id)}">
                 <div class="orphan-task-title">
                     ${statusIcon} ${escapeHtml(task.title || task.id)}
                 </div>
@@ -991,6 +991,41 @@
             console.error('Failed to load task:', error);
         }
     };
+
+    /**
+     * Event delegation handler for click events
+     * Handles all click actions via data-action attributes (CSP-compliant)
+     */
+    document.addEventListener('click', function(event) {
+        const target = event.target.closest('[data-action]');
+        if (!target) return;
+        
+        const action = target.getAttribute('data-action');
+        
+        switch (action) {
+            case 'toggle-initiative':
+                const initiativeId = target.getAttribute('data-initiative-id');
+                if (initiativeId) {
+                    window.toggleInitiative(initiativeId);
+                }
+                break;
+                
+            case 'toggle-feature':
+                const featInitiativeId = target.getAttribute('data-initiative-id');
+                const featureId = target.getAttribute('data-feature-id');
+                if (featInitiativeId && featureId) {
+                    window.toggleFeature(featInitiativeId, featureId);
+                }
+                break;
+                
+            case 'open-task':
+                const taskId = target.getAttribute('data-task-id');
+                if (taskId) {
+                    window.openTaskFromPortfolio(taskId);
+                }
+                break;
+        }
+    });
 
     // Export for debugging
     window.dashboard = {

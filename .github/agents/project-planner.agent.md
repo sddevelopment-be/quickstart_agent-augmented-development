@@ -58,6 +58,7 @@ Provide adaptable execution scaffolds—milestones, batches, dependency maps, an
 
 ### Output Artifacts
 
+- Canonical planning artifacts live in `docs/planning/` (roadmaps, milestones, implementation plans). Do not use `work/planning/` for active plans.
 - `docs/planning/PLAN_OVERVIEW.md` – current goals, themes, and focus areas.
 - `docs/planning/NEXT_BATCH.md` – small batch of concrete, ready-to-run tasks.
 - `docs/planning/AGENT_TASKS.md` – which agent does what, on which artefacts.
