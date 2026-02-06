@@ -165,10 +165,96 @@ class TestDashboardAPI:
     def test_404_handling(self):
         """Test: Unknown routes return 404."""
         from llm_service.dashboard.app import create_app
-        
+
         app, _ = create_app()
         client = app.test_client()
-        
+
         response = client.get('/api/nonexistent')
-        
+
         assert response.status_code == 404
+
+    def test_api_tasks_uses_file_watcher(self):
+        """Test: /api/tasks uses file watcher when available."""
+        from llm_service.dashboard.app import create_app
+
+        app, _ = create_app()
+        client = app.test_client()
+
+        # Mock file watcher
+        mock_watcher = Mock()
+        mock_watcher.get_task_snapshot.return_value = {
+            'inbox': [{'id': 'task-1', 'title': 'Test Task'}],
+            'assigned': {},
+            'done': {},
+            'timestamp': '2026-02-06T10:00:00Z'
+        }
+
+        app.config['FILE_WATCHER'] = mock_watcher
+
+        response = client.get('/api/tasks')
+
+        assert response.status_code == 200
+        data = json.loads(response.data)
+        assert len(data['inbox']) == 1
+        assert data['inbox'][0]['id'] == 'task-1'
+        mock_watcher.get_task_snapshot.assert_called_once()
+
+    def test_api_tasks_fallback_without_watcher(self):
+        """Test: /api/tasks returns empty data when watcher not configured."""
+        from llm_service.dashboard.app import create_app
+
+        app, _ = create_app()
+        client = app.test_client()
+
+        # No FILE_WATCHER in config
+        response = client.get('/api/tasks')
+
+        assert response.status_code == 200
+        data = json.loads(response.data)
+        assert data['inbox'] == []
+        assert data['assigned'] == {}
+        assert data['done'] == {}
+        assert 'timestamp' in data
+
+    def test_api_stats_uses_telemetry(self):
+        """Test: /api/stats uses telemetry when available."""
+        from llm_service.dashboard.app import create_app
+
+        app, _ = create_app()
+        client = app.test_client()
+
+        # Mock telemetry API
+        mock_telemetry = Mock()
+        mock_telemetry.get_today_cost.return_value = 1.23
+        mock_telemetry.get_monthly_cost.return_value = 45.67
+        mock_telemetry.get_total_cost.return_value = 123.45
+
+        app.config['TELEMETRY_API'] = mock_telemetry
+
+        response = client.get('/api/stats')
+
+        assert response.status_code == 200
+        data = json.loads(response.data)
+        assert data['costs']['today'] == 1.23
+        assert data['costs']['month'] == 45.67
+        assert data['costs']['total'] == 123.45
+        mock_telemetry.get_today_cost.assert_called_once()
+        mock_telemetry.get_monthly_cost.assert_called_once()
+        mock_telemetry.get_total_cost.assert_called_once()
+
+    def test_api_stats_fallback_without_telemetry(self):
+        """Test: /api/stats returns zero costs when telemetry not configured."""
+        from llm_service.dashboard.app import create_app
+
+        app, _ = create_app()
+        client = app.test_client()
+
+        # No TELEMETRY_API in config
+        response = client.get('/api/stats')
+
+        assert response.status_code == 200
+        data = json.loads(response.data)
+        assert data['costs']['today'] == 0.0
+        assert data['costs']['month'] == 0.0
+        assert data['costs']['total'] == 0.0
+        assert 'timestamp' in data
