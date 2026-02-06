@@ -489,7 +489,12 @@
     }
 
     // Close modal function (exposed globally for onclick handler)
-    window.closeTaskModal = function() {
+    window.closeTaskModal = function(event) {
+        // Prevent event propagation if called from button click
+        if (event && event.stopPropagation) {
+            event.stopPropagation();
+        }
+        
         const modal = document.getElementById('task-modal');
         if (modal) {
             modal.classList.add('hidden');

@@ -198,8 +198,24 @@
             return;
         }
 
-        // Convert to string
-        const value = String(fieldValue);
+        // Convert to string (handle objects properly)
+        let value;
+        if (typeof fieldValue === 'object') {
+            // Convert object to YAML-like format for readability
+            value = Object.entries(fieldValue)
+                .map(([key, val]) => {
+                    if (Array.isArray(val)) {
+                        return `${key}:\n  - ${val.join('\n  - ')}`;
+                    } else if (typeof val === 'object' && val !== null) {
+                        return `${key}: ${JSON.stringify(val, null, 2)}`;
+                    } else {
+                        return `${key}: ${val}`;
+                    }
+                })
+                .join('\n');
+        } else {
+            value = String(fieldValue);
+        }
 
         // Determine rendering strategy
         if (MARKDOWN_FIELDS.includes(fieldName)) {

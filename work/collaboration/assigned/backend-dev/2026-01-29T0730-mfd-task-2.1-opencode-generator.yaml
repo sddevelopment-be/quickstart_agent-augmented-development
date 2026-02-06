@@ -11,242 +11,243 @@ milestone: "Milestone 2: Exporters Functional"
 dependencies: ["mfd-task-1.2-implement-parser", "mfd-task-1.4-create-5-schemas"]
 
 
-# Task 2.1: Enhance OpenCode Generator (Production-Ready)
-
-## Context
-
-**Project:** Multi-Format Agent Framework Distribution  
-**Dependencies:** Batch 1 complete (Parser + IR + Schemas available)
-
-Enhance the prototype OpenCode exporter to production quality. OpenCode is the **primary export format** (70/100 compatibility, cross-platform standard).
-
-## Objective
-
-Transform `tools/opencode-exporter.js` prototype into a production-ready generator that uses IR from parser and generates compliant OpenCode discovery and definition files with governance extensions.
-
-## Detailed Requirements
-
-### 1. Refactor to Use IR
-
-**Current:** Prototype reads markdown directly  
-**Target:** Generator consumes IR from parser
-
-```javascript
-// OLD (prototype)
-const content = fs.readFileSync(filePath, 'utf8');
-const frontmatter = yaml.load(extractFrontmatter(content));
-
-// NEW (production)
-const ir = await parser.parseAgentFile(filePath);
-const opencode = generateOpenCodeFromIR(ir);
-```
-
-### 2. Generate Discovery Files
-
-**File:** `{agent-id}.opencode.json`
-
-```json
-{
-  "opencode_version": "1.0",
-  "agent": {
-    "id": "architect-alphonso",
-    "name": "Architect Alphonso",
-    "version": "1.0.0",
-    "description": "Clarify complex systems with contextual trade-offs",
-    "capabilities": ["architecture", "design", "adr"],
-    "category": "design",
-    "tools": ["read", "write", "plantuml"],
-    "profile_url": "./ architect.agent.md",
-    "metadata": {
-      "last_updated": "2026-01-29",
-      "api_version": "1.0.0",
-      "directives": ["001", "006", "018"],
-      "styleguides": ["version_control_hygiene.md"]
+description: |
+  # Task 2.1: Enhance OpenCode Generator (Production-Ready)
+  
+  ## Context
+  
+  **Project:** Multi-Format Agent Framework Distribution  
+  **Dependencies:** Batch 1 complete (Parser + IR + Schemas available)
+  
+  Enhance the prototype OpenCode exporter to production quality. OpenCode is the **primary export format** (70/100 compatibility, cross-platform standard).
+  
+  ## Objective
+  
+  Transform `tools/opencode-exporter.js` prototype into a production-ready generator that uses IR from parser and generates compliant OpenCode discovery and definition files with governance extensions.
+  
+  ## Detailed Requirements
+  
+  ### 1. Refactor to Use IR
+  
+  **Current:** Prototype reads markdown directly  
+  **Target:** Generator consumes IR from parser
+  
+  ```javascript
+  // OLD (prototype)
+  const content = fs.readFileSync(filePath, 'utf8');
+  const frontmatter = yaml.load(extractFrontmatter(content));
+  
+  // NEW (production)
+  const ir = await parser.parseAgentFile(filePath);
+  const opencode = generateOpenCodeFromIR(ir);
+  ```
+  
+  ### 2. Generate Discovery Files
+  
+  **File:** `{agent-id}.opencode.json`
+  
+  ```json
+  {
+    "opencode_version": "1.0",
+    "agent": {
+      "id": "architect-alphonso",
+      "name": "Architect Alphonso",
+      "version": "1.0.0",
+      "description": "Clarify complex systems with contextual trade-offs",
+      "capabilities": ["architecture", "design", "adr"],
+      "category": "design",
+      "tools": ["read", "write", "plantuml"],
+      "profile_url": "./ architect.agent.md",
+      "metadata": {
+        "last_updated": "2026-01-29",
+        "api_version": "1.0.0",
+        "directives": ["001", "006", "018"],
+        "styleguides": ["version_control_hygiene.md"]
+      }
     }
   }
-}
-```
-
-### 3. Generate Definition Files
-
-**File:** `{agent-id}.definition.yaml`
-
-```yaml
-opencode_version: "1.0"
-agent:
-  metadata:
-    id: architect-alphonso
-    version: 1.0.0
-    category: design
-    tags: [architecture, adr]
-  specification:
-    inputs:
-      - name: system_context
-        type: string
-        required: true
-    outputs:
-      - name: architecture_document
-        type: markdown
-    examples:
-      - prompt: "Design microservices"
-        output: "ADR document"
-  governance:  # CUSTOM EXTENSION
-    directives: ["001", "006", "018"]
-    styleguides: ["version_control_hygiene.md"]
-    safety_critical: false
-```
-
-### 4. Add Governance Extensions
-
-**Required fields in `extensions.saboteurs_governance`:**
-- `directives`: Array of directive codes with required/optional flags
-- `priority_level`: high/medium/low (inferred from specialization)
-- `uncertainty_threshold`: From collaboration contract (default: 0.3)
-- `escalation_required`: Boolean from narrative
-
-**Required fields in `extensions.multi_agent`:**
-- `orchestration_capable`: true/false
-- `handoff_protocols`: ["file-based", "message-queue"]
-- `specialization_boundaries`: "explicit" | "flexible"
-
-### 5. Handle Edge Cases
-
-- Missing optional frontmatter fields → use defaults
-- Complex tools array → map to OpenCode format
-- Multi-line descriptions → preserve formatting
-- Special characters → proper JSON escaping
-- Missing directives → empty array (not null)
-
-### 6. Validation Hooks
-
-- Call validator.validateOpenCodeDiscovery(discoveryFile)
-- Call validator.validateOpenCodeDefinition(definitionFile)
-- Fail generation if validation fails
-- Clear error messages
-
-## Expected Outputs
-
-1. **Generator Module** (`tools/exporters/opencode-generator.js`)
-   ```javascript
-   /**
-    * Generate OpenCode files from IR
-    * @param {AgentIR} ir - Parsed agent IR
-    * @param {string} outputDir - Where to write files
-    * @returns {Promise<{discovery: string, definition: string}>} File paths
-    */
-   async function generateOpenCode(ir, outputDir) { ... }
-   ```
-
-2. **Unit Tests** (`tests/unit/opencode-generator.test.js`)
-   - Test IR → valid discovery file
-   - Test IR → valid definition file
-   - Test governance extensions present
-   - Test edge cases (missing fields, special chars)
-   - Test validation integration
-   - Coverage: >80%
-
-3. **Sample Exports** (`tests/fixtures/opencode/`)
-   - `architect-alphonso.opencode.json`
-   - `architect-alphonso.definition.yaml`
-   - `backend-benny.opencode.json`
-   - `backend-benny.definition.yaml`
-   - `reviewer-rachel.opencode.json`
-   - `reviewer-rachel.definition.yaml`
-
-## Success Criteria
-
-- ✅ Generates valid OpenCode discovery + definition files
-- ✅ Governance extensions present in all exports
-- ✅ Exports validate against OpenCode schema (manual check)
-- ✅ Unit tests pass with >80% coverage
-- ✅ Performance: <1 second per agent
-- ✅ All 17 agents export successfully
-
-## Directives to Follow
-
-**MUST adhere to:**
-- **Directive 014:** Create work log
-- **Directive 016:** ATDD - Write acceptance tests first
-- **Directive 017:** TDD - Red-Green-Refactor cycle
-
-## Testing Approach (ATDD/TDD)
-
-### Acceptance Tests (Write First)
-
-```javascript
-describe('OpenCode Generator Acceptance', () => {
-  it('generates valid discovery file from IR', async () => {
-    const ir = await parser.parseAgentFile('architect.agent.md');
-    const { discovery } = await generateOpenCode(ir, 'output/');
-    const discoveryData = JSON.parse(fs.readFileSync(discovery));
-    
-    expect(discoveryData.opencode_version).toBe('1.0');
-    expect(discoveryData.agent.id).toBe('architect-alphonso');
-    expect(discoveryData.agent.tools).toContain('plantuml');
-  });
+  ```
   
-  it('includes governance extensions', async () => {
-    const ir = await parser.parseAgentFile('architect.agent.md');
-    const { discovery } = await generateOpenCode(ir, 'output/');
-    const data = JSON.parse(fs.readFileSync(discovery));
+  ### 3. Generate Definition Files
+  
+  **File:** `{agent-id}.definition.yaml`
+  
+  ```yaml
+  opencode_version: "1.0"
+  agent:
+    metadata:
+      id: architect-alphonso
+      version: 1.0.0
+      category: design
+      tags: [architecture, adr]
+    specification:
+      inputs:
+        - name: system_context
+          type: string
+          required: true
+      outputs:
+        - name: architecture_document
+          type: markdown
+      examples:
+        - prompt: "Design microservices"
+          output: "ADR document"
+    governance:  # CUSTOM EXTENSION
+      directives: ["001", "006", "018"]
+      styleguides: ["version_control_hygiene.md"]
+      safety_critical: false
+  ```
+  
+  ### 4. Add Governance Extensions
+  
+  **Required fields in `extensions.saboteurs_governance`:**
+  - `directives`: Array of directive codes with required/optional flags
+  - `priority_level`: high/medium/low (inferred from specialization)
+  - `uncertainty_threshold`: From collaboration contract (default: 0.3)
+  - `escalation_required`: Boolean from narrative
+  
+  **Required fields in `extensions.multi_agent`:**
+  - `orchestration_capable`: true/false
+  - `handoff_protocols`: ["file-based", "message-queue"]
+  - `specialization_boundaries`: "explicit" | "flexible"
+  
+  ### 5. Handle Edge Cases
+  
+  - Missing optional frontmatter fields → use defaults
+  - Complex tools array → map to OpenCode format
+  - Multi-line descriptions → preserve formatting
+  - Special characters → proper JSON escaping
+  - Missing directives → empty array (not null)
+  
+  ### 6. Validation Hooks
+  
+  - Call validator.validateOpenCodeDiscovery(discoveryFile)
+  - Call validator.validateOpenCodeDefinition(definitionFile)
+  - Fail generation if validation fails
+  - Clear error messages
+  
+  ## Expected Outputs
+  
+  1. **Generator Module** (`tools/exporters/opencode-generator.js`)
+     ```javascript
+     /**
+      * Generate OpenCode files from IR
+      * @param {AgentIR} ir - Parsed agent IR
+      * @param {string} outputDir - Where to write files
+      * @returns {Promise<{discovery: string, definition: string}>} File paths
+      */
+     async function generateOpenCode(ir, outputDir) { ... }
+     ```
+  
+  2. **Unit Tests** (`tests/unit/opencode-generator.test.js`)
+     - Test IR → valid discovery file
+     - Test IR → valid definition file
+     - Test governance extensions present
+     - Test edge cases (missing fields, special chars)
+     - Test validation integration
+     - Coverage: >80%
+  
+  3. **Sample Exports** (`tests/fixtures/opencode/`)
+     - `architect-alphonso.opencode.json`
+     - `architect-alphonso.definition.yaml`
+     - `backend-benny.opencode.json`
+     - `backend-benny.definition.yaml`
+     - `reviewer-rachel.opencode.json`
+     - `reviewer-rachel.definition.yaml`
+  
+  ## Success Criteria
+  
+  - ✅ Generates valid OpenCode discovery + definition files
+  - ✅ Governance extensions present in all exports
+  - ✅ Exports validate against OpenCode schema (manual check)
+  - ✅ Unit tests pass with >80% coverage
+  - ✅ Performance: <1 second per agent
+  - ✅ All 17 agents export successfully
+  
+  ## Directives to Follow
+  
+  **MUST adhere to:**
+  - **Directive 014:** Create work log
+  - **Directive 016:** ATDD - Write acceptance tests first
+  - **Directive 017:** TDD - Red-Green-Refactor cycle
+  
+  ## Testing Approach (ATDD/TDD)
+  
+  ### Acceptance Tests (Write First)
+  
+  ```javascript
+  describe('OpenCode Generator Acceptance', () => {
+    it('generates valid discovery file from IR', async () => {
+      const ir = await parser.parseAgentFile('architect.agent.md');
+      const { discovery } = await generateOpenCode(ir, 'output/');
+      const discoveryData = JSON.parse(fs.readFileSync(discovery));
+      
+      expect(discoveryData.opencode_version).toBe('1.0');
+      expect(discoveryData.agent.id).toBe('architect-alphonso');
+      expect(discoveryData.agent.tools).toContain('plantuml');
+    });
     
-    expect(data.agent.metadata.directives).toBeInstanceOf(Array);
-    expect(data.agent.metadata.directives.length).toBeGreaterThan(0);
+    it('includes governance extensions', async () => {
+      const ir = await parser.parseAgentFile('architect.agent.md');
+      const { discovery } = await generateOpenCode(ir, 'output/');
+      const data = JSON.parse(fs.readFileSync(discovery));
+      
+      expect(data.agent.metadata.directives).toBeInstanceOf(Array);
+      expect(data.agent.metadata.directives.length).toBeGreaterThan(0);
+    });
   });
-});
-```
-
-### TDD Cycle
-
-1. **Red:** Test `mapIRToDiscovery(ir)` → fails (not implemented)
-2. **Green:** Implement minimal mapping
-3. **Refactor:** Extract helper functions
-4. **Repeat** for definition files, governance, validation
-
-## Implementation Steps
-
-1. **Setup** (30 min)
-   - Create test files with acceptance tests (failing)
-   - Set up directory structure
-
-2. **Discovery Generator** (2 hours, TDD)
-   - Test: Map IR → discovery JSON structure
-   - Implement: `mapIRToDiscovery(ir)`
-   - Test: Handle missing fields
-   - Test: Format metadata correctly
-   - Refactor
-
-3. **Definition Generator** (2 hours, TDD)
-   - Test: Map IR → definition YAML structure
-   - Implement: `mapIRToDefinition(ir)`
-   - Test: Include schemas (if present in IR)
-   - Test: Format examples
-   - Refactor
-
-4. **Governance Extensions** (1 hour)
-   - Test: Extract directives from IR
-   - Implement: `extractGovernanceMetadata(ir)`
-   - Test: Inject into discovery/definition
-   - Refactor
-
-5. **Integration** (30 min)
-   - Implement: `generateOpenCode(ir, outputDir)` (orchestrates above)
-   - Test: Full pipeline (IR → files on disk)
-   - Test: All 17 agents
-
-## Timeline
-
-**Start:** After Batch 1 complete  
-**Duration:** 6 hours  
-**Deadline:** End of Batch 2, Week 2
-
-
-**Task Status:** TODO - Waiting on Batch 1  
-**Blocking Tasks:** Task 2.2, 2.3 (other generators)  
-**Critical Path:** Yes
-
-
-*Created by: Project Manager*  
-*Date: 2026-01-29*  
-*Priority: HIGH*  
-*Batch: 2 (Export Pipeline Core)*
+  ```
+  
+  ### TDD Cycle
+  
+  1. **Red:** Test `mapIRToDiscovery(ir)` → fails (not implemented)
+  2. **Green:** Implement minimal mapping
+  3. **Refactor:** Extract helper functions
+  4. **Repeat** for definition files, governance, validation
+  
+  ## Implementation Steps
+  
+  1. **Setup** (30 min)
+     - Create test files with acceptance tests (failing)
+     - Set up directory structure
+  
+  2. **Discovery Generator** (2 hours, TDD)
+     - Test: Map IR → discovery JSON structure
+     - Implement: `mapIRToDiscovery(ir)`
+     - Test: Handle missing fields
+     - Test: Format metadata correctly
+     - Refactor
+  
+  3. **Definition Generator** (2 hours, TDD)
+     - Test: Map IR → definition YAML structure
+     - Implement: `mapIRToDefinition(ir)`
+     - Test: Include schemas (if present in IR)
+     - Test: Format examples
+     - Refactor
+  
+  4. **Governance Extensions** (1 hour)
+     - Test: Extract directives from IR
+     - Implement: `extractGovernanceMetadata(ir)`
+     - Test: Inject into discovery/definition
+     - Refactor
+  
+  5. **Integration** (30 min)
+     - Implement: `generateOpenCode(ir, outputDir)` (orchestrates above)
+     - Test: Full pipeline (IR → files on disk)
+     - Test: All 17 agents
+  
+  ## Timeline
+  
+  **Start:** After Batch 1 complete  
+  **Duration:** 6 hours  
+  **Deadline:** End of Batch 2, Week 2
+  
+  
+  **Task Status:** TODO - Waiting on Batch 1  
+  **Blocking Tasks:** Task 2.2, 2.3 (other generators)  
+  **Critical Path:** Yes
+  
+  
+  *Created by: Project Manager*  
+  *Date: 2026-01-29*  
+  *Priority: HIGH*  
+  *Batch: 2 (Export Pipeline Core)*

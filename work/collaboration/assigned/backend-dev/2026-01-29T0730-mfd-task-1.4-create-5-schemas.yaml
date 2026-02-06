@@ -12,135 +12,136 @@ dependencies: ["mfd-task-1.3-schema-conventions"]
 reviewers: ["Architect Alphonso"]
 
 
-# Task 1.4: Create Schemas for 5 Representative Agents
-
-## Context
-
-**Project:** Multi-Format Agent Framework Distribution  
-**Dependencies:** Task 1.3 (Schema conventions must be defined first)
-
-Apply schema conventions to create input/output JSON Schemas for 5 representative agents, validating that conventions work in practice.
-
-## Objective
-
-Create complete input/output JSON Schema definitions for 5 agents representing different complexity levels and output types.
-
-## Target Agents
-
-1. **Architect Alphonso** - Complex: ADRs, diagrams, technical design documents
-2. **Backend Benny** - Code-focused: Services, tests, APIs, implementations
-3. **Reviewer Rachel** - Structured: Checklists, test reports, QA approvals
-4. **Curator Claire** - Content: Documentation, organization, quality assurance
-5. **Planning Petra** - Process: Plans, milestones, tasks, timelines
-
-## Expected Outputs
-
-For each of the 5 agents:
-
-1. **Input Schema** (`work/schemas/{agent-id}.input.schema.json`)
-   ```json
-   {
-     "$schema": "http://json-schema.org/draft-07/schema#",
-     "type": "object",
-     "properties": {
-       "task_description": {
-         "type": "string",
-         "description": "What the agent should accomplish"
+description: |
+  # Task 1.4: Create Schemas for 5 Representative Agents
+  
+  ## Context
+  
+  **Project:** Multi-Format Agent Framework Distribution  
+  **Dependencies:** Task 1.3 (Schema conventions must be defined first)
+  
+  Apply schema conventions to create input/output JSON Schemas for 5 representative agents, validating that conventions work in practice.
+  
+  ## Objective
+  
+  Create complete input/output JSON Schema definitions for 5 agents representing different complexity levels and output types.
+  
+  ## Target Agents
+  
+  1. **Architect Alphonso** - Complex: ADRs, diagrams, technical design documents
+  2. **Backend Benny** - Code-focused: Services, tests, APIs, implementations
+  3. **Reviewer Rachel** - Structured: Checklists, test reports, QA approvals
+  4. **Curator Claire** - Content: Documentation, organization, quality assurance
+  5. **Planning Petra** - Process: Plans, milestones, tasks, timelines
+  
+  ## Expected Outputs
+  
+  For each of the 5 agents:
+  
+  1. **Input Schema** (`work/schemas/{agent-id}.input.schema.json`)
+     ```json
+     {
+       "$schema": "http://json-schema.org/draft-07/schema#",
+       "type": "object",
+       "properties": {
+         "task_description": {
+           "type": "string",
+           "description": "What the agent should accomplish"
+         },
+         "constraints": {
+           "type": "array",
+           "items": {"type": "string"},
+           "description": "Limitations or requirements"
+         }
        },
-       "constraints": {
-         "type": "array",
-         "items": {"type": "string"},
-         "description": "Limitations or requirements"
-       }
-     },
-     "required": ["task_description"]
-   }
-   ```
-
-2. **Output Schema** (`work/schemas/{agent-id}.output.schema.json`)
-   ```json
-   {
-     "$schema": "http://json-schema.org/draft-07/schema#",
-     "type": "object",
-     "properties": {
-       "artifacts": {
-         "type": "array",
-         "items": {
-           "type": "object",
-           "properties": {
-             "file_path": {"type": "string"},
-             "content_type": {"type": "string"}
+       "required": ["task_description"]
+     }
+     ```
+  
+  2. **Output Schema** (`work/schemas/{agent-id}.output.schema.json`)
+     ```json
+     {
+       "$schema": "http://json-schema.org/draft-07/schema#",
+       "type": "object",
+       "properties": {
+         "artifacts": {
+           "type": "array",
+           "items": {
+             "type": "object",
+             "properties": {
+               "file_path": {"type": "string"},
+               "content_type": {"type": "string"}
+             }
            }
          }
        }
      }
-   }
-   ```
-
-3. **Examples** (`work/schemas/{agent-id}.examples.json`)
-   ```json
-   {
-     "examples": [
-       {
-         "input": { "task_description": "...", "constraints": [] },
-         "output": { "artifacts": [...] }
-       }
-     ]
-   }
-   ```
-
-4. **Validation Report** (`work/schemas/validation-report.md`)
-   - Which schemas validate against JSON Schema Draft 7
-   - Coverage analysis (what % of agent capabilities captured)
-   - Issues encountered and resolutions
-
-## Success Criteria
-
-- ✅ All 5 schemas validate against JSON Schema Draft 7
-- ✅ Schemas cover 80% of typical agent invocations (based on narrative)
-- ✅ Examples validate against schemas (use `ajv` or similar validator)
-- ✅ Schemas reviewed and approved by Architect Alphonso
-- ✅ Conventions prove workable (no major gaps discovered)
-
-## Directives to Follow
-
-**MUST adhere to:**
-- **Directive 014:** Create work log
-- **Directive 016:** ATDD - Define validation tests first
-- **Directive 017:** TDD - Test each schema as you create it
-
-## Testing Approach
-
-### Test 1: Schema Validates
-```bash
-npm install -g ajv-cli
-ajv validate -s architect-alphonso.input.schema.json -d examples/architect-input-1.json
-```
-
-### Test 2: Coverage Check
-- Review agent narrative (Purpose, Specialization, Output Artifacts)
-- List all mentioned inputs/outputs
-- Check: Are they in the schema?
-- Target: 80% coverage
-
-### Test 3: Example Validation
-- Create 2-3 examples per agent
-- Validate examples against schemas
-- All must pass
-
-## Timeline
-
-**Start:** After Task 1.3 complete  
-**Duration:** 4 hours  
-**Deadline:** End of Batch 1, Week 1
-
-
-**Task Status:** TODO - Waiting on Task 1.3  
-**Blocking Tasks:** Task 2.4 (Complete 12 Schemas)  
-**Critical Path:** Yes
-
-
-*Created by: Project Manager*  
-*Date: 2026-01-29*  
-*Priority: HIGH*  
-*Batch: 1 (Foundation & Infrastructure)*
+     ```
+  
+  3. **Examples** (`work/schemas/{agent-id}.examples.json`)
+     ```json
+     {
+       "examples": [
+         {
+           "input": { "task_description": "...", "constraints": [] },
+           "output": { "artifacts": [...] }
+         }
+       ]
+     }
+     ```
+  
+  4. **Validation Report** (`work/schemas/validation-report.md`)
+     - Which schemas validate against JSON Schema Draft 7
+     - Coverage analysis (what % of agent capabilities captured)
+     - Issues encountered and resolutions
+  
+  ## Success Criteria
+  
+  - ✅ All 5 schemas validate against JSON Schema Draft 7
+  - ✅ Schemas cover 80% of typical agent invocations (based on narrative)
+  - ✅ Examples validate against schemas (use `ajv` or similar validator)
+  - ✅ Schemas reviewed and approved by Architect Alphonso
+  - ✅ Conventions prove workable (no major gaps discovered)
+  
+  ## Directives to Follow
+  
+  **MUST adhere to:**
+  - **Directive 014:** Create work log
+  - **Directive 016:** ATDD - Define validation tests first
+  - **Directive 017:** TDD - Test each schema as you create it
+  
+  ## Testing Approach
+  
+  ### Test 1: Schema Validates
+  ```bash
+  npm install -g ajv-cli
+  ajv validate -s architect-alphonso.input.schema.json -d examples/architect-input-1.json
+  ```
+  
+  ### Test 2: Coverage Check
+  - Review agent narrative (Purpose, Specialization, Output Artifacts)
+  - List all mentioned inputs/outputs
+  - Check: Are they in the schema?
+  - Target: 80% coverage
+  
+  ### Test 3: Example Validation
+  - Create 2-3 examples per agent
+  - Validate examples against schemas
+  - All must pass
+  
+  ## Timeline
+  
+  **Start:** After Task 1.3 complete  
+  **Duration:** 4 hours  
+  **Deadline:** End of Batch 1, Week 1
+  
+  
+  **Task Status:** TODO - Waiting on Task 1.3  
+  **Blocking Tasks:** Task 2.4 (Complete 12 Schemas)  
+  **Critical Path:** Yes
+  
+  
+  *Created by: Project Manager*  
+  *Date: 2026-01-29*  
+  *Priority: HIGH*  
+  *Batch: 1 (Foundation & Infrastructure)*
