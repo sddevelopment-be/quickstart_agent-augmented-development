@@ -1,6 +1,6 @@
 id: "2026-02-06T1149-dashboard-priority-editing"
 title: "Dashboard Task Priority Editing (ADR-035)"
-agent: "backend-dev-benny"
+agent: "python-pedro"
 status: "inbox"
 priority: "HIGH"
 created: "2026-02-06T11:49:00Z"

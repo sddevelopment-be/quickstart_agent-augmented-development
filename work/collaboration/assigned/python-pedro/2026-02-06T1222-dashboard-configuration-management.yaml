@@ -2,7 +2,7 @@ id: "2026-02-06T1222-dashboard-configuration-management"
 title: "Dashboard Configuration Management Interface"
 status: "inbox"
 priority: "HIGH"
-agent: "backend-dev-benny"
+agent: "python-pedro"
 estimated_hours: 26
 specification: "specifications/llm-dashboard/configuration-management.md"
 related_adrs:
@@ -137,7 +137,7 @@ implementation_notes: |
   → Returns: {config: {...}, mtime: 1738849100.5}
   
   PATCH /api/config/llm-service/agent-mapping
-  Body: {agent: "backend-dev-benny", field: "model", value: "gpt-5-mini", mtime: 1738849100.5}
+  Body: {agent: "python-pedro", field: "model", value: "gpt-5-mini", mtime: 1738849100.5}
   → Returns: {success: true, config: {...}}
   
   GET /api/config/agent-profile/backend-dev-benny

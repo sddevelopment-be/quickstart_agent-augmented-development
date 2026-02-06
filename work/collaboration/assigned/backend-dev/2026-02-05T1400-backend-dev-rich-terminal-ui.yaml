@@ -2,7 +2,7 @@
 id: 2026-02-05T1400-backend-dev-rich-terminal-ui
 title: "Rich Terminal UI Implementation"
 agent: backend-dev
-priority: HIGH
+priority: LOW
 status: pending
 estimated_hours: 2-3
 created_at: "2026-02-05T14:00:00Z"
