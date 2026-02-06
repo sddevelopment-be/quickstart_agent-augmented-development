@@ -369,8 +369,14 @@
         const titleElement = document.getElementById('modal-title');
         const bodyElement = document.getElementById('modal-body');
         
+        if (!modal || !titleElement || !bodyElement) {
+            console.error('Modal elements not found');
+            return;
+        }
+        
         titleElement.textContent = task.title || task.id;
         
+        // Build modal HTML with technical fields (plain text)
         bodyElement.innerHTML = `
             <div class="modal-field">
                 <label>ID:</label>
@@ -392,20 +398,121 @@
                 <label>Created:</label>
                 <value>${task.created_at ? new Date(task.created_at).toLocaleString() : 'N/A'}</value>
             </div>
+            ${task.estimated_hours ? `
+            <div class="modal-field">
+                <label>Estimated Hours:</label>
+                <value>${escapeHtml(task.estimated_hours)}</value>
+            </div>
+            ` : ''}
+            ${task.tags && task.tags.length ? `
+            <div class="modal-field">
+                <label>Tags:</label>
+                <value>${escapeHtml(Array.isArray(task.tags) ? task.tags.join(', ') : task.tags)}</value>
+            </div>
+            ` : ''}
             ${task.description ? `
             <div class="modal-field">
                 <label>Description:</label>
-                <value>${escapeHtml(task.description)}</value>
+                <div class="markdown-content" id="task-description"></div>
+            </div>
+            ` : ''}
+            ${task.context ? `
+            <div class="modal-field">
+                <label>Context:</label>
+                <div class="markdown-content" id="task-context"></div>
+            </div>
+            ` : ''}
+            ${task.acceptance_criteria ? `
+            <div class="modal-field">
+                <label>Acceptance Criteria:</label>
+                <div class="markdown-content" id="task-acceptance-criteria"></div>
+            </div>
+            ` : ''}
+            ${task.notes ? `
+            <div class="modal-field">
+                <label>Notes:</label>
+                <div class="markdown-content" id="task-notes"></div>
+            </div>
+            ` : ''}
+            ${task.technical_notes ? `
+            <div class="modal-field">
+                <label>Technical Notes:</label>
+                <div class="markdown-content" id="task-technical-notes"></div>
             </div>
             ` : ''}
         `;
         
+        // Render markdown fields using MarkdownRenderer (ADR-036)
+        // Small delay to ensure DOM elements are available
+        setTimeout(() => {
+            if (window.MarkdownRenderer) {
+                if (task.description) {
+                    const descEl = document.getElementById('task-description');
+                    if (descEl) {
+                        MarkdownRenderer.renderField(descEl, 'description', task.description);
+                    }
+                }
+                
+                if (task.context) {
+                    const contextEl = document.getElementById('task-context');
+                    if (contextEl) {
+                        MarkdownRenderer.renderField(contextEl, 'context', task.context);
+                    }
+                }
+                
+                if (task.acceptance_criteria) {
+                    const acEl = document.getElementById('task-acceptance-criteria');
+                    if (acEl) {
+                        MarkdownRenderer.renderField(acEl, 'acceptance_criteria', task.acceptance_criteria);
+                    }
+                }
+                
+                if (task.notes) {
+                    const notesEl = document.getElementById('task-notes');
+                    if (notesEl) {
+                        MarkdownRenderer.renderField(notesEl, 'notes', task.notes);
+                    }
+                }
+                
+                if (task.technical_notes) {
+                    const techNotesEl = document.getElementById('task-technical-notes');
+                    if (techNotesEl) {
+                        MarkdownRenderer.renderField(techNotesEl, 'technical_notes', task.technical_notes);
+                    }
+                }
+            } else {
+                console.warn('⚠️ MarkdownRenderer not available, falling back to plain text');
+            }
+        }, 10);
+        
         modal.classList.remove('hidden');
     }
 
+    // Close modal function (exposed globally for onclick handler)
     window.closeTaskModal = function() {
-        document.getElementById('task-modal').classList.add('hidden');
+        const modal = document.getElementById('task-modal');
+        if (modal) {
+            modal.classList.add('hidden');
+        }
     };
+    
+    // Close modal on backdrop click
+    document.addEventListener('click', function(event) {
+        const modal = document.getElementById('task-modal');
+        if (modal && event.target === modal) {
+            window.closeTaskModal();
+        }
+    });
+    
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            const modal = document.getElementById('task-modal');
+            if (modal && !modal.classList.contains('hidden')) {
+                window.closeTaskModal();
+            }
+        }
+    });
 
     function updateLastUpdated() {
         document.getElementById('last-updated').textContent = new Date().toLocaleTimeString();

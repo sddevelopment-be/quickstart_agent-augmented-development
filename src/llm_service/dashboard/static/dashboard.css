@@ -439,3 +439,354 @@ canvas {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--text-muted);
 }
+
+/* ========================================
+   Markdown Rendering Styles (ADR-036)
+   ======================================== */
+
+/* Markdown content container */
+.markdown-content {
+    line-height: 1.7;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+/* Plain text fields (technical) */
+.plain-text {
+    font-family: 'Courier New', Consolas, Monaco, monospace;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+/* Markdown headings */
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+    color: var(--text-primary);
+    font-weight: 700;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+}
+
+.markdown-content h1 {
+    font-size: 1.75rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.markdown-content h2 {
+    font-size: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.4rem;
+}
+
+.markdown-content h3 {
+    font-size: 1.3rem;
+}
+
+.markdown-content h4 {
+    font-size: 1.15rem;
+}
+
+.markdown-content h5 {
+    font-size: 1.05rem;
+}
+
+.markdown-content h6 {
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+/* Paragraphs */
+.markdown-content p {
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+/* Emphasis */
+.markdown-content strong {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.markdown-content em {
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+.markdown-content del {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+
+/* Links */
+.markdown-content a {
+    color: var(--primary-color);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s;
+}
+
+.markdown-content a:hover {
+    color: #60a5fa;
+    border-bottom-color: #60a5fa;
+}
+
+/* Inline code */
+.markdown-content code {
+    background-color: var(--bg-card);
+    color: #f472b6;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: 'Courier New', Consolas, Monaco, monospace;
+    font-size: 0.9em;
+    border: 1px solid var(--border-color);
+}
+
+/* Code blocks */
+.markdown-content pre {
+    background-color: #1e293b;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.markdown-content pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #e5e7eb;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    display: block;
+}
+
+/* Lists */
+.markdown-content ul,
+.markdown-content ol {
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+    color: var(--text-primary);
+}
+
+.markdown-content ul {
+    list-style-type: disc;
+}
+
+.markdown-content ol {
+    list-style-type: decimal;
+}
+
+.markdown-content li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+}
+
+.markdown-content li > ul,
+.markdown-content li > ol {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Nested lists */
+.markdown-content ul ul {
+    list-style-type: circle;
+}
+
+.markdown-content ul ul ul {
+    list-style-type: square;
+}
+
+/* Task lists (GFM) */
+.markdown-content input[type="checkbox"] {
+    margin-right: 0.5rem;
+    cursor: not-allowed;
+}
+
+.markdown-content input[type="checkbox"]:checked {
+    accent-color: var(--success-color);
+}
+
+/* Blockquotes */
+.markdown-content blockquote {
+    border-left: 4px solid var(--primary-color);
+    background-color: rgba(59, 130, 246, 0.1);
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+.markdown-content blockquote p {
+    margin-bottom: 0.5rem;
+}
+
+.markdown-content blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+/* Horizontal rule */
+.markdown-content hr {
+    border: none;
+    border-top: 2px solid var(--border-color);
+    margin: 2rem 0;
+}
+
+/* Tables */
+.markdown-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    background-color: var(--bg-secondary);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.markdown-content thead {
+    background-color: var(--bg-card);
+}
+
+.markdown-content th {
+    padding: 0.75rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.markdown-content td {
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.markdown-content tr:last-child td {
+    border-bottom: none;
+}
+
+.markdown-content tbody tr:hover {
+    background-color: rgba(59, 130, 246, 0.05);
+}
+
+/* Table responsive wrapper */
+.markdown-content table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+}
+
+/* First element in markdown should not have top margin */
+.markdown-content > *:first-child {
+    margin-top: 0;
+}
+
+/* Last element in markdown should not have bottom margin */
+.markdown-content > *:last-child {
+    margin-bottom: 0;
+}
+
+/* Images (if any) */
+.markdown-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin: 1rem 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive adjustments for markdown */
+@media (max-width: 768px) {
+    .markdown-content {
+        font-size: 0.9rem;
+    }
+    
+    .markdown-content h1 {
+        font-size: 1.5rem;
+    }
+    
+    .markdown-content h2 {
+        font-size: 1.3rem;
+    }
+    
+    .markdown-content h3 {
+        font-size: 1.15rem;
+    }
+    
+    .markdown-content pre {
+        padding: 0.75rem;
+        font-size: 0.85rem;
+    }
+    
+    .markdown-content table {
+        font-size: 0.85rem;
+    }
+    
+    .markdown-content th,
+    .markdown-content td {
+        padding: 0.5rem;
+    }
+}
+
+/* Modal adjustments for markdown content */
+.modal-content {
+    max-width: 800px; /* Wider for markdown content */
+}
+
+.modal-field .markdown-content {
+    margin-top: 0.5rem;
+    padding: 0.75rem;
+    background-color: var(--bg-card);
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+/* Copy code button (future enhancement) */
+.markdown-content pre {
+    position: relative;
+}
+
+.markdown-content pre .copy-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.markdown-content pre:hover .copy-button {
+    opacity: 1;
+}
+
+/* Syntax highlighting placeholder (future: integrate highlight.js) */
+.markdown-content .language-python .hljs-keyword { color: #c678dd; }
+.markdown-content .language-python .hljs-string { color: #98c379; }
+.markdown-content .language-python .hljs-function { color: #61afef; }
+.markdown-content .language-javascript .hljs-keyword { color: #c678dd; }
+.markdown-content .language-javascript .hljs-string { color: #98c379; }
+.markdown-content .language-bash .hljs-built_in { color: #61afef; }
+
+/* Performance indicator (development mode) */
+.markdown-render-time {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-top: 0.5rem;
+}
+
+.markdown-render-slow {
+    color: var(--warning-color);
+}
+
