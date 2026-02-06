@@ -1,6 +1,33 @@
+---
+id: "SPEC-DASH-003"
+title: "Initiative Tracking and Portfolio View"
+status: "implemented"
+initiative: "Dashboard Enhancements"
+priority: "HIGH"
+epic: "Dashboard Core Features"
+target_personas: ["project-manager", "software-engineer", "architect-alphonso"]
+features:
+  - id: "FEAT-DASH-003-01"
+    title: "Specification Parser with Frontmatter Extraction"
+    status: "done"
+  - id: "FEAT-DASH-003-02"
+    title: "Task-to-Spec Linking and Progress Calculator"
+    status: "done"
+  - id: "FEAT-DASH-003-03"
+    title: "Portfolio API Endpoint"
+    status: "done"
+  - id: "FEAT-DASH-003-04"
+    title: "Hierarchical Portfolio UI"
+    status: "done"
+completion: 100
+created: "2026-02-06"
+updated: "2026-02-06"
+author: "analyst-annie"
+---
+
 # Specification: Initiative Tracking and Portfolio View
 
-**Status:** Draft  
+**Status:** Implemented ✅  
 **Created:** 2026-02-06  
 **Last Updated:** 2026-02-06  
 **Author:** Analyst Annie  
