@@ -30,42 +30,45 @@
 
     <!-- Main Dashboard Grid -->
     <main class="dashboard-main">
-        <div class="container">
+        <!-- Left Sidebar: Metrics -->
+        <aside class="sidebar-left">
+            <h2>📊 Metrics</h2>
             
-            <!-- Cost Summary Cards -->
-            <section class="metrics-row">
-                <div class="metric-card">
-                    <div class="metric-icon">💰</div>
-                    <div class="metric-content">
-                        <h3>Today</h3>
-                        <p class="metric-value" id="cost-today">$0.00</p>
-                    </div>
+            <div class="metric-card">
+                <div class="metric-icon">💰</div>
+                <div class="metric-content">
+                    <h3>Today</h3>
+                    <p class="metric-value" id="cost-today">$0.00</p>
                 </div>
-                
-                <div class="metric-card">
-                    <div class="metric-icon">📅</div>
-                    <div class="metric-content">
-                        <h3>This Month</h3>
-                        <p class="metric-value" id="cost-month">$0.00</p>
-                    </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-icon">📅</div>
+                <div class="metric-content">
+                    <h3>This Month</h3>
+                    <p class="metric-value" id="cost-month">$0.00</p>
                 </div>
-                
-                <div class="metric-card">
-                    <div class="metric-icon">📊</div>
-                    <div class="metric-content">
-                        <h3>Total</h3>
-                        <p class="metric-value" id="cost-total">$0.00</p>
-                    </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-icon">📊</div>
+                <div class="metric-content">
+                    <h3>Total</h3>
+                    <p class="metric-value" id="cost-total">$0.00</p>
                 </div>
-                
-                <div class="metric-card">
-                    <div class="metric-icon">⚡</div>
-                    <div class="metric-content">
-                        <h3>Active Tasks</h3>
-                        <p class="metric-value" id="tasks-active">0</p>
-                    </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-icon">⚡</div>
+                <div class="metric-content">
+                    <h3>Active Tasks</h3>
+                    <p class="metric-value" id="tasks-active">0</p>
                 </div>
-            </section>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="container main-content">
 
             <!-- Recent Activity -->
             <section class="activity-section">

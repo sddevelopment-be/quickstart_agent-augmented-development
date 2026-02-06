@@ -98,6 +98,12 @@
 
         socket.on('task.updated', (data) => {
             console.log('🔄 Task updated:', data);
+            
+            // Real-time priority sync (ADR-035)
+            if (data.field === 'priority') {
+                updatePriorityInUI(data.task_id, data.new_value);
+            }
+            
             handleTaskUpdated(data);
         });
 
@@ -199,12 +205,29 @@
             return;
         }
         
-        container.innerHTML = tasks.map(task => createTaskCard(task)).join('');
-        
-        // Add click handlers
-        container.querySelectorAll('.task-card').forEach((card, index) => {
-            card.addEventListener('click', () => showTaskModal(tasks[index]));
+        // Sort tasks by latest change/creation (newest first)
+        const sortedTasks = tasks.slice().sort((a, b) => {
+            const dateA = new Date(a.updated_at || a.created_at || 0);
+            const dateB = new Date(b.updated_at || b.created_at || 0);
+            return dateB - dateA; // Descending order (newest first)
         });
+        
+        container.innerHTML = sortedTasks.map(task => createTaskCard(task)).join('');
+        
+        // Add click handlers for task cards (excluding priority dropdowns)
+        container.querySelectorAll('.task-card').forEach((card, index) => {
+            card.addEventListener('click', (event) => {
+                // Don't open modal if clicking on priority dropdown
+                if (event.target.classList.contains('priority-dropdown') || 
+                    event.target.closest('.priority-dropdown-container')) {
+                    return;
+                }
+                showTaskModal(sortedTasks[index]);
+            });
+        });
+        
+        // Wire priority dropdown handlers
+        attachPriorityHandlers();
     }
 
     function createTaskCard(task) {
@@ -217,11 +240,60 @@
                 <h4>${escapeHtml(task.title || task.id)}</h4>
                 <div class="task-meta">
                     <span>👤 ${escapeHtml(agent)}</span>
-                    <span>🏷️ ${escapeHtml(priority)}</span>
+                    ${createPriorityControl(task)}
                     <span>🕐 ${createdAt}</span>
                 </div>
             </div>
         `;
+    }
+    
+    function createPriorityControl(task) {
+        const priority = task.priority || 'MEDIUM';
+        const status = task.status || 'inbox';
+        const isEditable = isTaskEditable(status);
+        
+        // In-progress indicator (pulsing dot)
+        const inProgressIndicator = status === 'in_progress' 
+            ? '<span class="in-progress-dot"></span>' 
+            : '';
+        
+        if (!isEditable) {
+            // Non-editable: show badge with tooltip
+            return `
+                <span class="priority-badge priority-${priority.toLowerCase()} disabled"
+                      title="Cannot edit ${status} tasks"
+                      data-task-id="${escapeHtml(task.id)}">
+                    ${inProgressIndicator}
+                    🏷️ ${escapeHtml(priority)}
+                </span>
+            `;
+        }
+        
+        // Editable: dropdown
+        return `
+            <div class="priority-dropdown-container" data-task-id="${escapeHtml(task.id)}">
+                <select class="priority-dropdown" 
+                        data-task-id="${escapeHtml(task.id)}"
+                        data-original-priority="${escapeHtml(priority)}">
+                    ${createPriorityOptions(priority)}
+                </select>
+                <span class="priority-spinner hidden">⏳</span>
+                <span class="priority-success hidden">✅</span>
+            </div>
+        `;
+    }
+    
+    function createPriorityOptions(currentPriority) {
+        const priorities = ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW', 'normal'];
+        return priorities.map(p => {
+            const selected = p === currentPriority ? 'selected' : '';
+            return `<option value="${p}" ${selected}>${p}</option>`;
+        }).join('');
+    }
+    
+    function isTaskEditable(status) {
+        const nonEditableStatuses = ['in_progress', 'done', 'failed'];
+        return !nonEditableStatuses.includes(status);
     }
 
     function handleTaskCreated(data) {
@@ -364,6 +436,126 @@
         }
     }
 
+    // ========================================
+    // Priority Editing Functions (ADR-035)
+    // ========================================
+    
+    function attachPriorityHandlers() {
+        document.querySelectorAll('.priority-dropdown').forEach(dropdown => {
+            dropdown.removeEventListener('change', handlePriorityChange); // Prevent duplicates
+            dropdown.addEventListener('change', handlePriorityChange);
+        });
+    }
+
+    async function handlePriorityChange(event) {
+        const dropdown = event.target;
+        const taskId = dropdown.dataset.taskId;
+        const newPriority = dropdown.value;
+        const originalPriority = dropdown.dataset.originalPriority;
+        
+        // Skip if no actual change
+        if (newPriority === originalPriority) return;
+        
+        // Update UI to loading state
+        showPriorityLoading(taskId, true);
+        dropdown.disabled = true;
+        
+        try {
+            // API call with optimistic locking
+            const response = await fetch(`/api/tasks/${taskId}/priority`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    priority: newPriority,
+                    // TODO: Add last_modified from task data for optimistic locking
+                })
+            });
+            
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.error || `HTTP ${response.status}`);
+            }
+            
+            const result = await response.json();
+            
+            // Success: update original value, show feedback
+            dropdown.dataset.originalPriority = newPriority;
+            showPrioritySuccess(taskId);
+            
+            // Add activity log
+            addActivity('Priority Updated', `${taskId} → ${newPriority}`, 'updated');
+            
+        } catch (error) {
+            // Error: rollback, show error
+            dropdown.value = originalPriority;
+            showPriorityError(taskId, error.message);
+            addActivity('Priority Error', `${taskId}: ${error.message}`, 'error');
+        } finally {
+            showPriorityLoading(taskId, false);
+            dropdown.disabled = false;
+        }
+    }
+
+    function showPriorityLoading(taskId, isLoading) {
+        const containers = document.querySelectorAll(`.priority-dropdown-container[data-task-id="${taskId}"]`);
+        containers.forEach(container => {
+            const spinner = container.querySelector('.priority-spinner');
+            if (spinner) {
+                spinner.classList.toggle('hidden', !isLoading);
+            }
+        });
+    }
+
+    function showPrioritySuccess(taskId) {
+        const containers = document.querySelectorAll(`.priority-dropdown-container[data-task-id="${taskId}"]`);
+        containers.forEach(container => {
+            const success = container.querySelector('.priority-success');
+            if (success) {
+                success.classList.remove('hidden');
+                setTimeout(() => success.classList.add('hidden'), 2000);
+            }
+        });
+    }
+
+    function showPriorityError(taskId, message) {
+        // Show toast notification
+        showToast('error', `Priority Update Failed: ${message}`);
+    }
+
+    function showToast(type, message) {
+        // Simple toast notification
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => toast.classList.add('show'), 10);
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 5000);
+    }
+    
+    function updatePriorityInUI(taskId, newPriority) {
+        // Update dropdowns in task cards and modal
+        const dropdowns = document.querySelectorAll(`.priority-dropdown[data-task-id="${taskId}"]`);
+        dropdowns.forEach(dropdown => {
+            dropdown.value = newPriority;
+            dropdown.dataset.originalPriority = newPriority;
+        });
+        
+        // Update badges for disabled tasks
+        const badges = document.querySelectorAll(`.priority-badge[data-task-id="${taskId}"]`);
+        badges.forEach(badge => {
+            badge.textContent = `🏷️ ${newPriority}`;
+            // Update class for color coding
+            badge.className = `priority-badge priority-${newPriority.toLowerCase()} disabled`;
+        });
+        
+        // Show toast notification (from another user)
+        showToast('info', `Priority updated by another user: ${taskId} → ${newPriority}`);
+    }
+
     function showTaskModal(task) {
         const modal = document.getElementById('task-modal');
         const titleElement = document.getElementById('modal-title');
@@ -392,7 +584,9 @@
             </div>
             <div class="modal-field">
                 <label>Priority:</label>
-                <value>${escapeHtml(task.priority || 'N/A')}</value>
+                <div class="modal-priority-control">
+                    ${createPriorityControl(task)}
+                </div>
             </div>
             <div class="modal-field">
                 <label>Created:</label>
@@ -483,6 +677,9 @@
             } else {
                 console.warn('⚠️ MarkdownRenderer not available, falling back to plain text');
             }
+            
+            // Wire priority dropdown handlers in modal (ADR-035)
+            attachPriorityHandlers();
         }, 10);
         
         modal.classList.remove('hidden');
