@@ -958,7 +958,7 @@
     /**
      * Open task modal from portfolio
      */
-    async function openTaskFromPortfolio(taskId) {
+    window.openTaskFromPortfolio = async function(taskId) {
         try {
             // Fetch task details
             const response = await fetch(`/api/tasks`);
@@ -990,7 +990,7 @@
         } catch (error) {
             console.error('Failed to load task:', error);
         }
-    }
+    };
 
     // Export for debugging
     window.dashboard = {
