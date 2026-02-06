@@ -1,13 +1,13 @@
 # Work Inbox Task Index
 
-**Generated:** 2025-11-23T18:41:00Z  
+**Generated:** 2026-02-06T04:25:00Z
 **Status:** Current open tasks awaiting assignment
 
 ## Overview
 
 This index tracks all tasks currently in the inbox awaiting assignment by the Agent Orchestrator.
 
-## Open Tasks (10)
+## Open Tasks (13)
 
 ### 1. POC3: Multi-Agent Chain Validation
 - **Task ID:** `2025-11-23T1738-architect-poc3-multi-agent-chain`
@@ -138,24 +138,68 @@ This index tracks all tasks currently in the inbox awaiting assignment by the Ag
   - docs/templates/agent-tasks/follow-up-lookup-table-example.yaml
   - work/logs/architect/2025-11-23T1846-follow-up-lookup-assessment.md
 
+### 11. Fix Dashboard CORS Configuration
+- **Task ID:** `2026-02-06T0422-backend-dev-dashboard-cors-fix`
+- **Agent:** backend-dev
+- **Priority:** critical
+- **Status:** new
+- **Created:** 2026-02-06T04:22:00Z
+- **Created By:** claude-sonnet-4.5
+- **Title:** Fix Dashboard CORS Configuration for WebSocket Connections
+- **Description:** Fix CORS configuration to allow WebSocket connections from localhost. Currently failing with 400 Bad Request due to wildcard pattern incompatibility with Flask-SocketIO.
+- **Artifacts:**
+  - src/llm_service/dashboard/app.py
+- **Milestone:** M4 Batch 4.2
+
+### 12. Integrate File Watcher with Dashboard
+- **Task ID:** `2026-02-06T0423-backend-dev-dashboard-file-watcher-integration`
+- **Agent:** backend-dev
+- **Priority:** high
+- **Status:** new
+- **Created:** 2026-02-06T04:23:00Z
+- **Created By:** claude-sonnet-4.5
+- **Dependencies:** 2026-02-06T0422-backend-dev-dashboard-cors-fix
+- **Title:** Integrate File Watcher with Dashboard Runtime and API Endpoints
+- **Description:** Initialize file watcher when dashboard starts and connect it to API endpoints. Currently file watcher is implemented but never instantiated, causing empty task data.
+- **Artifacts:**
+  - src/llm_service/dashboard/app.py
+- **Milestone:** M4 Batch 4.2
+
+### 13. Integrate Telemetry API with Dashboard
+- **Task ID:** `2026-02-06T0424-backend-dev-dashboard-telemetry-integration`
+- **Agent:** backend-dev
+- **Priority:** high
+- **Status:** new
+- **Created:** 2026-02-06T04:24:00Z
+- **Created By:** claude-sonnet-4.5
+- **Dependencies:** 2026-02-06T0422-backend-dev-dashboard-cors-fix
+- **Title:** Integrate Telemetry API with Dashboard for Cost Metrics
+- **Description:** Initialize telemetry API when dashboard starts and connect it to API endpoints. Currently telemetry API is implemented but never instantiated, causing $0.00 cost metrics.
+- **Artifacts:**
+  - src/llm_service/dashboard/app.py
+- **Milestone:** M4 Batch 4.2
+
 ## Task Summary by Agent
 
 - **architect:** 3 tasks (1 critical, 2 high, 1 normal)
+- **backend-dev:** 3 tasks (1 critical, 2 high) - **NEW: Dashboard fixes**
 - **build-automation:** 6 tasks (all high priority - 3 original + 3 subtasks)
 - **synthesizer:** 1 task (high priority)
 
 ## Task Summary by Priority
 
-- **critical:** 1 task
-- **high:** 8 tasks
+- **critical:** 2 tasks (1 orchestration POC, 1 dashboard CORS fix)
+- **high:** 10 tasks (8 orchestration + 2 dashboard integration)
 - **normal:** 1 task
 
 ## Notes
 
-- All tasks were created by architect on 2025-11-23
+- Tasks 1-10 were created by architect on 2025-11-23
+- Tasks 11-13 were created by claude-sonnet-4.5 on 2026-02-06 (M4 Batch 4.2 dashboard fixes)
 - Build automation tasks are focused on template creation, CI/CD integration, and performance validation
 - Architect task is a multi-agent chain POC testing handoff reliability
-- These tasks represent high-priority gaps identified in post-PR-review orchestration assessment
+- Backend-dev tasks fix critical dashboard issues: CORS, file watcher, and telemetry integration
+- Dashboard tasks have dependency chain: CORS fix must complete before file watcher and telemetry integration
 
 ## Related Documentation
 

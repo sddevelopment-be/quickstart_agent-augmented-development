@@ -1,0 +1,79 @@
+---
+id: 2026-02-06T0424-backend-dev-dashboard-telemetry-integration
+title: "Integrate Telemetry API with Dashboard for Cost Metrics"
+agent: backend-dev
+priority: high
+status: new
+estimated_hours: 1-2
+created_at: "2026-02-06T04:24:00Z"
+created_by: "claude-sonnet-4.5"
+milestone: M4
+batch: 4.2
+dependencies:
+  - "2026-02-06T0422-backend-dev-dashboard-cors-fix"
+
+description: |
+  Initialize and integrate the telemetry API when the dashboard starts. Currently
+  the telemetry API is implemented but never instantiated, so cost metrics show
+  $0.00 for all values. The /api/stats endpoint returns hardcoded zeros with
+  TODO comments.
+
+  This task connects the telemetry API to the dashboard runtime and updates the
+  REST API endpoints to serve real cost/metrics data from telemetry.db.
+
+acceptance_criteria:
+  - TelemetryAPI initializes when dashboard app is created
+  - /api/stats endpoint returns actual cost data from database
+  - Cost metrics display real values (not $0.00)
+  - Today, month, and total costs shown accurately
+  - Charts populate with real trend and model usage data
+  - Telemetry database is created if missing (with schema)
+
+deliverables:
+  - Modified create_app() to initialize TelemetryAPI
+  - Updated /api/stats endpoint to use telemetry data
+  - Store telemetry reference in app.config for route access
+  - Handle missing database gracefully
+  - Verified cost data flows from telemetry.db to UI
+
+artefacts:
+  - "src/llm_service/dashboard/app.py"
+
+technical_notes: |
+  Changes required in app.py:
+
+  1. Modify create_app() function (after line 54):
+     - Import TelemetryAPI from .telemetry_api
+     - Get telemetry_db path from config (default: 'telemetry.db')
+     - Instantiate telemetry = TelemetryAPI(db_path, socketio)
+     - Store in app.config['TELEMETRY_API']
+
+  2. Update /api/stats endpoint (lines 90-112):
+     - Get telemetry from app.config.get('TELEMETRY_API')
+     - If telemetry exists:
+       - costs['today'] = telemetry.get_today_cost()
+       - costs['month'] = telemetry.get_monthly_cost()
+       - costs['total'] = telemetry.get_total_cost()
+     - Keep fallback zeros if telemetry is None
+     - Task counts will come from file watcher (separate task)
+
+  3. Consider adding /api/telemetry endpoint for full dashboard data:
+     - Return telemetry.to_dashboard_dict()
+     - Includes costs, models, trends, active_operations
+
+context: |
+  User reported cost metrics show $0.00 despite database existing.
+  Terminal logs show /api/stats returns 200 but with hardcoded zeros.
+
+  The TelemetryAPI class exists and is tested (10 tests passing) but is never
+  instantiated when the dashboard runs. The README.md shows telemetry queries
+  but app.py doesn't integrate them.
+
+  Root cause: app.py:90-112 has TODO comments and returns stub data.
+
+references:
+  - "src/llm_service/dashboard/app.py (lines 17-62, 90-112)"
+  - "src/llm_service/dashboard/telemetry_api.py"
+  - "src/llm_service/dashboard/README.md (Architecture section)"
+  - "ADR-032: Real-Time Execution Dashboard"
+  - "Directive 014: Work Log Creation (telemetry schema)"
