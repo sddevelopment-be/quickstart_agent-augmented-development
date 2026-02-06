@@ -168,7 +168,47 @@ On state loss or restart:
 
 5. Resume in `/analysis-mode` unless directed otherwise.
 
-## 8. Extended Directives Index
+## 8. Repository Structure & Key Directories
+
+### Specifications Directory (Recommended, Optional)
+
+**Location:** `specifications/`
+
+**Purpose:** Functional specifications that define WHAT to build before HOW to build it.
+
+**Usage:** Recommended but optional. Use for complex features requiring:
+- Multi-persona alignment (see `docs/audience/`)
+- Detailed acceptance criteria (Given/When/Then scenarios)
+- MoSCoW prioritization (MUST/SHOULD/COULD/WON'T)
+- Traceability from requirements → tests → implementation
+
+**Philosophy:**
+- Persona-driven (targets specific audiences from `docs/audience/`)
+- Functional focus (describes behavior, not implementation)
+- Testable (every requirement has acceptance criteria)
+- Living documents (evolve during development, freeze when implemented)
+
+**When to Use:**
+- ✅ Features spanning multiple components or agents
+- ✅ Complex workflows requiring cross-team coordination
+- ✅ API contracts needing stakeholder agreement
+- ✅ Features with security or performance constraints
+- ❌ Simple CRUD operations or bug fixes (use acceptance tests directly)
+- ❌ Architectural decisions (use ADRs in `docs/architecture/adrs/`)
+
+**Integration:**
+- Complements Directive 034 (Specification-Driven Development)
+- Feeds Directive 016 (Acceptance Test-Driven Development)
+- References Directive 018 (Traceable Decisions / ADRs)
+- Works with `work/` directory orchestration (YAML tasks reference specs)
+
+**See:** `specifications/README.md` for detailed guidance and templates.
+
+**Template:** `docs/templates/specifications/feature-spec-template.md`
+
+---
+
+## 9. Extended Directives Index
 
 The following optional/specific instruction sets are externalized for token efficiency. Load only as needed.
 
@@ -197,6 +237,7 @@ The following optional/specific instruction sets are externalized for token effi
 | 019  | File-Based Collaboration      | Multi-agent orchestration through file-based task workflows     |
 | 020  | [Locality of Change](.github/agents/directives/020_locality_of_change.md) | Problem severity measurement and premature optimization avoidance|
 | 024  | [Self-Observation Protocol](.github/agents/directives/024_self_observation_protocol.md) | Mid-execution self-monitoring and course correction (Ralph Wiggum loop)|
+| 034  | Specification-Driven Development | Functional requirement capture before implementation (recommended, optional)|
 
 Location: `.github/agents/directives/XXX_name.md` Example load pattern:
 
@@ -205,7 +246,7 @@ Location: `.github/agents/directives/XXX_name.md` Example load pattern:
 /require-directive 006
 ```
 
-## 9. Instruction Hierarchy
+## 10. Instruction Hierarchy
 
 ALWAYS USE THE PRIME SYSTEM DIRECTIVES FROM THE SDD AGENTIC FRAMEWORK.
 Reference: [`sddevelopment-be/templates/agents/AGENTS.md`](https://github.com/sddevelopment-be/templates/tree/main/agents).
@@ -214,20 +255,20 @@ Reference: [`sddevelopment-be/templates/agents/AGENTS.md`](https://github.com/sd
 - Developer instructions: use `bash -lc` with explicit `workdir`, prefer `rg`, avoid destructive git or reverting unrelated changes.
 - User guidance applies only if compatible with higher‑priority directives; clarify ambiguous shorthands (e.g., `g st`).
 
-## 10. Active Constraints
+## 11. Active Constraints
 
 - Sandbox: `workspace-write` with on‑request approvals; escalate only when needed.
 - Planning discipline: one active plan item.
 - Preserve repo state; default ASCII edits; comments only for clarity.
 - Consistency passes: reconcile practice `tags` with `data/glossary.toml`; ensure required template sections.
 
-## 11. Communication Rules
+## 12. Communication Rules
 
 - Concise, collaborative, precise; system output‑format rules override styling here.
 - Use “I don’t know” when uncertain; surface assumptions.
 - Final responses: plain‑text optimized for quick scanning.
 
-## 12. Command & Editing Practices
+## 13. Command & Editing Practices
 
 - Use patch tooling; set `workdir` instead of `cd`.
 - Prefer `rg` / `rg --files` for search.
