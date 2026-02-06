@@ -262,13 +262,6 @@ def register_routes(app: Flask) -> None:
             spec_full_path = str(Path(spec_dir) / spec_meta.relative_path)
             spec_tasks = task_groups.get(spec_full_path, [])
             
-            # DEBUG
-            if spec_meta.id == "SPEC-DASH-001":
-                logger.info(f"DEBUG SPEC-DASH-001: spec_full_path='{spec_full_path}'")
-                logger.info(f"DEBUG SPEC-DASH-001: spec_tasks count={len(spec_tasks)}")
-                if spec_tasks:
-                    logger.info(f"DEBUG SPEC-DASH-001: first task={spec_tasks[0].get('id')}")
-            
             # Build feature list with progress
             features = []
             for feature in spec_meta.features:
@@ -280,9 +273,6 @@ def register_routes(app: Flask) -> None:
                     if t.get("feature") == feature.id or t.get("feature") is None
                 ]
                 
-                # DEBUG
-                if spec_meta.id == "SPEC-DASH-001":
-                    logger.info(f"DEBUG SPEC-DASH-001: feature={feature.id}, matched={len(feature_tasks)} tasks")
                 # Calculate feature progress
                 feature_progress = calculator.calculate_feature_progress(feature_tasks)
                 
