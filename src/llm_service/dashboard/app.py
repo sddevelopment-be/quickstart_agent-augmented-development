@@ -3,15 +3,63 @@ Dashboard WebSocket Server for LLM Service.
 
 Provides real-time monitoring of LLM operations via WebSocket connections.
 Follows ADR-032: Real-Time Execution Dashboard.
+Implements ADR-036: Dashboard Markdown Rendering with XSS protection.
 """
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, make_response
 from flask_socketio import SocketIO, emit, Namespace
 from flask_cors import CORS
 from datetime import datetime, timezone
 from typing import Dict, Optional, Any
 import os
 import secrets
+
+
+def add_security_headers(response):
+    """
+    Add security headers to all HTTP responses.
+    Implements Content Security Policy (CSP) per ADR-036.
+    
+    CSP Configuration:
+    - default-src 'self': Only load resources from same origin
+    - script-src 'self' cdn.jsdelivr.net cdn.socket.io: Allow scripts from CDNs
+    - style-src 'self' 'unsafe-inline': Allow inline styles (for dynamic styling)
+    - img-src 'self' https: data:: Allow HTTPS images and data URIs
+    - connect-src 'self' ws: wss:: Allow WebSocket connections
+    - font-src 'self': Only fonts from same origin
+    - object-src 'none': Block plugins (Flash, Java, etc.)
+    - base-uri 'self': Prevent base tag hijacking
+    - form-action 'self': Prevent form submission to external sites
+    - frame-ancestors 'none': Prevent clickjacking (no iframes)
+    
+    Args:
+        response: Flask response object
+        
+    Returns:
+        Modified response with security headers
+    """
+    # Content Security Policy (XSS protection)
+    csp = (
+        "default-src 'self'; "
+        "script-src 'self' https://cdn.jsdelivr.net https://cdn.socket.io; "
+        "style-src 'self' 'unsafe-inline'; "
+        "img-src 'self' https: data:; "
+        "connect-src 'self' ws: wss:; "
+        "font-src 'self'; "
+        "object-src 'none'; "
+        "base-uri 'self'; "
+        "form-action 'self'; "
+        "frame-ancestors 'none';"
+    )
+    response.headers['Content-Security-Policy'] = csp
+    
+    # Additional security headers
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'DENY'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+    
+    return response
 
 
 def create_app(config: Optional[Dict[str, Any]] = None) -> tuple[Flask, SocketIO]:
@@ -60,6 +108,9 @@ def create_app(config: Optional[Dict[str, Any]] = None) -> tuple[Flask, SocketIO
     telemetry_db = app.config.get('TELEMETRY_DB', 'telemetry.db')
     telemetry = TelemetryAPI(telemetry_db, socketio)
     app.config['TELEMETRY_API'] = telemetry
+
+    # Register security headers middleware (ADR-036)
+    app.after_request(add_security_headers)
 
     # Register routes
     register_routes(app)

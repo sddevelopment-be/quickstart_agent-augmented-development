@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSS Security Test Suite - Dashboard Markdown Rendering</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #f1f5f9;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #3b82f6;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        
+        .warning {
+            background: #ef4444;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+        
+        .test-section {
+            background: #1e293b;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .test-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .test-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #60a5fa;
+        }
+        
+        .test-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .status-pending { background: #f59e0b; color: #000; }
+        .status-pass { background: #10b981; color: #fff; }
+        .status-fail { background: #ef4444; color: #fff; }
+        
+        .payload-display {
+            background: #0f172a;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            border: 1px solid #475569;
+        }
+        
+        .render-output {
+            background: #334155;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            border: 2px solid #475569;
+            min-height: 50px;
+        }
+        
+        .test-result {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        .result-pass {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid #10b981;
+            color: #10b981;
+        }
+        
+        .result-fail {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+        }
+        
+        .controls {
+            margin: 2rem 0;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+        
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+        
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #059669;
+        }
+        
+        .summary {
+            background: #1e293b;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border: 2px solid #3b82f6;
+        }
+        
+        .summary h2 {
+            color: #3b82f6;
+            margin-bottom: 1rem;
+        }
+        
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: #334155;
+            border-radius: 4px;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+        
+        .instructions {
+            background: #1e293b;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #f59e0b;
+        }
+        
+        .instructions h3 {
+            color: #f59e0b;
+            margin-bottom: 0.75rem;
+        }
+        
+        .instructions ol {
+            margin-left: 1.5rem;
+            color: #cbd5e1;
+        }
+        
+        .instructions li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛡️ XSS Security Test Suite</h1>
+        <p style="margin-bottom: 2rem; color: #94a3b8;">Dashboard Markdown Rendering - ADR-036 Security Validation</p>
+        
+        <div class="warning">
+            ⚠️ WARNING: This page tests XSS attack vectors. Do NOT use in production. Expected behavior: ALL payloads should be sanitized (no alerts, no script execution).
+        </div>
+        
+        <div class="instructions">
+            <h3>📋 Test Instructions</h3>
+            <ol>
+                <li>Click "Run All Tests" to execute all XSS payload tests</li>
+                <li>Each test renders a malicious payload through the markdown renderer</li>
+                <li>✅ PASS: Payload sanitized, no JavaScript execution</li>
+                <li>❌ FAIL: Alert dialog appears or script executes</li>
+                <li>Review summary statistics and individual test results</li>
+            </ol>
+        </div>
+        
+        <div class="summary" id="summary">
+            <h2>Test Summary</h2>
+            <div class="summary-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="total-tests">0</div>
+                    <div class="stat-label">Total Tests</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" style="color: #10b981;" id="passed-tests">0</div>
+                    <div class="stat-label">Passed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" style="color: #ef4444;" id="failed-tests">0</div>
+                    <div class="stat-label">Failed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" style="color: #f59e0b;" id="pending-tests">12</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn-primary" onclick="runAllTests()">▶️ Run All Tests</button>
+            <button class="btn-success" onclick="runSingleTest(0)">Run First Test</button>
+            <button class="btn-danger" onclick="resetTests()">🔄 Reset All Tests</button>
+        </div>
+        
+        <div id="test-container">
+            <!-- Tests will be dynamically inserted here -->
+        </div>
+    </div>
+    
+    <!-- Load markdown rendering library (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.8/dist/purify.min.js"></script>
+    
+    <script>
+        // XSS Test Payloads (OWASP Based)
+        const xssTestPayloads = [
+            {
+                id: 1,
+                name: "Basic Script Tag",
+                payload: '<script>alert("XSS-1")</script>',
+                category: "Script Injection"
+            },
+            {
+                id: 2,
+                name: "Image with Onerror",
+                payload: '<img src=x onerror="alert(\'XSS-2\')">',
+                category: "Event Handler"
+            },
+            {
+                id: 3,
+                name: "JavaScript URL in Link",
+                payload: '[Click me](javascript:alert("XSS-3"))',
+                category: "JavaScript Protocol"
+            },
+            {
+                id: 4,
+                name: "Data URI with Script",
+                payload: '[File](data:text/html,<script>alert("XSS-4")</script>)',
+                category: "Data URI"
+            },
+            {
+                id: 5,
+                name: "Onclick Event Handler",
+                payload: '<div onclick="alert(\'XSS-5\')">Click me</div>',
+                category: "Event Handler"
+            },
+            {
+                id: 6,
+                name: "SVG with Onload",
+                payload: '<svg onload="alert(\'XSS-6\')"></svg>',
+                category: "SVG Injection"
+            },
+            {
+                id: 7,
+                name: "Iframe Injection",
+                payload: '<iframe src="javascript:alert(\'XSS-7\')"></iframe>',
+                category: "Iframe"
+            },
+            {
+                id: 8,
+                name: "Object Tag",
+                payload: '<object data="data:text/html,<script>alert(\'XSS-8\')</script>"></object>',
+                category: "Object Tag"
+            },
+            {
+                id: 9,
+                name: "Embed Tag",
+                payload: '<embed src="data:text/html,<script>alert(\'XSS-9\')</script>">',
+                category: "Embed Tag"
+            },
+            {
+                id: 10,
+                name: "Link with Encoded JavaScript",
+                payload: '[Click](&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;alert("XSS-10"))',
+                category: "Encoded Protocol"
+            },
+            {
+                id: 11,
+                name: "Form with Action",
+                payload: '<form action="javascript:alert(\'XSS-11\')"><input type="submit"></form>',
+                category: "Form Injection"
+            },
+            {
+                id: 12,
+                name: "Style with Expression",
+                payload: '<style>body{background:url("javascript:alert(\'XSS-12\')")}</style>',
+                category: "Style Injection"
+            }
+        ];
+        
+        // Test results tracking
+        let testResults = {
+            total: xssTestPayloads.length,
+            passed: 0,
+            failed: 0,
+            pending: xssTestPayloads.length
+        };
+        
+        // Configure marked with GFM (per ADR-036)
+        marked.setOptions({
+            gfm: true,
+            breaks: true,
+            tables: true,
+            smartLists: true,
+            headerIds: false,
+            mangle: false
+        });
+        
+        // Initialize tests
+        function initializeTests() {
+            const container = document.getElementById('test-container');
+            xssTestPayloads.forEach((test, index) => {
+                const testDiv = createTestElement(test, index);
+                container.appendChild(testDiv);
+            });
+            updateSummary();
+        }
+        
+        function createTestElement(test, index) {
+            const div = document.createElement('div');
+            div.className = 'test-section';
+            div.id = `test-${test.id}`;
+            div.innerHTML = `
+                <div class="test-header">
+                    <div>
+                        <div class="test-title">Test ${test.id}: ${test.name}</div>
+                        <div style="color: #94a3b8; font-size: 0.9rem; margin-top: 0.25rem;">Category: ${test.category}</div>
+                    </div>
+                    <span class="test-status status-pending" id="status-${test.id}">Pending</span>
+                </div>
+                <div style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 0.5rem;">Payload:</div>
+                <div class="payload-display">${escapeHtml(test.payload)}</div>
+                <div style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 0.5rem;">Rendered Output:</div>
+                <div class="render-output" id="output-${test.id}">
+                    <em style="color: #94a3b8;">Not yet executed</em>
+                </div>
+                <div class="test-result" id="result-${test.id}" style="display: none;"></div>
+                <button class="btn-primary" style="margin-top: 1rem;" onclick="runSingleTest(${index})">Run This Test</button>
+            `;
+            return div;
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function runSingleTest(index) {
+            const test = xssTestPayloads[index];
+            console.log(`Running test ${test.id}: ${test.name}`);
+            
+            // Set up alert detection
+            const originalAlert = window.alert;
+            let alertCalled = false;
+            window.alert = function(msg) {
+                alertCalled = true;
+                console.error(`❌ SECURITY FAILURE: Alert called with message: ${msg}`);
+                // Don't show the alert (for safety)
+            };
+            
+            try {
+                // Render markdown through marked
+                const htmlOutput = marked.parse(test.payload);
+                
+                // Sanitize with DOMPurify (per ADR-036)
+                const sanitizedOutput = DOMPurify.sanitize(htmlOutput, {
+                    ALLOWED_TAGS: [
+                        'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+                        'p', 'br', 'hr',
+                        'strong', 'em', 'code', 'pre',
+                        'ul', 'ol', 'li',
+                        'blockquote',
+                        'a',
+                        'table', 'thead', 'tbody', 'tr', 'th', 'td',
+                        'del'
+                    ],
+                    ALLOWED_ATTR: ['href', 'class'],
+                    ALLOWED_URI_REGEXP: /^https?:\/\//,
+                    ALLOW_DATA_ATTR: false
+                });
+                
+                // Insert into DOM
+                const outputDiv = document.getElementById(`output-${test.id}`);
+                outputDiv.innerHTML = sanitizedOutput || '<em style="color: #94a3b8;">[Payload completely sanitized - nothing to display]</em>';
+                
+                // Small delay to allow any deferred script execution
+                setTimeout(() => {
+                    const passed = !alertCalled;
+                    updateTestResult(test.id, passed, sanitizedOutput);
+                    
+                    // Restore original alert
+                    window.alert = originalAlert;
+                }, 100);
+                
+            } catch (error) {
+                console.error(`Test ${test.id} threw error:`, error);
+                updateTestResult(test.id, false, `Error: ${error.message}`);
+                window.alert = originalAlert;
+            }
+        }
+        
+        function updateTestResult(testId, passed, output) {
+            const statusEl = document.getElementById(`status-${testId}`);
+            const resultEl = document.getElementById(`result-${testId}`);
+            
+            statusEl.textContent = passed ? 'PASS ✓' : 'FAIL ✗';
+            statusEl.className = `test-status ${passed ? 'status-pass' : 'status-fail'}`;
+            
+            resultEl.style.display = 'block';
+            resultEl.className = `test-result ${passed ? 'result-pass' : 'result-fail'}`;
+            resultEl.textContent = passed 
+                ? '✓ PASSED: Payload was sanitized. No JavaScript execution detected.'
+                : '✗ FAILED: JavaScript execution detected! XSS vulnerability confirmed.';
+            
+            // Update summary
+            testResults.pending--;
+            if (passed) {
+                testResults.passed++;
+            } else {
+                testResults.failed++;
+            }
+            updateSummary();
+        }
+        
+        function updateSummary() {
+            document.getElementById('total-tests').textContent = testResults.total;
+            document.getElementById('passed-tests').textContent = testResults.passed;
+            document.getElementById('failed-tests').textContent = testResults.failed;
+            document.getElementById('pending-tests').textContent = testResults.pending;
+        }
+        
+        function runAllTests() {
+            console.log('Running all XSS security tests...');
+            xssTestPayloads.forEach((test, index) => {
+                setTimeout(() => runSingleTest(index), index * 500); // Stagger tests
+            });
+        }
+        
+        function resetTests() {
+            testResults = {
+                total: xssTestPayloads.length,
+                passed: 0,
+                failed: 0,
+                pending: xssTestPayloads.length
+            };
+            
+            xssTestPayloads.forEach(test => {
+                const statusEl = document.getElementById(`status-${test.id}`);
+                const outputEl = document.getElementById(`output-${test.id}`);
+                const resultEl = document.getElementById(`result-${test.id}`);
+                
+                statusEl.textContent = 'Pending';
+                statusEl.className = 'test-status status-pending';
+                outputEl.innerHTML = '<em style="color: #94a3b8;">Not yet executed</em>';
+                resultEl.style.display = 'none';
+            });
+            
+            updateSummary();
+            console.log('All tests reset');
+        }
+        
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', initializeTests);
+    </script>
+</body>
+</html>
