@@ -1,4 +1,3 @@
----
 task_id: "mfd-task-1.2-implement-parser"
 from_agent: "Project Manager"
 to_agent: "Backend Benny"
@@ -11,7 +10,6 @@ batch: "Batch 1: Foundation & Infrastructure"
 milestone: "Milestone 1: Schema Complete"
 dependencies: ["mfd-task-1.1-design-ir-structure"]
 
----
 
 # Task 1.2: Implement Markdown Parser
 
@@ -287,13 +285,11 @@ function parseYAMLFrontmatter(content) {
 **Duration:** 6 hours  
 **Deadline:** End of Batch 1, Week 1
 
----
 
 **Task Status:** TODO - Waiting on Task 1.1  
 **Blocking Tasks:** Task 2.1, 2.2, 2.3 (all generators), Task 1.3, 1.4  
 **Critical Path:** Yes
 
----
 
 *Created by: Project Manager*  
 *Date: 2026-01-29*  

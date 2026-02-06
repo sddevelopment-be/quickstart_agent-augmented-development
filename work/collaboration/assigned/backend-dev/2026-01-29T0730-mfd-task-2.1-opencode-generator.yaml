@@ -1,4 +1,3 @@
----
 task_id: "mfd-task-2.1-opencode-generator"
 from_agent: "Project Manager"
 to_agent: "Backend Benny"
@@ -11,7 +10,6 @@ batch: "Batch 2: Export Pipeline Core"
 milestone: "Milestone 2: Exporters Functional"
 dependencies: ["mfd-task-1.2-implement-parser", "mfd-task-1.4-create-5-schemas"]
 
----
 
 # Task 2.1: Enhance OpenCode Generator (Production-Ready)
 
@@ -242,13 +240,11 @@ describe('OpenCode Generator Acceptance', () => {
 **Duration:** 6 hours  
 **Deadline:** End of Batch 2, Week 2
 
----
 
 **Task Status:** TODO - Waiting on Batch 1  
 **Blocking Tasks:** Task 2.2, 2.3 (other generators)  
 **Critical Path:** Yes
 
----
 
 *Created by: Project Manager*  
 *Date: 2026-01-29*  
