@@ -72,6 +72,9 @@
 
 **Remaining (open):**
 - `work/collaboration/assigned/architect/2025-11-24T1736-architect-framework-efficiency-assessment.yaml`
+
+**Blockers:**
+- Efficiency assessment blocked: missing `work/metrics/token-metrics-2025-11-24.json` and ADR-012 naming conflict.
 - ✅ Recent Activity moved to top
 - ✅ Charts moved to bottom
 - ✅ Responsive design (desktop/tablet/mobile)

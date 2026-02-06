@@ -1,6 +1,6 @@
 id: 2025-11-24T1736-architect-framework-efficiency-assessment
 agent: architect
-status: assigned
+status: blocked
 priority: low
 mode: /analysis-mode
 title: Assess Agentic Framework Efficiency Trends (Quality-to-Cost Ratio)
@@ -28,6 +28,9 @@ context:
   - Assess whether framework overhead is decreasing
   - Provide actionable recommendations if trends are negative
   - Document decisions in ADR-012 and work log per Directive 014
+  blockers:
+  - Missing metrics artifact: work/metrics/token-metrics-2025-11-24.json (referenced in synthesizer work log)
+  - ADR naming conflict: ADR-012 already used for ATDD/TDD defaults (ADR-012-test-driven-defaults.md)
 dependencies:
 - 2025-11-24T1735-synthesizer-token-metrics-aggregation
 created_at: '2025-11-24T17:36:00Z'
