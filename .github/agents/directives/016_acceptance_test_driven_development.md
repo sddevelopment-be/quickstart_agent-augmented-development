@@ -15,9 +15,12 @@ Workflow:
 
 1. Capture behaviour as an executable acceptance test (BDD spec, contract test, high-level script) before coding.
 2. Reference the scenario ID/ticket/task inside the test metadata.
-3. Keep acceptance tests close to real workflows—prefer black-box interactions (HTTP endpoints, CLI commands) over internal seams.
-4. Use the [Testing Pyramid](../GLOSSARY.md#testing-pyramid) to balance coverage: few but meaningful acceptance tests per capability.
-5. Once acceptance tests fail for the right reason, delegate detailed work to [TDD](../GLOSSARY.md#tdd-test-driven-development) cycles.
+3. **When defining acceptance boundaries:**
+   - **For adversarial edge cases:** Invoke `tactics/ATDD_adversarial-acceptance.tactic.md`
+   - **For test scope clarity:** Invoke `tactics/test-boundaries-by-responsibility.tactic.md`
+4. Keep acceptance tests close to real workflows—prefer black-box interactions (HTTP endpoints, CLI commands) over internal seams.
+5. Use the [Testing Pyramid](../GLOSSARY.md#testing-pyramid) to balance coverage: few but meaningful acceptance tests per capability.
+6. Once acceptance tests fail for the right reason, delegate detailed work to [TDD](../GLOSSARY.md#tdd-test-driven-development) cycles.
 
 Documentation:
 
