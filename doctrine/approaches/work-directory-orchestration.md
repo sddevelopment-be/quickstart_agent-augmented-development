@@ -67,7 +67,7 @@ See `${WORKSPACE_ROOT}/collaboration/README.md` for directory-specific conventio
 
 ### Required & Optional Fields
 
-Use the templates under `${DOC_ROOT}/templates/agent-tasks/`:
+Use the templates under `templates/agent-tasks/`:
 
 - `task-descriptor.yaml` – Required fields (`id`, `agent`, `status`, `artefacts`).
 - `task-context.yaml`, `task-examples.yaml`, etc. – Optional helpers.

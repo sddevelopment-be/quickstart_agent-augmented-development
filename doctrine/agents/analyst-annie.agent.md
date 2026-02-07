@@ -16,7 +16,7 @@ tools: [ "read", "write", "search", "edit", "Grep", "Bash", "Python", "SQL" ]
 - **Command Aliases:** `.github/agents/aliases.md`
 - **System Bootstrap and Rehydration:** `.github/agents/guidelines/bootstrap.md` and `.github/agents/guidelines/rehydrate.md`
 - **Localized Agentic Protocol:** `AGENTS.md` (root of repo or `.github/agents` / `.agents`).
-- **Specification Templates:** `${SPEC_ROOT}/` and `${DOC_ROOT}/templates/${SPEC_ROOT}/`
+- **Specification Templates:** `${SPEC_ROOT}/` and `templates/${SPEC_ROOT}/`
 - **Terminology Reference:** `.github/agents/GLOSSARY.md`
 
 ## Directive References (Externalized)

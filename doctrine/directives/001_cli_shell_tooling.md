@@ -45,7 +45,7 @@ Terminal interaction can be unreliable in agent-based workflows. When you suspec
 3. if interaction fails or is inconsistent, proceed with the remediation technique below and attempt to interact with the file again
 4. if interaction is successful, continue with your task using the remediation technique
 5. when the current micro task is complete, make note of the issue in the [
-   `work/notes/LOCAL_ENV.md`](/work/notes/LOCAL_ENV.md) file for future reference. If the file does not exist, create it as per [/${DOC_ROOT}/templates/automation/TEMPLATE-LOCAL_ENV.md](/${DOC_ROOT}/templates/automation/TEMPLATE-LOCAL_ENV.md) and document the observed behavior
+   `work/notes/LOCAL_ENV.md`](/work/notes/LOCAL_ENV.md) file for future reference. If the file does not exist, create it as per [/templates/automation/TEMPLATE-LOCAL_ENV.md](/templates/automation/TEMPLATE-LOCAL_ENV.md) and document the observed behavior
 
 **Remediation Technique:**
 

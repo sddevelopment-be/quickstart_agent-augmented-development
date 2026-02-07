@@ -354,7 +354,7 @@ Effective use of this directive:
 ## Related Documentation
 
 - **ADR-023:** [Prompt Optimization Framework](/../${DOC_ROOT}/architecture/adrs/ADR-023-prompt-optimization-framework.md)
-- **Templates:** [${DOC_ROOT}/templates/prompts/](/../${DOC_ROOT}/templates/prompts/)
+- **Templates:** [templates/prompts/](/../templates/prompts/)
 - **Work Log Analysis:** [${WORKSPACE_ROOT}/reports/assessments/work-log-analysis-suboptimal-patterns.md](/../${WORKSPACE_ROOT}/reports/assessments/work-log-analysis-suboptimal-patterns.md)
 
 ---

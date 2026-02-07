@@ -43,7 +43,7 @@ This audit compares the current repository state against the canonical framework
 |-------------------------------------------|-------------|----------------|-----------------------------------------|
 | `.github/agents/AGENTS.md`                | UNCHANGED   | ✅ Yes         | Framework core - aligned                |
 | `.github/agents/directives/001_*.md`      | DIVERGED    | ❌ No          | Local modifications detected            |
-| `${DOC_ROOT}/templates/architecture/ADR.md`      | MISSING     | N/A            | Expected file not found                 |
+| `templates/architecture/ADR.md`      | MISSING     | N/A            | Expected file not found                 |
 | `local/agents/custom-agent.agent.md`      | CUSTOM      | N/A            | Not in manifest - local addition        |
 
 *(Continue for all files...)*
@@ -80,7 +80,7 @@ This audit compares the current repository state against the canonical framework
 | File                                     | Divergence Type          | Risk Level | Recommendation                          |
 |------------------------------------------|--------------------------|------------|-----------------------------------------|
 | `.github/agents/architect.agent.md`      | Customized directives    | Medium     | Move custom directives to `local/`      |
-| `${DOC_ROOT}/templates/prompts/task.md`         | Added local fields       | Low        | Safe to keep, document in project notes |
+| `templates/prompts/task.md`         | Added local fields       | Low        | Safe to keep, document in project notes |
 | `.github/agents/guidelines/general.md`   | Tone adjustments         | High       | ❗️ Core governance modified—restore or isolate |
 
 ### Recommendation Summary
@@ -99,7 +99,7 @@ Files found in framework directories but not listed in `META/MANIFEST.yml`:
 |------------------------------------------|--------|---------------|-----------------------------|
 | `local/agents/custom-agent.agent.md`     | 8 KB   | 2025-11-28    | Local agent extension       |
 | `.github/agents/drafts/experiment.md`    | 2 KB   | 2025-11-20    | Temporary/experimental file |
-| `${DOC_ROOT}/templates/custom-template.md`      | 4 KB   | 2025-11-15    | Local template addition     |
+| `templates/custom-template.md`      | 4 KB   | 2025-11-15    | Local template addition     |
 
 ### Orphan Detection
 

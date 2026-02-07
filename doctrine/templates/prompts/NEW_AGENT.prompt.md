@@ -30,7 +30,7 @@ Create a NEW SPECIALIST agent definition.
 
 ## Task:
 1. Validate inputs for scope tightness (flag scope creep if > 2 domains).
-2. Use `${DOC_ROOT}/templates/automation/NEW_SPECIALIST.agent.md` as baseline.
+2. Use `templates/automation/NEW_SPECIALIST.agent.md` as baseline.
 3. Produce file: `agents/<slug>.agent.md` (slug: kebab-case of name).
 4. Include initialization declaration section.
 5. Add only directives relevant to role (choose from existing `agents/directives/`).

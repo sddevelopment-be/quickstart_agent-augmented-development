@@ -61,7 +61,7 @@ Evaluate and calibrate writing style compliance (tone, rhythm, formatting) while
 - `/docs/LEX_TONE_MAP.md` — medium detection per file with confidence scores and conflicts.
 - `/docs/LEX_STYLE_RULES.md` — extracted operational rules applied in this repo (for quick onboarding).
 
-Templates for these artifacts are in `${DOC_ROOT}/templates/lexical/`.
+Templates for these artifacts are in `templates/lexical/`.
 
 ### Operating Procedure
 

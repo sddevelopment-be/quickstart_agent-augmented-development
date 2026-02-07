@@ -25,7 +25,7 @@ title: "Review and update template structure"
 error:
   message: "Template directory structure conflicts with existing standards"
   details: |
-    Found inconsistency in ${DOC_ROOT}/templates/architecture/ naming conventions.
+    Found inconsistency in templates/architecture/ naming conventions.
     Expected: ADR-XXX-description.md
     Found: adr-XXX-description.md (lowercase)
     Requires human decision on canonical format.

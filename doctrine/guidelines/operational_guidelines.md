@@ -49,7 +49,7 @@ How agents should operate inside this repository.
 
 ## Style Guidelines
 
-- Reuse existing templates and patterns (`${DOC_ROOT}/templates/`) whenever possible.
+- Reuse existing templates and patterns (`templates/`) whenever possible.
 - Adhere to the writing guidelines in the `${DOC_ROOT}/styleguide/` directory.
 - Use clear, concise language. Maintain a calm and professional tone.
 - Follow existing style conventions in code and documentation.

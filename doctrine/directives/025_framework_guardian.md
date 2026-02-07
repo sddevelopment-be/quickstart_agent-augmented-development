@@ -58,13 +58,13 @@ For each file listed in `META/MANIFEST.yml`:
    - Guardian cannot distinguish intent—surface all diverged files for human review.
 
 4. **Orphan Detection:**
-   - Scan framework directories (`.github/agents/`, `${DOC_ROOT}/templates/`, etc.).
+   - Scan framework directories (`.github/agents/`, `templates/`, etc.).
    - Identify files not listed in manifest.
    - Classify as `CUSTOM` (potentially local additions or orphaned files).
 
 ### Audit Report Structure
 
-Generate `validation/FRAMEWORK_AUDIT_REPORT.md` using template from `${DOC_ROOT}/templates/GUARDIAN_AUDIT_REPORT.md`.
+Generate `validation/FRAMEWORK_AUDIT_REPORT.md` using template from `templates/GUARDIAN_AUDIT_REPORT.md`.
 
 Include:
 
@@ -138,7 +138,7 @@ For each `.framework-new` file:
 
 ### Upgrade Plan Structure
 
-Generate `validation/FRAMEWORK_UPGRADE_PLAN.md` using template from `${DOC_ROOT}/templates/GUARDIAN_UPGRADE_PLAN.md`.
+Generate `validation/FRAMEWORK_UPGRADE_PLAN.md` using template from `templates/GUARDIAN_UPGRADE_PLAN.md`.
 
 Include:
 
@@ -228,7 +228,7 @@ Guardian participates in file-based orchestration per Directive 019:
 
 ## Templates and Standards
 
-**Audit Report Template:** `${DOC_ROOT}/templates/GUARDIAN_AUDIT_REPORT.md`
+**Audit Report Template:** `templates/GUARDIAN_AUDIT_REPORT.md`
 
 Required sections:
 - Metadata
@@ -237,7 +237,7 @@ Required sections:
 - Critical Findings
 - Recommendations
 
-**Upgrade Plan Template:** `${DOC_ROOT}/templates/GUARDIAN_UPGRADE_PLAN.md`
+**Upgrade Plan Template:** `templates/GUARDIAN_UPGRADE_PLAN.md`
 
 Required sections:
 - Metadata

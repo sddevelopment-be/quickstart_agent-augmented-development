@@ -45,4 +45,4 @@ When working within the file-based orchestration system, load only the step rele
 
 - `${WORKSPACE_ROOT}/collaboration/README.md` - Collaboration directory guide
 - `work/README.md` - Complete work directory documentation
-- `${DOC_ROOT}/templates/task-descriptor.yaml` - Task YAML schema
+- `templates/task-descriptor.yaml` - Task YAML schema

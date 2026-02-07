@@ -150,7 +150,7 @@ This decision impacts:
 - **Code:** `src/coordination/*.py`
 - **Documentation:** `${DOC_ROOT}/architecture/protocols/handoff.md`
 - **Directives:** `.github/agents/directives/012_operating_procedures.md`
-- **Templates:** `${DOC_ROOT}/templates/agent-tasks/task-base.yaml`
+- **Templates:** `templates/agent-tasks/task-base.yaml`
 ```
 
 ### 3.2 Backward Links (Artifacts → ADR)

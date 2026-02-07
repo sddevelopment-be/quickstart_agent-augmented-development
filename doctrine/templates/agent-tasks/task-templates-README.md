@@ -29,7 +29,7 @@ The task templates have been split into separate files for clarity and ease of u
 
 1. **Start with task-base.yaml**
    ```bash
-   cp ${DOC_ROOT}/templates/task-base.yaml work/inbox/2025-11-23T1430-structural-repomap.yaml
+   cp templates/task-base.yaml work/inbox/2025-11-23T1430-structural-repomap.yaml
    ```
 
 2. **Update required fields**

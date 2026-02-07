@@ -30,7 +30,7 @@ Apply when:
 - Curator role or explicit permission to modify tactics
 
 **Assumed context:**
-- Tactic template exists at `docs/templates/tactic.md`
+- Tactic template exists at `templates/tactic.md`
 - Tactics README exists at `./README.md` (tactics catalog)
 - Version control is in place (git)
 
@@ -44,7 +44,7 @@ Apply when:
 ### When Adding New Tactics
 
 1. **Create tactic file**:
-   - Use template from `docs/templates/tactic.md`
+   - Use template from `templates/tactic.md`
    - Place in `.github/agents/tactics/` directory
    - Name: `kebab-case-description.tactic.md`
    - Include metadata header with:
@@ -127,7 +127,7 @@ Apply when:
 
 **For adding new tactics:**
 - [ ] Tactic file exists in tactics directory
-- [ ] Tactic follows template structure from `docs/templates/tactic.md`
+- [ ] Tactic follows template structure from `templates/tactic.md`
 - [ ] Metadata header is complete (Invoked by, Related tactics, Complements)
 - [ ] Entry added to README.md "Available Tactics" table
 - [ ] Tactics count incremented in README.md

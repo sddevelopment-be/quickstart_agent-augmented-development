@@ -218,7 +218,7 @@ feature: "Feature 3: Portfolio API Endpoint"  # Optional: link to specific featu
 
 ### Analyst Annie (Primary Author)
 **When creating specifications:**
-1. ✅ Use `docs/templates/${SPEC_ROOT}/feature-spec-template.md` as starting point
+1. ✅ Use `templates/${SPEC_ROOT}/feature-spec-template.md` as starting point
 2. ✅ Add YAML frontmatter at top of file (before markdown heading)
 3. ✅ Define features with unique IDs following `FEAT-{INITIATIVE}-{SPEC_NUM}-{FEAT_NUM}` pattern
 4. ✅ Set `status: "draft"` and `completion: null` for new specs
@@ -580,7 +580,7 @@ cat work/collaboration/inbox/2026-02-06T1600-task.yaml | grep specification
 - **Directive 016:** Acceptance Test-Driven Development (linking specs to tests)
 - **Directive 018:** Traceable Decisions (linking specs to ADRs)
 - **ADR-037:** Dashboard Initiative Tracking (portfolio view architecture)
-- **Template:** `docs/templates/${SPEC_ROOT}/feature-spec-template.md`
+- **Template:** `templates/${SPEC_ROOT}/feature-spec-template.md`
 - **README:** `${SPEC_ROOT}/README.md` (overview and guidance)
 
 ---

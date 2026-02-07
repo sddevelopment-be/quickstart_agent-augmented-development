@@ -32,7 +32,7 @@ Concise, action-ready guidance for agents working in Markdown, Python, Perl, or 
 - Validation: regenerate outputs if repo stores renders; ensure diagrams reference current file names/agents.
 
 ## Cross-cutting
-- Templates first: reuse repo templates in `${DOC_ROOT}/templates/**`; do not handcraft new formats.
+- Templates first: reuse repo templates in `templates/**`; do not handcraft new formats.
 - Logs (Directive 014): record commands and key decisions in `work/reports/logs/<agent>/...`.
 - Prompts (Directive 015): store prompt transcripts only when requested or material to the output.
 - Audience fit (Directive 022): keep language concise, non-hyped; add 1–2 sentence intent notes when ambiguity risk is high.

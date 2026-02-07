@@ -70,7 +70,7 @@ Clarify and decompose complex socio-technical systems, surfacing trade-offs and 
 - Prefer lightweight diagrams-as-code for clarity and maintainability.
 - Cross-link architecture docs to relevant documentation entries.
 - Validate outputs against existing architecture patterns when applicable.
-- Templates for ADRs and architecture patterns are available in `${DOC_ROOT}/templates/architecture`.
+- Templates for ADRs and architecture patterns are available in `templates/architecture`.
 
 ## 5. Mode Defaults
 

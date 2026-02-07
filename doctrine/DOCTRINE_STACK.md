@@ -73,7 +73,7 @@ A doctrine stack separates concerns deliberately. Each layer has a distinct role
 
 ### 4. Templates
 
-**Location:** `${DOC_ROOT}/templates/`  
+**Location:** `templates/`  
 **Purpose:** Structural output contracts  
 **Role:** Define *what shape results must take*
 

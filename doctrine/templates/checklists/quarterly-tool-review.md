@@ -107,7 +107,7 @@ This checklist ensures systematic review of tooling infrastructure to maintain s
 
 ### Templates
 
-- [ ] All templates in `${DOC_ROOT}/templates/` tested and functional
+- [ ] All templates in `templates/` tested and functional
 - [ ] Template examples updated with recent artifacts
 - [ ] Template README files accurate and helpful
 
@@ -204,7 +204,7 @@ Document all identified issues and action items:
 
 - **Tooling Setup:** `docs/HOW_TO_USE/copilot-tooling-setup.md`
 - **Directive 001:** `.github/agents/directives/001_cli_shell_tooling.md`
-- **Framework Audit:** Use `${DOC_ROOT}/templates/automation/framework-audit-report-template.md` for detailed audits
+- **Framework Audit:** Use `templates/automation/framework-audit-report-template.md` for detailed audits
 - **Work Directory:** `work/README.md` for orchestration system health
 
 ---
