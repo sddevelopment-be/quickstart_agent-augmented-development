@@ -60,6 +60,8 @@ If 5+ boxes cannot be checked, pause and reassess the problem framing.
 - Request evidence of problem severity before implementation
 - Advocate for "do nothing" when current state is adequate
 - Favor organic emergence over premature prescription
+- **For exploratory work under uncertainty:** Invoke `tactics/safe-to-fail-experiment-design.tactic.md`
+- **When reviewing changes:** Invoke `tactics/code-review-incremental.tactic.md` to prevent scope expansion
 
 ### For Architects & Build-Automation
 
