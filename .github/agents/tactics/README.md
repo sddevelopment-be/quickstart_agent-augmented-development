@@ -62,97 +62,37 @@ When context suggests a tactic might apply but no Directive mandates it:
 
 ### Decision-Making & Risk
 
-#### Stopping Conditions
-**File:** `stopping-conditions.tactic.md`  
-**Intent:** Define exit criteria to prevent indefinite effort, scope creep, and resource exhaustion  
-**Invoke when:** Long-running tasks (>30 min), unbounded exploration, resource-intensive operations  
-**Invoked by:** Directive 024 (Self-Observation Protocol), Directive 011 (Risk & Escalation)
-
----
-
-#### Premortem Risk Identification
-**File:** `premortem-risk-identification.tactic.md`  
-**Intent:** Identify potential failure modes before project start by imagining catastrophic failure and working backward  
-**Invoke when:** ADR creation, architecture decisions, high-risk/low-reversibility choices  
-**Invoked by:** Directive 018 (Traceable Decisions)
-
----
-
-#### Analysis.AdversarialTesting
-**File:** `adversarial-testing.tactic.md`  
-**Intent:** Stress-test proposals, designs, or practices by deliberately attempting to make them fail  
-**Invoke when:** Evaluating practices/proposals with broad impact, need for intellectual honesty before commitment  
-**Invoked by:** Directive 018 (Traceable Decisions)
-
-**Relationship to Premortem:** Broader scope (proposals, practices) vs. project-specific failure scenarios. Complementary, not redundant.
-
----
-
-#### Analysis.AMMERSE
-**File:** `ammerse-analysis.tactic.md`  
-**Intent:** Evaluate decisions using AMMERSE framework (Agile, Minimal, Maintainable, Environmental, Reachable, Solvable, Extensible) with qualitative trade-off analysis  
-**Invoke when:** Architectural decisions, practice evaluation, need transparent rationale for value-driven choices  
-**Invoked by:** (Discoverable — architectural trade-off reasoning, Human decision)
-
-**Note:** Qualitative approach (Low/Medium/High weights) preferred over quantitative formulas to avoid false precision.
-
----
+| Tactic | File | Intent | Invoke When | Invoked By | Notes |
+|--------|------|--------|-------------|------------|-------|
+| **Stopping Conditions** | `stopping-conditions.tactic.md` | Define exit criteria to prevent indefinite effort, scope creep, and resource exhaustion | Long-running tasks (>30 min), unbounded exploration, resource-intensive operations | Directive 024 (Self-Observation Protocol), Directive 011 (Risk & Escalation) | |
+| **Premortem Risk Identification** | `premortem-risk-identification.tactic.md` | Identify potential failure modes before project start by imagining catastrophic failure and working backward | ADR creation, architecture decisions, high-risk/low-reversibility choices | Directive 018 (Traceable Decisions) | |
+| **Analysis.AdversarialTesting** | `adversarial-testing.tactic.md` | Stress-test proposals, designs, or practices by deliberately attempting to make them fail | Evaluating practices/proposals with broad impact, need for intellectual honesty before commitment | Directive 018 (Traceable Decisions) | Broader scope (proposals, practices) vs. project-specific failure scenarios. Complementary to Premortem, not redundant |
+| **Analysis.AMMERSE** | `ammerse-analysis.tactic.md` | Evaluate decisions using AMMERSE framework (Agile, Minimal, Maintainable, Environmental, Reachable, Solvable, Extensible) with qualitative trade-off analysis | Architectural decisions, practice evaluation, need transparent rationale for value-driven choices | (Discoverable — architectural trade-off reasoning, Human decision) | Qualitative approach (Low/Medium/High weights) preferred over quantitative formulas to avoid false precision |
 
 ### Experimentation & Validation
 
-#### Safe-to-Fail Experiment Design
-**File:** `safe-to-fail-experiment-design.tactic.md`  
-**Intent:** Structure exploratory work as small, reversible experiments with explicit success/failure criteria  
-**Invoke when:** High uncertainty about best approach, learning prioritized over optimization, rollback mechanisms exist  
-**Invoked by:** Directive 021 (Locality of Change)
-
-**Key principle:** Transform uncertainty from paralysis ("what if I'm wrong?") to progress ("what will I learn?").
-
----
+| Tactic | File | Intent | Invoke When | Invoked By | Notes |
+|--------|------|--------|-------------|------------|-------|
+| **Safe-to-Fail Experiment Design** | `safe-to-fail-experiment-design.tactic.md` | Structure exploratory work as small, reversible experiments with explicit success/failure criteria | High uncertainty about best approach, learning prioritized over optimization, rollback mechanisms exist | Directive 021 (Locality of Change) | Transform uncertainty from paralysis ("what if I'm wrong?") to progress ("what will I learn?") |
 
 ### Testing & Quality
 
-#### ATDD.AdversarialAcceptance
-**File:** `ATDD_adversarial-acceptance.tactic.md`  
-**Intent:** Strengthen ATDD acceptance criteria by exploring adversarial failure scenarios and converting them to acceptance tests  
-**Invoke when:** Defining ATDD acceptance boundaries, exploring edge cases and misuse scenarios  
-**Invoked by:** Directive 016 (ATDD)
-
-**Scope:** Specialized for ATDD practitioners. Combines adversarial thinking with acceptance test definition.
-
----
-
-#### Test Boundaries by Functional Responsibility
-**File:** `test-boundaries-by-responsibility.tactic.md`  
-**Intent:** Determine appropriate test scope by identifying which components are directly responsible for functionality being validated  
-**Invoke when:** Writing unit/integration tests, unclear whether to mock a dependency, team debates "what is a unit?"  
-**Invoked by:** Directive 016 (ATDD), Directive 017 (TDD)
-
-**Key insight:** Responsibility-based boundaries (what implements the feature logic) vs. structural boundaries (layers, modules).
-
----
+| Tactic | File | Intent | Invoke When | Invoked By | Notes |
+|--------|------|--------|-------------|------------|-------|
+| **ATDD.AdversarialAcceptance** | `ATDD_adversarial-acceptance.tactic.md` | Strengthen ATDD acceptance criteria by exploring adversarial failure scenarios and converting them to acceptance tests | Defining ATDD acceptance boundaries, exploring edge cases and misuse scenarios | Directive 016 (ATDD) | Specialized for ATDD practitioners. Combines adversarial thinking with acceptance test definition |
+| **Test Boundaries by Functional Responsibility** | `test-boundaries-by-responsibility.tactic.md` | Determine appropriate test scope by identifying which components are directly responsible for functionality being validated | Writing unit/integration tests, unclear whether to mock a dependency, team debates "what is a unit?" | Directive 016 (ATDD), Directive 017 (TDD) | Responsibility-based boundaries (what implements the feature logic) vs. structural boundaries (layers, modules) |
 
 ### Code Quality & Security
 
-#### Input Validation with Fail-Fast Feedback
-**File:** `input-validation-fail-fast.tactic.md`  
-**Intent:** Validate input data comprehensively before processing, provide clear error feedback while protecting system internals  
-**Invoke when:** Processing external data (APIs, file uploads, user input), expensive computation, security-sensitive contexts  
-**Invoked by:** (Discoverable — general best practice)
-
-**Key pattern:** Dual-level feedback (user-facing: clear/actionable, internal logs: detailed/diagnostic).
-
----
+| Tactic | File | Intent | Invoke When | Invoked By | Notes |
+|--------|------|--------|-------------|------------|-------|
+| **Input Validation with Fail-Fast Feedback** | `input-validation-fail-fast.tactic.md` | Validate input data comprehensively before processing, provide clear error feedback while protecting system internals | Processing external data (APIs, file uploads, user input), expensive computation, security-sensitive contexts | (Discoverable — general best practice) | Dual-level feedback (user-facing: clear/actionable, internal logs: detailed/diagnostic) |
 
 ### Code Review & Maintenance
 
-#### CodeReview.Incremental
-**File:** `code-review-incremental.tactic.md`  
-**Intent:** Review change sets for correctness, structural, and architectural risks without expanding scope  
-**Invoke when:** PR review, commit analysis, change assessment  
-**Invoked by:** Directive 021 (Locality of Change)
-
-**Discipline:** Observations and questions, not prescriptive commands. Resist urge to redesign during review.
+| Tactic | File | Intent | Invoke When | Invoked By | Notes |
+|--------|------|--------|-------------|------------|-------|
+| **CodeReview.Incremental** | `code-review-incremental.tactic.md` | Review change sets for correctness, structural, and architectural risks without expanding scope | PR review, commit analysis, change assessment | Directive 021 (Locality of Change) | Observations and questions, not prescriptive commands. Resist urge to redesign during review |
 
 ---
 
@@ -200,48 +140,6 @@ When context suggests a tactic might apply but no Directive mandates it:
 
 ---
 
-## Integration with Doctrine Stack
-
-### Directives → Tactics (Explicit Invocation)
-
-**Directive 011 (Risk & Escalation):**
-- `stopping-conditions.tactic.md`
-
-**Directive 016 (ATDD):**
-- `ATDD_adversarial-acceptance.tactic.md`
-- `test-boundaries-by-responsibility.tactic.md`
-
-**Directive 017 (TDD):**
-- `test-boundaries-by-responsibility.tactic.md`
-
-**Directive 018 (Traceable Decisions):**
-- `premortem-risk-identification.tactic.md`
-- `adversarial-testing.tactic.md`
-
-**Directive 021 (Locality of Change):**
-- `safe-to-fail-experiment-design.tactic.md`
-- `code-review-incremental.tactic.md`
-
-**Directive 024 (Self-Observation Protocol):**
-- `stopping-conditions.tactic.md`
-
-### Tactics → Approaches (Philosophical Grounding)
-
-**Approach: Decision-First Development:**
-- `premortem-risk-identification.tactic.md`
-- `adversarial-testing.tactic.md`
-- `ammerse-analysis.tactic.md`
-
-**Approach: Locality of Change:**
-- `stopping-conditions.tactic.md`
-- `safe-to-fail-experiment-design.tactic.md`
-- `code-review-incremental.tactic.md`
-
-**Approach: Trunk-Based Development:**
-- `code-review-incremental.tactic.md`
-
----
-
 ## Maintenance
 
 **When adding new tactics:**
@@ -263,14 +161,3 @@ When context suggests a tactic might apply but no Directive mandates it:
 **README Version:** 1.0.0  
 **Last Updated:** 2026-02-07  
 **Tactics Count:** 9
-
-**Tactics included:**
-- stopping-conditions.tactic.md
-- premortem-risk-identification.tactic.md
-- adversarial-testing.tactic.md
-- ammerse-analysis.tactic.md
-- safe-to-fail-experiment-design.tactic.md
-- ATDD_adversarial-acceptance.tactic.md
-- test-boundaries-by-responsibility.tactic.md
-- input-validation-fail-fast.tactic.md
-- code-review-incremental.tactic.md
