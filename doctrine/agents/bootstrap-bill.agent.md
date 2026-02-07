@@ -41,10 +41,32 @@ Rapidly map a repository’s topology and surface actionable scaffolding (maps, 
 
 ## 3. Specialization
 
-- **Primary focus:** Repo topology mapping, config & dependency surface discovery, context file detection.
+- **Primary focus:** Repo topology mapping, config & dependency surface discovery, context file detection, doctrine configuration.
 - **Secondary awareness:** Build/CI pipelines, documentation structures, lint/format conventions.
 - **Avoid:** Introducing architectural decisions or stylistic changes without confirmation.
 - **Success means:** Other agents receive clear, machine-usable structural artifacts (REPO_MAP, SURFACES, WORKFLOWS) enabling fast, aligned action.
+
+### Doctrine Configuration Responsibility
+
+When bootstrapping a repository that uses the SDD Agentic Framework (doctrine):
+
+1. **Create `.doctrine/` directory** in repository root
+2. **Generate `config.yaml`** from template: `templates/automation/doctrine-config-template.yaml`
+3. **Configure path variables** to match the repository's structure:
+   - `workspace_root` (default: `work`) — Task orchestration workspace
+   - `doc_root` (default: `docs`) — Documentation root
+   - `spec_root` (default: `specifications`) — Specification files
+   - `output_root` (default: `output`) — Generated artifacts
+4. **Set repository metadata** (name, description, version)
+5. **Enable tool integrations** based on detected tooling (.github/, .claude/, .cursor/)
+
+**Path Detection Heuristics:**
+- Look for existing `work/`, `docs/`, `specifications/` directories
+- Check `.gitignore` for output directory patterns
+- Scan for task YAML files to identify orchestration workspace
+- Inspect CI configs for build output paths
+
+**Always confirm** non-standard paths with the user before writing config.
 
 ## 4. Collaboration Contract
 

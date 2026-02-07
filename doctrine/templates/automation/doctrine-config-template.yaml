@@ -1,0 +1,63 @@
+# Doctrine Configuration Template
+#
+# This file configures path variables used throughout the doctrine framework.
+# Copy this file to `.doctrine/config.yaml` in your repository root.
+#
+# Purpose: Override default path mappings to match your repository structure
+# Documentation: See doctrine/DOCTRINE_MAP.md for variable usage
+
+version: "1.0.0"
+
+# Path Variables
+# These variables are referenced throughout doctrine files using ${VARIABLE} syntax
+paths:
+  # Orchestration workspace for tasks, reports, and multi-agent coordination
+  # Default: work
+  # Used in: Task YAML files, work logs, orchestration workflows
+  workspace_root: "work"
+
+  # Repository documentation root
+  # Default: docs
+  # Used in: Architecture docs, ADRs, reference materials
+  doc_root: "docs"
+
+  # Specification files location
+  # Default: specifications
+  # Used in: Feature specs, requirement documents, spec-driven development
+  spec_root: "specifications"
+
+  # Output directory for generated artifacts
+  # Default: output
+  # Used in: Build outputs, generated reports, temporary artifacts
+  output_root: "output"
+
+# Optional: Repository Metadata
+# Used by tools and exporters to generate tool-specific configurations
+metadata:
+  name: ""  # Repository name
+  description: ""  # Brief description
+  version: ""  # Current version (semantic versioning)
+  
+# Optional: Tool Integration
+# Configure which tools should have exports generated
+tools:
+  github_copilot:
+    enabled: true
+    export_path: ".github/instructions"
+  
+  claude_desktop:
+    enabled: true
+    export_path: ".claude/skills"
+  
+  cursor:
+    enabled: false
+    export_path: ".cursor"
+
+# Optional: Framework Customization
+# Advanced: Override framework layer locations (not recommended)
+# framework:
+#   agents_dir: "doctrine/agents"
+#   approaches_dir: "doctrine/approaches"
+#   directives_dir: "doctrine/directives"
+#   tactics_dir: "doctrine/tactics"
+#   templates_dir: "doctrine/templates"
