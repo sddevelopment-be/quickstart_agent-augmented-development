@@ -1,5 +1,18 @@
 # Tactic: Analysis.AMMERSE
 
+**Invoked by:**
+- (Discoverable — architectural trade-off reasoning and decision analysis)
+
+**Related tactics:**
+- `adversarial-testing.tactic.md` — stress-testing before AMMERSE analysis
+- `premortem-risk-identification.tactic.md` — risk discovery complements trade-off analysis
+
+**Complements:**
+- Directive 018 (Traceable Decisions) — ADR rationale documentation
+- Approach: Decision-First Development
+
+---
+
 ## Intent
 Evaluate a practice, proposal, or technique using the AMMERSE decision-making framework in order to surface trade-offs, contextual fit, and second-order effects.
 
