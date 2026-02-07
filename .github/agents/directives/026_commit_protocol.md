@@ -94,24 +94,38 @@ curator: fix files
 - Push: After logical groupings (3-5 related commits)
 - Merge: Fast-forward when possible
 
-## 5. Session Overrides
+## 5. Session Overrides and Human in Charge
 
-During specific sessions, project leads may authorize:
+The **Human in Charge** retains ultimate authority over all commit operations and may authorize session-specific overrides:
 
-- **Push by exception** - Agent permitted to push directly
-- **Modified format** - Alternative commit message structure
-- **Batch commits** - Group related changes (document reason)
+- **Push by exception** - Agent permitted to push directly (requires explicit authorization)
+- **Modified format** - Alternative commit message structure (document rationale)
+- **Batch commits** - Group related changes (document reason and obtain approval)
+- **GPG signing** - Only the Human in Charge signs commits; agents MUST use `--no-gpg-sign`
 
-Always document session-specific rules in session notes or work logs.
+**Authority and Responsibility:**
+- Human in Charge bears accountability for all committed changes
+- Agents request permission before high-impact commits (major refactors, deletions, schema changes)
+- Human retains right to revert, amend, or reject any agent commit
+- Session-specific rules must be documented in session notes or work logs
+
+**See:** [Human in Charge](../GLOSSARY.md#human-in-charge) for governance principles
 
 ## 6. Related Directives
 
-- **020**: Locality of Change - Minimal scope principle
+- **011**: Risk & Escalation - When to escalate commit decisions to Human in Charge
 - **018**: Traceable Decisions - Decision documentation
 - **019**: File-Based Collaboration - Multi-agent coordination
+- **020**: Locality of Change - Minimal scope principle
+
+## 7. Related Concepts
+
+- [Human in Charge](../GLOSSARY.md#human-in-charge) - Governance and accountability
+- [Escalation](../GLOSSARY.md#escalation) - When to request human approval
+- [Collaboration Contract](../GLOSSARY.md#collaboration-contract) - Agent behavioral boundaries
 
 ---
 
-**Version:** 1.0.0  
+**Version:** 1.1.0  
 **Status:** Active  
 **Last Updated:** 2026-02-07
