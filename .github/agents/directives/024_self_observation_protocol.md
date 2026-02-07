@@ -24,10 +24,11 @@ Agents MAY apply this directive to shorter tasks when they detect warning signs.
 Agents MUST invoke a Ralph Wiggum loop checkpoint at:
 
 1. **25% task completion** — Early warning system
-2. **Pre-delegation** — Before creating tasks for other agents
-3. **After major context load** — When loading 5+ new directives or large documents
-4. **Warning accumulation** — When 3+ ⚠️ symbols appear within 10 minutes
-5. **Before task completion** — Final alignment verification
+2. **Task initialization** — Define stopping conditions: Invoke `tactics/stopping-conditions.tactic.md` before starting long-running tasks
+3. **Pre-delegation** — Before creating tasks for other agents
+4. **After major context load** — When loading 5+ new directives or large documents
+5. **Warning accumulation** — When 3+ ⚠️ symbols appear within 10 minutes
+6. **Before task completion** — Final alignment verification
 
 ### Optional Checkpoints
 
