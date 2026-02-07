@@ -1,7 +1,7 @@
 # Agent Framework Glossary
 
-**Version:** 1.0.0  
-**Last Updated:** 2025-11-27  
+**Version:** 1.1.0  
+**Last Updated:** 2026-02-07  
 **Purpose:** Centralized definitions of common terminology used across agent profiles, directives, and documentation.
 
 ---
@@ -103,6 +103,25 @@ The process of flagging issues, uncertainties, or conflicts that require human i
 The transfer of work artifacts and context from one agent to another. Handoffs include artifact lists, completion status, next steps, and any relevant context needed for the receiving agent to continue work effectively.
 
 **Related:** Orchestration, Work Log
+
+### Human in Charge
+
+A governance principle emphasizing that humans retain ultimate responsibility, authority, and decision-making power in agent-augmented workflows. Distinct from "human in the loop" (which focuses on oversight/approval), "human in charge" explicitly centers human accountability and intervention rights. The human in charge bears responsibility for work outcomes and maintains authority to override, redirect, or halt agentic operations at any point.
+
+**Key distinctions from "human in the loop":**
+- **Responsibility:** Human bears accountability for outcomes, not just oversight
+- **Authority:** Power to make significant decisions and interventions
+- **Control:** Ability to halt, redirect, or override agent operations
+- **Ownership:** Ultimate arbiter of quality, direction, and delivery
+
+**Practical implications:**
+- Agents request permission for high-impact changes
+- Humans retain approval authority over critical decisions
+- Agents escalate uncertainty or risk immediately
+- Human judgment overrides agent recommendations when conflicting
+
+**Reference:** Directive 026 (Commit Protocol), Directive 011 (Risk & Escalation)  
+**Related:** Escalation, Alignment, Collaboration Contract
 
 ### Integrity Symbol
 
