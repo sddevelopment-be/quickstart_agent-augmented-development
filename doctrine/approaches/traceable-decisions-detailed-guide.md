@@ -149,7 +149,7 @@ When creating ADRs, list affected artifacts:
 This decision impacts:
 - **Code:** `src/coordination/*.py`
 - **Documentation:** `${DOC_ROOT}/architecture/protocols/handoff.md`
-- **Directives:** `.github/agents/directives/012_operating_procedures.md`
+- **Directives:** `directives/012_operating_procedures.md`
 - **Templates:** `templates/agent-tasks/task-base.yaml`
 ```
 

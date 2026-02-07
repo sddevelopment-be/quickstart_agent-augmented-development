@@ -145,7 +145,7 @@ git checkout -b task/2025-11-30T0830-architect-adr019
 # Make changes
 vim ${DOC_ROOT}/architecture/adrs/ADR-019-trunk-based-development.md
 vim ${DOC_ROOT}/architecture/design/trunk_based_development_technical_design.md
-vim .github/agents/approaches/trunk-based-development.md
+vim approaches/trunk-based-development.md
 
 # Validate locally
 ./validation/validate-all.sh
@@ -213,7 +213,7 @@ git add ${DOC_ROOT}/architecture/design/trunk_based_development_technical_design
 git commit -m "docs(design): add technical design for trunk-based development"
 git push origin main
 
-git add .github/agents/approaches/trunk-based-development.md
+git add approaches/trunk-based-development.md
 git commit -m "docs(approach): add trunk-based development approach guide"
 git push origin main
 
@@ -670,7 +670,7 @@ status: in_progress
 artefacts:
   - ${DOC_ROOT}/architecture/adrs/ADR-019-trunk-based-development.md
   - ${DOC_ROOT}/architecture/design/trunk_based_development_technical_design.md
-  - .github/agents/approaches/trunk-based-development.md
+  - approaches/trunk-based-development.md
 ```
 
 **Pre-commit check:**

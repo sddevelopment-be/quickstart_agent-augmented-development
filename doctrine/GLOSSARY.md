@@ -38,7 +38,7 @@ A formal acknowledgment statement that an agent accepts and will operate within 
 A specialized configuration file (
 `.agent.md`) that defines an agent's purpose, specialization, collaboration contract, mode defaults, and directive usage. Profiles extend the base AGENTS.md specification with role-specific competencies.
 
-**Location:** `.github/agents/*.agent.md`  
+**Location:** agent profile files  
 **Reference:** Directive 005  
 **Related:** Specialization, Collaboration Contract
 
@@ -66,7 +66,7 @@ A development approach where executable acceptance tests are written before impl
 
 The initialization sequence an agent follows when first loaded or after context loss. Bootstrap ensures all context layers are loaded in proper order, versions are confirmed, and alignment is validated before operational work begins.
 
-**Reference:** `.github/agents/guidelines/bootstrap.md`  
+**Reference:** `guidelines/bootstrap.md`  
 **Related:** Rehydration, Context Layer
 
 ### Collaboration Contract
@@ -86,7 +86,7 @@ A hierarchical component of the agent's operational context. Layers include Boot
 
 An externalized instruction set (numbered 001-026+) that provides specialized guidance for specific operational domains. Directives are loaded selectively using `/require-directive <code>` to maintain token efficiency while ensuring agents have access to detailed procedural knowledge when needed. Directives *select* which tactics to run in a given situation.
 
-**Location:** `.github/agents/directives/XXX_name.md`  
+**Location:** `directives/XXX_name.md`  
 **Reference:** AGENTS.md Section 8, [Doctrine Stack](./DOCTRINE_STACK.md)  
 **Related:** Context Layer, Tactic, Doctrine Stack
 
@@ -151,7 +151,7 @@ Standardized markers used to signal alignment status or confidence levels:
 
 A design principle emphasizing that changes should be measured against actual problems, not hypothetical concerns. Agents must verify problem existence, quantify severity, and prefer simple solutions over architectural enhancements. Discourages gold plating, premature abstraction, and complexity creep.
 
-**Reference:** Directive 020, `.github/agents/approaches/locality-of-change.md`  
+**Reference:** Directive 020, `approaches/locality-of-change.md`  
 **Related:** Risk, Escalation, Alignment
 
 ### Mode
@@ -207,7 +207,7 @@ The process of restoring an agent's operational context after state loss, interr
 
 A reusable command alias or prompt template that allows quick invocation of complex agent workflows through simple keywords or structured commands. Shorthands reduce cognitive overhead by encapsulating multi-step procedures into memorable, executable patterns.
 
-**Location:** `doctrine/shorthands/` (or `.github/agents/prompts/` during migration)  
+**Location:** `doctrine/shorthands/` (or `shorthands/` during migration)  
 **Context:** Originally tracked in `aliases.md`. Examples include iteration orchestration workflows, skill creation templates, and common agent coordination patterns.  
 **Related:** Command Aliases, Prompt Templates, Orchestration
 

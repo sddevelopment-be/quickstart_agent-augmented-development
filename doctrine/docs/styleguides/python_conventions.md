@@ -595,7 +595,7 @@ with open(file_path, "r", encoding="utf-8") as f:
 
 ## References
 
-- **Style Guide:** `.github/agents/approaches/style-execution-primers.md`
+- **Style Guide:** `approaches/style-execution-primers.md`
 - **Quad-A Testing:** `${WORKSPACE_ROOT}/notes/ideation/opinionated_platform/opinions/quad_A_test_structure.md`
 - **Testing Pyramid:** `${WORKSPACE_ROOT}/notes/ideation/opinionated_platform/opinions/testing_pyramid.md`
 - **Test Coverage:** `validation/TEST_COVERAGE.md`

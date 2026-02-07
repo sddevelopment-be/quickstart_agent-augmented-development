@@ -216,7 +216,7 @@ If the answer is "I ran it manually," you're doing it wrong.
 
 ## Full Documentation
 
-For complete guide, see: `.github/agents/approaches/test-first-bug-fixing.md`
+For complete guide, see: `approaches/test-first-bug-fixing.md`
 
 For original technique, see: [LinkedIn Article](https://www.linkedin.com/pulse/example-test-first-bug-fixing-javascript-stijn-dejongh/)
 

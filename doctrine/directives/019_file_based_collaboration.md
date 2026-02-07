@@ -24,7 +24,7 @@ in_progress → done → archive**.
 
 **CRITICAL:** Load only the step relevant to your current task phase to maintain token discipline.
 
-See `.github/agents/approaches/file_based_collaboration/README.md` for:
+See `approaches/file_based_collaboration/README.md` for:
 
 - Complete task lifecycle overview
 - Step-by-step procedures (one file per step)

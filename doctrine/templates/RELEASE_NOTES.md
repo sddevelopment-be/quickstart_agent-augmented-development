@@ -172,7 +172,7 @@ guardian_metadata:
 ### Included Components
 
 **Core Directories:**
-- `.github/agents/` - [N files] - Agent profiles and directives
+- `doctrine/` in consuming repositories - [N files] - Agent profiles and directives
 - `templates/` - [N files] - Document templates
 - `${DOC_ROOT}/architecture/` - [N files] - ADRs and design docs
 - `framework/` - [N files] - Python framework code

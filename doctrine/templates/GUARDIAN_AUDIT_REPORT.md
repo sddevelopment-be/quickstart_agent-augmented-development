@@ -42,7 +42,7 @@ This audit compares the current repository state against the canonical framework
 | Path                                      | Status      | Checksum Match | Notes                                   |
 |-------------------------------------------|-------------|----------------|-----------------------------------------|
 | `.github/agents/AGENTS.md`                | UNCHANGED   | ✅ Yes         | Framework core - aligned                |
-| `.github/agents/directives/001_*.md`      | DIVERGED    | ❌ No          | Local modifications detected            |
+| `directives/001_*.md`      | DIVERGED    | ❌ No          | Local modifications detected            |
 | `templates/architecture/ADR.md`      | MISSING     | N/A            | Expected file not found                 |
 | `local/agents/custom-agent.agent.md`      | CUSTOM      | N/A            | Not in manifest - local addition        |
 
@@ -56,10 +56,10 @@ This audit compares the current repository state against the canonical framework
 
 - **Missing Core Files:**
   - `AGENTS.md` — Framework initialization protocol missing. Cannot operate safely.
-  - `.github/agents/directives/006_version_governance.md` — Version governance missing.
+  - `directives/006_version_governance.md` — Version governance missing.
 
 - **Corrupted Files:**
-  - `.github/agents/directives/012_operating_procedures.md` — Checksum mismatch, file may be corrupted or tampered.
+  - `directives/012_operating_procedures.md` — Checksum mismatch, file may be corrupted or tampered.
 
 ### ⚠️ Warnings
 
@@ -79,7 +79,7 @@ This audit compares the current repository state against the canonical framework
 
 | File                                     | Divergence Type          | Risk Level | Recommendation                          |
 |------------------------------------------|--------------------------|------------|-----------------------------------------|
-| `.github/agents/architect.agent.md`      | Customized directives    | Medium     | Move custom directives to `local/`      |
+| `agents/architect.agent.md`      | Customized directives    | Medium     | Move custom directives to `local/`      |
 | `templates/prompts/task.md`         | Added local fields       | Low        | Safe to keep, document in project notes |
 | `.github/agents/guidelines/general.md`   | Tone adjustments         | High       | ❗️ Core governance modified—restore or isolate |
 

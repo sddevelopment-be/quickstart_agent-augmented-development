@@ -608,7 +608,7 @@ Conduct a comprehensive assessment once per year:
   grep "command not found" logs/*.log | sort | uniq -c
   
   # Survey agent profiles for tool references
-  rg "rg|fd|jq|yq|ast-grep|fzf" .github/agents/*.agent.md
+  rg "rg|fd|jq|yq|ast-grep|fzf" agents/*.agent.md
   ```
 
 **Strategic Decisions:**

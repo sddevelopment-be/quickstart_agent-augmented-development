@@ -65,7 +65,7 @@ This checklist guides the setup of a derivative repository using this agent-augm
 ### Framework Installation
 
 - [ ] **Core framework copied**
-  - `.github/agents/` directory: ✓
+  - `doctrine/` in consuming repositories directory: ✓
   - `.github/copilot/setup.sh`: ✓
   - `templates/` directory: ✓
   - `work/` directory structure: ✓

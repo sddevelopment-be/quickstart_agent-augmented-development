@@ -145,7 +145,7 @@ See full examples in [`schema-conventions.md`](./schema-conventions.md#examples)
 
 ```bash
 # Validate single agent schema
-npm run validate:schema -- .github/agents/my-agent.agent.md
+npm run validate:schema -- agents/my-agent.agent.md
 
 # Validate all agent schemas
 npm run validate:schemas

@@ -6,7 +6,7 @@
 
 **Core Concept:** See [Locality of Change](../GLOSSARY.md#locality-of-change) in the glossary for foundational definition.
 
-**Detailed Guidance:** See `.github/agents/approaches/locality-of-change.md` for comprehensive analysis framework and examples.
+**Detailed Guidance:** See `approaches/locality-of-change.md` for comprehensive analysis framework and examples.
 
 ## Core Principle
 

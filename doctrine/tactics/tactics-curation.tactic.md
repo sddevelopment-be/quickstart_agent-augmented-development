@@ -26,7 +26,7 @@ Apply when:
 
 **Required inputs:**
 - Understanding of doctrine stack structure (Directives → Tactics → Templates)
-- Access to `.github/agents/tactics/` directory
+- Access to `tactics/` directory
 - Curator role or explicit permission to modify tactics
 
 **Assumed context:**
@@ -45,7 +45,7 @@ Apply when:
 
 1. **Create tactic file**:
    - Use template from `templates/tactic.md`
-   - Place in `.github/agents/tactics/` directory
+   - Place in `tactics/` directory
    - Name: `kebab-case-description.tactic.md`
    - Include metadata header with:
      - **Invoked by:** List directives that mandate this tactic

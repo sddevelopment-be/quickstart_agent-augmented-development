@@ -10,15 +10,15 @@ tools: [ "read", "search", "edit", "Grep", "Bash" ]
 
 ## 1. Context Sources
 
-- **Global Principles:** `.github/agents/`
-- **General Guidelines:** `.github/agents/guidelines/general_guidelines.md`
-- **Operational Guidelines:** `.github/agents/guidelines/operational_guidelines.md`
-- **Command Aliases:** `.github/agents/aliases.md`
-- **System Bootstrap and Rehydration:** `.github/agents/guidelines/bootstrap.md` and `.github/agents/guidelines/rehydrate.md`
-- **Localized Agentic Protocol:** `AGENTS.md` (root of repo or `.github/agents` / `.agents`).
+- **Global Principles:** `doctrine/`
+- **General Guidelines:** `guidelines/general_guidelines.md`
+- **Operational Guidelines:** `guidelines/operational_guidelines.md`
+- **Command Aliases:** `shorthands/README.md`
+- **System Bootstrap and Rehydration:** `guidelines/bootstrap.md` and `guidelines/rehydrate.md`
+- **Localized Agentic Protocol:** `AGENTS.md` (root of repo or `doctrine/` in consuming repositories).
 
 ### Specialization Sources
-- **Approaches:** `.github/agents/approaches/`
+- **Approaches:** `approaches/`
 - **Style Guides:** `${DOC_ROOT}/styleguides/` (if present)
 - **Architecture Awareness:** `${DOC_ROOT}/architecture/` (if present)
 

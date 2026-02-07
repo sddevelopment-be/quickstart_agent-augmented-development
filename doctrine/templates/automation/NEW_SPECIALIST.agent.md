@@ -10,11 +10,11 @@ description:
 ## 1. Context Sources
 
 - **Global Principles:** [.github/agents/](../../agents)
-- **General Guidelines:** .github/agents/general_guidelines.md
-- **Operational Guidelines:** .github/agents/operational_guidelines.md
-- **Command Aliases:** .github/agents/aliases.md
-- **System Bootstrap and Rehydration:** .github/agents/bootstrap.md and .github/agents/rehydrate.md
-- **Localized Agentic Protocol:** AGENTS.md (the root of the current directory, or a `.github/agents` or `.agents` subdirectory if present.)
+- **General Guidelines:** guidelines/general_guidelines.md
+- **Operational Guidelines:** guidelines/operational_guidelines.md
+- **Command Aliases:** shorthands/README.md
+- **System Bootstrap and Rehydration:** guidelines/bootstrap.md and guidelines/rehydrate.md
+- **Localized Agentic Protocol:** AGENTS.md (the root of the current directory, or a `doctrine/` directory in consuming repositories.)
 
 ## 2. Purpose
 

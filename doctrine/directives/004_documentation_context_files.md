@@ -5,8 +5,8 @@
 ## Bootstrap Artefacts
 
 - `docs/VISION.md`
-- `.github/agents/guidelines/*.md`
-- `.github/agents/aliases.md`
+- `guidelines/*.md`
+- `shorthands/README.md`
 
 ## Repository Structure References
 
@@ -17,9 +17,9 @@
 
 ## Agent System References
 
-- `.github/agents/*.agent.md` — role profiles.
-- `.github/agents/directives/*.md` — directive catalog (see `manifest.json` for metadata).
-- `.github/agents/approaches/` — operational playbooks.
+- agent profile files — role profiles.
+- `directives/*.md` — directive catalog (see `manifest.json` for metadata).
+- `approaches/` — operational playbooks.
 
 **Purpose:** Provide the canonical lookup set for structural/procedural clarification requests while keeping references aligned with the current
 `.github/agents` layout and repository maps.

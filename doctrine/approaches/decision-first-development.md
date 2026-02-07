@@ -650,4 +650,4 @@ python ${WORKSPACE_ROOT}/scripts/calculate-decision-debt.py work/logs/
 ---
 
 _Maintained by: Curator Claire & Architect Alphonso_  
-_For questions, see: `.github/agents/curator.agent.md` or `.github/agents/architect.agent.md`_
+_For questions, see: `agents/curator.agent.md` or `agents/architect.agent.md`_

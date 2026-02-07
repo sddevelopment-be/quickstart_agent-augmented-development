@@ -26,8 +26,8 @@ When actively working on an assigned task.
 result:
   summary: "Completed directive refactoring"
   artefacts:
-    - .github/agents/directives/019_file_based_collaboration.md
-    - .github/agents/approaches/file_based_collaboration/
+    - directives/019_file_based_collaboration.md
+    - approaches/file_based_collaboration/
   completed_at: "2025-11-26T06:30:00Z"
 ```
 

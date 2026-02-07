@@ -24,11 +24,11 @@ How agents should operate inside this repository.
 
 ### Repository Structure Note
 
-**Important:** The `agents/` directory is a symlink to `.github/agents/`. Any changes made to files or directories under
-`agents/` will actually modify `.github/agents/` and vice versa. This means:
+**Important:** The `agents/` directory is a symlink to `doctrine/` in consuming repositories. Any changes made to files or directories under
+`agents/` will actually modify `doctrine/` in consuming repositories and vice versa. This means:
 
-- `agents/directives/` → `.github/agents/directives/` (same location)
-- `agents/approaches/` → `.github/agents/approaches/` (same location)
+- `agents/directives/` → `directives/` (same location)
+- `agents/approaches/` → `approaches/` (same location)
 - There is only ONE copy of each file, not duplicates
 - Edits to either path modify the same underlying file
 

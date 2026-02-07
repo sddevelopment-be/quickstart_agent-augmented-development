@@ -29,7 +29,7 @@ This directive **intentionally duplicates
 
 **Design Decision:** We accept the ~200-300 token overhead in exchange for increased reliability and safety.
 
-**For detailed rationale:** See `.github/agents/approaches/operating_procedures/01_redundancy_rationale.md`
+**For detailed rationale:** See `approaches/operating_procedures/01_redundancy_rationale.md`
 
 ## 3. Non-Removal Clause
 

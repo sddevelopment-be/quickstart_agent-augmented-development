@@ -241,9 +241,9 @@ Archived with decision rationale and action items.
 ## Related Documentation
 
 ### Framework Context
-- **Operational Guidelines:** `.github/agents/guidelines/operational_guidelines.md`
+- **Operational Guidelines:** `guidelines/operational_guidelines.md`
 - **Work Directory Structure:** `work/README.md`
-- **Agent Profiles:** `.github/agents/profiles/`
+- **Agent Profiles:** `agents/`
 
 ### Specific Guides
 - **Tooling Setup:** `docs/HOW_TO_USE/copilot-tooling-setup.md`
