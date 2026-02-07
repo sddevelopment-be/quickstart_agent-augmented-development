@@ -5,8 +5,8 @@
 - `test-boundaries-by-responsibility.tactic.md` — BDD scenarios define behavioral boundaries
 
 **Complements:**
-- Directive 016 (Acceptance Test Driven Development)
-- Directive 017 (Test Driven Development)
+- [Directive 016 (Acceptance Test Driven Development)](../directives/016_acceptance_test_driven_development.md)
+- [Directive 017 (Test Driven Development)](../directives/017_test_driven_development.md)
 - Approach: Decision-First Development — BDD scenarios document behavioral decisions
 
 ---

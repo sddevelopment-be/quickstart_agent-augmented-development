@@ -1,7 +1,7 @@
 # Tactic: Context.EstablishAndFreeze
 
 **Invoked by:**
-- Directive 023 (Clarification Before Execution) — requires explicit context establishment
+- [Directive 023 (Clarification Before Execution)](../directives/023_clarification_before_execution.md) — requires explicit context establishment
 
 **Related tactics:**
 - `stopping-conditions.tactic.md` — defines when frozen context is satisfied

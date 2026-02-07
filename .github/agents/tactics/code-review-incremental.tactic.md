@@ -1,13 +1,13 @@
 # Tactic: CodeReview.Incremental
 
 **Invoked by:**
-- Directive 021 (Locality of Change) — reviewing changes without expanding scope
+- [Directive 021 (Locality of Change)](../directives/021_locality_of_change.md) — reviewing changes without expanding scope
 
 **Related tactics:**
 - (Standalone — focuses on incremental review discipline)
 
 **Complements:**
-- Directive 021 (Locality of Change)
+- [Directive 021 (Locality of Change)](../directives/021_locality_of_change.md)
 - Approach: Trunk-Based Development
 
 ---

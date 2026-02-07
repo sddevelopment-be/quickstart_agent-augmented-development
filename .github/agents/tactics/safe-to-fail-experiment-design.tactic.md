@@ -1,7 +1,7 @@
 # Tactic: Safe-to-Fail Experiment Design
 
 **Invoked by:**
-- Directive 021 (Locality of Change) — bounded exploration and premature optimization avoidance
+- [Directive 021 (Locality of Change)](../directives/021_locality_of_change.md) — bounded exploration and premature optimization avoidance
 
 **Related tactics:**
 - [`stopping-conditions.tactic.md`](./stopping-conditions.tactic.md) — explicit exit criteria for experiments

@@ -5,7 +5,7 @@
 - `adversarial-testing.tactic.md` — critical analysis that feeds learning
 
 **Complements:**
-- Directive 024 (Self-Observation Protocol) — captures learning during execution
+- [Directive 024 (Self-Observation Protocol)](../directives/024_self_observation_protocol.md) — captures learning during execution
 - Approach: Decision-First Development — lessons inform future decisions
 
 ---

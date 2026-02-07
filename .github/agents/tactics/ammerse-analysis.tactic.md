@@ -8,7 +8,7 @@
 - [`premortem-risk-identification.tactic.md`](./premortem-risk-identification.tactic.md) — risk discovery complements trade-off analysis
 
 **Complements:**
-- Directive 018 (Traceable Decisions) — ADR rationale documentation
+- [Directive 018 (Traceable Decisions)](../directives/018_traceable_decisions.md) — ADR rationale documentation
 - Approach: Decision-First Development
 
 ---

@@ -1,7 +1,7 @@
 # Tactic: Analysis.AdversarialTesting
 
 **Invoked by:**
-- Directive 018 (Traceable Decisions) — ADR preparation and proposal stress-testing
+- [Directive 018 (Traceable Decisions)](../directives/018_traceable_decisions.md) — ADR preparation and proposal stress-testing
 
 **Related tactics:**
 - [`premortem-risk-identification.tactic.md`](./premortem-risk-identification.tactic.md) — project-specific failure scenario discovery

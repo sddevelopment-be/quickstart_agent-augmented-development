@@ -5,7 +5,7 @@
 - `test-boundaries-by-responsibility.tactic.md` — defines boundaries for extracted concepts
 
 **Complements:**
-- Directive 017 (Test Driven Development) — ensures behavior preservation during extraction
+- [Directive 017 (Test Driven Development)](../directives/017_test_driven_development.md) — ensures behavior preservation during extraction
 - Approach: Locality of Change — extraction should be minimal and surgical
 
 ---

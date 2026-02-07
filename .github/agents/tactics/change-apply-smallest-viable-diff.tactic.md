@@ -1,14 +1,14 @@
 # Tactic: Change.ApplySmallestViableDiff
 
 **Invoked by:**
-- Directive 021 (Locality of Change) — core principle for surgical modifications
+- [Directive 021 (Locality of Change)](../directives/021_locality_of_change.md) — core principle for surgical modifications
 
 **Related tactics:**
 - `stopping-conditions.tactic.md` — defines when to stop making changes
 - `code-review-incremental.tactic.md` — reviews changes using minimal diff principle
 
 **Complements:**
-- Directive 024 (Self-Observation Protocol) — prevents gold-plating and scope creep
+- [Directive 024 (Self-Observation Protocol)](../directives/024_self_observation_protocol.md) — prevents gold-plating and scope creep
 
 ---
 
@@ -72,7 +72,7 @@ Use this tactic to make surgical, reviewable changes without introducing unneces
 
 ## Notes on Use
 
-This tactic directly implements the **Locality of Change** principle from Directive 021.
+This tactic directly implements the **Locality of Change** principle from [Directive 021](../directives/021_locality_of_change.md).
 
 Gold-plating indicators:
 - Changing formatting in unrelated sections

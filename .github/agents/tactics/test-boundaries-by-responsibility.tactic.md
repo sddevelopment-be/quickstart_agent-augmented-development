@@ -1,15 +1,15 @@
 # Tactic: Define Test Boundaries by Functional Responsibility
 
 **Invoked by:**
-- Directive 016 (ATDD) — defining acceptance test scope
-- Directive 017 (TDD) — defining unit test boundaries
+- [Directive 016 (ATDD)](../directives/016_acceptance_test_driven_development.md) — defining acceptance test scope
+- [Directive 017 (TDD)](../directives/017_test_driven_development.md) — defining unit test boundaries
 
 **Related tactics:**
 - [`ATDD_adversarial-acceptance.tactic.md`](./ATDD_adversarial-acceptance.tactic.md) — adversarial acceptance test definition
 
 **Complements:**
-- Directive 016 (ATDD workflow)
-- Directive 017 (TDD workflow)
+- [Directive 016 (ATDD workflow)](../directives/016_acceptance_test_driven_development.md)
+- [Directive 017 (TDD workflow)](../directives/017_test_driven_development.md)
 
 ---
 

@@ -1,8 +1,8 @@
 # Tactic: Define Stopping Conditions
 
 **Invoked by:**
-- Directive 024 (Self-Observation Protocol) — checkpoint triggers for long-running tasks
-- Directive 011 (Risk & Escalation) — timeout handling and boundary enforcement
+- [Directive 024 (Self-Observation Protocol)](../directives/024_self_observation_protocol.md) — checkpoint triggers for long-running tasks
+- [Directive 011 (Risk & Escalation)](../directives/011_risk_escalation.md) — timeout handling and boundary enforcement
 
 **Related tactics:**
 - [`premortem-risk-identification.tactic.md`](./premortem-risk-identification.tactic.md) — risk discovery before establishing stopping criteria

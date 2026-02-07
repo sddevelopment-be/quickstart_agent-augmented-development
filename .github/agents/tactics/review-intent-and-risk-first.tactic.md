@@ -6,7 +6,7 @@
 - `code-review-incremental.tactic.md` — applies intent-first principle to code changes
 
 **Complements:**
-- Directive 024 (Self-Observation Protocol) — self-review using same intent-first pattern
+- [Directive 024 (Self-Observation Protocol)](../directives/024_self_observation_protocol.md) — self-review using same intent-first pattern
 - Approach: Decision-First Development — reviews validate decision rationale
 
 ---

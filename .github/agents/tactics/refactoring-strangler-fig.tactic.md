@@ -5,7 +5,7 @@
 - `safe-to-fail-experiment-design.tactic.md` — provides low-risk validation for each rerouting step
 
 **Complements:**
-- Directive 017 (Test Driven Development) — ensures safety during incremental replacement
+- [Directive 017 (Test Driven Development)](../directives/017_test_driven_development.md) — ensures safety during incremental replacement
 - Approach: Trunk-Based Development — short-lived branches for each rerouting step
 
 ---

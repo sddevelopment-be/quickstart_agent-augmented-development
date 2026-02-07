@@ -5,8 +5,8 @@
 - `ATDD_adversarial-acceptance.tactic.md` — system-level testing for acceptance criteria
 
 **Complements:**
-- Directive 016 (Acceptance Test Driven Development)
-- Directive 017 (Test Driven Development)
+- [Directive 016 (Acceptance Test Driven Development)](../directives/016_acceptance_test_driven_development.md)
+- [Directive 017 (Test Driven Development)](../directives/017_test_driven_development.md)
 - Approach: Test Readability and Clarity Check — validates test quality at each level
 
 ---

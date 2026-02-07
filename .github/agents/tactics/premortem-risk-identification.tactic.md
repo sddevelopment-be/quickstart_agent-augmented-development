@@ -1,7 +1,7 @@
 # Tactic: Premortem Risk Identification
 
 **Invoked by:**
-- Directive 018 (Traceable Decisions) — ADR preparation and risk discovery
+- [Directive 018 (Traceable Decisions)](../directives/018_traceable_decisions.md) — ADR preparation and risk discovery
 
 **Related tactics:**
 - [`adversarial-testing.tactic.md`](./adversarial-testing.tactic.md) — broader stress-testing for proposals/practices

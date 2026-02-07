@@ -5,7 +5,7 @@
 - `analysis-extract-before-interpret.tactic.md` — used within iterations for unbiased extraction
 
 **Complements:**
-- Directive 024 (Self-Observation Protocol) — complementary pattern for detecting drift within single executions
+- [Directive 024 (Self-Observation Protocol)](../directives/024_self_observation_protocol.md) — complementary pattern for detecting drift within single executions
 
 ---
 
@@ -85,7 +85,7 @@ This tactic is particularly useful for:
 - Validating determinism of agent outputs
 
 **Key distinction from Ralph Wiggum Loop:**
-- **Ralph Wiggum Loop** (Directive 024) — self-observation *within* a single execution to detect drift
+- **Ralph Wiggum Loop** ([Directive 024](../directives/024_self_observation_protocol.md)) — self-observation *within* a single execution to detect drift
 - **Fresh Context Iteration** — *multiple* executions with no shared context
 
 ---

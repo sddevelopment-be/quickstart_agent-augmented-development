@@ -7,8 +7,8 @@
 - (Standalone — focuses on tactic lifecycle management)
 
 **Complements:**
-- Directive 009 (Role Capabilities) — curator responsibilities
-- [`/agents/tactics/README.md`](./README.md) — tactics catalog
+- [Directive 009 (Role Capabilities)](../directives/009_role_capabilities.md) — curator responsibilities
+- [Tactics Catalog](./README.md) — tactics catalog
 
 ---
 
@@ -31,7 +31,7 @@ Apply when:
 
 **Assumed context:**
 - Tactic template exists at `docs/templates/tactic.md`
-- Tactics README exists at `.github/agents/tactics/README.md`
+- Tactics README exists at `./README.md` (tactics catalog)
 - Version control is in place (git)
 
 **Exclusions (when NOT to use):**
@@ -53,7 +53,7 @@ Apply when:
      - **Complements:** List approaches and directives this supports
 
 2. **Add entry to tactics catalog**:
-   - Open `.github/agents/tactics/README.md`
+   - Open `./README.md` (tactics catalog)
    - Add entry to appropriate category table in "Available Tactics" section
    - Include: Name, File, Intent, Invoke When, Invoked By, Notes
    - Maintain alphabetical or logical order within category
@@ -126,7 +126,7 @@ Apply when:
 ## Checks / Exit Criteria
 
 **For adding new tactics:**
-- [ ] Tactic file exists in `.github/agents/tactics/`
+- [ ] Tactic file exists in tactics directory
 - [ ] Tactic follows template structure from `docs/templates/tactic.md`
 - [ ] Metadata header is complete (Invoked by, Related tactics, Complements)
 - [ ] Entry added to README.md "Available Tactics" table
@@ -174,14 +174,14 @@ Apply when:
 ## Outputs
 
 **For adding new tactics:**
-- New tactic file in `.github/agents/tactics/`
-- Updated `.github/agents/tactics/README.md` with new entry
+- New tactic file in tactics directory
+- Updated `./README.md` with new entry
 - Updated directives with invocation statements (if applicable)
 - Git commit with standard format
 
 **For updating tactics:**
 - Modified tactic file with updated content
-- Updated `.github/agents/tactics/README.md` (if needed)
+- Updated `./README.md` (if needed)
 - Updated directives (if needed)
 - Git commit with standard format
 

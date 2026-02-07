@@ -5,7 +5,7 @@
 - `adversarial-testing.tactic.md` — benefits from factual extraction before risk assessment
 
 **Complements:**
-- Directive 024 (Self-Observation Protocol) — prevents premature conclusions during Ralph Wiggum checkpoints
+- [Directive 024 (Self-Observation Protocol)](../directives/024_self_observation_protocol.md) — prevents premature conclusions during Ralph Wiggum checkpoints
 
 ---
 
