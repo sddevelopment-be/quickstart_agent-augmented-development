@@ -23,6 +23,13 @@ Include:
 
 If a precondition is violated, this tactic should not be run.
 
+**Reference Localization:**
+- References to other documents should be localized (no external websites)
+- Only link to documents within the core doctrine stack directives
+- Do NOT link to `work/`, `temp/`, `.claude/`, or other non-core directories
+- These directories are not distributed/bundled/canonically stable
+- Use relative links for internal references (e.g., `[Directive 017](../directives/017_test_driven_development.md)`)
+
 ---
 
 ## Execution Steps
