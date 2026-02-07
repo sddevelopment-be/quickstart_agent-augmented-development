@@ -3,7 +3,7 @@
 **Template Type:** Quality Validation  
 **Version:** 1.0.0  
 **Last Updated:** 2025-11-29  
-**Approach Reference:** `.github/agents/approaches/test-readability-clarity-check.md`
+**Approach Reference:** `approaches/test-readability-clarity-check.md`
 
 ---
 
@@ -349,7 +349,7 @@ Before considering analysis complete, verify:
 ## References
 
 **Related Documents:**
-- Approach: `.github/agents/approaches/test-readability-clarity-check.md`
+- Approach: `approaches/test-readability-clarity-check.md`
 - Directive 014: Work log standards
 - Directive 015: Prompt storage standards
 - ADR-012: Test-driven development defaults

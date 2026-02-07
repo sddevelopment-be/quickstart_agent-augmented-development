@@ -27,9 +27,9 @@ This repository uses a **Doctrine Stack** — a five-layer instruction system th
 ```
 
 **Key references:**
-- Full doctrine stack documentation: `.github/agents/DOCTRINE_STACK.md`
-- Tactics catalog: `.github/agents/tactics/README.md`
-- Extended directives: `.github/agents/directives/`
+- Full doctrine stack documentation: `DOCTRINE_STACK.md`
+- Tactics catalog: `tactics/README.md`
+- Extended directives: `directives/`
 
 **Tactics usage:** Directives explicitly invoke tactics at workflow steps. Agents may also discover and propose tactics from the catalog.
 

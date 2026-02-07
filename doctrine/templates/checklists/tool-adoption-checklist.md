@@ -293,7 +293,7 @@ _Complete 1-3 months after adoption_
 ## Related Documentation
 
 - **Tooling Setup Guide:** `docs/HOW_TO_USE/copilot-tooling-setup.md`
-- **Directive 001:** `.github/agents/directives/001_cli_shell_tooling.md`
+- **Directive 001:** `directives/001_cli_shell_tooling.md`
 - **Setup Script:** `.github/copilot/setup.sh`
 - **Security Checklist:** See Quarterly Review template section 2
 

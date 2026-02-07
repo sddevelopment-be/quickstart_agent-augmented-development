@@ -2,7 +2,7 @@
 
 Tactics are step-by-step procedures for executing specific activities within the agentic development framework. They provide concrete, ordered instructions that agents can follow to accomplish well-defined objectives.
 
-**Location:** `.github/agents/tactics/`  
+**Location:** `tactics/`  
 **Purpose:** Procedural execution (the "how")  
 **Invoked by:** Directives (explicit) or discoverable exploration (with Human approval)
 

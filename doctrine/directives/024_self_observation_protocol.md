@@ -341,7 +341,7 @@ Document exception rationale in work log:
 
 ### For New Agents
 
-1. Read approach document: `.github/agents/approaches/ralph-wiggum-loop.md`
+1. Read approach document: `approaches/ralph-wiggum-loop.md`
 2. Review 3 example checkpoints from experienced agents
 3. Practice on supervised tasks before autonomous use
 4. Request human review of first 5 checkpoints

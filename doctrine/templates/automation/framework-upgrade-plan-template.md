@@ -43,7 +43,7 @@ Status types:
 
 | File Path | Status | Resolution Required | Notes |
 |-----------|--------|---------------------|-------|
-| {{e.g., `.github/agents/lexical.agent.md`}} | CONFLICT | manual merge | local overrides detected |
+| {{e.g., `agents/lexical.agent.md`}} | CONFLICT | manual merge | local overrides detected |
 | {{e.g., `templates/agent-tasks/structural.md`}} | UPDATED | auto | no local modifications |
 | {{e.g., `docs/directives/directive_minimal-diffs.md`}} | NEW | copy | new directive |
 | {{…}} | {{…}} | {{…}} | {{…}} |

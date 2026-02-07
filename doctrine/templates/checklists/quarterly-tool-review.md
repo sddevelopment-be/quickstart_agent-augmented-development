@@ -100,8 +100,8 @@ This checklist ensures systematic review of tooling infrastructure to maintain s
 
 ### Agent Documentation
 
-- [ ] `.github/agents/AGENTS.md` - Version numbers current
-- [ ] `.github/agents/directives/` - All directives reviewed for accuracy
+- [ ] `AGENTS.md` - Version numbers current
+- [ ] `directives/` - All directives reviewed for accuracy
 - [ ] Agent profiles - Specializations clearly defined
 - [ ] `GLOSSARY.md` - Terms aligned with current usage
 
@@ -203,7 +203,7 @@ Document all identified issues and action items:
 ## Related Documentation
 
 - **Tooling Setup:** `docs/HOW_TO_USE/copilot-tooling-setup.md`
-- **Directive 001:** `.github/agents/directives/001_cli_shell_tooling.md`
+- **Directive 001:** `directives/001_cli_shell_tooling.md`
 - **Framework Audit:** Use `templates/automation/framework-audit-report-template.md` for detailed audits
 - **Work Directory:** `work/README.md` for orchestration system health
 

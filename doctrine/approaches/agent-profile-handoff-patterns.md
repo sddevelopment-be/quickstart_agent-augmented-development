@@ -16,7 +16,7 @@ Instead of a centralized lookup table, each agent profile documents its own obse
 
 ## Template Structure
 
-Add this section to each agent profile (`.github/agents/<agent-name>.agent.md`):
+Add this section to each agent profile (`agents/<agent-name>.agent.md`):
 
 ```markdown
 ## Common Handoff Patterns
@@ -285,8 +285,8 @@ Add this section to each agent profile (`.github/agents/<agent-name>.agent.md`):
 
 - **ADR-015:** Follow-Up Task Lookup Pattern (Rejected)
 - **ADR-008:** File-Based Asynchronous Coordination
-- **File-Based Orchestration Approach:** `.github/agents/approaches/file-based-orchestration.md`
-- **Agent Profiles:** `.github/agents/*.agent.md`
+- **File-Based Orchestration Approach:** `approaches/file-based-orchestration.md`
+- **Agent Profiles:** agent profile files
 
 ---
 

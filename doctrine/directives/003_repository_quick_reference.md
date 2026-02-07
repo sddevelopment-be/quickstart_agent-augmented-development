@@ -4,7 +4,7 @@
 
 Key Directories:
 
-- `.github/agents/` — Agent profiles, directives, approaches, guidelines
+- `doctrine/` in consuming repositories — Agent profiles, directives, approaches, guidelines
 - `work/` — Orchestration workspace (see work/README.md for structure)
     - `work/collaboration/` — Task orchestration (inbox, new, assigned, in_progress, done, archive)
     - `work/reports/` — Agent outputs (logs, metrics, benchmarks)

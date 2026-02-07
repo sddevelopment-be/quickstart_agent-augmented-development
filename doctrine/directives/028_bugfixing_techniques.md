@@ -243,8 +243,8 @@ Watch for these anti-patterns:
 
 ### Full Documentation
 
-- **Detailed Approach:** `.github/agents/approaches/test-first-bug-fixing.md`
-- **Checklist:** `.github/agents/approaches/bug-fixing-checklist.md`
+- **Detailed Approach:** `approaches/test-first-bug-fixing.md`
+- **Checklist:** `approaches/bug-fixing-checklist.md`
 
 ### External References
 

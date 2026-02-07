@@ -322,7 +322,7 @@ Include rich annotations:
 npm run validate:schemas
 
 # Validate specific agent
-npm run validate:schema -- .github/agents/architect.agent.md
+npm run validate:schema -- agents/architect.agent.md
 
 # CI/CD integration
 # Runs automatically on PR, blocks merge if invalid
@@ -890,7 +890,7 @@ outputs: "file://schemas/reviewer-rachel.output.schema.json"
 ### Validate Single Agent
 
 ```bash
-npm run validate:schema -- .github/agents/architect.agent.md
+npm run validate:schema -- agents/architect.agent.md
 ```
 
 ### Validate All Agents
@@ -902,7 +902,7 @@ npm run validate:schemas
 ### Generate Schema Stub
 
 ```bash
-npm run schema:stub -- .github/agents/new-agent.agent.md
+npm run schema:stub -- agents/new-agent.agent.md
 ```
 
 ### Test Schema Against Sample Data

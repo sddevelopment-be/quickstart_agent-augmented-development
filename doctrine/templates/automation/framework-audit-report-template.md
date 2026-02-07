@@ -12,7 +12,7 @@
 
 - Overall status: {{OK / DRIFT / OUTDATED / PARTIAL}}
 - Core directories checked:
-    - `.github/agents/`
+    - `doctrine/` in consuming repositories
     - `templates/`
     - `docs/directives/`
     - `docs/guidelines/`
@@ -22,7 +22,7 @@
 **High-level findings (1–3 bullets):**
 
 - {{e.g., "Most core files match v1.2.0; some agents diverged locally."}}
-- {{e.g., "Local customizations detected in .github/agents/editor.agent.md."}}
+- {{e.g., "Local customizations detected in agents/editor.agent.md."}}
 - {{e.g., "Missing validation/ files from latest framework version."}}
 
 ---
@@ -75,7 +75,7 @@ The following core-managed files differ from the framework reference:
 
 | File                                      | Status        | Notes                                |
 |-------------------------------------------|---------------|--------------------------------------|
-| `.github/agents/lexical.agent.md`         | modified      | local tweaks to directives           |
+| `agents/lexical.agent.md`         | modified      | local tweaks to directives           |
 | `templates/agent-tasks/structural.md`| modified      | custom task fields added             |
 | `validation/PORTABILITY_RUN.md`          | modified      | extended for this project            |
 
@@ -86,7 +86,7 @@ For each modified file, the Guardian should summarise:
 - **Should this be moved to a local override?**
 
 > Example entry format:
-> - `.github/agents/lexical.agent.md`
+> - `agents/lexical.agent.md`
     >   - Change: directives and examples adjusted for this project’s tone.
 >   - Likely: intentional local customization.
 >   - Suggestion: consider relocating to `local/agents/lexical.agent.md` to keep core clean.

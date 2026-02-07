@@ -21,7 +21,7 @@ This checklist guides you through adding input/output schemas to existing agent 
 
 **Prerequisites:**
 
-- Agent profile exists (`.github/agents/*.agent.md`)
+- Agent profile exists (agent profile files)
 - Familiarity with JSON Schema basics
 - Access to schema conventions and template
 
@@ -51,7 +51,7 @@ This checklist guides you through adding input/output schemas to existing agent 
 
 Understand what your agent consumes and produces:
 
-- [ ] Open agent profile: `.github/agents/[your-agent].agent.md`
+- [ ] Open agent profile: `agents/[your-agent].agent.md`
 - [ ] Read **Section 4: Collaboration Contract**
   - Note: What does this agent expect to receive?
   - Note: What parameters are mentioned?
@@ -231,7 +231,7 @@ Include these standard properties:
 
 **Time:** 5 minutes
 
-- [ ] Run syntax validation: `npm run validate:schema -- .github/agents/[agent].agent.md`
+- [ ] Run syntax validation: `npm run validate:schema -- agents/[agent].agent.md`
 - [ ] Fix any JSON Schema syntax errors
 - [ ] Verify all `$ref` references resolve
 - [ ] Check for typos in property names
@@ -361,7 +361,7 @@ Document your migration:
 
 **Time:** 5 minutes
 
-- [ ] Stage changes: `git add .github/agents/[agent].agent.md docs/schemas/`
+- [ ] Stage changes: `git add agents/[agent].agent.md docs/schemas/`
 - [ ] Commit with descriptive message
 - [ ] Include schema files if separate
 - [ ] Include work log
@@ -641,7 +641,7 @@ Use this final checklist before submitting:
 
 ```bash
 # Validate single agent schema
-npm run validate:schema -- .github/agents/[agent].agent.md
+npm run validate:schema -- agents/[agent].agent.md
 
 # Validate all agent schemas
 npm run validate:schemas
@@ -650,12 +650,12 @@ npm run validate:schemas
 npm run schema:test -- [schema-file] [data-file]
 
 # Generate schema stub (helper)
-npm run schema:stub -- .github/agents/[agent].agent.md
+npm run schema:stub -- agents/[agent].agent.md
 ```
 
 ### File Locations
 
-- **Agent profiles:** `.github/agents/*.agent.md`
+- **Agent profiles:** agent profile files
 - **Schema files:** `docs/schemas/[agent-name].{input|output}.schema.json`
 - **Common schemas:** `docs/schemas/common/*.schema.json`
 - **Work logs:** `work/reports/logs/[agent]/[date]-schema-migration.md`

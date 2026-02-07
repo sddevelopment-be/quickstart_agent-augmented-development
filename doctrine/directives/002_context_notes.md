@@ -2,7 +2,7 @@
 
 # 002 Context Notes Directive
 
-- Specialized profiles in `.github/agents/` may refine tone/modes.
+- Specialized profiles in `doctrine/` in consuming repositories may refine tone/modes.
 - Global template `AGENTS.md` supersedes repo instructions unless explicitly overridden.
 - Treat shorthand commands cautiously until mapped.
 

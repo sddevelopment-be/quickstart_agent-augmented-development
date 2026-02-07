@@ -10,12 +10,12 @@ tools: [ "read", "write", "search", "edit", "bash", "grep", "awk", "github", "cu
 
 ## 1. Context Sources
 
-- **Global Principles:** [.github/agents/](../../agents)
-- **General Guidelines:** .github/agents/guidelines/general_guidelines.md
-- **Operational Guidelines:** .github/agents/guidelines/operational_guidelines.md
-- **Command Aliases:** .github/agents/aliases.md
-- **System Bootstrap and Rehydration:** .github/agents/guidelines/bootstrap.md and .github/agents/guidelines/rehydrate.md
-- **Localized Agentic Protocol:** AGENTS.md (root of this repository or a `.github/agents` / `.agents` directory if present.)
+- **Global Principles:** doctrine/
+- **General Guidelines:** guidelines/general_guidelines.md
+- **Operational Guidelines:** guidelines/operational_guidelines.md
+- **Command Aliases:** shorthands/README.md
+- **System Bootstrap and Rehydration:** guidelines/bootstrap.md and guidelines/rehydrate.md
+- **Localized Agentic Protocol:** AGENTS.md (root of this repository or a `doctrine/` in consuming repositories directory if present.)
 
 ## Directive References (Externalized)
 

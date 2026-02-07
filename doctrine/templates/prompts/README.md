@@ -37,7 +37,7 @@ All templates include:
 
 ### Related Documentation
 
-- **Directive 023:** [Clarification Before Execution](/.github/agents/directives/023_clarification_before_execution.md) - Agents request clarification when template sections are incomplete
+- **Directive 023:** [Clarification Before Execution](/directives/023_clarification_before_execution.md) - Agents request clarification when template sections are incomplete
 - **ADR-023:** [Prompt Optimization Framework](/${DOC_ROOT}/architecture/adrs/ADR-023-prompt-optimization-framework.md) - Architectural design and rationale
 - **Implementation Roadmap:** [ADR-023 Roadmap](/${DOC_ROOT}/architecture/adrs/ADR-023-implementation-roadmap.md) - Four-phase rollout plan
 

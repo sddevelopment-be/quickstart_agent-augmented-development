@@ -58,7 +58,7 @@ For each file listed in `META/MANIFEST.yml`:
    - Guardian cannot distinguish intent—surface all diverged files for human review.
 
 4. **Orphan Detection:**
-   - Scan framework directories (`.github/agents/`, `templates/`, etc.).
+   - Scan framework directories (`doctrine/` in consuming repositories, `templates/`, etc.).
    - Identify files not listed in manifest.
    - Classify as `CUSTOM` (potentially local additions or orphaned files).
 

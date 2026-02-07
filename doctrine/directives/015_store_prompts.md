@@ -43,7 +43,7 @@ All prompt documentation MUST be stored in [`work/report/logs/prompts`](/${WORKS
 
 **CRITICAL:** Load only the step relevant to your current documentation phase to maintain token discipline.
 
-See `.github/agents/approaches/prompt_documentation/README.md` for:
+See `approaches/prompt_documentation/README.md` for:
 
 - Complete documentation structure template
 - SWOT analysis guidelines
@@ -53,10 +53,10 @@ See `.github/agents/approaches/prompt_documentation/README.md` for:
 ## 4. Quick Procedure
 
 1. Decide if prompt documentation is warranted (see section 1)
-2. Load `.github/agents/approaches/prompt_documentation/01_documentation_structure.md` for template
-3. Load `.github/agents/approaches/prompt_documentation/02_swot_analysis_guidelines.md` for analysis
-4. Load `.github/agents/approaches/prompt_documentation/03_improvement_guidelines.md` for enhancements
-5. Load `.github/agents/approaches/prompt_documentation/04_pattern_recognition.md` for patterns
+2. Load `approaches/prompt_documentation/01_documentation_structure.md` for template
+3. Load `approaches/prompt_documentation/02_swot_analysis_guidelines.md` for analysis
+4. Load `approaches/prompt_documentation/03_improvement_guidelines.md` for enhancements
+5. Load `approaches/prompt_documentation/04_pattern_recognition.md` for patterns
 6. Create documentation file in `${WORKSPACE_ROOT}/reports/logs/prompts/`
 7. Commit to Git for future reference
 
