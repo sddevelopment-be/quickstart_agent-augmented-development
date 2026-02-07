@@ -5,6 +5,9 @@
 **Applies to:** Planning Petra, Manager Mike, Analyst Annie, Architect Alphonso  
 **Related Directives:** 034 (Specification-Driven Development), 016 (ATDD), 018 (Traceable Decisions), 022 (Audience-Oriented Writing)
 
+> **Path Configuration:** This directive uses `${SPEC_ROOT}` to represent the specifications directory.  
+> Default: `specifications/` — Configure in repository's `.doctrine/config.yaml` if using different structure.
+
 ---
 
 ## Purpose
@@ -28,7 +31,7 @@ Every specification MUST include YAML frontmatter with a standardized structure.
 ## Mandatory Directory Structure
 
 ```
-specifications/
+${SPEC_ROOT}/
 ├── README.md                       # Overview and guidance (see below)
 ├── {initiative-slug}/              # Initiative-specific subdirectories
 │   ├── {feature-1-slug}.md        # Specification with YAML frontmatter
@@ -41,20 +44,22 @@ specifications/
 
 **Examples:**
 ```
-specifications/
-├── llm-dashboard/
-│   ├── markdown-rendering.md
-│   ├── priority-editing.md
-│   ├── initiative-tracking.md
-│   └── orphan-task-assignment.md
-├── llm-service/
-│   ├── anthropic-adapter.md
-│   ├── openai-adapter.md
-│   └── telemetry-collection.md
-└── framework/
-    ├── agent-profiles.md
-    └── file-orchestration.md
+${SPEC_ROOT}/
+├── {initiative-a}/
+│   ├── feature-1.md
+│   ├── feature-2.md
+│   ├── feature-3.md
+│   └── feature-4.md
+├── {initiative-b}/
+│   ├── capability-a.md
+│   ├── capability-b.md
+│   └── capability-c.md
+└── {initiative-c}/
+    ├── component-x.md
+    └── component-y.md
 ```
+
+> **Note:** `${SPEC_ROOT}` defaults to `${SPEC_ROOT}/` but can be configured per repository.
 
 ---
 
@@ -194,13 +199,13 @@ title: "Dashboard Initiative Tracking Implementation"
 agent: python-pedro
 priority: HIGH
 status: assigned
-specification: "specifications/llm-dashboard/initiative-tracking.md"
+specification: "${SPEC_ROOT}/{initiative-name}/initiative-tracking.md"
 feature: "Feature 3: Portfolio API Endpoint"  # Optional: link to specific feature
 ```
 
 **Linking Rules:**
 1. `specification:` field MUST contain relative path from repository root
-2. Path MUST point to existing file in `specifications/` directory
+2. Path MUST point to existing file in `${SPEC_ROOT}/` directory
 3. Optional `feature:` field links to specific feature title from frontmatter
 4. Dashboard uses this to:
    - Group tasks under correct initiative/feature in portfolio
@@ -213,17 +218,17 @@ feature: "Feature 3: Portfolio API Endpoint"  # Optional: link to specific featu
 
 ### Analyst Annie (Primary Author)
 **When creating specifications:**
-1. ✅ Use `docs/templates/specifications/feature-spec-template.md` as starting point
+1. ✅ Use `docs/templates/${SPEC_ROOT}/feature-spec-template.md` as starting point
 2. ✅ Add YAML frontmatter at top of file (before markdown heading)
 3. ✅ Define features with unique IDs following `FEAT-{INITIATIVE}-{SPEC_NUM}-{FEAT_NUM}` pattern
 4. ✅ Set `status: "draft"` and `completion: null` for new specs
 5. ✅ Include at least 1 feature (specs without features won't appear in portfolio)
-6. ✅ Save to correct subdirectory: `specifications/{initiative-slug}/{spec-name}.md`
+6. ✅ Save to correct subdirectory: `${SPEC_ROOT}/{initiative-slug}/{spec-name}.md`
 
 **Example workflow:**
 ```bash
 # Annie creates new spec
-specifications/llm-dashboard/orphan-task-assignment.md
+${SPEC_ROOT}/{initiative-name}/{feature-name}.md
 
 # With frontmatter:
 ---
@@ -267,7 +272,7 @@ title: "Implement Assignment Modal UI"
 agent: frontend-freddy
 priority: MEDIUM
 status: inbox
-specification: "specifications/llm-dashboard/orphan-task-assignment.md"
+specification: "${SPEC_ROOT}/{initiative-name}/{feature-name}.md"
 feature: "Assignment Modal UI"  # Matches FEAT-DASH-007-01 title
 estimated_hours: 4
 ```
@@ -299,7 +304,7 @@ estimated_hours: 4
 3. ✅ Have at least 1 feature in `features:` array
 4. ✅ Use correct ID format: `SPEC-{CODE}-{NUMBER}`
 5. ✅ Have unique ID (no duplicates across all specs)
-6. ✅ Be saved in correct subdirectory: `specifications/{initiative-slug}/`
+6. ✅ Be saved in correct subdirectory: `${SPEC_ROOT}/{initiative-slug}/`
 
 ### Feature Objects Must:
 1. ✅ Have `id`, `title`, `status` fields (minimum)
@@ -309,7 +314,7 @@ estimated_hours: 4
 
 ### Task Linking Must:
 1. ✅ Use `specification:` field with path relative to repo root
-2. ✅ Point to existing file in `specifications/` directory
+2. ✅ Point to existing file in `${SPEC_ROOT}/` directory
 3. ✅ If `feature:` field used, match a feature title from spec frontmatter
 
 ---
@@ -384,7 +389,7 @@ Dashboard portfolio will now display this specification correctly."
 
 ### Example 1: New Specification (Draft)
 
-**File:** `specifications/llm-dashboard/search-functionality.md`
+**File:** `${SPEC_ROOT}/{initiative-name}/{feature-name}.md`
 
 ```yaml
 ---
@@ -422,7 +427,7 @@ author: "analyst-annie"
 
 ### Example 2: Active Implementation
 
-**File:** `specifications/llm-dashboard/orphan-task-assignment.md`
+**File:** `${SPEC_ROOT}/{initiative-name}/{feature-name}.md`
 
 ```yaml
 ---
@@ -448,7 +453,7 @@ author: "analyst-annie"
 **Linked Task:**
 ```yaml
 id: 2026-02-06T1600-orphan-assignment-modal
-specification: "specifications/llm-dashboard/orphan-task-assignment.md"
+specification: "${SPEC_ROOT}/{initiative-name}/{feature-name}.md"
 feature: "Assignment Modal UI"
 status: in_progress
 ```
@@ -457,7 +462,7 @@ status: in_progress
 
 ### Example 3: Completed Specification
 
-**File:** `specifications/llm-dashboard/markdown-rendering.md`
+**File:** `${SPEC_ROOT}/{initiative-name}/{feature-name}.md`
 
 ```yaml
 ---
@@ -485,8 +490,8 @@ author: "analyst-annie"
 
 **Linked Tasks (both done):**
 ```yaml
-id: 2026-02-06T1148-dashboard-markdown-rendering
-specification: "specifications/llm-dashboard/markdown-rendering.md"
+id: 2026-02-06T1148-dashboard-{feature-name}
+specification: "${SPEC_ROOT}/{initiative-name}/{feature-name}.md"
 status: done
 ```
 
@@ -495,7 +500,7 @@ status: done
 ## Dashboard Integration Points
 
 ### Portfolio View (`/api/portfolio`)
-- Reads all specifications from `specifications/` directory
+- Reads all specifications from `${SPEC_ROOT}/` directory
 - Parses YAML frontmatter to extract initiatives, features, metadata
 - Links tasks via `specification:` field
 - Calculates progress rollup from task statuses
@@ -508,7 +513,7 @@ status: done
 - Moves task from orphan section to portfolio hierarchy
 
 ### Specification Parser (`src/llm_service/dashboard/spec_parser.py`)
-- Scans `specifications/` directory recursively
+- Scans `${SPEC_ROOT}/` directory recursively
 - Extracts frontmatter using PyYAML
 - Validates required fields
 - Caches parsed results (invalidates on file watcher events)
@@ -527,7 +532,7 @@ status: done
 2. ❌ Invalid YAML syntax → Validate with `python -c "import yaml; yaml.safe_load(open('spec.md').read().split('---')[1])"`
 3. ❌ Missing required fields → Check `id`, `title`, `status`, `initiative`, `features`
 4. ❌ Empty `features:` array → Add at least one feature
-5. ❌ File saved outside `specifications/` → Move to correct subdirectory
+5. ❌ File saved outside `${SPEC_ROOT}/` → Move to correct subdirectory
 
 ---
 
@@ -536,7 +541,7 @@ status: done
 **Symptom:** Task has `specification:` field but shows as orphan
 
 **Possible Causes:**
-1. ❌ Incorrect path → Must be relative to repo root: `specifications/{dir}/{file}.md`
+1. ❌ Incorrect path → Must be relative to repo root: `${SPEC_ROOT}/{dir}/{file}.md`
 2. ❌ Typo in filename → Check exact spelling and extension
 3. ❌ Specification file doesn't exist → Verify file presence
 4. ❌ Feature name mismatch → `feature:` must exactly match title in frontmatter
@@ -544,14 +549,14 @@ status: done
 **Debug:**
 ```bash
 # Verify specification file exists
-ls -la specifications/llm-dashboard/orphan-task-assignment.md
+ls -la ${SPEC_ROOT}/{initiative-name}/{feature-name}.md
 
 # Check task YAML
 cat work/collaboration/inbox/2026-02-06T1600-task.yaml | grep specification
 
 # Verify path matches
-# Task: specification: "specifications/llm-dashboard/orphan-task-assignment.md"
-# File: specifications/llm-dashboard/orphan-task-assignment.md
+# Task: specification: "${SPEC_ROOT}/{initiative-name}/{feature-name}.md"
+# File: ${SPEC_ROOT}/{initiative-name}/{feature-name}.md
 # ✅ Paths match!
 ```
 
@@ -575,8 +580,8 @@ cat work/collaboration/inbox/2026-02-06T1600-task.yaml | grep specification
 - **Directive 016:** Acceptance Test-Driven Development (linking specs to tests)
 - **Directive 018:** Traceable Decisions (linking specs to ADRs)
 - **ADR-037:** Dashboard Initiative Tracking (portfolio view architecture)
-- **Template:** `docs/templates/specifications/feature-spec-template.md`
-- **README:** `specifications/README.md` (overview and guidance)
+- **Template:** `docs/templates/${SPEC_ROOT}/feature-spec-template.md`
+- **README:** `${SPEC_ROOT}/README.md` (overview and guidance)
 
 ---
 

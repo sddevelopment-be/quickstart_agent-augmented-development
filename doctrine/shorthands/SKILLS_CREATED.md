@@ -27,7 +27,7 @@ Created a complete iteration orchestration system with skills for multi-agent co
 4. Conditional: Create Architect review task if needed
 
 **Key Features:**
-- File-based orchestration (work/collaboration/)
+- File-based orchestration (${WORKSPACE_ROOT}/collaboration/)
 - TDD/ATDD enforcement (RED → GREEN → REFACTOR)
 - Work log creation (Directive 014)
 - Quality gates (>80% test coverage target)
@@ -91,7 +91,7 @@ Agent (Petra):
 - 🔄 REDIRECT - Changes needed, then re-review
 - 🛑 BLOCKED - Major issues, fundamental rethink
 
-**Documents Review:** `work/reports/reviews/YYYY-MM-DD-<topic>-review.md`
+**Documents Review:** `${WORKSPACE_ROOT}/reports/reviews/YYYY-MM-DD-<topic>-review.md`
 
 **Example Usage:**
 ```
@@ -193,7 +193,7 @@ Agent (Backend-Dev):
 **Lifecycle:**
 1. Draft → Review → Approved → Implemented
 
-**Location:** `specifications/[domain]/[feature-name].md`
+**Location:** `${SPEC_ROOT}/[domain]/[feature-name].md`
 
 **Example Usage:**
 ```
@@ -206,7 +206,7 @@ Agent (Scribe Sally):
   - Requirements: 8 MUST, 5 SHOULD, 4 COULD, 4 WON'T
   - Scenarios: 6 (4 happy path, 2 error cases)
   - Constraints: <100ms latency, localhost-only
-  - Location: specifications/llm-dashboard/real-time-execution-dashboard.md
+  - Location: ${SPEC_ROOT}/llm-dashboard/real-time-execution-dashboard.md
   Status: DRAFT → Ready for stakeholder review
 ```
 
@@ -325,7 +325,7 @@ Agent: [At 25% completion]
 
 ### Approaches Referenced
 
-- File-Based Orchestration (work/collaboration/)
+- File-Based Orchestration (${WORKSPACE_ROOT}/collaboration/)
 - Test-First Bug Fixing
 - Spec-Driven Development
 - Ralph Wiggum Loop (Self-Observation)

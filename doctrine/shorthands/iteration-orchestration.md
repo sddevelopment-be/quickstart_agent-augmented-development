@@ -17,8 +17,8 @@
 **Expands to:**
 
 > Acting as the orchestrator in the file-based agent collaboration approach, execute a batch of work by:
-> 1. Initialize as Planning Petra and assess current work/collaboration/ state
-> 2. Identify next batch from work/collaboration/inbox/ (priority order)
+> 1. Initialize as Planning Petra and assess current ${WORKSPACE_ROOT}/collaboration/ state
+> 2. Identify next batch from ${WORKSPACE_ROOT}/collaboration/inbox/ (priority order)
 > 3. For each task: initialize as specialist agent, execute with TDD/ATDD
 > 4. Adhere to directives 014 (work logs), 016 (ATDD), 017 (TDD)
 > 5. When complete, initialize as Petra and update planning artifacts
@@ -38,7 +38,7 @@ Executes one complete batch: planning → execution → documentation → review
 Acting as orchestrator in file-based agent collaboration, execute a batch:
 
 1. Planning Petra: Assess current state
-   - Read work/collaboration/inbox/ for pending tasks
+   - Read ${WORKSPACE_ROOT}/collaboration/inbox/ for pending tasks
    - Identify next batch (check NEXT_BATCH.md if exists)
    - Priority order: critical > high > medium > low
 
@@ -51,7 +51,7 @@ Acting as orchestrator in file-based agent collaboration, execute a batch:
    e. Create work log (directive 014)
 
 3. Planning Petra: Update artifacts
-   - Update roadmap if exists (docs/architecture/roadmap-*.md)
+   - Update roadmap if exists (${DOC_ROOT}/architecture/roadmap-*.md)
    - Update NEXT_BATCH.md with next priorities
    - Document any blockers or decisions
 
@@ -82,7 +82,7 @@ Acting as orchestrator, execute batch with immediate review:
    - Check ADR alignment
    - Verify test coverage (>80% target)
    - Validate architectural fit
-   - Document in work/reports/reviews/
+   - Document in ${WORKSPACE_ROOT}/reports/reviews/
 5. Planning Petra: If approved, prepare next batch recommendation
 
 Quality gates:
@@ -99,10 +99,10 @@ Quality gates:
 Initialize as Architect Alphonso. Conduct rigorous code review and architecture-fit analysis:
 
 1. Review recent changes (check git log or work logs)
-2. Validate against relevant ADRs (docs/architecture/adrs/)
+2. Validate against relevant ADRs (${DOC_ROOT}/architecture/adrs/)
 3. Check test coverage and quality
 4. Verify architectural patterns and best practices
-5. Document findings in work/reports/reviews/<date>-<topic>-review.md
+5. Document findings in ${WORKSPACE_ROOT}/reports/reviews/<date>-<topic>-review.md
 
 Focus areas:
 - ADR compliance
@@ -121,13 +121,13 @@ Output: Review document with APPROVED/REDIRECT/BLOCKED status and recommendation
 Initialize as Planning Petra. Assess current implementation state:
 
 1. Check active branch and git status
-2. List work/collaboration/inbox/ (pending tasks)
-3. List work/collaboration/assigned/ (in-progress tasks)
+2. List ${WORKSPACE_ROOT}/collaboration/inbox/ (pending tasks)
+3. List ${WORKSPACE_ROOT}/collaboration/assigned/ (in-progress tasks)
 4. Read planning documents if present:
-   - docs/architecture/roadmap-*.md
-   - work/collaboration/NEXT_BATCH.md
-   - work/planning/*.md
-5. Review recent work logs (work/reports/logs/)
+   - ${DOC_ROOT}/architecture/roadmap-*.md
+   - ${WORKSPACE_ROOT}/collaboration/NEXT_BATCH.md
+   - ${WORKSPACE_ROOT}/planning/*.md
+5. Review recent work logs (${WORKSPACE_ROOT}/reports/logs/)
 
 Provide executive summary:
 - Current milestone/phase progress (% complete)
@@ -152,7 +152,7 @@ Provide executive summary:
                  ▼
 ┌─────────────────────────────────────────────────────────────┐
 │ Planning Petra: Status Assessment                           │
-│ - Read work/collaboration/inbox/                            │
+│ - Read ${WORKSPACE_ROOT}/collaboration/inbox/                            │
 │ - Identify next batch (priority order)                      │
 │ - Check NEXT_BATCH.md if exists                             │
 └────────────────┬────────────────────────────────────────────┘
@@ -284,7 +284,7 @@ project-root/
 ### Standard Task File
 
 ```yaml
-# work/collaboration/inbox/2026-02-06T1000-backend-dev-feature-name.yaml
+# ${WORKSPACE_ROOT}/collaboration/inbox/2026-02-06T1000-backend-dev-feature-name.yaml
 
 id: "2026-02-06T1000-backend-dev-feature-name"
 title: "Implement feature X"
@@ -318,7 +318,7 @@ notes: |
 
 **Directive 014: Work Log Creation**
 - Create timestamped work log after task completion
-- Location: `work/reports/logs/<agent>/YYYY-MM-DD-<topic>.md`
+- Location: `${WORKSPACE_ROOT}/reports/logs/<agent>/YYYY-MM-DD-<topic>.md`
 - Include: decisions, challenges, time metrics, references
 
 **Directive 016: Acceptance Test-Driven Development (ATDD)**
@@ -335,10 +335,10 @@ notes: |
 **Directive 018: Traceable Decisions (ADRs)**
 - Document significant architectural decisions
 - ADR format: Context → Decision → Consequences
-- Location: `docs/architecture/adrs/ADR-NNN-title.md`
+- Location: `${DOC_ROOT}/architecture/adrs/ADR-NNN-title.md`
 
 **Directive 019: File-Based Collaboration**
-- Tasks as YAML files in `work/collaboration/`
+- Tasks as YAML files in `${WORKSPACE_ROOT}/collaboration/`
 - Lifecycle: inbox → assigned → done
 - Git audit trail preserved
 
