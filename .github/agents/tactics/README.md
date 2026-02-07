@@ -142,17 +142,7 @@ When context suggests a tactic might apply but no Directive mandates it:
 
 ## Maintenance
 
-**When adding new tactics:**
-1. Create tactic file with metadata header (Invoked by, Related tactics, Complements)
-2. Add entry to this README under appropriate category
-3. Update relevant directives with explicit invocation (if relationship is clear)
-4. Commit: `claire: add <tactic-name> - <intent>`
-
-**When updating tactics:**
-1. Edit tactic file
-2. Update this README if invocation contexts change
-3. Update directives if relationships change
-4. Commit: `claire: update <tactic-name> - <change-summary>`
+**For tactic lifecycle management** (adding, updating, curating), see [`tactics-curation.tactic.md`](./tactics-curation.tactic.md).
 
 ---
 
