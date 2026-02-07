@@ -4,8 +4,8 @@
 - Directive 021 (Locality of Change) — bounded exploration and premature optimization avoidance
 
 **Related tactics:**
-- `stopping-conditions.tactic.md` — explicit exit criteria for experiments
-- `premortem-risk-identification.tactic.md` — failure scenario discovery before experimentation
+- [`stopping-conditions.tactic.md`](./stopping-conditions.tactic.md) — explicit exit criteria for experiments
+- [`premortem-risk-identification.tactic.md`](./premortem-risk-identification.tactic.md) — failure scenario discovery before experimentation
 
 **Complements:**
 - Approach: Locality of Change

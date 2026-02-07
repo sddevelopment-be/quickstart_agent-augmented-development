@@ -4,9 +4,9 @@
 - Directive 018 (Traceable Decisions) — ADR preparation and risk discovery
 
 **Related tactics:**
-- `adversarial-testing.tactic.md` — broader stress-testing for proposals/practices
-- `stopping-conditions.tactic.md` — exit criteria based on identified risks
-- `ammerse-analysis.tactic.md` — trade-off analysis after risk discovery
+- [`adversarial-testing.tactic.md`](./adversarial-testing.tactic.md) — broader stress-testing for proposals/practices
+- [`stopping-conditions.tactic.md`](./stopping-conditions.tactic.md) — exit criteria based on identified risks
+- [`ammerse-analysis.tactic.md`](./ammerse-analysis.tactic.md) — trade-off analysis after risk discovery
 
 **Complements:**
 - Approach: Decision-First Development
