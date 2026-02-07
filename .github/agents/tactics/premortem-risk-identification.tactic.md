@@ -1,5 +1,18 @@
 # Tactic: Premortem Risk Identification
 
+**Invoked by:**
+- Directive 018 (Traceable Decisions) — ADR preparation and risk discovery
+
+**Related tactics:**
+- `adversarial-testing.tactic.md` — broader stress-testing for proposals/practices
+- `stopping-conditions.tactic.md` — exit criteria based on identified risks
+- `ammerse-analysis.tactic.md` — trade-off analysis after risk discovery
+
+**Complements:**
+- Approach: Decision-First Development
+
+---
+
 ## Intent
 
 Proactively identify critical failure modes for an idea, plan, or decision by deliberately attempting to "sabotage" it. Strengthens proposals by exposing blind spots and developing mitigation strategies before execution.
