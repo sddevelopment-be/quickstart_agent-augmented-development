@@ -215,13 +215,17 @@ See: `work/reports/logs/curator/2025-11-23T0811-curator-orchestration-guide.md` 
 
 When completing an orchestrated task:
 
-1. Update task YAML with `result` block (brief summary)
+1. **Complete task YAML updates using [Task Completion Validation Tactic](../tactics/task-completion-validation.tactic.md)**
+   - Update status to `done` and add `completed_at` timestamp
+   - Add required `result` block with `summary` and `artifacts`
+   - Validate all existing fields (context, priority, artefacts, status)
+   - **Run validation:** `python validation/validate-task-schema.py <task-file>`
+   - Move task to `work/collaboration/done/<agent-slug>/`
 2. Create detailed work log in `work/reports/logs/<agent-name>/`
-3. Move task to `work/collaboration/done/<agent-slug>/`
-    - **Important:** Tasks must be moved to the agent-specific subdirectory under `work/collaboration/done/`, not directly to `work/collaboration/done/` root
-    - Example: A curator task goes to `work/collaboration/done/curator/`, not `work/collaboration/done/`
-4. Create handoff task (if applicable)
-5. Commit all changes together
+3. Create handoff task (if applicable)
+4. Commit all changes together
+
+**CRITICAL:** Step 1 (schema validation) is MANDATORY. Tasks with validation errors will fail CI checks and block merges.
 
 The work log is part of task completion, not an optional add-on.
 

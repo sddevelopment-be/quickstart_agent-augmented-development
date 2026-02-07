@@ -61,15 +61,14 @@ technical_notes: |
      - Return telemetry.to_dashboard_dict()
      - Includes costs, models, trends, active_operations
 
-context: |
-  User reported cost metrics show $0.00 despite database existing.
-  Terminal logs show /api/stats returns 200 but with hardcoded zeros.
-
-  The TelemetryAPI class exists and is tested (10 tests passing) but is never
-  instantiated when the dashboard runs. The README.md shows telemetry queries
-  but app.py doesn't integrate them.
-
-  Root cause: app.py:90-112 has TODO comments and returns stub data.
+context:
+  issue: "Cost metrics show $0.00 despite database existing"
+  terminal_logs: "/api/stats returns 200 but with hardcoded zeros"
+  root_cause: "app.py:90-112 has TODO comments and returns stub data"
+  notes:
+    - "TelemetryAPI class exists and is tested (10 tests passing)"
+    - "README.md shows telemetry queries but app.py doesn't integrate them"
+    - "Dependency: Requires CORS fix (2026-02-06T0422) for WebSocket connectivity"
 
 references:
   - "src/llm_service/dashboard/app.py (lines 17-62, 90-112)"
