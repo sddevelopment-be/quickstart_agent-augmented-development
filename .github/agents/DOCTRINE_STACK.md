@@ -95,16 +95,24 @@ A doctrine stack separates concerns deliberately. Each layer has a distinct role
 **Role:** Define *how a specific task is carried out, step by step*
 
 **Examples:**
-- `code-review.tactic.md` — Incremental code review procedure
-- `adversarial-testing.tactic.md` — Test adversarial validation
-- `ammerse.tactic.md` — Structured decision analysis
+- `stopping-conditions.tactic.md` — Define exit criteria for tasks
+- `premortem-risk-identification.tactic.md` — Project failure mode discovery
+- `adversarial-testing.tactic.md` — Stress-test proposals and designs
+- `safe-to-fail-experiment-design.tactic.md` — Structured exploration under uncertainty
+- `ATDD_adversarial-acceptance.tactic.md` — Adversarial acceptance test creation
 
 **Characteristics:**
 - Procedural (sequence of actions, not advice)
-- Context-bounded (state preconditions)
+- Context-bounded (state preconditions, exclusions)
 - Linear by default (minimal branching)
 - Non-creative (minimize interpretation)
 - Verifiable (concrete outputs, exit criteria)
+- Failure-aware (explicit failure modes documented)
+
+**Discovery mechanism:**
+- **Primary:** Directives explicitly invoke tactics at workflow steps
+- **Secondary:** Agents discover via `.github/agents/tactics/README.md` and propose to Human
+- See [Discovering Available Tactics](#discovering-available-tactics) below
 
 ---
 
@@ -244,6 +252,59 @@ The doctrine stack layers map to AGENTS.md Section 2 (Context Stack Overview):
 | Command Aliases Reference    | (shortcuts)          | Low        |
 
 **See also:** [AGENTS.md Section 2](../../AGENTS.md#2-context-stack-overview) for initialization sequence.
+
+---
+
+## Discovering Available Tactics
+
+### Directive-Driven Invocation (Primary Path)
+
+When a Directive explicitly references a tactic, agents follow this flow:
+
+1. Directive mandates tactic invocation at specific workflow step
+2. Agent loads tactic file (e.g., `.github/agents/tactics/stopping-conditions.tactic.md`)
+3. Agent follows execution steps procedurally
+4. Agent documents invocation and results in work log
+
+**Example from Directive 024 (Self-Observation Protocol):**
+> Task initialization — Define stopping conditions: Invoke `tactics/stopping-conditions.tactic.md` before starting long-running tasks
+
+### Exploratory Discovery (Secondary Path)
+
+When context suggests a tactic might apply but no Directive mandates it:
+
+1. Agent searches `.github/agents/tactics/README.md` for relevant tactic
+2. Agent proposes tactic to Human with rationale
+3. Human approves or rejects invocation
+4. If approved, agent loads tactic and follows execution steps
+5. Agent documents approval and results in work log
+
+**Example scenarios:**
+- Architectural decision needs trade-off analysis → Agent proposes `ammerse-analysis.tactic.md`
+- Data processing needs validation patterns → Agent proposes `input-validation-fail-fast.tactic.md`
+
+### Current Tactics Inventory
+
+As of v1.0.0, 9 tactics are available:
+
+**Decision-Making & Risk:**
+- `stopping-conditions.tactic.md`
+- `premortem-risk-identification.tactic.md`
+- `adversarial-testing.tactic.md`
+- `ammerse-analysis.tactic.md`
+
+**Experimentation & Validation:**
+- `safe-to-fail-experiment-design.tactic.md`
+
+**Testing & Quality:**
+- `ATDD_adversarial-acceptance.tactic.md`
+- `test-boundaries-by-responsibility.tactic.md`
+- `input-validation-fail-fast.tactic.md`
+
+**Code Review & Maintenance:**
+- `code-review-incremental.tactic.md`
+
+See `.github/agents/tactics/README.md` for full descriptions and invocation guidance.
 
 ---
 
