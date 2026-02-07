@@ -150,4 +150,4 @@ When context suggests a tactic might apply but no Directive mandates it:
 
 **README Version:** 1.0.0  
 **Last Updated:** 2026-02-07  
-**Tactics Count:** 9
+**Tactics Count:** 10

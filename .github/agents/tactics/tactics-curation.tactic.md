@@ -205,7 +205,8 @@ Apply when:
 
 **Version policy:**
 - Increment README version for structural changes (categories, organization)
-- Don't increment for content-only updates to individual tactics
+- Update "Last Updated" date for all changes (individual tactic updates, README modifications)
+- Don't increment version for content-only updates to individual tactics
 - Tactics themselves don't have individual version numbers
 - Tactics count reflects active tactics only (exclude retired ones)
 
