@@ -22,6 +22,7 @@ Cycle:
 Guidelines:
 
 - Prefer fast, isolated tests at the base of the [Testing Pyramid](../GLOSSARY.md#testing-pyramid); escalate to integration layers only when behaviour demands.
+- **For test scope clarity:** Invoke `tactics/test-boundaries-by-responsibility.tactic.md` when unclear whether to mock a dependency.
 - Keep assertions focused; multiple expectations per test are acceptable only when describing one cohesive behaviour.
 - Use descriptive test names and include task IDs for traceability.
 
