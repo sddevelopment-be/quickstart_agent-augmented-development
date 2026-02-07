@@ -1,5 +1,17 @@
 # Tactic: Analysis.AdversarialTesting
 
+**Invoked by:**
+- Directive 018 (Traceable Decisions) — ADR preparation and proposal stress-testing
+
+**Related tactics:**
+- `premortem-risk-identification.tactic.md` — project-specific failure scenario discovery
+- `ammerse-analysis.tactic.md` — trade-off analysis after adversarial exploration
+
+**Complements:**
+- Approach: Decision-First Development
+
+---
+
 ## Intent
 Actively surface weaknesses, blind spots, and failure modes in a proposal, design, or decision by deliberately attempting to make it fail.
 
@@ -8,10 +20,22 @@ This tactic is used to **stress-test ideas before commitment**, not to criticize
 ---
 
 ## Preconditions
-- The subject under evaluation is clearly defined (proposal, design, plan, practice).
-- The intended context of use is known (organization, team, constraints).
-- Psychological safety is assumed: this tactic targets the *idea*, not its author.
-- The goal is learning and risk reduction, not winning an argument.
+
+**Required inputs:**
+- The subject under evaluation is clearly defined (proposal, design, plan, practice)
+- The intended context of use is known (organization, team, constraints)
+- Willingness to critically assess ideas without defensiveness
+
+**Assumed context:**
+- Psychological safety exists: this tactic targets the *idea*, not its author
+- Environment values thorough risk assessment
+- Goal is learning and risk reduction, not winning an argument
+
+**Exclusions (when NOT to use):**
+- Time-critical decisions requiring immediate action
+- Trivial or easily reversible decisions
+- Contexts where excessive criticism stifles necessary innovation
+- When ideas are too preliminary for structured adversarial analysis
 
 ---
 
