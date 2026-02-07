@@ -1,5 +1,18 @@
 # Tactic: ATDD.AdversarialAcceptance
 
+**Invoked by:**
+- Directive 016 (ATDD) — acceptance boundary definition with adversarial thinking
+
+**Related tactics:**
+- `adversarial-testing.tactic.md` — broader ideation pass before ATDD scenarios
+- `test-boundaries-by-responsibility.tactic.md` — clarifying test scope and responsibility
+
+**Complements:**
+- Directive 016 (ATDD workflow)
+- Approach: Test-Driven Development practices
+
+---
+
 ## Intent
 Strengthen ATDD acceptance criteria by deliberately exploring how a feature, rule, or workflow could fail in real usage, then converting selected failure scenarios into **adversarial acceptance tests**.
 
@@ -121,8 +134,9 @@ Adversarial acceptance tests should be expressed in the same style as your ATDD 
 
 ## Notes
 - This tactic pairs well with:
-  - `Analysis.AdversarialTesting` (as a broader ideation pass)
-  - `Analysis.AMMERSE` (to prioritize trade-offs and constraints)
+## Notes
+- This tactic pairs well with:
+  - `adversarial-testing.tactic.md` (as a broader ideation pass)
+  - `ammerse-analysis.tactic.md` (to prioritize trade-offs and constraints)
 - Prefer **few, high-leverage** adversarial acceptance tests over exhaustive coverage.
-  The goal is to protect the system’s contract at the boundaries where realit
-::contentReference[oaicite:0]{index=0}
+  The goal is to protect the system's contract at the boundaries where reality meets expectations, not to enumerate every conceivable edge case.
