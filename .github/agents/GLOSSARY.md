@@ -203,6 +203,14 @@ The process of restoring an agent's operational context after state loss, interr
 **Reference:** AGENTS.md Section 7  
 **Related:** Bootstrap, Context Layer
 
+### Shorthand
+
+A reusable command alias or prompt template that allows quick invocation of complex agent workflows through simple keywords or structured commands. Shorthands reduce cognitive overhead by encapsulating multi-step procedures into memorable, executable patterns.
+
+**Location:** `doctrine/shorthands/` (or `.github/agents/prompts/` during migration)  
+**Context:** Originally tracked in `aliases.md`. Examples include iteration orchestration workflows, skill creation templates, and common agent coordination patterns.  
+**Related:** Command Aliases, Prompt Templates, Orchestration
+
 ### Specialization
 
 The defined focus area and competency boundaries for an agent. Specialization includes primary focus (core responsibility), secondary awareness (adjacent concerns), avoidance (what not to do), and success criteria (how to measure effective work).
