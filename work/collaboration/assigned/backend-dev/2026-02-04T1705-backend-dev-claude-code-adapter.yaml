@@ -22,7 +22,8 @@ context:
   - Implement timeout and retry logic for network issues
 acceptance_criteria:
 - Adapter successfully invokes mocked claude CLI with correct parameters
-- Parameter substitution works for all placeholders (binary, prompt_file, model, output_file)
+- Parameter substitution works for all placeholders (binary, prompt_file, model,
+  output_file)
 - 'Error handling covers: binary not found, auth failures, rate limits, timeout'
 - Platform detection resolves correct binary path from tools.yaml
 - Integration tests achieve >70% coverage
@@ -31,7 +32,8 @@ dependencies:
 - 'Task 5: Adapter base interface must be complete'
 - Config schema (Task 1) must support tools.yaml structure
 estimated_effort: 2-3 days
-priority: high
+priority: HIGH
 created_at: '2026-02-04T17:05:00Z'
 created_by: planning-petra
 assigned_at: '2026-02-04T19:26:05.743549Z'
+last_modified: '2026-02-07T13:06:54.704084Z'
