@@ -1,0 +1,176 @@
+# Template 2: Bug Fix (Surgical Fixes)
+# Version: 1.0.0
+# Addresses: Patterns 1-6, 9, 11 from ADR-023
+#
+# This template is optimized for debugging and fixing issues with minimal disruption.
+# Use for defect resolution, regression fixes, or targeted improvements.
+
+## Objective
+
+[Describe the bug being fixed in 1-2 sentences. Include observable symptom and expected behavior.]
+
+Example: "Fix authentication token expiration check that currently fails to refresh tokens within 5 minutes of expiry, causing users to be logged out unexpectedly. Expected: tokens refresh automatically when 80% of TTL elapsed."
+
+## Bug Context
+
+**Issue ID:** [Ticket/Issue number]
+**Severity:** [Critical | High | Medium | Low]
+**Affected Users:** [Number or percentage]
+**Reproducibility:** [Always | Intermittent | Rare]
+
+**Steps to Reproduce:**
+1. [Step 1]
+2. [Step 2]
+3. [Observe error]
+
+**Expected Behavior:**
+[What should happen]
+
+**Actual Behavior:**
+[What actually happens]
+
+## Deliverables
+
+- [ ] File: [absolute/path/to/fixed/file.ext]
+      Type: code
+      Validation: [Specific test that must pass - e.g., "test_authentication_refresh passes"]
+
+- [ ] File: [absolute/path/to/regression/test.ext]
+      Type: test
+      Validation: [New test that prevents regression - e.g., "covers edge case X"]
+
+- [ ] Update: [absolute/path/to/changelog.md]
+      Section: [version number]
+      Change: [Bug fix entry following format]
+
+**Regression test is mandatory for all bug fixes.**
+
+## Success Criteria
+
+- [ ] Bug is no longer reproducible using original steps
+- [ ] All existing tests continue to pass (no regressions)
+- [ ] New regression test fails before fix, passes after fix
+- [ ] Code change is minimal (locality of change principle)
+- [ ] [Additional criterion specific to this bug]
+
+## Root Cause Analysis
+
+**Hypothesis:**
+[Your theory about what's causing the bug]
+
+**Investigation Steps:**
+1. [Check X]
+2. [Verify Y]
+3. [Test assumption Z]
+
+**Confirmed Root Cause:**
+[To be filled after investigation - one sentence]
+
+## Constraints
+
+### Do (Allowed Actions)
+- Fix the specific bug with minimal code changes
+- Add regression test covering the bug scenario
+- Update relevant documentation if behavior changed
+- Refactor only the immediate problem area if necessary
+
+### Don't (Prohibited Actions)
+- Don't refactor unrelated code
+- Don't change APIs or contracts unless absolutely required
+- Don't introduce new dependencies
+- Don't fix multiple unrelated bugs in same change
+
+### Time Box
+[30-90 minutes recommended]
+
+- Investigation: 20-30% of time
+- Fix implementation: 30-40% of time
+- Testing: 30-40% of time
+- Documentation: 10% of time
+
+## Context Files (Load These)
+
+### Critical (Always Load)
+1. [absolute/path/to/buggy/file] - Contains the defect
+2. [absolute/path/to/test/file] - Existing tests
+3. [absolute/path/to/interface/definition] - Contract specifications
+
+### Supporting (Load If Relevant)
+4. [absolute/path/to/similar/fix] - Previous related fixes for patterns
+5. [absolute/path/to/architecture/doc] - System design context
+
+### Skip (Do Not Load)
+- Other feature implementations
+- Documentation unrelated to bug area
+- Historical git logs (use git blame if needed)
+
+## Compliance
+
+- Directive 016: [.github/agents/directives/016_acceptance_test_driven_development.md](/.github/agents/directives/016_acceptance_test_driven_development.md)
+- Directive 017: [.github/agents/directives/017_test_driven_development.md](/.github/agents/directives/017_test_driven_development.md)
+- Directive 021: [.github/agents/directives/021_locality_of_change.md](/.github/agents/directives/021_locality_of_change.md)
+- Directive 023: [.github/agents/directives/023_clarification_before_execution.md](/.github/agents/directives/023_clarification_before_execution.md)
+
+**Mode:** /analysis-mode (required for debugging)
+
+## Verification Plan
+
+Before considering the bug fixed:
+
+1. **Reproduce Original Bug:**
+   - [ ] Can reproduce bug on current code
+   - [ ] Have exact reproduction steps documented
+
+2. **Verify Fix:**
+   - [ ] Bug no longer occurs with fix applied
+   - [ ] Regression test fails without fix, passes with fix
+
+3. **Check Side Effects:**
+   - [ ] All existing tests pass
+   - [ ] No new warnings or errors in logs
+   - [ ] Performance not degraded (if performance-related)
+
+4. **Code Review Self-Check:**
+   - [ ] Change is minimal (follows locality of change)
+   - [ ] No unrelated formatting or style changes
+   - [ ] Comments explain "why" for non-obvious fixes
+
+## Rollback Plan
+
+If fix causes issues:
+
+**Revert Command:**
+```bash
+git revert <commit-sha>
+```
+
+**Alternative Workaround:**
+[Temporary mitigation if revert isn't immediate]
+
+## Handoff (If Required)
+
+Only if fix reveals larger architectural issue:
+
+**Next Agent:** architect-alphonso
+**Next Task Title:** "Assess systemic issue revealed by bug #[ID]"
+**Context to Carry Forward:**
+- Root cause indicates broader pattern
+- [Specific concern to investigate]
+- [Recommendation for architectural review]
+
+## Token Budget
+
+- **Target Input:** 15,000 tokens (focused on bug area)
+- **Estimated Output:** 500-1,000 tokens (focused fix)
+
+## Notes
+
+- **Related Bugs:** [Links to similar issues]
+- **Known Limitations:** [Any scope limitations of this fix]
+- **Future Work:** [Follow-up improvements if any]
+
+---
+
+**Template Version:** 1.0.0  
+**Last Updated:** 2026-01-30  
+**Related:** ADR-023 Prompt Optimization Framework

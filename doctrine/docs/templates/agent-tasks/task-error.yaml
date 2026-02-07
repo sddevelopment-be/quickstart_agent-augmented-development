@@ -1,0 +1,69 @@
+# Task Error Template
+# Version: 1.0.0
+#
+# This template documents the error object that agents add when task execution fails.
+# This is added BY THE AGENT, not by the task creator.
+
+# ============================================================================
+# ERROR OBJECT (Added by agent on failure)
+# ============================================================================
+
+error:
+  # Error description
+  message: "Description of what went wrong"
+  
+  # Error timestamp
+  timestamp: "YYYY-MM-DDTHH:MM:SSZ"
+  
+  # Agent that encountered the error
+  agent: "agent-name"
+  
+  # Number of retry attempts
+  retry_count: 0
+  
+  # Optional: Detailed error trace
+  stacktrace: |
+    Detailed error information...
+    Line 1 of stack trace
+    Line 2 of stack trace
+
+# ============================================================================
+# USAGE
+# ============================================================================
+#
+# DO NOT include error block when creating a task.
+# The assigned agent adds this block when encountering a failure.
+#
+# Agent error handling workflow:
+# 1. Agent encounters error during task execution
+# 2. Agent adds error block to task YAML
+# 3. Agent updates status to "error"
+# 4. Agent leaves task in work/assigned/<agent-name>/ for human review
+# 5. Agent commits changes with error details
+#
+# Human recovery options:
+# - Fix root cause and reset status to "assigned" to retry
+# - Move task to work/archive/ if unrecoverable
+# - Modify task requirements and reset to retry
+#
+# Example error block:
+#   error:
+#     message: "Failed to generate REPO_MAP: context file not found"
+#     timestamp: "2025-11-23T14:35:00Z"
+#     agent: "structural"
+#     retry_count: 0
+#     stacktrace: |
+#       FileNotFoundError: [Errno 2] No such file or directory: 'AGENTS.md'
+#         at load_context (line 42)
+#         at process_task (line 156)
+#
+# To retry after fixing:
+# 1. Fix the issue (e.g., ensure AGENTS.md exists)
+# 2. Update task YAML:
+#    - Remove or comment out error block
+#    - Set status back to "assigned"
+#    - Optionally increment retry_count if retrying with error block
+# 3. Commit changes
+# 4. Agent will pick up task again
+#
+# See: ${DOC_ROOT}/architecture/design/async_multiagent_orchestration.md for error handling
