@@ -54,6 +54,29 @@ This repository serves as a **quickstart template and reference implementation
 
 ## Architectural Layers
 
+### Overview: Five-Layer Doctrine Stack
+
+The repository implements a **doctrine stack**: a layered governance system that separates concerns deliberately to enable predictable, inspectable, and repeatable agent behavior. Each layer has a distinct role with minimal overlap.
+
+```
+┌─────────────────────────────────────────────┐
+│ 1. Guidelines (values, preferences)         │ ← Highest precedence
+├─────────────────────────────────────────────┤
+│ 2. Approaches (mental models, philosophies) │
+├─────────────────────────────────────────────┤
+│ 3. Directives (instructions, constraints)   │ ← Select tactics
+├─────────────────────────────────────────────┤
+│ 4. Tactics (procedural execution guides)    │ ← NEW: Execute work
+├─────────────────────────────────────────────┤
+│ 5. Templates (output structure contracts)   │
+└─────────────────────────────────────────────┘
+```
+
+**Design Principle:** Directives *select* which tactics to invoke; tactics *execute* the work procedurally. This separation enables:
+- Directive authority over what gets executed
+- Tactic reuse across multiple directives
+- Clear boundaries between policy (directives) and procedure (tactics)
+
 ### Layer 1: Core Governance (AGENTS.md)
 
 **Responsibility:** Define universal agent behavior, initialization protocol, and safety guardrails.
@@ -85,7 +108,58 @@ This repository serves as a **quickstart template and reference implementation
 
 **Design Decision:** One directive = one concern. Load on-demand via `/require-directive <code>`.
 
-### Layer 2.5: Approaches (agents/approaches/)
+### Layer 3: Approaches (.github/agents/approaches/)
+
+**Responsibility:** Provide conceptual models and philosophies for reasoning. Explain *how problems are generally framed and explored*.
+
+**Example Contents:**
+
+- [Trunk-Based Development](/.github/agents/approaches/trunk-based-development.md)
+- [Decision-First Development](/.github/agents/approaches/decision-first-development.md)
+- [Locality of Change](/.github/agents/approaches/locality-of-change.md)
+- [Ralph Wiggum Loop (Self-Observation)](/.github/agents/approaches/ralph-wiggum-loop.md)
+
+**Design Decision:** Approaches justify *why* certain tactics or directives exist. They provide mental models for systemic reasoning and guide problem framing, not execution.
+
+### Layer 4: Tactics (.github/agents/tactics/)
+
+**Responsibility:** Define procedural execution guides for specific activities. Provide step-by-step instructions that agents follow to accomplish well-defined objectives.
+
+**Repository Structure:**
+```
+.github/agents/tactics/
+├── README.md                                   # Discovery index
+├── stopping-conditions.tactic.md              # Exit criteria
+├── premortem-risk-identification.tactic.md    # Risk discovery
+├── adversarial-testing.tactic.md              # Stress-testing
+├── ammerse-analysis.tactic.md                 # Trade-off analysis
+├── safe-to-fail-experiment-design.tactic.md   # Exploration
+├── ATDD_adversarial-acceptance.tactic.md      # Acceptance testing
+├── test-boundaries-by-responsibility.tactic.md# Test scoping
+├── input-validation-fail-fast.tactic.md       # Validation patterns
+└── code-review-incremental.tactic.md          # Code review
+```
+
+**Characteristics:**
+- **Procedural:** Step-by-step actions, not advisory
+- **Bounded:** Clear preconditions, exclusions, exit criteria
+- **Verifiable:** Concrete outputs, measurable completion signals
+- **Failure-aware:** Explicit failure modes documented
+- **Invoked:** Either by directive mandate or exploratory discovery (with Human approval)
+
+**Discovery Mechanism:**
+1. **Primary:** Directives explicitly invoke tactics at workflow steps
+2. **Secondary:** Agents discover via `.github/agents/tactics/README.md` and propose to Human
+
+**Example Invocation (from Directive 024):**
+> Task initialization — Define stopping conditions: Invoke `tactics/stopping-conditions.tactic.md` before starting long-running tasks
+
+**Design Decision:** Tactics sit between Directives (which select what to do) and Templates (which define output shape). This enables:
+- Reusable procedures across directives
+- Systematic execution without creative interpretation
+- Clear ownership: directives select, tactics execute
+
+### Layer 2.5: Approaches (agents/approaches/) [DEPRECATED - See Layer 3]
 
 **Responsibility:** Capture reusable strategies for common tasks that can be referenced by multiple agents. Think of these as "playbooks" or "walkthroughs" that provide step-by-step guidance on how to tackle specific challenges.
 
@@ -94,9 +168,9 @@ This repository serves as a **quickstart template and reference implementation
 - [Prompt Documentation and Logging](/.github/agents/approaches/prompt_documentation/)
 - [File-based Orchestration](/.github/agents/approaches/file-based-orchestration.md)
 
-**Design Decision:** Separate from directives to allow for focused reuse without bloating core governance.
+**Design Decision:** [DEPRECATED] This layer is now superseded by the formal split between **Approaches** (Layer 3 - mental models) and **Tactics** (Layer 4 - procedural execution). Historical content migrated or archived.
 
-### Layer 3: Agent Profiles (.github/agents/*.agent.md)
+### Layer 5: Agent Profiles (.github/agents/*.agent.md)
 
 **Responsibility:** Define role-specific specializations, capabilities, and directive dependencies.
 
@@ -111,20 +185,21 @@ This repository serves as a **quickstart template and reference implementation
 
 **Design Decision:** Each agent loads only directives relevant to its specialization.
 
-### Layer 4: Templates (docs/templates/)
+### Layer 6: Templates (docs/templates/)
 
 **Responsibility:** Standardize output formats for common artifacts.
 
 **Contents:**
 
 - Architecture templates (ADR, design vision, roadmap, technical design, functional requirements)
+- **Tactic template** (`tactic.md`) — Structure for procedural execution guides
 - Structure templates (repo map, surfaces, workflows, context links)
 - LEX templates (style rules, deltas, reports)
 - Automation templates (agent personas, new specialist definitions)
 
-**Design Decision:** Templates are canonical. Agents reference but do not modify them.
+**Design Decision:** Templates are canonical. Agents reference but do not modify them. Templates define *what shape results must take*, while Tactics define *how to execute*.
 
-### Layer 5: Documentation (docs/)
+### Layer 7: Documentation (docs/)
 
 **Responsibility:** Capture strategic intent, vision, audience needs, and evolving decisions.
 
@@ -140,7 +215,7 @@ This repository serves as a **quickstart template and reference implementation
 
 **Design Decision:** Human-authored, agent-consumed. Agents propose changes via `work/`, humans approve and promote.
 
-### Layer 6: Work Coordination (work/)
+### Layer 8: Work Coordination (work/)
 
 **Responsibility:** Provide scratch space for agent collaboration, progress logs, and human-agent handoffs.
 
