@@ -1,5 +1,18 @@
 # Tactic: Define Stopping Conditions
 
+**Invoked by:**
+- Directive 024 (Self-Observation Protocol) — checkpoint triggers for long-running tasks
+- Directive 011 (Risk & Escalation) — timeout handling and boundary enforcement
+
+**Related tactics:**
+- `premortem-risk-identification.tactic.md` — risk discovery before establishing stopping criteria
+- `safe-to-fail-experiment-design.tactic.md` — bounded exploration with explicit exit criteria
+
+**Complements:**
+- Approach: Locality of Change (premature optimization avoidance)
+
+---
+
 ## Intent
 
 Establish clear, measurable thresholds that define when to stop pursuing a goal or commitment. Protects against over-investment, burnout, and sunk-cost fallacy by defining acceptable loss limits before starting work.
