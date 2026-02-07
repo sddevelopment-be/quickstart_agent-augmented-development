@@ -1,12 +1,37 @@
 # Bootstrap Instructions
 
-_Version: 1.1.0_
-_Last updated: 2025-11-23_
+_Version: 1.2.0_
+_Last updated: 2026-02-07_
 _Format: Markdown protocol for agent initialization and governance_
 
 ---
 
 How an agent should start when it has no prior context.
+
+## Understanding the Doctrine Stack
+
+This repository uses a **Doctrine Stack** — a five-layer instruction system that governs agent behavior:
+
+```
+┌─────────────────────────────────────────────┐
+│ Guidelines (values, preferences)            │ ← Highest precedence
+├─────────────────────────────────────────────┤
+│ Approaches (mental models, philosophies)    │
+├─────────────────────────────────────────────┤
+│ Directives (instructions, constraints)      │ ← Select tactics
+├─────────────────────────────────────────────┤
+│ Tactics (procedural execution guides)       │ ← Execute work
+├─────────────────────────────────────────────┤
+│ Templates (output structure contracts)      │ ← Lowest precedence
+└─────────────────────────────────────────────┘
+```
+
+**Key references:**
+- Full doctrine stack documentation: `.github/agents/DOCTRINE_STACK.md`
+- Tactics catalog: `.github/agents/tactics/README.md`
+- Extended directives: `.github/agents/directives/`
+
+**Tactics usage:** Directives explicitly invoke tactics at workflow steps. Agents may also discover and propose tactics from the catalog.
 
 ## Choose the Path First
 

@@ -24,16 +24,41 @@ Clarifies scope: govern initialization, interpretation, and operation inside the
 
 ## 2. Context Stack Overview
 
+This repository implements a **Doctrine Stack** — a five-layer instruction system that governs agent behavior. Full details: `.github/agents/DOCTRINE_STACK.md`.
+
+### Doctrine Stack Layers
+
+```
+┌─────────────────────────────────────────────┐
+│ Guidelines (values, preferences)            │ ← Highest precedence
+├─────────────────────────────────────────────┤
+│ Approaches (mental models, philosophies)    │
+├─────────────────────────────────────────────┤
+│ Directives (instructions, constraints)      │ ← Select tactics
+├─────────────────────────────────────────────┤
+│ Tactics (procedural execution guides)       │ ← Execute work
+├─────────────────────────────────────────────┤
+│ Templates (output structure contracts)      │ ← Lowest precedence
+└─────────────────────────────────────────────┘
+```
+
+**Initialization Layers (prioritized loading order):**
+
 | Layer                       | Description                                          | Priority   |
 |-----------------------------|------------------------------------------------------|------------|
 | Bootstrap Protocol          | Initialization order, mode defaults, fail‑safe logic | Root       |
 | General Guidelines          | Broad operational principles, collaboration ethos    | Highest    |
 | Operational Guidelines      | Tone, honesty, reasoning discipline                  | High       |
-| Project Vision Reference    | Long‑term intent, thematic coherence                 | Medium     |
-| Project Specific Guidelines | Narrow operational boundaries, specialization areas  | Medium-Low |
-| Command Aliases Reference   | Shorthand operational commands, interaction modes    | Medium-Low |
+| Approaches                  | Mental models, conceptual frameworks                 | Medium     |
+| Directives (on-demand)      | Explicit instructions, constraints (load as needed)  | Medium     |
+| Tactics (directive-invoked) | Procedural execution guides (invoked by directives)  | Medium-Low |
+| Project Vision Reference    | Long‑term intent, thematic coherence                 | Medium-Low |
+| Project Specific Guidelines | Narrow operational boundaries, specialization areas  | Low        |
+| Command Aliases Reference   | Shorthand operational commands, interaction modes    | Low        |
 
 Agents MUST load layers in this order. If any layer is missing, corrupted, ambiguous, or conflicting, the agent MUST pause execution until synchronization.
+
+**Tactics Discovery:** Directives explicitly invoke tactics. Agents may also discover tactics via `.github/agents/tactics/README.md` and propose them to humans.
 
 ### Initialization Check
 
