@@ -20,7 +20,7 @@ Workflow:
    - **For test scope clarity:** Invoke `tactics/test-boundaries-by-responsibility.tactic.md`
 4. Keep acceptance tests close to real workflows—prefer black-box interactions (HTTP endpoints, CLI commands) over internal seams.
 5. Use the [Testing Pyramid](../GLOSSARY.md#testing-pyramid) to balance coverage: few but meaningful acceptance tests per capability.
-6. Once acceptance tests fail for the right reason, delegate detailed work to [TDD](../GLOSSARY.md#tdd-test-driven-development) cycles.
+6. Once acceptance tests fail for the right reason, delegate detailed work to [Directive 017 (TDD)](./017_test_driven_development.md) cycles.
 
 Documentation:
 
