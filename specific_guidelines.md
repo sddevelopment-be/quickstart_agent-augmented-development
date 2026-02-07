@@ -126,6 +126,44 @@ All implementation work **must adhere** to the following testing styleguides:
 
 ---
 
+## Terminology and Concept Management
+
+### Glossary Updates Required
+
+When introducing **new concepts, terminology, or framework elements**, agents and contributors **must update** the framework Glossary:
+
+- **Location:** `doctrine/GLOSSARY.md` (or `.github/agents/GLOSSARY.md` during migration)
+- **Trigger events:**
+  - Defining new agent roles, capabilities, or patterns
+  - Introducing framework concepts (e.g., "doctrine stack layer", "handoff pattern")
+  - Creating domain-specific terminology used across multiple files
+  - Establishing acronyms or shorthand notation
+- **Update process:**
+  1. Add term with precise definition
+  2. Include context about where/how it's used
+  3. Link related concepts
+  4. Maintain alphabetical order within sections
+
+### Example Glossary Entry
+
+```markdown
+## Shorthand
+
+**Definition:** A reusable command alias or prompt template that allows quick invocation of complex agent workflows through simple keywords.
+
+**Context:** Stored in `doctrine/shorthands/`. Originally tracked in `aliases.md`.
+
+**Related:** Command aliases, prompt templates, orchestration patterns
+```
+
+**Rationale:** Maintaining a canonical Glossary ensures:
+- Consistent terminology across the framework
+- Clear onboarding path for new contributors
+- Reduced ambiguity in multi-agent coordination
+- Documentation discoverability
+
+---
+
 ## Related Documentation
 
 **Framework Guidelines:**
