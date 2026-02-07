@@ -8,7 +8,7 @@
 
 **Complements:**
 - Directive 009 (Role Capabilities) — curator responsibilities
-- `.github/agents/tactics/README.md` — tactics catalog
+- [`/agents/tactics/README.md`](./README.md) — tactics catalog
 
 ---
 
