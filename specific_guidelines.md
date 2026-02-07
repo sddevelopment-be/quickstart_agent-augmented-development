@@ -164,6 +164,28 @@ When introducing **new concepts, terminology, or framework elements**, agents an
 
 ---
 
+## Repository Bootstrap Requirements
+
+### Doctrine Configuration
+
+**When bootstrapping a repository** that uses the SDD Agentic Framework:
+
+1. **Bootstrap Bill must create** `.doctrine/` directory in repository root
+2. **Generate `config.yaml`** from `doctrine/templates/automation/doctrine-config-template.yaml`
+3. **Configure path variables** to match the repository structure:
+   - `workspace_root` (default: `work`) — Task orchestration workspace
+   - `doc_root` (default: `docs`) — Documentation root
+   - `spec_root` (default: `specifications`) — Specification files
+   - `output_root` (default: `output`) — Generated artifacts
+4. **Set repository metadata** (name, description, version)
+5. **Enable tool integrations** based on detected tooling
+
+**Rationale:** The `.doctrine/config.yaml` file provides local path overrides for the parameterized doctrine framework, enabling portability across repositories with different directory structures.
+
+**Reference:** See `doctrine/DOCTRINE_MAP.md` for variable usage throughout framework files.
+
+---
+
 ## Related Documentation
 
 **Framework Guidelines:**
