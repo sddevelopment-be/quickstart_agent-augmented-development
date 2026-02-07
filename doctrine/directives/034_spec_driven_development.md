@@ -322,7 +322,7 @@ This directive is inspired by [spec-kitty's specification-driven approach](https
 - **ATDD integration:** Our acceptance tests (Directive 016) are more tightly coupled to specs
 - **File-based workflow:** Specs are part of our version-controlled, Git-auditable workflow
 
-**Reference:** See [spec-kitty comparative analysis](../../docs/architecture/design/comparative_study/2026-02-05-spec-kitty-comparative-analysis.md) for detailed comparison.
+**Reference:** See [spec-kitty comparative analysis](../docs/references/comparative_studies/2026-02-05-spec-kitty-comparative-analysis.md) for detailed comparison.
 
 ---
 
@@ -350,8 +350,8 @@ A specification is successful when:
 - [Spec-Driven Development PRIMER](../approaches/spec-driven-development.md) - Detailed guidance (to be created)
 
 **Related Documents:**
-- [spec-kitty Comparative Analysis](../../docs/architecture/design/comparative_study/2026-02-05-spec-kitty-comparative-analysis.md)
-- [spec-kitty Source Reference](../../docs/architecture/design/comparative_study/references/spec-kitty-spec-driven.md)
+- [spec-kitty Comparative Analysis](../docs/references/comparative_studies/2026-02-05-spec-kitty-comparative-analysis.md)
+- [spec-kitty Source Reference](../docs/references/comparative_studies/references/spec-kitty-spec-driven.md)
 
 **External References:**
 - [spec-kitty Repository](https://github.com/Priivacy-ai/spec-kitty) - Original inspiration
