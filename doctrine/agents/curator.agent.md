@@ -71,7 +71,7 @@ Use the `${WORKSPACE_ROOT}/curator/` directory for drafts and final reporting ou
 ### Operating Procedure
 
 - Write to the `${WORKSPACE_ROOT}/curator/` directory for drafts and final outputs.
-- Repository templates are stored in `docs/templates`; use these when relevant.
+- Repository templates are stored in `templates`; use these when relevant.
 - If the `${DOC_ROOT}/audience` directory exists, ensure outputs are tailored to the documented audience profiles.
 - If multiple artifacts are involved, maintain a changelog documenting all adjustments made for traceability.
 

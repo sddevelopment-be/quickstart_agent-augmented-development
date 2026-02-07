@@ -173,7 +173,7 @@ guardian_metadata:
 
 **Core Directories:**
 - `.github/agents/` - [N files] - Agent profiles and directives
-- `${DOC_ROOT}/templates/` - [N files] - Document templates
+- `templates/` - [N files] - Document templates
 - `${DOC_ROOT}/architecture/` - [N files] - ADRs and design docs
 - `framework/` - [N files] - Python framework code
 - `validation/` - [N files] - Validation scripts

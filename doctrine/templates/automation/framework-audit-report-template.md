@@ -13,7 +13,7 @@
 - Overall status: {{OK / DRIFT / OUTDATED / PARTIAL}}
 - Core directories checked:
     - `.github/agents/`
-    - `${DOC_ROOT}/templates/`
+    - `templates/`
     - `docs/directives/`
     - `docs/guidelines/`
     - `validation/`
@@ -33,7 +33,7 @@
 
 Core-managed directories (from MANIFEST):
 
-- {{list of core paths, e.g. `.github/agents/core/`, `${DOC_ROOT}/templates/agent-tasks/`, ...}}
+- {{list of core paths, e.g. `.github/agents/core/`, `templates/agent-tasks/`, ...}}
 
 The following files are **up-to-date** with the reference framework:
 
@@ -76,7 +76,7 @@ The following core-managed files differ from the framework reference:
 | File                                      | Status        | Notes                                |
 |-------------------------------------------|---------------|--------------------------------------|
 | `.github/agents/lexical.agent.md`         | modified      | local tweaks to directives           |
-| `${DOC_ROOT}/templates/agent-tasks/structural.md`| modified      | custom task fields added             |
+| `templates/agent-tasks/structural.md`| modified      | custom task fields added             |
 | `validation/PORTABILITY_RUN.md`          | modified      | extended for this project            |
 
 For each modified file, the Guardian should summarise:

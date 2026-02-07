@@ -294,7 +294,7 @@ Clear context. Bootstrap as <Agent Name>. When ready:
 - [Quickstart Guide](../../HOW_TO_USE/QUICKSTART.md) - General agent usage
 - [Agent Profiles](../../agents/) - Specialist agent definitions
 - [Directives](../../agents/directives/) - Operational directives
-- [Templates](../../${DOC_ROOT}/templates/) - Output templates for agents
+- [Templates](../../templates/) - Output templates for agents
 
 ---
 

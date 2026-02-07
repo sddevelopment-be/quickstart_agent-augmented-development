@@ -67,7 +67,7 @@ This checklist guides the setup of a derivative repository using this agent-augm
 - [ ] **Core framework copied**
   - `.github/agents/` directory: ✓
   - `.github/copilot/setup.sh`: ✓
-  - `${DOC_ROOT}/templates/` directory: ✓
+  - `templates/` directory: ✓
   - `work/` directory structure: ✓
   - `validation/` scripts: ✓
 
@@ -168,7 +168,7 @@ This checklist guides the setup of a derivative repository using this agent-augm
 - [ ] **Template library assessed**
   - Standard templates meet needs: Y/N
   - Custom templates needed: Y/N | List: _____
-  - Templates added to `${DOC_ROOT}/templates/`: Y/N
+  - Templates added to `templates/`: Y/N
   - Template usage documented: Y/N
 
 ---

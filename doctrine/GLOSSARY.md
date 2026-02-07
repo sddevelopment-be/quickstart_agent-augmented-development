@@ -243,7 +243,7 @@ A development discipline where small, failing automated tests are written before
 
 A pre-defined structure or format for creating consistent artifacts. Templates exist for architecture documents, task descriptors, work logs, and other common outputs. Templates reduce cognitive load and ensure required sections are included.
 
-**Location:** `${DOC_ROOT}/templates/`  
+**Location:** `templates/`  
 **Reference:** Directive 008  
 **Related:** Artifact
 

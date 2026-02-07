@@ -97,7 +97,7 @@ This directory contains reusable checklist templates for standardizing routine m
 
 1. **Copy the template**
    ```bash
-   cp ${DOC_ROOT}/templates/checklists/<template-name>.md work/reports/<category>/YYYY-MM-DD-<description>.md
+   cp templates/checklists/<template-name>.md work/reports/<category>/YYYY-MM-DD-<description>.md
    ```
 
 2. **Fill in header information**

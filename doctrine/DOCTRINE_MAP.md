@@ -24,10 +24,10 @@ doctrine/
 ├── tactics/                       # 22 procedural execution guides
 ├── guidelines/                    # 5 behavioral norms
 ├── shorthands/                    # 3 command aliases & quick prompts
+├── templates/                     # 80 output structure templates
 └── docs/
     ├── references/                # Comparative studies & primers
-    ├── styleguides/               # 4 language-specific style guides
-    └── templates/                 # 80 output structure templates
+    └── styleguides/               # 4 language-specific style guides
 ```
 
 **Total:** 201 framework files
@@ -189,7 +189,7 @@ doctrine/
 
 ---
 
-### `/docs/templates/` — Output Structure Templates (80 files)
+### `/templates/` — Output Structure Templates (80 files)
 **Purpose:** Pre-defined structures for consistent artifact creation  
 **Contents:**
 - Agent task templates (descriptors, worklogs, assessments)
@@ -243,18 +243,18 @@ All files use configurable path variables (defaults shown):
 
 **Create a new agent:**
 - Review `agents/` for existing profiles
-- Use `docs/templates/automation/NEW_SPECIALIST.agent.md` template
+- Use `templates/automation/NEW_SPECIALIST.agent.md` template
 - Follow `directives/005_agent_profiles.md` standards
 
 **Set up task orchestration:**
 - Read `approaches/work-directory-orchestration.md`
 - Follow `directives/019_file_based_collaboration.md`
-- Use templates in `docs/templates/agent-tasks/`
+- Use templates in `templates/agent-tasks/`
 
 **Document a decision:**
 - Read `approaches/decision-first-development.md`
 - Follow `directives/018_traceable_decisions.md`
-- Use `docs/templates/architecture/adr.md` template
+- Use `templates/architecture/adr.md` template
 
 **Implement TDD/ATDD:**
 - Read `directives/017_test_driven_development.md`

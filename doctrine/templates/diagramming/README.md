@@ -27,7 +27,7 @@ Include a theme at the top of your PlantUML file. Adjust the path based on where
 
 ```plantuml
 @startuml
-!include ${DOC_ROOT}/templates/diagramming/themes/common.puml
+!include templates/diagramming/themes/common.puml
 
 ' Your diagram content here
 
@@ -38,7 +38,7 @@ For a stronger visual style, swap `common.puml` with one of the themed files:
 
 ```plantuml
 @startuml
-!include ${DOC_ROOT}/templates/diagramming/themes/puml-theme-bluegray_conversation.puml
+!include templates/diagramming/themes/puml-theme-bluegray_conversation.puml
 
 ' Your diagram content here
 

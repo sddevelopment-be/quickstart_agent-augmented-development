@@ -32,8 +32,8 @@ status: new
 title: "Review and update template structure"
 priority: normal
 artefacts:
-  - ${DOC_ROOT}/templates/README.md
-  - ${DOC_ROOT}/templates/architecture/
+  - templates/README.md
+  - templates/architecture/
 context:
   repo: "sddevelopment-be/quickstart_agent-augmented-development"
   notes:
@@ -45,7 +45,7 @@ created_by: "architect"
 
 ## Template Reference
 
-See `${DOC_ROOT}/templates/task-descriptor.yaml` for complete schema documentation.
+See `templates/task-descriptor.yaml` for complete schema documentation.
 
 ## Next Steps
 

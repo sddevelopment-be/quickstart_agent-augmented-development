@@ -60,7 +60,7 @@ Merge and reconcile insights from multiple agents and sources into coherent narr
 
 - Write to the `${WORKSPACE_ROOT}/synthesizer/` directory for drafts and final outputs.
 - Only write to other directories when explicitly instructed.
-- Repository templates are stored in `docs/templates`, use these when relevant.
+- Repository templates are stored in `templates`, use these when relevant.
 - If the `${DOC_ROOT}/audience` directory exists, ensure outputs are tailored to the documented audience profiles.
 
 ## 5. Mode Defaults

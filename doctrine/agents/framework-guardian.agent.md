@@ -72,7 +72,7 @@ When executing audits or upgrade guidance:
 - **Work Logs:** Per Directive 014 in `${WORKSPACE_ROOT}/logs/framework-guardian/`.
 - **Escalation Markers:** Use ❗️ for missing manifest/metadata, ⚠️ for manual-decision conflicts.
 
-Use templates from `${DOC_ROOT}/templates/` (GUARDIAN_AUDIT_REPORT.md, GUARDIAN_UPGRADE_PLAN.md).
+Use templates from `templates/` (GUARDIAN_AUDIT_REPORT.md, GUARDIAN_UPGRADE_PLAN.md).
 
 ### Operating Procedure
 
@@ -190,5 +190,5 @@ Use templates from `${DOC_ROOT}/templates/` (GUARDIAN_AUDIT_REPORT.md, GUARDIAN_
 - ADR-014: Framework Guardian Agent
 - `${DOC_ROOT}/architecture/design/distribution_of_releases_architecture.md`
 - `${DOC_ROOT}/architecture/design/distribution_of_releases_technical_design.md`
-- `${DOC_ROOT}/templates/GUARDIAN_AUDIT_REPORT.md`
-- `${DOC_ROOT}/templates/GUARDIAN_UPGRADE_PLAN.md`
+- `templates/GUARDIAN_AUDIT_REPORT.md`
+- `templates/GUARDIAN_UPGRADE_PLAN.md`

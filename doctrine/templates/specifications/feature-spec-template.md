@@ -329,7 +329,7 @@ Track significant changes to this specification:
 **Tags:** `#feature-spec` `#[domain]` `#[component]` `#[persona-id]`
 
 **Related Files:**
-- Template: `${DOC_ROOT}/templates/${SPEC_ROOT}/feature-spec-template.md`
+- Template: `templates/${SPEC_ROOT}/feature-spec-template.md`
 - Persona: `${DOC_ROOT}/audience/[persona].md`
 - ADR: `${DOC_ROOT}/architecture/adrs/ADR-XXX-[title].md`
 - Tests: `tests/acceptance/features/[feature].feature`

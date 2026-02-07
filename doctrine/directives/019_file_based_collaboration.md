@@ -66,7 +66,7 @@ When active in the orchestration system, always check for assigned work before r
 
 - `${WORKSPACE_ROOT}/collaboration/README.md` - Collaboration directory guide
 - `work/README.md` - Complete work directory documentation
-- `${DOC_ROOT}/templates/task-descriptor.yaml` - Task YAML schema
+- `templates/task-descriptor.yaml` - Task YAML schema
 - ADR-002: File-Based Asynchronous Agent Coordination
 - ADR-003: Task Lifecycle and State Management
 
