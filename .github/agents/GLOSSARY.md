@@ -77,19 +77,32 @@ A section within each agent profile that specifies behavioral commitments, bound
 
 ### Context Layer
 
-A hierarchical component of the agent's operational context. Layers include Bootstrap Protocol, General Guidelines, Operational Guidelines, Project Vision, Project Specific Guidelines, and Command Aliases. Layers are loaded in priority order.
+A hierarchical component of the agent's operational context. Layers include Bootstrap Protocol, General Guidelines, Operational Guidelines, Project Vision, Project Specific Guidelines, Tactics Reference, and Command Aliases. Layers are loaded in priority order.
 
 **Reference:** AGENTS.md Section 2  
-**Related:** Bootstrap, Version Governance
+**Related:** Bootstrap, Version Governance, Doctrine Stack
 
 ### Directive
 
-An externalized instruction set (numbered 001-019+) that provides specialized guidance for specific operational domains. Directives are loaded selectively using
-`/require-directive <code>` to maintain token efficiency while ensuring agents have access to detailed procedural knowledge when needed.
+An externalized instruction set (numbered 001-026+) that provides specialized guidance for specific operational domains. Directives are loaded selectively using `/require-directive <code>` to maintain token efficiency while ensuring agents have access to detailed procedural knowledge when needed. Directives *select* which tactics to run in a given situation.
 
 **Location:** `.github/agents/directives/XXX_name.md`  
-**Reference:** AGENTS.md Section 8  
-**Related:** Context Layer
+**Reference:** AGENTS.md Section 8, [Doctrine Stack](./DOCTRINE_STACK.md)  
+**Related:** Context Layer, Tactic, Doctrine Stack
+
+### Doctrine Stack
+
+A layered system of documents (Guidelines, Approaches, Directives, Templates, Tactics) that externalizes judgment, preference, and execution discipline for LLM agents. Makes agent behavior predictable, inspectable, and repeatable by treating agents as executors operating under explicit doctrine rather than conversational partners.
+
+**The five layers:**
+1. **Guidelines** — Enduring values, preferences, guardrails
+2. **Approaches** — Conceptual models and philosophies
+3. **Directives** — Explicit instructions or constraints
+4. **Templates** — Structural output contracts
+5. **Tactics** — Procedural execution guides
+
+**Reference:** [DOCTRINE_STACK.md](./DOCTRINE_STACK.md)  
+**Related:** Guideline, Approach, Directive, Template, Tactic
 
 ### Escalation
 
