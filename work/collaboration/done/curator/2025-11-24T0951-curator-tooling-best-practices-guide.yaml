@@ -30,3 +30,8 @@ dependencies:
 created_at: '2025-11-24T09:51:00Z'
 created_by: copilot
 assigned_at: '2025-11-24T17:56:16.895205Z'
+result:
+  summary: "Tooling setup best practices guide created in approaches directory"
+  artifacts:
+    - ".github/agents/approaches/tooling-setup-best-practices.md"
+  completed_at: "2025-11-24T18:00:00Z"

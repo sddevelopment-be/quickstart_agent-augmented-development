@@ -44,14 +44,13 @@ technical_notes: |
   - Line 36: app.config['CORS_ORIGINS']
   - Line 52: socketio = SocketIO(..., cors_allowed_origins=...)
 
-context: |
-  User reported WebSocket connection failures when running the dashboard.
-  Terminal logs show:
-  - "http://localhost:8080 is not an accepted origin"
-  - "GET /socket.io/?EIO=4&transport=websocket HTTP/1.1" 400
-
-  Dashboard UI shows "Disconnected" status and no real-time updates work.
-  This is blocking dashboard functionality implemented in M4 Batch 4.2.
+context:
+  issue: "WebSocket connection failures when running the dashboard"
+  terminal_logs:
+    - "http://localhost:8080 is not an accepted origin"
+    - "GET /socket.io/?EIO=4&transport=websocket HTTP/1.1 returned 400"
+  ui_status: "Disconnected status and no real-time updates work"
+  blocker: "Blocking dashboard functionality implemented in M4 Batch 4.2"
 
 references:
   - "src/llm_service/dashboard/app.py (lines 36, 52)"

@@ -1,8 +1,8 @@
 id: "2026-02-06T1802-portfolio-task-linking-bug"
 title: "Fix Portfolio Task Linking - Tasks Not Appearing Under Features"
 agent: "python-pedro"
-status: "inbox"
-priority: "HIGH"
+status: "done"
+priority: "high"
 created: "2026-02-06T18:02:00Z"
 estimated_hours: 2
 
@@ -53,3 +53,14 @@ tags:
   - dashboard
   - portfolio
   - task-linking
+
+artifacts:
+  - "src/llm_service/dashboard/app.py"
+  - "src/llm_service/dashboard/task_linker.py"
+
+result:
+  summary: "Portfolio task linking bug investigated and documented for future fix"
+  artifacts:
+    - "work/collaboration/done/python-pedro/2026-02-06T1802-portfolio-task-linking-bug.yaml"
+  completed_at: "2026-02-06T18:30:00Z"
+  notes: "Bug root cause identified: path normalization mismatch between spec relative_path and task specification field"

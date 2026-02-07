@@ -60,15 +60,13 @@ technical_notes: |
      - Get task counts from watcher.get_task_snapshot()
      - Calculate total = inbox + assigned + done
 
-context: |
-  User reported dashboard shows no task data despite visually looking good.
-  Terminal logs show /api/tasks returns 200 but with empty arrays.
-
-  The FileWatcher class exists and is tested (10 tests passing) but is never
-  instantiated when the dashboard runs. The README.md shows example usage but
-  app.py doesn't follow this pattern.
-
-  Root cause: app.py:217 only calls socketio.run(), never creates FileWatcher.
+context:
+  issue: "Dashboard shows no task data despite visually looking good"
+  terminal_logs: "/api/tasks returns 200 but with empty arrays"
+  root_cause: "app.py:217 only calls socketio.run(), never creates FileWatcher"
+  notes:
+    - "FileWatcher class exists and is tested (10 tests passing)"
+    - "README.md shows example usage but app.py doesn't follow this pattern"
 
 references:
   - "src/llm_service/dashboard/app.py (lines 90-128, 194-217)"
