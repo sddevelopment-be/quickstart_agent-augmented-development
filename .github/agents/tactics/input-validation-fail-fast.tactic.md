@@ -1,5 +1,17 @@
 # Tactic: Input Validation with Fail-Fast Feedback
 
+**Invoked by:**
+- (Discoverable — general best practice for external data processing)
+
+**Related tactics:**
+- (Standalone — focuses on validation patterns)
+
+**Complements:**
+- General secure coding practices
+- API design and error handling patterns
+
+---
+
 ## Intent
 
 Validate input data comprehensively before processing to avoid wasting resources on invalid data. Provide clear, actionable feedback on errors to facilitate quick resolution while protecting system internals from exposure.

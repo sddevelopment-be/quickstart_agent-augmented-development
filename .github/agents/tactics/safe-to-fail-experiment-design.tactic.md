@@ -1,5 +1,17 @@
 # Tactic: Safe-to-Fail Experiment Design
 
+**Invoked by:**
+- Directive 021 (Locality of Change) — bounded exploration and premature optimization avoidance
+
+**Related tactics:**
+- `stopping-conditions.tactic.md` — explicit exit criteria for experiments
+- `premortem-risk-identification.tactic.md` — failure scenario discovery before experimentation
+
+**Complements:**
+- Approach: Locality of Change
+
+---
+
 ## Intent
 
 Structure exploratory work as small, reversible experiments with explicit success/failure criteria to enable learning with minimal risk. Transforms uncertain situations from paralysis ("what if I'm wrong?") to progress ("what will I learn?").
