@@ -4,8 +4,8 @@
 - Directive 016 (ATDD) — acceptance boundary definition with adversarial thinking
 
 **Related tactics:**
-- `adversarial-testing.tactic.md` — broader ideation pass before ATDD scenarios
-- `test-boundaries-by-responsibility.tactic.md` — clarifying test scope and responsibility
+- [`adversarial-testing.tactic.md`](./adversarial-testing.tactic.md) — broader ideation pass before ATDD scenarios
+- [`test-boundaries-by-responsibility.tactic.md`](./test-boundaries-by-responsibility.tactic.md) — clarifying test scope and responsibility
 
 **Complements:**
 - Directive 016 (ATDD workflow)

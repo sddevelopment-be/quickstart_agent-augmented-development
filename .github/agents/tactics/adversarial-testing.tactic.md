@@ -4,8 +4,8 @@
 - Directive 018 (Traceable Decisions) — ADR preparation and proposal stress-testing
 
 **Related tactics:**
-- `premortem-risk-identification.tactic.md` — project-specific failure scenario discovery
-- `ammerse-analysis.tactic.md` — trade-off analysis after adversarial exploration
+- [`premortem-risk-identification.tactic.md`](./premortem-risk-identification.tactic.md) — project-specific failure scenario discovery
+- [`ammerse-analysis.tactic.md`](./ammerse-analysis.tactic.md) — trade-off analysis after adversarial exploration
 
 **Complements:**
 - Approach: Decision-First Development

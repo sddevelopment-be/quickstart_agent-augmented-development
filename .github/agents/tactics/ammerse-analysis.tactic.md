@@ -4,8 +4,8 @@
 - (Discoverable — architectural trade-off reasoning and decision analysis)
 
 **Related tactics:**
-- `adversarial-testing.tactic.md` — stress-testing before AMMERSE analysis
-- `premortem-risk-identification.tactic.md` — risk discovery complements trade-off analysis
+- [`adversarial-testing.tactic.md`](./adversarial-testing.tactic.md) — stress-testing before AMMERSE analysis
+- [`premortem-risk-identification.tactic.md`](./premortem-risk-identification.tactic.md) — risk discovery complements trade-off analysis
 
 **Complements:**
 - Directive 018 (Traceable Decisions) — ADR rationale documentation

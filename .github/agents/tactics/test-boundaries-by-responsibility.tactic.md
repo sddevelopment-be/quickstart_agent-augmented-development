@@ -5,7 +5,7 @@
 - Directive 017 (TDD) — defining unit test boundaries
 
 **Related tactics:**
-- `ATDD_adversarial-acceptance.tactic.md` — adversarial acceptance test definition
+- [`ATDD_adversarial-acceptance.tactic.md`](./ATDD_adversarial-acceptance.tactic.md) — adversarial acceptance test definition
 
 **Complements:**
 - Directive 016 (ATDD workflow)

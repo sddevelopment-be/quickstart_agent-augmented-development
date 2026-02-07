@@ -5,8 +5,8 @@
 - Directive 011 (Risk & Escalation) — timeout handling and boundary enforcement
 
 **Related tactics:**
-- `premortem-risk-identification.tactic.md` — risk discovery before establishing stopping criteria
-- `safe-to-fail-experiment-design.tactic.md` — bounded exploration with explicit exit criteria
+- [`premortem-risk-identification.tactic.md`](./premortem-risk-identification.tactic.md) — risk discovery before establishing stopping criteria
+- [`safe-to-fail-experiment-design.tactic.md`](./safe-to-fail-experiment-design.tactic.md) — bounded exploration with explicit exit criteria
 
 **Complements:**
 - Approach: Locality of Change (premature optimization avoidance)
