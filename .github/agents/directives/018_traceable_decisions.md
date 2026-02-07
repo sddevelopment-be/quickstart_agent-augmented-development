@@ -137,6 +137,11 @@ Issue definitions: issue-definitions/*.yml
 - Focus on decisions and rationale (stable)
 - Link to code for implementation (volatile)
 - Document "why" not "what" (code shows "what")
+- **Before drafting ADR, perform risk discovery:**
+  - **For project-specific risks:** Invoke `tactics/premortem-risk-identification.tactic.md`
+  - **For stress-testing proposals:** Invoke `tactics/adversarial-testing.tactic.md`
+  - **For trade-off analysis:** Consider `tactics/ammerse-analysis.tactic.md`
+  - Document failure scenarios in ADR "Risks" or "Consequences" section
 
 ---
 
