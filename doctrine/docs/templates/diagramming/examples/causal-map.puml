@@ -1,0 +1,23 @@
+@startuml CausalMap
+!include ../themes/puml-theme-stickies.puml
+
+hide empty description
+skinparam backgroundColor #ffffff
+
+' Nodes
+Sticky_Blue(PX, "Practice: {{X}}")
+Sticky_Green(OY, "Outcome: {{Y}}")
+Sticky_Orange(RZ, "Risk: {{Z}}")
+
+' Edges
+s(PX, OY): s (reinforces)
+o(PX, RZ) : o (undermines)\n(if constraints satisfied)
+o(RZ, OY)
+
+note right of PX
+  Preconditions:
+  - {{precondition 1}}
+  - {{precondition 2}}
+end note
+
+@enduml

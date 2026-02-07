@@ -1,0 +1,52 @@
+# Task Context Template - Optional Fields
+# Version: 1.0.0
+#
+# This template contains optional contextual fields that can be added to a task.
+# These fields provide additional information to guide agent execution.
+
+# ============================================================================
+# OPTIONAL CONTEXT FIELDS
+# ============================================================================
+
+# Human-readable task title
+title: "Brief description of the task"
+
+# Reasoning mode for agent execution
+# Valid values: /analysis-mode | /creative-mode | /meta-mode
+mode: "/analysis-mode"
+
+# Priority level
+# Valid values: critical | high | normal | low
+priority: "normal"
+
+# Contextual information for the agent
+context:
+  repo: "owner/repository-name"
+  branch: "main"
+  notes:
+    - "Additional context note 1"
+    - "Additional context note 2"
+  dependencies: []  # List of task IDs this task depends on
+
+# ============================================================================
+# USAGE
+# ============================================================================
+#
+# Add these fields to your task YAML as needed:
+#
+# Example:
+#   id: "2025-11-23T1430-structural-repomap"
+#   agent: "structural"
+#   status: "new"
+#   title: "Generate REPO_MAP and SURFACES"
+#   mode: "/analysis-mode"
+#   priority: "high"
+#   artefacts:
+#     - "docs/REPO_MAP.md"
+#   context:
+#     repo: "owner/repo"
+#     branch: "main"
+#     notes:
+#       - "Focus on core directories"
+#
+# See: ${DOC_ROOT}/templates/task-base.yaml for required fields

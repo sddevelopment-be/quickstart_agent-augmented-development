@@ -1,0 +1,72 @@
+# Task Result Template
+# Version: 1.0.0
+#
+# This template documents the result object that agents add upon successful task completion.
+# This is added BY THE AGENT, not by the task creator.
+
+# ============================================================================
+# RESULT OBJECT (Added by agent on successful completion)
+# ============================================================================
+
+result:
+  # Brief description of work completed
+  summary: "Description of what was accomplished"
+  
+  # Actual artifacts created or modified
+  artefacts:
+    - "path/to/created/artifact1.md"
+    - "path/to/modified/artifact2.md"
+  
+  # Optional: Agent to hand off to for follow-up work
+  next_agent: "next-agent-name"
+  
+  # Optional: Title for follow-up task
+  next_task_title: "Follow-up task description"
+  
+  # Optional: Artifacts for follow-up task
+  next_artefacts:
+    - "path/to/artifact.md"
+  
+  # Optional: Context notes for follow-up task
+  next_task_notes:
+    - "Additional context for next agent"
+  
+  # Completion timestamp
+  completed_at: "YYYY-MM-DDTHH:MM:SSZ"
+
+# ============================================================================
+# USAGE
+# ============================================================================
+#
+# DO NOT include result block when creating a task.
+# The assigned agent adds this block when completing the task.
+#
+# Agent workflow:
+# 1. Agent reads task from work/assigned/<agent-name>/
+# 2. Agent updates status to "in_progress"
+# 3. Agent performs work and creates/modifies artifacts
+# 4. Agent adds result block to task YAML
+# 5. Agent updates status to "done"
+# 6. Agent moves task to work/done/
+#
+# If next_agent is specified, the Agent Orchestrator will:
+# - Create a new task in work/inbox/ for the specified agent
+# - Copy next_task_title, next_artefacts, next_task_notes to new task
+# - Add dependency reference to original task
+#
+# Example result block:
+#   result:
+#     summary: "Generated REPO_MAP and SURFACES"
+#     artefacts:
+#       - "docs/REPO_MAP.md"
+#       - "docs/SURFACES.md"
+#     next_agent: "lexical"
+#     next_task_title: "Perform voice analysis on structural docs"
+#     next_artefacts:
+#       - "docs/REPO_MAP.md"
+#       - "docs/SURFACES.md"
+#     next_task_notes:
+#       - "Check for consistent terminology"
+#     completed_at: "2025-11-23T14:45:00Z"
+#
+# See: ${DOC_ROOT}/architecture/design/async_multiagent_orchestration.md for workflow details
