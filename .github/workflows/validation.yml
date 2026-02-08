@@ -38,7 +38,7 @@ jobs:
         run: |
           set -e
           echo "Validating work directory structure..."
-          bash validation/validate-work-structure.sh
+          bash tools/validators/validate-work-structure.sh
           echo "✅ Work directory structure is valid"
           echo "structure_valid=true" >> $GITHUB_OUTPUT
         continue-on-error: true
@@ -69,7 +69,7 @@ jobs:
           validation_failed=0
           while IFS= read -r file; do
             echo "Validating: $file"
-            if ! python validation/validate-task-schema.py "$file"; then
+            if ! python tools/validators/validate-task-schema.py "$file"; then
               validation_failed=1
               echo "❌ Failed: $file"
             else
@@ -91,7 +91,7 @@ jobs:
         run: |
           set -e
           echo "Validating task naming conventions..."
-          bash validation/validate-task-naming.sh
+          bash tools/validators/validate-task-naming.sh
           echo "✅ Task naming conventions are valid"
           echo "naming_valid=true" >> $GITHUB_OUTPUT
         continue-on-error: true
@@ -99,7 +99,7 @@ jobs:
       - name: Check for E2E tests
         id: check_e2e
         run: |
-          if [ -f "validation/test_orchestration_e2e.py" ]; then
+          if [ -f "tests/orchestration/test_orchestration_e2e.py" ]; then
             echo "e2e_exists=true" >> $GITHUB_OUTPUT
           else
             echo "e2e_exists=false" >> $GITHUB_OUTPUT
@@ -111,7 +111,7 @@ jobs:
         run: |
           set -e
           echo "Running E2E orchestration tests..."
-          python -m pytest validation/test_orchestration_e2e.py -v
+          python -m pytest tests/orchestration/test_orchestration_e2e.py -v
           echo "✅ E2E tests passed"
           echo "e2e_valid=true" >> $GITHUB_OUTPUT
         continue-on-error: true
@@ -209,9 +209,9 @@ jobs:
               body += '- **E2E failures:** Review test output for specific failures\n\n';
               body += 'Run validation locally:\n';
               body += '```bash\n';
-              body += 'bash validation/validate-work-structure.sh\n';
-              body += 'python validation/validate-task-schema.py work/path/to/task.yaml\n';
-              body += 'bash validation/validate-task-naming.sh\n';
+              body += 'bash tools/validators/validate-work-structure.sh\n';
+              body += 'python tools/validators/validate-task-schema.py work/path/to/task.yaml\n';
+              body += 'bash tools/validators/validate-task-naming.sh\n';
               body += '```';
             }
             

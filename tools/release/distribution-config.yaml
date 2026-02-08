@@ -111,10 +111,10 @@ root_files:
   description: 'Root file: requirements.txt'
   required: false
 scripts:
-- path: ops/release/framework_install.sh
+- path: tools/release/framework_install.sh
   description: Installation script
   required: true
-- path: ops/release/framework_upgrade.sh
+- path: tools/release/framework_upgrade.sh
   description: Upgrade script
   required: true
 exclusions:

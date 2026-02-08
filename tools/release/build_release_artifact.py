@@ -63,8 +63,8 @@ CORE_ROOT_FILES = [
 
 # Configuration: Scripts to include
 SCRIPTS_TO_INCLUDE = [
-    "ops/release/framework_install.sh",
-    "ops/release/framework_upgrade.sh",
+    "tools/release/framework_install.sh",
+    "tools/release/framework_upgrade.sh",
 ]
 
 # Configuration: Exclusion patterns

@@ -50,7 +50,7 @@ jobs:
         id: task_utils_tests
         run: |
           echo "Running task_utils unit tests..."
-          python -m pytest validation/test_task_utils.py -v --tb=short
+          python -m pytest tests/test_task_utils.py -v --tb=short
           echo "✅ task_utils tests passed"
           echo "task_utils_passed=true" >> $GITHUB_OUTPUT
         continue-on-error: true
