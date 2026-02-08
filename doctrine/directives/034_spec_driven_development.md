@@ -231,6 +231,83 @@ Brief description of the feature and its purpose.
 
 ---
 
+## Phase Checkpoint Protocol
+
+**Purpose:** Prevent phase-skipping violations and ensure proper hand-offs between agents during multi-phase specification-driven work.
+
+**Execute at the end of EVERY phase:**
+
+```
+□ Which phase am I in? [1-6]
+  1. ANALYSIS (create specification stub)
+  2. ARCHITECTURE / TECH DESIGN (evaluate and approve)
+  3. PLANNING (task breakdown)
+  4. ACCEPTANCE TEST IMPLEMENTATION (red phase)
+  5. CODE IMPLEMENTATION (green phase)
+  6. REVIEW (approve or request changes)
+
+□ Is this phase complete? [YES/NO]
+  → If NO: Continue work until phase deliverable ready
+
+□ Who owns the next phase? [Agent name]
+  → Consult Role Boundaries Table below
+
+□ Do I have authority for the next phase? [YES/NO]
+  → If NO: Hand off immediately (do NOT continue)
+
+□ Are Directives 014/015 satisfied? [YES/NO]
+  → Directive 014: Create work log for major phase completion
+  → Directive 015: Document reusable patterns as prompts
+
+□ Ready to hand off? [YES/NO]
+  → Document outputs clearly
+  → Notify next agent explicitly
+  → Commit phase deliverables
+```
+
+### Role Boundaries Table
+
+**Authority levels:**
+- ✅ **PRIMARY:** Agent has full authority and responsibility for this phase
+- ⚠️ **CONSULT:** Agent can advise but should not execute work
+- ❌ **NO:** Agent should not participate in this phase
+
+| Agent | Phase 1<br>(Analysis) | Phase 2<br>(Architecture) | Phase 3<br>(Planning) | Phase 4<br>(Tests) | Phase 5<br>(Code) | Phase 6<br>(Review) |
+|-------|---------|---------|---------|---------|---------|---------|
+| **Analyst Annie** | ✅ PRIMARY | ⚠️ Consult | ⚠️ Consult | ❌ No | ❌ No | ⚠️ AC review only |
+| **Architect Alphonso** | ⚠️ Consult | ✅ PRIMARY | ❌ No | ❌ No | ❌ No | ✅ Arch review |
+| **Planning Petra** | ❌ No | ❌ No | ✅ PRIMARY | ❌ No | ❌ No | ❌ No |
+| **DevOps Danny** | ❌ No | ⚠️ Consult | ❌ No | ✅ If assigned | ✅ If assigned | ⚠️ Peer review |
+| **Backend-Dev** | ❌ No | ⚠️ Consult | ❌ No | ✅ If assigned | ✅ If assigned | ⚠️ Peer review |
+| **Frontend-Dev** | ❌ No | ⚠️ Consult | ❌ No | ✅ If assigned | ✅ If assigned | ⚠️ Peer review |
+| **Framework Guardian Gail** | ❌ No | ❌ No | ❌ No | ❌ No | ❌ No | ✅ Standards review |
+| **Curator Claire** | ❌ No | ❌ No | ❌ No | ❌ No | ❌ No | ✅ Documentation review |
+
+**Notes:**
+- **If assigned:** Implementation agents (DevOps Danny, Backend-Dev, Frontend-Dev) are assigned by Planning Petra in Phase 3
+- **AC review:** Acceptance Criteria review (verify spec requirements met)
+- **Peer review:** Code quality and implementation review
+- **Arch review:** Architecture compliance review
+- **Standards review:** Directive compliance and code standards
+
+### Common Violations to Avoid
+
+❌ **Phase Skipping:** Analyst jumping from Phase 1 to Phase 5 (implementation)
+- **Prevention:** Use checkpoint protocol after Phase 1 completion
+
+❌ **Role Overstepping:** Analyst doing Architect's work (trade-off analysis, technical design)
+- **Prevention:** Check Role Boundaries Table before continuing
+
+❌ **Missing Documentation:** Skipping work logs (Directive 014) or prompt docs (Directive 015)
+- **Prevention:** Include directives check in checkpoint protocol
+
+❌ **Premature Implementation:** Starting code before acceptance tests exist (violates ATDD)
+- **Prevention:** Phase 4 (tests) MUST complete before Phase 5 (code)
+
+**Related:** [Ralph Wiggum Loop](../approaches/ralph-wiggum-loop.md) for mid-execution self-observation
+
+---
+
 ## Examples
 
 ### Example 1: When to Use Spec vs. ADR
