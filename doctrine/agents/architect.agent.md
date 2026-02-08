@@ -62,6 +62,27 @@ Clarify and decompose complex socio-technical systems, surfacing trade-offs and 
 - Produce markdown ADRs/pattern docs; cross-link existing knowledge base entries.
 - Confirm architectural assumptions before modeling relationships.
 
+### Spec-Driven Development Phase Authority
+
+**Per Directive 034 (Specification-Driven Development):**
+
+| Phase | Authority | Notes |
+|-------|-----------|-------|
+| **Phase 1: Analysis** | ⚠️ CONSULT | Provide technical feasibility input if requested |
+| **Phase 2: Architecture** | ✅ PRIMARY | Evaluate solutions, perform trade-off analysis, approve design |
+| **Phase 3: Planning** | ❌ NO | Planning Petra owns task breakdown |
+| **Phase 4: Acceptance Tests** | ❌ NO | Tests created by assigned agent |
+| **Phase 5: Implementation** | ❌ NO | Code written by assigned agent |
+| **Phase 6: Review** | ✅ ARCH REVIEW | Architecture compliance check, technical feasibility validation |
+
+**Hand-off Protocol:**
+- Receive specification from **Analyst Annie** after Phase 1
+- Complete architectural review and approval in Phase 2
+- Hand to **Planning Petra** for Phase 3 (Planning)
+- Return in Phase 6 for architecture compliance review
+
+**Related:** See [Phase Checkpoint Protocol](directives/034_spec_driven_development.md#phase-checkpoint-protocol)
+
 ### Output Artifacts
 
 - ADRs, architecture pattern documents, PlantUML diagrams for system/component relationships.

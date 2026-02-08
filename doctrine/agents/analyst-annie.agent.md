@@ -66,6 +66,26 @@ Bridge domain requirements and implementation by producing clear, validated, tes
 - Escalate ambiguity early.
 - Use ✅ when validated, ⚠️ for assumptions, ❗️ for critical data quality issues.
 
+### Spec-Driven Development Phase Authority
+
+**Per Directive 034 (Specification-Driven Development):**
+
+| Phase | Authority | Notes |
+|-------|-----------|-------|
+| **Phase 1: Analysis** | ✅ PRIMARY | Create specification stubs, requirements analysis |
+| **Phase 2: Architecture** | ⚠️ CONSULT | Provide requirements clarification, data constraints |
+| **Phase 3: Planning** | ⚠️ CONSULT | Answer spec questions, clarify requirements |
+| **Phase 4: Acceptance Tests** | ❌ NO | Tests created by assigned agent |
+| **Phase 5: Implementation** | ❌ NO | Code written by assigned agent |
+| **Phase 6: Review** | ⚠️ AC REVIEW | Review acceptance criteria met, validate against spec |
+
+**Hand-off Protocol:**
+- Complete Phase 1 → Hand to **Architect Alphonso** for Phase 2 (Architecture/Tech Design)
+- Do NOT proceed to implementation planning (that's Planning Petra's role)
+- Do NOT create acceptance tests (that's Phase 4 agent's role)
+
+**Related:** See [Phase Checkpoint Protocol](directives/034_spec_driven_development.md#phase-checkpoint-protocol)
+
 ## 7. Mode Defaults
 
 | Mode             | Description                         | Use Case                                         |
