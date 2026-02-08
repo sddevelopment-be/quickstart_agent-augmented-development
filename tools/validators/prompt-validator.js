@@ -71,7 +71,7 @@ const fs = require('fs').promises;
  * @class PromptValidator
  * @example
  * const validator = new PromptValidator();
- * await validator.loadSchema('./validation/schemas/prompt-schema.json');
+ * await validator.loadSchema('./src/framework/schemas/prompt-schema.json');
  * const result = await validator.validatePrompt('./my-prompt.yaml');
  * if (!result.valid) {
  *   console.error('Validation errors:', result.errors);
@@ -160,7 +160,7 @@ class PromptValidator {
    * @throws {Error} If schema file cannot be read or is invalid JSON
    * 
    * @example
-   * await validator.loadSchema('./validation/schemas/prompt-schema.json');
+   * await validator.loadSchema('./src/framework/schemas/prompt-schema.json');
    */
   async loadSchema(schemaPath) {
     const schemaContent = await fs.readFile(schemaPath, 'utf8');
