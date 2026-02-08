@@ -36,7 +36,7 @@ jobs:
       
       - name: Cache PlantUML JAR
         id: cache-plantuml
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.plantuml
           key: plantuml-jar-${{ runner.os }}-v1.2023.13

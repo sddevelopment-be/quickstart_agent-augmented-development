@@ -48,13 +48,13 @@ jobs:
         if: steps.check-config.outputs.exists == 'true' && github.event.inputs.validate_only == 'true'
         run: |
           echo "🔍 Validating existing configuration..."
-          python3 ops/portability/opencode-spec-validator.py opencode-config.json
+          python3 tools/exporters/portability/opencode-spec-validator.py opencode-config.json
 
       - name: Convert agents to OpenCode format
         if: github.event.inputs.validate_only != 'true'
         run: |
           echo "🔄 Converting agent configurations..."
-          python3 ops/portability/convert-agents-to-opencode.py \
+          python3 tools/exporters/portability/convert-agents-to-opencode.py \
             --input-dir .github/agents \
             --output opencode-config.json \
             --validate \
@@ -119,5 +119,5 @@ jobs:
           echo "### Files" >> $GITHUB_STEP_SUMMARY
           echo "- Source: \`.github/agents/\`" >> $GITHUB_STEP_SUMMARY
           echo "- Output: \`opencode-config.json\`" >> $GITHUB_STEP_SUMMARY
-          echo "- Validator: \`ops/portability/opencode-spec-validator.py\`" >> $GITHUB_STEP_SUMMARY
-          echo "- Converter: \`ops/portability/convert-agents-to-opencode.py\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Validator: \`tools/exporters/portability/opencode-spec-validator.py\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Converter: \`tools/exporters/portability/convert-agents-to-opencode.py\`" >> $GITHUB_STEP_SUMMARY
