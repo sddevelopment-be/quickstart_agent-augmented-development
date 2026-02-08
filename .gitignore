@@ -1,5 +1,6 @@
-# Ignore generated artifacts
-output/
+# Ignore generated artifacts (but keep .gitkeep)
+output/*
+!output/.gitkeep
 
 # Optional: allow people to decide what to track in work/
 # e.g. keep logs, ignore junk

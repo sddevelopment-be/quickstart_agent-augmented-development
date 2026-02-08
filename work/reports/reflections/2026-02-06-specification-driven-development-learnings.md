@@ -541,8 +541,8 @@ This SDD infrastructure will be successful when:
 
 **Referenced Framework Docs:**
 - `AGENTS.md` - Agent initialization and governance
-- `.github/agents/directives/034_spec_driven_development.md` - Formal directive
-- `.github/agents/approaches/spec-driven-development.md` - Detailed PRIMER
+- `doctrine/directives/034_spec_driven_development.md` - Formal directive
+- `doctrine/approaches/spec-driven-development.md` - Detailed approach
 - `docs/audience/` - Persona catalog
 
 **External References:**

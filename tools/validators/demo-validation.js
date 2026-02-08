@@ -1,4 +1,4 @@
-const { PromptValidator, formatValidationResult } = require('./ops/validation/prompt-validator');
+const { PromptValidator, formatValidationResult } = require('./prompt-validator');
 const path = require('path');
 
 async function demo() {
