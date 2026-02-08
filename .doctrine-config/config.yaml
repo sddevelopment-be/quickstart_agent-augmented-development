@@ -1,0 +1,104 @@
+# Doctrine Configuration
+# Repository-specific settings and path overrides
+
+version: "1.0.0"
+created: "2026-02-08"
+updated: "2026-02-08"
+
+repository:
+  name: "quickstart_agent-augmented-development"
+  description: "Agent-augmented development framework quickstart and reference implementation"
+  version: "1.0.0"
+  type: "framework-repository"  # vs "application-repository"
+
+paths:
+  # Core directories
+  workspace_root: "work"              # Task orchestration workspace
+  doc_root: "docs"                    # Documentation root
+  spec_root: "specifications"         # Specification files
+  output_root: "output"               # Generated artifacts
+  
+  # Framework-specific
+  doctrine_source: "doctrine"         # Framework source (canonical)
+  doctrine_config: ".doctrine-config" # Local config (this directory)
+  
+  # Distribution targets
+  distributions:
+    github_copilot: ".github/instructions"
+    claude_desktop: ".claude"
+    opencode: ".opencode"
+    cursor: ".cursor"                 # Future
+    codex: ".codex"                   # Future
+
+tools:
+  # Enabled AI coding assistants
+  enabled:
+    - github-copilot
+    - claude-desktop
+    - opencode
+  
+  # Planned/future integrations
+  planned:
+    - cursor
+    - codex
+  
+  # Export pipeline configuration
+  exporters:
+    agents_source: "doctrine/agents"
+    approaches_source: "doctrine/approaches"
+    directives_source: "doctrine/directives"
+    tactics_source: "doctrine/tactics"
+    templates_source: "doctrine/templates"
+    guidelines_source: "doctrine/guidelines"
+
+overrides:
+  # Commit behavior
+  commit_signing: false               # Disable GPG for agent commits (avoids password prompts)
+  
+  # Process enforcement
+  phase_checkpoint_required: true     # Enforce Phase Checkpoint Protocol (Directive 034)
+  work_log_required: true             # Require work logs per Directive 014
+  
+  # Testing requirements
+  atdd_required: true                 # Enforce RED→GREEN cycle (Directive 016)
+  test_coverage_minimum: 80           # Percentage (if enforced)
+  
+  # Documentation
+  adr_required_for_architecture: true # Architectural decisions need ADRs (Directive 018)
+  spec_required_for_complex: true     # Complex features need specifications (Directive 034)
+
+agent_behavior:
+  # Default reasoning mode
+  default_mode: "analysis"            # vs "creative" or "meta"
+  
+  # Checkpoint frequency
+  checkpoint_interval: "end-of-phase" # vs "continuous" or "manual"
+  
+  # Hand-off protocol
+  explicit_handoffs: true             # Require explicit hand-off messages
+  
+  # Self-observation
+  ralph_wiggum_enabled: true          # Enable self-observation checkpoints
+  ralph_wiggum_interval: 30           # Minutes between checkpoints (long tasks)
+
+quality_gates:
+  # Review requirements
+  dual_review_required: true          # Architecture + Standards reviews (Phase 6)
+  
+  # Approval thresholds
+  architecture_review_required: true  # Alphonso approval needed
+  standards_review_required: true     # Gail approval needed
+  
+  # Merge criteria
+  all_tests_passing: true
+  specification_conformance: 100      # Percentage required
+  zero_violations: true               # No process violations allowed
+
+custom:
+  # Repository-specific settings
+  dogfooding: true                    # This repo dogfoods its own framework
+  template_source: true               # This repo is a template for others
+  
+  # Special behaviors
+  preserve_work_history: true         # Keep all work/ artifacts in git
+  verbose_logging: true               # Detailed work logs for framework validation
