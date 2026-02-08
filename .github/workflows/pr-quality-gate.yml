@@ -41,7 +41,7 @@ jobs:
         id: black
         run: |
           echo "Checking Python code formatting..."
-          if black --check validation/ ops/orchestration/ ops/portability/ ops/common/ ops/dashboards/ ops/planning/ ops/framework-core/ 2>&1 | tee black_output.txt; then
+          if black --check src/framework/ tests/ 2>&1 | tee black_output.txt; then
             echo "✅ All Python files are properly formatted"
             echo "black_passed=true" >> $GITHUB_OUTPUT
           else
@@ -55,7 +55,7 @@ jobs:
         id: ruff
         run: |
           echo "Linting Python code..."
-          if ruff check validation/ ops/orchestration/ ops/portability/ ops/common/ ops/dashboards/ ops/planning/ ops/framework-core/ 2>&1 | tee ruff_output.txt; then
+          if ruff check src/framework/ tests/ 2>&1 | tee ruff_output.txt; then
             echo "✅ No linting issues found"
             echo "ruff_passed=true" >> $GITHUB_OUTPUT
           else
@@ -74,13 +74,13 @@ jobs:
           if [ "${{ steps.black.outputs.black_passed }}" = "true" ]; then
             echo "✅ **Black formatting:** Passed" >> $GITHUB_STEP_SUMMARY
           else
-            echo "❌ **Black formatting:** Failed - Run \`black validation/ ops/\`" >> $GITHUB_STEP_SUMMARY
+            echo "❌ **Black formatting:** Failed - Run \`black src/framework/ tests/\`" >> $GITHUB_STEP_SUMMARY
           fi
           
           if [ "${{ steps.ruff.outputs.ruff_passed }}" = "true" ]; then
             echo "✅ **Ruff linting:** Passed" >> $GITHUB_STEP_SUMMARY
           else
-            echo "❌ **Ruff linting:** Failed - Run \`ruff check validation/ ops/ --fix\`" >> $GITHUB_STEP_SUMMARY
+            echo "❌ **Ruff linting:** Failed - Run \`ruff check src/framework/ tests/ --fix\`" >> $GITHUB_STEP_SUMMARY
           fi
       
       - name: Fail if quality checks failed
@@ -116,7 +116,7 @@ jobs:
         id: unit_tests
         run: |
           echo "Running all unit tests with coverage..."
-          python -m pytest validation/test_task_utils.py validation/test_agent_orchestrator.py \
+          python -m pytest tests/test_task_utils.py tests/orchestration/test_agent_orchestrator.py \
             -v --tb=short \
             --cov=ops/orchestration \
             --cov-report=term-missing \

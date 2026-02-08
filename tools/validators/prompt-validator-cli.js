@@ -95,10 +95,10 @@ Examples:
   npm run validate:prompts
 
   # Validate specific directory
-  node prompt-validator-cli.js docs/templates/prompts/
+  node prompt-validator-cli.js doctrine/templates/prompts/
 
   # Validate with custom threshold
-  node prompt-validator-cli.js docs/templates/prompts/ --threshold 80
+  node prompt-validator-cli.js doctrine/templates/prompts/ --threshold 80
 
   # Get JSON output for CI integration
   node prompt-validator-cli.js work/collaboration/ --format json
@@ -266,7 +266,7 @@ async function main() {
   // Default directories if none specified
   if (config.directories.length === 0) {
     config.directories = [
-      'docs/templates/prompts',
+      'doctrine/templates/prompts',
       'work/collaboration'
     ];
   }
