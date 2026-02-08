@@ -287,9 +287,12 @@ Brief description of the feature and its purpose.
 ❌ **Premature Implementation:** Starting code before acceptance tests exist (violates ATDD)  
 → **Prevention:** Phase 4 (tests) MUST complete before Phase 5 (code)
 
-**Related Tactics:**
-- [Phase Checkpoint Protocol](../tactics/phase-checkpoint-protocol.md) - 6-step hand-off verification
-- [Ralph Wiggum Loop](../approaches/ralph-wiggum-loop.md) - Mid-execution self-observation
+**Related Resources:**
+- **Approach:** [Spec-Driven 6-Phase Cycle](../approaches/spec-driven-6-phase-cycle.md) - Philosophy & rationale
+- **Tactic:** [6-Phase Implementation Flow](../tactics/6-phase-spec-driven-implementation-flow.md) - Execution checklist
+- **Tactic:** [Phase Checkpoint Protocol](../tactics/phase-checkpoint-protocol.md) - Phase transition verification
+- **Guideline:** [Commit Message Phase Declarations](../guidelines/commit-message-phase-declarations.md) - Commit standards
+- **Approach:** [Ralph Wiggum Loop](../approaches/ralph-wiggum-loop.md) - Mid-execution self-observation
 
 ---
 
