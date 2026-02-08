@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Added
 - **`doctrine/` directory** - Standalone, portable framework with zero external dependencies
-- **`doctrine/DOCTRINE_MAP.md`** - Comprehensive navigation guide for all 201 framework files
+- **`docs/architecture/design/DOCTRINE_MAP.md`** - Comprehensive navigation guide for all 201 framework files
 - **`doctrine/DOCTRINE_STACK.md`** - Five-layer architecture documentation
 - **`doctrine/GLOSSARY.md`** - Centralized terminology reference
 - **`doctrine/templates/`** - Canonical template location (80 templates)
@@ -65,7 +65,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Documentation
 
 **Added:**
-- `doctrine/DOCTRINE_MAP.md` - Quick navigation, file catalog, path parameterization guide
+- `docs/architecture/design/DOCTRINE_MAP.md` - Quick navigation, file catalog, path parameterization guide
 - `doctrine/templates/automation/doctrine-config-template.yaml` - Configuration template for consuming repos
 - Updated `specific_guidelines.md` with Glossary update requirement and bootstrap requirements
 

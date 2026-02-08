@@ -70,7 +70,7 @@ See [`doctrine/CHANGELOG.md`](doctrine/CHANGELOG.md) for full details.
 - Framework ready for distribution via git subtree
 
 **Key Changes:**
-- Created `doctrine/DOCTRINE_MAP.md` - Complete framework navigation guide
+- Created `docs/architecture/design/DOCTRINE_MAP.md` - Complete framework navigation guide (moved from doctrine/)
 - Moved templates to canonical location: `doctrine/templates/`
 - Updated all 20 agent profiles to reference `doctrine/` paths
 - Bootstrap Bill configured to create `.doctrine/config.yaml` during repo setup

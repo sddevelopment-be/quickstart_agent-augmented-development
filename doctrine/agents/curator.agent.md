@@ -237,7 +237,7 @@ doctrine/
 ### Related Documentation
 
 - **Canonical Reference:** [Doctrine Stack](./DOCTRINE_STACK.md) - Complete architecture
-- **Doctrine Map:** [DOCTRINE_MAP.md](./DOCTRINE_MAP.md) - Directory structure
+- **Doctrine Map:** [docs/architecture/design/DOCTRINE_MAP.md](../../docs/architecture/design/DOCTRINE_MAP.md) - Directory structure
 - **Glossary:** [GLOSSARY.md](./GLOSSARY.md) - Terminology standards
 - **Export Implementation:** `tools/exporters/` and `tools/scripts/` - Pipeline code
 
