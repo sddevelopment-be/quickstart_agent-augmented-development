@@ -59,6 +59,7 @@ Or with parameters:
 
 ## Related
 
+- **Tactic:** `doctrine/tactics/agent-profile-creation.tactic.md`
 - **Template:** `doctrine/templates/prompts/NEW_AGENT.prompt.md`
 - **Agent Profile:** `doctrine/agents/manager.agent.md`
 - **Directive 005:** Agent Profiles

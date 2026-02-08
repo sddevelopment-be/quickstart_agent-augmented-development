@@ -64,8 +64,9 @@ Or with parameters:
 
 ## Related
 
+- **Tactic:** `doctrine/tactics/test-to-system-reconstruction.tactic.md`
 - **Template:** `doctrine/templates/prompts/TEST_READABILITY_CHECK.prompt.md`
-- **Approach:** `doctrine/approaches/test-readability-clarity-check.md`
+- **Approach:** `doctrine/approaches/reverse-speccing.md`
 - **Directive 017:** Test-Driven Development
 
 ---

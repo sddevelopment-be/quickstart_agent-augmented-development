@@ -57,8 +57,10 @@ Or with parameters:
 
 ## Related
 
+- **Tactic:** `doctrine/tactics/lexical-style-diagnostic.tactic.md`
 - **Template:** `doctrine/templates/prompts/LEXICAL_ANALYSIS.prompt.md`
 - **Agent Profile:** `doctrine/agents/lexical.agent.md`
+- **Directive 015:** Store Prompts
 - **Follow-up:** `/editor-revision`
 
 ---
