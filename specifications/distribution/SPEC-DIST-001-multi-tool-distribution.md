@@ -241,6 +241,114 @@ diff -r doctrine/agents/ .github/agents/  # Should match structure
 
 ---
 
+## Doctrine → Toolstack Mapping Matrix
+
+Based on research from:
+- `work/reports/research/2026-02-07-ai-tool-config-directory-analysis.md`
+- `work/analysis/ADR-013-multi-format-distribution.md`
+- `work/analysis/tech-design-export-pipeline.md`
+- Existing exporter implementations in `tools/exporters/`
+
+### Canonical Mapping Table
+
+| Doctrine Source | GitHub Copilot | Claude Desktop | OpenCode | Cursor | Format Transformation |
+|-----------------|----------------|----------------|----------|--------|----------------------|
+| **doctrine/agents/*.agent.md** | `.github/instructions/*.instructions.md` | `.claude/skills/*/SKILL.md` | `.opencode/agents/*.opencode.json` + `*.definition.yaml` | `.cursor/rules/*.md` | ✅ **Required**: YAML frontmatter → JSON schema (Copilot, OpenCode), Markdown with YAML (Claude, Cursor) |
+| **doctrine/directives/*.md** | Embedded in `instructions` field | Embedded in SKILL.md content | Embedded in definition YAML | Embedded in rules markdown | ✅ **Advised**: Extract to structured sections for machine readability |
+| **doctrine/approaches/*.md** | Embedded in `instructions` field | Embedded in SKILL.md content | Embedded in definition YAML | Embedded in rules markdown | ✅ **Advised**: Extract to structured sections for machine readability |
+| **doctrine/guidelines/*.md** | Embedded in `instructions` field or separate files | Separate files in `.claude/guidelines/` | Embedded in definition YAML | Separate files in `.cursor/guidelines/` | ⚠️ **Optional**: Can reference or inline |
+| **doctrine/tactics/*.md** | Embedded in `instructions` field | Embedded in SKILL.md content | Embedded in definition YAML | Embedded in rules markdown | ⚠️ **Optional**: Flatten into parent directives |
+| **doctrine/templates/*.md** | Not applicable (no template concept) | `.claude/prompts/*/template.md` | `.opencode/templates/*.yaml` | Not applicable | ✅ **Required**: YAML extraction + schema generation |
+| **doctrine/examples/**  | `.github/instructions/*.examples.md` (inline) | `.claude/skills/*/examples/` | `.opencode/examples/*.json` | `.cursor/examples/*.md` | ✅ **Required**: Markdown → JSON (OpenCode), Markdown (others) |
+
+### Tool-Specific Requirements
+
+#### GitHub Copilot
+**Discovery Mechanism:** Schema-based validation with `$schema` URL  
+**Primary Format:** JSON (`.copilot-skill.json`) or Markdown (`.instructions.md`)  
+**Location:** `.github/instructions/` or `.github/copilot/`  
+**Transformation:** YAML frontmatter → JSON schema with `extensions` field for governance  
+**Current Exporter:** `tools/exporters/copilot-generator.js`  
+**Source Read Location:** Currently `.github/agents/` (line 21) — **NEEDS UPDATE to `doctrine/agents/`**
+
+#### Claude Desktop
+**Discovery Mechanism:** Manifest-based with directory scanning  
+**Primary Format:** Markdown with YAML frontmatter  
+**Location:** `.claude/skills/*/SKILL.md`, `.claude/agents/manifest.json`  
+**Transformation:** Minimal (markdown-to-markdown with frontmatter normalization)  
+**Current Exporter:** `tools/exporters/prompt-template-exporter.js`  
+**Source Read Location:** Currently `.github/agents/` — **NEEDS UPDATE to `doctrine/agents/`**
+
+#### OpenCode
+**Discovery Mechanism:** Manifest + schema validation  
+**Primary Format:** JSON discovery (`.opencode.json`) + YAML definition (`.definition.yaml`)  
+**Location:** `.opencode/agents/`, `.opencode/manifest.opencode.json`  
+**Transformation:** YAML frontmatter → JSON + YAML with schema extraction  
+**Current Exporter:** `tools/exporters/opencode-exporter.js`, `tools/exporters/opencode-generator.js`  
+**Source Read Location:** Currently `.github/agents/` (line 21 in opencode-exporter.js) — **NEEDS UPDATE to `doctrine/agents/`**
+
+#### Cursor
+**Discovery Mechanism:** Convention-based (file naming patterns)  
+**Primary Format:** Markdown (`.cursorrules`) or directory-based rules  
+**Location:** `.cursor/rules/`, `.cursorrules` (root)  
+**Transformation:** Markdown-to-markdown with Cursor-specific formatting  
+**Current Exporter:** **NOT IMPLEMENTED** (planned)  
+**Source Read Location:** N/A — **TO BE CREATED reading from `doctrine/agents/`**
+
+### Format Transformation Requirements
+
+#### ✅ CRITICAL TRANSFORMATIONS (Must Implement)
+
+1. **YAML Frontmatter → JSON Schema (GitHub Copilot, OpenCode)**
+   - Extract `inputs`, `outputs` from frontmatter
+   - Generate JSON Schema Draft 7 structures
+   - Add `$schema` reference for validation
+   - Preserve governance metadata in `extensions` field
+
+2. **Markdown Narrative → Structured Sections (All Tools)**
+   - Parse markdown headings to extract Purpose, Specialization, Collaboration Contract
+   - Map to tool-specific fields (e.g., `description`, `instructions`, `behavior`)
+
+3. **Directive References → Embedded Content (All Tools)**
+   - Resolve `directives: [001, 018, 020]` references
+   - Inline directive content where tools don't support external references
+   - Maintain traceability metadata
+
+#### ⚠️ ADVISED TRANSFORMATIONS (Optimize User Experience)
+
+1. **Examples → Tool-Specific Format**
+   - GitHub Copilot: Inline in `instructions` field with formatting
+   - Claude Desktop: Separate `examples/` directory
+   - OpenCode: JSON structured examples with schema
+   - Cursor: Inline markdown examples
+
+2. **Tool/Command References → Platform-Specific Syntax**
+   - Bash commands: No transformation
+   - Tool names: Map to platform equivalents (e.g., `rg` → `ripgrep`)
+   - Paths: Use parameterized variables (`${WORKSPACE_ROOT}`)
+
+3. **Governance Metadata → Extension Fields**
+   - GitHub Copilot: `extensions.saboteurs_governance`
+   - OpenCode: `extensions.sdd_framework`
+   - Claude Desktop: Custom frontmatter fields
+   - Cursor: YAML frontmatter (no standard extension field)
+
+#### ⚪ OPTIONAL TRANSFORMATIONS (Future Enhancement)
+
+1. **Cross-Agent References → Hyperlinks**
+   - Tool-specific navigation links (if supported)
+   - Preserve as text references otherwise
+
+2. **Diagrams → Image Embeds**
+   - PlantUML/Mermaid → PNG/SVG (if tools support)
+   - Keep as code blocks otherwise
+
+3. **Version-Specific Optimizations**
+   - Adapt output based on detected tool version
+   - Use latest features when available
+
+---
+
 ## Decision Criteria (Updated with Stakeholder Input)
 
 | Criterion | Weight | Requirement | Symlinks (A) | Exporters (B) | Hybrid (C) |
@@ -261,9 +369,11 @@ diff -r doctrine/agents/ .github/agents/  # Should match structure
 
 ## Recommendation
 
-**✅ SOLUTION B: EXPORTER STRATEGIC APPROACH WITH SYMLINKS**
+**✅ SOLUTION B: EXPORTER-BASED DISTRIBUTION**
 
-**Analyst Annie Recommendation:** Based on stakeholder input, **Solution B (Exporters)** is the only viable option that meets all critical requirements:
+**Analyst Annie Recommendation:** Based on stakeholder input, **Solution B (Exporters)** is the only viable option that meets all critical requirements.
+
+**Critical Directive:** Symlinks are a TEMPORARY CRUTCH and NOT part of the permanent architecture.
 
 ### Why Solution B
 
@@ -275,9 +385,22 @@ diff -r doctrine/agents/ .github/agents/  # Should match structure
 
 **Implementation Strategy:**
 ```bash
-# Create symlinks: .github/agents → doctrine/agents (backward compatibility)
-# Keep existing exporters reading from .github/agents/ (no changes needed!)
-# Exporters automatically pick up doctrine/ content via symlinks
+# STEP 1: Update exporters to read from doctrine/ (not .github/agents/)
+# - tools/exporters/copilot-generator.js: line 21 AGENTS_DIR
+# - tools/exporters/opencode-exporter.js: line 21 AGENTS_DIR
+# - tools/exporters/prompt-template-exporter.js: source path
+
+# STEP 2: Run export pipeline
+npm run export:all && npm run deploy:all
+
+# STEP 3: Remove temporary symlinks (not part of architecture)
+rm .github/approaches .github/directives .github/guidelines .github/tactics .github/templates
+
+# STEP 4: Validate outputs
+ls .github/instructions/     # GitHub Copilot
+ls .claude/skills/           # Claude Desktop
+ls .opencode/agents/         # OpenCode standard
+```
 # CI/CD runs: npm run export:all && npm run deploy:all
 
 Result: 
@@ -404,16 +527,19 @@ dist/opencode/, dist/skills/ (generated formats)
 
 ## Status: READY FOR IMPLEMENTATION
 
-**Decision:** Solution B (Exporters with Symlinks for Compatibility)
+**Decision:** Exporter-Based Distribution with Doctrine-to-Toolstack Mapping
+
+**Critical Revision:** Remove symlinks as temporary crutch. Use proper exporter-based transformation with format optimization per toolstack.
 
 **Next Actions:**
-1. ✅ Create symlinks: `.github/agents` → `doctrine/agents` (backward compatibility)
-2. ✅ Create symlinks: `.github/directives`, `.github/approaches`, etc.
-3. ✅ Verify existing exporters work via symlinks (no updates needed)
+1. ✅ Document canonical doctrine → toolstack mapping (see below)
+2. ✅ Update exporters to read from `doctrine/` instead of `.github/agents/`
+3. ✅ Add format transformation logic where required
 4. ✅ Run CI/CD pipeline: `npm run export:all && npm run deploy:all`
 5. ✅ Validate outputs in `.github/instructions/`, `.claude/`, `.opencode/`
-6. ✅ Document in `doctrine/README.md`
-7. ✅ Create ADR documenting this architecture decision
+6. ✅ Remove temporary symlinks (not part of permanent architecture)
+7. ✅ Document in `doctrine/README.md`
+8. ✅ Create ADR documenting this architecture decision
 
 **Implementation Owner:** DevOps Danny (distribution automation specialist)
 
