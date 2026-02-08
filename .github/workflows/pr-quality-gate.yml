@@ -3,7 +3,8 @@ name: PR Quality Gate
 on:
   pull_request:
     branches: [main]
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, labeled]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -224,6 +225,20 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: [unit-tests, e2e-tests]
+    # Mutation testing is expensive and time-consuming (30+ minutes).
+    # Only run when:
+    #   1. PR is labeled with 'release' (indicates release candidate)
+    #   2. Branch name starts with 'release/' (release branch)
+    #   3. Triggered manually via workflow_dispatch
+    #   4. Push to main contains a tag starting with 'v' (version release)
+    #
+    # For regular PR development, mutation testing is skipped to improve feedback speed.
+    # Run mutation tests locally before release: `mutmut run --paths-to-mutate=src/framework/orchestration/`
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.pull_request.labels.*.name, 'release') ||
+      startsWith(github.head_ref, 'release/') ||
+      startsWith(github.ref, 'refs/tags/v')
     
     steps:
       - name: Checkout repository
@@ -367,6 +382,7 @@ jobs:
     name: Quality Gate Summary
     runs-on: ubuntu-latest
     needs: [code-quality, unit-tests, e2e-tests, mutation-testing, sonarcloud]
+    # Run summary even if mutation-testing was skipped
     if: always()
     
     steps:
@@ -412,6 +428,8 @@ jobs:
           
           if [ "$mutation" = "success" ]; then
             echo "| Mutation Testing | ✅ Completed |" >> $GITHUB_STEP_SUMMARY
+          elif [ "$mutation" = "skipped" ]; then
+            echo "| Mutation Testing | ⏭️ Skipped (not a release) |" >> $GITHUB_STEP_SUMMARY
           else
             echo "| Mutation Testing | ⚠️ Partial/Failed |" >> $GITHUB_STEP_SUMMARY
           fi
