@@ -17,12 +17,12 @@
  */
 
 const path = require('path');
-const { exportPromptTemplates } = require('./exporters/prompt-template-exporter');
-const { exportApproaches } = require('./exporters/approach-exporter');
+const { exportPromptTemplates } = require('../exporters/prompt-template-exporter');
+const { exportApproaches } = require('../exporters/approach-exporter');
 
-const PROMPTS_DIR = path.join(__dirname, '..', 'docs', 'templates', 'prompts');
-const APPROACHES_DIR = path.join(__dirname, '..', '.github', 'agents', 'approaches');
-const OUTPUT_DIR = path.join(__dirname, '..', 'dist', 'skills');
+const PROMPTS_DIR = path.join(__dirname, '..', '..', 'docs', 'templates', 'prompts');
+const APPROACHES_DIR = path.join(__dirname, '..', '..', 'doctrine', 'approaches');
+const OUTPUT_DIR = path.join(__dirname, '..', '..', 'dist', 'skills');
 
 async function main() {
   const args = process.argv.slice(2);

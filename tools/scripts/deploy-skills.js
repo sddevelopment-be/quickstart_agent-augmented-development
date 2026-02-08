@@ -29,8 +29,8 @@ const SKILLS_DIR = path.join(DIST_DIR, 'skills');
 const OPENCODE_DIR = path.join(DIST_DIR, 'opencode');
 
 // Source directories (direct)
-const AGENTS_SOURCE_DIR = path.join(__dirname, '..', '.github', 'agents');
-const PROMPTS_SOURCE_DIR = path.join(__dirname, '..', 'docs', 'templates', 'prompts');
+const AGENTS_SOURCE_DIR = path.join(__dirname, '..', '..', 'doctrine', 'agents');
+const PROMPTS_SOURCE_DIR = path.join(__dirname, '..', '..', 'docs', 'templates', 'prompts');
 
 // Target directories (tool-specific)
 const CLAUDE_SKILLS_DIR = path.join(__dirname, '..', '.claude', 'skills');

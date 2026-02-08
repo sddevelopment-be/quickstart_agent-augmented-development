@@ -18,8 +18,8 @@ const path = require('path');
 const yaml = require('js-yaml'); // Note: requires installation
 
 const OPENCODE_VERSION = '1.0';
-const AGENTS_DIR = path.join(__dirname, '..', '.github', 'agents');
-const DEFAULT_OUTPUT_DIR = path.join(__dirname, '..', 'dist', 'opencode');
+const AGENTS_DIR = path.join(__dirname, '..', '..', 'doctrine', 'agents');
+const DEFAULT_OUTPUT_DIR = path.join(__dirname, '..', '..', 'dist', 'opencode');
 
 /**
  * Parse markdown file with YAML frontmatter
