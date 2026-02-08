@@ -35,18 +35,18 @@ dev = [
 
 [tool.setuptools.packages.find]
 where = [".", "src"]
-include = ["framework*", "ops*", "llm_service*"]
-exclude = ["validation*", "tmp*", "output*", "work*"]
+include = ["framework*", "src*", "llm_service*"]
+exclude = ["tmp*", "output*", "work*", "tools*", "fixtures*"]
 
 [tool.mutmut]
 # Paths to apply mutations
-paths_to_mutate = "ops/orchestration/,framework/"
+paths_to_mutate = "src/framework/orchestration/,framework/"
 
 # Test runner command
-runner = "python -m pytest validation/"
+runner = "python -m pytest tests/"
 
 # Tests directory
-tests_dir = "validation/"
+tests_dir = "tests/"
 
 # Patterns to exclude from mutation
 dict_synonyms = ["Dict", "dict"]
@@ -80,7 +80,7 @@ ignore = [
 ]
 
 [tool.pytest.ini_options]
-testpaths = ["validation", "tests"]
+testpaths = ["tests"]
 python_files = "test_*.py"
 python_classes = "Test*"
 python_functions = "test_*"
