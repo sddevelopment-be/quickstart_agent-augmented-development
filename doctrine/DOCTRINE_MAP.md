@@ -293,5 +293,7 @@ All files use configurable path variables (defaults shown):
 - **AGENTS.md** (repository root) — Agent initialization protocol
 - **specific_guidelines.md** (repository root) — Repository-specific rules
 - `.doctrine/config.yaml` — Path configuration overrides (create in consuming repo)
-- `.github/instructions/` — Generated Copilot skills (exported from doctrine/)
-- `.claude/skills/` — Generated Claude skills (exported from doctrine/)
+- **Export targets** (generated from doctrine/):
+  - `.github/instructions/` — GitHub Copilot skills
+  - `.claude/skills/` — Claude Desktop skills
+  - Platform-specific formats as needed
