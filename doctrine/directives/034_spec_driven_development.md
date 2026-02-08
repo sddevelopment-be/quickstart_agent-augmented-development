@@ -233,37 +233,20 @@ Brief description of the feature and its purpose.
 
 ## Phase Checkpoint Protocol
 
-**Purpose:** Prevent phase-skipping violations and ensure proper hand-offs between agents during multi-phase specification-driven work.
+**Purpose:** Prevent phase-skipping violations and ensure proper hand-offs between agents.
 
-**Execute at the end of EVERY phase:**
+**Implementation:** See [Tactic: Phase Checkpoint Protocol](../tactics/phase-checkpoint-protocol.md)
 
-```
-□ Which phase am I in? [1-6]
-  1. ANALYSIS (create specification stub)
-  2. ARCHITECTURE / TECH DESIGN (evaluate and approve)
-  3. PLANNING (task breakdown)
-  4. ACCEPTANCE TEST IMPLEMENTATION (red phase)
-  5. CODE IMPLEMENTATION (green phase)
-  6. REVIEW (approve or request changes)
+**Key Requirement:** Execute the 6-step checkpoint at the end of EVERY phase:
 
-□ Is this phase complete? [YES/NO]
-  → If NO: Continue work until phase deliverable ready
+1. ✅ Identify current phase [1-6]
+2. ✅ Verify phase completion [YES/NO]
+3. ✅ Identify next phase owner [Agent name]
+4. ✅ Check your authority [YES/NO/CONSULT]
+5. ✅ Verify Directives 014/015 satisfied [YES/NO]
+6. ✅ Execute hand-off (commit, notify, document)
 
-□ Who owns the next phase? [Agent name]
-  → Consult Role Boundaries Table below
-
-□ Do I have authority for the next phase? [YES/NO]
-  → If NO: Hand off immediately (do NOT continue)
-
-□ Are Directives 014/015 satisfied? [YES/NO]
-  → Directive 014: Create work log for major phase completion
-  → Directive 015: Document reusable patterns as prompts
-
-□ Ready to hand off? [YES/NO]
-  → Document outputs clearly
-  → Notify next agent explicitly
-  → Commit phase deliverables
-```
+**Validation:** 0 violations in SPEC-DIST-001 full cycle (2026-02-08)
 
 ### Role Boundaries Table
 
@@ -292,19 +275,21 @@ Brief description of the feature and its purpose.
 
 ### Common Violations to Avoid
 
-❌ **Phase Skipping:** Analyst jumping from Phase 1 to Phase 5 (implementation)
-- **Prevention:** Use checkpoint protocol after Phase 1 completion
+❌ **Phase Skipping:** Analyst jumping from Phase 1 to Phase 5 (implementation)  
+→ **Prevention:** Use [Phase Checkpoint Protocol tactic](../tactics/phase-checkpoint-protocol.md)
 
-❌ **Role Overstepping:** Analyst doing Architect's work (trade-off analysis, technical design)
-- **Prevention:** Check Role Boundaries Table before continuing
+❌ **Role Overstepping:** Analyst doing Architect's work (trade-off analysis, technical design)  
+→ **Prevention:** Check Role Boundaries Table before continuing
 
-❌ **Missing Documentation:** Skipping work logs (Directive 014) or prompt docs (Directive 015)
-- **Prevention:** Include directives check in checkpoint protocol
+❌ **Missing Documentation:** Skipping work logs (Directive 014) or prompt docs (Directive 015)  
+→ **Prevention:** Checkpoint Step 5 verifies directive compliance
 
-❌ **Premature Implementation:** Starting code before acceptance tests exist (violates ATDD)
-- **Prevention:** Phase 4 (tests) MUST complete before Phase 5 (code)
+❌ **Premature Implementation:** Starting code before acceptance tests exist (violates ATDD)  
+→ **Prevention:** Phase 4 (tests) MUST complete before Phase 5 (code)
 
-**Related:** [Ralph Wiggum Loop](../approaches/ralph-wiggum-loop.md) for mid-execution self-observation
+**Related Tactics:**
+- [Phase Checkpoint Protocol](../tactics/phase-checkpoint-protocol.md) - 6-step hand-off verification
+- [Ralph Wiggum Loop](../approaches/ralph-wiggum-loop.md) - Mid-execution self-observation
 
 ---
 
