@@ -6,7 +6,7 @@ async function demo() {
   
   // Create validator
   const validator = new PromptValidator();
-  const schemaPath = path.join(__dirname, 'validation/schemas/prompt-schema.json');
+  const schemaPath = path.join(__dirname, 'src/framework/schemas/prompt-schema.json');
   await validator.loadSchema(schemaPath);
   console.log('✓ Schema loaded\n');
   

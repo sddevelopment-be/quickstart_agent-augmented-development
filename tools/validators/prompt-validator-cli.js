@@ -34,7 +34,7 @@ const { PromptValidator, formatValidationResult } = require('./prompt-validator'
 
 // Configuration
 const DEFAULT_THRESHOLD = 70;
-const SCHEMA_PATH = path.join(__dirname, '../../validation/schemas/prompt-schema.json');
+const SCHEMA_PATH = path.join(__dirname, '../../src/framework/schemas/prompt-schema.json');
 
 /**
  * Parse command-line arguments
