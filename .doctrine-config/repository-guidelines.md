@@ -170,7 +170,7 @@ When introducing **new concepts, terminology, or framework elements**, agents an
 
 **When bootstrapping a repository** that uses the SDD Agentic Framework:
 
-1. **Bootstrap Bill must create** `.doctrine/` directory in repository root
+1. **Bootstrap Bill must create** `.doctrine-config/` directory in repository root
 2. **Generate `config.yaml`** from `doctrine/templates/automation/doctrine-config-template.yaml`
 3. **Configure path variables** to match the repository structure:
    - `workspace_root` (default: `work`) — Task orchestration workspace

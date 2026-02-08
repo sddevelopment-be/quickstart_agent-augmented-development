@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - 'fixtures/prompts/**.yaml'
+      - 'fixtures/prompts/**/*.yaml'
       - 'tools/validators/prompt-validator*.js'
       - 'src/framework/schemas/prompt-schema.json'
 

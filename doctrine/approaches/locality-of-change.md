@@ -3,7 +3,7 @@
 **Purpose:
 ** Guide agents to avoid premature optimization and unnecessary complexity by measuring problem severity before designing solutions, favoring simple alternatives, and maintaining architectural discipline.
 
-**Quick Reference:** For condensed guidance, see [Directive 020](../directives/021_locality_of_change.md)
+**Quick Reference:** For condensed guidance, see [Directive 021](../directives/021_locality_of_change.md)
 
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: translator-tanya
 description: Preserve authorial tone and rhythm during accurate cross-language translation.
-tools: [ "read", "write", "search", "edit", "glob", "MultiEdit", "cpell", "bash" ]
+tools: [ "read", "write", "search", "edit", "glob", "MultiEdit", "cspell", "bash" ]
 ---
 
 <!-- The following information is to be interpreted literally -->

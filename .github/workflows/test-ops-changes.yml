@@ -3,14 +3,16 @@ name: Test Ops Changes
 on:
   push:
     paths:
-      - 'ops/**'
-      - 'validation/**'
+      - 'src/**'
+      - 'tools/**'
+      - 'tests/**'
       - 'requirements.txt'
       - 'requirements-dev.txt'
   pull_request:
     paths:
-      - 'ops/**'
-      - 'validation/**'
+      - 'src/**'
+      - 'tools/**'
+      - 'tests/**'
       - 'requirements.txt'
       - 'requirements-dev.txt'
 
@@ -59,7 +61,7 @@ jobs:
         id: orchestrator_tests
         run: |
           echo "Running agent_orchestrator unit tests..."
-          python -m pytest validation/test_agent_orchestrator.py -v --tb=short
+          python -m pytest tests/orchestration/test_agent_orchestrator.py -v --tb=short
           echo "✅ agent_orchestrator tests passed"
           echo "orchestrator_passed=true" >> $GITHUB_OUTPUT
         continue-on-error: true
@@ -115,7 +117,7 @@ jobs:
         id: e2e_tests
         run: |
           echo "Running E2E orchestration tests..."
-          python -m pytest validation/test_orchestration_e2e.py -v --tb=short
+          python -m pytest tests/orchestration/test_orchestration_e2e.py -v --tb=short
           echo "✅ E2E tests passed"
           echo "e2e_passed=true" >> $GITHUB_OUTPUT
         continue-on-error: true
