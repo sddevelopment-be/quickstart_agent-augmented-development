@@ -1,16 +1,19 @@
 ---
 id: SPEC-DIST-001
 title: Doctrine Framework Multi-Tool Distribution Architecture
-status: ready-for-implementation
-version: 1.0.0
+status: approved
+version: 1.1.0
 author: Analyst Annie
+architect_review: Architect Alphonso
 created: 2026-02-08
-updated: 2026-02-08
-stakeholders: [stijn, devops-danny, bootstrap-bill]
+updated: 2026-02-08T0632
+stakeholders: [stijn, devops-danny, bootstrap-bill, architect-alphonso]
 priority: high
 type: architecture
-tags: [distribution, doctrine, cross-tool, exporters, symlinks]
-decision: solution-b-exporters-with-symlinks
+tags: [distribution, doctrine, cross-tool, exporters]
+decision: pure-exporter-approach
+approved_by: architect-alphonso
+approved_date: 2026-02-08T0632
 ---
 
 # Doctrine Framework Multi-Tool Distribution Architecture
