@@ -272,3 +272,12 @@ Awaiting your choice before proceeding with test implementation.
 **Maintained by:** Manager Mike, Planning Petra  
 **Version:** 1.0.0  
 **Last Updated:** 2026-02-08
+
+---
+
+## Related
+
+- **Tactic:** `doctrine/tactics/autonomous-operation-protocol.tactic.md`
+- **Directive 007:** Agent Declaration (operational authority)
+- **Directive 024:** Self-Observation Protocol (checkpoints)
+- **Directive 020:** Locality of Change (scope discipline)

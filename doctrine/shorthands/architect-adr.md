@@ -105,6 +105,7 @@ Time Horizon: medium (6-12 months)
 
 ## Related
 
+- **Tactic:** `doctrine/tactics/adr-drafting-workflow.tactic.md`
 - **Template:** `doctrine/templates/prompts/ARCHITECT_ADR.prompt.md`
 - **Directive 018:** Traceable Decisions
 - **Agent Profile:** `doctrine/agents/architect.agent.md`

@@ -57,8 +57,10 @@ Or with parameters:
 
 ## Related
 
+- **Tactic:** `doctrine/tactics/repository-initialization.tactic.md`
 - **Template:** `doctrine/templates/prompts/BOOTSTRAP_REPO.prompt.md`
 - **Agent Profile:** `doctrine/agents/bootstrap-bill.agent.md`
+- **Directive 003:** Repository Quick Reference
 - **ADR-004:** Work Directory Structure
 
 ---

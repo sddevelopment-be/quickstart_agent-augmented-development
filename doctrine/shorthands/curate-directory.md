@@ -56,8 +56,10 @@ Or with parameters:
 
 ## Related
 
+- **Tactic:** `doctrine/tactics/documentation-curation-audit.tactic.md`
 - **Template:** `doctrine/templates/prompts/CURATE_DIRECTORY.prompt.md`
 - **Agent Profile:** `doctrine/agents/curator.agent.md`
+- **Directive 014:** Work Log Creation
 
 ---
 
