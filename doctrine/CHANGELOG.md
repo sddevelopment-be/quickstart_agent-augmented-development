@@ -22,6 +22,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`doctrine/templates/automation/doctrine-config-template.yaml`** - Path configuration template
 - **Path parameterization** - All files use `${WORKSPACE_ROOT}`, `${DOC_ROOT}`, `${SPEC_ROOT}`, `${OUTPUT_ROOT}` for portability
 - **Bootstrap Bill doctrine setup** - Automatically creates `.doctrine/config.yaml` during repository initialization
+- **`doctrine/agents/reviewer.agent.md`** - Quality assurance specialist for ADRs, specifications, and documentation (21st agent profile)
+- **`doctrine/guidelines/python-conventions.md`** - Comprehensive Python coding standards with Quad-A test pattern
+- **`doctrine/guidelines/version-control-hygiene.md`** - Git workflow discipline and conventional commit standards
 
 #### Changed
 - **BREAKING:** Agent profiles context sources now reference `doctrine/` instead of `.github/agents/`
@@ -96,7 +99,39 @@ Doctrine is now ready for:
 - **Multi-repository deployment:** Path variables allow customization per repo
 - **Tool integration:** Supports GitHub Copilot, Claude, Cursor, OpenCode
 
-**Commits:** 26 commits from initial extraction through Phase 1 completion (up to 22b17ee)
+#### Phase 1c: Knowledge Extraction (2026-02-08)
+
+**External Repository Learning Extraction** - Generic patterns only, zero proprietary content:
+
+**Reviewer Agent:**
+- Multi-dimensional quality assurance (Structural, Editorial, Technical, Standards)
+- 3 rigor levels (Light/Standard/Comprehensive)
+- Evidence-based findings with actionable recommendations
+- Collaboration patterns with Writer-Editor, Curator agents
+- Source: Extracted from external repository, all proprietary content removed
+
+**Python Conventions Guideline:**
+- **Novel Contribution:** Quad-A test pattern (Arrange-Assumption-Act-Assert)
+  - Extends traditional AAA with assumption checks
+  - Validates test setup to catch fixture failures early
+  - Provides precise failure messages distinguishing setup vs behavior issues
+- Guard clause validation patterns (fail-fast, flat code)
+- Type hints and f-string standards
+- Testing pyramid philosophy (50-70% unit, 20-30% integration, 10-20% e2e)
+- Black/Ruff tooling discipline
+- Common patterns (Path objects, UTC timestamps, YAML handling)
+- Source: Extracted from external repository styleguides (generic patterns only)
+
+**Version Control Hygiene Guideline:**
+- Conventional commit format (type(scope): summary)
+- One logical change per commit discipline
+- Small, reviewable commits (<500 lines ideal)
+- Branch hygiene (short-lived <24h, focused scope)
+- Destructive command safety warnings (reset --hard, force push)
+- Agent-specific conventions (identity in commits, multi-agent coordination)
+- Source: Extracted from external repository styleguides (already generic)
+
+**Commits:** 29 commits from initial extraction through Phase 1c completion (up to d473d5f)
 
 ---
 
