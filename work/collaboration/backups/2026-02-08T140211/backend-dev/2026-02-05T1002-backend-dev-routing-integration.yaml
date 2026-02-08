@@ -1,0 +1,47 @@
+id: 2026-02-05T1002-backend-dev-routing-integration
+agent: backend-dev
+status: assigned
+priority: high
+title: Routing Engine Integration with GenericYAMLAdapter
+artefacts:
+- src/llm_service/routing.py
+- tests/unit/test_routing.py
+context:
+  background: 'Integrate GenericYAMLAdapter with the routing engine.
+
+    Routing engine should instantiate generic adapter for all tools.
+
+    '
+  batch: 'M2 Batch 2.3: Generic YAML Adapter Implementation'
+  current_state: Routing engine exists but may reference concrete adapters
+requirements:
+  adapter_factory:
+  - Update routing engine to use GenericYAMLAdapter
+  - Instantiate adapters with tool_name and tool_config from YAML
+  - Remove references to concrete adapters (ClaudeCodeAdapter)
+  tool_registration:
+  - Load tool configs from YAML
+  - Create GenericYAMLAdapter instance for each tool
+  - Map tool name to adapter instance
+  routing_logic:
+  - Routing engine selects adapter by tool name
+  - Pass model and prompt to adapter.execute
+  - Return normalized ToolResponse
+  backwards_compatibility:
+  - Ensure existing routing tests still pass
+  - Update tests to use GenericYAMLAdapter
+  - Keep ClaudeCodeAdapter import for its integration tests only
+acceptance_criteria:
+- Routing engine uses GenericYAMLAdapter for all tools
+- Tool registration from YAML config works
+- All routing tests pass with generic adapter
+- ClaudeCodeAdapter only used in integration test fixtures
+- Can add new tool via YAML without code changes (demonstrated)
+- Test coverage greater than 80 percent maintained
+dependencies:
+- 2026-02-05T1000-backend-dev-generic-yaml-adapter
+- 2026-02-05T1001-backend-dev-yaml-env-vars
+created_at: '2026-02-05T10:02:00Z'
+created_by: planning-petra
+estimated_hours: 2.5
+assigned_at: '2026-02-05T06:09:53.496323Z'

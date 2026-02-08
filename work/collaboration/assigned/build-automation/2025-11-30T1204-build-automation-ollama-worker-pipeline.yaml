@@ -5,8 +5,8 @@ priority: normal
 mode: /analysis-mode
 title: Operationalize local worker nodes for Ollama tasks
 artefacts:
-- ops/config/ollama_models.yaml
-- ops/scripts/run-local-worker.py
+- tools/config/ollama_models.yaml
+- tools/scripts/run-local-worker.py
 - work/logs/build-automation/2025-11-30T1204-build-automation-ollama-worker-pipeline.md
 description: 'Implement the local worker automation described in Platform Next Steps
   so
@@ -25,9 +25,9 @@ context:
   - Provide CLI flags for input prompt files, output destinations, validators.
   - Ensure privacy expectations spelled out (no external network calls).
 requirements:
-- Create ops/config/ollama_models.yaml enumerating each supported local model, expected
+- Create tools/config/ollama_models.yaml enumerating each supported local model, expected
   use cases, context windows, hardware requirements, and validation snippets.
-- Implement ops/scripts/run-local-worker.py able to:
+- Implement tools/scripts/run-local-worker.py able to:
   - Parse a task descriptor or prompt file.
   - Launch the relevant Ollama model.
   - Capture structured outputs plus exit codes.

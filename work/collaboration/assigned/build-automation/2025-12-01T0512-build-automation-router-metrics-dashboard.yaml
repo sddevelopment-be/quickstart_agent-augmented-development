@@ -5,8 +5,8 @@ priority: medium
 mode: /analysis-mode
 title: Integrate router/model selection metrics with ADR-009 dashboard
 artefacts:
-- ops/dashboards/generate-dashboard.py
-- validation/dashboards/test_generate_dashboard.py
+- tools/dashboards/generate-dashboard.py
+- tools/validators/dashboards/test_generate_dashboard.py
 - docs/metrics/README.md
 - work/logs/build-automation/2025-12-01T0512-build-automation-router-metrics-dashboard.md
 description: 'Wire router/model selection telemetry (token usage, fallbacks, pricing)
@@ -26,13 +26,13 @@ context:
   - Keep output files lightweight (Markdown + JSON) for downstream reporting.
   - Update docs/metrics references if new sections are introduced.
 requirements:
-- Extend ops/dashboards/generate-dashboard.py to ingest router validation logs and
+- Extend tools/dashboards/generate-dashboard.py to ingest router validation logs and
   Ollama worker runs, summarizing model usage, fallback counts, and pricing ceilings.
 - Document new sections in docs/metrics/README.md (or create the file if absent).
 - Provide CLI flags for selecting time windows or specific routers.
 - "Ensure outputs align with ADR-009\u2019s reporting expectations."
 testing_requirements:
-- Add/extend pytest coverage in validation/dashboards/ for the new data sources.
+- Add/extend pytest coverage in tools/validators/dashboards/ for the new data sources.
 - Include fixture samples for router validator output and Ollama worker logs.
 - Verify CLI flag combinations via tests or dedicated script-level checks.
 success_criteria:

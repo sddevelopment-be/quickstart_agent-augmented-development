@@ -3,10 +3,10 @@ agent: scribe
 status: assigned
 title: Create example workflows for 3 user personas
 artefacts:
-- docs/examples/ai-power-user-workflow.md
-- docs/examples/software-engineer-workflow.md
-- docs/examples/process-architect-workflow.md
-- docs/examples/troubleshooting-guide.md
+- docs/fixtures/ai-power-user-workflow.md
+- docs/fixtures/software-engineer-workflow.md
+- docs/fixtures/process-architect-workflow.md
+- docs/fixtures/troubleshooting-guide.md
 context:
   project: LLM Service Layer
   architecture_ref: docs/architecture/design/llm-service-layer-prestudy.md

@@ -187,7 +187,7 @@ references:
     - work/reports/assessments/export-module-implementation-review.md
   existing_architecture:
     - work/analysis/tech-design-export-pipeline.md
-    - ops/exporters/parser.js
-    - ops/exporters/validator.js
+    - tools/exporters/parser.js
+    - tools/exporters/validator.js
 
 assigned_to: Architect Alphonso

@@ -1,0 +1,122 @@
+id: "2026-02-06T1221-dashboard-repository-initialization"
+title: "Dashboard-Driven Repository Initialization"
+status: "inbox"
+priority: "MEDIUM"
+agent: "python-pedro"
+estimated_hours: 18
+specification: "specifications/llm-dashboard/repository-initialization.md"
+related_adrs:
+  - "docs/architecture/adrs/ADR-039-dashboard-repository-initialization.md"
+  - "docs/architecture/adrs/ADR-032-real-time-execution-dashboard.md"
+  - "docs/architecture/adrs/ADR-007-agent-declaration.md"
+created: "2026-02-06T12:21:00Z"
+updated: "2026-02-06T12:21:00Z"
+
+scope: |
+  Implement guided repository initialization form with Bootstrap Bill integration:
+  
+  Phase 1: UI and Validation (4-5 hours)
+  - Create initialization modal with form fields (vision, constraints, guidelines)
+  - Implement client-side validation (50-char minimum for vision)
+  - Add /api/init/check endpoint (re-bootstrap detection)
+  - Build warning dialog for re-bootstrap confirmation
+  
+  Phase 2: Bootstrap Bill Integration (6-8 hours)
+  - Create /api/init/execute endpoint (subprocess invocation)
+  - Handle temporary file creation for inputs
+  - Test subprocess execution with various input combinations
+  - Implement error handling (failures, timeouts)
+  - Add 10-minute timeout protection
+  
+  Phase 3: Progress Streaming - POLLING FALLBACK (4-5 hours)
+  - Implement /api/init/status/<job_id> polling endpoint
+  - Build progress UI (log output area, progress bar)
+  - Add 2-second polling interval on client
+  - Test completion detection and success/error states
+  
+  OPTIONAL Phase 3 Alternative: WebSocket Streaming (6-8 hours)
+  - Real-time output forwarding via socketio.emit('init_progress')
+  - Eliminates polling latency (immediate progress updates)
+  - Adds complexity (WebSocket event handling)
+  - Recommendation: Defer to Phase 2 if time allows
+
+constraints:
+  - Must preserve Bootstrap Bill's scaffolding logic (no reimplementation)
+  - Must initialize current repository only (no external dirs for MVP)
+  - Must warn before re-bootstrapping (prevent overwrites)
+  - Must provide feedback during 2-5 minute execution
+  - Must handle subprocess hangs (10-minute timeout)
+
+acceptance_criteria:
+  Backend:
+  - /api/init/check detects existing initialization (agents_dir, adr_dir)
+  - /api/init/execute validates vision length (50-5000 chars)
+  - Subprocess spawns with correct args (vision, constraints, guidelines)
+  - Temporary input files created and cleaned up
+  - 10-minute timeout kills hung subprocess
+  - Exit code captured and returned to frontend
+  
+  Frontend:
+  - Initialization modal displays form with required/optional fields
+  - Character counter shows vision length (0/50 minimum)
+  - Re-bootstrap warning shows if repository initialized
+  - Progress log displays Bootstrap Bill output
+  - Success/error state displayed after completion
+  - Error messages actionable (not raw stack traces)
+  
+  Integration:
+  - Full initialization flow completes in 2-5 minutes
+  - Dashboard reloads after successful initialization
+  - Failed initialization doesn't break dashboard
+  
+  Performance:
+  - Form validation: <50ms
+  - Subprocess spawn: <500ms
+  - Progress updates: <2s latency (polling) or <100ms (WebSocket)
+
+implementation_notes: |
+  Technology Stack:
+  - Flask subprocess.Popen for Bootstrap Bill execution
+  - Polling approach (MVP): simpler, less latency-sensitive
+  - WebSocket approach (Optional): better UX, more complex
+  
+  Key Files:
+  - src/llm_service/dashboard/app.py (add /api/init/* endpoints)
+  - src/llm_service/dashboard/static/dashboard.js (add init modal logic)
+  - src/llm_service/dashboard/static/index.html (add init modal HTML)
+  - src/llm_service/dashboard/static/dashboard.css (add modal styles)
+  
+  Security:
+  - Escape shell characters in vision/constraints/guidelines
+  - Validate no path traversal in Bootstrap Bill args
+  - Timeout subprocess after 10 minutes (prevent hangs)
+  - Clean up temporary files after execution
+  
+  Testing:
+  - Unit tests: Input validation (10 cases)
+  - Integration tests: Mock Bootstrap Bill subprocess
+  - Manual tests: Full init flow on test repository
+  - Error scenarios: Invalid inputs, subprocess failure, timeout
+  
+  Bootstrap Bill Command Example:
+  python -m framework.agents.bootstrap_bill \
+    --vision-file /tmp/bootstrap_vision.txt \
+    --constraints-file /tmp/bootstrap_constraints.txt \
+    --guidelines-file /tmp/bootstrap_guidelines.txt \
+    --repo-dir /path/to/current/repo
+
+dependencies: []
+blocks: []
+
+mvp_options: |
+  MVP Recommendation: Use polling fallback (4-5h Phase 3)
+  - Simpler implementation (no WebSocket complexity)
+  - Acceptable latency for 2-5 minute operation (2s poll interval)
+  - Can upgrade to WebSocket in future iteration if needed
+  
+  Full Implementation: WebSocket streaming (6-8h Phase 3)
+  - Better user experience (immediate feedback)
+  - Requires WebSocket event handling
+  - More complex debugging if issues arise
+  
+  Decision: Start with polling MVP, assess user feedback

@@ -1,0 +1,71 @@
+id: "2026-02-06T1220-dashboard-docsite-integration"
+title: "Dashboard-Docsite Content Integration"
+status: "inbox"
+priority: "MEDIUM"
+agent: "frontend"
+estimated_hours: 11
+specification: "specifications/llm-dashboard/docsite-integration.md"
+related_adrs:
+  - "docs/architecture/adrs/ADR-038-dashboard-docsite-integration.md"
+  - "docs/architecture/adrs/ADR-032-real-time-execution-dashboard.md"
+created: "2026-02-06T12:20:00Z"
+updated: "2026-02-06T12:20:00Z"
+
+scope: |
+  Implement pattern-based documentation linking with help toolbar:
+  
+  Phase 1: Link Resolution Engine (3-4 hours)
+  - Create dashboard-doc-links.js with pattern-based resolver
+  - Add /api/config/docsite endpoint for configuration
+  - Test link generation (agent → profile, ADR-XXX → doc)
+  
+  Phase 2: Auto-Linkification (3-4 hours)
+  - Inject agent profile links in task cards
+  - Auto-linkify ADR references (regex: ADR-\d{3})
+  - Add CSS styling for doc links (external icon, hover states)
+  
+  Phase 3: Help Toolbar (3-4 hours)
+  - Build toolbar UI (fixed bottom-right position)
+  - Populate with standard documentation shortcuts
+  - Add toggle interaction (show/hide menu)
+  - Test accessibility (keyboard nav, ARIA labels)
+
+constraints:
+  - Must NOT duplicate documentation content
+  - Must work with local docsite (http://localhost:8000) and GitHub
+  - Must handle missing docs gracefully (broken links acceptable)
+  - Must remain lightweight (<20KB JavaScript overhead)
+
+acceptance_criteria:
+  - Agent names in task cards become clickable links to profiles
+  - ADR references (ADR-XXX pattern) auto-linkify to docs
+  - Help toolbar visible with 5+ documentation shortcuts
+  - Links open in new tab (preserve dashboard state)
+  - Configuration endpoint returns docsite URLs
+  - Broken links don't crash dashboard (404 acceptable)
+  - Accessibility: keyboard navigation works, ARIA labels present
+  - Performance: Link resolution <1ms, config fetch <50ms
+
+implementation_notes: |
+  Technology Stack:
+  - Vanilla JavaScript (no framework required)
+  - Pattern-based URL templates (no server-side validation)
+  - Client-side caching for docsite config (1-hour TTL)
+  
+  Key Files:
+  - src/llm_service/dashboard/static/dashboard-doc-links.js (new)
+  - src/llm_service/dashboard/app.py (add /api/config/docsite endpoint)
+  - src/llm_service/dashboard/static/dashboard.css (add doc link styles)
+  - src/llm_service/dashboard/static/index.html (add help toolbar)
+  
+  Security:
+  - Sanitize agent names before URL insertion (XSS prevention)
+  - Whitelist URL schemes (http, https only)
+  
+  Testing:
+  - Unit tests: Link resolver functions (10 test cases)
+  - Manual tests: Click agent links, ADR refs, toolbar links
+  - Accessibility tests: Screen reader, keyboard-only navigation
+
+dependencies: []
+blocks: []

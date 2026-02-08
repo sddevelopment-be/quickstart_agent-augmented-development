@@ -246,9 +246,9 @@ common_fixes: |
   {
     "scripts": {
       "test:validator": "jest tests/unit/validator.test.js",
-      "validate:cross-references": "node ops/scripts/validate-cross-references.js",
-      "validate:definitions": "node ops/scripts/validate-definitions.js",
-      "lint:markua": "node ops/scripts/remark-lint-markua.mjs",
+      "validate:cross-references": "node tools/scripts/validate-cross-references.js",
+      "validate:definitions": "node tools/scripts/validate-definitions.js",
+      "lint:markua": "node tools/scripts/remark-lint-markua.mjs",
       "spell:manuscript": "cspell 'manuscript/**/*.md'"
     }
   }

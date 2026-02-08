@@ -1,0 +1,44 @@
+id: 2026-02-04T1714-scribe-persona-workflows
+agent: scribe
+status: assigned
+title: Create example workflows for 3 user personas
+artefacts:
+- docs/examples/ai-power-user-workflow.md
+- docs/examples/software-engineer-workflow.md
+- docs/examples/process-architect-workflow.md
+- docs/examples/troubleshooting-guide.md
+context:
+  project: LLM Service Layer
+  architecture_ref: docs/architecture/design/llm-service-layer-prestudy.md
+  milestone: 'Milestone 4: Integration & Distribution'
+  batch: 'Batch 4.2: Documentation & Examples'
+  personas:
+  - AI Power User (Consistency-Seeking) - see docs/audience/ai_power_user.md
+  - Software Engineer / Platform Engineer - see docs/audience/software_engineer.md
+  - Process Architect - see docs/audience/process_architect.md
+  notes:
+  - Extract usage scenarios from prestudy (Scenario 1, 2, 3)
+  - Provide step-by-step workflows with actual CLI commands
+  - Show configuration examples specific to each persona's needs
+  - Include before/after comparisons (manual vs. automated workflows)
+  - Demonstrate cost tracking and optimization for each persona
+  - Troubleshooting guide covers common errors and solutions
+acceptance_criteria:
+- Each persona workflow is actionable with copy-paste CLI commands
+- 'Workflows demonstrate key features: routing, cost optimization, telemetry, budget
+  enforcement'
+- AI Power User workflow shows single CLI interface and cost tracking
+- Software Engineer workflow shows multi-agent orchestration with context chaining
+- Process Architect workflow shows team-wide policy enforcement and analytics
+- 'Troubleshooting guide covers: tool not found, auth errors, budget exceeded, rate
+  limiting'
+- Examples tested against actual implementation (or mocks if tools unavailable)
+- Documentation follows project style guide and markdown linting rules
+dependencies:
+- 'Task 12: Acceptance tests complete (validates workflows actually work)'
+- 'Task 14: User guide complete (provides context for examples)'
+estimated_effort: 1 day
+priority: medium
+created_at: '2026-02-04T17:14:00Z'
+created_by: planning-petra
+assigned_at: '2026-02-04T19:26:05.749446Z'

@@ -4,9 +4,9 @@ status: assigned
 priority: high
 title: Implement ADR-023 Phase 2 - Prompt Validator with Schema
 artefacts:
-  - validation/schemas/prompt-schema.json
-  - ops/validation/prompt-validator.js
-  - validation/agent_exports/prompt-validator.test.js
+  - tools/validators/schemas/prompt-schema.json
+  - tools/validation/prompt-validator.js
+  - tools/validators/agent_exports/prompt-validator.test.js
   - docs/HOW_TO_USE/prompt-validation-guide.md
 estimated_duration: 6-8 hours
 created_at: '2026-01-30T16:42:00Z'
@@ -20,7 +20,7 @@ context_files:
   - docs/templates/prompts/documentation.yaml
   - docs/templates/prompts/architecture-decision.yaml
   - docs/templates/prompts/assessment.yaml
-  - ops/exporters/validator.js
+  - tools/exporters/validator.js
 
 related_adrs:
   - ADR-023 (Prompt Optimization Framework)
@@ -43,7 +43,7 @@ description: |
   **Background:**
   - Phase 1 created 5 canonical templates addressing 12 suboptimal patterns
   - Phase 2 adds validation and enforcement to ensure template compliance
-  - Existing validator module (`ops/exporters/validator.js`) provides pattern to follow
+  - Existing validator module (`tools/exporters/validator.js`) provides pattern to follow
   
   **Current State:**
   - Templates exist but no automated validation
@@ -57,13 +57,13 @@ description: |
   - CI/CD ready validation module
 
 deliverables:
-  - file: validation/schemas/prompt-schema.json
+  - file: tools/validators/schemas/prompt-schema.json
     type: JSON Schema
     validation: Validates against JSON Schema draft-07, covers all required template sections
-  - file: ops/validation/prompt-validator.js
+  - file: tools/validation/prompt-validator.js
     type: code (Node.js module)
     validation: Exports PromptValidator class, includes anti-pattern detection, passes all tests
-  - file: validation/agent_exports/prompt-validator.test.js
+  - file: tools/validators/agent_exports/prompt-validator.test.js
     type: test (Jest)
     validation: 20+ tests covering schema validation, anti-patterns, edge cases, 95%+ coverage
   - file: docs/HOW_TO_USE/prompt-validation-guide.md
@@ -81,9 +81,9 @@ success_criteria:
 
 constraints:
   do:
-    - Use existing `ops/exporters/validator.js` as reference pattern
+    - Use existing `tools/exporters/validator.js` as reference pattern
     - Use Ajv library for JSON Schema validation (already in project)
-    - Follow existing test patterns in `validation/agent_exports/`
+    - Follow existing test patterns in `tools/validators/agent_exports/`
     - Use YAML parsing from `js-yaml` library
     - Reference the 5 canonical templates for validation examples
   dont:
@@ -97,12 +97,12 @@ context_loading:
   critical:
     - path: /home/runner/work/quickstart_agent-augmented-development/quickstart_agent-augmented-development/docs/architecture/adrs/ADR-023-prompt-optimization-framework.md
       reason: Full specification lines 290-570
-    - path: /home/runner/work/quickstart_agent-augmented-development/quickstart_agent-augmented-development/ops/exporters/validator.js
+    - path: /home/runner/work/quickstart_agent-augmented-development/quickstart_agent-augmented-development/tools/exporters/validator.js
       reason: Pattern to follow
     - path: /home/runner/work/quickstart_agent-augmented-development/quickstart_agent-augmented-development/docs/templates/prompts/task-execution.yaml
       reason: Example template to validate
   supporting:
-    - path: /home/runner/work/quickstart_agent-augmented-development/quickstart_agent-augmented-development/validation/agent_exports/validator.test.js
+    - path: /home/runner/work/quickstart_agent-augmented-development/quickstart_agent-augmented-development/tools/validators/agent_exports/validator.test.js
       reason: Test pattern reference
     - path: /home/runner/work/quickstart_agent-augmented-development/quickstart_agent-augmented-development/docs/architecture/adrs/ADR-023-implementation-roadmap.md
       reason: Phase 2 details
@@ -232,8 +232,8 @@ token_budget:
   description_budget: ADR + templates + validator pattern for input; code + tests + docs for output
 
 notes: |
-  - Reference the existing `ops/exporters/validator.js` for patterns
-  - Use the same test infrastructure as `validation/agent_exports/`
+  - Reference the existing `tools/exporters/validator.js` for patterns
+  - Use the same test infrastructure as `tools/validators/agent_exports/`
   - Quality score formula: Start at 100, deduct 10 per schema error, 5 per anti-pattern
   - The validator should be usable both via CLI and programmatically
   - Consider adding --fix flag in future for auto-fixing common issues

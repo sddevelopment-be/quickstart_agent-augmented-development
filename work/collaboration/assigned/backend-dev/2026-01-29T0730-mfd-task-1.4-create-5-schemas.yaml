@@ -115,7 +115,7 @@ description: |
   ### Test 1: Schema Validates
   ```bash
   npm install -g ajv-cli
-  ajv validate -s architect-alphonso.input.schema.json -d examples/architect-input-1.json
+  ajv validate -s architect-alphonso.input.schema.json -d fixtures/architect-input-1.json
   ```
   
   ### Test 2: Coverage Check

@@ -160,8 +160,8 @@ notes: |
   
   **Specification Migration:**
   - Existing specs need frontmatter added
-  - Use ops/scripts/add-spec-frontmatter.py to bootstrap
-  - Validate with ops/scripts/validate-specs.py
+  - Use tools/scripts/add-spec-frontmatter.py to bootstrap
+  - Validate with tools/scripts/validate-specs.py
   
   **Performance Optimization:**
   - Parse specs on startup, cache in memory

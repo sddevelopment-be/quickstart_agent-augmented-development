@@ -39,7 +39,7 @@ requirements:
 testing_requirements:
 - Write unit tests that simulate `.agent.md` and directive files via fixtures.
 - Cover error handling for missing metadata, duplicate directives, and cache refresh.
-- Ensure tests run with `python -m pytest validation/test_framework_interface.py`.
+- Ensure tests run with `python -m pytest tools/validators/test_framework_interface.py`.
 success_criteria:
 - Framework exposes `load_agent_profiles()` and `load_directives()` helpers.
 - Unit tests cover missing files, malformed headers, and successful parsing.

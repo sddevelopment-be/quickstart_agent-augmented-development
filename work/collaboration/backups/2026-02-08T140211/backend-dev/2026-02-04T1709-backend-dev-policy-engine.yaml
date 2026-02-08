@@ -1,0 +1,42 @@
+id: 2026-02-04T1709-backend-dev-policy-engine
+agent: backend-dev
+status: assigned
+title: Implement policy engine for budget enforcement and cost optimization
+artefacts:
+- src/llm_service/policy/engine.py
+- tests/test_policy_engine.py
+- docs/policy-engine.md
+context:
+  project: LLM Service Layer
+  architecture_ref: docs/architecture/design/llm-service-layer-prestudy.md
+  milestone: 'Milestone 3: Cost Optimization & Telemetry'
+  batch: 'Batch 3.2: Policy Engine'
+  human_approval_required: true
+  notes:
+  - Implement budget tracking against daily/monthly limits
+  - 'Support configurable enforcement: limit.type=soft (warn) vs limit.type=hard (block)'
+  - "Implement cost optimization: task complexity (token count) \u2192 model selection"
+  - "Simple tasks (<1500 tokens) \u2192 cheap models (claude-haiku, gpt-3.5-turbo)"
+  - "Complex tasks (>1500 tokens) \u2192 premium models (gpt-4-turbo, claude-opus)"
+  - Query telemetry database for current spending
+  - Calculate estimated cost for pending request
+  - Display warnings at configurable threshold (default 80% of budget)
+  - Rate limiting support (max_requests_per_minute per tool)
+acceptance_criteria:
+- Budget tracking queries telemetry DB and enforces limits
+- Soft limit (limit.type=soft) warns user but allows override
+- Hard limit (limit.type=hard) blocks execution with clear error message
+- Cost optimization correctly routes simple/complex tasks to appropriate models
+- Warning displayed at 80% budget threshold with current spending and request cost
+- Rate limiting prevents excessive requests to same tool
+- Unit tests cover all policy enforcement scenarios
+- Documentation explains configuration options (limit.type, thresholds, rules)
+dependencies:
+- 'Task 9: Telemetry infrastructure must be complete (for spending queries)'
+- Config schema must support policies.yaml structure
+- Model catalog (models.yaml) must include cost_per_1k_tokens data
+estimated_effort: 3-4 days
+priority: high
+created_at: '2026-02-04T17:09:00Z'
+created_by: planning-petra
+assigned_at: '2026-02-04T19:26:05.757349Z'

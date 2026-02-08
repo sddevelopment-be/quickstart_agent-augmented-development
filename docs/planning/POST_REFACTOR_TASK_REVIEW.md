@@ -246,7 +246,10 @@ Need architectural validation post-refactor:
 - ✅ Update NEXT_BATCH.md if needed
 - ✅ Create AGENT_TASKS.md with updated assignments
 - ✅ Create DEPENDENCIES.md mapping
-- ⬜ Create path migration guide for task artifact updates
+- ✅ Create path migration guide for task artifact updates
+- ✅ Execute path migration (2026-02-08T1402) - 17 files modified, 63 path changes
+- ✅ Create cold storage "fridge" directory structure
+- ✅ Archive 6 outdated/complete tasks (2 complete, 4 POC3 outdated)
 
 ### For Analyst Annie (Next)
 - Spec: Model Selection Template (2h)
@@ -265,10 +268,30 @@ Need architectural validation post-refactor:
 
 ## Metrics
 
-**Task Health:**
+**Task Health (Before Migration):**
 - Active: 28 (54%)
 - Needs updates: 18 (35%)
 - Blocked: 6 (11%)
+
+**Task Health (After Migration - 2026-02-08T1402):**
+- Active: 44 tasks remaining
+- Path updates completed: 17 files (✅)
+- Archived to cold storage: 6 tasks (2 complete, 4 outdated)
+- Tasks with current paths: 44/44 (100%)
+
+**Migration Statistics:**
+- Total path changes applied: 63
+- Files backed up: 50 (backup location: `work/collaboration/backups/2026-02-08T140211`)
+- Cold storage created: `work/collaboration/fridge/` with complete/ and outdated/ subdirectories
+- Migration script: `tools/scripts/migrate-task-paths.py`
+
+**Path Mapping Results:**
+- `validation/` → `tools/validators/`: 25 changes
+- `ops/` → `tools/`: 12 changes  
+- `ops/scripts/` → `tools/scripts/`: 12 changes
+- `ops/exporters/` → `tools/exporters/`: 7 changes
+- `examples/` → `fixtures/`: 5 changes
+- `ops/orchestration/` → `src/framework/orchestration/`: 2 changes
 
 **Priority Distribution:**
 - CRITICAL: 1
@@ -277,14 +300,16 @@ Need architectural validation post-refactor:
 - LOW: 7
 - UNKNOWN: 8
 
-**Agent Workload (Active Tasks):**
-- backend-dev: 10 tasks
+**Agent Workload (Active Tasks After Migration):**
+- backend-dev: 9 tasks (was 10, -1 complete)
 - python-pedro: 6 tasks
 - build-automation: 9 tasks
 - architect: 5 tasks
 - frontend: 2 tasks
-- writer-editor: 4 tasks
-- Others: 16 tasks
+- writer-editor: 1 task (was 4, -3 archived)
+- synthesizer: 0 tasks (was 1, -1 archived)
+- diagrammer: 0 tasks (was 1, -1 archived)
+- Others: 12 tasks
 
 **Estimated Effort (Active + Ready):**
 - Immediate batch (M4.3b): 11-15 hours
@@ -294,4 +319,5 @@ Need architectural validation post-refactor:
 ---
 
 _Review completed: 2026-02-08T1250 by Planning Petra_  
+_Migration executed: 2026-02-08T1402 by Planning Petra_  
 _Next review: After M4 Batch 4.3 completion or if priorities shift_
