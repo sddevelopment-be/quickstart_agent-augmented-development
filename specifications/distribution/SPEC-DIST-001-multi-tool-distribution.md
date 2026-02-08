@@ -251,15 +251,16 @@ Based on research from:
 
 ### Canonical Mapping Table
 
-| Doctrine Source | GitHub Copilot | Claude Desktop | OpenCode | Cursor | Format Transformation |
-|-----------------|----------------|----------------|----------|--------|----------------------|
-| **doctrine/agents/*.agent.md** | `.github/instructions/*.instructions.md` | `.claude/skills/*/SKILL.md` | `.opencode/agents/*.opencode.json` + `*.definition.yaml` | `.cursor/rules/*.md` | ✅ **Required**: YAML frontmatter → JSON schema (Copilot, OpenCode), Markdown with YAML (Claude, Cursor) |
-| **doctrine/directives/*.md** | Embedded in `instructions` field | Embedded in SKILL.md content | Embedded in definition YAML | Embedded in rules markdown | ✅ **Advised**: Extract to structured sections for machine readability |
-| **doctrine/approaches/*.md** | Embedded in `instructions` field | Embedded in SKILL.md content | Embedded in definition YAML | Embedded in rules markdown | ✅ **Advised**: Extract to structured sections for machine readability |
-| **doctrine/guidelines/*.md** | Embedded in `instructions` field or separate files | Separate files in `.claude/guidelines/` | Embedded in definition YAML | Separate files in `.cursor/guidelines/` | ⚠️ **Optional**: Can reference or inline |
-| **doctrine/tactics/*.md** | Embedded in `instructions` field | Embedded in SKILL.md content | Embedded in definition YAML | Embedded in rules markdown | ⚠️ **Optional**: Flatten into parent directives |
-| **doctrine/templates/*.md** | Not applicable (no template concept) | `.claude/prompts/*/template.md` | `.opencode/templates/*.yaml` | Not applicable | ✅ **Required**: YAML extraction + schema generation |
-| **doctrine/examples/**  | `.github/instructions/*.examples.md` (inline) | `.claude/skills/*/examples/` | `.opencode/examples/*.json` | `.cursor/examples/*.md` | ✅ **Required**: Markdown → JSON (OpenCode), Markdown (others) |
+| Doctrine Source | GitHub Copilot | Claude Desktop | OpenCode | Cursor | Codex | Format Transformation |
+|-----------------|----------------|----------------|----------|--------|-------|----------------------|
+| **AGENTS.md** | `.github/copilot-instructions.md` (custom instructions) | `.claude/system-prompt.md` | `.opencode/system-prompt.md` | `.cursorrules` (root file) | `.codex/system-prompt.md` | ⚠️ **Optional**: Can inline or reference; core initialization protocol |
+| **doctrine/agents/*.agent.md** | `.github/instructions/*.instructions.md` | `.claude/skills/*/SKILL.md` | `.opencode/agents/*.opencode.json` + `*.definition.yaml` | `.cursor/rules/*.md` | `.codex/agents/*.json` | ✅ **Required**: YAML frontmatter → JSON schema (Copilot, OpenCode, Codex), Markdown with YAML (Claude, Cursor) |
+| **doctrine/directives/*.md** | Embedded in `instructions` field | Embedded in SKILL.md content | Embedded in definition YAML | Embedded in rules markdown | Embedded in agent JSON | ✅ **Advised**: Extract to structured sections for machine readability |
+| **doctrine/approaches/*.md** | Embedded in `instructions` field | Embedded in SKILL.md content | Embedded in definition YAML | Embedded in rules markdown | Embedded in agent JSON | ✅ **Advised**: Extract to structured sections for machine readability |
+| **doctrine/guidelines/*.md** | Embedded in `instructions` field or separate files | Separate files in `.claude/guidelines/` | Embedded in definition YAML | Separate files in `.cursor/guidelines/` | Separate files in `.codex/guidelines/` | ⚠️ **Optional**: Can reference or inline |
+| **doctrine/tactics/*.md** | Embedded in `instructions` field | Embedded in SKILL.md content | Embedded in definition YAML | Embedded in rules markdown | Embedded in agent JSON | ⚠️ **Optional**: Flatten into parent directives |
+| **doctrine/templates/*.md** | Not applicable (no template concept) | `.claude/prompts/*/template.md` | `.opencode/templates/*.yaml` | Not applicable | `.codex/templates/*.json` | ✅ **Required**: YAML extraction + schema generation |
+| **doctrine/examples/**  | `.github/instructions/*.examples.md` (inline) | `.claude/skills/*/examples/` | `.opencode/examples/*.json` | `.cursor/examples/*.md` | `.codex/examples/*.json` | ✅ **Required**: Markdown → JSON (OpenCode, Codex), Markdown (others) |
 
 ### Tool-Specific Requirements
 
@@ -294,6 +295,14 @@ Based on research from:
 **Transformation:** Markdown-to-markdown with Cursor-specific formatting  
 **Current Exporter:** **NOT IMPLEMENTED** (planned)  
 **Source Read Location:** N/A — **TO BE CREATED reading from `doctrine/agents/`**
+
+#### Codex
+**Discovery Mechanism:** JSON-based configuration files  
+**Primary Format:** JSON with schema validation  
+**Location:** `.codex/agents/*.json`, `.codex/system-prompt.md`  
+**Transformation:** YAML frontmatter → JSON with agent definitions, structured prompts  
+**Current Exporter:** **NOT IMPLEMENTED** (planned)  
+**Source Read Location:** N/A — **TO BE CREATED reading from `doctrine/agents/` and `AGENTS.md`**
 
 ### Format Transformation Requirements
 
