@@ -1,0 +1,71 @@
+---
+# Centralized Version Configuration for CI/CD Workflows
+# 
+# This file provides a single source of truth for language/tool versions
+# used across all GitHub Actions workflows.
+#
+# Usage in workflows:
+#   1. Load this file using a step that reads YAML
+#   2. Reference the version variables in subsequent steps
+#
+# Maintenance:
+#   - Update versions here to propagate changes across all workflows
+#   - Document the reason for version selection
+#   - Test version changes on a feature branch first
+
+# Python version configuration
+python:
+  # Default Python version for most workflows (testing, validation, quality checks)
+  # Version: 3.10.x (latest stable 3.10 release)
+  # Reason: Balance between modern features and broad compatibility
+  default: "3.10"
+  
+  # Python version for release packaging workflows
+  # Version: 3.12.x (latest stable 3.12 release)
+  # Reason: Latest features, better performance, used for production releases
+  release: "3.12"
+  
+  # Supported Python versions for compatibility testing (future use)
+  supported:
+    - "3.10"
+    - "3.11"
+    - "3.12"
+
+# Node.js version configuration
+node:
+  # Default Node.js version for JavaScript/TypeScript workflows
+  # Version: 18.x LTS (Active LTS)
+  # Reason: Long-term support, stable, recommended for production
+  default: "18"
+  
+  # Alternative Node versions for testing (future use)
+  supported:
+    - "18"
+    - "20"
+
+# Operating System versions
+os:
+  # Default runner OS
+  default: "ubuntu-latest"
+  
+  # Supported OS for matrix testing (future use)
+  matrix:
+    - "ubuntu-latest"
+    - "ubuntu-22.04"
+
+# Tool versions
+tools:
+  # yamllint version for workflow validation
+  yamllint: "1.35.1"
+  
+  # actionlint version
+  actionlint: "latest"
+
+# Version update log
+# Format: YYYY-MM-DD - Version change description
+changelog:
+  - date: "2026-02-08"
+    change: "Initial centralized version configuration"
+    python_default: "3.10"
+    python_release: "3.12"
+    node_default: "18"

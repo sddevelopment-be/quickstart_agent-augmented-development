@@ -1,0 +1,32 @@
+name: 'Load Version Configuration'
+description: 'Loads centralized version configuration from .github/versions.yml'
+outputs:
+  python-default:
+    description: 'Default Python version'
+    value: ${{ steps.load.outputs.python-default }}
+  python-release:
+    description: 'Python version for releases'
+    value: ${{ steps.load.outputs.python-release }}
+  node-default:
+    description: 'Default Node.js version'
+    value: ${{ steps.load.outputs.node-default }}
+runs:
+  using: 'composite'
+  steps:
+    - name: Load version configuration
+      id: load
+      shell: bash
+      run: |
+        # Parse versions.yml and export as outputs
+        PYTHON_DEFAULT=$(grep -A 10 "^python:" ${{ github.workspace }}/.github/versions.yml | grep "default:" | sed 's/.*default: "\(.*\)"/\1/')
+        PYTHON_RELEASE=$(grep -A 10 "^python:" ${{ github.workspace }}/.github/versions.yml | grep "release:" | sed 's/.*release: "\(.*\)"/\1/')
+        NODE_DEFAULT=$(grep -A 10 "^node:" ${{ github.workspace }}/.github/versions.yml | grep "default:" | sed 's/.*default: "\(.*\)"/\1/')
+        
+        echo "python-default=$PYTHON_DEFAULT" >> $GITHUB_OUTPUT
+        echo "python-release=$PYTHON_RELEASE" >> $GITHUB_OUTPUT
+        echo "node-default=$NODE_DEFAULT" >> $GITHUB_OUTPUT
+        
+        echo "✅ Loaded versions:"
+        echo "  Python (default): $PYTHON_DEFAULT"
+        echo "  Python (release): $PYTHON_RELEASE"
+        echo "  Node (default): $NODE_DEFAULT"
