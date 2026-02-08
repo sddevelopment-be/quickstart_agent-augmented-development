@@ -404,6 +404,106 @@ A specification is successful when:
 
 ---
 
+## Common Anti-Patterns
+
+### 1. Implementation-First Approach
+
+**Symptom:** Creating implementation tasks before defining requirements
+
+**Example:**
+```yaml
+# ❌ BAD: Direct implementation task without spec
+title: "Fix dashboard CORS errors"
+description: "Add cors_allowed_origins to Flask-SocketIO"
+```
+
+**Problem:**
+- No clear acceptance criteria
+- Weak traceability to requirements
+- Risk of solving wrong problem
+
+**Fix:** Write specification → derive tests → create tasks
+
+```markdown
+# ✅ GOOD: Specification first
+FR-M1: System MUST accept WebSocket connections from localhost
+- Rationale: Dashboard unusable without real-time updates
+- Success Criteria: WebSocket connection succeeds (not 400 error)
+- Test: Given dashboard running, When browser connects, Then connection accepted
+```
+
+### 2. Confusing Specifications with ADRs
+
+**Symptom:** Including architectural trade-off analysis in functional specs
+
+**Example:**
+```markdown
+❌ BAD in specification:
+"We will use Flask-SocketIO instead of native WebSockets because:
+ - Context: Need real-time communication
+ - Decision: Flask-SocketIO chosen
+ - Consequences: Adds dependency, simplifies CORS handling"
+```
+
+**Problem:** Mixing "what" (behavior) with "why" (technical decisions)
+
+**Fix:** 
+- **ADRs** = Architectural decisions (technology choices)
+- **Specs** = Functional behavior (what system does)
+
+```markdown
+✅ GOOD in specification:
+FR-M1: System MUST provide real-time task updates via WebSocket
+- Implementation details: See ADR-028 (WebSocket Technology Choice)
+
+✅ GOOD in ADR:
+ADR-028: Use Flask-SocketIO for Real-Time Communication
+- Context: Need WebSocket support with minimal setup
+- Decision: Flask-SocketIO
+- Consequences: [trade-offs]
+```
+
+### 3. Mandatory Specs for Everything
+
+**Symptom:** Creating specifications for trivial features
+
+**Example:**
+```markdown
+❌ BAD: Over-specification
+Specification: Add "Clear Cache" Button
+- 15 pages of requirements
+- 20 scenarios
+- 2 weeks to write spec
+```
+
+**Problem:**
+- Documentation debt
+- Slowed velocity
+- Over-engineering simple work
+
+**Fix:** Match rigor to complexity (see "When to Create Specifications")
+
+```markdown
+✅ GOOD: Acceptance test only (simple feature)
+Feature: Clear Cache Button
+  Scenario: User clears cache
+    Given cache contains data
+    When user clicks "Clear Cache"
+    Then cache is emptied
+    And user sees "Cache cleared" message
+```
+
+**Rule:** If acceptance test is unambiguous, skip the spec.
+
+---
+
+## Case Studies
+
+**Real-World Example:**
+- [Dashboard Integration SDD Learning](../../work/reports/reflections/2026-02-06-specification-driven-development-learnings.md) - Implementation-first anti-pattern and correction
+
+---
+
 ## References
 
 **Related Directives:**

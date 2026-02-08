@@ -82,6 +82,8 @@ Do I need to document a requirement?
 - ❌ Bug fixes (unless they reveal missing requirements)
 - ❌ Architectural decisions (use ADRs)
 
+**Rule of Thumb:** If you can write acceptance tests directly without ambiguity, skip the spec.
+
 ---
 
 ## Specification Template
@@ -368,6 +370,9 @@ Before marking a specification as "Approved", ensure:
 - [spec-kitty Repository](https://github.com/Priivacy-ai/spec-kitty) - Inspiration for SDD approach
 - [User Story Format (Agile)](https://www.agilealliance.org/glossary/user-stories/) - As a/I want/So that
 - [Behavior-Driven Development](https://cucumber.io/docs/bdd/) - Given/When/Then scenarios
+
+**Further Reading:**
+- [SDD Learnings Reflection](../work/reports/reflections/2026-02-06-specification-driven-development-learnings.md) - Real-world lessons from dashboard integration
 
 ---
 
