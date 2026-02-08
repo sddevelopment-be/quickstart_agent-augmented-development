@@ -1,8 +1,12 @@
 # Code Artifacts Refactoring Proposal
 
 **Date:** 2026-02-08  
-**Status:** Proposed  
+**Status:** Revised (orchestration moved to framework)  
 **Goal:** Consolidate code into clear, maintainable structure with sensible boundaries
+
+## REVISION NOTE
+
+**Key insight from review:** Orchestration is NOT tooling - it's the framework runtime that executes Task/Agent abstractions. Updated structure reflects this.
 
 ---
 
@@ -16,37 +20,50 @@
 
 ---
 
-## Proposed Structure: Clear Separation of Concerns
+## Proposed Structure: Production Code vs Development Tools
 
 ```
 repository-root/
 │
 ├── src/                          # Production code only
 │   ├── llm_service/             # LLM routing service (current)
-│   └── framework/               # Portable framework abstractions (move from root)
+│   └── framework/               # Complete portable framework
+│       ├── core/                # Abstractions (Task, Agent, TaskStatus)
+│       ├── execution/           # Model routing (current)
+│       ├── interface/           # Framework clients (current)
+│       └── orchestration/       # Runtime execution (from ops/orchestration/)
 │
-├── tools/                        # Operational tooling (rename from ops/)
+├── tools/                        # Development utilities (rename from ops/)
 │   ├── exporters/               # Format converters (IR, OpenCode, Copilot)
-│   ├── orchestration/           # Agent orchestration examples
 │   ├── validation/              # Schema validators
 │   ├── dashboards/              # Monitoring dashboards
 │   ├── release/                 # Release automation
 │   └── scripts/                 # Maintenance scripts
 │
-├── tests/                        # All tests consolidated
-│   ├── unit/                    # Unit tests
+├── tests/                        # Tests for src/ production code
+│   ├── unit/
 │   │   ├── llm_service/        # Tests for src/llm_service/
-│   │   ├── framework/          # Tests for src/framework/
-│   │   └── tools/              # Tests for tools/ (from validation/)
-│   ├── integration/             # Integration tests
-│   │   ├── llm_service/
-│   │   └── framework/
-│   └── fixtures/                # All test data consolidated
-│       ├── agents/              # Agent IR/OpenCode/Copilot examples
-│       ├── prompts/             # Prompt validation examples (from examples/)
-│       ├── configs/             # Configuration samples
-│       ├── validators/          # Validation test cases
-│       └── schemas/             # JSON schemas
+│   │   └── framework/          # Tests for src/framework/
+│   │       ├── core/
+│   │       ├── execution/
+│   │       ├── interface/
+│   │       └── orchestration/   # Tests for orchestration runtime
+│   └── integration/
+│       ├── llm_service/
+│       └── framework/
+│
+├── validation/                   # Tests for tools/ code
+│   ├── exporters/               # Tests for tools/exporters/
+│   ├── validation/              # Tests for tools/validation/
+│   ├── release/                 # Tests for tools/release/
+│   └── dashboards/              # Tests for tools/dashboards/
+│
+├── fixtures/                     # Shared test data (NEW top-level)
+│   ├── agents/                  # Agent examples (all formats merged)
+│   ├── prompts/                 # From examples/prompts/
+│   ├── configs/                 # Configuration samples
+│   ├── validators/              # Validation test cases
+│   └── schemas/                 # JSON schemas
 │
 └── [keep existing]
     ├── doctrine/                # Framework documentation (no change)
@@ -59,19 +76,23 @@ repository-root/
 
 ## Key Changes
 
-### 1. Consolidate Production Code → `src/`
+### 1. Consolidate Framework Code → `src/framework/`
 
-**Move:** `framework/` → `src/framework/`
+**Move:** 
+- `framework/` → `src/framework/` (existing core/execution/interface)
+- `ops/orchestration/` → `src/framework/orchestration/` (runtime execution)
 
 **Rationale:**
 - Framework IS production code (used by llm_service and tools)
-- Having all production code under src/ clarifies what's deployable
+- Orchestration is the framework runtime, not tooling
+- Having complete framework under src/ clarifies what's deployable
 - Matches Python packaging conventions (src layout)
 
 **Impact:**
 - Update imports: `from framework.core import Task` → `from src.framework.core import Task`
+- Update imports: `from ops.orchestration import AgentOrchestrator` → `from src.framework.orchestration import AgentOrchestrator`
 - Update setup.py/pyproject.toml to include src/framework/
-- Low risk: Only import path changes
+- Medium risk: Import path changes needed
 
 ---
 
