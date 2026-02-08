@@ -118,7 +118,7 @@ jobs:
           echo "Running all unit tests with coverage..."
           python -m pytest tests/test_task_utils.py tests/orchestration/test_agent_orchestrator.py \
             -v --tb=short \
-            --cov=ops/orchestration \
+            --cov=src/framework \
             --cov-report=term-missing \
             --cov-report=xml \
             --cov-report=html
@@ -187,7 +187,7 @@ jobs:
         id: e2e_tests
         run: |
           echo "Running E2E orchestration tests..."
-          python -m pytest validation/test_orchestration_e2e.py -v --tb=short
+          python -m pytest tests/orchestration/test_orchestration_e2e.py -v --tb=short
           echo "✅ E2E tests passed"
           echo "e2e_passed=true" >> $GITHUB_OUTPUT
         continue-on-error: true
@@ -250,7 +250,7 @@ jobs:
           echo ""
           
           # Run mutmut (may take several minutes)
-          if mutmut run --paths-to-mutate=ops/orchestration/ 2>&1 | tee mutmut_output.txt; then
+          if mutmut run --paths-to-mutate=src/framework/orchestration/ 2>&1 | tee mutmut_output.txt; then
             echo "mutmut_completed=true" >> $GITHUB_OUTPUT
           else
             echo "mutmut_completed=partial" >> $GITHUB_OUTPUT
@@ -360,8 +360,8 @@ jobs:
       #       -Dsonar.projectKey=sddevelopment-be_quickstart_agent-augmented-development
       #       -Dsonar.organization=sddevelopment-be
       #       -Dsonar.python.coverage.reportPaths=coverage.xml
-      #       -Dsonar.sources=ops/scripts/
-      #       -Dsonar.tests=validation/
+      #       -Dsonar.sources=src/,tools/
+      #       -Dsonar.tests=tests/
 
   quality-gate-summary:
     name: Quality Gate Summary

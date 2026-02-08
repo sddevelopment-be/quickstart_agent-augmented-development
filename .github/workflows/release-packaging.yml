@@ -66,14 +66,14 @@ jobs:
       
       - name: Build release artifact (dry-run)
         run: |
-          python ops/release/build_release_artifact.py \
+          python tools/release/build_release_artifact.py \
             --version "${{ steps.version.outputs.version }}" \
             --output-dir ./output/releases \
             --dry-run
       
       - name: Build release artifact
         run: |
-          python ops/release/build_release_artifact.py \
+          python tools/release/build_release_artifact.py \
             --version "${{ steps.version.outputs.version }}" \
             --output-dir ./output/releases
       
@@ -195,7 +195,7 @@ jobs:
           echo "" >> release-description.md
           echo "## How to use" >> release-description.md
           echo "" >> release-description.md
-          cat ../../ops/release/downstream/README.md >> release-description.md
+          cat ../../tools/release/downstream/README.md >> release-description.md
           
           echo "Release description prepared"
       
@@ -213,8 +213,8 @@ jobs:
           files: |
             output/releases/quickstart-framework-${{ steps.version.outputs.version }}.zip
             output/releases/checksums.txt
-            ops/release/downstream/deploy_framework.sh
-            ops/release/downstream/framework-update.yml
+            tools/release/downstream/deploy_framework.sh
+            tools/release/downstream/framework-update.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       

@@ -1,8 +1,8 @@
 <!-- The following information is to be interpreted literally -->
 
-# 018 Documentation Level Framework Directive
+# 018 Traceable Decisions Directive
 
-**Purpose:** Guide agents in choosing appropriate documentation detail levels to minimize drift and maintenance burden.
+**Purpose:** Guide agents in capturing architectural decisions and maintaining decision traceability throughout the development lifecycle.
 
 **Applies to:** Creating or updating documentation, reports, READMEs, and work logs.
 
@@ -15,8 +15,7 @@
 > **Document decisions and intent at the level they're made.**  
 > **Let code and file structure document implementation details.**
 
-Documentation should match the **stability
-** of what it describes. High-specificity documentation of volatile details creates high drift risk and maintenance burden.
+Documentation should match the **stability** of what it describes. High-specificity documentation of volatile details creates high drift risk and maintenance burden.
 
 ---
 

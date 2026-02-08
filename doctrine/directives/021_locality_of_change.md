@@ -1,6 +1,6 @@
 <!-- The following information is to be interpreted literally -->
 
-# 020 Locality of Change Directive
+# 021 Locality of Change Directive
 
 **Purpose:** Guide agents to avoid premature optimization and unnecessary complexity by measuring problem severity before designing solutions.
 
