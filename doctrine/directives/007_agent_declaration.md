@@ -18,8 +18,11 @@ in Operational v1.2.0, Strategic v1.0.0, Command v1.1.0, and Bootstrap v1.0.0.
 
 Enforcement: Failure to declare invalidates operational authority; must be renewed after [rehydration](../GLOSSARY.md#rehydration) events.
 
-**Related Terms:
-** [Context Layer](../GLOSSARY.md#context-layer), [Version Governance](../GLOSSARY.md#version-governance), [Bootstrap](../GLOSSARY.md#bootstrap)
+**Related Tactics:**
+- [`autonomous-operation-protocol.tactic.md`](../tactics/autonomous-operation-protocol.tactic.md) — AFK mode operational boundaries
+
+**Related Terms:**
+[Context Layer](../GLOSSARY.md#context-layer), [Version Governance](../GLOSSARY.md#version-governance), [Bootstrap](../GLOSSARY.md#bootstrap)
 
 ---
 

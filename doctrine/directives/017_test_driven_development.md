@@ -76,3 +76,14 @@ The **Refactor** step (step 3 in the TDD cycle) has specific rules:
 
 **CRITICAL: This way of working is not optional. Tests are to be written before any code is crafted.**
 
+---
+
+## Related Resources
+
+- **ADR-012:** Test-Driven Development Mandate
+- **Tactic:** [`test-to-system-reconstruction.tactic.md`](../tactics/test-to-system-reconstruction.tactic.md) — Validate tests as documentation
+- **Tactic:** [`test-boundaries-by-responsibility.tactic.md`](../tactics/test-boundaries-by-responsibility.tactic.md) — Determine test scope
+- **Shorthand:** [`/test-readability-check`](../shorthands/test-readability-check.md) — Dual-agent validation
+- **Approach:** [`reverse-speccing.md`](../approaches/reverse-speccing.md) — Test-to-system reconstruction
+- **Directive 016:** ATDD (acceptance scenarios before TDD)
+

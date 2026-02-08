@@ -175,8 +175,19 @@ Issue definitions: issue-definitions/*.yml
 
 ---
 
-**Summary:** Document the **stable intent** behind your work, not the **volatile details
-**. Let code, file structure, and discovery tools document the specifics.
+**Summary:** Document the **stable intent** behind your work, not the **volatile details**. Let code, file structure, and discovery tools document the specifics.
+
+---
+
+## Related Resources
+
+- **Approach:** [`traceable-decisions-detailed-guide.md`](../approaches/traceable-decisions-detailed-guide.md)
+- **Tactic:** [`adr-drafting-workflow.tactic.md`](../tactics/adr-drafting-workflow.tactic.md) — Systematic ADR creation
+- **Tactic:** [`premortem-risk-identification.tactic.md`](../tactics/premortem-risk-identification.tactic.md) — Risk analysis
+- **Shorthand:** [`/architect-adr`](../shorthands/architect-adr.md) — Quick ADR drafting
+- **ADR-017:** Self-referential; defines traceable decision patterns
+
+---
 
 _Directive 018 - Documentation Level Framework_  
 _Last Updated: 2025-11-27_
