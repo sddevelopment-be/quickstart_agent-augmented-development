@@ -168,10 +168,36 @@ def register_routes(app: Flask) -> None:
             costs["month"] = telemetry.get_monthly_cost()
             costs["total"] = telemetry.get_total_cost()
 
-        # TODO: Integrate with file watcher for real task counts
+        # Get task counts from file watcher
+        watcher = app.config.get("FILE_WATCHER")
+        task_counts = {"inbox": 0, "assigned": 0, "done": 0, "total": 0}
+        
+        if watcher:
+            snapshot = watcher.get_task_snapshot()
+            
+            # Count inbox tasks
+            inbox_count = len(snapshot.get('inbox', []))
+            
+            # Count assigned tasks (nested by agent)
+            assigned_count = sum(
+                len(tasks) for tasks in snapshot.get('assigned', {}).values()
+            )
+            
+            # Count done tasks (nested by agent)
+            done_count = sum(
+                len(tasks) for tasks in snapshot.get('done', {}).values()
+            )
+            
+            task_counts = {
+                "inbox": inbox_count,
+                "assigned": assigned_count,
+                "done": done_count,
+                "total": inbox_count + assigned_count + done_count
+            }
+
         return jsonify(
             {
-                "tasks": {"inbox": 0, "assigned": 0, "done": 0, "total": 0},
+                "tasks": task_counts,
                 "costs": costs,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }
