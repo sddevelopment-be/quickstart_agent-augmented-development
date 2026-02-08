@@ -3,7 +3,7 @@
 _Version: 1.0.0_  
 _Core Version: 1.0.0_  
 _Directive Set Version: 1.0.0_  
-_Last updated: 2025-11-17_  
+_Last updated: 2026-02-08_  
 _Format: Agent initialization and governance protocol_
 
 This document defines how any autonomous or semi-autonomous system (“Agent”) should initialize, interpret, and operate under **a specific contextual
@@ -24,7 +24,7 @@ Clarifies scope: govern initialization, interpretation, and operation inside the
 
 ## 2. Context Stack Overview
 
-This repository implements a **Doctrine Stack** — a five-layer instruction system that governs agent behavior. Full details: `.github/agents/DOCTRINE_STACK.md`.
+This repository implements a **Doctrine Stack** — a five-layer instruction system that governs agent behavior. Full details: `doctrine/DOCTRINE_STACK.md`.
 
 ### Doctrine Stack Layers
 
@@ -58,7 +58,7 @@ This repository implements a **Doctrine Stack** — a five-layer instruction sys
 
 Agents MUST load layers in this order. If any layer is missing, corrupted, ambiguous, or conflicting, the agent MUST pause execution until synchronization.
 
-**Tactics Discovery:** Directives explicitly invoke tactics. Agents may also discover tactics via `.github/agents/tactics/README.md` and propose them to humans.
+**Tactics Discovery:** Directives explicitly invoke tactics. Agents may also discover tactics via `doctrine/tactics/README.md` and propose them to humans.
 
 ### Initialization Check
 
@@ -170,6 +170,70 @@ On state loss or restart:
 
 ## 8. Repository Structure & Key Directories
 
+### Code Organization
+
+This repository follows a four-directory structure for clear separation of concerns:
+
+```
+repository-root/
+├── src/                      # Production code (runtime)
+│   ├── framework/           # Core framework runtime
+│   │   ├── core/           # Task, Agent, Orchestrator abstractions
+│   │   ├── execution/      # Task execution engine
+│   │   ├── interface/      # Client interfaces (CLI, API)
+│   │   ├── orchestration/  # Runtime agent dispatch & task routing
+│   │   ├── context/        # Context assembly & directive loading
+│   │   ├── config/         # Model routing configuration
+│   │   └── schemas/        # Production JSON schemas
+│   └── llm_service/        # LLM dashboard service
+│
+├── tools/                   # Development utilities (not imported by production)
+│   ├── exporters/          # Copilot/Claude/OpenCode skill exporters
+│   ├── validators/         # CI validation scripts
+│   ├── scripts/            # Utility scripts & shell wrappers
+│   ├── dashboards/         # Development dashboards
+│   └── release/            # Release automation
+│
+├── tests/                   # All test code
+│   ├── framework/          # Framework unit tests
+│   ├── orchestration/      # Orchestration tests
+│   ├── integration/        # Integration test suites
+│   └── unit/               # Unit tests
+│
+└── fixtures/                # Test fixtures & example data
+    ├── prompts/            # ADR-023 prompt test fixtures
+    ├── copilot/            # Copilot skill fixtures
+    ├── opencode/           # OpenCode format fixtures
+    └── agents/             # Agent definition test fixtures
+```
+
+**Key Principles:**
+- **src/** - Production code that runs in production or is imported by production systems
+- **tools/** - Development-time utilities (exporters, validators, scripts)
+- **tests/** - All test code (unit, integration, e2e)
+- **fixtures/** - Test data and example files
+
+**See:** `src/README.md` and `tools/README.md` for detailed guidelines.
+
+### Doctrine Framework
+
+**Location:** `doctrine/`
+
+**Purpose:** Portable, standalone agentic framework with zero external dependencies. Can be distributed via git subtree to other repositories.
+
+**Structure:**
+- `doctrine/agents/` - 20 specialized agent profiles
+- `doctrine/approaches/` - Mental models and operational patterns
+- `doctrine/directives/` - Explicit instructions and constraints
+- `doctrine/tactics/` - Procedural execution guides
+- `doctrine/guidelines/` - Values and preferences
+- `doctrine/templates/` - Output structure contracts
+- `doctrine/shorthands/` - Reusable command aliases
+
+**Configuration:** `.doctrine/config.yaml` (created by Bootstrap Bill during repository setup)
+
+**See:** `doctrine/DOCTRINE_MAP.md` for complete navigation guide.
+
 ### Specifications Directory (Recommended, Optional)
 
 **Location:** `specifications/`
@@ -212,7 +276,7 @@ On state loss or restart:
 
 The following optional/specific instruction sets are externalized for token efficiency. Load only as needed.
 
-**Terminology Reference:** See [agents/GLOSSARY.md](agents/GLOSSARY.md) for standardized definitions of terms used throughout this framework.
+**Terminology Reference:** See [doctrine/GLOSSARY.md](doctrine/GLOSSARY.md) for standardized definitions of terms used throughout this framework.
 
 | Code | Directive                     | Purpose                                                         |
 |------|-------------------------------|-----------------------------------------------------------------|
@@ -235,12 +299,12 @@ The following optional/specific instruction sets are externalized for token effi
 | 017  | Test Driven Development       | TDD workflow and unit test requirements (ADR-012)               |
 | 018  | Traceable Decisions           | Decision capture protocols and traceability (ADR-017)           |
 | 019  | File-Based Collaboration      | Multi-agent orchestration through file-based task workflows     |
-| 020  | [Locality of Change](.github/agents/directives/020_locality_of_change.md) | Problem severity measurement and premature optimization avoidance|
-| 024  | [Self-Observation Protocol](.github/agents/directives/024_self_observation_protocol.md) | Mid-execution self-monitoring and course correction (Ralph Wiggum loop)|
-| 028  | [Bug Fixing Techniques](.github/agents/directives/028_bugfixing_techniques.md) | Test-first bug fixing: write failing test, fix code, verify (recommended)|
+| 020  | [Locality of Change](doctrine/directives/020_locality_of_change.md) | Problem severity measurement and premature optimization avoidance|
+| 024  | [Self-Observation Protocol](doctrine/directives/024_self_observation_protocol.md) | Mid-execution self-monitoring and course correction (Ralph Wiggum loop)|
+| 028  | [Bug Fixing Techniques](doctrine/directives/028_bugfixing_techniques.md) | Test-first bug fixing: write failing test, fix code, verify (recommended)|
 | 034  | Specification-Driven Development | Functional requirement capture before implementation (recommended, optional)|
 
-Location: `.github/agents/directives/XXX_name.md` Example load pattern:
+Location: `doctrine/directives/XXX_name.md` Example load pattern:
 
 ```
 /require-directive 001
@@ -250,7 +314,7 @@ Location: `.github/agents/directives/XXX_name.md` Example load pattern:
 ## 10. Instruction Hierarchy
 
 ALWAYS USE THE GENERAL GUIDELINES FROM THIS REPOSITORY.
-Reference: `agents/guidelines/general_guidelines.md`.
+Reference: `doctrine/guidelines/general_guidelines.md`.
 
 - System directives outrank developer guidance; developer outranks user requests.
 - Developer instructions: use `bash -lc` with explicit `workdir`, prefer `rg`, avoid destructive git or reverting unrelated changes.
