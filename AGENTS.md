@@ -230,9 +230,9 @@ repository-root/
 - `doctrine/templates/` - Output structure contracts
 - `doctrine/shorthands/` - Reusable command aliases
 
-**Configuration:** `.doctrine/config.yaml` (created by Bootstrap Bill during repository setup)
+**Configuration:** `.doctrine-config/config.yaml` (created by Bootstrap Bill during repository setup)
 
-**See:** `doctrine/DOCTRINE_MAP.md` for complete navigation guide.
+**See:** `docs/architecture/design/DOCTRINE_MAP.md` for complete navigation guide.
 
 ### Specifications Directory (Recommended, Optional)
 

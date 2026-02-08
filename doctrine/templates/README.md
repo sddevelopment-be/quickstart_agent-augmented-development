@@ -184,7 +184,7 @@ When creating new templates:
 3. **Mark required sections** clearly
 4. **Provide inline examples** or comments
 5. **Document usage** in this README
-6. **Update DOCTRINE_MAP.md** if adding new category
+6. **Update docs/architecture/design/DOCTRINE_MAP.md** if adding new category
 
 ---
 
@@ -198,7 +198,7 @@ When creating new templates:
 
 ## Related Documentation
 
-- **[DOCTRINE_MAP.md](../DOCTRINE_MAP.md)** — Framework structure overview
+- **[DOCTRINE_MAP.md](../../docs/architecture/design/DOCTRINE_MAP.md)** — Framework structure overview
 - **[Directive 008 (Artifact Templates)](../directives/008_artifact_templates.md)** — Template usage standards
 - **[Agent Profile: Curator Claire](../agents/curator.agent.md)** — Template curation specialist
 

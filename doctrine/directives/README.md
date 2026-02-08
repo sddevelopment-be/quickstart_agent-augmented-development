@@ -106,7 +106,7 @@ When adding a new directive:
 ## Related Documentation
 
 - **[DOCTRINE_STACK.md](../DOCTRINE_STACK.md)** — Layer architecture and precedence rules
-- **[DOCTRINE_MAP.md](../DOCTRINE_MAP.md)** — Framework structure overview
+- **[DOCTRINE_MAP.md](../../docs/architecture/design/DOCTRINE_MAP.md)** — Framework structure overview
 - **[Tactics Index](../tactics/README.md)** — Procedural execution guides invoked by directives
 - **[Agent Profiles](../agents/)** — Role-specific directive usage patterns
 

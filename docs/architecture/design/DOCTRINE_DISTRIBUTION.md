@@ -48,7 +48,7 @@
 doctrine/
 ├── AGENTS.md                    # Core agent specification
 ├── CHANGELOG.md                 # Version history
-├── DOCTRINE_MAP.md              # Directory map
+├── DOCTRINE_MAP.md              # Directory map → MOVED to docs/architecture/design/
 ├── DOCTRINE_STACK.md            # Architecture documentation
 ├── GLOSSARY.md                  # Terminology standards
 │
@@ -471,7 +471,7 @@ npm run validate:distribution
 ## Related Documentation
 
 - **Doctrine Stack:** [doctrine/DOCTRINE_STACK.md](./DOCTRINE_STACK.md) - Architecture
-- **Doctrine Map:** [doctrine/DOCTRINE_MAP.md](./DOCTRINE_MAP.md) - Directory structure
+- **Doctrine Map:** [DOCTRINE_MAP.md](./DOCTRINE_MAP.md) - Directory structure (same directory)
 - **Curator Profile:** [doctrine/agents/curator.agent.md](./agents/curator.agent.md) - Section 2.1
 - **Export Code:** `tools/exporters/` - Export scripts
 - **Deploy Code:** `tools/scripts/deploy-skills.js` - Deployment orchestrator

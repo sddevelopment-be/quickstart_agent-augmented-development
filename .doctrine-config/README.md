@@ -165,7 +165,8 @@ capabilities:
 ## Related Documentation
 
 - **Framework Source:** `doctrine/` - Universal patterns and approaches
-- **Distribution Mapping:** `doctrine/DOCTRINE_DISTRIBUTION.md` - How framework exports to tools
+- **Distribution Mapping:** `docs/architecture/design/DOCTRINE_DISTRIBUTION.md` - How framework exports to tools
+- **Path Variables:** `docs/architecture/design/DOCTRINE_MAP.md` - Parameterized directory structure
 - **Bootstrap Template:** `doctrine/templates/automation/doctrine-config-template.yaml`
 - **Agent Profiles:** `doctrine/agents/*.agent.md` - Framework agent definitions
 
