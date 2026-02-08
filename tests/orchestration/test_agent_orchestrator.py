@@ -22,7 +22,7 @@ import pytest
 import yaml
 
 # Add orchestration directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent.parent / "ops" / "orchestration"))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src" / "framework" / "orchestration"))
 
 import agent_orchestrator as orchestrator
 
