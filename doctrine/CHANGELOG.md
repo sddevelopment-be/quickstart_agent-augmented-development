@@ -25,6 +25,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`doctrine/agents/reviewer.agent.md`** - Quality assurance specialist for ADRs, specifications, and documentation (21st agent profile)
 - **`doctrine/guidelines/python-conventions.md`** - Comprehensive Python coding standards with Quad-A test pattern
 - **`doctrine/guidelines/version-control-hygiene.md`** - Git workflow discipline and conventional commit standards
+- **`doctrine/templates/documentation/`** - Documentation template collection (pattern, concept, audience persona)
+- **`doctrine/examples/personas/`** - Example audience personas (emerging developer, technical lead)
 
 #### Changed
 - **BREAKING:** Agent profiles context sources now reference `doctrine/` instead of `.github/agents/`
@@ -131,7 +133,22 @@ Doctrine is now ready for:
 - Agent-specific conventions (identity in commits, multi-agent coordination)
 - Source: Extracted from external repository styleguides (already generic)
 
-**Commits:** 29 commits from initial extraction through Phase 1c completion (up to d473d5f)
+**Documentation Templates (Pattern/Concept/Persona):**
+- **Pattern Template:** Forces-based practice documentation
+  - Problem/Intent/Solution with explicit Enablers/Deterrents
+  - Consequences & Mitigation strategies
+  - Complements ADR template (decisions vs practices)
+- **Concept Template:** Abstract idea documentation
+  - Definition, Background, Comparisons, Significance
+  - Bridges theory to practical implications
+- **Audience Persona Template:** Reader profile framework
+  - Desiderata (Information/Interaction/Support/Governance)
+  - Behavioral Cues, Collaboration Preferences
+  - Enables systematic target-audience fit
+- **Example Personas:** Emerging Developer, Technical Lead
+- Source: Extracted from Penguin Pragmatic Patterns (generic editorial patterns only)
+
+**Commits:** 31 commits from initial extraction through Phase 1c completion (up to 5470188)
 
 ---
 
