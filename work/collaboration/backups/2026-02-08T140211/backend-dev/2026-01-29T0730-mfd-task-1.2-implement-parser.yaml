@@ -1,0 +1,298 @@
+task_id: "mfd-task-1.2-implement-parser"
+from_agent: "Project Manager"
+to_agent: "Backend Benny"
+priority: "CRITICAL"
+created_date: "2026-01-29"
+status: "TODO"
+human_intervention_required: false
+estimated_effort_hours: "6"
+batch: "Batch 1: Foundation & Infrastructure"
+milestone: "Milestone 1: Schema Complete"
+dependencies: ["mfd-task-1.1-design-ir-structure"]
+
+
+description: |
+  # Task 1.2: Implement Markdown Parser
+  
+  ## Context
+  
+  **Project:** Multi-Format Agent Framework Distribution  
+  **Related ADR:** ADR-013 (Multi-Format Distribution Strategy)  
+  **Dependencies:** Task 1.1 (IR structure must be defined first)
+  
+  This task implements the **core data extraction** component of the export pipeline. The parser reads `.agent.md` files and produces IR instances that all generators consume.
+  
+  **Why This Matters:**
+  - Parser is the single source of truth extraction
+  - All 3 generators (OpenCode, Copilot, MCP) depend on parser output
+  - Parse errors propagate to all exports
+  - Performance matters (will run in CI/CD for every commit)
+  
+  ## Objective
+  
+  Implement a production-ready Node.js parser module that extracts structured data from `.agent.md` files and produces Intermediate Representation (IR) instances following the schema defined in Task 1.1.
+  
+  ## Detailed Requirements
+  
+  ### Parser Must
+  
+  1. **Parse YAML Frontmatter**
+     - Use `js-yaml` library (or equivalent)
+     - Handle multi-line strings, arrays, objects
+     - Gracefully handle missing or malformed YAML
+     - Preserve array order, object property order
+  
+  2. **Extract Markdown Sections**
+     - Use regex or markdown parser library (e.g., `marked`, `remark`)
+     - Extract sections: Purpose, Specialization, Collaboration Contract, Output Artifacts, Mode Defaults
+     - Handle nested headers (## and ###)
+     - Preserve inline formatting (bold, links, code blocks)
+  
+  3. **Handle Edge Cases**
+     - Missing optional frontmatter fields → use defaults
+     - Malformed YAML → fail gracefully with clear error message
+     - Multi-line descriptions → preserve line breaks or join intelligently
+     - Special characters in strings → proper escaping
+     - Empty sections → mark as null/undefined
+     - Files without proper structure → validation error
+  
+  4. **Generate Metadata**
+     - Calculate SHA-256 hash using Node `crypto` module
+     - Extract last modified timestamp from file system
+     - Get file size in bytes
+     - Store relative file path
+  
+  5. **Validate Basic Structure**
+     - Check for required fields (name, description, tools at minimum)
+     - Warn on missing recommended fields
+     - Error on completely invalid files
+  
+  ### Code Quality Requirements
+  
+  - **Modular:** Separate concerns (YAML parsing, section extraction, hash generation)
+  - **Testable:** Pure functions where possible, dependency injection for file I/O
+  - **Error Handling:** Descriptive error messages with file path and line number context
+  - **Performance:** Process 17 agents in <2 seconds total
+  - **Documented:** JSDoc comments for all public functions
+  
+  ## Inputs
+  
+  - **IR Structure:** From Task 1.1 (`docs/technical/ir-structure.md`)
+  - **Agent Files:** All 16 agent files in `.github/agents/*.agent.md`
+  - **Prototype Parser:** `tools/opencode-exporter.js` (reference implementation)
+  
+  ## Expected Outputs
+  
+  1. **Parser Module** (`tools/exporters/parser.js`)
+     ```javascript
+     /**
+      * Parse an agent markdown file into IR
+      * @param {string} filePath - Path to .agent.md file
+      * @returns {Promise<AgentIR>} Parsed IR object
+      * @throws {ParseError} On invalid file structure
+      */
+     async function parseAgentFile(filePath) { ... }
+     
+     /**
+      * Parse all agent files in a directory
+      * @param {string} dirPath - Directory containing .agent.md files
+      * @returns {Promise<AgentIR[]>} Array of IR objects
+      */
+     async function parseAgentDirectory(dirPath) { ... }
+     ```
+  
+  2. **Unit Tests** (`tests/unit/parser.test.js`)
+     - Test valid agent file → correct IR
+     - Test missing optional fields → defaults applied
+     - Test malformed YAML → clear error
+     - Test empty sections → null handling
+     - Test hash generation → deterministic
+     - Test all 17 agents → no errors
+     - Coverage: >85%
+  
+  3. **Test Fixtures** (`tests/fixtures/ir/`)
+     - `architect-alphonso.ir.json` (expected output for architect agent)
+     - `backend-benny.ir.json` (expected output for backend agent)
+     - `reviewer-rachel.ir.json` (expected output for reviewer agent)
+  
+  ## Success Criteria
+  
+  - ✅ Parser successfully processes all 17 agent files without errors
+  - ✅ Generated IR validates against IR schema (from Task 1.1)
+  - ✅ Unit tests pass with >85% code coverage
+  - ✅ Error handling produces clear, actionable messages
+  - ✅ Performance: <2 seconds to parse all 17 agents
+  - ✅ Code reviewed and approved by Architect Alphonso
+  
+  ## Directives to Follow
+  
+  **MUST adhere to:**
+  - **Directive 014:** Create work log documenting implementation decisions
+  - **Directive 015:** Store prompt documentation (optional, recommended)
+  - **Directive 016:** ATDD - Write acceptance tests FIRST
+  - **Directive 017:** TDD - Write unit tests before implementation (Red-Green-Refactor)
+  - **Directive 021:** Locality of Change - Focus on parsing, not validation
+  
+  ## Testing Approach (ATDD/TDD)
+  
+  ### Phase 1: Acceptance Tests (Write First)
+  
+  ```javascript
+  describe('Parser Acceptance Tests', () => {
+    it('should parse a complete agent file with all fields', async () => {
+      const ir = await parseAgentFile('.github/agents/architect.agent.md');
+      expect(ir.metadata.name).toBe('architect-alphonso');
+      expect(ir.frontmatter.tools).toContain('plantuml');
+      expect(ir.source.hash).toMatch(/^[a-f0-9]{64}$/);
+    });
+    
+    it('should handle missing optional fields gracefully', async () => {
+      // Create minimal valid agent file
+      const ir = await parseAgentFile('tests/fixtures/minimal-agent.md');
+      expect(ir.frontmatter.version).toBe('1.0.0'); // default
+    });
+    
+    it('should fail gracefully on malformed YAML', async () => {
+      await expect(
+        parseAgentFile('tests/fixtures/malformed.md')
+      ).rejects.toThrow(/Invalid YAML/);
+    });
+  });
+  ```
+  
+  ### Phase 2: Unit Tests (TDD Red-Green-Refactor)
+  
+  1. **Red:** Write failing test for `parseYAMLFrontmatter()`
+  2. **Green:** Implement minimal code to pass test
+  3. **Refactor:** Improve code quality
+  4. **Repeat** for each function
+  
+  Example cycle:
+  ```javascript
+  // RED: Test first
+  test('parseYAMLFrontmatter extracts frontmatter', () => {
+    const content = '---\nname: test\n---\nBody';
+    const result = parseYAMLFrontmatter(content);
+    expect(result.name).toBe('test');
+  });
+  
+  // GREEN: Minimal implementation
+  function parseYAMLFrontmatter(content) {
+    const match = content.match(/^---\n([\s\S]*?)\n---/);
+    return yaml.load(match[1]);
+  }
+  
+  // REFACTOR: Add error handling, edge cases
+  function parseYAMLFrontmatter(content) {
+    const match = content.match(/^---\n([\s\S]*?)\n---/);
+    if (!match) throw new Error('No frontmatter found');
+    try {
+      return yaml.load(match[1]);
+    } catch (e) {
+      throw new Error(`Invalid YAML: ${e.message}`);
+    }
+  }
+  ```
+  
+  ## Implementation Steps (Recommended)
+  
+  1. **Setup** (30 min)
+     - Create project structure: `tools/exporters/`, `tests/unit/`, `tests/fixtures/`
+     - Install dependencies: `js-yaml`, `jest`
+     - Write acceptance tests (failing)
+  
+  2. **YAML Parser** (1 hour, TDD)
+     - Test: Extract frontmatter
+     - Implement: `parseYAMLFrontmatter()`
+     - Test: Handle missing frontmatter
+     - Implement: Error handling
+     - Test: Multi-line values
+     - Refactor: Clean up
+  
+  3. **Markdown Section Parser** (1.5 hours, TDD)
+     - Test: Extract ## Purpose section
+     - Implement: `extractSection(content, heading)`
+     - Test: Extract ### Specialization
+     - Test: Handle missing sections
+     - Refactor: Generic section extractor
+  
+  4. **Metadata Generator** (1 hour, TDD)
+     - Test: SHA-256 hash generation
+     - Implement: `generateFileHash(filePath)`
+     - Test: Extract file stats (mtime, size)
+     - Implement: `getFileMetadata(filePath)`
+  
+  5. **IR Assembly** (1.5 hours, TDD)
+     - Test: Combine frontmatter + sections + metadata → IR
+     - Implement: `assembleIR(frontmatter, sections, metadata)`
+     - Test: Apply defaults for missing fields
+     - Test: Validate required fields present
+  
+  6. **Integration** (1 hour)
+     - Implement: `parseAgentFile(filePath)` (orchestrates above)
+     - Implement: `parseAgentDirectory(dirPath)` (batch processing)
+     - Test: Parse all 17 agents
+     - Verify: Performance <2 seconds
+  
+  ## Collaboration Notes
+  
+  **Depends On:**
+  - Task 1.1 (IR schema) - MUST be complete before starting
+  
+  **Handoff To:**
+  - Task 1.3 (Schema Conventions) - Parser available for testing
+  - Task 2.1 (OpenCode Generator) - Uses parser output
+  
+  **Review Required From:**
+  - Architect Alphonso (IR compliance, design review)
+  - Reviewer Rachel (optional - test coverage review)
+  
+  **Commit Frequency:**
+  - Commit after each TDD cycle (setup, YAML parser, section parser, etc.)
+  - Minimum 5 commits (one per implementation step)
+  - Include test files in each commit
+  
+  ## Additional Context
+  
+  **Reasoning Mode:** `/analysis-mode` (data extraction & transformation)
+  
+  **Libraries to Consider:**
+  - `js-yaml` - YAML parsing
+  - `gray-matter` - Frontmatter extraction (alternative to manual regex)
+  - `marked` or `remark` - Markdown parsing (if needed for complex section extraction)
+  - `crypto` - Built-in Node module for hashing
+  
+  **Performance Optimization Notes:**
+  - Avoid parsing the same file multiple times
+  - Cache file reads if called multiple times
+  - Use async/await for file I/O
+  - Consider streaming for very large files (not needed now, but design for it)
+  
+  **Error Message Examples:**
+  ```
+  ❌ ParseError: No frontmatter found in .github/agents/architect.agent.md
+     Expected YAML frontmatter between --- delimiters
+  
+  ❌ ParseError: Invalid YAML in .github/agents/backend-dev.agent.md:3
+     → mapping values are not allowed here
+  
+  ❌ ValidationError: Missing required field 'name' in .github/agents/test.agent.md
+     → Add 'name: agent-name' to frontmatter
+  ```
+  
+  ## Timeline
+  
+  **Start:** After Task 1.1 complete (IR schema defined)  
+  **Duration:** 6 hours  
+  **Deadline:** End of Batch 1, Week 1
+  
+  
+  **Task Status:** TODO - Waiting on Task 1.1  
+  **Blocking Tasks:** Task 2.1, 2.2, 2.3 (all generators), Task 1.3, 1.4  
+  **Critical Path:** Yes
+  
+  
+  *Created by: Project Manager*  
+  *Date: 2026-01-29*  
+  *Priority: CRITICAL*  
+  *Batch: 1 (Foundation & Infrastructure)*

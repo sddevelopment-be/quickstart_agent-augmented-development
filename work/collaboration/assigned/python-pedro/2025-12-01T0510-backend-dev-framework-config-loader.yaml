@@ -8,13 +8,13 @@ artefacts:
 - framework/core.py
 - framework/execution.py
 - framework/core/orchestrator.py
-- validation/test_framework_core.py
-- validation/test_framework_execution.py
+- tools/validators/test_framework_core.py
+- tools/validators/test_framework_execution.py
 - work/logs/backend-dev/2025-12-01T0510-backend-dev-framework-config-loader.md
 description: 'Extend the framework package so Layer 1 orchestration automatically
   loads
 
-  the router configuration (ops/config/model_router.yaml) and task metadata
+  the router configuration (tools/config/model_router.yaml) and task metadata
 
   before handing work to execution layers, fulfilling Step 6 of
 
@@ -31,16 +31,16 @@ context:
   - Surface validation errors with actionable messages for CI.
 requirements:
 - Provide a `load_router_config` helper that accepts an optional path argument, reads
-  ops/config/model_router.yaml (default location), and returns typed structures.
+  tools/config/model_router.yaml (default location), and returns typed structures.
 - Wire the helper into FrameworkClient/Orchestrator initialization so selection +
   fallback calls rely on the loaded catalog.
 - Guard against missing/invalid config files with descriptive exceptions.
-- Add docstrings referencing ops/scripts/validate-model-router.py and ADR-021.
+- Add docstrings referencing tools/scripts/validate-model-router.py and ADR-021.
 - Update framework README if the initialization contract changes.
 testing_requirements:
 - Add unit tests covering happy path, invalid path, and malformed YAML cases.
-- Reuse the Quad-A pattern already present in "validation/test_framework_*.py".
-- Ensure tests can be invoked via `python -m pytest validation/test_framework_core.py`.
+- Reuse the Quad-A pattern already present in "tools/validators/test_framework_*.py".
+- Ensure tests can be invoked via `python -m pytest tools/validators/test_framework_core.py`.
 success_criteria:
 - Framework module imports succeed and expose the new helper publicly.
 - Unit tests demonstrate happy path + error handling for missing config.

@@ -4,8 +4,8 @@ status: assigned
 priority: high
 title: Implement ADR-023 Phase 3 - Progressive Context Loader with Token Counting
 artefacts:
-  - ops/utils/context-loader.js
-  - validation/agent_exports/context-loader.test.js
+  - tools/utils/context-loader.js
+  - tools/validators/agent_exports/context-loader.test.js
   - docs/HOW_TO_USE/context-optimization-guide.md
   - package.json
 estimated_duration: 5-6 hours
@@ -57,10 +57,10 @@ description: |
   - Average 28,000 tokens per task (30% reduction)
 
 deliverables:
-  - file: ops/utils/context-loader.js
+  - file: tools/utils/context-loader.js
     type: code (Node.js module)
     validation: Exports ContextLoader class, integrates tiktoken, passes all tests
-  - file: validation/agent_exports/context-loader.test.js
+  - file: tools/validators/agent_exports/context-loader.test.js
     type: test (Jest)
     validation: 15+ tests covering budget management, truncation, edge cases, 95%+ coverage
   - file: docs/HOW_TO_USE/context-optimization-guide.md

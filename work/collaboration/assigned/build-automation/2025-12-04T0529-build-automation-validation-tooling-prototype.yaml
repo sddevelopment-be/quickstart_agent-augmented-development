@@ -5,9 +5,9 @@ title: Create prototype validation tooling for docsite metadata separation
 mode: /analysis-mode
 priority: normal
 artefacts:
-- validation/docsite-metadata-validator.py
-- validation/docsite-symlink-checker.sh
-- validation/README-docsite-validation.md
+- tools/validators/docsite-metadata-validator.py
+- tools/validators/docsite-symlink-checker.sh
+- tools/validators/README-docsite-validation.md
 context:
   repo: sddevelopment-be/quickstart_agent-augmented-development
   branch: copilot/feasibility-study-metadata-approach
@@ -17,7 +17,7 @@ context:
   - Create Python script to validate metadata YAML structure
   - Create shell script to check symlink integrity across platforms
   - Scripts should be executable and include usage documentation
-  - Follow existing validation/ directory patterns
+  - Follow existing tools/validators/ directory patterns
   - Include error reporting with file/line numbers
   - Add basic tests for validation scripts
   - Document expected exit codes and output format

@@ -1,0 +1,106 @@
+id: "2026-02-06T1200-test-markdown-rendering"
+title: "Test Task: Markdown Rendering Verification"
+agent: "frontend"
+status: "in_progress"
+priority: "HIGH"
+created: "2026-02-06T12:00:00Z"
+estimated_hours: 2
+
+description: |
+  # Markdown Rendering Test
+  
+  This task tests the **markdown rendering** implementation for *ADR-036*.
+  
+  ## Features to Test
+  
+  1. Headers (H1 through H6)
+  2. **Bold text** and *italic text*
+  3. Lists (ordered and unordered)
+  4. `inline code` formatting
+  5. Code blocks with syntax
+  
+  ### Code Example
+  
+  ```python
+  def render_markdown(text):
+      """Render markdown to HTML."""
+      html = marked.parse(text)
+      clean = DOMPurify.sanitize(html)
+      return clean
+  ```
+  
+  ### Important Notes
+  
+  - Security is **CRITICAL**
+  - All content must be sanitized
+  - Performance target: <50ms
+  
+  > This is a blockquote with important information.
+  > It can span multiple lines.
+
+context: |
+  This test verifies the implementation of markdown rendering in the dashboard.
+  
+  **Technical Requirements:**
+  - marked.js v11.1.1
+  - DOMPurify v3.0.8
+  - CSP headers configured
+  
+  **Related Files:**
+  - `dashboard-markdown.js`
+  - `dashboard.css` (markdown styles)
+  - `index.html` (CDN scripts)
+
+acceptance_criteria: |
+  - [x] marked.js and DOMPurify loaded
+  - [x] Markdown fields render as HTML
+  - [x] Technical fields remain plain text
+  - [ ] XSS tests passing (12/12)
+  - [ ] Performance <50ms verified
+  - [ ] Cross-browser tested
+  
+  ## Test Matrix
+  
+  | Browser | Status | Notes |
+  |---------|--------|-------|
+  | Chrome  | ⏳     | Pending |
+  | Firefox | ⏳     | Pending |
+  | Safari  | ⏳     | Pending |
+
+notes: |
+  ## Implementation Progress
+  
+  ### Phase 1: Library Integration ✅
+  - CDN scripts added to index.html
+  - dashboard-markdown.js created
+  - Configuration complete
+  
+  ### Phase 2: Selective Rendering ✅
+  - Updated showTaskModal function
+  - Field classification implemented
+  - Edge case handling added
+  
+  ### Phase 3: Security Hardening ✅
+  - CSP headers added to Flask app
+  - DOMPurify configuration complete
+  - XSS test page created
+  
+  ### Phase 4: Visual Polish ✅
+  - CSS styling for all markdown elements
+  - Responsive design considerations
+  - Dark theme integration
+  
+  ---
+  
+  **Next Steps:**
+  1. Run XSS security tests
+  2. Measure rendering performance
+  3. Test cross-browser compatibility
+  4. Create work log
+  5. Move task to done/
+
+tags:
+  - markdown
+  - frontend
+  - adr-036
+  - testing

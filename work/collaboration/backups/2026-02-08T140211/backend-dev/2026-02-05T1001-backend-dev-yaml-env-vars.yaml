@@ -1,0 +1,46 @@
+id: 2026-02-05T1001-backend-dev-yaml-env-vars
+agent: backend-dev
+status: assigned
+priority: medium
+title: ENV Variables in YAML Schema
+artefacts:
+- src/llm_service/config/schemas.py
+- tests/unit/config/test_schemas.py
+context:
+  background: 'Add environment variable support to YAML tool configuration.
+
+    Tools need API keys and other ENV vars passed to CLI invocations.
+
+    '
+  strategic_value: Enables tools requiring authentication (API keys)
+  batch: 'M2 Batch 2.3: Generic YAML Adapter Implementation'
+  infrastructure: SubprocessWrapper already supports env parameter
+requirements:
+  yaml_schema:
+  - Add env_vars field to ToolConfig schema (optional dict)
+  - Add env_required field for validation (optional list)
+  - Support variable expansion from system environment
+  variable_expansion:
+  - Expand references like ANTHROPIC_API_KEY from system env
+  - Support default values if var not set
+  - Clear error for missing required vars
+  validation:
+  - Validate required env vars are set before execution
+  - Warn about missing optional env vars
+  - Check env_vars is dict type
+  example_config:
+  - Document YAML format for env vars
+  - Provide examples in README or config templates
+acceptance_criteria:
+- ToolConfig schema has env_vars and env_required fields
+- Variable expansion works correctly
+- Validation catches missing required env vars
+- Unit tests cover all env var scenarios
+- Example YAML config documented
+- Test coverage greater than 80 percent
+dependencies:
+- 2026-02-05T1000-backend-dev-generic-yaml-adapter
+created_at: '2026-02-05T10:01:00Z'
+created_by: planning-petra
+estimated_hours: 1.5
+assigned_at: '2026-02-05T06:09:53.491999Z'

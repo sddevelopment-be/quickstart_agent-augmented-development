@@ -7,9 +7,9 @@ title: Run framework test suites plus router/task schema validators in CI
 artefacts:
 - .github/workflows/validation.yml
 - .github/workflows/orchestration.yml
-- validation/test_framework_interface.py
-- validation/test_framework_core.py
-- validation/test_framework_execution.py
+- tools/validators/test_framework_interface.py
+- tools/validators/test_framework_core.py
+- tools/validators/test_framework_execution.py
 - work/logs/build-automation/2025-12-01T0513-build-automation-framework-ci-tests.md
 description: 'Extend CI so the framework test suites (interface/core/execution) and
   new
@@ -28,7 +28,7 @@ context:
   - Share caching strategy with validation.yml + orchestration.yml.
   - Emit clear failure logs pointing to the exact validator/test that failed.
 requirements:
-- Update validation.yml to run `pytest validation/test_framework_*.py`.
+- Update validation.yml to run `pytest tools/validators/test_framework_*.py`.
 - Ensure router validator + task schema validator run in the same job or a dedicated
   job with explicit dependency ordering.
 - Update orchestration.yml if additional smoke checks are justified, or record rationale

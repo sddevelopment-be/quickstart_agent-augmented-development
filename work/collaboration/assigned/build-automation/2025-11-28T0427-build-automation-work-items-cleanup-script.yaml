@@ -26,9 +26,9 @@ description: 'Create automated cleanup scripts for managing the work collaborati
 
   '
 artefacts:
-- ops/scripts/maintenance/archive_completed_work.py
-- ops/scripts/maintenance/compress_old_archives.py
-- ops/scripts/maintenance/README.md (create or update)
+- tools/scripts/maintenance/archive_completed_work.py
+- tools/scripts/maintenance/compress_old_archives.py
+- tools/scripts/maintenance/README.md (create or update)
 - tests for both scripts (following directives 016, 017)
 context:
   repo: sddevelopment-be/quickstart_agent-augmented-development

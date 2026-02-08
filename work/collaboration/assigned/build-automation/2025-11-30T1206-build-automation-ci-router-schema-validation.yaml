@@ -19,8 +19,8 @@ context:
   branch: main
   source_assessment: docs/architecture/assessments/platform_next_steps.md
   notes:
-  - Trigger the new ops/scripts/validate-model-router.py script.
-  - Extend validation/validate-task-schema.py to assert presence of model selection
+  - Trigger the new tools/scripts/validate-model-router.py script.
+  - Extend tools/validators/validate-task-schema.py to assert presence of model selection
     hints and integrate it into CI job(s).
   - Provide matrix or caching considerations if runtime costs increase.
 requirements:

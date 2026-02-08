@@ -143,14 +143,14 @@ technical_specifications: |
   ```json
   {
     "scripts": {
-      "validate:prompts": "node ops/validation/prompt-validator-cli.js docs/templates/prompts/"
+      "validate:prompts": "node tools/validation/prompt-validator-cli.js docs/templates/prompts/"
     }
   }
   ```
   
   ## CLI Wrapper (Optional)
   
-  May need to create `ops/validation/prompt-validator-cli.js` to:
+  May need to create `tools/validation/prompt-validator-cli.js` to:
   - Accept directory path as argument
   - Find all .yaml files
   - Validate each file

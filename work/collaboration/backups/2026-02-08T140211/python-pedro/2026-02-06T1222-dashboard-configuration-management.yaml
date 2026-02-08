@@ -1,0 +1,177 @@
+id: "2026-02-06T1222-dashboard-configuration-management"
+title: "Dashboard Configuration Management Interface"
+status: "inbox"
+priority: "HIGH"
+agent: "python-pedro"
+estimated_hours: 26
+specification: "specifications/llm-dashboard/configuration-management.md"
+related_adrs:
+  - "docs/architecture/adrs/ADR-040-dashboard-configuration-management.md"
+  - "docs/architecture/adrs/ADR-032-real-time-execution-dashboard.md"
+  - "docs/architecture/adrs/ADR-025-llm-service-layer.md"
+created: "2026-02-06T12:22:00Z"
+updated: "2026-02-06T12:22:00Z"
+
+scope: |
+  Implement hybrid configuration management interface with schema validation:
+  
+  Phase 1: Configuration Viewer (6-8 hours)
+  - Build tabbed interface (LLM Service, Agent Stack, Agent Profiles)
+  - Create API endpoints to load configurations (/api/config/*)
+  - Parse YAML/JSON and render as tables/cards
+  - Test with existing configuration files
+  
+  Phase 2: Inline Editing + Validation (8-10 hours)
+  - Implement click-to-edit for agent-model mappings
+  - Add schema validation on backend (jsonschema library)
+  - Implement file writers with ruamel.yaml (comment preservation)
+  - Add optimistic locking (mtime checks for concurrent edits)
+  - Test validation error handling and user feedback
+  
+  Phase 3: Agent Profile Editor - MVP TEXTAREA (9-12 hours)
+  - Build profile editor modal (frontmatter form + markdown textarea)
+  - Add frontmatter parsing (python-frontmatter library)
+  - Implement profile update endpoint with validation
+  - Test with various agent profiles
+  
+  OPTIONAL Phase 4: Rich Markdown Editor (9-12 hours - DEFERRED)
+  - Integrate EasyMDE or SimpleMDE for rich editing
+  - Add live preview panel
+  - Implement toolbar shortcuts (headings, bold, lists)
+  - Test markdown rendering consistency with ADR-036
+  - Recommendation: Defer to Phase 2, MVP textarea sufficient
+
+constraints:
+  - Must preserve file-based configuration (files = source of truth)
+  - Must validate against schemas before saving
+  - Must support both YAML and JSON formats
+  - Must handle agent profile frontmatter + markdown content
+  - Must maintain Git audit trail (files tracked in repo)
+  - Should prevent concurrent edits (optimistic locking)
+
+acceptance_criteria:
+  Configuration Viewer:
+  - Three tabs render: LLM Service, Agent Stack, Agent Profiles
+  - Agent-to-model mappings display as table with columns (Agent, Model, Cost)
+  - Available models list displays (Model ID, Display Name, Costs, Max Tokens)
+  - Agent profiles display as cards with name, description, tools
+  - All data loaded from actual config files (no hardcoded data)
+  
+  Inline Editing:
+  - Click agent-model mapping to edit (dropdown for model selection)
+  - Save button commits change to llm-service/config.yaml
+  - Validation errors display inline (e.g., "Unknown model: xyz")
+  - Optimistic lock prevents concurrent edits (409 Conflict on mtime mismatch)
+  - YAML comments preserved after edits (ruamel.yaml)
+  
+  Agent Profile Editor:
+  - Modal displays frontmatter form (name, description, tools, model_override)
+  - Markdown textarea allows editing profile content
+  - Save writes to .github/agents/<agent>.agent.md
+  - Validation enforces required fields (name, description, tools)
+  - Path traversal prevented (agent_name whitelist)
+  
+  Schema Validation:
+  - Invalid config blocked before file write
+  - Validation errors show field-specific messages
+  - Unknown models rejected
+  - Malformed YAML/JSON rejected
+  
+  Performance:
+  - Config load: <200ms for all tabs
+  - Inline edit save: <500ms P95 (validation + write)
+  - Agent profile load: <300ms (frontmatter parsing)
+  - Optimistic lock check: <50ms
+  
+  Security:
+  - Path traversal attacks blocked (alphanumeric + hyphen whitelist)
+  - YAML injection prevented (yaml.safe_load)
+  - XSS prevented (sanitize config values before render)
+
+implementation_notes: |
+  Technology Stack:
+  - Backend: Flask, jsonschema, ruamel.yaml, python-frontmatter
+  - Frontend: Vanilla JavaScript, inline editing pattern
+  - MVP: Textarea for markdown (no rich editor library)
+  
+  Key Files:
+  - src/llm_service/dashboard/app.py (add /api/config/* endpoints)
+  - src/llm_service/dashboard/static/config-page.js (new)
+  - src/llm_service/dashboard/static/index.html (add config page)
+  - src/llm_service/dashboard/static/dashboard.css (add config styles)
+  - llm-service/config-schema.json (validation schema)
+  - framework/agent-config-schema.json (validation schema)
+  
+  Configuration Files Managed:
+  1. llm-service/config.yaml
+     - default_model, available_models, agent_overrides, task_routing
+  2. framework/agent_config.json
+     - agent_stack, tool_preferences, service_urls
+  3. .github/agents/*.agent.md
+     - Agent profiles (YAML frontmatter + markdown content)
+  
+  Security Measures:
+  - Agent name validation: /^[a-z0-9\-]+$/
+  - Schema validation before all writes
+  - Optimistic locking via file mtime
+  - Safe YAML loading (no code execution)
+  
+  Testing:
+  - Unit tests: Schema validation (15 cases)
+  - Unit tests: Optimistic locking (5 cases)
+  - Unit tests: Agent profile parsing (8 cases)
+  - Integration tests: Config file round-trip (YAML/JSON)
+  - Integration tests: Concurrent edit conflict detection
+  - Manual tests: Edit mappings, profiles, verify file changes
+  - Security tests: Path traversal attempts, YAML injection
+  
+  Error Handling:
+  - 400 Bad Request: Validation failures
+  - 404 Not Found: Agent profile not found
+  - 409 Conflict: Concurrent edit detected (mtime mismatch)
+  - 500 Internal Server Error: File write failures
+  
+  Example API Calls:
+  
+  GET /api/config/llm-service
+  → Returns: {config: {...}, mtime: 1738849100.5}
+  
+  PATCH /api/config/llm-service/agent-mapping
+  Body: {agent: "python-pedro", field: "model", value: "gpt-5-mini", mtime: 1738849100.5}
+  → Returns: {success: true, config: {...}}
+  
+  GET /api/config/agent-profile/backend-dev-benny
+  → Returns: {name: "backend-dev-benny", frontmatter: {...}, content: "...", mtime: ...}
+  
+  PUT /api/config/agent-profile/backend-dev-benny
+  Body: {frontmatter: {...}, content: "...", mtime: ...}
+  → Returns: {success: true}
+
+dependencies:
+  - specifications/llm-dashboard/markdown-rendering.md (for profile content preview if added)
+
+blocks: []
+
+mvp_options: |
+  MVP Recommendation: Simple textarea for markdown (Phase 1-3 only, 23-26 hours)
+  - Frontmatter form + textarea for markdown content
+  - No live preview, no toolbar shortcuts
+  - Sufficient for most editing tasks
+  - Can always edit in external editor if needed
+  
+  Full Implementation: Rich markdown editor (Phase 1-4, 32-38 hours)
+  - Adds EasyMDE/SimpleMDE integration
+  - Live preview panel (split view)
+  - Toolbar shortcuts for common markdown
+  - Better UX but significant time investment
+  
+  Decision: Start with MVP, assess user feedback before rich editor
+  
+  Estimated effort breakdown:
+  - Phase 1 (Viewer): 6-8 hours
+  - Phase 2 (Inline Edit): 8-10 hours
+  - Phase 3 (Profile Editor MVP): 9-12 hours
+  - Phase 4 (Rich Editor - OPTIONAL): 9-12 hours
+  
+  Total MVP: 23-30 hours
+  Total Full: 32-42 hours

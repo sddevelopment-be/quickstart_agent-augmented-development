@@ -5,7 +5,7 @@ priority: high
 mode: /analysis-mode
 title: Draft model_client interface for router-agnostic orchestration
 artefacts:
-- ops/orchestration/model_client.py
+- src/framework/orchestration/model_client.py
 - docs/architecture/design/distribution_of_releases_architecture.md
 - work/logs/architect/2025-11-30T1202-architect-model-client-interface.md
 description: 'Translate the Platform Next Steps assessment into a concrete orchestrator
@@ -26,7 +26,7 @@ context:
   - Align docstrings with ADR-020 (multi-tier runtime) and ADR-021 (model routing).
   - Provide stub implementations plus TODO markers for downstream agents.
 requirements:
-- Create ops/orchestration/model_client.py with:
+- Create src/framework/orchestration/model_client.py with:
   - select_model(task_type, constraints) returning a structured response (model_id,
     router, justification, fallback chain).
   - invoke(model_id, prompt, tools, **kwargs) stub that documents expected router

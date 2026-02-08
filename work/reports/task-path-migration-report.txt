@@ -1,0 +1,108 @@
+Task Path Migration Report
+Generated: 2026-02-08T14:02:12.163913
+================================================================================
+
+Files processed: 50
+Files modified: 17
+Total changes: 63
+Errors: 0
+
+MODIFIED FILES:
+--------------------------------------------------------------------------------
+
+scribe/2026-02-04T1714-scribe-persona-workflows.yaml
+  Line 6: examples/ → fixtures/
+  Line 7: examples/ → fixtures/
+  Line 8: examples/ → fixtures/
+  Line 9: examples/ → fixtures/
+
+python-pedro/2025-12-01T0510-backend-dev-framework-config-loader.yaml
+  Line 11: validation/ → tools/validators/
+  Line 12: validation/ → tools/validators/
+  Line 17: ops/ → tools/
+  Line 34: ops/ → tools/
+  Line 38: ops/scripts/ → tools/scripts/
+  Line 42: validation/ → tools/validators/
+  Line 43: validation/ → tools/validators/
+
+python-pedro/2026-02-06T1150-dashboard-initiative-tracking.yaml
+  Line 163: ops/scripts/ → tools/scripts/
+  Line 164: ops/scripts/ → tools/scripts/
+
+python-pedro/2025-12-01T0511-backend-dev-agent-profile-parser.yaml
+  Line 42: validation/ → tools/validators/
+
+backend-dev/2026-01-30T1642-adr023-phase2-prompt-validator.yaml
+  Line 7: validation/ → tools/validators/
+  Line 8: ops/ → tools/
+  Line 9: validation/ → tools/validators/
+  Line 23: ops/exporters/ → tools/exporters/
+  Line 46: ops/exporters/ → tools/exporters/
+  Line 60: validation/ → tools/validators/
+  Line 63: ops/ → tools/
+  Line 66: validation/ → tools/validators/
+  Line 84: ops/exporters/ → tools/exporters/
+  Line 86: validation/ → tools/validators/
+  Line 100: ops/exporters/ → tools/exporters/
+  Line 105: validation/ → tools/validators/
+  Line 235: ops/exporters/ → tools/exporters/
+  Line 236: validation/ → tools/validators/
+
+backend-dev/2026-01-30T1643-adr023-phase3-context-loader.yaml
+  Line 7: ops/ → tools/
+  Line 8: validation/ → tools/validators/
+  Line 60: ops/ → tools/
+  Line 63: validation/ → tools/validators/
+
+backend-dev/2026-01-29T0730-mfd-task-1.4-create-5-schemas.yaml
+  Line 118: examples/ → fixtures/
+
+build-automation/2025-11-30T1204-build-automation-ollama-worker-pipeline.yaml
+  Line 8: ops/ → tools/
+  Line 9: ops/scripts/ → tools/scripts/
+  Line 28: ops/ → tools/
+  Line 30: ops/scripts/ → tools/scripts/
+
+build-automation/2025-11-30T1206-build-automation-ci-router-schema-validation.yaml
+  Line 22: ops/scripts/ → tools/scripts/
+  Line 23: validation/ → tools/validators/
+
+build-automation/2026-01-30T1644-adr023-phase2-ci-workflow.yaml
+  Line 146: ops/ → tools/
+  Line 153: ops/ → tools/
+
+build-automation/2025-11-28T0427-build-automation-work-items-cleanup-script.yaml
+  Line 29: ops/scripts/ → tools/scripts/
+  Line 30: ops/scripts/ → tools/scripts/
+  Line 31: ops/scripts/ → tools/scripts/
+
+build-automation/2025-12-01T0513-build-automation-framework-ci-tests.yaml
+  Line 10: validation/ → tools/validators/
+  Line 11: validation/ → tools/validators/
+  Line 12: validation/ → tools/validators/
+  Line 31: validation/ → tools/validators/
+
+build-automation/2025-12-01T0512-build-automation-router-metrics-dashboard.yaml
+  Line 8: ops/ → tools/
+  Line 9: validation/ → tools/validators/
+  Line 29: ops/ → tools/
+  Line 35: validation/ → tools/validators/
+
+build-automation/2026-01-29T0935-mfd-task-0.1-workflow-review.yaml
+  Line 249: ops/scripts/ → tools/scripts/
+  Line 250: ops/scripts/ → tools/scripts/
+  Line 251: ops/scripts/ → tools/scripts/
+
+build-automation/2025-12-04T0529-build-automation-validation-tooling-prototype.yaml
+  Line 8: validation/ → tools/validators/
+  Line 9: validation/ → tools/validators/
+  Line 10: validation/ → tools/validators/
+  Line 20: validation/ → tools/validators/
+
+architect/2026-01-30T1120-design-prompt-optimization-framework.yaml
+  Line 190: ops/exporters/ → tools/exporters/
+  Line 191: ops/exporters/ → tools/exporters/
+
+architect/2025-11-30T1202-architect-model-client-interface.yaml
+  Line 8: ops/orchestration/ → src/framework/orchestration/
+  Line 29: ops/orchestration/ → src/framework/orchestration/
