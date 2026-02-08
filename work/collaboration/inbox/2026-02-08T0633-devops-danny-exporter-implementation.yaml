@@ -1,0 +1,93 @@
+---
+id: 2026-02-08T0633-devops-danny-exporter-implementation
+agent: devops-danny
+status: blocked
+priority: high
+phase: 5
+title: "Update Exporters to Read from Doctrine Directory"
+created: 2026-02-08T06:33
+blocked_by: [2026-02-08T0632-devops-danny-export-validation-tests]
+---
+
+# Task: Update Exporters (Phase 5 - Implementation)
+
+## Context
+
+**Specification:** `specifications/distribution/SPEC-DIST-001-multi-tool-distribution.md` (v1.1.0 - Approved)  
+**Architectural Review:** Approved by Architect Alphonso  
+**Planning:** `work/reports/planning/2026-02-08T0632-spec-dist-001-plan.md`  
+**Tests:** Must be created first (Phase 4)
+
+## Objective
+
+Update all exporters to read from `doctrine/agents/` instead of `.github/agents/`, run export pipeline, validate outputs, and remove temporary symlinks.
+
+## Artifacts
+
+**Modify:**
+- `tools/exporters/copilot-generator.js` (line 21: AGENTS_DIR)
+- `tools/exporters/opencode-exporter.js` (line 21: AGENTS_DIR)
+- `tools/exporters/prompt-template-exporter.js` (source path)
+- `package.json` (verify scripts work with new paths)
+
+**Remove:**
+- `.github/approaches` (symlink)
+- `.github/directives` (symlink)
+- `.github/guidelines` (symlink)
+- `.github/tactics` (symlink)
+- `.github/templates` (symlink)
+
+**Validate:**
+- `.github/instructions/*.instructions.md` (GitHub Copilot outputs)
+- `.claude/skills/*/SKILL.md` (Claude Desktop outputs)
+- `.opencode/agents/*.opencode.json` + `*.definition.yaml` (OpenCode outputs)
+
+## Requirements
+
+**Changes:**
+1. Update `AGENTS_DIR` in each exporter: `.github/agents` → `doctrine/agents`
+2. Test locally: `npm run export:all && npm run deploy:all`
+3. Verify outputs present in tool-specific locations
+4. Remove symlinks (no longer needed)
+5. Validate tests pass (green phase)
+
+## Acceptance Criteria
+
+- [ ] All exporters updated to read from `doctrine/agents/`
+- [ ] `npm run export:all` succeeds without errors
+- [ ] All validation tests pass (Phase 4 tests now green)
+- [ ] Outputs present in:
+  - `.github/instructions/*.instructions.md`
+  - `.claude/skills/*/SKILL.md`
+  - `.opencode/agents/*.json` + `.yaml`
+- [ ] Temporary symlinks removed
+- [ ] Export time <30 seconds (NFR-2)
+- [ ] No regressions (existing functionality intact)
+- [ ] Changes committed
+
+## Dependencies
+
+**Blocks:** Phase 6 (Review)  
+**Blocked By:** Phase 4 (Validation Tests) - must have tests before implementing
+
+## Estimated Time
+
+- Exporter updates: 15 minutes (3 files)
+- Package.json verification: 10 minutes
+- Export pipeline execution: 11 minutes
+- Symlink removal: 2 minutes
+- Validation: 10 minutes
+**Total:** ~48 minutes
+
+## Related Directives
+
+- Directive 034: Specification-Driven Development (Phase 5)
+- Directive 020: Locality of Change (minimal modifications)
+
+## Notes
+
+Tests from Phase 4 should turn from RED → GREEN after these changes. If tests still fail, debug before proceeding.
+
+---
+
+**Status:** BLOCKED - Awaiting Phase 4 completion
