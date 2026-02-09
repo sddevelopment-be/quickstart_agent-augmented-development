@@ -1,10 +1,19 @@
 # Project-Specific Guidelines
 
-**Version:** 1.0.0
-**Last Updated:** 2026-02-06
+**Version:** 1.1.0
+**Last Updated:** 2026-02-09
 **Status:** Active
 
 This document contains project-specific conventions and guidelines that supplement the core agent framework directives. All agents and contributors should follow these guidelines when working in this repository.
+
+---
+
+## Domain Rules
+
+- Never use production credentials.
+- Respect privacy / anonymisation requirements.
+- **Planning/documenting future work is NOT completion.** Only mark tasks complete after implementation, testing, and validation. Documenting next steps or creating follow-up tasks does not constitute completion of current work.
+- **Distinguish clearly between "foundation complete" and "work complete"** - partial implementations should be documented as such with remaining work identified
 
 ---
 
@@ -99,6 +108,20 @@ All implementation work **must adhere** to the following testing styleguides:
 - Avoid **logical duplication** (code overlap is allowed)
 - Apply **"just enough" testing** — remove tests that no longer add value
 - Include **positive and negative** cases for every contract
+- **Minimum 80% coverage** on new code, all tests passing before completion
+- Use **TDD approach** (Directive 017): Write tests first, implement to pass, refactor
+
+### Technical Constraints
+
+- Target language: Python 3.10+, JavaScript/Node.js for tooling
+- Preferred frameworks: pytest for testing, Flask for services
+- Follow ADR-documented architectural decisions
+
+### Output Expectations
+
+- Code style: Follow existing patterns, use type hints
+- Documentation: Update ADRs for architectural decisions, maintain work logs per Directive 014
+- File formats: YAML for configuration, Markdown for documentation
 
 ---
 
