@@ -1,0 +1,340 @@
+---
+id: 2026-02-09T2035-frontend-orphan-task-modal
+agent: frontend
+status: new
+priority: high
+phase: implementation
+specification: specifications/initiatives/dashboard-enhancements/orphan-task-assignment.md
+feature: "FEAT-DASH-008-02: Interactive Specification/Feature Selector"
+title: "Frontend: Orphan Task Assignment Modal UI"
+created: 2026-02-09T20:35:00Z
+created_by: planning-petra
+estimated_hours: 3
+artefacts:
+  - src/llm_service/dashboard/templates/dashboard.html
+  - src/llm_service/dashboard/static/js/assignment-modal.js
+  - src/llm_service/dashboard/static/css/assignment-modal.css
+description: |
+  # Task: Frontend Modal UI for Orphan Task Assignment
+  
+  ## Context
+  
+  **Specification:** SPEC-DASH-008 v1.0.0
+  **Architecture Review:** APPROVED
+  **Performance Requirement:** NFR-P1 - Modal load <500ms (P95)
+  
+  **Architectural Decisions:**
+  - Modal UI pattern consistent with task priority editing (ADR-035)
+  - Client-side search filtering (no backend round-trip)
+  - Feature-level assignment granularity
+  
+  ## Objective
+  
+  Create modal UI for assigning orphan tasks to specifications/features with hierarchical initiative display, search filtering, and real-time updates.
+  
+  ## Acceptance Criteria (ATDD)
+  
+  **AC1: Open Assignment Modal**
+  ```gherkin
+  Given I have an orphan task displayed
+  When I click the "Assign" button
+  Then the assignment modal opens within 500ms
+  And the modal displays:
+    - Task preview (title, agent, priority)
+    - Initiative hierarchy (collapsed)
+    - Search bar at top
+  ```
+  
+  **AC2: Expand Initiative and Select Feature**
+  ```gherkin
+  Given the assignment modal is open
+  When I expand the "Dashboard Enhancements" initiative
+  Then I see the features list:
+    - Feature 1: Orphan Task Detection
+    - Feature 2: Interactive Selector
+    - Feature 3: YAML File Update
+  And each feature has an "Assign to [Feature]" button
+  ```
+  
+  **AC3: Assign Task to Feature**
+  ```gherkin
+  Given the assignment modal is open
+  And I have expanded "Dashboard Enhancements"
+  When I click "Assign to Feature 2: Interactive Selector"
+  Then the modal shows loading state
+  And a PATCH request is sent to /api/tasks/:id/specification
+  And on success (200):
+    - Success toast appears: "Task assigned to Interactive Selector"
+    - Modal closes
+    - Task disappears from orphan section
+    - Task appears in portfolio under correct initiative/feature
+  ```
+  
+  **AC4: Handle Assignment Conflict**
+  ```gherkin
+  Given the assignment modal is open
+  When I click "Assign to Feature X"
+  And the backend returns 409 Conflict
+  Then a conflict dialog appears:
+    "This task was modified by another user. Refresh and try again?"
+    [Refresh] [Cancel]
+  And the modal remains open
+  ```
+  
+  **AC5: Search/Filter Initiatives**
+  ```gherkin
+  Given the assignment modal is open with 20 initiatives
+  When I type "dashboard" in the search bar
+  Then only initiatives/features matching "dashboard" are displayed
+  And the filter completes in <100ms (client-side)
+  ```
+  
+  **AC6: Keyboard Navigation**
+  ```gherkin
+  Given the assignment modal is open
+  When I press Tab
+  Then focus moves to next interactive element
+  And when I press Escape
+  Then the modal closes
+  And when I press Enter on "Assign" button
+  Then the assignment is executed
+  ```
+  
+  ## Implementation Guidance
+  
+  ### Modal Component Structure
+  ```html
+  <!-- AssignmentModal -->
+  <div id="assignment-modal" class="modal hidden">
+    <div class="modal-content">
+      <!-- Task Preview -->
+      <div class="task-preview">
+        <h3 id="task-title"></h3>
+        <div class="task-meta">
+          <span class="badge agent"></span>
+          <span class="badge priority"></span>
+        </div>
+      </div>
+      
+      <!-- Search Bar -->
+      <input 
+        type="text" 
+        id="spec-search" 
+        placeholder="Search initiatives or features..."
+        class="search-input"
+      />
+      
+      <!-- Initiative List -->
+      <div id="initiative-list" class="initiative-list">
+        <!-- Dynamically populated -->
+      </div>
+      
+      <!-- Loading State -->
+      <div id="loading-state" class="hidden">
+        <span class="spinner"></span>
+        <p>Assigning task...</p>
+      </div>
+      
+      <!-- Conflict Dialog -->
+      <div id="conflict-dialog" class="hidden">
+        <p>This task was modified by another user.</p>
+        <div class="dialog-actions">
+          <button onclick="refreshModal()">Refresh</button>
+          <button onclick="closeModal()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  ```
+  
+  ### JavaScript Implementation
+  ```javascript
+  // src/llm_service/dashboard/static/js/assignment-modal.js
+  
+  let currentTaskId = null;
+  let initiatives = [];
+  
+  async function openAssignmentModal(taskId) {
+    currentTaskId = taskId;
+    
+    // Show modal
+    document.getElementById('assignment-modal').classList.remove('hidden');
+    
+    // Load task preview
+    const task = await fetchTask(taskId);
+    displayTaskPreview(task);
+    
+    // Load initiatives (from cached spec list)
+    initiatives = await fetchInitiatives();
+    renderInitiativeList(initiatives);
+  }
+  
+  function renderInitiativeList(initiatives) {
+    const listEl = document.getElementById('initiative-list');
+    listEl.innerHTML = '';
+    
+    initiatives.forEach(initiative => {
+      const initiativeEl = createInitiativeElement(initiative);
+      listEl.appendChild(initiativeEl);
+    });
+  }
+  
+  function createInitiativeElement(initiative) {
+    const div = document.createElement('div');
+    div.className = 'initiative-item collapsed';
+    
+    div.innerHTML = `
+      <div class="initiative-header" onclick="toggleInitiative('${initiative.id}')">
+        <span class="expand-icon">▶</span>
+        <h4>${initiative.title}</h4>
+      </div>
+      <div class="feature-list hidden">
+        ${initiative.features.map(feature => `
+          <div class="feature-item">
+            <span>${feature.title}</span>
+            <button 
+              class="btn-assign"
+              onclick="assignTask('${initiative.spec_path}', '${feature.title}')">
+              Assign to ${feature.title}
+            </button>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    
+    return div;
+  }
+  
+  async function assignTask(specPath, featureName) {
+    // Show loading state
+    document.getElementById('loading-state').classList.remove('hidden');
+    
+    try {
+      const response = await fetch(`/api/tasks/${currentTaskId}/specification`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          specification: specPath,
+          feature: featureName
+        })
+      });
+      
+      if (response.ok) {
+        showSuccessToast(`Task assigned to ${featureName}`);
+        closeModal();
+        refreshPortfolio();
+      } else if (response.status === 409) {
+        showConflictDialog();
+      } else {
+        const error = await response.json();
+        showErrorToast(error.message);
+      }
+    } catch (error) {
+      showErrorToast('Failed to assign task');
+    } finally {
+      document.getElementById('loading-state').classList.add('hidden');
+    }
+  }
+  
+  // Search/filter function
+  document.getElementById('spec-search').addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase();
+    const filtered = initiatives.filter(init => 
+      init.title.toLowerCase().includes(query) ||
+      init.features.some(f => f.title.toLowerCase().includes(query))
+    );
+    renderInitiativeList(filtered);
+  });
+  ```
+  
+  ### CSS Styling
+  ```css
+  /* src/llm_service/dashboard/static/css/assignment-modal.css */
+  
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .modal.hidden {
+    display: none;
+  }
+  
+  .modal-content {
+    background: white;
+    width: 600px;
+    max-height: 80vh;
+    border-radius: 8px;
+    padding: 24px;
+    overflow-y: auto;
+  }
+  
+  .task-preview {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+  
+  .initiative-item {
+    margin-bottom: 12px;
+  }
+  
+  .initiative-header {
+    cursor: pointer;
+    padding: 8px;
+    background: #f5f5f5;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .feature-list {
+    padding-left: 24px;
+    margin-top: 8px;
+  }
+  
+  .feature-list.hidden {
+    display: none;
+  }
+  
+  .btn-assign {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .btn-assign:hover {
+    background: #0056b3;
+  }
+  ```
+  
+  ## Testing Strategy
+  - **Manual Testing:** Full user flow (open modal → search → assign → verify)
+  - **Performance:** Modal load time <500ms, search filter <100ms
+  - **Accessibility:** Tab navigation, Escape to close, screen reader support
+  
+  ## Dependencies
+  - Backend endpoint `/api/tasks/:id/specification` (Task 1)
+  - Spec cache for fast initiative list (Task 2)
+  
+  ## Handoff
+  **Next:** Integration testing task (end-to-end validation)
