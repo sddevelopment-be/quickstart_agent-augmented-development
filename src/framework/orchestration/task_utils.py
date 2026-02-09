@@ -4,6 +4,9 @@ Task Utilities - Common functions for task file operations
 
 Provides shared functionality for reading, writing, and manipulating
 task YAML files in the orchestration framework.
+
+NOTE: This module now delegates to src.common.task_schema for task I/O.
+See ADR-042: Shared Task Domain Model for migration details.
 """
 
 from __future__ import annotations
@@ -12,32 +15,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-import yaml
+# Import shared task I/O from common module (ADR-042)
+from src.common.task_schema import read_task, write_task
+from src.common.types import TaskStatus
 
-
-def read_task(task_file: Path) -> dict[str, Any]:
-    """Load task YAML file.
-
-    Args:
-        task_file: Path to task YAML file
-
-    Returns:
-        Dictionary containing task data
-    """
-    with open(task_file, encoding="utf-8") as f:
-        return yaml.safe_load(f) or {}
-
-
-def write_task(task_file: Path, task: dict[str, Any]) -> None:
-    """Save task to YAML file.
-
-    Args:
-        task_file: Path to task YAML file
-        task: Dictionary containing task data
-    """
-    task_file.parent.mkdir(parents=True, exist_ok=True)
-    with open(task_file, "w", encoding="utf-8") as f:
-        yaml.dump(task, f, default_flow_style=False, sort_keys=False)
+# Re-export for backward compatibility
+__all__ = ["read_task", "write_task", "log_event", "get_utc_timestamp", "update_task_status"]
 
 
 def log_event(message: str, log_file: Path) -> None:
@@ -64,19 +47,28 @@ def get_utc_timestamp() -> str:
 
 
 def update_task_status(
-    task: dict[str, Any], status: str, timestamp_field: str | None = None
+    task: dict[str, Any], status: str | TaskStatus, timestamp_field: str | None = None
 ) -> dict[str, Any]:
     """Update task status and add corresponding timestamp.
 
     Args:
         task: Task dictionary
-        status: New status value
+        status: New status value (string or TaskStatus enum)
         timestamp_field: Optional timestamp field name (e.g., "assigned_at")
 
     Returns:
         Updated task dictionary
+        
+    Note:
+        Accepts both string and TaskStatus enum for backward compatibility.
+        Enum usage is preferred (ADR-043).
     """
-    task["status"] = status
+    # Convert enum to string value if needed
+    if isinstance(status, TaskStatus):
+        task["status"] = status.value
+    else:
+        task["status"] = status
+    
     if timestamp_field:
         task[timestamp_field] = get_utc_timestamp()
     return task
