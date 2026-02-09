@@ -118,7 +118,6 @@ Centralized knowledge base for vision, architecture, guides, and templates.
 docs/
 ├── CHANGELOG.md          # Version history
 ├── VISION.md             # Project vision and long-term goals
-├── specific_guidelines.md # Project-specific operational rules
 ├── HOW_TO_USE/           # User guides and tutorials
 │   ├── ISSUE_TEMPLATES_GUIDE.md
 │   ├── QUICKSTART.md
@@ -333,7 +332,7 @@ validation/
 | File                                                               | Purpose                    |
 |--------------------------------------------------------------------|----------------------------|
 | `docs/VISION.md`                                                   | Project vision and goals   |
-| `docs/specific_guidelines.md`                                      | Project-specific rules     |
+| `.doctrine-config/repository-guidelines.md`                        | Project-specific rules     |
 | `docs/HOW_TO_USE/multi-agent-orchestration.md`                     | Orchestration system guide |
 | `docs/HOW_TO_USE/creating-agents.md`                               | Agent development guide    |
 | `docs/architecture/adrs/ADR-009-orchestration-metrics-standard.md` | Metrics standard           |

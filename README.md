@@ -54,12 +54,14 @@ doctrine/                      # Portable agentic framework (git subtree distrib
 
 docs/                         # Project intent and architecture
 ├── VISION.md                 # Repository purpose
-├── specific_guidelines.md    # Project-specific constraints
 ├── architecture/             # Strategic decisions
 │   ├── architectural_vision.md
 │   ├── adrs/                 # Architecture Decision Records
 │   └── diagrams/             # PlantUML C4 diagrams
 └── templates/                # Additional output templates
+
+.doctrine-config/             # Project-specific configuration
+└── repository-guidelines.md  # Project-specific constraints
 
 work/                         # Multi-agent coordination
 ├── collaboration/            # Task orchestration and handoffs
@@ -78,7 +80,7 @@ tests/                        # All test code
 1. **Initialize your project**
    ```bash
    # Fork this repository
-   # Edit docs/VISION.md and docs/specific_guidelines.md
+   # Edit docs/VISION.md and .doctrine-config/repository-guidelines.md
    ```
 
 2. **Review the doctrine stack**
