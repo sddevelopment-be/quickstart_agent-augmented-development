@@ -369,6 +369,138 @@ This document catalogs **seed terms** extracted from Phase 1 research and primer
 
 ---
 
+## OO and Event Modeling Terms (Primer 04)
+
+### Responsibility-Driven Design (RDD)
+
+**Definition:** Object-oriented approach where objects are defined by their responsibilities (knowing or doing something on behalf of the system).
+
+**Context:** Design Practice  
+**Source:** Primer 04  
+**Related Terms:** CRC Card, Ubiquitous Language  
+**Status:** Canonical
+
+**Why it matters:** Forces team to speak domain language. If you can't name responsibilities using domain terms, the model is wrong.
+
+---
+
+### CRC Card
+
+**Definition:** Class-Responsibility-Collaborator card used to discover and document object responsibilities through collaborative design sessions.
+
+**Context:** Design Tool  
+**Source:** Primer 04  
+**Related Terms:** Responsibility-Driven Design, Concept  
+**Status:** Canonical
+
+**Why it matters:** Physical/visual tool for linguistic discovery. Makes unclear responsibilities visible immediately.
+
+---
+
+### Concept
+
+**Definition:** Self-contained piece of functionality with clear purpose (why it exists), operational principle (how it works), and state (what it tracks).
+
+**Context:** Design Atom  
+**Source:** Primer 04  
+**Related Terms:** Purpose, Operational Principle, Ubiquitous Language  
+**Status:** Canonical
+
+**Why it matters:** Concepts should map directly to domain vocabulary. If domain experts don't recognize a concept, it's technical, not domain.
+
+---
+
+### Purpose
+
+**Definition:** Why a concept exists; the problem it solves. First element of concept-based design.
+
+**Context:** Concept Anatomy  
+**Source:** Primer 04  
+**Related Terms:** Concept, Operational Principle  
+**Status:** Canonical
+
+**Why it matters:** Objects without clear purpose accumulate cruft and become maintenance burdens.
+
+---
+
+### Operational Principle
+
+**Definition:** How a concept works; its core behavior. Second element of concept-based design.
+
+**Context:** Concept Anatomy  
+**Source:** Primer 04  
+**Related Terms:** Concept, Purpose  
+**Status:** Canonical
+
+**Why it matters:** If you can't articulate how a concept behaves, users (and developers) won't understand it.
+
+---
+
+### Domain Event
+
+**Definition:** Business-significant state change expressed in ubiquitous language, named in past tense (e.g., OrderPlaced, PaymentReceived).
+
+**Context:** Event Modeling  
+**Source:** Primer 04  
+**Related Terms:** Event Storming, Aggregate, Ubiquitous Language  
+**Status:** Canonical
+
+**Why it matters:** Events make implicit processes explicit. Domain experts should recognize event names as business occurrences.
+
+---
+
+### Event Storming
+
+**Definition:** Collaborative workshop technique using sticky notes to discover domain events, commands, actors, and process flows.
+
+**Context:** Design Practice  
+**Source:** Primer 04  
+**Related Terms:** Domain Event, Aggregate, Bounded Context  
+**Status:** Canonical
+
+**Why it matters:** Creates shared understanding faster than traditional requirements gathering. Captures ubiquitous language through collaborative discovery.
+
+---
+
+### Anemic Domain Model
+
+**Definition:** Anti-pattern where objects are data bags (getters/setters only), with all logic in separate "Service" classes.
+
+**Context:** Failure Mode  
+**Source:** Primer 04  
+**Related Terms:** Responsibility-Driven Design (correct approach)  
+**Status:** Canonical
+
+**Why it matters:** Domain logic scattered across services. Hard to find, hard to test, no linguistic clarity.
+
+---
+
+### Event Explosion
+
+**Definition:** Anti-pattern of creating too many fine-grained events (e.g., OrderLineItemQuantityChangedBy1) that obscure business significance.
+
+**Context:** Failure Mode  
+**Source:** Primer 04  
+**Related Terms:** Domain Event  
+**Status:** Canonical
+
+**Why it matters:** Noise overwhelms signal. Events should represent business-significant state changes, not every mutation.
+
+---
+
+### Aggregate
+
+**Definition:** Cluster of domain objects treated as a unit for data changes. Aggregates emit domain events and enforce business invariants.
+
+**Context:** DDD Tactical Pattern  
+**Source:** Primer 04  
+**Related Terms:** Domain Event, Bounded Context, Ubiquitous Language  
+**Status:** Canonical
+
+**Why it matters:** Consistency boundaries (what changes together) should align with business rules.
+
+---
+
 ## Agentic Monitoring Terms (Experiment-Specific)
 
 ### Human in Charge
@@ -467,13 +599,29 @@ Human in Charge
 Linguistic Autonomy (per context)
 ```
 
+### OO and Event Modeling Layer
+
+```
+Responsibility-Driven Design
+    ↓ uses
+CRC Card (discovery tool)
+    ↓ identifies
+Concept (purpose + operational principle + state)
+    ↓ emits
+Domain Event (business-significant state change)
+    ↓ discovered via
+Event Storming (collaborative workshop)
+    ↓ groups into
+Aggregate (consistency boundary)
+```
+
 ---
 
 ## Usage Statistics
 
-**Total Seed Terms:** 30  
+**Total Seed Terms:** 40  
 **Status Breakdown:**
-- Canonical: 30 (100%)
+- Canonical: 40 (100%)
 - Candidate: 0
 - Under Review: 0
 
@@ -483,6 +631,7 @@ Linguistic Autonomy (per context)
 - Organizational: 7 terms
 - Practice: 4 terms
 - Anti-patterns: 4 terms
+- OO & Event Modeling: 10 terms (NEW)
 - Agentic Monitoring: 5 terms
 
 ---
@@ -494,11 +643,11 @@ Linguistic Autonomy (per context)
 **Phase 2 (Pilot):**
 - Add 20-30 context-specific terms from selected bounded context
 - Add 10-15 technical terms from implementation
-- Total vocabulary: 60-75 terms
+- Total vocabulary: 70-85 terms
 
 **Phase 3+ (Ongoing):**
 - Expand per bounded context (50-100 terms each)
-- Maintain core glossary (these 30 terms stay stable)
+- Maintain core glossary (these 40 terms stay stable)
 
 ---
 

@@ -270,6 +270,78 @@ This document catalogs **verifiable claims** extracted from research sources tha
 
 ---
 
+## Category 7: OO and Event-Based Modeling
+
+### Claim 7.1: Names Reveal Responsibilities
+
+**Source:** Rebecca Wirfs-Brock, *Object Design* (2002), Chapter 2  
+**Claim:** "Good names reveal intention and responsibilities"  
+**Evidence Type:** Design theory  
+**Implication:** If you can't name an object's responsibility clearly, the design is unclear  
+**Testable:** ⚠️ Partial - Can measure clarity through developer comprehension tests
+
+---
+
+### Claim 7.2: Collaborations Clarify Design
+
+**Source:** Rebecca Wirfs-Brock, *Object Design* (2002)  
+**Claim:** Understanding **how** objects work together is as important as **what** they do individually  
+**Evidence Type:** Design theory  
+**Implication:** CRC cards reveal collaboration patterns that might otherwise stay implicit  
+**Testable:** ⚠️ Indirect - Measure design quality improvements using CRC cards vs ad-hoc design
+
+---
+
+### Claim 7.3: Concepts are Design Atoms
+
+**Source:** Daniel Jackson, *The Essence of Software* (2021)  
+**Claim:** "Concepts are the atoms of software design"  
+**Evidence Type:** Design theory  
+**Implication:** If your concepts are fuzzy, your software will be fuzzy  
+**Testable:** ⚠️ Partial - Can measure concept clarity through purpose/operational principle articulation
+
+---
+
+### Claim 7.4: Every Concept Must Have Clear Purpose
+
+**Source:** Daniel Jackson, *The Essence of Software* (2021), Chapter 3  
+**Claim:** Every concept must have a clear purpose (why it exists)  
+**Evidence Type:** Design theory  
+**Implication:** Objects without clear purpose accumulate cruft and become maintenance burdens  
+**Testable:** ✅ Yes - Measure maintenance burden of objects with/without documented purpose
+
+---
+
+### Claim 7.5: Domain Events Make Processes Explicit
+
+**Source:** Eric Evans, *Domain-Driven Design* (2003), Chapters 5-6  
+**Claim:** "Domain events make implicit processes explicit"  
+**Evidence Type:** Observational (from practice)  
+**Implication:** Events surface business logic that would otherwise stay hidden in code  
+**Testable:** ✅ Yes - Compare process visibility in event-based vs non-event-based systems
+
+---
+
+### Claim 7.6: Event Storming Accelerates Understanding
+
+**Source:** Alberto Brandolini, *Event Storming* (2013)  
+**Claim:** Event Storming creates shared understanding faster than traditional requirements gathering  
+**Evidence Type:** Observational (from practice)  
+**Implication:** Collaborative discovery beats documentation handoffs  
+**Testable:** ✅ Yes - Measure time-to-understanding: Event Storming vs traditional requirements docs
+
+---
+
+### Claim 7.7: Anemic Models Hide Business Logic
+
+**Source:** Martin Fowler, "Anemic Domain Model" (2003); Eric Evans  
+**Claim:** Data-only objects scatter domain logic across services, reducing linguistic clarity  
+**Evidence Type:** Observational pattern (anti-pattern)  
+**Implication:** Push behavior into objects to maintain responsibility clarity  
+**Testable:** ✅ Yes - Measure logic scattering (methods per class vs service methods)
+
+---
+
 ## Assumption Inventory
 
 Claims that are **assumed true** but not directly tested in this experiment:
@@ -354,9 +426,10 @@ Summary of testability by claim category:
 | Agentic Systems | 4 | 4 | 0 | 0 |
 | Governance | 3 | 2 | 1 | 0 |
 | Failure Modes | 3 | 2 | 0 | 1 |
-| **Total** | **24** | **18** | **4** | **2** |
+| OO & Event Modeling | 7 | 4 | 3 | 0 |
+| **Total** | **31** | **22** | **7** | **2** |
 
-**Testability:** 75% of claims are directly testable in Phase 2 pilot.
+**Testability:** 71% of claims are directly testable in Phase 2 pilot.
 
 ---
 
@@ -369,6 +442,7 @@ Top 5 claims to validate in Phase 2:
 3. **Claim 3.2:** Team boundaries predict semantic boundaries (VALIDATION OF APPROACH)
 4. **Claim 5.2:** Advisory enforcement reduces resistance (ADOPTION METRIC)
 5. **Claim 6.2:** False positives damage trust (QUALITY GATE)
+6. **Claim 7.5:** Domain events make processes explicit (NEW - OO/EVENT VALIDATION)
 
 ---
 
@@ -380,6 +454,9 @@ Top 5 claims to validate in Phase 2:
 - Melvin Conway, "How Do Committees Invent?" (1968)
 - Matthew Skelton & Manuel Pais, *Team Topologies* (2019)
 - Rebecca Wirfs-Brock, *Object Design* (2002)
+- Daniel Jackson, *The Essence of Software* (2021)
+- Alberto Brandolini, *Event Storming* (2013)
+- Martin Fowler, "Anemic Domain Model" (2003)
 - Gabriele Bavota et al., "Mining Version Histories..." (2015)
 - Helen Nissenbaum, *Privacy in Context* (2009)
 - Ian Kerr, "Bots, Babes and the Californication of Commerce" (2004)

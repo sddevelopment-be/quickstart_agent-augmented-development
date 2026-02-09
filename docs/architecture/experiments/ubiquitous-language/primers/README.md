@@ -2,7 +2,7 @@
 
 **Purpose:** Short, focused primers (10-minute reads) on core concepts for the ubiquitous language experiment  
 **Reading Order:** Sequential (each builds on previous)  
-**Total Reading Time:** ~30 minutes
+**Total Reading Time:** ~40 minutes
 
 ---
 
@@ -50,27 +50,43 @@
 
 ---
 
+### [Primer 04: Object-Oriented and Event-Based Modeling in DDD](./04-oo-event-modeling-ddd.md)
+**Reading Time:** ~10 minutes  
+**Concepts:** Responsibility-driven design, concept-based design, domain events, Event Storming
+
+**What you'll learn:**
+- How OO responsibility assignment embodies ubiquitous language (CRC cards)
+- Concept-based design: purpose, operational principle, state
+- Domain events as business-significant state changes (past tense naming)
+- Event Storming for collaborative domain discovery
+- Common failure modes (anemic models, event explosion)
+
+**Key Takeaway:** Objects and events are linguistic anchors, not technical constructs. Responsibility-driven design and event modeling make domain concepts explicit through ubiquitous language.
+
+---
+
 ## Reading Paths
 
 ### For Engineers
 **Goal:** Understand practical application
 
 1. Start with Primer 01 (ubiquitous language basics)
-2. Read Primer 02 (when to split contexts)
-3. Skim Primer 03 (organizational context)
+2. Read Primer 04 (OO and event modeling - hands-on design)
+3. Read Primer 02 (when to split contexts)
+4. Skim Primer 03 (organizational context)
 
-**Time:** 20-25 minutes
+**Time:** 30-35 minutes
 
 ---
 
 ### For Architects
 **Goal:** Understand strategic design
 
-1. Read all three primers sequentially
+1. Read all four primers sequentially
 2. Review [Context Map](../concept-map.md) for relationships
 3. Check [Claim Inventory](../claim-inventory.md) for testable hypotheses
 
-**Time:** 45-60 minutes
+**Time:** 50-65 minutes
 
 ---
 
@@ -80,8 +96,9 @@
 1. Start with Primer 03 (Conway's Law)
 2. Read Primer 02 (bounded contexts)
 3. Read Primer 01 (ubiquitous language)
+4. Read Primer 04 (OO and event modeling) if involved in design sessions
 
-**Time:** 30 minutes
+**Time:** 30-40 minutes
 
 ---
 
@@ -102,8 +119,11 @@ Each primer contributes seed terms to the [Terminology Map](../terminology-map.m
 - **Primer 01:** 6 terms (ubiquitous language, translation error, living documentation, etc.)
 - **Primer 02:** 10 terms (bounded context, ACL, context map, semantic boundary, etc.)
 - **Primer 03:** 10 terms (Conway's Law, team topologies, cognitive load, etc.)
+- **Primer 04:** 10 terms (responsibility-driven design, CRC card, concept, domain event, Event Storming, etc.)
 
-**Total:** 26 seed terms for Phase 2 glossary expansion
+**Total:** 36 seed terms for Phase 2 glossary expansion
+
+**Total:** 36 seed terms for Phase 2 glossary expansion
 
 ---
 
@@ -127,6 +147,12 @@ Each primer contributes seed terms to the [Terminology Map](../terminology-map.m
 3. Cognitive load limits vocabulary size teams can internalize
 4. Stream-aligned teams naturally develop coherent domain vocabulary
 
+### Primer 04 Claims
+1. "Good names reveal intention and responsibilities" (Wirfs-Brock)
+2. "Concepts are the atoms of software design" (Jackson)
+3. Domain events make implicit processes explicit (Evans)
+4. Event Storming creates shared understanding faster than traditional requirements (Brandolini)
+
 ---
 
 ## Connection to Experiment
@@ -142,6 +168,7 @@ These primers ground the **ubiquitous language experiment hypothesis:**
 | **01: Ubiquitous Language** | Establishes why linguistic monitoring matters (translation errors compound) |
 | **02: Bounded Contexts** | Defines governance structure (enforcement tiers per context relationship) |
 | **03: Conway's Law** | Predicts where conflicts occur (team boundaries → semantic boundaries) |
+| **04: OO & Event Modeling** | Shows how objects/events embody ubiquitous language in code |
 
 ---
 
@@ -165,13 +192,20 @@ These primers ground the **ubiquitous language experiment hypothesis:**
 3. **Over-Fragmenting Contexts** - Every team gets a context regardless of collaboration
 4. **Vocabulary-Driven Reorgs** - Expensive solution to cheap problem
 
+### Primer 04 Failure Modes
+1. **"Perfect Object Model" Paralysis** - Spending weeks designing before coding
+2. **Anemic Domain Models** - Objects as data bags, all logic in services
+3. **Event Explosion** - Hundreds of fine-grained events overwhelming signal
+4. **Technical Events Leak** - Infrastructure events (DatabaseUpdated) instead of domain events
+5. **CRC Cards as Theater** - Creating beautiful cards, filing away, never updating
+
 ---
 
 ## Next Steps
 
 After reading these primers:
 
-1. **Review [Terminology Map](../terminology-map.md)** - See all 30 seed terms with definitions
+1. **Review [Terminology Map](../terminology-map.md)** - See all 40 seed terms with definitions
 2. **Check [Claim Inventory](../claim-inventory.md)** - Understand what's testable in Phase 2
 3. **Read [Experiment Primer](../experiment-primer.md)** - Full experiment overview (15 min)
 4. **Decide on Phase 2** - Pilot selection or archive
@@ -196,6 +230,6 @@ After reading these primers:
 
 ---
 
-**Status:** ✅ Phase 1 Complete - 3 primers delivered  
+**Status:** ✅ Phase 1 Extended - 4 primers delivered  
 **Quality Gates:** All passed  
 **Next:** Phase 2 pilot selection and glossary expansion
