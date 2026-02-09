@@ -656,7 +656,7 @@ canvas {
     text-align: right;
 }
 
-/* Initiative Body (Features) */
+/* Initiative Body (Specifications) */
 .initiative-body {
     display: none;
     padding: 0 1.25rem 1rem 1.25rem;
@@ -678,58 +678,60 @@ canvas {
     }
 }
 
-/* Feature Item */
-.feature-item {
-    margin-left: 1.5rem;
-    margin-bottom: 0.75rem;
-    padding: 0.75rem;
-    background-color: rgba(255, 255, 255, 0.03);
-    border-radius: 6px;
-    border-left: 3px solid var(--text-muted);
+/* Specification Item (middle hierarchy level) */
+.specification-item {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-color);
 }
 
-.feature-header {
+.specification-header {
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 1rem;
     padding: 0.5rem;
     margin: -0.5rem;
-    border-radius: 4px;
+    border-radius: 6px;
     transition: background-color 0.2s;
 }
 
-.feature-header:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+.specification-header:hover {
+    background-color: rgba(255, 255, 255, 0.04);
 }
 
-.feature-toggle {
-    font-size: 1rem;
+.specification-toggle {
+    font-size: 1.1rem;
     transition: transform 0.2s;
     user-select: none;
 }
 
-.feature-toggle.expanded {
+.specification-toggle.expanded {
     transform: rotate(90deg);
 }
 
-.feature-info {
+.specification-info {
     flex: 1;
 }
 
-.feature-title {
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    margin: 0 0 0.25rem 0;
+.specification-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 0.35rem 0;
 }
 
-.feature-meta {
-    font-size: 0.8rem;
+.specification-meta {
+    font-size: 0.85rem;
     color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
-/* Task List */
+/* Task List (under specifications) */
 .task-list-container {
     display: none;
     margin-top: 0.75rem;
