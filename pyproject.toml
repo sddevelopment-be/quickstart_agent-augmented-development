@@ -31,6 +31,8 @@ dev = [
     "mutmut>=3.4.0",
     "mypy>=1.0",
     "types-PyYAML>=6.0",
+    "import-linter>=2.0",     # Architecture testing: module dependencies
+    "pytestarch>=2.0",        # Architecture testing: detailed rules
 ]
 
 [tool.setuptools.packages.find]
