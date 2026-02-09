@@ -1,0 +1,122 @@
+id: 2026-02-09T2033-python-pedro-orphan-task-backend
+agent: python-pedro
+status: done
+priority: high
+phase: implementation
+completed_at: '2026-02-09T22:30:00Z'
+specification: specifications/initiatives/dashboard-enhancements/orphan-task-assignment.md
+feature: 'FEAT-DASH-008-03: YAML File Update with Comment Preservation'
+title: 'Backend: Orphan Task Assignment API Endpoint'
+created: 2026-02-09 20:33:00+00:00
+created_by: planning-petra
+estimated_hours: 3
+artefacts:
+- src/llm_service/dashboard/app.py
+- src/llm_service/dashboard/task_assignment_handler.py
+description: "# Task: Backend API Endpoint for Orphan Task Assignment\n\n## Context\n\
+  \n**Specification:** SPEC-DASH-008 v1.0.0 (READY_FOR_PLANNING)\n**Architecture Review:**\
+  \ APPROVED (work/reports/architecture/2026-02-09T2028-SPEC-DASH-008-review.md)\n\
+  **Phase:** 4-5 (Acceptance Test + Implementation)\n\n**Architectural Decisions:**\n\
+  1. Use ruamel.yaml for comment preservation \u2705\n2. Implement optimistic locking\
+  \ via file modification time (HTTP 409)\n3. Emit specific `task.assigned` + generic\
+  \ `task.updated` events\n4. Store feature TITLE (human-readable) in YAML\n5. Implement\
+  \ frontmatter caching with file watcher\n\n## Objective\n\nCreate PATCH endpoint\
+  \ `/api/tasks/:task_id/specification` to assign orphan tasks to specifications/features\
+  \ with YAML comment preservation and concurrent edit protection.\n\n## Acceptance\
+  \ Criteria (ATDD)\n\n**AC1: Assign Orphan Task to Feature**\n```gherkin\nGiven I\
+  \ have an orphan task \"Implement rate limiting\"\nAnd I have a specification \"\
+  specifications/llm-service/api-hardening.md\" with feature \"Rate Limiting\"\nWhen\
+  \ I send PATCH /api/tasks/:task_id/specification with:\n  {\n    \"specification\"\
+  : \"specifications/llm-service/api-hardening.md\",\n    \"feature\": \"Rate Limiting\"\
+  \n  }\nThen the response status is 200\nAnd the task YAML file contains:\n  specification:\
+  \ specifications/llm-service/api-hardening.md\n  feature: \"Rate Limiting\"\nAnd\
+  \ the YAML comments are preserved\nAnd a WebSocket event \"task.assigned\" is emitted\n\
+  ```\n\n**AC2: Prevent Assignment of In-Progress Tasks**\n```gherkin\nGiven I have\
+  \ a task with status: in_progress\nWhen I send PATCH /api/tasks/:task_id/specification\n\
+  Then the response status is 400\nAnd the error message is \"Cannot assign tasks\
+  \ that are currently being worked on\"\n```\n\n**AC3: Handle Concurrent Edit Conflict**\n\
+  ```gherkin\nGiven I have an orphan task\nAnd another user modifies the task file\n\
+  When I send PATCH /api/tasks/:task_id/specification\nThen the response status is\
+  \ 409\nAnd the error message is \"This task was modified by another user\"\n```\n\
+  \n**AC4: Validate Specification Path**\n```gherkin\nGiven I have an orphan task\n\
+  When I send PATCH /api/tasks/:task_id/specification with:\n  {\n    \"specification\"\
+  : \"../../../etc/passwd\"\n  }\nThen the response status is 400\nAnd the error message\
+  \ is \"Invalid specification path\"\n```\n\n**AC5: Handle Missing Specification\
+  \ File**\n```gherkin\nGiven I have an orphan task\nAnd the specification file \"\
+  specifications/nonexistent.md\" does not exist\nWhen I send PATCH /api/tasks/:task_id/specification\
+  \ with:\n  {\n    \"specification\": \"specifications/nonexistent.md\"\n  }\nThen\
+  \ the response status is 400\nAnd the error message is \"Specification file not\
+  \ found\"\n```\n\n## Implementation Guidance\n\n### Endpoint Design\n```python\n\
+  @app.route('/api/tasks/<task_id>/specification', methods=['PATCH'])\ndef update_task_specification(task_id):\n\
+  \    \"\"\"\n    Assign orphan task to specification/feature.\n    \n    Request:\n\
+  \        {\n            \"specification\": \"specifications/llm-dashboard/orphan-task-assignment.md\"\
+  ,\n            \"feature\": \"Feature 2: Interactive Selector\"  # Optional\n  \
+  \      }\n    \n    Response 200:\n        {\n            \"success\": true,\n \
+  \           \"task\": { ... }\n        }\n    \n    Errors:\n        400: Invalid\
+  \ specification path or task not found\n        409: Concurrent edit conflict\n\
+  \        500: YAML write failure\n    \"\"\"\n    pass\n```\n\n### Implementation\
+  \ Steps\n1. Validate specification path (whitelist `specifications/**/*.md`)\n2.\
+  \ Check specification file exists\n3. Load task YAML with ruamel.yaml\n4. Check\
+  \ task status (block if `in_progress`, `done`, `failed`)\n5. Read current file modification\
+  \ time (optimistic lock)\n6. Update `specification:` and `feature:` fields\n7. Write\
+  \ atomically (temp file \u2192 rename)\n8. Verify YAML integrity (round-trip test)\n\
+  9. Emit WebSocket events: `task.assigned` + `task.updated`\n10. Return success response\n\
+  \n### Reuse Existing Code\n- `src/llm_service/dashboard/task_priority_updater.py`\
+  \ - YAML writing patterns\n- `src/llm_service/dashboard/app.py` - WebSocket emission\
+  \ patterns\n\n### Testing Strategy\n- **Unit Tests:** Validation, optimistic locking,\
+  \ YAML preservation\n- **Integration Tests:** End-to-end assignment flow, WebSocket\
+  \ emission\n- **Performance:** YAML write operation <300ms (P95)\n\n## Dependencies\n\
+  - None (can start immediately)\n\n## Handoff\n**Next:** Frontend modal UI task (can\
+  \ run in parallel)\n"
+assigned_at: '2026-02-09T21:14:03.401055Z'
+result: |
+  # Implementation Summary
+  
+  Successfully implemented PATCH `/api/tasks/:task_id/specification` endpoint for orphan task assignment.
+  
+  ## Deliverables
+  
+  ### Source Code (100% Test Coverage)
+  - ✅ `src/llm_service/dashboard/task_assignment_handler.py` - Core handler with YAML comment preservation
+  - ✅ `src/llm_service/dashboard/app.py` - REST API endpoint integration
+  
+  ### Test Suite (21 tests, 100% passing)
+  - ✅ `tests/unit/dashboard/test_task_assignment_handler.py` - 16 unit tests
+  - ✅ `tests/integration/dashboard/test_orphan_task_assignment_acceptance.py` - 5 acceptance tests
+  
+  ## Acceptance Criteria Verification
+  
+  - ✅ AC1: Assign Orphan Task to Feature - PASSED
+  - ✅ AC2: Prevent Assignment of In-Progress Tasks - PASSED
+  - ✅ AC3: Handle Concurrent Edit Conflict - PASSED
+  - ✅ AC4: Validate Specification Path - PASSED
+  - ✅ AC5: Handle Missing Specification File - PASSED
+  
+  ## Quality Metrics
+  
+  - **Test Coverage:** 100% (all new code covered)
+  - **Type Safety:** mypy clean (no type errors)
+  - **Code Quality:** ruff clean, black formatted
+  - **Tests Passing:** 21/21 (100%)
+  
+  ## Key Features Implemented
+  
+  1. **YAML Comment Preservation** - Uses ruamel.yaml for round-trip preservation
+  2. **Optimistic Locking** - Via `last_modified` timestamp (HTTP 409 on conflict)
+  3. **Path Security** - Whitelist validation for `specifications/**/*.md` only
+  4. **Atomic Writes** - Temp file + rename pattern prevents corruption
+  5. **WebSocket Events** - Emits `task.assigned` + `task.updated` events
+  6. **Status Validation** - Rejects in_progress/done/failed tasks
+  
+  ## Architecture Alignment
+  
+  - Reused patterns from `task_priority_updater.py` (ADR-035)
+  - Consistent error handling with existing endpoints
+  - WebSocket emission follows app.py conventions
+  
+  ## Notes
+  
+  - Feature parameter is optional (specification can be assigned without feature)
+  - All path traversal attack vectors blocked
+  - Comprehensive error messages for debugging
+  - Ready for frontend integration

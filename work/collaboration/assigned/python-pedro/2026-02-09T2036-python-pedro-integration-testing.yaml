@@ -1,0 +1,75 @@
+id: 2026-02-09T2036-python-pedro-integration-testing
+agent: python-pedro
+status: assigned
+priority: high
+phase: testing
+specification: specifications/initiatives/dashboard-enhancements/orphan-task-assignment.md
+feature: All features (end-to-end validation)
+title: 'Integration Testing: Orphan Task Assignment Feature'
+created: 2026-02-09 20:36:00+00:00
+created_by: planning-petra
+estimated_hours: 2
+artefacts:
+- tests/integration/test_orphan_task_assignment.py
+- tests/integration/test_spec_cache_performance.py
+description: "# Task: Integration Testing - Orphan Task Assignment\n\n## Context\n\
+  \n**Specification:** SPEC-DASH-008 v1.0.0\n**Architecture Review:** APPROVED\n**Completed\
+  \ Tasks:**\n1. Backend API endpoint (Task 1)\n2. Frontmatter caching (Task 2)\n\
+  3. Frontend modal UI (Task 3)\n\n## Objective\n\nCreate comprehensive integration\
+  \ tests to validate end-to-end functionality, performance requirements, and edge\
+  \ cases for orphan task assignment feature.\n\n## Test Coverage Requirements\n\n\
+  ### 1. End-to-End Assignment Flow\n```python\ndef test_assign_orphan_task_to_feature_e2e():\n\
+  \    \"\"\"\n    AC1: Full flow from modal open to task assignment\n    \n    Steps:\n\
+  \    1. Create orphan task in inbox/\n    2. Open dashboard in test client\n   \
+  \ 3. Click \"Assign\" button (simulate)\n    4. Select initiative and feature (simulate)\n\
+  \    5. Verify PATCH request sent\n    6. Verify task YAML updated\n    7. Verify\
+  \ WebSocket event emitted\n    8. Verify task moved to portfolio section\n    \"\
+  \"\"\n```\n\n### 2. Concurrent Edit Conflict Detection\n```python\ndef test_concurrent_assignment_conflict():\n\
+  \    \"\"\"\n    AC3: Optimistic locking via file modification time\n    \n    Steps:\n\
+  \    1. Load task file, capture modification time\n    2. Modify task file externally\
+  \ (simulate another user)\n    3. Attempt assignment via API\n    4. Verify 409\
+  \ Conflict response\n    5. Verify conflict dialog shown in UI\n    \"\"\"\n```\n\
+  \n### 3. YAML Comment Preservation\n```python\ndef test_yaml_comment_preservation():\n\
+  \    \"\"\"\n    FR-M5: Preserve comments and structure\n    \n    Steps:\n    1.\
+  \ Create task YAML with inline comments\n    2. Assign task to specification\n \
+  \   3. Re-read task YAML\n    4. Verify comments still present\n    5. Verify field\
+  \ order unchanged\n    6. Verify blank lines preserved\n    \"\"\"\n```\n\n### 4.\
+  \ Performance Requirements\n```python\ndef test_modal_load_performance():\n    \"\
+  \"\"\n    NFR-P1: Modal load <500ms (P95)\n    \n    Measure:\n    - Time from button\
+  \ click to modal fully rendered\n    - P95 percentile over 100 requests\n    - Assert:\
+  \ p95 < 500ms\n    \"\"\"\n\ndef test_frontmatter_cache_performance():\n    \"\"\
+  \"\n    NFR-P2: Frontmatter parsing <200ms per spec\n    \n    Measure:\n    - Initial\
+  \ load time for 50 specs\n    - Cached read time\n    - Cache invalidation time\n\
+  \    - Assert: initial < 2s, cached < 50ms, invalidation < 100ms\n    \"\"\"\n\n\
+  def test_yaml_write_performance():\n    \"\"\"\n    NFR-P3: YAML write <300ms (P95)\n\
+  \    \n    Measure:\n    - Time from API request to file written + WebSocket emitted\n\
+  \    - P95 percentile over 100 requests\n    - Assert: p95 < 300ms\n    \"\"\"\n\
+  ```\n\n### 5. Security Validation\n```python\ndef test_directory_traversal_prevention():\n\
+  \    \"\"\"\n    NFR-SEC1: Directory traversal attack prevention\n    \n    Test\
+  \ cases:\n    - specification: \"../../../etc/passwd\"\n    - specification: \"\
+  ../../.env\"\n    - specification: \"/etc/hosts\"\n    \n    Verify:\n    - All\
+  \ return 400 Bad Request\n    - No file access outside specifications/\n    \"\"\
+  \"\n\ndef test_xss_prevention_in_modal():\n    \"\"\"\n    NFR-SEC2: XSS prevention\
+  \ via DOMPurify\n    \n    Test cases:\n    - Task title with <script>alert('xss')</script>\n\
+  \    - Feature name with <img src=x onerror=alert('xss')>\n    \n    Verify:\n \
+  \   - Scripts sanitized before rendering\n    - No JavaScript execution in modal\n\
+  \    \"\"\"\n```\n\n### 6. Edge Cases\n```python\ndef test_missing_specification_file():\n\
+  \    \"\"\"\n    AC5: Handle missing specification gracefully\n    \"\"\"\n\ndef\
+  \ test_malformed_specification_yaml():\n    \"\"\"\n    NFR-R2: Graceful degradation\
+  \ for invalid specs\n    \"\"\"\n\ndef test_specification_without_features():\n\
+  \    \"\"\"\n    FR-M9: Handle specs without feature structure\n    \"\"\"\n\ndef\
+  \ test_websocket_event_emission():\n    \"\"\"\n    FR-M6: Verify task.assigned\
+  \ + task.updated events\n    \"\"\"\n```\n\n## Testing Strategy\n\n### Unit Tests\
+  \ (Per Component)\n- Backend endpoint: Validation, locking, YAML writing\n- Spec\
+  \ cache: Cache hit/miss, invalidation, file watching\n- Frontend: (Manual testing\
+  \ for UI interactions)\n\n### Integration Tests (This Task)\n- End-to-end flows\n\
+  - Performance benchmarks\n- Security validations\n- Edge case handling\n\n### Acceptance\
+  \ Tests (ATDD)\n- Map directly to specification acceptance criteria\n- Given/When/Then\
+  \ format\n- Executable via pytest\n\n## Success Criteria\n\n- [ ] All 20+ integration\
+  \ tests passing\n- [ ] Performance requirements met (P95):\n  - Modal load <500ms\
+  \ \u2705\n  - Frontmatter parsing <200ms \u2705\n  - YAML write <300ms \u2705\n\
+  - [ ] Security validations pass \u2705\n- [ ] Edge cases handled gracefully \u2705\
+  \n- [ ] Test coverage >80% for new code \u2705\n\n## Dependencies\n- All 3 implementation\
+  \ tasks completed (backend, caching, frontend)\n\n## Handoff\n**Next:** Code review\
+  \ and merge (Phase 6)\n**Reviewer:** Code Reviewer Cindy or Architect Alphonso\n"
+assigned_at: '2026-02-09T21:14:03.407808Z'

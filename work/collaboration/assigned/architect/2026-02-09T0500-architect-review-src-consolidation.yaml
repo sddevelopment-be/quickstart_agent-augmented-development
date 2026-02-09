@@ -1,0 +1,98 @@
+id: 2026-02-09T0500-architect-review-src-consolidation
+agent: architect
+status: assigned
+priority: high
+phase: review
+specification: specifications/initiatives/src-consolidation/SPEC-CONSOLIDATION-001-src-code-consolidation.md
+title: Review Src/ Consolidation Strategy and Create ADRs
+created: 2026-02-09 05:00:00+00:00
+description: "# Task: Architect Review - Src/ Consolidation Strategy\n\n## Context\n\
+  \n**Analysis Reports:**\n- `work/reports/analysis/2026-02-09-src-concept-duplication-inventory.md`\
+  \ (23 KB)\n- `work/reports/analysis/2026-02-09-src-abstraction-dependencies.md`\
+  \ (33 KB)\n- `work/reports/logs/python-pedro/2026-02-09-src-duplicates-analysis.md`\
+  \ (18 KB)\n\n**Completed By:** Python Pedro (2026-02-09)\n**Total Analysis:** 74\
+  \ KB comprehensive documentation\n\n## Objective\n\nReview Python Pedro's src/ concept\
+  \ duplication analysis and consolidation strategy. Validate architectural recommendations,\
+  \ create required ADRs, and provide architectural guidance for the proposed 4-phase\
+  \ refactoring plan.\n\n## Key Findings to Review\n\n### High-Priority Issues\n1.\
+  \ **Task I/O Duplication**\n - `framework/orchestration/task_utils.read_task()`\n\
+  \ - `llm_service/dashboard/task_linker.load_task()`\n - Severity: HIGH (maintenance\
+  \ burden, inconsistency risk)\n\n2. **Status String Values**\n - No enum enforcement\
+  \ for task/feature status\n - Risk: Typos, inconsistency, no IDE support\n - Severity:\
+  \ HIGH (data quality, error-prone)\n\n3. **Agent Identity**\n - Not type-safe between\
+  \ orchestration and configuration\n - Current: String-based lookups\n - Severity:\
+  \ MEDIUM (runtime errors possible)\n\n### Positive Architecture Findings\n- \u2705\
+  \ Zero circular dependencies\n- \u2705 Clean module boundaries (framework vs llm_service)\n\
+  - \u2705 Appropriate separation of runtime vs static concerns\n\n### Proposed Solution\n\
+  **Pattern:** \"Shared Core\" with `src/common/` abstractions\n**Effort:** 28 hours\
+  \ across 4 phases\n**Risk:** Low to Medium (phased approach, good test coverage)\n\
+  \n## Deliverables\n\n### 1. Architectural Review Document\n**File:** `work/reports/architecture/2026-02-09-src-consolidation-review.md`\n\
+  \n**Sections:**\n- Executive summary of review findings\n- Validation of consolidation\
+  \ strategy\n- Risk assessment for 4-phase plan\n- Alternative approaches (if any)\n\
+  - Approval status: APPROVED / REDIRECT / BLOCKED\n- Implementation prerequisites\n\
+  - Success metrics\n\n### 2. Architecture Decision Records (ADRs)\n\n**ADR-XXX: Shared\
+  \ Domain Model for Task Abstractions**\n- **Decision:** Create `src/common/task_schema.py`\
+  \ for unified task I/O\n- **Context:** Task reading duplicated across framework\
+  \ and llm_service\n- **Consequences:** Single source of truth, easier maintenance,\
+  \ migration effort\n- **Status:** Proposed\n- **File:** `docs/architecture/adrs/ADR-XXX-shared-task-domain-model.md`\n\
+  \n**ADR-XXX: Status Enumeration and Lifecycle**\n- **Decision:** Enforce TaskStatus\
+  \ and FeatureStatus enums\n- **Context:** Current string values error-prone, no\
+  \ validation\n- **Consequences:** Type safety, IDE support, breaking change\n- **Status:**\
+  \ Proposed\n- **File:** `docs/architecture/adrs/ADR-XXX-status-enumeration-standard.md`\n\
+  \n**ADR-XXX: Framework Configuration Standards**\n- **Decision:** Define configuration\
+  \ boundaries and shared types\n- **Context:** Agent identity not type-safe between\
+  \ modules\n- **Consequences:** Better type safety, refactoring required\n- **Status:**\
+  \ Proposed (Optional - defer if low impact)\n- **File:** `docs/architecture/adrs/ADR-XXX-configuration-standards.md`\n\
+  \n### 3. Refactoring Task Breakdown\n**File:** `work/collaboration/inbox/2026-02-09-TXXX-refactoring-phase-N.yaml`\
+  \ (4 tasks)\n\n**Phase 1 Task:** Create Shared Foundation (6h, Low Risk)\n- Create\
+  \ `src/common/types.py` with TaskStatus, FeatureStatus enums\n- Create `src/common/task_schema.py`\
+  \ with unified read/write functions\n- Add tests for new abstractions (TDD)\n\n\
+  **Phase 2 Task:** Update Framework (10h, Medium Risk)\n- Replace status strings\
+  \ with enums in framework/orchestration/\n- Use shared task I/O functions\n- Update\
+  \ tests\n\n**Phase 3 Task:** Update LLM Service (8h, Low Risk)\n- Replace load_task()\
+  \ with shared implementation\n- Use TaskStatus enum in dashboard\n- Update tests\n\
+  \n**Phase 4 Task:** Validation & Cleanup (4h, Low Risk)\n- Full test suite execution\n\
+  - Remove deprecated code paths\n- Documentation updates\n\n## Acceptance Criteria\n\
+  \n### Architectural Review\n- [ ] All analysis reports reviewed thoroughly\n- [\
+  \ ] Consolidation strategy validated or redirected\n- [ ] Risk assessment completed\
+  \ for 4-phase plan\n- [ ] Alternative approaches considered (if applicable)\n- [\
+  \ ] Review document created with clear approval status\n- [ ] Implementation prerequisites\
+  \ documented\n\n### ADR Creation\n- [ ] At least 2 ADRs created (Task Domain Model\
+  \ + Status Enumeration)\n- [ ] Each ADR follows standard format (Context \u2192\
+  \ Decision \u2192 Consequences)\n- [ ] ADRs reference analysis reports\n- [ ] ADRs\
+  \ include migration strategy\n- [ ] ADRs linked to refactoring tasks\n\n### Task\
+  \ Breakdown\n- [ ] 4 refactoring tasks created (one per phase)\n- [ ] Each task\
+  \ has clear acceptance criteria\n- [ ] Tasks reference relevant ADRs\n- [ ] Dependencies\
+  \ specified between tasks\n- [ ] Effort estimates validated or adjusted\n\n### Quality\
+  \ Gates\n- [ ] Review aligns with existing architecture (ADR-012, ADR-017, etc.)\n\
+  - [ ] Test coverage strategy defined for refactoring\n- [ ] Rollback plan documented\
+  \ (if consolidation fails)\n- [ ] Performance impact assessed\n- [ ] Breaking change\
+  \ mitigation planned\n\n## Dependencies\n\n**Requires:** Python Pedro's analysis\
+  \ reports (\u2705 Complete)\n**Blocks:** All 4 refactoring tasks (Phase 1-4)\n\n\
+  ## Estimated Time\n\n- Analysis review: 2 hours\n- ADR creation: 3 hours (2-3 ADRs)\n\
+  - Task breakdown: 2 hours\n- Documentation: 1 hour\n**Total:** 8 hours\n\n## Related\
+  \ Directives\n\n- Directive 018: Traceable Decisions (ADR creation)\n- Directive\
+  \ 014: Work Log Creation\n- Directive 020: Locality of Change (phased approach)\n\
+  - Directive 017: TDD (test-first refactoring)\n\n## Review Focus Areas\n\n### 1.\
+  \ Consolidation Strategy Validation\n- Is \"Shared Core\" pattern appropriate for\
+  \ this codebase?\n- Are 4 phases the right granularity? (too fine? too coarse?)\n\
+  - Is 28-hour estimate realistic?\n- Are risks properly assessed?\n\n### 2. Architectural\
+  \ Alignment\n- Does proposal align with existing ADRs?\n- Does it support future\
+  \ dashboard enhancements?\n- Does it maintain clean module boundaries?\n- Does it\
+  \ avoid premature abstraction?\n\n### 3. Implementation Concerns\n- Are migration\
+  \ steps clear and safe?\n- Is test coverage adequate?\n- Are breaking changes acceptable?\n\
+  - Is rollback plan sufficient?\n\n### 4. Alternative Approaches\n- Could we defer\
+  \ consolidation? (when would it be mandatory?)\n- Could we use a lighter-weight\
+  \ approach? (e.g., adapter pattern)\n- Could we consolidate in different order?\
+  \ (llm_service first?)\n\n## Notes for Architect Alphonso\n\n**Why This Review Matters:**\n\
+  - High-priority duplications affect maintainability\n- Proposed changes touch both\
+  \ framework and llm_service\n- 28 hours of effort needs architectural validation\n\
+  - ADRs will guide future development\n\n**Expected Outcome:**\n- APPROVED: Create\
+  \ ADRs, proceed with Phase 1\n- REDIRECT: Modify approach, adjust strategy\n- BLOCKED:\
+  \ Defer consolidation, address prerequisites\n\n**Recommended Approach:**\n1. Read\
+  \ analysis reports thoroughly (1 hour)\n2. Validate findings against codebase (30\
+  \ min)\n3. Assess consolidation strategy (30 min)\n4. Create ADRs for approved decisions\
+  \ (3 hours)\n5. Break down into refactoring tasks (2 hours)\n6. Document review\
+  \ findings (1 hour)\n\n---\n\n**Status:** INBOX - Ready for Architect Alphonso\n\
+  **Created:** 2026-02-09T05:00:00Z\n**Priority:** HIGH (blocks refactoring work)\n"
+assigned_at: '2026-02-09T21:14:03.381758Z'

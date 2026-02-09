@@ -480,6 +480,134 @@ def register_routes(app: Flask) -> None:
             app.logger.error(f"Error updating task priority: {e}", exc_info=True)
             return jsonify({"error": "Internal server error"}), 500
 
+    @app.route("/api/tasks/<task_id>/specification", methods=["PATCH"])
+    def update_task_specification(task_id):
+        """
+        Assign orphan task to specification/feature.
+        
+        Implements SPEC-DASH-008: Orphan Task Assignment.
+        
+        Request Body:
+            {
+                "specification": "specifications/llm-service/api-hardening.md",
+                "feature": "Rate Limiting",  # Optional
+                "last_modified": "2026-02-09T20:00:00Z"  # Optional (optimistic locking)
+            }
+        
+        Response 200:
+            {
+                "success": true,
+                "task": { ... }
+            }
+        
+        Errors:
+            400: Invalid specification path, task not editable, or file not found
+            404: Task not found
+            409: Concurrent edit conflict
+            500: YAML write failure
+        
+        Example:
+            PATCH /api/tasks/2026-02-09T2000-task/specification
+            Body: {
+                "specification": "specifications/llm-service/api-hardening.md",
+                "feature": "Rate Limiting"
+            }
+        """
+        from .task_assignment_handler import (
+            TaskAssignmentHandler,
+            InvalidSpecificationError,
+            TaskNotEditableError,
+            ConcurrentModificationError,
+        )
+
+        # Validate request body
+        if not request.is_json:
+            return jsonify({"error": "Request must be JSON"}), 400
+
+        data = request.json
+
+        if not data or "specification" not in data:
+            return jsonify({"error": "Missing specification field"}), 400
+
+        specification = data["specification"]
+        feature = data.get("feature")  # Optional
+        last_modified = data.get("last_modified")  # Optional (optimistic locking)
+
+        # Get configuration
+        work_dir = app.config.get("WORK_DIR", "work/collaboration")
+        repo_root = app.config.get("REPO_ROOT", ".")
+
+        try:
+            # Initialize handler
+            handler = TaskAssignmentHandler(work_dir=work_dir, repo_root=repo_root)
+
+            # Load task before update (for WebSocket old values)
+            task_data = handler._get_task_file_path(task_id)
+            yaml = handler.yaml
+            with open(task_data, encoding="utf-8") as f:
+                old_task_data = yaml.load(f)
+
+            # Update task specification with atomic write
+            updated_task = handler.update_task_specification(
+                task_id=task_id,
+                specification=specification,
+                feature=feature,
+                last_modified=last_modified,
+            )
+
+            # Emit WebSocket events for real-time sync
+            if hasattr(app, "socketio"):
+                # Specific event: task.assigned
+                app.socketio.emit(
+                    "task.assigned",
+                    {
+                        "task_id": task_id,
+                        "specification": specification,
+                        "feature": feature,
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                    },
+                    namespace="/dashboard",
+                )
+
+                # Generic event: task.updated
+                app.socketio.emit(
+                    "task.updated",
+                    {
+                        "task_id": task_id,
+                        "field": "specification",
+                        "old_value": old_task_data.get("specification"),
+                        "new_value": updated_task["specification"],
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                    },
+                    namespace="/dashboard",
+                )
+
+            return jsonify({"success": True, "task": updated_task}), 200
+
+        except InvalidSpecificationError as e:
+            # Invalid specification path or file not found
+            return jsonify({"error": str(e)}), 400
+
+        except TaskNotEditableError as e:
+            # Task status prevents assignment
+            return jsonify({"error": str(e)}), 400
+
+        except ValueError as e:
+            # Invalid task_id
+            return jsonify({"error": str(e)}), 400
+
+        except FileNotFoundError:
+            return jsonify({"error": f"Task not found: {task_id}"}), 404
+
+        except ConcurrentModificationError as e:
+            # Optimistic locking conflict
+            return jsonify({"error": str(e)}), 409
+
+        except Exception as e:
+            # Unexpected error
+            app.logger.error(f"Error assigning task specification: {e}", exc_info=True)
+            return jsonify({"error": "Internal server error"}), 500
+
 
 def register_socketio_handlers(socketio: SocketIO) -> None:
     """
