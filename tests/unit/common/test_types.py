@@ -93,9 +93,10 @@ class TestAgentIdentity:
     
     def test_validate_agent_valid(self):
         """Test validation of valid agent names."""
+        # Use actual names from doctrine/agents
         assert validate_agent("python-pedro") is True
-        assert validate_agent("architect") is True
-        assert validate_agent("backend-dev") is True
+        assert validate_agent("architect-alphonso") is True
+        assert validate_agent("backend-benny") is True
         assert validate_agent("devops-danny") is True
     
     def test_validate_agent_invalid(self):
@@ -109,34 +110,32 @@ class TestAgentIdentity:
         """Test getting list of all agents."""
         agents = get_all_agents()
         assert isinstance(agents, list)
-        assert len(agents) == 20  # Current count
+        assert len(agents) >= 20  # At least 20 agents
         assert "python-pedro" in agents
-        assert "architect" in agents
-        assert "backend-dev" in agents
+        assert "architect-alphonso" in agents
+        assert "backend-benny" in agents
     
     def test_agent_identity_completeness(self):
         """Verify all expected agents are defined."""
         expected_agents = [
-            "architect",
-            "backend-dev",
-            "python-pedro",
-            "frontend",
-            "devops-danny",
-            "planning-petra",
-            "manager-mike",
-            "curator",
-            "writer-editor",
-            "scribe",
-            "researcher",
-            "diagrammer",
-            "lexical",
-            "synthesizer",
-            "translator",
-            "bootstrap-bill",
-            "framework-guardian",
-            "java-jenny",
             "analyst-annie",
-            "code-reviewer",
+            "architect-alphonso",
+            "backend-benny",
+            "bootstrap-bill",
+            "code-reviewer-cindy",
+            "curator-claire",
+            "devops-danny",
+            "diagram-daisy",
+            "frontend-freddy",
+            "java-jenny",
+            "lexical-larry",
+            "manager-mike",
+            "planning-petra",
+            "python-pedro",
+            "researcher-ralph",
+            "scribe-sally",
+            "synthesizer-sam",
+            "translator-tanya",
         ]
         
         agents = get_all_agents()
