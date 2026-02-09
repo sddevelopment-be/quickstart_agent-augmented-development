@@ -6,6 +6,7 @@
     <title>LLM Service Dashboard - Real-Time Monitoring</title>
     <link rel="icon" type="image/x-icon" href="/static/images/favicon.ico">
     <link rel="stylesheet" href="/static/dashboard.css">
+    <link rel="stylesheet" href="/static/assignment-modal.css">
     <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <!-- Markdown rendering libraries (ADR-036) -->
@@ -194,6 +195,56 @@
         </div>
     </div>
 
+    <!-- Assignment Modal (SPEC-DASH-008) -->
+    <div id="assignment-modal" class="modal hidden" aria-hidden="true" role="dialog" aria-labelledby="assignment-modal-title">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="assignment-modal-title">Assign Task to Specification</h2>
+                <button id="assignment-modal-close" class="modal-close" aria-label="Close modal">&times;</button>
+                
+                <!-- Task Preview -->
+                <div class="task-preview">
+                    <h3 id="assignment-task-title">Task Title</h3>
+                    <div class="task-meta">
+                        <span id="assignment-task-agent" class="badge">Agent</span>
+                        <span id="assignment-task-priority" class="badge">Priority</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-body">
+                <!-- Search Bar -->
+                <input 
+                    type="text" 
+                    id="spec-search" 
+                    class="search-input"
+                    placeholder="Search initiatives or features..."
+                    aria-label="Search initiatives or features"
+                />
+                
+                <!-- Initiative List -->
+                <div id="initiative-list" class="initiative-list">
+                    <div class="empty-state">Loading initiatives...</div>
+                </div>
+            </div>
+            
+            <!-- Loading State -->
+            <div id="assignment-loading-state" class="loading-state hidden">
+                <span class="spinner"></span>
+                <p>Assigning task...</p>
+            </div>
+            
+            <!-- Conflict Dialog -->
+            <div id="assignment-conflict-dialog" class="conflict-dialog hidden">
+                <p id="conflict-message">This task was modified by another user.</p>
+                <div class="dialog-actions">
+                    <button id="conflict-refresh-btn">Refresh</button>
+                    <button id="conflict-cancel-btn">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Loading Overlay -->
     <div id="loading-overlay" class="loading-overlay">
         <div class="spinner"></div>
@@ -207,5 +258,6 @@
     </footer>
 
     <script src="/static/dashboard.js"></script>
+    <script src="/static/assignment-modal.js"></script>
 </body>
 </html>

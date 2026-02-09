@@ -811,14 +811,21 @@ canvas {
     padding: 0.75rem;
     background-color: var(--bg-card);
     border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.2s, transform 0.2s;
     border-left: 3px solid var(--danger-color);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: background-color 0.2s, transform 0.2s;
 }
 
 .orphan-task-card:hover {
     background-color: var(--bg-secondary);
     transform: translateX(2px);
+}
+
+.orphan-task-content {
+    cursor: pointer;
+    flex: 1;
 }
 
 .orphan-task-title {
@@ -832,6 +839,33 @@ canvas {
     color: var(--text-muted);
     display: flex;
     gap: 0.5rem;
+}
+
+.btn-assign-orphan {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.4rem 0.75rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: background-color 0.2s, transform 0.1s;
+    align-self: flex-start;
+}
+
+.btn-assign-orphan:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+}
+
+.btn-assign-orphan:active {
+    transform: translateY(0);
+}
+
+.btn-assign-orphan:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
 }
 
 /* Hidden utility */

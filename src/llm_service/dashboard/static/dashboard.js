@@ -875,14 +875,23 @@
     function createOrphanTaskCard(task) {
         const statusIcon = getTaskStatusIcon(task.status);
         return `
-            <div class="orphan-task-card" data-action="open-task" data-task-id="${escapeHtml(task.id)}">
-                <div class="orphan-task-title">
-                    ${statusIcon} ${escapeHtml(task.title || task.id)}
+            <div class="orphan-task-card" data-task-id="${escapeHtml(task.id)}">
+                <div class="orphan-task-content" data-action="open-task">
+                    <div class="orphan-task-title">
+                        ${statusIcon} ${escapeHtml(task.title || task.id)}
+                    </div>
+                    <div class="orphan-task-meta">
+                        <span>👤 ${escapeHtml(task.agent || 'unassigned')}</span>
+                        <span class="badge priority-${(task.priority || 'medium').toLowerCase()}">${escapeHtml(task.priority || 'MEDIUM')}</span>
+                    </div>
                 </div>
-                <div class="orphan-task-meta">
-                    <span>👤 ${escapeHtml(task.agent || 'unassigned')}</span>
-                    <span class="badge priority-${(task.priority || 'medium').toLowerCase()}">${escapeHtml(task.priority || 'MEDIUM')}</span>
-                </div>
+                <button 
+                    class="btn-assign-orphan" 
+                    data-action="assign-orphan"
+                    data-task-id="${escapeHtml(task.id)}"
+                    aria-label="Assign ${escapeHtml(task.title || task.id)} to specification">
+                    Assign
+                </button>
             </div>
         `;
     }
@@ -1028,8 +1037,47 @@
                     window.openTaskFromPortfolio(taskId);
                 }
                 break;
+            
+            case 'assign-orphan':
+                const orphanTaskId = target.getAttribute('data-task-id');
+                if (orphanTaskId) {
+                    // Prevent event bubbling to open-task
+                    event.stopPropagation();
+                    
+                    // Find task data from the card
+                    const taskCard = target.closest('.orphan-task-card');
+                    if (taskCard) {
+                        const taskData = extractTaskDataFromCard(taskCard);
+                        if (window.openAssignmentModal) {
+                            window.openAssignmentModal(orphanTaskId, taskData);
+                        } else {
+                            console.error('openAssignmentModal not available');
+                        }
+                    }
+                }
+                break;
         }
     });
+    
+    /**
+     * Extract task data from orphan task card for modal preview
+     * @param {HTMLElement} taskCard - The orphan task card element
+     * @returns {Object} - Task data object
+     */
+    function extractTaskDataFromCard(taskCard) {
+        const taskId = taskCard.getAttribute('data-task-id');
+        const titleEl = taskCard.querySelector('.orphan-task-title');
+        const agentEl = taskCard.querySelector('.orphan-task-meta span:first-child');
+        const priorityEl = taskCard.querySelector('.badge[class*="priority-"]');
+        
+        return {
+            id: taskId,
+            title: titleEl ? titleEl.textContent.replace(/^[^a-zA-Z]+/, '').trim() : taskId,
+            agent: agentEl ? agentEl.textContent.replace('👤', '').trim() : 'unassigned',
+            priority: priorityEl ? priorityEl.textContent.trim() : 'MEDIUM',
+            status: 'pending'
+        };
+    }
 
     // ===========================================
     // Multi-Page Navigation (ADR-041)
