@@ -5,8 +5,6 @@ Tests specific issues with wildcard CORS and Flask-SocketIO.
 Per Flask-SocketIO documentation, wildcard '*' may cause issues with browser clients.
 """
 
-import pytest
-
 
 class TestCORSWebSocketProduction:
     """Tests for production-ready CORS configuration."""

@@ -4,7 +4,6 @@ Test stats endpoint integration with file watcher.
 Validates that /api/stats returns actual task counts from file watcher.
 """
 
-import pytest
 from pathlib import Path
 import tempfile
 import yaml
@@ -91,7 +90,6 @@ class TestStatsFileWatcherIntegration:
     def test_stats_includes_telemetry_costs(self):
         """Test: /api/stats includes cost metrics from telemetry."""
         from llm_service.dashboard.app import create_app
-        import sqlite3
         
         with tempfile.TemporaryDirectory() as tmpdir:
             # Create telemetry database with data
