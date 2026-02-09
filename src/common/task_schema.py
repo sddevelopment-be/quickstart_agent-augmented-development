@@ -47,16 +47,47 @@ def read_task(path: Path) -> Dict[str, Any]:
     """
     try:
         with open(path, 'r', encoding='utf-8') as f:
-            task = yaml.safe_load(f)
+            content = f.read()
+            
+        # Detect common YAML issues before parsing
+        if content.count('\n---\n') > 0 or content.count('\n--- \n') > 0:
+            # Multiple document separators detected
+            raise TaskIOError(
+                f"Invalid YAML in {path}: expected a single document in the stream\n"
+                f"  Found multiple '---' separators (YAML multi-document format not supported)\n"
+                f"  Hint: Remove extra '---' lines or wrap content in 'description: |' block"
+            )
+        
+        task = yaml.safe_load(content)
+            
     except FileNotFoundError:
         raise TaskIOError(f"Task file not found: {path}")
     except yaml.YAMLError as e:
+        # Check if it's the multi-document error
+        error_msg = str(e)
+        if "expected a single document" in error_msg:
+            raise TaskIOError(
+                f"Invalid YAML in {path}: expected a single document in the stream\n"
+                f"  Hint: Check for multiple '---' separators in the file"
+            )
         raise TaskIOError(f"Invalid YAML in {path}: {e}")
     except Exception as e:
         raise TaskIOError(f"Failed to read task {path}: {e}")
     
     if not isinstance(task, dict):
         raise TaskValidationError(f"Task must be a dictionary, got {type(task)}")
+    
+    # Auto-migrate old format: task_id → id (with warning)
+    if 'task_id' in task and 'id' not in task:
+        import warnings
+        warnings.warn(
+            f"Auto-migrating old task format in {path}: 'task_id' → 'id'\n"
+            f"  Please update task file to use 'id' field directly",
+            DeprecationWarning,
+            stacklevel=2
+        )
+        task['id'] = task['task_id']
+        # Note: We don't delete task_id to preserve backwards compatibility
     
     # Validate required fields
     required_fields = {'id', 'status'}
