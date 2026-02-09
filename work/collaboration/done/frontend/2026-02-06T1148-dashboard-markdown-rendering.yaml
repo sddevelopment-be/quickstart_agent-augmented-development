@@ -1,143 +1,204 @@
-id: "2026-02-06T1148-dashboard-markdown-rendering"
-title: "Dashboard Markdown Rendering (ADR-036)"
-agent: "frontend"
-status: "done"
-priority: "high"
-created: "2026-02-06T11:48:00Z"
-completed: "2026-02-06T19:30:00Z"
+---
+id: 2026-02-06T1148-dashboard-markdown-rendering
+title: Dashboard Markdown Rendering (ADR-036)
+agent: frontend
+status: done
+priority: high
+created: '2026-02-06T11:48:00Z'
+completed: '2026-02-06T19:30:00Z'
 estimated_hours: 11
 actual_hours: 6
-specification: "specifications/llm-dashboard/markdown-rendering.md"
-work_log: "work/logs/frontend/2026-02-06T1148-dashboard-markdown-rendering-worklog.md"
+specification: specifications/initiatives/dashboard-enhancements/markdown-rendering.md
+work_log: work/logs/frontend/2026-02-06T1148-dashboard-markdown-rendering-worklog.md
+description: 'Implement client-side markdown rendering in task detail modals using
+  marked.js + DOMPurify.
 
-description: |
-  Implement client-side markdown rendering in task detail modals using marked.js + DOMPurify.
-  
+
   ## Scope
+
   - Integrate marked.js (markdown parser) and DOMPurify (HTML sanitizer)
+
   - Configure GFM extensions (tables, task lists, strikethrough)
+
   - Implement selective rendering (markdown fields vs. technical fields)
+
   - Apply XSS prevention with DOMPurify sanitization
+
   - Add CSS styling for rendered markdown elements
+
   - Security testing with OWASP XSS payloads
 
+  '
 context:
-  phase: "Phase 1 of dashboard enhancements initiative"
-  dependencies: "Markdown rendering has no dependencies"
-  benefit: "Provides immediate UX improvement for task readability"
+  phase: Phase 1 of dashboard enhancements initiative
+  dependencies: Markdown rendering has no dependencies
+  benefit: Provides immediate UX improvement for task readability
   related_adrs:
-    - "ADR-036: Dashboard Markdown Rendering (primary)"
-    - "ADR-032: Real-Time Execution Dashboard (foundation)"
-  technical_design: "docs/architecture/design/dashboard-enhancements-technical-design.md"
-  implementation_order: "1st of 3 features (Markdown → Priority → Portfolio)"
+  - 'ADR-036: Dashboard Markdown Rendering (primary)'
+  - 'ADR-032: Real-Time Execution Dashboard (foundation)'
+  technical_design: docs/architecture/design/dashboard-enhancements-technical-design.md
+  implementation_order: 1st of 3 features (Markdown → Priority → Portfolio)
+acceptance_criteria: '- [x] marked.js and DOMPurify integrated via CDN ✅
 
-acceptance_criteria: |
-  - [x] marked.js and DOMPurify integrated via CDN ✅
   - [x] GFM extensions configured (tables, task lists, autolinks, strikethrough) ✅
-  - [x] Selective rendering: description, context, acceptance_criteria, notes → markdown ✅
+
+  - [x] Selective rendering: description, context, acceptance_criteria, notes → markdown
+  ✅
+
   - [x] Technical fields (id, agent, status, priority) remain plain text ✅
-  - [x] DOMPurify configured with strict whitelist (no scripts, no event handlers) ✅
+
+  - [x] DOMPurify configured with strict whitelist (no scripts, no event handlers)
+  ✅
+
   - [x] CSP headers added to Flask app ✅
+
   - [x] CSS styling for code blocks, tables, lists, blockquotes ✅
+
   - [x] XSS test suite created (12 OWASP payloads) ✅
+
   - [ ] XSS tests PASSING (ready for manual execution)
+
   - [ ] Performance: <50ms typical task, <200ms P95 (ready for benchmarking)
+
   - [ ] Cross-browser tested (Chrome, Firefox, Safari) (ready for testing)
+
   - [x] Documentation updated (implementation guide created) ✅
 
-implementation_notes: |
-  **Phase 1: Library Integration (2 hours)**
+  '
+implementation_notes: '**Phase 1: Library Integration (2 hours)**
+
   - Add marked + DOMPurify to static/js/vendor/
+
   - Configure marked with GFM options
+
   - Create markdown rendering utility module
-  
+
+
   **Phase 2: Selective Rendering (3 hours)**
+
   - Update task detail modal rendering logic
+
   - Classify fields (markdown vs. technical)
+
   - Handle edge cases (empty, null, malformed markdown)
-  
+
+
   **Phase 3: Security Hardening (2 hours)**
+
   - Configure DOMPurify whitelist
+
   - Add CSP headers to Flask
+
   - XSS testing with OWASP payloads
-  
+
+
   **Phase 4: Visual Polish (2-4 hours)**
+
   - CSS for code blocks, tables, lists
+
   - Responsive styling
+
   - Cross-browser testing
 
+  '
 dependencies: []
-
 blocked_by: []
-
 blocks: []
-
 artefacts:
-  - "src/llm_service/dashboard/static/js/dashboard-markdown.js"
-  - "src/llm_service/dashboard/static/js/test-xss-payloads.html"
-  - "src/llm_service/dashboard/static/css/dashboard.css"
-  - "src/llm_service/dashboard/app.py"
-  - "src/llm_service/dashboard/templates/index.html"
-
+- src/llm_service/dashboard/static/js/dashboard-markdown.js
+- src/llm_service/dashboard/static/js/test-xss-payloads.html
+- src/llm_service/dashboard/static/css/dashboard.css
+- src/llm_service/dashboard/app.py
+- src/llm_service/dashboard/templates/index.html
 tags:
-  - dashboard
-  - frontend
-  - markdown
-  - security
-  - adr-036
-  - m4-batch-4.3
+- dashboard
+- frontend
+- markdown
+- security
+- adr-036
+- m4-batch-4.3
+notes: '**Security Priority:** XSS prevention is CRITICAL. All markdown content must
 
-notes: |
-  **Security Priority:** XSS prevention is CRITICAL. All markdown content must
   pass through DOMPurify before insertion into DOM.
-  
+
+
   **Performance Target:** Rendering must not block modal opening. Target <50ms
+
   for typical tasks (500 chars), <200ms for large tasks (5000 chars).
-  
+
+
   **Browser Support:** Chrome 100+, Firefox 100+, Safari 15+
-  
+
+
   ---
-  
+
+
   ## Implementation Summary (2026-02-06)
-  
+
+
   **Status:** ✅ COMPLETE (6 hours, under 11-hour estimate)
-  
+
+
   **Files Created:**
+
   - dashboard-markdown.js (11.4 KB) - MarkdownRenderer utility
+
   - test-xss-payloads.html (18.2 KB) - XSS security test suite
+
   - dashboard-markdown-test-cases.md - Manual test documentation (36 tests)
+
   - dashboard-markdown-rendering-implementation.md - Implementation guide
-  
+
+
   **Files Modified:**
+
   - index.html - Added CDN scripts (marked.js, DOMPurify)
+
   - dashboard.js - Updated showTaskModal() for markdown rendering
+
   - dashboard.css - Added 300+ lines of markdown styles
+
   - app.py - Added CSP security headers
-  
+
+
   **Key Features Delivered:**
+
   - ✅ Markdown-to-HTML conversion with GFM support
+
   - ✅ XSS prevention (DOMPurify + CSP headers)
+
   - ✅ Selective field rendering (markdown vs. technical)
+
   - ✅ Comprehensive dark theme styling
+
   - ✅ Responsive design (mobile, tablet, desktop)
+
   - ✅ 12 XSS attack vectors tested (test page ready)
+
   - ✅ 36 test cases documented
-  
+
+
   **Next Steps:**
+
   - Execute XSS test suite (manual)
+
   - Benchmark rendering performance
+
   - Cross-browser compatibility testing
-  
+
+
   **Work Log:** work/logs/frontend/2026-02-06T1148-dashboard-markdown-rendering-worklog.md
 
+  '
 result:
-  summary: "Markdown rendering implemented with GFM support, XSS prevention, and dark theme styling (6 hours, under 11-hour estimate)"
+  summary: Markdown rendering implemented with GFM support, XSS prevention, and dark
+    theme styling (6 hours, under 11-hour estimate)
   artifacts:
-    - "src/llm_service/dashboard/static/js/dashboard-markdown.js"
-    - "src/llm_service/dashboard/static/js/test-xss-payloads.html"
-    - "src/llm_service/dashboard/static/css/dashboard.css"
-    - "src/llm_service/dashboard/app.py"
-    - "src/llm_service/dashboard/templates/index.html"
-    - "src/llm_service/dashboard/static/js/dashboard.js"
-  completed_at: "2026-02-06T19:30:00Z"
-  notes: "XSS test suite and performance benchmarks ready for manual execution"
+  - src/llm_service/dashboard/static/js/dashboard-markdown.js
+  - src/llm_service/dashboard/static/js/test-xss-payloads.html
+  - src/llm_service/dashboard/static/css/dashboard.css
+  - src/llm_service/dashboard/app.py
+  - src/llm_service/dashboard/templates/index.html
+  - src/llm_service/dashboard/static/js/dashboard.js
+  completed_at: '2026-02-06T19:30:00Z'
+  notes: XSS test suite and performance benchmarks ready for manual execution

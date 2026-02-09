@@ -1,3 +1,4 @@
+---
 id: 2026-02-05T0900-backend-dev-claude-code-adapter
 agent: backend-dev
 status: assigned
@@ -47,3 +48,4 @@ created_at: '2026-02-05T09:00:00Z'
 created_by: orchestrator
 estimated_hours: 3.0
 assigned_at: '2026-02-05T05:32:53.950470Z'
+specification: specifications/initiatives/framework-distribution/SPEC-DIST-001-multi-tool-distribution.md

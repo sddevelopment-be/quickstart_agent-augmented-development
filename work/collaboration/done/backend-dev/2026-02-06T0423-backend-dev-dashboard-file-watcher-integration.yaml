@@ -1,75 +1,65 @@
 ---
 id: 2026-02-06T0423-backend-dev-dashboard-file-watcher-integration
-title: "Integrate File Watcher with Dashboard Runtime and API Endpoints"
+title: Integrate File Watcher with Dashboard Runtime and API Endpoints
 agent: backend-dev
 priority: high
 status: new
 estimated_hours: 1-2
-created_at: "2026-02-06T04:23:00Z"
-created_by: "claude-sonnet-4.5"
+created_at: '2026-02-06T04:23:00Z'
+created_by: claude-sonnet-4.5
 milestone: M4
 batch: 4.2
 dependencies:
-  - "2026-02-06T0422-backend-dev-dashboard-cors-fix"
+- 2026-02-06T0422-backend-dev-dashboard-cors-fix
+description: 'Initialize and integrate the file watcher when the dashboard starts.
+  Currently
 
-description: |
-  Initialize and integrate the file watcher when the dashboard starts. Currently
   the file watcher is implemented but never instantiated, so the dashboard shows
+
   no task data. The /api/tasks endpoint returns empty stub data with TODO comments.
 
+
   This task connects the file watcher to the dashboard runtime and updates the
+
   REST API endpoints to serve real task data from work/collaboration/ directory.
 
+  '
 acceptance_criteria:
-  - File watcher starts when dashboard starts
-  - File watcher monitors work/collaboration/ directory
-  - File watcher stops gracefully on dashboard shutdown
-  - /api/tasks endpoint returns actual YAML file data
-  - Task board UI displays inbox/assigned/done tasks
-  - Real-time updates trigger when YAML files change
-  - Console logs show "Watching: work/collaboration"
-
+- File watcher starts when dashboard starts
+- File watcher monitors work/collaboration/ directory
+- File watcher stops gracefully on dashboard shutdown
+- /api/tasks endpoint returns actual YAML file data
+- Task board UI displays inbox/assigned/done tasks
+- Real-time updates trigger when YAML files change
+- Console logs show "Watching: work/collaboration"
 deliverables:
-  - Modified run_dashboard() to initialize FileWatcher
-  - Updated /api/tasks endpoint to use watcher data
-  - Store watcher reference in app.config for route access
-  - Graceful shutdown handling (try/finally)
-  - Verified task data flows from YAML files to UI
-
+- Modified run_dashboard() to initialize FileWatcher
+- Updated /api/tasks endpoint to use watcher data
+- Store watcher reference in app.config for route access
+- Graceful shutdown handling (try/finally)
+- Verified task data flows from YAML files to UI
 artefacts:
-  - "src/llm_service/dashboard/app.py"
-
-technical_notes: |
-  Changes required in app.py:
-
-  1. Modify run_dashboard() function (lines 194-217):
-     - Add watch_dir parameter (default: 'work/collaboration')
-     - Import FileWatcher from .file_watcher
-     - Instantiate watcher = FileWatcher(watch_dir, socketio)
-     - Call watcher.start()
-     - Store in app.config['FILE_WATCHER']
-     - Add try/finally to call watcher.stop() on exit
-     - Add log message showing watched directory
-
-  2. Update /api/tasks endpoint (lines 114-128):
-     - Get watcher from app.config.get('FILE_WATCHER')
-     - If watcher exists, return watcher.get_task_snapshot()
-     - Keep fallback for when watcher is None
-
-  3. Update /api/stats endpoint to include task counts from watcher:
-     - Get task counts from watcher.get_task_snapshot()
-     - Calculate total = inbox + assigned + done
-
+- src/llm_service/dashboard/app.py
+technical_notes: "Changes required in app.py:\n\n1. Modify run_dashboard() function\
+  \ (lines 194-217):\n   - Add watch_dir parameter (default: 'work/collaboration')\n\
+  \   - Import FileWatcher from .file_watcher\n   - Instantiate watcher = FileWatcher(watch_dir,\
+  \ socketio)\n   - Call watcher.start()\n   - Store in app.config['FILE_WATCHER']\n\
+  \   - Add try/finally to call watcher.stop() on exit\n   - Add log message showing\
+  \ watched directory\n\n2. Update /api/tasks endpoint (lines 114-128):\n   - Get\
+  \ watcher from app.config.get('FILE_WATCHER')\n   - If watcher exists, return watcher.get_task_snapshot()\n\
+  \   - Keep fallback for when watcher is None\n\n3. Update /api/stats endpoint to\
+  \ include task counts from watcher:\n   - Get task counts from watcher.get_task_snapshot()\n\
+  \   - Calculate total = inbox + assigned + done\n"
 context:
-  issue: "Dashboard shows no task data despite visually looking good"
-  terminal_logs: "/api/tasks returns 200 but with empty arrays"
-  root_cause: "app.py:217 only calls socketio.run(), never creates FileWatcher"
+  issue: Dashboard shows no task data despite visually looking good
+  terminal_logs: /api/tasks returns 200 but with empty arrays
+  root_cause: app.py:217 only calls socketio.run(), never creates FileWatcher
   notes:
-    - "FileWatcher class exists and is tested (10 tests passing)"
-    - "README.md shows example usage but app.py doesn't follow this pattern"
-
+  - FileWatcher class exists and is tested (10 tests passing)
+  - README.md shows example usage but app.py doesn't follow this pattern
 references:
-  - "src/llm_service/dashboard/app.py (lines 90-128, 194-217)"
-  - "src/llm_service/dashboard/file_watcher.py"
-  - "src/llm_service/dashboard/README.md (Quick Start section)"
-  - "ADR-032: Real-Time Execution Dashboard"
+- src/llm_service/dashboard/app.py (lines 90-128, 194-217)
+- src/llm_service/dashboard/file_watcher.py
+- src/llm_service/dashboard/README.md (Quick Start section)
+- 'ADR-032: Real-Time Execution Dashboard'
+specification: specifications/initiatives/dashboard-enhancements/real-time-execution-dashboard.md

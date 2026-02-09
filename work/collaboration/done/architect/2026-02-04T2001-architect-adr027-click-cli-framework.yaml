@@ -1,3 +1,4 @@
+---
 id: 2026-02-04T2001-architect-adr027-click-cli-framework
 agent: architect
 status: done
@@ -50,23 +51,39 @@ started_at: '2026-02-04T21:00:00Z'
 completed_at: '2026-02-04T21:30:00Z'
 result:
   status: success
-  summary: |
-    Created ADR-027 documenting Click selection for CLI framework.
-    - Followed standard ADR template (Context, Decision, Rationale, Consequences, Alternatives)
+  summary: 'Created ADR-027 documenting Click selection for CLI framework.
+
+    - Followed standard ADR template (Context, Decision, Rationale, Consequences,
+    Alternatives)
+
     - Documented 4 alternatives with detailed comparison table
+
     - Detailed Click vs Typer trade-off analysis (key decision point)
+
     - Referenced implementation (cli.py, 4 commands, 83% coverage)
+
     - Connected to user experience goals (help text, error messages, testing)
+
     - Aligned with Directive 018 (Traceable Decisions)
+
+    '
   deliverables:
   - docs/architecture/adrs/ADR-027-click-cli-framework.md
   artefacts:
-    - docs/architecture/adrs/ADR-027-click-cli-framework.md
-  quality_notes: |
-    ADR provides comprehensive rationale for Click over Typer:
+  - docs/architecture/adrs/ADR-027-click-cli-framework.md
+  quality_notes: 'ADR provides comprehensive rationale for Click over Typer:
+
     - Maturity and ecosystem size (10+ years vs 4 years)
+
     - Extensive testing support (CliRunner)
+
     - Explicit types = clarity (self-documenting CLI options)
+
     - Type safety less critical at CLI boundary (Pydantic handles config)
+
     Includes command structure diagram and user experience examples.
+
     All acceptance criteria met, ready for review.
+
+    '
+specification: specifications/initiatives/framework-distribution/SPEC-DIST-001-multi-tool-distribution.md

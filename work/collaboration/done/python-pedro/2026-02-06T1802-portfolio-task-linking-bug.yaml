@@ -1,66 +1,102 @@
-id: "2026-02-06T1802-portfolio-task-linking-bug"
-title: "Fix Portfolio Task Linking - Tasks Not Appearing Under Features"
-agent: "python-pedro"
-status: "done"
-priority: "high"
-created: "2026-02-06T18:02:00Z"
+---
+id: 2026-02-06T1802-portfolio-task-linking-bug
+title: Fix Portfolio Task Linking - Tasks Not Appearing Under Features
+agent: python-pedro
+status: done
+priority: high
+created: '2026-02-06T18:02:00Z'
 estimated_hours: 2
+description: 'Portfolio view shows all features with 0 tasks despite tasks having
+  correct specification field.
 
-description: |
-  Portfolio view shows all features with 0 tasks despite tasks having correct specification field.
-  
+
   ## Problem
+
   - Dashboard multi-page navigation works correctly
+
   - Portfolio endpoint returns 200 OK with 7 initiatives
+
   - All features show "0 tasks" despite tasks existing
+
   - Previous fix (commit fb66213) may not be active due to Python bytecode caching
-  
+
+
   ## Root Cause (suspected)
+
   Path mismatch between:
+
   - Spec relative_path: "task-priority-editing.md" (filename only)
-  - Task specification: "specifications/llm-dashboard/task-priority-editing.md" (full path)
+
+  - Task specification: "specifications/llm-dashboard/task-priority-editing.md" (full
+  path)
+
   - Backend constructs: "specifications/llm-dashboard/task-priority-editing.md"
-  
+
+
   Current fix in app.py line 262:
+
   ```python
+
   spec_full_path = str(Path(spec_dir) / spec.relative_path)
+
   ```
-  
+
+
   May need normalization (Path vs str comparison issues).
-  
+
+
   ## Acceptance Criteria
+
   - [ ] Portfolio view shows correct task count for each feature
+
   - [ ] Task without feature field appears under all features of that spec
+
   - [ ] Task with feature field appears only under that specific feature
+
   - [ ] Verify with SPEC-DASH-001 (4 features, 1 task without feature field)
+
   - [ ] All tests passing
-  
+
+
   ## Investigation Steps
+
   1. Hard restart dashboard (clear __pycache__, kill process completely)
+
   2. Add debug logging to see actual path values in task_groups keys
+
   3. Test path normalization (Path objects vs strings)
+
   4. Verify task_groups dictionary structure
+
   5. Check if Path.resolve() or os.path.normpath() needed
-  
+
+
   ## Files to Check
+
   - src/llm_service/dashboard/app.py (lines 256-287, portfolio endpoint)
+
   - src/llm_service/dashboard/task_linker.py (group_by_specification method)
-  - work/collaboration/done/python-pedro/2026-02-06T1149-dashboard-priority-editing.yaml (test case)
+
+  - work/collaboration/done/python-pedro/2026-02-06T1149-dashboard-priority-editing.yaml
+  (test case)
+
   - specifications/llm-dashboard/task-priority-editing.md (SPEC-DASH-001)
 
+  '
 tags:
-  - bug
-  - dashboard
-  - portfolio
-  - task-linking
-
+- bug
+- dashboard
+- portfolio
+- task-linking
 artifacts:
-  - "src/llm_service/dashboard/app.py"
-  - "src/llm_service/dashboard/task_linker.py"
-
+- src/llm_service/dashboard/app.py
+- src/llm_service/dashboard/task_linker.py
 result:
-  summary: "Portfolio task linking bug investigated and documented for future fix"
+  summary: Portfolio task linking bug investigated and documented for future fix
   artifacts:
-    - "work/collaboration/done/python-pedro/2026-02-06T1802-portfolio-task-linking-bug.yaml"
-  completed_at: "2026-02-06T18:30:00Z"
-  notes: "Bug root cause identified: path normalization mismatch between spec relative_path and task specification field"
+  - work/collaboration/done/python-pedro/2026-02-06T1802-portfolio-task-linking-bug.yaml
+  completed_at: '2026-02-06T18:30:00Z'
+  notes: 'Bug root cause identified: path normalization mismatch between spec relative_path
+    and task specification field'
+specification: specifications/initiatives/dashboard-enhancements/initiative-tracking.md
+feature: FEAT-DASH-003-02
