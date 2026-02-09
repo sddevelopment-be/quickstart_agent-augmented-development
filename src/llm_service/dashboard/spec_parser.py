@@ -223,9 +223,13 @@ class SpecificationParser:
             
             # Calculate relative path from base directory
             try:
-                relative_path = str(path.relative_to(self.base_dir))
+                # Ensure both paths are absolute for comparison
+                abs_path = path.resolve()
+                abs_base = self.base_dir.resolve()
+                relative_path = str(abs_path.relative_to(abs_base))
             except ValueError:
                 # Path is not relative to base_dir (outside base)
+                logger.warning(f"Path {path} is outside base_dir {self.base_dir}, using filename only")
                 relative_path = path.name
             
             # Parse features if present
