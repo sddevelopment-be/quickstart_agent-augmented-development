@@ -19,13 +19,13 @@ from pathlib import Path
 import pytest
 import yaml
 
-# Add orchestration directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent.parent / "src" / "framework" / "orchestration"))
+# Add paths to import modules
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from task_utils import (
+from common.task_schema import TaskIOError, TaskValidationError, read_task
+from framework.orchestration.task_utils import (
     get_utc_timestamp,
     log_event,
-    read_task,
     update_task_status,
     write_task,
 )
