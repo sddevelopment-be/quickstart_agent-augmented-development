@@ -10,6 +10,9 @@ Implements ADR-037: Dashboard Initiative Tracking.
 from typing import List, Dict, Optional
 import logging
 
+# Import status enums (ADR-043)
+from src.common.types import TaskStatus, FeatureStatus
+
 logger = logging.getLogger(__name__)
 
 
@@ -17,7 +20,7 @@ class ProgressCalculator:
     """
     Calculates progress percentages for features and initiatives.
     
-    Uses weighted task statuses:
+    Uses weighted task statuses (ADR-043):
     - done: 100% (weight 1.0)
     - in_progress: 50% (weight 0.5)
     - blocked: 25% (weight 0.25)
@@ -25,12 +28,12 @@ class ProgressCalculator:
     """
     
     DEFAULT_STATUS_WEIGHTS = {
-        "done": 1.0,
-        "in_progress": 0.5,
-        "blocked": 0.25,
-        "inbox": 0.0,
-        "assigned": 0.0,
-        "failed": 0.0,
+        TaskStatus.DONE.value: 1.0,
+        TaskStatus.IN_PROGRESS.value: 0.5,
+        TaskStatus.BLOCKED.value: 0.25,
+        TaskStatus.INBOX.value: 0.0,
+        TaskStatus.ASSIGNED.value: 0.0,
+        TaskStatus.ERROR.value: 0.0,
     }
     
     def __init__(self, status_weights: Optional[Dict[str, float]] = None, enable_cache: bool = False):
