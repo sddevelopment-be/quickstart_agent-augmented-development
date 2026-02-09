@@ -2,6 +2,7 @@ id: 2026-01-30T1643-adr023-phase3-context-loader
 agent: backend-dev
 status: assigned
 priority: high
+specification: specifications/initiatives/framework-distribution/SPEC-DIST-001-multi-tool-distribution.md
 title: Implement ADR-023 Phase 3 - Progressive Context Loader with Token Counting
 artefacts:
   - tools/utils/context-loader.js

@@ -3,6 +3,7 @@ id: mfd-task-0.1-workflow-review
 agent: build-automation
 status: new
 priority: high
+specification: specifications/initiatives/framework-distribution/SPEC-DIST-001-multi-tool-distribution.md
 title: Review and Fix GitHub Workflows
 description: "# Task 0.1: Review and Fix GitHub Workflows\n\n## Context\n\n**Project:**\
   \ Multi-Format Agent Framework Distribution  \n**Priority:** HIGH - Blocks Batch\
