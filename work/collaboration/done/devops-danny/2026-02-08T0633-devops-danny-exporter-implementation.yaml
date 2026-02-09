@@ -7,7 +7,6 @@ phase: 5
 title: "Update Exporters to Read from Doctrine Directory"
 created: 2026-02-08T06:33
 blocked_by: [2026-02-08T0632-devops-danny-export-validation-tests]
----
 
 # Task: Update Exporters (Phase 5 - Implementation)
 
@@ -88,6 +87,5 @@ Update all exporters to read from `doctrine/agents/` instead of `.github/agents/
 
 Tests from Phase 4 should turn from RED → GREEN after these changes. If tests still fail, debug before proceeding.
 
----
 
-**Status:** BLOCKED - Awaiting Phase 4 completion
+notes: "Status: BLOCKED - Awaiting Phase 4 completion"

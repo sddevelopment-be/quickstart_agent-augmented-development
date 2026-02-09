@@ -94,30 +94,22 @@ def test_read_task_empty_file(temp_task_dir: Path) -> None:
     assert (
         task_file.stat().st_size == 0
     ), "Test precondition failed: file should be empty"
-    # Assumption Check
-    assert task_file.exists(), "Test precondition failed: empty file should exist"
-    assert (
-        task_file.stat().st_size == 0
-    ), "Test precondition failed: file should be empty"
 
-    # Act
-    result = read_task(task_file)
-
-    # Assert
-    assert result == {}
+    # Act & Assert
+    with pytest.raises(TaskValidationError, match="Task must be a dictionary"):
+        read_task(task_file)
 
 
 def test_read_task_missing_file(temp_task_dir: Path) -> None:
-    """Test reading a non-existent file raises FileNotFoundError."""
+    """Test reading a non-existent file raises TaskIOError."""
     # Arrange
     task_file = temp_task_dir / "missing.yaml"
 
     # Assumption Check
     assert not task_file.exists(), "Test precondition failed: file should NOT exist"
-    assert not task_file.exists(), "Test precondition failed: file should NOT exist"
 
     # Act & Assert
-    with pytest.raises(FileNotFoundError):
+    with pytest.raises(TaskIOError, match="Task file not found"):
         read_task(task_file)
 
 
