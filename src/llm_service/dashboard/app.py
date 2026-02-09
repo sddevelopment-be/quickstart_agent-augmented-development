@@ -276,8 +276,8 @@ def register_routes(app: Flask) -> None:
         # Group tasks by specification
         task_groups = linker.group_by_specification()
         
-        # Build initiative list
-        initiatives = []
+        # Build specification objects with features and tasks
+        spec_objects = []
         
         for spec_meta in specifications:
             # Get tasks for this specification
@@ -321,22 +321,64 @@ def register_routes(app: Flask) -> None:
                     ]
                 })
             
-            # Calculate initiative progress (with manual override support)
-            initiative_progress = calculator.calculate_initiative_progress(
+            # Calculate specification progress (with manual override support)
+            spec_progress = calculator.calculate_initiative_progress(
                 features,
                 manual_override=spec_meta.completion
             )
             
-            # Build initiative response
-            initiatives.append({
+            # Build specification object
+            spec_objects.append({
                 "id": spec_meta.id,
                 "title": spec_meta.title,
                 "status": spec_meta.status,
                 "priority": spec_meta.priority,
                 "initiative": spec_meta.initiative,
-                "progress": initiative_progress,
+                "progress": spec_progress,
                 "features": features,
                 "specification_path": spec_meta.relative_path,
+            })
+        
+        # Group specifications by initiative
+        from collections import defaultdict
+        initiatives_grouped = defaultdict(list)
+        
+        for spec in spec_objects:
+            initiative_name = spec.get("initiative") or "Uncategorized"
+            initiatives_grouped[initiative_name].append(spec)
+        
+        # Build initiative hierarchy
+        initiatives = []
+        for initiative_name, specs in sorted(initiatives_grouped.items()):
+            # Calculate initiative-level progress from all specs
+            all_features = []
+            for spec in specs:
+                all_features.extend(spec["features"])
+            
+            initiative_progress = calculator.calculate_initiative_progress(all_features)
+            
+            # Determine initiative status (most advanced status of specs)
+            status_priority = {"draft": 1, "in_progress": 2, "implemented": 3, "complete": 3}
+            initiative_status = max(
+                (spec.get("status", "draft") for spec in specs),
+                key=lambda s: status_priority.get(s, 0)
+            )
+            
+            # Determine initiative priority (highest priority of specs)
+            priority_order = {"CRITICAL": 4, "HIGH": 3, "MEDIUM": 2, "LOW": 1}
+            initiative_priority = max(
+                (spec.get("priority", "MEDIUM") for spec in specs),
+                key=lambda p: priority_order.get(p, 2)
+            )
+            
+            initiatives.append({
+                "id": initiative_name.lower().replace(" ", "-"),
+                "title": initiative_name,
+                "status": initiative_status,
+                "priority": initiative_priority,
+                "progress": initiative_progress,
+                "specifications": specs,
+                "spec_count": len(specs),
             })
         
         # Get orphan tasks (tasks without specification links)
