@@ -794,8 +794,9 @@
      */
     function createInitiativeCard(initiative) {
         const progress = initiative.progress || 0;
-        const hasFeatures = initiative.features && initiative.features.length > 0;
-        const featureCount = hasFeatures ? initiative.features.length : 0;
+        const hasSpecs = initiative.specifications && initiative.specifications.length > 0;
+        const specCount = initiative.spec_count || (initiative.specifications ? initiative.specifications.length : 0);
+        const taskCount = initiative.task_count || 0;
         
         return `
             <div class="initiative-card" data-initiative-id="${escapeHtml(initiative.id)}">
@@ -806,7 +807,8 @@
                         <div class="initiative-meta">
                             <span class="badge status-${initiative.status || 'draft'}">${escapeHtml(initiative.status || 'draft')}</span>
                             <span class="badge priority-${(initiative.priority || 'medium').toLowerCase()}">${escapeHtml(initiative.priority || 'MEDIUM')}</span>
-                            <span>${featureCount} feature${featureCount !== 1 ? 's' : ''}</span>
+                            <span>${specCount} specification${specCount !== 1 ? 's' : ''}</span>
+                            <span>${taskCount} task${taskCount !== 1 ? 's' : ''}</span>
                         </div>
                     </div>
                     <div class="progress-container">
@@ -814,38 +816,39 @@
                     </div>
                 </div>
                 <div class="initiative-body" id="body-${escapeHtml(initiative.id)}">
-                    ${hasFeatures ? initiative.features.map(feature => createFeatureItem(feature, initiative.id)).join('') : '<div class="empty-state">No features defined</div>'}
+                    ${hasSpecs ? initiative.specifications.map(spec => createSpecificationItem(spec, initiative.id)).join('') : '<div class="empty-state">No specifications defined</div>'}
                 </div>
             </div>
         `;
     }
     
     /**
-     * Create feature item HTML
+     * Create specification item HTML (specifications ARE the features)
      */
-    function createFeatureItem(feature, initiativeId) {
-        const progress = feature.progress || 0;
-        const hasTasks = feature.tasks && feature.tasks.length > 0;
-        const taskCount = feature.task_count || feature.tasks?.length || 0;
-        const completedTasks = hasTasks ? feature.tasks.filter(t => t.status === 'done').length : 0;
+    function createSpecificationItem(spec, initiativeId) {
+        const progress = spec.progress || 0;
+        const hasTasks = spec.tasks && spec.tasks.length > 0;
+        const taskCount = spec.task_count || (spec.tasks ? spec.tasks.length : 0);
+        const completedTasks = hasTasks ? spec.tasks.filter(t => t.status === 'done').length : 0;
         
         return `
-            <div class="feature-item" data-feature-id="${escapeHtml(feature.id)}">
-                <div class="feature-header" data-action="toggle-feature" data-initiative-id="${escapeHtml(initiativeId)}" data-feature-id="${escapeHtml(feature.id)}">
-                    <span class="feature-toggle" id="toggle-${escapeHtml(initiativeId)}-${escapeHtml(feature.id)}">▶</span>
-                    <div class="feature-info">
-                        <h4 class="feature-title">${escapeHtml(feature.title)}</h4>
-                        <div class="feature-meta">
-                            <span class="badge status-${feature.status || 'draft'}">${escapeHtml(feature.status || 'draft')}</span>
+            <div class="specification-item" data-spec-id="${escapeHtml(spec.id)}">
+                <div class="specification-header" data-action="toggle-specification" data-initiative-id="${escapeHtml(initiativeId)}" data-spec-id="${escapeHtml(spec.id)}">
+                    <span class="specification-toggle" id="toggle-${escapeHtml(initiativeId)}-${escapeHtml(spec.id)}">▶</span>
+                    <div class="specification-info">
+                        <h4 class="specification-title">${escapeHtml(spec.title)}</h4>
+                        <div class="specification-meta">
+                            <span class="badge status-${spec.status || 'draft'}">${escapeHtml(spec.status || 'draft')}</span>
+                            <span class="badge priority-${(spec.priority || 'medium').toLowerCase()}">${escapeHtml(spec.priority || 'MEDIUM')}</span>
                             <span>${taskCount} task${taskCount !== 1 ? 's' : ''}</span>
                         </div>
                     </div>
                     <div class="progress-container">
-                        ${createProgressBar(progress, feature.tasks, `${completedTasks}/${taskCount}`)}
+                        ${createProgressBar(progress, spec.tasks, `${completedTasks}/${taskCount}`)}
                     </div>
                 </div>
-                <div class="task-list-container" id="tasks-${escapeHtml(initiativeId)}-${escapeHtml(feature.id)}">
-                    ${hasTasks ? feature.tasks.map(task => createTaskItem(task)).join('') : '<div class="empty-state">No tasks linked to this feature</div>'}
+                <div class="task-list-container" id="tasks-${escapeHtml(initiativeId)}-${escapeHtml(spec.id)}">
+                    ${hasTasks ? spec.tasks.map(task => createTaskItem(task)).join('') : '<div class="empty-state">No tasks linked to this specification</div>'}
                 </div>
             </div>
         `;
@@ -944,11 +947,11 @@
     };
     
     /**
-     * Toggle feature expand/collapse
+     * Toggle specification expand/collapse
      */
-    window.toggleFeature = function(initiativeId, featureId) {
-        const toggle = document.getElementById(`toggle-${initiativeId}-${featureId}`);
-        const tasks = document.getElementById(`tasks-${initiativeId}-${featureId}`);
+    window.toggleSpecification = function(initiativeId, specId) {
+        const toggle = document.getElementById(`toggle-${initiativeId}-${specId}`);
+        const tasks = document.getElementById(`tasks-${initiativeId}-${specId}`);
         
         if (tasks && toggle) {
             tasks.classList.toggle('expanded');
@@ -1011,11 +1014,11 @@
                 }
                 break;
                 
-            case 'toggle-feature':
-                const featInitiativeId = target.getAttribute('data-initiative-id');
-                const featureId = target.getAttribute('data-feature-id');
-                if (featInitiativeId && featureId) {
-                    window.toggleFeature(featInitiativeId, featureId);
+            case 'toggle-specification':
+                const specInitiativeId = target.getAttribute('data-initiative-id');
+                const specId = target.getAttribute('data-spec-id');
+                if (specInitiativeId && specId) {
+                    window.toggleSpecification(specInitiativeId, specId);
                 }
                 break;
                 
