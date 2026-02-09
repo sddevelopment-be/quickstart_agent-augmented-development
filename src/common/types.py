@@ -13,13 +13,18 @@ from enum import Enum
 from typing import TYPE_CHECKING, Literal, get_args
 
 # Import agent loader for dynamic agent identity loading
-if not TYPE_CHECKING:
+if TYPE_CHECKING:
+    # Stub for type checking (mypy strict mode)
+    def load_agent_identities() -> list[str] | None:
+        """Load agent identities from doctrine/agents/*.agent.md files."""
+        ...
+else:
     try:
         from .agent_loader import load_agent_identities
     except ImportError:
         # Fallback if agent_loader not available
-        def load_agent_identities():
-            return []
+        def load_agent_identities() -> list[str] | None:
+            return None
 
 
 class TaskStatus(str, Enum):
@@ -133,8 +138,8 @@ def validate_agent(agent_name: str) -> bool:
         pass
 
     # Fallback to static Literal type for type checking context
-    valid_agents = get_args(AgentIdentity)
-    return agent_name in valid_agents
+    fallback_agents: tuple[str, ...] = get_args(AgentIdentity)
+    return agent_name in fallback_agents
 
 
 def get_all_agents() -> list[str]:
