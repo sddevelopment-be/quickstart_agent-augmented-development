@@ -1,314 +1,114 @@
-task_id: "mfd-task-1.5-base-validator"
-from_agent: "Project Manager"
-to_agent: "Backend Benny"
-priority: "MEDIUM"
-created_date: "2026-01-29"
-status: "COMPLETE"
-completed_date: "2026-01-29"
-human_intervention_required: false
-estimated_effort_hours: "2"
-actual_effort_hours: "2.0"
-batch: "Batch 1: Foundation & Infrastructure"
-milestone: "Milestone 1: Schema Complete"
-dependencies: ["mfd-task-1.4-create-5-schemas"]
-
-
-description: |
-  # Task 1.5: Implement Base Validator Framework
-  
-  ## Context
-  
-  **Project:** Multi-Format Agent Framework Distribution  
-  **Dependencies:** Task 1.4 (Sample schemas must exist for testing)
-  
-  This task creates the **base validation framework** that will be used throughout the export pipeline and extended in Batch 3 for CI/CD integration.
-  
-  ## Objective
-  
-  Implement a base validator module that validates JSON/YAML files against JSON Schema specifications and provides clear error messages.
-  
-  ## Detailed Requirements
-  
-  ### Validator Must Support
-  
-  1. **JSON Schema Validation**
-     - Validate JSON objects against JSON Schema Draft 7
-     - Validate YAML files (parse to JSON, then validate)
-     - Load schemas from file system or accept inline
-     - Support $ref references within schemas
-  
-  2. **Error Reporting**
-     - Clear, actionable error messages
-     - Include JSON path to invalid field (e.g., "agent.metadata.version")
-     - Show expected vs. actual values
-     - List all validation errors (not just first)
-     - Format for human readability
-  
-  3. **Extensibility**
-     - Design allows adding format-specific validators (OpenCode, Copilot, MCP)
-     - Plugin architecture for custom validation rules
-     - Composable validators (chain multiple validators)
-  
-  4. **API Design**
-     ```javascript
-     /**
-      * Validate data against schema
-      * @param {object} data - Data to validate
-      * @param {object|string} schema - JSON Schema or path to schema file
-      * @returns {ValidationResult} { valid: boolean, errors: ValidationError[] }
-      */
-     function validate(data, schema) { ... }
-     
-     /**
-      * Validate file against schema
-      * @param {string} filePath - Path to JSON/YAML file
-      * @param {object|string} schema - JSON Schema or path to schema file
-      * @returns {Promise<ValidationResult>}
-      */
-     async function validateFile(filePath, schema) { ... }
-     ```
-  
-  ## Expected Outputs
-  
-  1. **Validator Module** (`tools/exporters/validator.js`)
-     - Core validation functions
-     - Error formatting utilities
-     - Schema loading helpers
-     - JSDoc documentation
-  
-  2. **Unit Tests** (`tests/unit/validator.test.js`)
-     - Test valid data passes validation
-     - Test invalid data produces correct errors
-     - Test error message clarity
-     - Test file validation (JSON and YAML)
-     - Test schema loading from file
-     - Coverage: >80%
-  
-  3. **Documentation** (JSDoc in code + README update)
-     - Usage examples
-     - Error message format documentation
-     - Extensibility guide (how to add custom validators)
-  
-  ## Success Criteria
-  
-  - ✅ Validator successfully validates sample schemas from Task 1.4
-  - ✅ Error messages are clear and actionable
-  - ✅ Unit tests pass with >80% coverage
-  - ✅ Validator extensible for format-specific checks (design reviewed)
-  - ✅ Can validate both JSON and YAML files
-  
-  ## Directives to Follow
-  
-  **MUST adhere to:**
-  - **Directive 014:** Create work log documenting implementation
-  - **Directive 016:** ATDD - Write acceptance tests first
-  - **Directive 017:** TDD - Red-Green-Refactor cycle
-  - **Directive 021:** Locality of Change - Focus on validation, not generation
-  
-  ## Testing Approach (ATDD/TDD)
-  
-  ### Acceptance Tests (Write First)
-  
-  ```javascript
-  describe('Validator Acceptance Tests', () => {
-    it('validates correct data against schema', async () => {
-      const data = { name: 'test', version: '1.0.0' };
-      const schema = {
-        type: 'object',
-        properties: {
-          name: { type: 'string' },
-          version: { type: 'string' }
-        },
-        required: ['name', 'version']
-      };
-      
-      const result = validate(data, schema);
-      expect(result.valid).toBe(true);
-      expect(result.errors).toHaveLength(0);
-    });
-    
-    it('reports validation errors clearly', async () => {
-      const data = { name: 'test', version: 123 }; // version should be string
-      const schema = { /* same as above */ };
-      
-      const result = validate(data, schema);
-      expect(result.valid).toBe(false);
-      expect(result.errors[0].path).toBe('version');
-      expect(result.errors[0].message).toContain('should be string');
-    });
-    
-    it('validates YAML file against schema', async () => {
-      const result = await validateFile('test.yaml', schema);
-      expect(result.valid).toBe(true);
-    });
-  });
-  ```
-  
-  ### TDD Implementation Steps
-  
-  1. **Setup** (15 min)
-     - Install `ajv` (JSON Schema validator library)
-     - Create test structure
-     - Write acceptance tests (failing)
-  
-  2. **Core Validator** (45 min, TDD)
-     - Test: Validate simple object
-     - Implement: `validate(data, schema)`
-     - Test: Handle validation errors
-     - Implement: Error formatting
-     - Test: Multiple errors
-     - Refactor: Clean error formatting
-  
-  3. **File Validation** (30 min, TDD)
-     - Test: Validate JSON file
-     - Implement: `validateFile()` for JSON
-     - Test: Validate YAML file
-     - Implement: YAML parsing support
-     - Refactor: DRY file loading
-  
-  4. **Schema Loading** (15 min, TDD)
-     - Test: Load schema from file
-     - Implement: Schema loading helper
-     - Refactor: Schema caching (if needed)
-  
-  5. **Documentation** (15 min)
-     - JSDoc for all functions
-     - Usage examples in README
-     - Error format documentation
-  
-  ## Library Recommendations
-  
-  **Use `ajv` (Another JSON Schema Validator):**
-  - Industry standard, well-maintained
-  - Full JSON Schema Draft 7 support
-  - Excellent error messages
-  - Fast performance
-  - Extensible with custom keywords
-  
-  ```bash
-  npm install ajv ajv-formats
-  ```
-  
-  **Use `js-yaml` (already in project):**
-  - Parse YAML files to JSON for validation
-  
-  ## Error Message Format
-  
-  **Good error message:**
-  ```
-  ❌ Validation failed for architect-alphonso.opencode.json
-  
-  Error 1: agent.metadata.version
-    Expected: string
-    Actual: number (123)
-    Message: must be string
-  
-  Error 2: agent.tools
-    Expected: array
-    Actual: undefined
-    Message: must have required property 'tools'
-  ```
-  
-  **Bad error message:**
-  ```
-  Error: data.agent.metadata.version should be string
-  ```
-  
-  ## Implementation Guide
-  
-  ### Phase 1: Core Validator (TDD)
-  
-  ```javascript
-  const Ajv = require('ajv');
-  const addFormats = require('ajv-formats');
-  
-  class Validator {
-    constructor() {
-      this.ajv = new Ajv({ allErrors: true });
-      addFormats(this.ajv);
-    }
-    
-    validate(data, schema) {
-      const validate = this.ajv.compile(schema);
-      const valid = validate(data);
-      
-      return {
-        valid,
-        errors: valid ? [] : this.formatErrors(validate.errors)
-      };
-    }
-    
-    formatErrors(ajvErrors) {
-      return ajvErrors.map(err => ({
-        path: err.instancePath.substring(1), // Remove leading /
-        message: err.message,
-        expected: err.params.type || err.params.missingProperty,
-        actual: err.data
-      }));
-    }
-  }
-  ```
-  
-  ### Phase 2: File Validation
-  
-  ```javascript
-  const fs = require('fs').promises;
-  const yaml = require('js-yaml');
-  
-  async function validateFile(filePath, schema) {
-    const content = await fs.readFile(filePath, 'utf8');
-    const data = filePath.endsWith('.yaml') || filePath.endsWith('.yml')
-      ? yaml.load(content)
-      : JSON.parse(content);
-    
-    return validate(data, schema);
-  }
-  ```
-  
-  ### Phase 3: Extensibility
-  
-  ```javascript
-  class Validator {
-    constructor() {
-      this.ajv = new Ajv({ allErrors: true });
-      addFormats(this.ajv);
-      this.customValidators = [];
-    }
-    
-    // Allow adding custom validation functions
-    addCustomValidator(fn) {
-      this.customValidators.push(fn);
-    }
-    
-    validate(data, schema) {
-      // Standard JSON Schema validation
-      const schemaResult = this.validateSchema(data, schema);
-      
-      // Custom validators
-      const customResults = this.customValidators.map(fn => fn(data));
-      
-      // Combine results
-      return {
-        valid: schemaResult.valid && customResults.every(r => r.valid),
-        errors: [...schemaResult.errors, ...customResults.flatMap(r => r.errors)]
-      };
-    }
-  }
-  ```
-  
-  ## Timeline
-  
-  **Start:** After Task 1.4 complete (sample schemas available)  
-  **Duration:** 2 hours  
-  **Deadline:** End of Batch 1, Week 1
-  
-  
-  **Task Status:** TODO - Waiting on Task 1.4  
-  **Blocking Tasks:** Batch 3 CI/CD integration  
-  **Critical Path:** No (validation is separate concern)
-  
-  
-  *Created by: Project Manager*  
-  *Date: 2026-01-29*  
-  *Priority: MEDIUM*  
-  *Batch: 1 (Foundation & Infrastructure)*
+---
+id: mfd-task-1.5-base-validator
+agent: backend-dev
+status: done
+priority: medium
+title: 'Task 1.5: Implement Base Validator Framework'
+description: "# Task 1.5: Implement Base Validator Framework\n\n## Context\n\n**Project:**\
+  \ Multi-Format Agent Framework Distribution  \n**Dependencies:** Task 1.4 (Sample\
+  \ schemas must exist for testing)\n\nThis task creates the **base validation framework**\
+  \ that will be used throughout the export pipeline and extended in Batch 3 for CI/CD\
+  \ integration.\n\n## Objective\n\nImplement a base validator module that validates\
+  \ JSON/YAML files against JSON Schema specifications and provides clear error messages.\n\
+  \n## Detailed Requirements\n\n### Validator Must Support\n\n1. **JSON Schema Validation**\n\
+  \   - Validate JSON objects against JSON Schema Draft 7\n   - Validate YAML files\
+  \ (parse to JSON, then validate)\n   - Load schemas from file system or accept inline\n\
+  \   - Support $ref references within schemas\n\n2. **Error Reporting**\n   - Clear,\
+  \ actionable error messages\n   - Include JSON path to invalid field (e.g., \"agent.metadata.version\"\
+  )\n   - Show expected vs. actual values\n   - List all validation errors (not just\
+  \ first)\n   - Format for human readability\n\n3. **Extensibility**\n   - Design\
+  \ allows adding format-specific validators (OpenCode, Copilot, MCP)\n   - Plugin\
+  \ architecture for custom validation rules\n   - Composable validators (chain multiple\
+  \ validators)\n\n4. **API Design**\n   ```javascript\n   /**\n    * Validate data\
+  \ against schema\n    * @param {object} data - Data to validate\n    * @param {object|string}\
+  \ schema - JSON Schema or path to schema file\n    * @returns {ValidationResult}\
+  \ { valid: boolean, errors: ValidationError[] }\n    */\n   function validate(data,\
+  \ schema) { ... }\n   \n   /**\n    * Validate file against schema\n    * @param\
+  \ {string} filePath - Path to JSON/YAML file\n    * @param {object|string} schema\
+  \ - JSON Schema or path to schema file\n    * @returns {Promise<ValidationResult>}\n\
+  \    */\n   async function validateFile(filePath, schema) { ... }\n   ```\n\n##\
+  \ Expected Outputs\n\n1. **Validator Module** (`tools/exporters/validator.js`)\n\
+  \   - Core validation functions\n   - Error formatting utilities\n   - Schema loading\
+  \ helpers\n   - JSDoc documentation\n\n2. **Unit Tests** (`tests/unit/validator.test.js`)\n\
+  \   - Test valid data passes validation\n   - Test invalid data produces correct\
+  \ errors\n   - Test error message clarity\n   - Test file validation (JSON and YAML)\n\
+  \   - Test schema loading from file\n   - Coverage: >80%\n\n3. **Documentation**\
+  \ (JSDoc in code + README update)\n   - Usage examples\n   - Error message format\
+  \ documentation\n   - Extensibility guide (how to add custom validators)\n\n## Success\
+  \ Criteria\n\n- ✅ Validator successfully validates sample schemas from Task 1.4\n\
+  - ✅ Error messages are clear and actionable\n- ✅ Unit tests pass with >80% coverage\n\
+  - ✅ Validator extensible for format-specific checks (design reviewed)\n- ✅ Can validate\
+  \ both JSON and YAML files\n\n## Directives to Follow\n\n**MUST adhere to:**\n-\
+  \ **Directive 014:** Create work log documenting implementation\n- **Directive 016:**\
+  \ ATDD - Write acceptance tests first\n- **Directive 017:** TDD - Red-Green-Refactor\
+  \ cycle\n- **Directive 021:** Locality of Change - Focus on validation, not generation\n\
+  \n## Testing Approach (ATDD/TDD)\n\n### Acceptance Tests (Write First)\n\n```javascript\n\
+  describe('Validator Acceptance Tests', () => {\n  it('validates correct data against\
+  \ schema', async () => {\n    const data = { name: 'test', version: '1.0.0' };\n\
+  \    const schema = {\n      type: 'object',\n      properties: {\n        name:\
+  \ { type: 'string' },\n        version: { type: 'string' }\n      },\n      required:\
+  \ ['name', 'version']\n    };\n    \n    const result = validate(data, schema);\n\
+  \    expect(result.valid).toBe(true);\n    expect(result.errors).toHaveLength(0);\n\
+  \  });\n  \n  it('reports validation errors clearly', async () => {\n    const data\
+  \ = { name: 'test', version: 123 }; // version should be string\n    const schema\
+  \ = { /* same as above */ };\n    \n    const result = validate(data, schema);\n\
+  \    expect(result.valid).toBe(false);\n    expect(result.errors[0].path).toBe('version');\n\
+  \    expect(result.errors[0].message).toContain('should be string');\n  });\n  \n\
+  \  it('validates YAML file against schema', async () => {\n    const result = await\
+  \ validateFile('test.yaml', schema);\n    expect(result.valid).toBe(true);\n  });\n\
+  });\n```\n\n### TDD Implementation Steps\n\n1. **Setup** (15 min)\n   - Install\
+  \ `ajv` (JSON Schema validator library)\n   - Create test structure\n   - Write\
+  \ acceptance tests (failing)\n\n2. **Core Validator** (45 min, TDD)\n   - Test:\
+  \ Validate simple object\n   - Implement: `validate(data, schema)`\n   - Test: Handle\
+  \ validation errors\n   - Implement: Error formatting\n   - Test: Multiple errors\n\
+  \   - Refactor: Clean error formatting\n\n3. **File Validation** (30 min, TDD)\n\
+  \   - Test: Validate JSON file\n   - Implement: `validateFile()` for JSON\n   -\
+  \ Test: Validate YAML file\n   - Implement: YAML parsing support\n   - Refactor:\
+  \ DRY file loading\n\n4. **Schema Loading** (15 min, TDD)\n   - Test: Load schema\
+  \ from file\n   - Implement: Schema loading helper\n   - Refactor: Schema caching\
+  \ (if needed)\n\n5. **Documentation** (15 min)\n   - JSDoc for all functions\n \
+  \  - Usage examples in README\n   - Error format documentation\n\n## Library Recommendations\n\
+  \n**Use `ajv` (Another JSON Schema Validator):**\n- Industry standard, well-maintained\n\
+  - Full JSON Schema Draft 7 support\n- Excellent error messages\n- Fast performance\n\
+  - Extensible with custom keywords\n\n```bash\nnpm install ajv ajv-formats\n```\n\
+  \n**Use `js-yaml` (already in project):**\n- Parse YAML files to JSON for validation\n\
+  \n## Error Message Format\n\n**Good error message:**\n```\n❌ Validation failed for\
+  \ architect-alphonso.opencode.json\n\nError 1: agent.metadata.version\n  Expected:\
+  \ string\n  Actual: number (123)\n  Message: must be string\n\nError 2: agent.tools\n\
+  \  Expected: array\n  Actual: undefined\n  Message: must have required property\
+  \ 'tools'\n```\n\n**Bad error message:**\n```\nError: data.agent.metadata.version\
+  \ should be string\n```\n\n## Implementation Guide\n\n### Phase 1: Core Validator\
+  \ (TDD)\n\n```javascript\nconst Ajv = require('ajv');\nconst addFormats = require('ajv-formats');\n\
+  \nclass Validator {\n  constructor() {\n    this.ajv = new Ajv({ allErrors: true\
+  \ });\n    addFormats(this.ajv);\n  }\n  \n  validate(data, schema) {\n    const\
+  \ validate = this.ajv.compile(schema);\n    const valid = validate(data);\n    \n\
+  \    return {\n      valid,\n      errors: valid ? [] : this.formatErrors(validate.errors)\n\
+  \    };\n  }\n  \n  formatErrors(ajvErrors) {\n    return ajvErrors.map(err => ({\n\
+  \      path: err.instancePath.substring(1), // Remove leading /\n      message:\
+  \ err.message,\n      expected: err.params.type || err.params.missingProperty,\n\
+  \      actual: err.data\n    }));\n  }\n}\n```\n\n### Phase 2: File Validation\n\
+  \n```javascript\nconst fs = require('fs').promises;\nconst yaml = require('js-yaml');\n\
+  \nasync function validateFile(filePath, schema) {\n  const content = await fs.readFile(filePath,\
+  \ 'utf8');\n  const data = filePath.endsWith('.yaml') || filePath.endsWith('.yml')\n\
+  \    ? yaml.load(content)\n    : JSON.parse(content);\n  \n  return validate(data,\
+  \ schema);\n}\n```\n\n### Phase 3: Extensibility\n\n```javascript\nclass Validator\
+  \ {\n  constructor() {\n    this.ajv = new Ajv({ allErrors: true });\n    addFormats(this.ajv);\n\
+  \    this.customValidators = [];\n  }\n  \n  // Allow adding custom validation functions\n\
+  \  addCustomValidator(fn) {\n    this.customValidators.push(fn);\n  }\n  \n  validate(data,\
+  \ schema) {\n    // Standard JSON Schema validation\n    const schemaResult = this.validateSchema(data,\
+  \ schema);\n    \n    // Custom validators\n    const customResults = this.customValidators.map(fn\
+  \ => fn(data));\n    \n    // Combine results\n    return {\n      valid: schemaResult.valid\
+  \ && customResults.every(r => r.valid),\n      errors: [...schemaResult.errors,\
+  \ ...customResults.flatMap(r => r.errors)]\n    };\n  }\n}\n```\n\n## Timeline\n\
+  \n**Start:** After Task 1.4 complete (sample schemas available)  \n**Duration:**\
+  \ 2 hours  \n**Deadline:** End of Batch 1, Week 1\n\n\n**Task Status:** TODO - Waiting\
+  \ on Task 1.4  \n**Blocking Tasks:** Batch 3 CI/CD integration  \n**Critical Path:**\
+  \ No (validation is separate concern)\n\n\n*Created by: Project Manager*  \n*Date:\
+  \ 2026-01-29*  \n*Priority: MEDIUM*  \n*Batch: 1 (Foundation & Infrastructure)*\n"
+created: '2026-01-29T00:00:00Z'
+batch: 'Batch 1: Foundation & Infrastructure'
+milestone: 'Milestone 1: Schema Complete'
+dependencies:
+- mfd-task-1.4-create-5-schemas
+estimated_effort_hours: '2'
+actual_effort_hours: '2.0'
