@@ -1,7 +1,8 @@
 ---
 id: "SPEC-DASH-008"
 title: "Dashboard Orphan Task Assignment"
-status: "draft"
+status: "ready_for_review"
+version: "1.0.0"
 initiative: "Dashboard Enhancements"
 priority: "MEDIUM"
 epic: "Dashboard Core Features"
@@ -18,16 +19,19 @@ features:
     status: "draft"
 completion: 0
 created: "2026-02-06"
-updated: "2026-02-06"
+updated: "2026-02-09"
 author: "analyst-annie"
+reviewer: "architect-alphonso"
 ---
 
 # Specification: Dashboard Orphan Task Assignment (Feature-Level)
 
-**Status:** Draft  
+**Status:** Ready for Review  
+**Version:** 1.0.0  
 **Created:** 2026-02-06  
-**Last Updated:** 2026-02-06  
+**Last Updated:** 2026-02-09  
 **Author:** Analyst Annie  
+**Reviewer:** Architect Alphonso  
 **Stakeholders:** Human-in-Charge, Software Engineers, Agentic Framework Core Team
 
 ---
