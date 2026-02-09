@@ -1,58 +1,67 @@
 ---
 id: 2026-02-06T0422-backend-dev-dashboard-cors-fix
-title: "Fix Dashboard CORS Configuration for WebSocket Connections"
+title: Fix Dashboard CORS Configuration for WebSocket Connections
 agent: backend-dev
 priority: critical
 status: new
 estimated_hours: 0.5
-created_at: "2026-02-06T04:22:00Z"
-created_by: "claude-sonnet-4.5"
+created_at: '2026-02-06T04:22:00Z'
+created_by: claude-sonnet-4.5
 milestone: M4
 batch: 4.2
+description: 'Fix CORS configuration in the dashboard to allow WebSocket connections
+  from
 
-description: |
-  Fix CORS configuration in the dashboard to allow WebSocket connections from
   localhost. Currently WebSocket connections are failing with 400 Bad Request
-  due to origin rejection. The wildcard pattern 'http://localhost:*' is not
+
+  due to origin rejection. The wildcard pattern ''http://localhost:*'' is not
+
   working as expected with Flask-SocketIO.
 
+  '
 acceptance_criteria:
-  - WebSocket connections from http://localhost:8080 succeed
-  - No more "not an accepted origin" errors in logs
-  - No more 400 Bad Request errors for /socket.io/ endpoints
-  - Connection status in UI shows "Connected"
-  - Real-time events flow from server to client
-
+- WebSocket connections from http://localhost:8080 succeed
+- No more "not an accepted origin" errors in logs
+- No more 400 Bad Request errors for /socket.io/ endpoints
+- Connection status in UI shows "Connected"
+- Real-time events flow from server to client
 deliverables:
-  - Updated CORS configuration in src/llm_service/dashboard/app.py
-  - Verified WebSocket connection works in browser
-  - Documentation note about CORS settings for production
-
+- Updated CORS configuration in src/llm_service/dashboard/app.py
+- Verified WebSocket connection works in browser
+- Documentation note about CORS settings for production
 artefacts:
-  - "src/llm_service/dashboard/app.py"
+- src/llm_service/dashboard/app.py
+technical_notes: 'Flask-SocketIO''s cors_allowed_origins parameter doesn''t support
+  wildcard
 
-technical_notes: |
-  Flask-SocketIO's cors_allowed_origins parameter doesn't support wildcard
-  patterns the same way Flask-CORS does. The pattern 'http://localhost:*'
-  fails to match 'http://localhost:8080'.
+  patterns the same way Flask-CORS does. The pattern ''http://localhost:*''
+
+  fails to match ''http://localhost:8080''.
+
 
   Solutions:
-  1. Use '*' for development (allows all origins)
-  2. Use explicit list: ['http://localhost:8080', 'http://127.0.0.1:8080']
+
+  1. Use ''*'' for development (allows all origins)
+
+  2. Use explicit list: [''http://localhost:8080'', ''http://127.0.0.1:8080'']
+
 
   Changes required in app.py:
-  - Line 36: app.config['CORS_ORIGINS']
+
+  - Line 36: app.config[''CORS_ORIGINS'']
+
   - Line 52: socketio = SocketIO(..., cors_allowed_origins=...)
 
+  '
 context:
-  issue: "WebSocket connection failures when running the dashboard"
+  issue: WebSocket connection failures when running the dashboard
   terminal_logs:
-    - "http://localhost:8080 is not an accepted origin"
-    - "GET /socket.io/?EIO=4&transport=websocket HTTP/1.1 returned 400"
-  ui_status: "Disconnected status and no real-time updates work"
-  blocker: "Blocking dashboard functionality implemented in M4 Batch 4.2"
-
+  - http://localhost:8080 is not an accepted origin
+  - GET /socket.io/?EIO=4&transport=websocket HTTP/1.1 returned 400
+  ui_status: Disconnected status and no real-time updates work
+  blocker: Blocking dashboard functionality implemented in M4 Batch 4.2
 references:
-  - "src/llm_service/dashboard/app.py (lines 36, 52)"
-  - "src/llm_service/dashboard/README.md (Troubleshooting section)"
-  - "ADR-032: Real-Time Execution Dashboard"
+- src/llm_service/dashboard/app.py (lines 36, 52)
+- src/llm_service/dashboard/README.md (Troubleshooting section)
+- 'ADR-032: Real-Time Execution Dashboard'
+specification: specifications/initiatives/dashboard-enhancements/real-time-execution-dashboard.md

@@ -3,10 +3,13 @@ id: 2026-02-08T0633-devops-danny-exporter-implementation
 agent: devops-danny
 status: blocked
 priority: high
-title: "Update Exporters to Read from Doctrine Directory"
+title: Update Exporters to Read from Doctrine Directory
 created: 2026-02-08T06:33Z
 blocked_by:
-  - 2026-02-08T0632-devops-danny-export-validation-tests
-description: "Update all three exporters (Copilot, OpenCode, Claude) to read from doctrine/agents/ instead of .github/agents/. Tests from Phase 4 should turn from RED → GREEN after these changes."
+- 2026-02-08T0632-devops-danny-export-validation-tests
+description: Update all three exporters (Copilot, OpenCode, Claude) to read from doctrine/agents/
+  instead of .github/agents/. Tests from Phase 4 should turn from RED → GREEN after
+  these changes.
 artifacts: []
-notes: "Status: BLOCKED - Awaiting Phase 4 completion"
+notes: 'Status: BLOCKED - Awaiting Phase 4 completion'
+specification: specifications/initiatives/framework-distribution/SPEC-DIST-001-multi-tool-distribution.md

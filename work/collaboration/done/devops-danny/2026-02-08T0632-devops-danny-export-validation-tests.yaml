@@ -3,8 +3,11 @@ id: 2026-02-08T0632-devops-danny-export-validation-tests
 agent: devops-danny
 status: new
 priority: high
-title: "Create Validation Tests for Doctrine Export Pipeline"
+title: Create Validation Tests for Doctrine Export Pipeline
 created: 2026-02-08T06:32
-description: "Create comprehensive validation tests that verify exporters correctly read from doctrine/ and produce valid tool-specific outputs. Tests MUST fail initially (red phase) before exporter paths are updated."
+description: Create comprehensive validation tests that verify exporters correctly
+  read from doctrine/ and produce valid tool-specific outputs. Tests MUST fail initially
+  (red phase) before exporter paths are updated.
 artifacts: []
-notes: "Status: NEW - Ready for DevOps Danny (Phase 4)"
+notes: 'Status: NEW - Ready for DevOps Danny (Phase 4)'
+specification: specifications/initiatives/framework-distribution/SPEC-DIST-001-multi-tool-distribution.md
