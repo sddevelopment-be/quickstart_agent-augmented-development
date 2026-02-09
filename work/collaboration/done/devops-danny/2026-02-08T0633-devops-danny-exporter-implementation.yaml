@@ -4,7 +4,7 @@ agent: devops-danny
 status: blocked
 priority: high
 title: "Update Exporters to Read from Doctrine Directory"
-created: 2026-02-08T06:33
+created: 2026-02-08T06:33Z
 blocked_by:
   - 2026-02-08T0632-devops-danny-export-validation-tests
 description: "Update all three exporters (Copilot, OpenCode, Claude) to read from doctrine/agents/ instead of .github/agents/. Tests from Phase 4 should turn from RED → GREEN after these changes."
