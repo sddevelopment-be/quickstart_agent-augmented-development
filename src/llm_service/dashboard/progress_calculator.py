@@ -92,7 +92,7 @@ class ProgressCalculator:
         total_weight = 0.0
         
         for task in tasks:
-            status = task.get("status", "inbox")
+            status = task.get("status", TaskStatus.INBOX.value)
             weight = self.get_status_weight(status)
             total_weight += weight
         
