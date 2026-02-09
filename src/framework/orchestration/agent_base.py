@@ -429,7 +429,7 @@ class AgentBase(ABC):
         # Pick first task with status "assigned"
         for task_file in tasks:
             task = self.read_task(task_file)
-            if task.get("status") == "assigned":
+            if task.get("status") == TaskStatus.ASSIGNED.value:
                 self._process_task(task_file, task)
                 return True
 
