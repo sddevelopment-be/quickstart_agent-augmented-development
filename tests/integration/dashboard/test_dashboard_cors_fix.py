@@ -5,8 +5,6 @@ Validates fix for Task: 2026-02-06T0422-backend-dev-dashboard-cors-fix
 Tests that CORS is properly configured for WebSocket connections from localhost.
 """
 
-import pytest
-
 
 class TestDashboardCORS:
     """Tests for CORS configuration in dashboard."""

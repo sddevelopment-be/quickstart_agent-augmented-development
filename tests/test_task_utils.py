@@ -20,7 +20,7 @@ import pytest
 import yaml
 
 # Add orchestration directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src" / "framework" / "orchestration"))
+sys.path.insert(0, str(Path(__file__).parent.parent / "src" / "framework" / "orchestration"))
 
 from task_utils import (
     get_utc_timestamp,

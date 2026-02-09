@@ -5,7 +5,6 @@ Validates fix for Task: 2026-02-06T0423-backend-dev-dashboard-file-watcher-integ
 Tests that file watcher is properly initialized and connected to API endpoints.
 """
 
-import pytest
 from pathlib import Path
 import tempfile
 import yaml
@@ -91,10 +90,11 @@ class TestFileWatcherIntegration:
             assert response.status_code == 200
             data = response.get_json()
             
-            # Should have tasks data
+            # Should have tasks data from file watcher
             assert 'tasks' in data
-            # This will fail until we integrate file watcher with stats endpoint
-            # Keeping as expected behavior for now
+            assert 'inbox' in data['tasks']
+            assert 'assigned' in data['tasks']
+            assert 'done' in data['tasks']
 
     def test_file_watcher_without_socketio_works(self):
         """Test: File watcher can function without SocketIO (for testing)."""

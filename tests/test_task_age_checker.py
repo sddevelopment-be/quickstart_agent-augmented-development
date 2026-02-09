@@ -20,8 +20,8 @@ import pytest
 import yaml
 
 # Add orchestration directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src" / "framework" / "orchestration"))
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "tools"))  # For common.path_utils
+sys.path.insert(0, str(Path(__file__).parent.parent / "src" / "framework" / "orchestration"))
+sys.path.insert(0, str(Path(__file__).parent.parent / "tools"))  # For common.path_utils
 
 from task_age_checker import TaskAgeChecker
 
