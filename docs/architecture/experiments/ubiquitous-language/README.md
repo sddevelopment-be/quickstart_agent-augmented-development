@@ -1,0 +1,230 @@
+# Agentic Architecture Experiment – Language, Context, and Drift
+
+This directory documents an experiment in agent-assisted architectural sensemaking, centered on language as a first-class architectural concern.
+
+The working hypothesis is simple:
+
+> Many architectural problems are preceded by linguistic problems.
+
+This experiment explores whether agentic systems, applied deliberately and with a human in charge, can make semantic drift, boundary violations, and organizational misalignment visible early enough to matter.
+
+---
+
+## Core Idea
+
+Domain-Driven Design is often presented as an architectural toolkit. In practice, its most powerful effect in corporate environments is linguistic:
+
+- shared terms within a context,
+- explicit disagreement across contexts,
+- and conscious translation at boundaries.
+
+This experiment treats ubiquitous language as infrastructure and uses agents to:
+
+- observe how language is actually used,
+- surface ambiguity and drift,
+- and feed that insight back into architecture, design, and delivery.
+
+Agents do not decide meaning. They surface evidence. Humans remain in charge of interpretation, decisions, and enforcement.
+
+---
+
+## Experiment Scope
+
+The experiment spans the full lifecycle from research to evaluation, using agents as assistants at each stage.
+
+The goal is not automation for its own sake, but:
+
+- reducing the cost of continuous sensemaking,
+- making architectural assumptions inspectable,
+- and closing feedback loops that normally stay open too long.
+
+---
+
+## Process Overview
+
+The experiment follows an explicit, iterative pipeline. Each stage produces concrete artifacts and has a quality gate to prevent drift into ceremony or theater.
+
+### 1. Research & Capture
+
+**Purpose:** Ground the work in existing theory and real organizational material.
+
+**Inputs:**
+- Contextive specifications
+- Domain-Driven Design literature
+- Object-oriented design principles
+- Team Topologies
+- Internal artifacts (code, documentation, anonymized transcripts)
+
+**Outputs:**
+- Curated source pack
+- Extracted quotes and snippets
+- Claim inventory (what is being asserted)
+- Early terminology map
+- Explicit assumptions and open questions
+
+**Gate:**
+> What concrete decisions will this research inform?
+
+---
+
+### 2. Prune & Synthesize into Primers
+
+**Purpose:** Reduce complexity without losing nuance.
+
+**Outputs:**
+- Short primers (readable in ~10 minutes)
+- Core concepts and definitions
+- Applicability in this context
+- What the approach does not solve
+- Known failure modes
+- Glossary seed terms
+
+**Gate:**
+> Can a tired engineer read this and act differently?
+
+---
+
+### 3. Architectural Analysis
+
+**Purpose:** Translate linguistic signals into architectural hypotheses.
+
+**Outputs:**
+- System context and stakeholders
+- Bounded context hypotheses
+- Cross-domain clash inventory
+- Boundary and translation needs
+- Quality attribute tensions
+- Architectural decision records (draft)
+
+**Gate:**
+> What are the top trade-offs we are choosing, explicitly?
+
+---
+
+### 4. Specification (Business / Functional)
+
+This stage is intentionally split to avoid monolithic specifications.
+
+#### 4a. Domain Vocabulary & Rules
+
+**Outputs:**
+- Context-specific glossary entries (Contextive-ready)
+- Business rules and invariants
+- Examples and counterexamples
+
+#### 4b. Functional Slices
+
+**Outputs:**
+- Outcome-oriented scenarios
+- Acceptance criteria
+- Event narratives where appropriate
+
+**Gate:**
+> Does this reduce ambiguity, or just add text?
+
+---
+
+### 5. Technical Design & Planning
+
+**Purpose:** Make architectural intent executable.
+
+**Outputs:**
+- Technical designs per bounded context
+- Integration contracts and translation maps
+- Naming conventions and repository boundary rules
+- Domain review agent rule configuration (tiered)
+- Thin-slice delivery plan
+- Evaluation metrics
+
+**Gate:**
+> Can we ship a thin slice that exercises both language and boundaries?
+
+---
+
+### 6. Execution
+
+**Purpose:** Validate ideas against reality.
+
+**Outputs:**
+- Working increments
+- Updated glossary decisions as code evolves
+- PR-level domain review feedback (diff-based)
+- Documented suppressions with rationale
+
+**Gate:**
+> Are we converging language, or merely silencing warnings?
+
+---
+
+### 7. Evaluation
+
+Evaluation is split deliberately.
+
+**Product & Delivery:**
+- Outcome and operational metrics
+
+**Language & Architecture Hygiene:**
+- Terminology ambiguity trends
+- Boundary leak trends
+- Developer experience feedback
+- Surprises and invalidated assumptions
+
+**Gate:**
+> What did reality disprove?
+
+---
+
+### 8. Capture Outcomes
+
+**Purpose:** Ensure learning compounds.
+
+**Outputs:**
+- Outcome report
+- Updated primers
+- Updated glossary decisions
+- Reusable patterns and sharp-edged techniques
+- Backlog for the next iteration
+
+**Gate:**
+> What do we want to make easier next time?
+
+---
+
+## Agent Roles (Indicative)
+
+This experiment assumes a small set of focused agents rather than a monolith:
+
+- **Research Agent** – builds the source pack and claim inventory
+- **Primer Agent** – synthesizes material into readable primers
+- **Domain Drift Agent** – extracts glossary candidates and semantic conflicts
+- **Architecture Agent** – proposes boundaries, seams, and trade-offs
+- **Specification Assistant** – supports scenarios, rules, and examples
+- **PR Domain Review Agent** – provides terminology and boundary feedback
+- **Evaluation Agent** – summarizes trends and surprises
+- **Capture Agent** – distills outcomes into durable artifacts
+
+Agents assist. Humans decide.
+
+---
+
+## Principles
+
+- Language is political; make conflict explicit rather than silent.
+- Bounded contexts justify difference; enforcement must be asymmetric.
+- Evidence over authority.
+- Defaults should be advisory, not punitive.
+- Every glossary decision has an owner.
+- Automation exists to support judgment, not replace it.
+
+---
+
+## Success Criteria
+
+This experiment is successful if it:
+
+- surfaces semantic conflicts earlier than before,
+- improves architectural conversations without centralizing power,
+- reduces accidental coupling caused by shared language,
+- and leaves behind reusable insight even if the tooling is abandoned.
+
+Failure is acceptable. Silent drift is not.

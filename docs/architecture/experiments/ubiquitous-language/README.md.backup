@@ -6,10 +6,7 @@ The working hypothesis is simple:
 
 > Many architectural problems are preceded by linguistic problems.
 
-
-
 This experiment explores whether agentic systems, applied deliberately and with a human in charge, can make semantic drift, boundary violations, and organizational misalignment visible early enough to matter.
-
 
 ---
 
@@ -17,24 +14,17 @@ This experiment explores whether agentic systems, applied deliberately and with 
 
 Domain-Driven Design is often presented as an architectural toolkit. In practice, its most powerful effect in corporate environments is linguistic:
 
-shared terms within a context,
-
-explicit disagreement across contexts,
-
-and conscious translation at boundaries.
-
+- shared terms within a context,
+- explicit disagreement across contexts,
+- and conscious translation at boundaries.
 
 This experiment treats ubiquitous language as infrastructure and uses agents to:
 
-observe how language is actually used,
-
-surface ambiguity and drift,
-
-and feed that insight back into architecture, design, and delivery.
-
+- observe how language is actually used,
+- surface ambiguity and drift,
+- and feed that insight back into architecture, design, and delivery.
 
 Agents do not decide meaning. They surface evidence. Humans remain in charge of interpretation, decisions, and enforcement.
-
 
 ---
 
@@ -44,13 +34,9 @@ The experiment spans the full lifecycle from research to evaluation, using agent
 
 The goal is not automation for its own sake, but:
 
-reducing the cost of continuous sensemaking,
-
-making architectural assumptions inspectable,
-
-and closing feedback loops that normally stay open too long.
-
-
+- reducing the cost of continuous sensemaking,
+- making architectural assumptions inspectable,
+- and closing feedback loops that normally stay open too long.
 
 ---
 
@@ -60,37 +46,23 @@ The experiment follows an explicit, iterative pipeline. Each stage produces conc
 
 ### 1. Research & Capture
 
-Purpose
-Ground the work in existing theory and real organizational material.
+**Purpose:** Ground the work in existing theory and real organizational material.
 
-Inputs
+**Inputs:**
+- Contextive specifications
+- Domain-Driven Design literature
+- Object-oriented design principles
+- Team Topologies
+- Internal artifacts (code, documentation, anonymized transcripts)
 
-Contextive specifications
+**Outputs:**
+- Curated source pack
+- Extracted quotes and snippets
+- Claim inventory (what is being asserted)
+- Early terminology map
+- Explicit assumptions and open questions
 
-Domain-Driven Design literature
-
-Object-oriented design principles
-
-Team Topologies
-
-Internal artifacts (code, documentation, anonymized transcripts)
-
-
-Outputs
-
-Curated source pack
-
-Extracted quotes and snippets
-
-Claim inventory (what is being asserted)
-
-Early terminology map
-
-Explicit assumptions and open questions
-
-
-Gate
-
+**Gate:**
 > What concrete decisions will this research inform?
 
 
@@ -100,59 +72,35 @@ Gate
 
 ### 2. Prune & Synthesize into Primers
 
-Purpose
-Reduce complexity without losing nuance.
+**Purpose:** Reduce complexity without losing nuance.
 
-Outputs
+**Outputs:**
+- Short primers (readable in ~10 minutes)
+- Core concepts and definitions
+- Applicability in this context
+- What the approach does not solve
+- Known failure modes
+- Glossary seed terms
 
-Short primers (readable in ~10 minutes)
-
-Core concepts and definitions
-
-Applicability in this context
-
-What the approach does not solve
-
-Known failure modes
-
-Glossary seed terms
-
-
-Gate
-
+**Gate:**
 > Can a tired engineer read this and act differently?
-
-
-
 
 ---
 
 ### 3. Architectural Analysis
 
-Purpose
-Translate linguistic signals into architectural hypotheses.
+**Purpose:** Translate linguistic signals into architectural hypotheses.
 
-Outputs
+**Outputs:**
+- System context and stakeholders
+- Bounded context hypotheses
+- Cross-domain clash inventory
+- Boundary and translation needs
+- Quality attribute tensions
+- Architectural decision records (draft)
 
-System context and stakeholders
-
-Bounded context hypotheses
-
-Cross-domain clash inventory
-
-Boundary and translation needs
-
-Quality attribute tensions
-
-Architectural decision records (draft)
-
-
-Gate
-
+**Gate:**
 > What are the top trade-offs we are choosing, explicitly?
-
-
-
 
 ---
 
@@ -162,28 +110,26 @@ This stage is intentionally split to avoid monolithic specifications.
 
 #### 4a. Domain Vocabulary & Rules
 
-Outputs
+**Outputs:**
+- Context-specific glossary entries (Contextive-ready)
 
-Context-specific glossary entries (Contextive-ready)
+- Business rules and invariants
 
-Business rules and invariants
-
-Examples and counterexamples
+- Examples and counterexamples
 
 
 #### 4b. Functional Slices
 
-Outputs
+**Outputs:**
+- Outcome-oriented scenarios
 
-Outcome-oriented scenarios
+- Acceptance criteria
 
-Acceptance criteria
-
-Event narratives where appropriate
+- Event narratives where appropriate
 
 
-Gate
 
+**Gate:**
 > Does this reduce ambiguity, or just add text?
 
 
@@ -193,26 +139,24 @@ Gate
 
 ### 5. Technical Design & Planning
 
-Purpose
-Make architectural intent executable.
+**Purpose:** Make architectural intent executable.
 
-Outputs
+**Outputs:**
+- Technical designs per bounded context
 
-Technical designs per bounded context
+- Integration contracts and translation maps
 
-Integration contracts and translation maps
+- Naming conventions and repository boundary rules
 
-Naming conventions and repository boundary rules
+- Domain review agent rule configuration (tiered)
 
-Domain review agent rule configuration (tiered)
+- Thin-slice delivery plan
 
-Thin-slice delivery plan
-
-Evaluation metrics
+- Evaluation metrics
 
 
-Gate
 
+**Gate:**
 > Can we ship a thin slice that exercises both language and boundaries?
 
 
@@ -222,22 +166,20 @@ Gate
 
 ### 6. Execution
 
-Purpose
-Validate ideas against reality.
+**Purpose:** Validate ideas against reality.
 
-Outputs
+**Outputs:**
+- Working increments
 
-Working increments
+- Updated glossary decisions as code evolves
 
-Updated glossary decisions as code evolves
+- PR-level domain review feedback (diff-based)
 
-PR-level domain review feedback (diff-based)
-
-Documented suppressions with rationale
+- Documented suppressions with rationale
 
 
-Gate
 
+**Gate:**
 > Are we converging language, or merely silencing warnings?
 
 
@@ -265,8 +207,8 @@ Developer experience feedback
 Surprises and invalidated assumptions
 
 
-Gate
 
+**Gate:**
 > What did reality disprove?
 
 
@@ -276,24 +218,22 @@ Gate
 
 ### 8. Capture Outcomes
 
-Purpose
-Ensure learning compounds.
+**Purpose:** Ensure learning compounds.
 
-Outputs
+**Outputs:**
+- Outcome report
 
-Outcome report
+- Updated primers
 
-Updated primers
+- Updated glossary decisions
 
-Updated glossary decisions
+- Reusable patterns and sharp-edged techniques
 
-Reusable patterns and sharp-edged techniques
-
-Backlog for the next iteration
+- Backlog for the next iteration
 
 
-Gate
 
+**Gate:**
 > What do we want to make easier next time?
 
 
