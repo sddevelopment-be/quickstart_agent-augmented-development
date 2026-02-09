@@ -276,14 +276,11 @@ def register_routes(app: Flask) -> None:
         # Group tasks by specification
         task_groups = linker.group_by_specification()
         
-        # Build specification objects with features and tasks
-        spec_objects = []
+        # Build initiative list (each specification IS an initiative)
+        initiatives = []
         
         for spec_meta in specifications:
             # Get tasks for this specification
-            # Tasks use full relative path: "specifications/llm-dashboard/filename.md"
-            # Specs have relative_path as just filename: "filename.md"
-            # Need to construct full path for matching
             from pathlib import Path
             spec_full_path = str(Path(spec_dir) / spec_meta.relative_path)
             spec_tasks = task_groups.get(spec_full_path, [])
@@ -293,7 +290,6 @@ def register_routes(app: Flask) -> None:
             for feature in spec_meta.features:
                 # Get tasks for this feature
                 # Include tasks that explicitly match feature.id OR have no feature field
-                # (tasks without feature: implement entire specification, show under all features)
                 feature_tasks = [
                     t for t in spec_tasks 
                     if t.get("feature") == feature.id or t.get("feature") is None
@@ -321,64 +317,21 @@ def register_routes(app: Flask) -> None:
                     ]
                 })
             
-            # Calculate specification progress (with manual override support)
-            spec_progress = calculator.calculate_initiative_progress(
+            # Calculate initiative progress (with manual override support)
+            initiative_progress = calculator.calculate_initiative_progress(
                 features,
                 manual_override=spec_meta.completion
             )
             
-            # Build specification object
-            spec_objects.append({
+            # Build initiative response (specification = initiative)
+            initiatives.append({
                 "id": spec_meta.id,
                 "title": spec_meta.title,
                 "status": spec_meta.status,
                 "priority": spec_meta.priority,
-                "initiative": spec_meta.initiative,
-                "progress": spec_progress,
+                "progress": initiative_progress,
                 "features": features,
                 "specification_path": spec_meta.relative_path,
-            })
-        
-        # Group specifications by initiative
-        from collections import defaultdict
-        initiatives_grouped = defaultdict(list)
-        
-        for spec in spec_objects:
-            initiative_name = spec.get("initiative") or "Uncategorized"
-            initiatives_grouped[initiative_name].append(spec)
-        
-        # Build initiative hierarchy
-        initiatives = []
-        for initiative_name, specs in sorted(initiatives_grouped.items()):
-            # Calculate initiative-level progress from all specs
-            all_features = []
-            for spec in specs:
-                all_features.extend(spec["features"])
-            
-            initiative_progress = calculator.calculate_initiative_progress(all_features)
-            
-            # Determine initiative status (most advanced status of specs)
-            status_priority = {"draft": 1, "in_progress": 2, "implemented": 3, "complete": 3}
-            initiative_status = max(
-                (spec.get("status", "draft") for spec in specs),
-                key=lambda s: status_priority.get(s, 0)
-            )
-            
-            # Determine initiative priority (highest priority of specs)
-            priority_order = {"CRITICAL": 4, "HIGH": 3, "MEDIUM": 2, "LOW": 1}
-            initiative_priority = max(
-                (spec.get("priority", "MEDIUM") for spec in specs),
-                key=lambda p: priority_order.get(p, 2)
-            )
-            
-            initiatives.append({
-                "id": initiative_name.lower().replace(" ", "-"),
-                "title": initiative_name,
-                "status": initiative_status,
-                "priority": initiative_priority,
-                "progress": initiative_progress,
-                "specifications": specs,
-                "spec_count": len(specs),
             })
         
         # Get orphan tasks (tasks without specification links)
