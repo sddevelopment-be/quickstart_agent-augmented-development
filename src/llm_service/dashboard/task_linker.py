@@ -9,8 +9,10 @@ Implements ADR-037: Dashboard Initiative Tracking.
 
 from pathlib import Path
 from typing import Dict, List, Optional, Set
-import yaml
 import logging
+
+# Import shared task loading function (ADR-042)
+from src.common.task_schema import load_task_safe
 
 logger = logging.getLogger(__name__)
 
@@ -44,31 +46,22 @@ class TaskLinker:
         """
         Load and parse task YAML file.
         
+        NOTE: This method delegates to src.common.task_schema.load_task_safe()
+        for consistent task loading across framework and dashboard (ADR-042).
+        
         Args:
             task_path: Path to task YAML file
             
         Returns:
             Task data dictionary, or None if loading fails
         """
-        try:
-            with open(task_path, 'r', encoding='utf-8') as f:
-                data = yaml.safe_load(f)
-            
-            if not isinstance(data, dict):
-                logger.warning(f"Invalid task format (not a dict): {task_path}")
-                return None
-            
-            # Add path to task data for reference
-            data['_path'] = task_path
-            
-            return data
-            
-        except yaml.YAMLError as e:
-            logger.warning(f"Failed to parse task YAML {task_path}: {e}")
-            return None
-        except Exception as e:
-            logger.error(f"Error loading task {task_path}: {e}", exc_info=True)
-            return None
+        task_data = load_task_safe(Path(task_path))
+        
+        if task_data:
+            # Add path to task data for reference (dashboard-specific)
+            task_data['_path'] = task_path
+        
+        return task_data
     
     def scan_tasks(self) -> List[Dict]:
         """
