@@ -2,22 +2,19 @@
 root_package = src
 
 [importlinter:contract:1]
-name = No circular dependencies
+name = No circular dependencies between framework and llm_service
 type = independence
 modules =
     src.framework
     src.llm_service
-    src.common
 
 [importlinter:contract:2]
 name = Common module is leaf
 type = layers
 layers =
-    src.framework.orchestration
-    src.llm_service.dashboard
+    src.framework
+    src.llm_service
     src.common
-containers =
-    src
 
 [importlinter:contract:3]
 name = No direct framework-llm_service imports
