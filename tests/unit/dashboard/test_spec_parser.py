@@ -281,8 +281,6 @@ initiative: "Dashboard"
     
     def test_parse_specification_with_relative_path_tracking(self, tmp_path: Path):
         """Test that parser tracks relative paths from base directory."""
-        pytest.skip("Implementation pending: SpecificationParser.parse_frontmatter")
-        
         from src.llm_service.dashboard.spec_parser import SpecificationParser
         
         # Create spec in subdirectory
@@ -304,7 +302,59 @@ initiative: "Dashboard"
         metadata = parser.parse_frontmatter(str(spec_path))
         
         # Should track relative path for task linking
-        assert metadata.relative_path == "dashboard/feature.md"
+        assert metadata is not None, "Parser should return metadata for valid spec"
+        assert metadata.relative_path == "dashboard/feature.md", \
+            f"Expected 'dashboard/feature.md', got '{metadata.relative_path}'"
+    
+    def test_parse_specification_with_rglob_absolute_paths(self, tmp_path: Path):
+        """
+        Regression test for rglob absolute path bug (2026-02-09).
+        
+        When scan_specifications() uses rglob(), it returns absolute paths.
+        These absolute paths must be correctly converted to relative paths
+        for task linking to work (tasks use relative paths in their 'specification:' field).
+        
+        Bug: path.relative_to(base_dir) failed when paths weren't resolved,
+        falling back to path.name (filename only), breaking task linking.
+        
+        Fix: Use path.resolve() and base_dir.resolve() for canonical paths.
+        """
+        from src.llm_service.dashboard.spec_parser import SpecificationParser
+        
+        # Create nested specification structure
+        initiatives_dir = tmp_path / "specifications" / "initiatives" / "dashboard-enhancements"
+        initiatives_dir.mkdir(parents=True)
+        
+        spec_content = """---
+id: "SPEC-DASH-007"
+title: "Real-Time Execution Dashboard"
+status: "implemented"
+priority: "CRITICAL"
+initiative: "Dashboard Enhancements"
+---
+# Real-Time Execution Dashboard
+"""
+        spec_path = initiatives_dir / "real-time-execution-dashboard.md"
+        spec_path.write_text(spec_content)
+        
+        # Initialize parser with base directory
+        parser = SpecificationParser(str(tmp_path / "specifications"))
+        
+        # Scan specifications (uses rglob internally, returns absolute paths)
+        specs = parser.scan_specifications(str(tmp_path / "specifications"))
+        
+        # Verify we found the spec
+        assert len(specs) == 1, f"Expected 1 spec, found {len(specs)}"
+        
+        # Verify relative path is correct (not just filename)
+        spec = specs[0]
+        assert spec.relative_path == "initiatives/dashboard-enhancements/real-time-execution-dashboard.md", \
+            f"Expected full relative path, got '{spec.relative_path}' (bug: filename-only fallback)"
+        
+        # Verify this matches what tasks would have in their specification: field
+        expected_task_link = f"specifications/{spec.relative_path}"
+        assert expected_task_link == "specifications/initiatives/dashboard-enhancements/real-time-execution-dashboard.md", \
+            "Relative path should be compatible with task linking format"
 
 
 class TestSpecificationMetadataModel:
