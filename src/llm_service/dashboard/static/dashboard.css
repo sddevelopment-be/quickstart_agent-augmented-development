@@ -656,7 +656,7 @@ canvas {
     text-align: right;
 }
 
-/* Initiative Body (Features) */
+/* Initiative Body (Specifications) */
 .initiative-body {
     display: none;
     padding: 0 1.25rem 1rem 1.25rem;
@@ -676,6 +676,68 @@ canvas {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Specification Item (new hierarchy level) */
+.specification-item {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.specification-header {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem;
+    margin: -0.5rem;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+.specification-header:hover {
+    background-color: rgba(255, 255, 255, 0.04);
+}
+
+.specification-toggle {
+    font-size: 1.1rem;
+    transition: transform 0.2s;
+    user-select: none;
+}
+
+.specification-toggle.expanded {
+    transform: rotate(90deg);
+}
+
+.specification-info {
+    flex: 1;
+}
+
+.specification-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 0.35rem 0;
+}
+
+.specification-meta {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.specification-body {
+    display: none;
+    padding-top: 1rem;
+}
+
+.specification-body.expanded {
+    display: block;
 }
 
 /* Feature Item */
