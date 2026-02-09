@@ -336,6 +336,7 @@ The following optional/specific instruction sets are externalized for token effi
 | 024  | [Self-Observation Protocol](doctrine/directives/024_self_observation_protocol.md) | Mid-execution self-monitoring and course correction (Ralph Wiggum loop)|
 | 028  | [Bug Fixing Techniques](doctrine/directives/028_bugfixing_techniques.md) | Test-first bug fixing: write failing test, fix code, verify (recommended)|
 | 034  | Specification-Driven Development | Functional requirement capture before implementation (recommended, optional)|
+| 036  | [Boy Scout Rule](doctrine/directives/036_boy_scout_rule.md) | Pre-task spot check and cleanup: leave code better than you found it (mandatory)|
 
 Location: `doctrine/directives/XXX_name.md` Example load pattern:
 

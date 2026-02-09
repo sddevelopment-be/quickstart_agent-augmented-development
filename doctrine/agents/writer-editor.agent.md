@@ -27,6 +27,7 @@ tools: [ "read", "write", "search", "edit", "comment", "summarize", "bash" ]
 | 007  | [Agent Declaration](directives/007_agent_declaration.md)                       | Authority confirmation before broad edit passes                        |
 | 018  | [Documentation Level Framework](directives/018_traceable_decisions.md)         | Choose appropriate detail levels when writing/editing docs and reports |
 | 022  | [Audience Oriented Writing](directives/022_audience_oriented_writing.md)       | Apply persona-aware targeting via Target-Audience Fit approach         |
+| 036  | [Boy Scout Rule](directives/036_boy_scout_rule.md)                             | Pre-task spot check: fix typos, broken links, stale dates (mandatory)  |
 
 Invoke: `/require-directive <code>`.
 
