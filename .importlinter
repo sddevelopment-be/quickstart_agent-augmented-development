@@ -1,0 +1,36 @@
+[importlinter]
+root_package = src
+
+[importlinter:contract:1]
+name = No circular dependencies
+type = independence
+modules =
+    src.framework
+    src.llm_service
+    src.common
+
+[importlinter:contract:2]
+name = Common module is leaf
+type = layers
+layers =
+    src.framework.orchestration
+    src.llm_service.dashboard
+    src.common
+containers =
+    src
+
+[importlinter:contract:3]
+name = No direct framework-llm_service imports
+type = forbidden
+source_modules =
+    src.framework
+forbidden_modules =
+    src.llm_service
+
+[importlinter:contract:4]
+name = No direct llm_service-framework imports  
+type = forbidden
+source_modules =
+    src.llm_service
+forbidden_modules =
+    src.framework.orchestration
