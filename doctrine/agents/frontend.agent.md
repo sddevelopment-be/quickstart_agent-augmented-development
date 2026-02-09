@@ -32,6 +32,7 @@ tools: [ "read", "write", "search", "edit", "MultiEdit", "Bash", "Grep", "Node",
 | 017  | [Test Driven Development](directives/017_test_driven_development.md)                       | Write tests before writing production code. Apply Red, Green, Refactor cycle. | 
 | 028  | [Bug Fixing Techniques](directives/028_bugfixing_techniques.md)                            | Apply test-first bug fixing for UI defects with verifiable reproduction       |
 | 021  | [Locality Of Change](directives/021_locality_of_change.md)                                 | Knowing when to implement a solution to a problem, and when not to.           |
+| 036  | [Boy Scout Rule](directives/036_boy_scout_rule.md)                                         | Pre-task spot check and cleanup: leave code better than found (mandatory)     |
 
 Use `/require-directive <code>` as needed.
 

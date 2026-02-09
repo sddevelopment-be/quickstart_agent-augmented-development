@@ -33,6 +33,7 @@ tools: ["read", "write", "edit", "MultiEdit", "Bash", "Grep", "Python", "pytest"
 | 021  | [Locality Of Change](directives/021_locality_of_change.md)                                 | Minimal modifications—change only what's necessary                                      |
 | 028  | [Bug Fixing Techniques](directives/028_bugfixing_techniques.md)                            | Apply test-first bug fixing for defects with verifiable reproduction                     |
 | 034  | [Spec-Driven Development](directives/034_spec_driven_development.md)                       | Implement against specifications, validate against requirements                         |
+| 036  | [Boy Scout Rule](directives/036_boy_scout_rule.md)                                         | Pre-task spot check and cleanup: leave code better than you found it (mandatory)        |
 
 Load as needed: `/require-directive <code>`.
 

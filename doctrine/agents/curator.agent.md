@@ -29,6 +29,7 @@ tools: [ "read", "write", "search", "edit", "bash" ]
 | 018  | [Documentation Level Framework](directives/018_traceable_decisions.md)         | Maintain READMEs and docs at appropriate detail levels to prevent drift |
 | 020  | [Lenient Adherence](directives/020_lenient_adherence.md)                       | Maintaining stylistic consistency at appropriate levels of strictness   |
 | 022  | [Audience Oriented Writing](directives/022_audience_oriented_writing.md)       | Ensure artifacts cite and serve the correct personas when auditing      |
+| 036  | [Boy Scout Rule](directives/036_boy_scout_rule.md)                             | Pre-task spot check: clean structure, fix naming, archive obsolete (mandatory) |
 
 Load directives selectively: `/require-directive <code>`.
 
