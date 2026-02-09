@@ -1,178 +1,38 @@
-id: 2026-01-29T0730-mfd-task-1.3-schema-conventions
-agent: architect-alphonso
+---
+id: mfd-task-1.3-schema-conventions
+agent: architect
 status: new
 priority: high
 title: Define Schema Conventions and Document
-artefacts:
-  - docs/schemas/schema-conventions.md
-  - docs/schemas/agent-schema-template.json
-  - docs/schemas/migration-checklist.md
-task_id: mfd-task-1.3-schema-conventions
-from_agent: Project Manager
-to_agent: Architect Alphonso
-created_date: '2026-01-29'
-human_intervention_required: false
-estimated_effort_hours: 3
+description: "# Task 1.3: Define Schema Conventions and Document\n\n## Context\n\n\
+  **Project:** Multi-Format Agent Framework Distribution  \n**Dependencies:** Task\
+  \ 1.2 (Parser available to test schema extraction)\n\nExisting agents lack explicit\
+  \ input/output schemas. This task establishes **conventions** for how to define,\
+  \ extract, and document schemas for all agents.\n\n**Why This Matters:**\n- Schemas\
+  \ enable validation and tooling\n- Conventions ensure consistency across 17+ agents\n\
+  - Bad conventions = rework for all agents\n- Must be clear enough for contributors\
+  \ to follow\n\n## Objective\n\nFormalize conventions for defining input/output schemas\
+  \ in agent profiles, including extraction heuristics, format standards, placement\
+  \ rules, and documentation requirements.\n\n## Detailed Requirements\n\n### Conventions\
+  \ Must Address\n\n1. **Schema Extraction Heuristics**\n   - How to infer input schemas\
+  \ from narrative content\n   - How to extract output schemas from \"Output Artifacts\"\
+  \ section\n   - What to do when narrative is ambiguous\n   - How to handle optional\
+  \ vs. required parameters\n\n2. **Schema Format**\n   - Use JSON Schema Draft 7\
+  \ (or justify alternative)\n   - Property naming conventions (camelCase? snake_case?)\n\
+  \   - Required vs. optional field marking\n   - Default values and constraints\n\
+  \   - Schema annotations (descriptions, examples)\n\n3. **Schema Placement**\n \
+  \  - In YAML frontmatter? (`inputs:`, `outputs:` fields)\n   - Separate schema files?\
+  \ (`{agent}.input.schema.json`)\n   - Inline in markdown? (code blocks)\n   - Mixed\
+  \ approach? (frontmatter references separate files)\n\n4. **Documentation Requirements**\n\
+  \   - What documentation accompanies each schema?\n   - How to document complex\
+  \ nested objects?\n   - How to provide examples?\n   - How to explain rationale\
+  \ for design choices?\n\n5. **Migration Path**\n   - How to add schemas to existing\
+  \ agents (17 agents)\n   - Backward compatibility (can old tools work?)\n   - Incremental\
+  \ adoption (schema-less agents still work?)\n   - Validation enforcement (when to\
+  \ require schemas?)\n"
+created: '2026-01-29T00:00:00Z'
 batch: 'Batch 1: Foundation & Infrastructure'
 milestone: 'Milestone 1: Schema Complete'
 dependencies:
-  - mfd-task-1.2-implement-parser
-
-description: |
-  # Task 1.3: Define Schema Conventions and Document
-  
-  ## Context
-  
-  **Project:** Multi-Format Agent Framework Distribution  
-  **Dependencies:** Task 1.2 (Parser available to test schema extraction)
-  
-  Existing agents lack explicit input/output schemas. This task establishes **conventions** for how to define, extract, and document schemas for all agents.
-  
-  **Why This Matters:**
-  - Schemas enable validation and tooling
-  - Conventions ensure consistency across 17+ agents
-  - Bad conventions = rework for all agents
-  - Must be clear enough for contributors to follow
-  
-  ## Objective
-  
-  Formalize conventions for defining input/output schemas in agent profiles, including extraction heuristics, format standards, placement rules, and documentation requirements.
-  
-  ## Detailed Requirements
-  
-  ### Conventions Must Address
-  
-  1. **Schema Extraction Heuristics**
-     - How to infer input schemas from narrative content
-     - How to extract output schemas from "Output Artifacts" section
-     - What to do when narrative is ambiguous
-     - How to handle optional vs. required parameters
-  
-  2. **Schema Format**
-     - Use JSON Schema Draft 7 (or justify alternative)
-     - Property naming conventions (camelCase? snake_case?)
-     - Required vs. optional field marking
-     - Default values and constraints
-     - Schema annotations (descriptions, examples)
-  
-  3. **Schema Placement**
-     - In YAML frontmatter? (`inputs:`, `outputs:` fields)
-     - Separate schema files? (`{agent}.input.schema.json`)
-     - Inline in markdown? (code blocks)
-     - Mixed approach? (frontmatter references separate files)
-  
-  4. **Documentation Requirements**
-     - What documentation accompanies each schema?
-     - How to document complex nested objects?
-     - How to provide examples?
-     - How to explain rationale for design choices?
-  
-  5. **Migration Path**
-     - How to add schemas to existing agents (17 agents)
-     - Backward compatibility (can old tools work?)
-     - Incremental adoption (schema-less agents still work?)
-     - Validation enforcement (when to require schemas?)
-
-expected_outputs:
-  - file: docs/schemas/schema-conventions.md
-    description: |
-      - Rationale for each decision
-      - Examples (good and bad)
-      - Decision tree for edge cases
-      - FAQ for common questions
-  - file: docs/schemas/agent-schema-template.json
-    description: |
-      - JSON Schema skeleton for new agents
-      - Commented sections explaining each part
-      - Example with all common patterns
-  - file: docs/schemas/migration-checklist.md
-    description: |
-      - Step-by-step guide for adding schemas to existing agents
-      - Validation commands to run
-      - Common pitfalls and solutions
-
-sample_agents_to_analyze:
-  description: Use these 5 agents to validate conventions (representative complexity)
-  agents:
-    - name: Architect Alphonso
-      complexity: Complex outputs (ADRs, diagrams, technical design)
-    - name: Backend Benny
-      complexity: Code outputs (services, tests, APIs)
-    - name: Reviewer Rachel
-      complexity: Structured outputs (checklists, reports, approvals)
-    - name: Curator Claire
-      complexity: Content outputs (documentation, organization)
-    - name: Planning Petra
-      complexity: Process outputs (plans, milestones, tasks)
-
-success_criteria:
-  - Conventions cover 80% of common agent input/output patterns
-  - Team review and approval (Architect + Backend Benny + Reviewer Rachel)
-  - Conventions clear enough for contributors to follow independently
-  - Migration checklist tested on 1 sample agent
-  - No ambiguities in decision tree
-
-directives_to_follow:
-  - directive_014: Create work log
-  - directive_018: Traceable Decisions - Document trade-offs
-  - directive_021: Locality of Change
-  - directive_022: Audience Oriented Writing - Target Contributors/Developers
-
-testing_approach: |
-  ## Testing Approach (ATDD)
-  
-  ### Acceptance Test 1: Clarity
-  - Give conventions to Backend Benny
-  - Ask: "Create schema for Scribe agent using these conventions"
-  - Verify: Can complete without clarification questions
-  
-  ### Acceptance Test 2: Coverage
-  - Review all 5 sample agents
-  - Count patterns NOT covered by conventions
-  - Target: <20% uncovered
-  
-  ### Acceptance Test 3: Consistency
-  - Apply conventions to create 2 schemas independently
-  - Compare results
-  - Verify: Similar structure and approach
-
-key_decisions: |
-  ## Key Decisions to Make
-  
-  1. **Schema Location:**
-     - Option A: YAML frontmatter (`inputs:`, `outputs:` fields)
-     - Option B: Separate files (`{agent}.input.schema.json`)
-     - Option C: Mixed (frontmatter for simple, files for complex)
-     - **Recommend:** Document trade-offs of each
-  
-  2. **Extraction Strategy:**
-     - Option A: Fully manual (contributors write schemas)
-     - Option B: Semi-automated (parser suggests, human approves)
-     - Option C: Fully automated (parser generates from narrative)
-     - **Recommend:** Pragmatic approach based on complexity
-  
-  3. **Validation Timing:**
-     - Option A: Build time (CI/CD validates all schemas)
-     - Option B: Runtime (generators validate before export)
-     - Option C: Both
-     - **Recommend:** Fail-fast approach
-  
-  4. **Backward Compatibility:**
-     - Option A: Schemas required (break old agents)
-     - Option B: Schemas optional (graceful degradation)
-     - Option C: Phased (optional now, required later)
-     - **Recommend:** Migration-friendly approach
-
-timeline:
-  start: After Task 1.2 complete
-  duration: 3 hours
-  deadline: End of Batch 1, Week 1
-
-task_status:
-  status: TODO - Waiting on Task 1.2
-  blocking_tasks:
-    - Task 1.4 (Create 5 Schemas)
-    - Task 2.4 (Complete 12 Schemas)
-  critical_path: Yes
-
-created_by: Project Manager
+- mfd-task-1.2-implement-parser
+estimated_effort_hours: 3
