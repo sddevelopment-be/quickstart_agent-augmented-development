@@ -20,7 +20,7 @@ from typing import Any
 
 import yaml
 
-ALLOWED_STATUSES = {"new", "assigned", "in_progress", "done", "error"}
+ALLOWED_STATUSES = {"new", "inbox", "assigned", "in_progress", "blocked", "done", "error"}
 ALLOWED_MODES = {
     "/analysis-mode",
     "/creative-mode",
