@@ -30,19 +30,33 @@ Specifications are NOT:
 ```
 specifications/
 ├── README.md                    # This file (overview and guidance)
-├── features/                    # User-facing feature specifications
-│   ├── dashboard-integration.md
-│   └── llm-service-cli.md
-├── apis/                        # API contract specifications
-│   ├── rest-api.md
-│   └── websocket-protocol.md
-├── integrations/                # External system integration specs
-│   ├── anthropic-api.md
-│   └── github-actions.md
-└── workflows/                   # Cross-component workflow specs
-    ├── multi-agent-orchestration.md
-    └── file-based-collaboration.md
+└── initiatives/                 # Initiative-based specifications
+    ├── src-consolidation/       # Technical debt remediation initiative
+    │   └── SPEC-CONSOLIDATION-001-src-code-consolidation.md
+    ├── framework-distribution/  # Multi-tool distribution initiative
+    │   └── SPEC-DIST-001-multi-tool-distribution.md
+    └── dashboard-enhancements/  # Dashboard feature initiative
+        ├── configuration-management.md
+        ├── docsite-integration.md
+        ├── initiative-tracking.md
+        ├── markdown-rendering.md
+        ├── multi-page-navigation.md
+        ├── orphan-task-assignment.md
+        ├── real-time-execution-dashboard.md
+        ├── repository-initialization.md
+        └── task-priority-editing.md
 ```
+
+### Organization Principle
+
+Specifications are organized by **initiative** (concrete bodies of work) rather than by type (api, feature, etc.). This structure:
+
+- ✅ Groups related specifications together
+- ✅ Reflects actual development workflow
+- ✅ Makes it easy to find all specs for a given initiative
+- ✅ Supports initiative-level tracking and planning
+
+**Why initiatives?** Each initiative has a clear goal, timeline, and set of stakeholders. Grouping specs by initiative makes planning and execution clearer than abstract type categories.
 
 ---
 
@@ -70,8 +84,9 @@ Do I need to document a requirement?
 ```
 
 **Create specifications for:**
-- ✅ Features spanning multiple components
+- ✅ Features spanning multiple components (group by initiative)
 - ✅ User workflows requiring persona analysis
+- ✅ Technical debt remediation efforts
 - ✅ API contracts needing agreement
 - ✅ Complex business logic
 - ✅ Features with security/performance constraints
@@ -251,7 +266,7 @@ Work logs trace back to specifications:
 2. **Copy the template:**
    ```bash
    cp docs/templates/specifications/feature-spec-template.md \
-      specifications/features/my-feature.md
+      specifications/initiatives/my-initiative/my-feature.md
    ```
 
 3. **Fill in the template:**
@@ -286,6 +301,9 @@ Work logs trace back to specifications:
 ### Good Specification (Functional)
 ```markdown
 # Specification: Dashboard Real-Time Updates
+
+**Initiative:** Dashboard Enhancements
+**Status:** Approved
 
 ## User Story
 As a **Software Engineer** managing multi-agent workflows,
