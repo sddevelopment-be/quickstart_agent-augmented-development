@@ -8,6 +8,8 @@ Checks:
 - Agent directory existence
 - ISO8601 timestamps with UTC suffix
 - Result/error object alignment with status
+
+Note: Uses TaskStatus enum from src.common.types (ADR-043) for single source of truth.
 """
 
 from __future__ import annotations
@@ -20,7 +22,18 @@ from typing import Any
 
 import yaml
 
-ALLOWED_STATUSES = {"new", "inbox", "assigned", "in_progress", "blocked", "done", "error"}
+# Add src/ to path for importing shared types
+# __file__ = tools/validators/validate-task-schema.py
+# parent = tools/validators/
+# parent.parent = tools/
+# parent.parent.parent = repo_root/
+repo_root = Path(__file__).resolve().parent.parent.parent
+sys.path.insert(0, str(repo_root / "src"))
+
+from common.types import TaskStatus
+
+# Use TaskStatus enum as single source of truth (ADR-043)
+ALLOWED_STATUSES = {status.value for status in TaskStatus}
 ALLOWED_MODES = {
     "/analysis-mode",
     "/creative-mode",
