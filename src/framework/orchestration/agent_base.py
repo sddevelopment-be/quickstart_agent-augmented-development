@@ -21,6 +21,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from src.common.types import TaskStatus
 from task_utils import get_utc_timestamp, log_event, read_task, write_task
 
 
@@ -105,29 +106,34 @@ class AgentBase(ABC):
 
     def update_task_status(
         self,
-        status: str,
+        status: str | TaskStatus,
         additional_fields: dict[str, Any] | None = None,
     ) -> None:
         """
         Update task status and write to file.
 
         Args:
-            status: New status (assigned, in_progress, done, error)
+            status: New status (TaskStatus enum or string: assigned, in_progress, done, error)
             additional_fields: Additional fields to add to task
+            
+        Note:
+            Accepts both string and TaskStatus enum for backward compatibility (ADR-043).
         """
         if not self.current_task or not self.current_task_file:
             raise RuntimeError("No current task to update")
 
-        self.current_task["status"] = status
+        # Convert enum to string value if needed
+        status_value = status.value if isinstance(status, TaskStatus) else status
+        self.current_task["status"] = status_value
 
-        if status == "in_progress" and "started_at" not in self.current_task:
+        if status_value == TaskStatus.IN_PROGRESS.value and "started_at" not in self.current_task:
             self.current_task["started_at"] = get_utc_timestamp()
 
         if additional_fields:
             self.current_task.update(additional_fields)
 
         self.write_task(self.current_task_file, self.current_task)
-        self._log(f"Updated task {self.current_task['id']} to status: {status}")
+        self._log(f"Updated task {self.current_task['id']} to status: {status_value}")
 
     def validate_artifacts(self, artifacts: list[str]) -> tuple[list[str], list[str]]:
         """
