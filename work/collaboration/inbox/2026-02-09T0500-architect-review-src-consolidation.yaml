@@ -4,6 +4,7 @@ agent: architect
 status: inbox
 priority: high
 phase: review
+specification: specifications/initiatives/src-consolidation/SPEC-CONSOLIDATION-001-src-code-consolidation.md
 title: "Review Src/ Consolidation Strategy and Create ADRs"
 created: 2026-02-09T05:00:00Z
 description: |

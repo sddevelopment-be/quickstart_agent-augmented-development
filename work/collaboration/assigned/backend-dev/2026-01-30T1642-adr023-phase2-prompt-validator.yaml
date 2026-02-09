@@ -2,6 +2,7 @@ id: 2026-01-30T1642-adr023-phase2-prompt-validator
 agent: backend-dev
 status: assigned
 priority: high
+specification: specifications/initiatives/framework-distribution/SPEC-DIST-001-multi-tool-distribution.md
 title: Implement ADR-023 Phase 2 - Prompt Validator with Schema
 artefacts:
   - tools/validators/schemas/prompt-schema.json
