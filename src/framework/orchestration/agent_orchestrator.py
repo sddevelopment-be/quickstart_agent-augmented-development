@@ -19,6 +19,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
+from src.common.types import TaskStatus
 from task_utils import (
     log_event,
     read_task,
@@ -63,7 +64,7 @@ def assign_tasks() -> int:
 
             dest = agent_dir / task_file.name
 
-            task["status"] = "assigned"
+            task["status"] = TaskStatus.ASSIGNED.value
             task["assigned_at"] = (
                 datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
             )
@@ -115,7 +116,7 @@ def process_completed_tasks() -> int:
             followup = {
                 "id": followup_id,
                 "agent": next_agent,
-                "status": "new",
+                "status": TaskStatus.NEW.value,
                 "title": result.get("next_task_title", f"Follow-up to {task['id']}"),
                 "artefacts": result.get("next_artefacts", task.get("artefacts", [])),
                 "context": {
@@ -156,7 +157,7 @@ def check_timeouts() -> int:
             try:
                 task = read_task(task_file)
 
-                if task.get("status") != "in_progress":
+                if task.get("status") != TaskStatus.IN_PROGRESS.value:
                     continue
 
                 started_at_raw = task.get("started_at")
@@ -191,7 +192,7 @@ def detect_conflicts() -> int:
             try:
                 task = read_task(task_file)
 
-                if task.get("status") == "in_progress":
+                if task.get("status") == TaskStatus.IN_PROGRESS.value:
                     for artifact in task.get("artefacts", []):
                         artifact_map[str(artifact)].append(
                             task.get("id", task_file.name)
@@ -225,9 +226,9 @@ def update_agent_status() -> None:
         for task_file in tasks:
             try:
                 task = read_task(task_file)
-                if task.get("status") == "in_progress":
+                if task.get("status") == TaskStatus.IN_PROGRESS.value:
                     in_progress.append(task)
-                elif task.get("status") == "assigned":
+                elif task.get("status") == TaskStatus.ASSIGNED.value:
                     assigned.append(task)
             except Exception:
                 continue
