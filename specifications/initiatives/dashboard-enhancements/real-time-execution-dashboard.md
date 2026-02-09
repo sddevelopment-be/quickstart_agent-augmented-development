@@ -1,3 +1,27 @@
+---
+id: "SPEC-DASH-007"
+title: "Real-Time Execution Dashboard"
+status: "implemented"
+initiative: "Dashboard Enhancements"
+priority: "CRITICAL"
+epic: "Dashboard Core Features"
+target_personas: ["software-engineer", "agentic-framework-core-team"]
+features:
+  - id: "FEAT-DASH-007-01"
+    title: "WebSocket Real-Time Communication"
+    status: "implemented"
+  - id: "FEAT-DASH-007-02"
+    title: "Kanban Board Task Visualization"
+    status: "implemented"
+  - id: "FEAT-DASH-007-03"
+    title: "Cost Tracking and Metrics"
+    status: "implemented"
+completion: 100
+created: "2026-02-06"
+updated: "2026-02-06"
+author: "analyst-annie"
+---
+
 # Specification: Real-Time Execution Dashboard
 
 **Status:** Implemented  
