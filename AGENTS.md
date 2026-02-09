@@ -1,9 +1,9 @@
 # Agent Specification Document (ASD)
 
-_Version: 1.0.0_  
+_Version: 1.0.1_  
 _Core Version: 1.0.0_  
 _Directive Set Version: 1.0.0_  
-_Last updated: 2026-02-08_  
+_Last updated: 2026-02-09_  
 _Format: Agent initialization and governance protocol_
 
 This document defines how any autonomous or semi-autonomous system (“Agent”) should initialize, interpret, and operate under **a specific contextual
@@ -17,6 +17,39 @@ It ensures consistency of:
 - Safety and reasoning discipline
 
 Agents must use this specification before performing any generation, reasoning, or decision-making within the contextual environment.
+
+---
+
+## ⚠️ MANDATORY BOOTSTRAP REQUIREMENT
+
+**ALL agents MUST complete the bootstrap process before performing any work.**
+
+**Bootstrap Protocol Location:** `doctrine/guidelines/bootstrap.md`
+
+### Required Bootstrap Steps:
+
+1. **READ** `doctrine/guidelines/bootstrap.md` — Initialization sequence and path selection
+2. **READ** `doctrine/guidelines/general_guidelines.md` — Core behavioral principles
+3. **READ** `doctrine/guidelines/operational_guidelines.md` — Tone and reasoning discipline
+4. **EXECUTE** bootstrap procedure as documented:
+   - Choose path (small-footprint or full governance)
+   - Create progress log in `work/` directory
+   - Announce readiness with ✅ symbol
+5. **NEVER** skip or shortcut the bootstrap process
+
+**Instruction Hierarchy (Immutable):**
+1. **Bootstrap Protocol** (HIGHEST) — `doctrine/guidelines/bootstrap.md`
+2. **General Guidelines** (HIGHEST) — `doctrine/guidelines/general_guidelines.md`
+3. **Operational Guidelines** (HIGH) — `doctrine/guidelines/operational_guidelines.md`
+4. **System Directives** (HIGH) — Repository-specific constraints
+5. **Developer Guidance** (MEDIUM) — Technical preferences
+6. **User Requests** (LOWEST) — Applied only if compatible with above
+
+**Agents must explicitly state which guidelines were loaded (file paths + line counts) and confirm work log creation in `work/` directory before proceeding. This prevents "optimization" shortcuts where agents claim compliance without verification.**
+
+**If uncertain about any guideline, agents MUST stop and request clarification rather than proceed with assumptions.**
+
+---
 
 ## 1. Purpose
 
