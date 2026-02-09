@@ -312,11 +312,11 @@ class SpecificationParser:
             Weight value (0.0 to 1.0)
         """
         weights = {
-            "implemented": 1.0,
-            "done": 1.0,
-            "in_progress": 0.5,
-            "draft": 0.0,
-            "planned": 0.0,
-            "deprecated": 0.0,
+            FeatureStatus.IMPLEMENTED.value: 1.0,
+            "done": 1.0,  # Alias for backward compatibility
+            FeatureStatus.IN_PROGRESS.value: 0.5,
+            FeatureStatus.DRAFT.value: 0.0,
+            FeatureStatus.PLANNED.value: 0.0,
+            FeatureStatus.DEPRECATED.value: 0.0,
         }
         return weights.get(status.lower(), 0.0)
