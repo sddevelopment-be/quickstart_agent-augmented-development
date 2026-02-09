@@ -1,3 +1,27 @@
+---
+id: "SPEC-DASH-008"
+title: "Dashboard Orphan Task Assignment"
+status: "draft"
+initiative: "Dashboard Enhancements"
+priority: "MEDIUM"
+epic: "Dashboard Core Features"
+target_personas: ["software-engineer", "project-manager"]
+features:
+  - id: "FEAT-DASH-008-01"
+    title: "Orphan Task Detection and Display"
+    status: "draft"
+  - id: "FEAT-DASH-008-02"
+    title: "Interactive Specification/Feature Selector"
+    status: "draft"
+  - id: "FEAT-DASH-008-03"
+    title: "YAML File Update with Comment Preservation"
+    status: "draft"
+completion: 0
+created: "2026-02-06"
+updated: "2026-02-06"
+author: "analyst-annie"
+---
+
 # Specification: Dashboard Orphan Task Assignment (Feature-Level)
 
 **Status:** Draft  
