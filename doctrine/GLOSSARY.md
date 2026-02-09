@@ -111,6 +111,15 @@ The process of flagging issues, uncertainties, or conflicts that require human i
 **Reference:** Directive 011  
 **Related:** Integrity Symbol, Risk
 
+### Feature (Metadata)
+
+A **metadata field** within specification frontmatter that describes sub-components or capabilities of a specification (e.g., "WebSocket Communication", "Cost Tracking"). **Important:** Features in frontmatter are descriptive metadata, NOT a hierarchy level in the dashboard rendering. The dashboard displays Initiative → Specification → Task (3 levels). The `features:` array helps document what a specification includes but does not create a visual hierarchy layer.
+
+**Usage:** Documentation and specification structure  
+**Location:** Specification YAML frontmatter (`features: [...]`)  
+**NOT Used For:** Dashboard hierarchy rendering  
+**Related:** Specification, Portfolio, Initiative
+
 ### Handoff
 
 The transfer of work artifacts and context from one agent to another. Handoffs include artifact lists, completion status, next steps, and any relevant context needed for the receiving agent to continue work effectively.
@@ -146,6 +155,15 @@ Standardized markers used to signal alignment status or confidence levels:
 
 **Reference:** AGENTS.md Section 3, Directive 011  
 **Related:** Alignment, Escalation
+
+### Initiative
+
+A **grouping of related specifications** united by a common strategic goal or theme (e.g., "Dashboard Enhancements", "Framework Distribution"). Initiatives serve as the top-level organizational unit in the portfolio view and are derived from the `initiative:` field in specification frontmatter. Multiple specifications can belong to the same initiative.
+
+**Hierarchy Position:** Level 1 (top)  
+**Example:** "Dashboard Enhancements" initiative contains 9 specifications  
+**Location:** Specification frontmatter (`initiative: "Dashboard Enhancements"`)  
+**Related:** Specification, Portfolio, Task
 
 ### Locality of Change
 
@@ -184,6 +202,15 @@ The coordination of multiple agents working on related tasks through structured 
 **Reference:** Directive 019  
 **Related:** Task Lifecycle, Handoff
 
+### Portfolio
+
+The **dashboard view** that displays the organizational hierarchy of work: initiatives grouped with their specifications and tasks. The portfolio provides visibility into strategic alignment, progress tracking, and work distribution across the system. Implements a 3-level hierarchy: Initiative → Specification → Task.
+
+**View:** Dashboard Portfolio tab  
+**API Endpoint:** `/api/portfolio`  
+**Reference:** ADR-037 Dashboard Initiative Tracking  
+**Related:** Initiative, Specification, Task, Dashboard
+
 ### Primer
 
 A foundational execution pattern defined in ADR-011 that establishes minimum quality thresholds for agent work. Primers include Context Check, Progressive Refinement, Trade-Off Navigation, Transparency & Error Signaling, and Reflection Loop. Primer usage must be documented in work logs.
@@ -217,6 +244,17 @@ The defined focus area and competency boundaries for an agent. Specialization in
 
 **Related:** Agent Profile, Role Capabilities
 
+### Specification
+
+A **feature-level document** describing a specific capability, system component, or deliverable within an initiative (e.g., "Real-Time Execution Dashboard", "Task Priority Editing"). Specifications contain YAML frontmatter with metadata (id, title, status, features) and markdown content describing the feature. In the dashboard portfolio hierarchy, specifications are the middle level between initiatives and tasks.
+
+**Important:** The `features:` field in specification frontmatter is **metadata only** (for describing sub-components), not a rendering hierarchy level in the dashboard. The dashboard renders Initiative → Specification → Task (3 levels).
+
+**Hierarchy Position:** Level 2 (middle)  
+**File Format:** Markdown with YAML frontmatter  
+**Location:** `specifications/initiatives/<initiative-name>/*.md`  
+**Related:** Initiative, Task, Portfolio, Feature (metadata)
+
 ### Synthesis
 
 The integration of insights, outputs, or artifacts from multiple sources (agents, documents, data) into coherent, unified narratives or conceptual models. Synthesis preserves source integrity while improving systemic legibility and cross-agent understanding.
@@ -231,6 +269,17 @@ The standardized progression of orchestrated tasks through states: **new** (unas
 
 **Reference:** Directive 019, ADR-003  
 **Related:** Orchestration, Work Log
+
+### Task (Work Item)
+
+An **executable unit of work** assigned to a specific agent, stored as a YAML file in `work/collaboration/`. Tasks are the atomic work items that implement specifications. Each task contains metadata (id, title, agent, status, priority) and tracks progress from assignment through completion. In the dashboard portfolio hierarchy, tasks are the bottom level under specifications.
+
+**Hierarchy Position:** Level 3 (bottom - executable work)  
+**File Format:** YAML (`.yaml`)  
+**File Location:** `work/collaboration/{inbox|assigned|done}/<agent-name>/*.yaml`  
+**Linking:** Tasks link to specifications via `specification: <path>` field  
+**Example:** `2026-02-06T0422-backend-dev-dashboard-cors-fix.yaml`  
+**Related:** Specification, Initiative, Task Lifecycle, Agent
 
 ### TDD (Test Driven Development)
 
