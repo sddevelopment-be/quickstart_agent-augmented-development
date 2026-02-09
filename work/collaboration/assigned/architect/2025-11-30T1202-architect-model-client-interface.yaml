@@ -1,6 +1,7 @@
 id: 2025-11-30T1202-architect-model-client-interface
 agent: architect
 status: assigned
+specification: specifications/initiatives/framework-distribution/SPEC-DIST-001-multi-tool-distribution.md
 priority: high
 mode: /analysis-mode
 title: Draft model_client interface for router-agnostic orchestration

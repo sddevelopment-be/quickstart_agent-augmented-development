@@ -1,6 +1,7 @@
 id: 2025-12-01T0510-backend-dev-framework-config-loader
 agent: python-pedro
 status: assigned
+specification: specifications/initiatives/framework-distribution/SPEC-DIST-001-multi-tool-distribution.md
 priority: high
 mode: /analysis-mode
 title: Implement framework configuration loader for router-aware orchestration
