@@ -77,6 +77,13 @@ User requested initialization as per AGENTS.md in generic cursor mode. This is a
 3. ⬜ Update bootstrap documentation (doctrine/guidelines/bootstrap.md)
 4. ⬜ Update AGENTS.md Section 2 with Cursor loader info
 5. ⬜ Update DOCTRINE_DISTRIBUTION.md with .cursor/ section
-6. ⬜ Plan Phase 2 (full .cursor/ distribution with exporter) if Phase 1 successful
+6. ✅ Plan Phase 2 (full .cursor/ distribution with exporter) - SPEC-DIST-003 created
 
-**Status:** ✅ COMPLETE - Awaiting user feedback
+**Status:** ✅ COMPLETE - Phase 1 implemented, Phase 2 specified
+
+**Phase 2 Specification:**
+- Location: `specifications/initiatives/framework-distribution/SPEC-DIST-003-cursor-distribution.md`
+- Status: Draft (awaiting review)
+- Scope: Automated exporter (agents, directives, rules, Quick Reference)
+- Deliverables: `tools/exporters/cursor-exporter.js`, `.cursor/` full distribution
+- Success Metrics: <10s export, 90%+ test coverage, token efficiency preserved
