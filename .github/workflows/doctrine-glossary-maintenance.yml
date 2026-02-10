@@ -1,0 +1,355 @@
+name: Doctrine Glossary Maintenance
+
+# Trigger on PRs to main that modify the doctrine directory
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'doctrine/**/*.md'
+      - 'doctrine/**/*.agent.md'
+      - 'doctrine/**/*.tactic.md'
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: glossary-maintenance-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  detect-terminology-changes:
+    name: Detect Terminology Changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      has_changes: ${{ steps.detect.outputs.has_changes }}
+      changed_files: ${{ steps.detect.outputs.changed_files }}
+      change_summary: ${{ steps.detect.outputs.change_summary }}
+    
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+      
+      - name: Detect changed doctrine files
+        id: detect
+        run: |
+          set -e
+          echo "Detecting terminology changes in doctrine directory..."
+          
+          # Get changed files in doctrine/
+          base_sha="${{ github.event.pull_request.base.sha }}"
+          head_sha="${{ github.event.pull_request.head.sha }}"
+          
+          changed_files=$(git diff --name-only "$base_sha" "$head_sha" -- 'doctrine/**/*.md' 'doctrine/**/*.agent.md' 'doctrine/**/*.tactic.md' | tr '\n' ',' | sed 's/,$//')
+          
+          if [ -z "$changed_files" ]; then
+            echo "No doctrine terminology files changed"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "changed_files=" >> $GITHUB_OUTPUT
+            echo "change_summary=No changes detected" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          # Count changes by category
+          directive_count=$(echo "$changed_files" | tr ',' '\n' | grep -c 'directives/' || echo 0)
+          approach_count=$(echo "$changed_files" | tr ',' '\n' | grep -c 'approaches/' || echo 0)
+          tactic_count=$(echo "$changed_files" | tr ',' '\n' | grep -c 'tactics/' || echo 0)
+          agent_count=$(echo "$changed_files" | tr ',' '\n' | grep -c 'agents/' || echo 0)
+          
+          # Generate summary
+          change_summary="Detected changes: ${directive_count} directives, ${approach_count} approaches, ${tactic_count} tactics, ${agent_count} agents"
+          
+          echo "has_changes=true" >> $GITHUB_OUTPUT
+          echo "changed_files=$changed_files" >> $GITHUB_OUTPUT
+          echo "change_summary=$change_summary" >> $GITHUB_OUTPUT
+          
+          echo "✅ $change_summary"
+          echo "$changed_files" | tr ',' '\n'
+      
+      - name: Update PR with detection results
+        if: steps.detect.outputs.has_changes == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = `## 📚 Doctrine Terminology Changes Detected
+
+${{ steps.detect.outputs.change_summary }}
+
+**Next Steps:**
+1. Agent task will be created for terminology extraction
+2. Lexical Larry will extract terms from changed files
+3. Curator Claire will integrate terms into glossary
+4. Automated PR will be created with glossary updates
+
+**Changed files:**
+\`\`\`
+${{ steps.detect.outputs.changed_files }}
+\`\`\`
+
+This is an automated message from the Doctrine Glossary Maintenance workflow.`;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: body
+            });
+
+  create-extraction-task:
+    name: Create Agent Task for Terminology Extraction
+    needs: detect-terminology-changes
+    if: needs.detect-terminology-changes.outputs.has_changes == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      task_id: ${{ steps.create_task.outputs.task_id }}
+      task_file: ${{ steps.create_task.outputs.task_file }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Create task file for Lexical Larry
+        id: create_task
+        run: |
+          set -e
+          
+          # Generate task ID
+          timestamp=$(date -u +"%Y-%m-%dT%H%M")
+          task_id="${timestamp}-lexical-glossary-extraction-pr${{ github.event.pull_request.number }}"
+          task_file="work/collaboration/inbox/${task_id}.yaml"
+          
+          # Parse changed files
+          changed_files="${{ needs.detect-terminology-changes.outputs.changed_files }}"
+          changed_files_list=$(echo "$changed_files" | tr ',' '\n' | sed 's/^/      - /' | sed '/^$/d')
+          
+          # Create task file
+          mkdir -p work/collaboration/inbox
+          
+          cat > "$task_file" << 'EOF'
+---
+id: $task_id
+title: "Extract terminology from doctrine changes (PR #${{ github.event.pull_request.number }})"
+agent: lexical-larry
+priority: high
+status: new
+created_at: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+source: github-workflow
+context:
+  trigger: doctrine-glossary-maintenance-workflow
+  pr_number: ${{ github.event.pull_request.number }}
+  pr_title: "${{ github.event.pull_request.title }}"
+  changed_files:
+$changed_files_list
+  change_summary: "${{ needs.detect-terminology-changes.outputs.change_summary }}"
+
+task_description: |
+  Initialize as Lexical Larry per AGENTS.md bootstrap protocol.
+  
+  ## Objective
+  Extract domain terminology from changed/added doctrine files in PR #${{ github.event.pull_request.number }}.
+  
+  ## Context
+  - **Trigger:** Automated workflow detecting doctrine directory changes
+  - **PR Title:** ${{ github.event.pull_request.title }}
+  - **Changes:** ${{ needs.detect-terminology-changes.outputs.change_summary }}
+  - **Living Glossary Practice:** doctrine/approaches/living-glossary-practice.md
+  - **Terminology Extraction Tactic:** doctrine/tactics/terminology-extraction-mapping.tactic.md
+  - **Current Glossary:** doctrine/GLOSSARY.md (356 terms, version 2.0.0)
+  
+  ## Changed Files to Process
+$changed_files_list
+  
+  ## Task Instructions
+  
+  1. **Extract Domain Terms** from only the changed/added files listed above
+     - Focus on NEW terms not already in GLOSSARY.md
+     - Apply domain-specific filtering (exclude generic terms)
+     - Mark confidence level (high/medium/low)
+  
+  2. **Generate Candidate Entries** in YAML format:
+     ```yaml
+     term: "Term Name"
+     definition: "Clear, concise definition"
+     context: "Domain context"
+     source: "File name + PR number"
+     related_terms: [...]
+     status: "candidate"
+     confidence: "high|medium|low"
+     ```
+  
+  3. **Save Results**:
+     - Candidates YAML: work/glossary-candidates/pr${{ github.event.pull_request.number }}-candidates.yaml
+     - Extraction summary: work/glossary-candidates/pr${{ github.event.pull_request.number }}-summary.md
+     - Include: terms extracted, confidence distribution, notable discoveries
+  
+  4. **Create Handoff** for Curator Claire:
+     - Update work/collaboration/HANDOFFS.md with extraction results
+     - Include file path to candidates and summary
+     - Mark ready for integration
+  
+  5. **Commit Results**:
+     - Commit candidate files to branch
+     - Clear, descriptive commit message
+     - Reference PR #${{ github.event.pull_request.number }}
+  
+  ## Quality Gates
+  - Extract only from changed files (delta extraction)
+  - Check for duplicates against existing GLOSSARY.md
+  - High-confidence terms should be immediately integrable
+  - Document any ambiguous or low-confidence terms
+  
+  ## Success Criteria
+  - Candidate file created with structured entries
+  - Summary report with statistics
+  - Handoff prepared for Curator Claire
+  - Changes committed to branch
+  
+  **Note:** This is an incremental extraction. Focus on NEW terminology introduced in this PR.
+
+deliverables:
+  - work/glossary-candidates/pr${{ github.event.pull_request.number }}-candidates.yaml
+  - work/glossary-candidates/pr${{ github.event.pull_request.number }}-summary.md
+  - work/collaboration/HANDOFFS.md (updated)
+
+handoff_to: curator-claire
+handoff_conditions: "Extraction complete with candidate terms ready for integration"
+
+estimated_effort: "30-60 minutes"
+deadline: "48 hours from creation"
+
+tags:
+  - glossary
+  - terminology-extraction
+  - automated-workflow
+  - incremental-update
+  - pr-${{ github.event.pull_request.number }}
+EOF
+          
+          # Substitute variables in task file
+          sed -i "s/\$task_id/$task_id/g" "$task_file"
+          sed -i "s/\$(date -u +\"%Y-%m-%d %H:%M:%S UTC\")/$(date -u +"%Y-%m-%d %H:%M:%S UTC")/g" "$task_file"
+          sed -i "s/\$changed_files_list/$changed_files_list/g" "$task_file"
+          
+          echo "task_id=$task_id" >> $GITHUB_OUTPUT
+          echo "task_file=$task_file" >> $GITHUB_OUTPUT
+          
+          echo "✅ Task file created: $task_file"
+          cat "$task_file"
+      
+      - name: Commit task file
+        run: |
+          git config --local user.name "Glossary Maintenance Bot"
+          git config --local user.email "glossary-bot@sddevelopment.be"
+          git add work/collaboration/inbox/*.yaml
+          git commit -m "chore(glossary): Create extraction task for PR #${{ github.event.pull_request.number }}
+
+Automated task creation for terminology extraction from doctrine changes.
+
+Task ID: ${{ steps.create_task.outputs.task_id }}
+Assigned to: Lexical Larry
+Handoff to: Curator Claire
+
+Triggered by: doctrine-glossary-maintenance workflow
+Changed files: ${{ needs.detect-terminology-changes.outputs.change_summary }}"
+          git push
+      
+      - name: Notify task creation
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = `## 📋 Agent Task Created
+
+**Task ID:** \`${{ steps.create_task.outputs.task_id }}\`  
+**Assigned to:** Lexical Larry  
+**Handoff to:** Curator Claire  
+**Location:** \`${{ steps.create_task.outputs.task_file }}\`
+
+**Next Steps:**
+1. Lexical Larry will extract terminology from changed files
+2. Curator Claire will integrate terms into GLOSSARY.md
+3. Automated PR will be created with glossary updates
+
+**Instructions for Human-in-Charge:**
+
+To trigger Lexical Larry and Curator Claire agentic sessions:
+
+\`\`\`bash
+# Option 1: Use GitHub Copilot Chat
+# In VS Code with GitHub Copilot, open the task file and say:
+# "Execute this task as Lexical Larry, then hand off to Curator Claire"
+
+# Option 2: Use Claude Code (if configured)
+# In VS Code with Claude Code extension:
+# "@lexical execute task ${{ steps.create_task.outputs.task_file }}"
+# Then: "@curator integrate glossary candidates from previous extraction"
+
+# Option 3: Manual execution (for testing)
+# Review the task file and execute steps manually, or wait for 
+# scheduled agent orchestration to pick up the task
+\`\`\`
+
+**Task will be processed by:**
+- Scheduled orchestration workflow (hourly check)
+- Manual agent invocation via Copilot/Claude
+- Direct human execution following task instructions
+
+This task ensures the glossary stays synchronized with doctrine changes.`;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: body
+            });
+
+  workflow-summary:
+    name: Generate Workflow Summary
+    needs: [detect-terminology-changes, create-extraction-task]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    
+    steps:
+      - name: Generate summary
+        run: |
+          echo "# Doctrine Glossary Maintenance Workflow" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ needs.detect-terminology-changes.outputs.has_changes }}" == "true" ]; then
+            echo "## ✅ Changes Detected" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "${{ needs.detect-terminology-changes.outputs.change_summary }}" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "## 📋 Task Created" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "- **Task ID:** \`${{ needs.create-extraction-task.outputs.task_id }}\`" >> $GITHUB_STEP_SUMMARY
+            echo "- **Task File:** \`${{ needs.create-extraction-task.outputs.task_file }}\`" >> $GITHUB_STEP_SUMMARY
+            echo "- **Assigned to:** Lexical Larry" >> $GITHUB_STEP_SUMMARY
+            echo "- **Handoff to:** Curator Claire" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "## Next Steps" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "1. Agent will extract terminology from changed files" >> $GITHUB_STEP_SUMMARY
+            echo "2. Terms will be integrated into doctrine/GLOSSARY.md" >> $GITHUB_STEP_SUMMARY
+            echo "3. Automated PR will be created with glossary updates" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Trigger agent execution:**" >> $GITHUB_STEP_SUMMARY
+            echo "- Via GitHub Copilot/Claude Code agent invocation" >> $GITHUB_STEP_SUMMARY
+            echo "- Via scheduled orchestration workflow (hourly)" >> $GITHUB_STEP_SUMMARY
+            echo "- Via manual execution of task instructions" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "## ℹ️ No Changes Detected" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "No terminology-related changes detected in doctrine directory." >> $GITHUB_STEP_SUMMARY
+            echo "Glossary maintenance not required for this PR." >> $GITHUB_STEP_SUMMARY
+          fi

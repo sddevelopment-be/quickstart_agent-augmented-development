@@ -1,0 +1,257 @@
+name: Glossary Update PR Creation
+
+# Trigger when glossary candidates are committed by agents
+on:
+  push:
+    branches-ignore:
+      - main
+    paths:
+      - 'work/glossary-candidates/pr*-candidates.yaml'
+      - 'doctrine/GLOSSARY.md'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: glossary-pr-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  detect-glossary-updates:
+    name: Detect Glossary Updates
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      has_glossary_update: ${{ steps.check.outputs.has_glossary_update }}
+      pr_number: ${{ steps.extract.outputs.pr_number }}
+      update_type: ${{ steps.check.outputs.update_type }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      
+      - name: Check for glossary updates
+        id: check
+        run: |
+          set -e
+          
+          # Check if GLOSSARY.md was updated
+          glossary_updated=$(git diff HEAD~1 HEAD --name-only | grep -c 'doctrine/GLOSSARY.md' || echo 0)
+          
+          # Check if new candidates were added
+          candidates_added=$(git diff HEAD~1 HEAD --name-only | grep -c 'work/glossary-candidates/pr.*-candidates.yaml' || echo 0)
+          
+          if [ "$glossary_updated" -gt 0 ]; then
+            echo "has_glossary_update=true" >> $GITHUB_OUTPUT
+            echo "update_type=glossary" >> $GITHUB_OUTPUT
+            echo "✅ GLOSSARY.md update detected"
+          elif [ "$candidates_added" -gt 0 ]; then
+            echo "has_glossary_update=true" >> $GITHUB_OUTPUT
+            echo "update_type=candidates" >> $GITHUB_OUTPUT
+            echo "✅ New glossary candidates detected"
+          else
+            echo "has_glossary_update=false" >> $GITHUB_OUTPUT
+            echo "update_type=none" >> $GITHUB_OUTPUT
+            echo "ℹ️ No glossary updates detected"
+          fi
+      
+      - name: Extract PR number
+        id: extract
+        if: steps.check.outputs.has_glossary_update == 'true'
+        run: |
+          # Extract PR number from candidate file name
+          pr_number=$(git diff HEAD~1 HEAD --name-only | grep 'pr.*-candidates.yaml' | sed -E 's/.*pr([0-9]+).*/\1/' | head -1 || echo "")
+          
+          if [ -z "$pr_number" ]; then
+            # Try to extract from commit message
+            pr_number=$(git log -1 --pretty=%B | grep -oP 'PR #\K[0-9]+' | head -1 || echo "")
+          fi
+          
+          if [ -n "$pr_number" ]; then
+            echo "pr_number=$pr_number" >> $GITHUB_OUTPUT
+            echo "✅ Extracted PR number: $pr_number"
+          else
+            echo "pr_number=" >> $GITHUB_OUTPUT
+            echo "⚠️ Could not extract PR number"
+          fi
+
+  create-glossary-pr:
+    name: Create Glossary Update PR
+    needs: detect-glossary-updates
+    if: needs.detect-glossary-updates.outputs.has_glossary_update == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup git identity
+        run: |
+          git config --local user.name "Glossary Update Bot"
+          git config --local user.email "glossary-bot@sddevelopment.be"
+      
+      - name: Create PR for glossary updates
+        id: create_pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = '${{ needs.detect-glossary-updates.outputs.pr_number }}';
+            const updateType = '${{ needs.detect-glossary-updates.outputs.update_type }}';
+            const currentBranch = context.ref.replace('refs/heads/', '');
+            const baseBranch = 'main';
+            
+            // Generate PR title and body
+            let title, body;
+            
+            if (updateType === 'glossary') {
+              title = `docs(glossary): Automated terminology integration from PR #${prNumber}`;
+              body = `## Automated Glossary Update
+
+This PR contains automated glossary updates extracted from doctrine changes in PR #${prNumber}.
+
+### What Changed
+- ✅ New terms extracted by Lexical Larry
+- ✅ Terms integrated into \`doctrine/GLOSSARY.md\` by Curator Claire
+- ✅ Cross-references validated
+- ✅ Alphabetical order maintained
+
+### Validation
+- [ ] Review new term definitions for accuracy
+- [ ] Verify cross-references are appropriate
+- [ ] Confirm no duplicate terms introduced
+- [ ] Check alphabetical ordering
+
+### Process
+1. **Extraction:** Lexical Larry analyzed changed doctrine files
+2. **Integration:** Curator Claire merged terms into glossary
+3. **Automation:** This PR was created automatically
+4. **Review Required:** Human validation before merge
+
+### Source
+- **Original PR:** #${prNumber}
+- **Workflow:** \`doctrine-glossary-maintenance.yml\`
+- **Agents:** Lexical Larry → Curator Claire
+- **Approach:** [Living Glossary Practice](../doctrine/approaches/living-glossary-practice.md)
+
+### Merge Instructions
+After review:
+1. Approve if definitions are accurate
+2. Request changes if terms need refinement
+3. Merge to update glossary
+4. Close related task in \`work/collaboration/\`
+
+**Note:** This is an automated PR. Human review required per "Human in Charge" governance.`;
+            } else {
+              title = `docs(glossary): New terminology candidates from PR #${prNumber}`;
+              body = `## Glossary Candidate Terms
+
+This PR contains glossary candidate terms extracted from doctrine changes in PR #${prNumber}.
+
+### What Changed
+- ✅ New candidate terms extracted by Lexical Larry
+- ⏳ **Integration pending:** Curator Claire needs to integrate candidates
+
+### Next Steps
+1. Review candidate terms in \`work/glossary-candidates/pr${prNumber}-*.yaml\`
+2. Trigger Curator Claire to integrate candidates into \`doctrine/GLOSSARY.md\`
+3. Validate integrated terms
+4. Merge this PR
+
+### Source
+- **Original PR:** #${prNumber}
+- **Workflow:** \`doctrine-glossary-maintenance.yml\`
+- **Status:** Extraction complete, integration pending
+
+**Note:** This PR is part of the automated glossary maintenance workflow.`;
+            }
+            
+            try {
+              // Check if PR already exists
+              const { data: existingPrs } = await github.rest.pulls.list({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                head: `${context.repo.owner}:${currentBranch}`,
+                base: baseBranch,
+                state: 'open'
+              });
+              
+              if (existingPrs.length > 0) {
+                console.log(`PR already exists: #${existingPrs[0].number}`);
+                core.setOutput('pr_number', existingPrs[0].number);
+                core.setOutput('pr_url', existingPrs[0].html_url);
+                core.setOutput('pr_created', 'false');
+                return;
+              }
+              
+              // Create new PR
+              const { data: pr } = await github.rest.pulls.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: title,
+                body: body,
+                head: currentBranch,
+                base: baseBranch
+              });
+              
+              console.log(`Created PR #${pr.number}: ${pr.html_url}`);
+              core.setOutput('pr_number', pr.number);
+              core.setOutput('pr_url', pr.html_url);
+              core.setOutput('pr_created', 'true');
+              
+              // Add labels
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                labels: ['glossary', 'automated', 'documentation', 'terminology']
+              });
+              
+              // Link to source PR if number is available
+              if (prNumber) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: parseInt(prNumber),
+                  body: `## 🔗 Glossary Update PR Created
+
+Automated glossary updates from this PR have been processed.
+
+**Update PR:** #${pr.number}
+
+**Next steps:**
+1. Review the glossary changes
+2. Approve and merge the update PR
+3. Glossary will be updated with new terminology
+
+This is part of the automated Living Glossary maintenance workflow.`
+                });
+              }
+              
+            } catch (error) {
+              console.error('Error creating PR:', error);
+              throw error;
+            }
+      
+      - name: Summary
+        run: |
+          echo "# Glossary Update PR" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.create_pr.outputs.pr_created }}" == "true" ]; then
+            echo "## ✅ PR Created" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "- **PR Number:** #${{ steps.create_pr.outputs.pr_number }}" >> $GITHUB_STEP_SUMMARY
+            echo "- **PR URL:** ${{ steps.create_pr.outputs.pr_url }}" >> $GITHUB_STEP_SUMMARY
+            echo "- **Type:** ${{ needs.detect-glossary-updates.outputs.update_type }}" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "## ℹ️ PR Already Exists" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "- **PR Number:** #${{ steps.create_pr.outputs.pr_number }}" >> $GITHUB_STEP_SUMMARY
+            echo "- **PR URL:** ${{ steps.create_pr.outputs.pr_url }}" >> $GITHUB_STEP_SUMMARY
+          fi
