@@ -1,0 +1,34 @@
+---
+id: dist002-task-1.2-rules-generator
+agent: backend-dev
+status: new
+priority: high
+specification: specifications/initiatives/framework-distribution/SPEC-DIST-002-claude-code-optimization.md
+title: "Task 1.2: Implement generateRulesFile() in claude-code-generator.js"
+description: >
+  Implement generateRulesFile(sourceFiles, ruleName) function that distills doctrine content
+  (guidelines, directives) into concise .claude/rules/*.md files. Strip YAML frontmatter,
+  version history, metadata sections, glossary cross-references. Keep imperative instructions,
+  bullet points, code examples. Implement RULES_MAPPING config: guidelines (general+operational),
+  coding-conventions (python), testing (016+017), architecture (018), collaboration (019).
+  Enforce 80-line limit. Add source attribution comments.
+  See technical design section 2.1 generateRulesFile.
+artefacts:
+  - tools/exporters/claude-code-generator.js
+  - tests/unit/exporters/claude-code-generator.test.js
+context:
+  specification: specifications/initiatives/framework-distribution/SPEC-DIST-002-claude-code-optimization.md
+  technical_design: work/reports/architecture/2026-02-10-SPEC-DIST-002-technical-design.md
+  source_guidelines: doctrine/guidelines/general_guidelines.md
+  source_directives: doctrine/directives/016_acceptance_test_driven_development.md
+requirements:
+  - Each rules file <80 lines
+  - Metadata stripped (version history, timestamps, related sections)
+  - Source attribution present
+  - Actionable content preserved
+  - Unit tests pass
+created: "2026-02-10T13:01:00Z"
+batch: "Batch 1: Generator Core"
+milestone: "SPEC-DIST-002 Implementation"
+dependencies: []
+estimated_effort_hours: 2.5

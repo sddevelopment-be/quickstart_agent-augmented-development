@@ -14,14 +14,14 @@ description: |
   finished work section by default with expandable toggle.
 
 acceptance_criteria:
-  - Dashboard displays 3 always-visible columns: Backlog/Inbox, Assigned, In Progress
-  - Done and Error columns hidden in collapsible section by default
-  - "Show Finished Work" toggle button added below active columns
-  - Button has icon (▼/▲) and text that changes based on state
-  - Finished work section is scrollable (max-height: 400px)
-  - BLOCKED task styling: red border, red background, ⚠️ icon
-  - ARIA attributes for accessibility
-  - Responsive layout works on mobile
+  - "Dashboard displays 3 always-visible columns: Backlog/Inbox, Assigned, In Progress"
+  - "Done and Error columns hidden in collapsible section by default"
+  - "'Show Finished Work' toggle button added below active columns"
+  - "Button has icon (▼/▲) and text that changes based on state"
+  - "Finished work section is scrollable (max-height: 400px)"
+  - "BLOCKED task styling: red border, red background, ⚠️ icon"
+  - "ARIA attributes for accessibility"
+  - "Responsive layout works on mobile"
 
 implementation_guidance:
   - Keep existing column structure, add In Progress after Assigned

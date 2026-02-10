@@ -2,6 +2,7 @@
 id: SPEC-DIST-001
 title: Doctrine Framework Multi-Tool Distribution Architecture
 status: approved
+initiative: framework-distribution
 version: 1.1.0
 author: Analyst Annie
 architect_review: Architect Alphonso

@@ -1,0 +1,34 @@
+---
+id: dist002-task-1.3-claudemd-generator
+agent: backend-dev
+status: new
+priority: high
+specification: specifications/initiatives/framework-distribution/SPEC-DIST-002-claude-code-optimization.md
+title: "Task 1.3: Implement generateClaudeMd() in claude-code-generator.js"
+description: >
+  Implement generateClaudeMd(config) function that composes CLAUDE.md from multiple doctrine
+  source files. Extract purpose from docs/VISION.md, directory structure from directive 003,
+  conventions from python-conventions.md. Add hardcoded common commands section. Add pointers
+  to deeper context. Enforce 120-line limit. Graceful degradation when source files missing.
+  Include generation header comment.
+  See technical design section 2.1 generateClaudeMd.
+artefacts:
+  - tools/exporters/claude-code-generator.js
+  - tests/unit/exporters/claude-code-generator.test.js
+context:
+  specification: specifications/initiatives/framework-distribution/SPEC-DIST-002-claude-code-optimization.md
+  technical_design: work/reports/architecture/2026-02-10-SPEC-DIST-002-technical-design.md
+  source_vision: docs/VISION.md
+  source_quickref: doctrine/directives/003_repository_quick_reference.md
+  source_conventions: doctrine/guidelines/python-conventions.md
+requirements:
+  - Output <120 lines
+  - Contains purpose, structure, conventions, commands, pointers
+  - Graceful handling of missing source files
+  - Generation header comment present
+  - Unit tests pass
+created: "2026-02-10T13:02:00Z"
+batch: "Batch 1: Generator Core"
+milestone: "SPEC-DIST-002 Implementation"
+dependencies: []
+estimated_effort_hours: 2.5

@@ -30,14 +30,15 @@ Portfolio view, real-time execution tracking, configuration management, orphan t
 - SPEC-DASH-001: Task Priority Editing (HIGH)
 
 ### Framework Distribution
-**Status:** In Progress  
-**Priority:** HIGH  
-**Specifications:** 1 active  
+**Status:** In Progress
+**Priority:** HIGH
+**Specifications:** 2 active
 
 Multi-format distribution architecture for Doctrine framework (GitHub Copilot, Claude Desktop, OpenCode AI, VSCode).
 
 **Key Specs:**
 - SPEC-DIST-001: Doctrine Framework Multi-Tool Distribution Architecture
+- SPEC-DIST-002: Claude Code Distribution Optimization (CLAUDE.md, rules/, simplified agents)
 
 ### Quickstart & Onboarding
 **Status:** Proposed  
