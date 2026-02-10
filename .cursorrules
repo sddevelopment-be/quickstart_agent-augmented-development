@@ -1,0 +1,224 @@
+# Cursor Agent - Doctrine Stack Integration
+
+**Auto-loaded context for Cursor-based agents**
+
+---
+
+## Bootstrap Protocol
+
+**MANDATORY:** Complete bootstrap before any work.
+
+1. **Read:** `doctrine/guidelines/bootstrap.md` - Initialization sequence
+2. **Read:** `doctrine/guidelines/runtime_sheet.md` - Quick operational reference
+3. **Create:** Work log in `work/YYYY-MM-DD-[task-name].md`
+4. **Mode:** Default to small-footprint (load extended directives on-demand only)
+
+---
+
+## Core Principles
+
+**Behavior:**
+- Careful, cooperative assistance
+- Clarity over cleverness
+- Explicit assumptions
+- Small, reviewable changes
+
+**Communication:**
+- Concise, collaborative, precise
+- Say "I don't know" when uncertain
+- Surface assumptions
+
+**Work Directory:**
+- `work/` - Scratch notes, progress logs, drafts
+- `output/` - Final artifacts for review
+- `docs/` - Source of truth (modify only when instructed)
+
+---
+
+## Doctrine Stack Layers
+
+```
+┌─────────────────────────────────────────────┐
+│ Guidelines (values, preferences)            │ ← Highest precedence
+├─────────────────────────────────────────────┤
+│ Approaches (mental models, philosophies)    │
+├─────────────────────────────────────────────┤
+│ Directives (instructions, constraints)      │
+├─────────────────────────────────────────────┤
+│ Tactics (procedural execution guides)       │
+├─────────────────────────────────────────────┤
+│ Templates (output structure contracts)      │ ← Lowest precedence
+└─────────────────────────────────────────────┘
+```
+
+**Location:** `doctrine/` directory
+
+**Full specification:** `AGENTS.md` (load for high-stakes tasks)
+
+---
+
+## Quick Reference
+
+### Frequently Used Directives
+
+Load on-demand via: Read `doctrine/directives/NNN_name.md`
+
+| Code | Name | Purpose |
+|------|------|---------|
+| 016 | Acceptance Test-Driven Development | ATDD workflow |
+| 017 | Test-Driven Development | TDD workflow |
+| 018 | Traceable Decisions | ADR capture protocol |
+| 020 | Locality of Change | Premature optimization avoidance |
+| 024 | Self-Observation Protocol | Mid-execution course correction |
+| 028 | Bug Fixing Techniques | Test-first bug fixes |
+| 036 | Boy Scout Rule | Leave code better than found |
+
+### Common Tactics
+
+Discover via: `doctrine/tactics/README.md`
+
+- `stopping-conditions.tactic.md` - Define task exit criteria
+- `ATDD_adversarial-acceptance.tactic.md` - Red team acceptance tests
+- `premortem-risk-identification.tactic.md` - Identify failure modes
+- `safe-to-fail-experiment-design.tactic.md` - Structured exploration
+
+### Specialist Agent Profiles
+
+Load when specializing: Read `doctrine/agents/AGENT.agent.md`
+
+| Agent | Profile | Specialization |
+|-------|---------|---------------|
+| **Python Pedro** | `python-pedro.agent.md` | Python + ATDD/TDD |
+| **Architect Alphonso** | `architect.agent.md` | System design + ADRs |
+| **Curator Claire** | `curator.agent.md` | Consistency + metadata |
+| **Backend Benny** | `backend-dev.agent.md` | Service architecture |
+| **Frontend Freddy** | `frontend.agent.md` | UI/UX + integration |
+| **DevOps Danny** | `build-automation.agent.md` | CI/CD pipelines |
+| **Code Reviewer Cindy** | `code-reviewer-cindy.agent.md` | Quality assurance |
+
+Full catalog: `doctrine/agents/` (21 profiles)
+
+---
+
+## Common Workflows
+
+### Architecture Decisions
+1. Load: `doctrine/agents/architect.agent.md`
+2. Load: `doctrine/directives/018_traceable_decisions.md`
+3. Use template: `docs/templates/architecture/adr.md`
+4. Create: `docs/architecture/adrs/ADR-NNN-title.md`
+
+### Test-Driven Development
+1. Load: `doctrine/directives/017_test_driven_development.md`
+2. Write failing test (RED)
+3. Implement minimal code (GREEN)
+4. Refactor (REFACTOR)
+5. Commit test + implementation together
+
+### Bug Fixing
+1. Load: `doctrine/directives/028_bugfixing_techniques.md`
+2. Write test that reproduces bug (fails)
+3. Verify test fails for RIGHT reason
+4. Fix code (test passes)
+5. Run ALL tests (no regressions)
+6. Commit test + fix together
+
+### Multi-Agent Orchestration
+1. Load: `doctrine/directives/019_file_based_collaboration.md`
+2. Read task: `work/collaboration/inbox/*.yaml`
+3. Update status: `work/coordination/AGENT_STATUS.md`
+4. Move completed: `work/collaboration/done/`
+
+---
+
+## Integrity Symbols
+
+Use in responses and work logs:
+
+- ✅ Alignment confirmed / Success
+- ⚠️ Low confidence / Assumption-based reasoning
+- ❗️ Critical error / Misalignment detected
+
+---
+
+## Reasoning Modes
+
+**Default:** Analysis mode (calm, structured, evidence-based)
+
+**Alternatives:**
+- Creative mode: Narrative, metaphor, exploration
+- Meta mode: Self-reflection, process analysis
+
+Annotate transitions: `[mode: analysis → creative]`
+
+---
+
+## Repository Structure
+
+```
+quickstart_agent-augmented-development/
+├── doctrine/              # Portable agentic framework
+│   ├── agents/           # 21 specialist profiles
+│   ├── directives/       # Extended instructions (001-036+)
+│   ├── tactics/          # Procedural guides
+│   ├── approaches/       # Mental models
+│   ├── guidelines/       # Core principles
+│   └── templates/        # Output contracts
+├── work/                 # Orchestration workspace
+│   ├── collaboration/    # Multi-agent tasks (YAML)
+│   ├── coordination/     # Status tracking
+│   ├── logs/            # Execution logs
+│   └── notes/           # Scratch work
+├── docs/                # Documentation & architecture
+│   ├── architecture/    # ADRs, design docs
+│   └── templates/       # Output structure guides
+├── src/                 # Production code
+│   ├── framework/       # Core runtime
+│   └── llm_service/     # LLM dashboard
+├── tests/               # Test suites
+└── tools/               # Development utilities
+```
+
+---
+
+## Key Commands
+
+```bash
+python -m pytest                    # Run all tests
+python -m pytest tests/unit/        # Run unit tests
+npm run export:all                  # Export all distributions
+npm run deploy:claude               # Deploy Claude artifacts
+```
+
+---
+
+## Token Efficiency Note
+
+This `.cursorrules` file provides **minimal context** (~500 tokens) with full doctrine stack access by reference.
+
+**For high-stakes tasks:** Explicitly load `AGENTS.md` for complete specification (~3,850 tokens).
+
+**Loading pattern:**
+- Read `AGENTS.md` when: Multi-agent coordination, governance compliance, unfamiliar territory
+- Stay minimal when: Routine coding, testing, documentation updates
+
+---
+
+## Validation
+
+After bootstrap, run self-check:
+
+1. ✅ Bootstrap protocol completed
+2. ✅ Work log created in `work/`
+3. ✅ Operational mode selected (small-footprint or full governance)
+4. ✅ Relevant directives/agents loaded (if needed)
+5. ✅ Integrity symbols available
+
+Announce readiness: `✅ Context loaded — ready for work`
+
+---
+
+**Version:** 1.0.0  
+**Last Updated:** 2026-02-10  
+**Canonical Source:** `AGENTS.md`, `doctrine/guidelines/`  
+**Maintenance:** Review quarterly or when directive count changes significantly
