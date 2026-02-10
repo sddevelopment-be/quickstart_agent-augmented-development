@@ -1,0 +1,473 @@
+Glossary Quality Validation Report
+================================================================================
+
+Total terms: 356
+Alphabetical issues: 278
+Duplicates: 0
+Cross-reference issues: 183
+
+
+Alphabetical Order Issues:
+  Position 79: Curator Claire
+  Position 80: Decision Boundary
+  Position 81: Decision Debt
+  Position 82: Decision Marker
+  Position 83: Decision Rule
+  Position 84: Decision-First Development
+  Position 85: Deep Creation Flow
+  Position 86: Definition Conflict Detection
+  Position 87: Dependency Mapping
+  Position 88: Design System
+  Position 89: DevOps Danny
+  Position 90: Diagram Daisy
+  Position 91: Diagram-as-Code
+  Position 92: Dictionary DDD
+  Position 93: Directive Adherence Lapse
+  Position 94: Discrepancy Report
+  Position 95: doc_root
+  Position 96: Doctrine Configuration
+  Position 97: Documentation Curation Audit
+  Position 98: Domain Event
+  Position 99: Drift Detection
+  Position 100: Dual-Level Error Feedback
+  Position 101: Dual-Trunk Model
+  Position 102: Economic Feasibility
+  Position 103: Editor Eddy
+  Position 104: Editorial Review
+  Position 105: Enforcement Tier
+  Position 106: Escalation
+  Position 107: Escalation Protocol
+  Position 108: Establish and Freeze Context
+  Position 109: Event Cluster
+  Position 110: Event Storming
+  Position 111: Event Storming Sticky Colors
+  Position 112: Evidence Theater
+  Position 113: Evidence Type
+  Position 114: Evidence-Based Requirements
+  Position 115: Executable Test
+  Position 116: Experiment Boundary
+  Position 117: Expert Review (Testing)
+  Position 118: Export Pipeline
+  Position 119: External Aggregation
+  Position 120: External Memory
+  Position 121: Extract Before Interpret
+  Position 122: Extraction Phase
+  Position 123: Fail-Fast Validation
+  Position 124: Failure Scenario
+  Position 125: Fallback Strategy
+  Position 126: False Boundaries
+  Position 127: False Positives
+  Position 128: Falsifiable Hypothesis
+  Position 129: Feasibility Shift
+  Position 130: File-Based Orchestration
+  Position 131: Finding Summary
+  Position 132: First-Order Concept
+  Position 133: Flaky Terminal Behavior
+  Position 134: Flow State Awareness
+  Position 135: Framework Guardian
+  Position 136: Framework Integrity
+  Position 137: Fresh Context Iteration
+  Position 138: Frontend Freddy
+  Position 139: Frozen Context
+  Position 140: Given-When-Then
+  Position 141: Glossary as Executable Artifact
+  Position 142: Glossary as Power Tool
+  Position 143: Glossary Maintenance Workflow
+  Position 144: Glossary Ownership
+  Position 145: Glossary Triage
+  Position 146: Goals and Non-Goals
+  Position 147: Gold Plating
+  Position 148: Gold-plating
+  Position 149: Graceful Degradation
+  Position 150: GREEN Phase
+  Position 151: Hand-off
+  Position 152: Hand-off Protocol
+  Position 153: Handoff Pattern
+  Position 154: HANDOFFS
+  Position 155: Hard Limit
+  Position 156: High-Value Feedback
+  Position 157: Human in Charge
+  Position 158: Human Review Loop
+  Position 159: Impact Analysis
+  Position 160: Incremental Detail Design
+  Position 161: Incremental Maintenance
+  Position 162: Incremental Review
+  Position 163: Inside Boundary (Testing)
+  Position 164: Integration Surface
+  Position 165: Intent-First Review
+  Position 166: Interpretation Phase
+  Position 167: Java Jenny
+  Position 168: Knowledge Encoding
+  Position 169: Language-First Architecture
+  Position 170: Layer Boundary
+  Position 171: Lesson Extraction
+  Position 172: LEX_DELTAS
+  Position 173: LEX_REPORT
+  Position 174: LEX_TONE_MAP
+  Position 175: Lexical Larry
+  Position 176: Lexical Style Diagnostic
+  Position 177: Linguistic Policing
+  Position 178: Linguistic Signal
+  Position 179: Living Glossary
+  Position 180: Living Specification
+  Position 181: Local Customization
+  Position 182: Locality of Change
+  Position 183: Manager Mike
+  Position 184: Manifest
+  Position 185: Medium Detection
+  Position 186: Meta-Analysis
+  Position 187: Meta-Awareness
+  Position 188: Metadata Header
+  Position 189: Milestone Definition
+  Position 190: Minimal Patch
+  Position 191: Mitigation Strategy
+  Position 192: Momentum Bias
+  Position 193: Momentum Bias Trap
+  Position 194: mypy
+  Position 195: Naive Reconstruction
+  Position 196: NEXT_BATCH
+  Position 197: Observable Behavior
+  Position 198: Offloading
+  Position 199: Option Impact Matrix
+  Position 200: Organic Emergence
+  Position 201: Orphaned Artifact
+  Position 202: Orphaned File
+  Position 203: output_root
+  Position 204: Outside Boundary (Testing)
+  Position 205: Over-Decomposition
+  Position 206: Pattern Before Prescription
+  Position 207: Pattern Detection
+  Position 208: Performance Budget
+  Position 209: Persistence Strategy
+  Position 210: Persona-Driven Writing
+  Position 211: Phase 1 (Analysis)
+  Position 212: Phase 2 (Architecture)
+  Position 213: Phase 3 (Planning)
+  Position 214: Phase 4 (Acceptance Tests)
+  Position 215: Phase 5 (Implementation)
+  Position 216: Phase 6 (Review)
+  Position 217: Phase Authority
+  Position 218: Phase Checkpoint Protocol
+  Position 219: Phase Declaration
+  Position 220: Phase Skipping
+  Position 221: PLAN_OVERVIEW
+  Position 222: Planning Petra
+  Position 223: Post-Action Learning Loop
+  Position 224: Premature Abstraction
+  Position 225: Premortem Risk Identification
+  Position 226: Problem Assessment Protocol
+  Position 227: Progressive Disclosure
+  Position 228: pytest
+  Position 229: Python Pedro
+  Position 230: Ralph Wiggum Loop
+  Position 231: Readability Scoring
+  Position 232: RED Phase
+  Position 233: RED-GREEN-REFACTOR
+  Position 234: Register Variation Awareness
+  Position 235: Regression Prevention
+  Position 236: Rejection Rationale
+  Position 237: Remediation Technique
+  Position 238: REPO_MAP
+  Position 239: Repository Initialization
+  Position 240: Repository Scaffolding
+  Position 241: Representative Data
+  Position 242: Reproducible Build
+  Position 243: Requirements Specialist
+  Position 244: Requirements Validation Cycle
+  Position 245: Rerouting
+  Position 246: Researcher Ralph
+  Position 247: Reverse Speccing
+  Position 248: Reversibility Mechanism
+  Position 249: Review Dimensions
+  Position 250: Review Report
+  Position 251: Reviewer
+  Position 252: Risk Categorization
+  Position 253: Risk Matrix
+  Position 254: Role Confusion
+  Position 255: Role Overstepping
+  Position 256: Role Separation
+  Position 257: ruff
+  Position 258: Rule of Three
+  Position 259: Safe-to-Fail Experiment
+  Position 260: Scenario-Driven Design
+  Position 261: Schema Validation
+  Position 262: Scribe Sally
+  Position 263: Self-Observation Checkpoint
+  Position 264: Self-Review Protocol
+  Position 265: Semantic Clustering
+  Position 266: Semantic Conflict
+  Position 267: Semantic Fidelity
+  Position 268: Semantic Heading
+  Position 269: Service Design
+  Position 270: Shadow Mode
+  Position 271: Shared Artifact
+  Position 272: Ship/Show/Ask Pattern
+  Position 273: Short-Lived Branch
+  Position 274: Signposted Section
+  Position 275: Simplicity Preservation
+  Position 276: Six-Phase Cycle
+  Position 277: Smallest Viable Diff
+  Position 278: Source vs Distribution
+  Position 279: spec_root
+  Position 280: Specialization Boundary
+  Position 281: Specification Lifecycle
+  Position 282: Specification Stub
+  Position 283: Specification-Driven Development
+  Position 284: Staleness Audit
+  Position 285: Staleness Rate
+  Position 286: Standards Compliance Review
+  Position 287: State Boundaries
+  Position 288: Stopping Condition
+  Position 289: Strangler Fig Pattern
+  Position 290: Structural Artifact
+  Position 291: Structural Review
+  Position 292: Style Execution Primer
+  Position 293: Sunk-Cost Fallacy Override
+  Position 294: Suppression Pattern
+  Position 295: SURFACES
+  Position 296: Surgical Modification
+  Position 297: Synthesizer Sam
+  Position 298: System Decomposition
+  Position 299: Tactics Catalog
+  Position 300: Tactics Curation
+  Position 301: Target-Audience Fit
+  Position 302: Task Artifact Declaration
+  Position 303: Task Breakdown
+  Position 304: Task Lifecycle
+  Position 305: Team Communication Matrix
+  Position 306: Team Interaction Mapping
+  Position 307: Technical Review
+  Position 308: Template Compliance
+  Position 309: Template-First Approach
+  Position 310: Term Candidate
+  Position 311: Test Boundary
+  Position 312: Test Validates Fix
+  Position 313: Test-as-Documentation
+  Position 314: Test-First Bug Fixing
+  Position 315: Testability Assessment
+  Position 316: Token Discipline
+  Position 317: Tonal Integrity
+  Position 318: Tone Consistency
+  Position 319: Tone Preservation
+  Position 320: Tool Selection Rigor
+  Position 321: Tool-Specific Distribution
+  Position 322: Topology Mapping
+  Position 323: Traceability Chain
+  Position 324: Trade-off Analysis
+  Position 325: Translation Layer
+  Position 326: Translation Rule
+  Position 327: Translator Tanya
+  Position 328: Trigger Declaration
+  Position 329: Trunk Health Dashboard
+  Position 330: Trunk Stability
+  Position 331: Trunk-Based Development
+  Position 332: Type Checking
+  Position 333: Type Hints
+  Position 334: UI Architecture
+  Position 335: Upgrade Plan
+  Position 336: Validation Category
+  Position 337: Validation Checklist
+  Position 338: Validation Experiment
+  Position 339: Validation Script
+  Position 340: Validation Sequence
+  Position 341: Version Pinning Strategy
+  Position 342: Vocabulary Cluster
+  Position 343: Vocabulary Fragmentation
+  Position 344: Vocabulary Ownership
+  Position 345: Voice Fidelity
+  Position 346: Warning Sign Detection
+  Position 347: Warning Signal
+  Position 348: Weaponized Standards
+  Position 349: Work Directory Model
+  Position 350: WORKFLOW_LOG
+  Position 351: WORKFLOWS
+  Position 352: workspace_root
+  Position 353: YAML Task File
+  Position 354: For Agents
+  Position 355: For Humans
+  Position 356: Cross-Referencing
+
+Cross-Reference Issues:
+  Cross-reference not found: 'Directory Structure'
+  Cross-reference not found: 'Technical Accuracy'
+  Cross-reference not found: 'Tone Fidelity'
+  Cross-reference not found: 'ADR'
+  Cross-reference not found: 'Task Chain'
+  Cross-reference not found: 'Semantic Boundary'
+  Cross-reference not found: 'Review'
+  Cross-reference not found: 'Style Guide'
+  Cross-reference not found: 'Lexical Analyst'
+  Cross-reference not found: 'Vocabulary Domain'
+  Cross-reference not found: 'Quality Standard'
+  Cross-reference not found: 'Terminology Extraction'
+  Cross-reference not found: 'Frontend Specialist'
+  Cross-reference not found: 'Data Validation'
+  Cross-reference not found: 'Translation Specialist'
+  Cross-reference not found: 'Inside Boundary'
+  Cross-reference not found: 'ATDD'
+  Cross-reference not found: 'Quality Assurance'
+  Cross-reference not found: 'Deployment Pipeline'
+  Cross-reference not found: 'Cross-Cutting Concern'
+  Cross-reference not found: 'Writer-Editor'
+  Cross-reference not found: 'Bounded Context'
+  Cross-reference not found: 'Relationship Tracking'
+  Cross-reference not found: 'Specialization'
+  Cross-reference not found: 'Test-First Development'
+  Cross-reference not found: 'Bounded Context Boundary'
+  Cross-reference not found: 'Cross-Reference'
+  Cross-reference not found: 'Review Boundary'
+  Cross-reference not found: 'Task Router'
+  Cross-reference not found: 'Voice Preservation'
+  Cross-reference not found: 'Asynchronous Coordination'
+  Cross-reference not found: 'Backward Link'
+  Cross-reference not found: 'Context Boundary'
+  Cross-reference not found: 'Traceable Decisions'
+  Cross-reference not found: 'Anti-Corruption Layer'
+  Cross-reference not found: 'Context Owner'
+  Cross-reference not found: 'Review Specialist'
+  Cross-reference not found: 'Task Schema'
+  Cross-reference not found: 'Python Specialist'
+  Cross-reference not found: 'Research Specialist'
+  Cross-reference not found: 'Context Layer'
+  Cross-reference not found: 'Success Criteria'
+  Cross-reference not found: 'ADR Promotion'
+  Cross-reference not found: 'Structural Consistency'
+  Cross-reference not found: 'Code Review Discipline'
+  Cross-reference not found: 'Integration Specialist'
+  Cross-reference not found: 'Rule Violation'
+  Cross-reference not found: 'Configuration Files'
+  Cross-reference not found: 'Doctrine Stack'
+  Cross-reference not found: 'Documentation Debt'
+  Cross-reference not found: 'Hand-off Tracking'
+  Cross-reference not found: 'Release Automation'
+  Cross-reference not found: 'Acceptance Test Implementation'
+  Cross-reference not found: 'VOICE_DIFF'
+  Cross-reference not found: 'Paragraph-Level Refinement'
+  Cross-reference not found: 'Event Storming Validation'
+  Cross-reference not found: 'Coexistence Period'
+  Cross-reference not found: 'Minimal Change'
+  Cross-reference not found: 'Style Consistency'
+  Cross-reference not found: 'Intellectual Honesty'
+  Cross-reference not found: 'Alignment'
+  Cross-reference not found: 'Guideline'
+  Cross-reference not found: 'DEPENDENCIES'
+  Cross-reference not found: 'Standards Compliance'
+  Cross-reference not found: 'Coherence Articulation'
+  Cross-reference not found: 'Coordinator'
+  Cross-reference not found: 'Reference Number'
+  Cross-reference not found: 'Audience Alignment'
+  Cross-reference not found: 'Single Responsibility'
+  Cross-reference not found: 'ADR Compliance'
+  Cross-reference not found: 'Specification'
+  Cross-reference not found: 'Premortem Analysis'
+  Cross-reference not found: 'Integrity Symbol'
+  Cross-reference not found: 'Architecture Compliance'
+  Cross-reference not found: 'Curator'
+  Cross-reference not found: 'Path Variable'
+  Cross-reference not found: 'Directive 017'
+  Cross-reference not found: 'Abstraction Layer'
+  Cross-reference not found: 'Data Quality'
+  Cross-reference not found: 'User Scenario'
+  Cross-reference not found: 'Lint Results'
+  Cross-reference not found: 'Reviewable Change'
+  Cross-reference not found: 'Editorial Specialist'
+  Cross-reference not found: 'Course Correction'
+  Cross-reference not found: 'Tooling Quality Assessment'
+  Cross-reference not found: 'Configuration Consistency'
+  Cross-reference not found: 'Implementation Phase'
+  Cross-reference not found: 'Format Transformation'
+  Cross-reference not found: 'Discoverability'
+  Cross-reference not found: 'Agent Coordination'
+  Cross-reference not found: 'Source Grounding'
+  Cross-reference not found: 'Quality Gate'
+  Cross-reference not found: 'Confirmation Bias'
+  Cross-reference not found: 'Tooling Necessity Check'
+  Cross-reference not found: 'Validation Gate'
+  Cross-reference not found: 'Maven'
+  Cross-reference not found: 'Behavioral Contract'
+  Cross-reference not found: 'Approach'
+  Cross-reference not found: 'Timestamp'
+  Cross-reference not found: 'Directive'
+  Cross-reference not found: 'Boy Scout Rule'
+  Cross-reference not found: 'Impact Rating'
+  Cross-reference not found: 'Neutral Tone'
+  Cross-reference not found: 'Component Diagram'
+  Cross-reference not found: 'Work Log'
+  Cross-reference not found: 'Framework Evolution'
+  Cross-reference not found: 'Phase 1 Analysis'
+  Cross-reference not found: 'Meeting Notes'
+  Cross-reference not found: 'Type Safety'
+  Cross-reference not found: 'Time-boxing'
+  Cross-reference not found: 'Gap Closure Plan'
+  Cross-reference not found: 'Claim Map'
+  Cross-reference not found: 'Tool Suite'
+  Cross-reference not found: 'Ubiquitous Language'
+  Cross-reference not found: 'Interface Design'
+  Cross-reference not found: '.opencode/'
+  Cross-reference not found: 'Alternatives Considered'
+  Cross-reference not found: 'Orchestration'
+  Cross-reference not found: 'Glossary'
+  Cross-reference not found: 'Behavioral Accuracy'
+  Cross-reference not found: 'Planning Specialist'
+  Cross-reference not found: 'Mode Protocol'
+  Cross-reference not found: 'Code Correctness'
+  Cross-reference not found: 'Feature Flag'
+  Cross-reference not found: 'Directive Compliance'
+  Cross-reference not found: 'Java Specialist'
+  Cross-reference not found: 'Comparative Analysis'
+  Cross-reference not found: '.claude/'
+  Cross-reference not found: 'Conway's Law'
+  Cross-reference not found: 'Confidence Level'
+  Cross-reference not found: 'Minimal Diff'
+  Cross-reference not found: 'Semantic Preservation'
+  Cross-reference not found: 'Mermaid'
+  Cross-reference not found: 'Build Artifact'
+  Cross-reference not found: 'Scope Creep'
+  Cross-reference not found: 'Multivariate Analysis'
+  Cross-reference not found: 'JVM Ecosystem'
+  Cross-reference not found: 'Data Flow'
+  Cross-reference not found: 'Impact Assessment'
+  Cross-reference not found: 'Momentum Bias Prevention'
+  Cross-reference not found: 'Forward Link'
+  Cross-reference not found: 'Code Quality'
+  Cross-reference not found: 'Voice Alignment'
+  Cross-reference not found: 'Pattern Synthesis'
+  Cross-reference not found: 'Audience Segmentation'
+  Cross-reference not found: 'Documentation Specialist'
+  Cross-reference not found: 'LOCAL_ENV.md'
+  Cross-reference not found: 'Contextual Pass'
+  Cross-reference not found: 'PlantUML'
+  Cross-reference not found: 'Traceability Check'
+  Cross-reference not found: 'Terminology'
+  Cross-reference not found: 'Visual Representation'
+  Cross-reference not found: 'Meta-Mode'
+  Cross-reference not found: 'Architectural Accuracy'
+  Cross-reference not found: 'Outside Boundary'
+  Cross-reference not found: 'ROI Threshold'
+  Cross-reference not found: 'CommonMark Compliance'
+  Cross-reference not found: 'Literature Synthesis'
+  Cross-reference not found: 'Test Coverage'
+  Cross-reference not found: 'Structured Summary'
+  Cross-reference not found: 'Functional Responsibility'
+  Cross-reference not found: 'Cross-Agent Integration'
+  Cross-reference not found: 'HANDOFFS.md'
+  Cross-reference not found: 'Tactic'
+  Cross-reference not found: 'CI/CD Pipeline'
+  Cross-reference not found: 'Artifact Conflict Detection'
+  Cross-reference not found: 'Low-Noise Feedback'
+  Cross-reference not found: 'Verifiable Knowledge'
+  Cross-reference not found: 'Accuracy Assessment'
+  Cross-reference not found: 'Environmental Dimension'
+  Cross-reference not found: 'TDD'
+  Cross-reference not found: 'Executable Specification'
+  Cross-reference not found: 'Diagramming Specialist'
+  Cross-reference not found: 'Manifest Audit'
+  Cross-reference not found: 'Failure Criteria'
+  Cross-reference not found: '.github/'
+  Cross-reference not found: 'Workflow Status'
+  Cross-reference not found: 'Role Boundaries Table'
+  Cross-reference not found: 'Human Review Gate'
+  Cross-reference not found: 'Risk'
+  Cross-reference not found: 'Style Compliance'
+  Cross-reference not found: 'Requirements Validation'
+  Cross-reference not found: 'Spec-Driven Development'

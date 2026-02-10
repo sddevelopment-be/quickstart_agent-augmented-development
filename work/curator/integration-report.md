@@ -1,0 +1,387 @@
+# Glossary Integration Report
+
+**Date:** 2026-02-10
+**Agent:** Curator Claire
+
+## Summary
+
+- **Existing terms:** 42
+- **Candidate terms:** 360
+- **New terms added:** 347
+- **Duplicates with existing:** 6
+- **Cross-batch duplicates:** 7
+- **Final term count:** 353
+
+## New Terms Added
+
+- /analysis-mode
+- /creative-mode
+- /meta-mode
+- 6-Phase Spec-Driven Implementation Flow
+- ADR Drafting Workflow
+- AFK Mode
+- AGENT_STATUS
+- AMMERSE Analysis
+- AMMERSE Dimensions
+- API Contract
+- Acceptance Boundary
+- Acceptance Criteria
+- Accuracy Score
+- Adoption Rate
+- Adversarial Acceptance Testing
+- Adversarial Testing
+- Agent Assignment
+- Agent Profile Handoff Patterns
+- Agentic Enablement
+- Analysis Paralysis
+- Analyst Annie
+- Anti-Pattern Identification
+- Architect Alphonso
+- Architecture Blind Spot
+- Architecture Specialist
+- Audit Report
+- Authorial Voice
+- BDD Scenario
+- Backend Benny
+- Backend Developer Specialist
+- Baseline Option
+- Batch Planning
+- Bidirectional Linking
+- Blast Radius
+- Bootstrap Bill
+- Boundary Signal
+- Bounded Context Linguistic Discovery
+- Branch Age Warning
+- Build Automation Specialist
+- Build Graph
+- Bypass Check
+- C4 Model
+- Capability Boundary
+- Cherry-Picking Evidence
+- Claim Classification
+- Claim Inventory
+- Claim Relationship
+- Co-occurrence Analysis
+- Code Reviewer Cindy
+- Cognitive Complexity Budget
+- Commit Checkpoint
+- Communication Frequency
+- Complexity Creep
+- Component Patterns
+- Concept Extraction
+- Confidence Threshold
+- Conflict Classification
+- Conflict Lead Time
+- Conflict Resolution Time
+- Confounding Variable
+- Context Boundary Inference
+- Context Carry-over
+- Context Drift
+- Context Mapping
+- Contextual Fit
+- Continuous Capture
+- Contract Decision
+- Contribution Rate
+- Conway's Law Applied
+- Conway's Law Prediction
+- Core/Local Boundary
+- Corrective Action Set
+- Coverage Assessment
+- Coverage Threshold
+- Cross-Reference Integrity
+- Curator Claire
+- Decision Boundary
+- Decision Debt
+- Decision Marker
+- Decision Rule
+- Decision-First Development
+- Deep Creation Flow
+- Definition Conflict Detection
+- Dependency Mapping
+- Design System
+- DevOps Danny
+- Diagram Daisy
+- Diagram-as-Code
+- Dictionary DDD
+- Directive Adherence Lapse
+- Discrepancy Report
+- Doctrine Configuration
+- Documentation Curation Audit
+- Domain Event
+- Drift Detection
+- Dual-Level Error Feedback
+- Dual-Trunk Model
+- Economic Feasibility
+- Editor Eddy
+- Editorial Review
+- Enforcement Tier
+- Escalation Protocol
+- Establish and Freeze Context
+- Event Cluster
+- Event Storming
+- Event Storming Sticky Colors
+- Evidence Theater
+- Evidence Type
+- Evidence-Based Requirements
+- Executable Test
+- Experiment Boundary
+- Expert Review (Testing)
+- Export Pipeline
+- External Aggregation
+- External Memory
+- Extract Before Interpret
+- Extraction Phase
+- Fail-Fast Validation
+- Failure Scenario
+- Fallback Strategy
+- False Boundaries
+- False Positives
+- Falsifiable Hypothesis
+- Feasibility Shift
+- File-Based Orchestration
+- Finding Summary
+- First-Order Concept
+- Flaky Terminal Behavior
+- Flow State Awareness
+- Framework Guardian
+- Framework Integrity
+- Fresh Context Iteration
+- Frontend Freddy
+- Frozen Context
+- GREEN Phase
+- Given-When-Then
+- Glossary Maintenance Workflow
+- Glossary Ownership
+- Glossary Triage
+- Glossary as Executable Artifact
+- Glossary as Power Tool
+- Goals and Non-Goals
+- Gold Plating
+- Gold-plating
+- Graceful Degradation
+- HANDOFFS
+- Hand-off
+- Hand-off Protocol
+- Handoff Pattern
+- Hard Limit
+- High-Value Feedback
+- Human Review Loop
+- Impact Analysis
+- Incremental Detail Design
+- Incremental Maintenance
+- Incremental Review
+- Inside Boundary (Testing)
+- Integration Surface
+- Intent-First Review
+- Interpretation Phase
+- Java Jenny
+- Knowledge Encoding
+- LEX_DELTAS
+- LEX_REPORT
+- LEX_TONE_MAP
+- Language-First Architecture
+- Layer Boundary
+- Lesson Extraction
+- Lexical Larry
+- Lexical Style Diagnostic
+- Linguistic Policing
+- Linguistic Signal
+- Living Glossary
+- Living Specification
+- Local Customization
+- Manager Mike
+- Manifest
+- Medium Detection
+- Meta-Analysis
+- Meta-Awareness
+- Metadata Header
+- Milestone Definition
+- Minimal Patch
+- Mitigation Strategy
+- Momentum Bias
+- Momentum Bias Trap
+- NEXT_BATCH
+- Naive Reconstruction
+- Observable Behavior
+- Offloading
+- Option Impact Matrix
+- Organic Emergence
+- Orphaned Artifact
+- Orphaned File
+- Outside Boundary (Testing)
+- Over-Decomposition
+- PLAN_OVERVIEW
+- Pattern Before Prescription
+- Pattern Detection
+- Performance Budget
+- Persistence Strategy
+- Persona-Driven Writing
+- Phase 1 (Analysis)
+- Phase 2 (Architecture)
+- Phase 3 (Planning)
+- Phase 4 (Acceptance Tests)
+- Phase 5 (Implementation)
+- Phase 6 (Review)
+- Phase Authority
+- Phase Checkpoint Protocol
+- Phase Declaration
+- Phase Skipping
+- Planning Petra
+- Post-Action Learning Loop
+- Premature Abstraction
+- Premortem Risk Identification
+- Problem Assessment Protocol
+- Progressive Disclosure
+- Python Pedro
+- RED Phase
+- RED-GREEN-REFACTOR
+- REPO_MAP
+- Ralph Wiggum Loop
+- Readability Scoring
+- Register Variation Awareness
+- Regression Prevention
+- Rejection Rationale
+- Remediation Technique
+- Repository Initialization
+- Repository Scaffolding
+- Representative Data
+- Reproducible Build
+- Requirements Specialist
+- Requirements Validation Cycle
+- Rerouting
+- Researcher Ralph
+- Reverse Speccing
+- Reversibility Mechanism
+- Review Dimensions
+- Review Report
+- Reviewer
+- Risk Categorization
+- Risk Matrix
+- Role Confusion
+- Role Overstepping
+- Role Separation
+- Rule of Three
+- SURFACES
+- Safe-to-Fail Experiment
+- Scenario-Driven Design
+- Schema Validation
+- Scribe Sally
+- Self-Observation Checkpoint
+- Self-Review Protocol
+- Semantic Clustering
+- Semantic Conflict
+- Semantic Fidelity
+- Semantic Heading
+- Service Design
+- Shadow Mode
+- Shared Artifact
+- Ship/Show/Ask Pattern
+- Short-Lived Branch
+- Signposted Section
+- Simplicity Preservation
+- Six-Phase Cycle
+- Smallest Viable Diff
+- Source vs Distribution
+- Specialization Boundary
+- Specification Lifecycle
+- Specification Stub
+- Specification-Driven Development
+- Staleness Audit
+- Staleness Rate
+- Standards Compliance Review
+- State Boundaries
+- Stopping Condition
+- Strangler Fig Pattern
+- Structural Artifact
+- Structural Review
+- Style Execution Primer
+- Sunk-Cost Fallacy Override
+- Suppression Pattern
+- Surgical Modification
+- Synthesizer Sam
+- System Decomposition
+- Tactics Catalog
+- Tactics Curation
+- Target-Audience Fit
+- Task Artifact Declaration
+- Task Breakdown
+- Team Communication Matrix
+- Team Interaction Mapping
+- Technical Review
+- Template Compliance
+- Template-First Approach
+- Term Candidate
+- Test Boundary
+- Test Validates Fix
+- Test-First Bug Fixing
+- Test-as-Documentation
+- Testability Assessment
+- Token Discipline
+- Tonal Integrity
+- Tone Consistency
+- Tone Preservation
+- Tool Selection Rigor
+- Tool-Specific Distribution
+- Topology Mapping
+- Traceability Chain
+- Trade-off Analysis
+- Translation Layer
+- Translation Rule
+- Translator Tanya
+- Trigger Declaration
+- Trunk Health Dashboard
+- Trunk Stability
+- Trunk-Based Development
+- Type Checking
+- Type Hints
+- UI Architecture
+- Upgrade Plan
+- Validation Category
+- Validation Checklist
+- Validation Experiment
+- Validation Script
+- Validation Sequence
+- Version Pinning Strategy
+- Vocabulary Cluster
+- Vocabulary Fragmentation
+- Vocabulary Ownership
+- Voice Fidelity
+- WORKFLOWS
+- WORKFLOW_LOG
+- Warning Sign Detection
+- Warning Signal
+- Weaponized Standards
+- Work Directory Model
+- YAML Task File
+- black
+- doc_root
+- mypy
+- output_root
+- pytest
+- ruff
+- spec_root
+- workspace_root
+
+## Cross-Batch Duplicates (Merged)
+
+- **Phase Checkpoint Protocol** appeared in 2 batches:
+  - batch2-approaches-candidates.yaml
+  - batch3-tactics-candidates.yaml
+- **Testability Assessment** appeared in 2 batches:
+  - batch2-approaches-candidates.yaml
+  - batch3-tactics-candidates.yaml
+- **Traceability Chain** appeared in 2 batches:
+  - batch2-approaches-candidates.yaml
+  - batch3-tactics-candidates.yaml
+- **Reverse Speccing** appeared in 2 batches:
+  - batch2-approaches-candidates.yaml
+  - batch3-tactics-candidates.yaml
+- **Naive Reconstruction** appeared in 2 batches:
+  - batch2-approaches-candidates.yaml
+  - batch3-tactics-candidates.yaml
+- **Self-Observation Checkpoint** appeared in 2 batches:
+  - batch2-approaches-candidates.yaml
+  - batch3-tactics-candidates.yaml
+- **Continuous Capture** appeared in 2 batches:
+  - batch2-approaches-candidates.yaml
+  - batch3-tactics-candidates.yaml
