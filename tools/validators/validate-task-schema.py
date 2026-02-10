@@ -9,7 +9,8 @@ Checks:
 - ISO8601 timestamps with UTC suffix
 - Result/error object alignment with status
 
-Note: Uses TaskStatus enum from src.common.types (ADR-043) for single source of truth.
+Note: Uses TaskStatus, TaskMode, TaskPriority enums from src.common.types (ADR-043)
+for single source of truth.
 """
 
 from __future__ import annotations
@@ -30,18 +31,13 @@ import yaml
 repo_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(repo_root / "src"))
 
-from common.types import TaskStatus
+# ruff: noqa: E402 - Module level import after sys.path modification (required)
+from common.types import TaskMode, TaskPriority, TaskStatus
 
-# Use TaskStatus enum as single source of truth (ADR-043)
+# Use TaskStatus, TaskMode, TaskPriority enums as single source of truth (ADR-043)
 ALLOWED_STATUSES = {status.value for status in TaskStatus}
-ALLOWED_MODES = {
-    "/analysis-mode",
-    "/creative-mode",
-    "/meta-mode",
-    "/programming",
-    "/planning",
-}
-ALLOWED_PRIORITIES = {"critical", "high", "medium", "normal", "low"}
+ALLOWED_MODES = {mode.value for mode in TaskMode}
+ALLOWED_PRIORITIES = {priority.value for priority in TaskPriority}
 
 
 def load_task(path: Path) -> dict[str, Any]:
@@ -62,19 +58,23 @@ def is_iso8601(timestamp: str) -> bool:
 def suggest_timestamp_fix(timestamp: str) -> str:
     """Suggest a fix for common timestamp format issues."""
     timestamp = str(timestamp)
-    
+
     # Case 1: Space instead of T (e.g., "2026-02-09 04:40:00+00:00")
     if " " in timestamp and "T" not in timestamp:
         timestamp = timestamp.replace(" ", "T", 1)
-    
+
     # Case 2: Timezone offset instead of Z (e.g., "2026-02-09T04:40:00+00:00")
     if timestamp.endswith("+00:00") or timestamp.endswith("-00:00"):
         timestamp = timestamp[:-6] + "Z"
-    
+
     # Case 3: Missing Z suffix (e.g., "2026-02-09T04:40:00")
-    if not timestamp.endswith("Z") and "+" not in timestamp and "-" not in timestamp[-6:]:
+    if (
+        not timestamp.endswith("Z")
+        and "+" not in timestamp
+        and "-" not in timestamp[-6:]
+    ):
         timestamp = timestamp + "Z"
-    
+
     return timestamp
 
 
@@ -102,21 +102,29 @@ def validate_task_file(path: Path) -> list[str]:
         errors.append("artefacts/artifacts must be a list")
     elif not all(isinstance(item, str) for item in artefacts):
         errors.append("artefacts/artifacts entries must be strings")
-    
+
     # Validate artefacts_not_created field (optional, for documenting intentionally omitted artifacts)
-    artefacts_not_created = task.get("artefacts_not_created") or task.get("artifacts_not_created")
+    artefacts_not_created = task.get("artefacts_not_created") or task.get(
+        "artifacts_not_created"
+    )
     if artefacts_not_created is not None:
         if not isinstance(artefacts_not_created, list):
             errors.append("artefacts_not_created/artifacts_not_created must be a list")
         else:
             for item in artefacts_not_created:
                 if not isinstance(item, dict):
-                    errors.append("artefacts_not_created entries must be objects with 'name' and 'rationale' fields")
+                    errors.append(
+                        "artefacts_not_created entries must be objects with 'name' and 'rationale' fields"
+                    )
                     break
                 if "name" not in item or not isinstance(item["name"], str):
-                    errors.append("artefacts_not_created entries must have a 'name' field (string)")
+                    errors.append(
+                        "artefacts_not_created entries must have a 'name' field (string)"
+                    )
                 if "rationale" not in item or not isinstance(item["rationale"], str):
-                    errors.append("artefacts_not_created entries must have a 'rationale' field (string)")
+                    errors.append(
+                        "artefacts_not_created entries must have a 'rationale' field (string)"
+                    )
 
     mode = task.get("mode")
     if mode is not None and mode not in ALLOWED_MODES:
@@ -152,7 +160,7 @@ def validate_task_file(path: Path) -> list[str]:
                 "result block required for completed tasks\n"
                 "  Expected structure:\n"
                 "    result:\n"
-                "      summary: \"Description of what was accomplished\"\n"
+                '      summary: "Description of what was accomplished"\n'
                 "      artefacts:  # or 'artifacts'\n"
                 "        - path/to/file1.py\n"
                 "        - path/to/file2.md"

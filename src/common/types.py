@@ -18,6 +18,7 @@ if TYPE_CHECKING:
     def load_agent_identities() -> list[str] | None:
         """Load agent identities from doctrine/agents/*.agent.md files."""
         ...
+
 else:
     try:
         from .agent_loader import load_agent_identities
@@ -87,6 +88,76 @@ class FeatureStatus(str, Enum):
     def is_complete(cls, status: "FeatureStatus") -> bool:
         """Check if feature implementation is complete."""
         return status == cls.IMPLEMENTED
+
+
+class TaskMode(str, Enum):
+    """
+    Agent operating modes for task execution.
+
+    Modes influence how agents approach problem-solving:
+    - ANALYSIS: Deep analytical thinking and investigation
+    - CREATIVE: Exploration of alternative solutions
+    - META: Process and quality reflection
+    - PROGRAMMING: Implementation and coding
+    - PLANNING: Strategic planning and coordination
+
+    Inherits from str to maintain YAML serialization compatibility.
+    """
+
+    ANALYSIS = "/analysis-mode"  # Analytical reasoning mode
+    CREATIVE = "/creative-mode"  # Creative exploration mode
+    META = "/meta-mode"  # Meta-cognitive reflection mode
+    PROGRAMMING = "/programming"  # Programming/implementation mode
+    PLANNING = "/planning"  # Planning and coordination mode
+
+
+class TaskPriority(str, Enum):
+    """
+    Task priority levels for scheduling and triage.
+
+    Priority levels from highest to lowest urgency:
+    CRITICAL → HIGH → MEDIUM → NORMAL → LOW
+
+    Inherits from str to maintain YAML serialization compatibility.
+    """
+
+    CRITICAL = "critical"  # Immediate attention required
+    HIGH = "high"  # Important, schedule soon
+    MEDIUM = "medium"  # Normal priority
+    NORMAL = "normal"  # Standard priority (default)
+    LOW = "low"  # Can be deferred
+
+    @property
+    def order(self) -> int:
+        """
+        Get numeric ordering for priority comparison.
+
+        Lower numbers = higher priority (for sorting).
+
+        Returns:
+            Integer ordering value (0=highest, 4=lowest)
+        """
+        _priority_order = {
+            TaskPriority.CRITICAL: 0,
+            TaskPriority.HIGH: 1,
+            TaskPriority.MEDIUM: 2,
+            TaskPriority.NORMAL: 3,
+            TaskPriority.LOW: 4,
+        }
+        return _priority_order[self]
+
+    @classmethod
+    def is_urgent(cls, priority: "TaskPriority") -> bool:
+        """
+        Check if priority level requires urgent attention.
+
+        Args:
+            priority: Priority level to check
+
+        Returns:
+            True if CRITICAL or HIGH priority
+        """
+        return priority in {cls.CRITICAL, cls.HIGH}
 
 
 # Agent Identity Type (Literal for type checking)
