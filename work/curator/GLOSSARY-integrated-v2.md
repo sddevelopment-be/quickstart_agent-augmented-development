@@ -132,7 +132,6 @@ A specialized configuration file (
 **Location:** agent profile files  
 **Reference:** Directive 005  
 **Related:** Specialization, Collaboration Contract
-
 ### Agent Profile Handoff Patterns
 
 Documentation in agent profiles of common handoff patterns observed in practice (outgoing, incoming, special cases) providing guidance without prescriptive rules
@@ -442,7 +441,6 @@ Implicit constraint that humans can internalize ~50-100 precise domain terms eff
 A section within each agent profile that specifies behavioral commitments, boundaries, escalation protocols, and interaction patterns with other agents and humans. Defines what the agent will and won't do.
 
 **Related:** Agent Profile, Escalation
-
 ### Commit Checkpoint
 
 Regular commit cadence (every 15-30 minutes) in autonomous work to create reversible progress points
@@ -865,7 +863,6 @@ The process of flagging issues, uncertainties, or conflicts that require human i
 
 **Reference:** Directive 011  
 **Related:** Integrity Symbol, Risk
-
 ### Escalation Protocol
 
 Procedure for pausing autonomous work and documenting critical decisions requiring human guidance
@@ -1284,7 +1281,6 @@ A governance principle emphasizing that humans retain ultimate responsibility, a
 
 **Reference:** Directive 026 (Commit Protocol), Directive 011 (Risk & Escalation)  
 **Related:** Escalation, Alignment, Collaboration Contract
-
 ### Human Review Loop
 
 Process where automated detection surfaces candidates but humans make final decisions, maintaining accountability and avoiding automation bias
@@ -1483,7 +1479,6 @@ A design principle emphasizing that changes should be measured against actual pr
 
 **Reference:** Directive 020, `approaches/locality-of-change.md`  
 **Related:** Risk, Escalation, Alignment
-
 ### Manager Mike
 
 Coordination specialist agent who routes tasks to appropriate agents, maintains workflow status maps, and prevents conflicting edits through file-based orchestration
@@ -2460,7 +2455,6 @@ The standardized progression of orchestrated tasks through states: **new** (unas
 
 **Reference:** Directive 019, ADR-003  
 **Related:** Orchestration, Work Log
-
 ### Team Communication Matrix
 
 Documentation of communication frequency and artifact sharing patterns between organizational teams

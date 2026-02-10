@@ -1,0 +1,2105 @@
+{
+  "existing_count": 42,
+  "candidate_count": 134,
+  "merged_count": 132,
+  "duplicate_count": 4,
+  "batch_stats": [
+    {
+      "name": "Batch 1: Directives",
+      "yaml_count": 7,
+      "summary_count": 103,
+      "total": 103
+    },
+    {
+      "name": "Batch 2: Approaches",
+      "yaml_count": 107,
+      "summary_count": 25,
+      "total": 107
+    },
+    {
+      "name": "Batch 3: Tactics",
+      "yaml_count": 126,
+      "summary_count": 3,
+      "total": 126
+    },
+    {
+      "name": "Batch 4: Agents",
+      "yaml_count": 120,
+      "summary_count": 3,
+      "total": 120
+    }
+  ],
+  "duplicates": [
+    {
+      "term": "Mode Transition",
+      "existing": "Mode Transition",
+      "source": "Batch 1: Directives (summary)"
+    },
+    {
+      "term": "Specification (Spec)",
+      "existing": "Specification",
+      "source": "Batch 1: Directives (summary)"
+    },
+    {
+      "term": "Initiative (Portfolio Context)",
+      "existing": "Initiative",
+      "source": "Batch 1: Directives (summary)"
+    },
+    {
+      "term": "Human in Charge",
+      "existing": "Human in Charge",
+      "source": "Batch 1: Directives (summary)"
+    }
+  ],
+  "merged_terms": {
+    "bypass check": {
+      "name": "Bypass Check",
+      "definition": "Pre-execution verification that checks for LOCAL_ENV.md file containing environment-specific constraints or instructions before proceeding with standard directives",
+      "context": "Framework - Environment Configuration",
+      "source": "Directive 001 (CLI and Shell Tooling)",
+      "related_terms": [
+        "LOCAL_ENV.md",
+        "Remediation Technique"
+      ],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Directive 001 (CLI and Shell Tooling)"
+      ],
+      "definitions": [
+        "Pre-execution verification that checks for LOCAL_ENV.md file containing environment-specific constraints or instructions before proceeding with standard directives"
+      ]
+    },
+    "remediation technique": {
+      "name": "Remediation Technique",
+      "definition": "Fallback workflow for handling unreliable terminal interactions by creating shell scripts, piping output to files, and capturing results from files instead of direct terminal interaction",
+      "context": "Framework - Terminal Operations",
+      "source": "Directive 001 (CLI and Shell Tooling)",
+      "related_terms": [
+        "Bypass Check",
+        "Flaky Terminal Behavior"
+      ],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Directive 001 (CLI and Shell Tooling)"
+      ],
+      "definitions": [
+        "Fallback workflow for handling unreliable terminal interactions by creating shell scripts, piping output to files, and capturing results from files instead of direct terminal interaction"
+      ]
+    },
+    "flaky terminal behavior": {
+      "name": "Flaky Terminal Behavior",
+      "definition": "Unreliable or inconsistent terminal/shell interactions in agent-based workflows that require remediation techniques to ensure reliable command execution",
+      "context": "Framework - Terminal Operations",
+      "source": "Directive 001 (CLI and Shell Tooling)",
+      "related_terms": [
+        "Remediation Technique"
+      ],
+      "confidence": "medium",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Directive 001 (CLI and Shell Tooling)"
+      ],
+      "definitions": [
+        "Unreliable or inconsistent terminal/shell interactions in agent-based workflows that require remediation techniques to ensure reliable command execution"
+      ]
+    },
+    "fallback strategy": {
+      "name": "Fallback Strategy",
+      "definition": "Alternative approach when preferred tooling (fd, rg, ast-grep, etc.) is unavailable, using universally available alternatives (find, grep) with equivalent functionality",
+      "context": "Framework - Tooling",
+      "source": "Directive 013 (Tooling Setup & Fallbacks)",
+      "related_terms": [
+        "Tool Suite",
+        "Escalation"
+      ],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Directive 013 (Tooling Setup & Fallbacks)"
+      ],
+      "definitions": [
+        "Alternative approach when preferred tooling (fd, rg, ast-grep, etc.) is unavailable, using universally available alternatives (find, grep) with equivalent functionality"
+      ]
+    },
+    "token discipline": {
+      "name": "Token Discipline",
+      "definition": "Practice of maintaining essential governance layers in active memory while offloading task-specific details to external files, optimizing context window usage without losing behavioral guardrails",
+      "context": "Framework - Context Management",
+      "source": "Directive 002 (Context Notes)",
+      "related_terms": [
+        "External Memory",
+        "Context Layer",
+        "Offloading"
+      ],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Directive 002 (Context Notes)"
+      ],
+      "definitions": [
+        "Practice of maintaining essential governance layers in active memory while offloading task-specific details to external files, optimizing context window usage without losing behavioral guardrails"
+      ]
+    },
+    "external memory": {
+      "name": "External Memory",
+      "definition": "Storage location (work/notes/external_memory/) for offloaded task-specific details, allowing agents to swap context in/out while maintaining core behavioral norms",
+      "context": "Framework - Context Management",
+      "source": "Directive 002 (Context Notes), Directive 003 (Repository Structure)",
+      "related_terms": [
+        "Token Discipline",
+        "Context Layer"
+      ],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Directive 002 (Context Notes), Directive 003 (Repository Structure)"
+      ],
+      "definitions": [
+        "Storage location (work/notes/external_memory/) for offloaded task-specific details, allowing agents to swap context in/out while maintaining core behavioral norms"
+      ]
+    },
+    "offloading": {
+      "name": "Offloading",
+      "definition": "The act of moving detailed context (notes, enumerations, specifics) from active agent memory into external files to conserve token budget while maintaining reference capability",
+      "context": "Framework - Context Management",
+      "source": "Directive 002 (Context Notes)",
+      "related_terms": [
+        "Token Discipline",
+        "External Memory"
+      ],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Directive 002 (Context Notes)"
+      ],
+      "definitions": [
+        "The act of moving detailed context (notes, enumerations, specifics) from active agent memory into external files to conserve token budget while maintaining reference capability"
+      ]
+    },
+    "file-based orchestration": {
+      "name": "File-Based Orchestration",
+      "definition": "YAML task file coordination system",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "YAML task file coordination system"
+      ]
+    },
+    "task state": {
+      "name": "Task State",
+      "definition": "Lifecycle position: inbox/new/assigned/in_progress/done/archive",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Lifecycle position: inbox/new/assigned/in_progress/done/archive"
+      ]
+    },
+    "task management scripts": {
+      "name": "Task Management Scripts",
+      "definition": "Automated tools (start_task.py, complete_task.py, etc.)",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Automated tools (start_task.py, complete_task.py, etc.)"
+      ]
+    },
+    "worklog": {
+      "name": "Worklog",
+      "definition": "Structured execution documentation in work/reports/logs/",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Structured execution documentation in work/reports/logs/"
+      ]
+    },
+    "primer checklist": {
+      "name": "Primer Checklist",
+      "definition": "Required documentation of primer usage in work logs ### 4. Testing & Quality (Directives 016, 017, 028)",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Required documentation of primer usage in work logs ### 4. Testing & Quality (Directives 016, 017, 028)"
+      ]
+    },
+    "atdd": {
+      "name": "ATDD (Acceptance Test Driven Development)",
+      "definition": "User-visible behavior tests first",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "User-visible behavior tests first"
+      ]
+    },
+    "black-box testing": {
+      "name": "Black-Box Testing",
+      "definition": "Testing through public interfaces (HTTP, CLI)",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Testing through public interfaces (HTTP, CLI)"
+      ]
+    },
+    "red-green-refactor": {
+      "name": "Red-Green-Refactor",
+      "definition": "TDD cycle: failing test, minimal code, improve design",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "TDD cycle: failing test, minimal code, improve design"
+      ]
+    },
+    "refactor phase": {
+      "name": "Refactor Phase",
+      "definition": "TDD step 3 where only production code changes, tests stay green",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "TDD step 3 where only production code changes, tests stay green"
+      ]
+    },
+    "test-first bug fixing": {
+      "name": "Test-First Bug Fixing",
+      "definition": "Reproduction test before fix",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Reproduction test before fix"
+      ]
+    },
+    "reproduction test": {
+      "name": "Reproduction Test",
+      "definition": "Test demonstrating bug by failing due to defect ### 5. Mode & Reasoning (Directives 010, 024)",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Test demonstrating bug by failing due to defect ### 5. Mode & Reasoning (Directives 010, 024)"
+      ]
+    },
+    "mode transition": {
+      "name": "Mode Transition",
+      "definition": "The explicit shift from one reasoning mode to another, always annotated as\n`[mode: source \u2192 target]`. Transitions should be deliberate, infrequent (not more than once per 10 paragraphs), and include validation checks.\n\n**Reference:** Directive 010  \n**Related:** Mode, Alignment",
+      "related_terms": [
+        "Mode",
+        "Alignment"
+      ],
+      "reference": "Directive 010",
+      "source": "existing",
+      "sources": [
+        "existing",
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "The explicit shift from one reasoning mode to another, always annotated as\n`[mode: source \u2192 target]`. Transitions should be deliberate, infrequent (not more than once per 10 paragraphs), and include validation checks.\n\n**Reference:** Directive 010  \n**Related:** Mode, Alignment",
+        "Explicit shift between reasoning modes [mode: source \u2192 target]"
+      ]
+    },
+    "meta-mode": {
+      "name": "Meta-Mode",
+      "definition": "Self-reflection, process alignment, governance calibration",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Self-reflection, process alignment, governance calibration"
+      ]
+    },
+    "ralph wiggum loop": {
+      "name": "Ralph Wiggum Loop",
+      "definition": "Mid-execution self-observation checkpoint protocol",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)",
+        "ralph-wiggum-loop.md"
+      ],
+      "definitions": [
+        "Mid-execution self-observation checkpoint protocol",
+        "Self-aware observation pattern where agents periodically monitor their own execution state, detect problematic patterns (drift, confusion, misalignment), and self-correct mid-task"
+      ]
+    },
+    "checkpoint": {
+      "name": "Checkpoint",
+      "definition": "Mandatory/optional pause for progress assessment",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Mandatory/optional pause for progress assessment"
+      ]
+    },
+    "course correction": {
+      "name": "Course Correction",
+      "definition": "Mid-execution adjustment from checkpoint findings",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Mid-execution adjustment from checkpoint findings"
+      ]
+    },
+    "warning sign": {
+      "name": "Warning Sign",
+      "definition": "Detectable execution symptoms (drift, confusion, scope creep) ### 6. Decision Documentation (Directive 018)",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Detectable execution symptoms (drift, confusion, scope creep) ### 6. Decision Documentation (Directive 018)"
+      ]
+    },
+    "documentation level framework": {
+      "name": "Documentation Level Framework",
+      "definition": "Matching detail to information volatility",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Matching detail to information volatility"
+      ]
+    },
+    "volatility": {
+      "name": "Volatility",
+      "definition": "Rate of information change determining documentation approach",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Rate of information change determining documentation approach"
+      ]
+    },
+    "stability marker": {
+      "name": "Stability Marker",
+      "definition": "Annotation indicating stable vs. experimental aspects ### 7. Leniency & Adherence (Directive 020)",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Annotation indicating stable vs. experimental aspects ### 7. Leniency & Adherence (Directive 020)"
+      ]
+    },
+    "leniency level": {
+      "name": "Leniency Level",
+      "definition": "Calibration scale (0-4) for template adherence strictness",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Calibration scale (0-4) for template adherence strictness"
+      ]
+    },
+    "structural adherence": {
+      "name": "Structural Adherence",
+      "definition": "Degree outputs match prescribed templates ### 8. Locality & Simplicity (Directives 021, 036)",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Degree outputs match prescribed templates ### 8. Locality & Simplicity (Directives 021, 036)"
+      ]
+    },
+    "gold plating": {
+      "name": "Gold Plating",
+      "definition": "Adding features without evidence of need",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Adding features without evidence of need"
+      ]
+    },
+    "premature abstraction": {
+      "name": "Premature Abstraction",
+      "definition": "Creating frameworks before patterns stabilize",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Creating frameworks before patterns stabilize"
+      ]
+    },
+    "complexity creep": {
+      "name": "Complexity Creep",
+      "definition": "Cumulative degradation from small additions",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Cumulative degradation from small additions"
+      ]
+    },
+    "boy scout rule": {
+      "name": "Boy Scout Rule",
+      "definition": "Leave code/docs cleaner than found",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Leave code/docs cleaner than found"
+      ]
+    },
+    "spot check": {
+      "name": "Spot Check",
+      "definition": "Pre-task scan (2-5 min) for quick wins",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Pre-task scan (2-5 min) for quick wins"
+      ]
+    },
+    "quick win": {
+      "name": "Quick Win",
+      "definition": "Improvement taking <5 minutes",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Improvement taking <5 minutes"
+      ]
+    },
+    "cleanup commit": {
+      "name": "Cleanup Commit",
+      "definition": "Separate commit for pre-task improvements ### 9. Clarification & Alignment (Directives 023, 038)",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Separate commit for pre-task improvements ### 9. Clarification & Alignment (Directives 023, 038)"
+      ]
+    },
+    "clarification request": {
+      "name": "Clarification Request",
+      "definition": "Formal pause for ambiguity resolution",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Formal pause for ambiguity resolution"
+      ]
+    },
+    "conceptual alignment": {
+      "name": "Conceptual Alignment",
+      "definition": "Explicit confirmation of shared terminology understanding",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Explicit confirmation of shared terminology understanding"
+      ]
+    },
+    "domain term": {
+      "name": "Domain Term",
+      "definition": "Business/context-specific vocabulary requiring interpretation ### 10. Specification-Driven Development (Directives 034, 035)",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Business/context-specific vocabulary requiring interpretation ### 10. Specification-Driven Development (Directives 034, 035)"
+      ]
+    },
+    "specification": {
+      "name": "Specification",
+      "definition": "A **feature-level document** describing a specific capability, system component, or deliverable within an initiative (e.g., \"Real-Time Execution Dashboard\", \"Task Priority Editing\"). Specifications contain YAML frontmatter with metadata (id, title, status, features) and markdown content describing the feature. In the dashboard portfolio hierarchy, specifications are the middle level between initiatives and tasks.\n\n**Important:** The `features:` field in specification frontmatter is **metadata only** (for describing sub-components), not a rendering hierarchy level in the dashboard. The dashboard renders Initiative \u2192 Specification \u2192 Task (3 levels).\n\n**Hierarchy Position:** Level 2 (middle)  \n**File Format:** Markdown with YAML frontmatter  \n**Location:** `specifications/initiatives/<initiative-name>/*.md`  \n**Related:** Initiative, Task, Portfolio, Feature (metadata)",
+      "related_terms": [
+        "Initiative",
+        "Task",
+        "Portfolio",
+        "Feature (metadata)"
+      ],
+      "reference": null,
+      "source": "existing",
+      "sources": [
+        "existing",
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "A **feature-level document** describing a specific capability, system component, or deliverable within an initiative (e.g., \"Real-Time Execution Dashboard\", \"Task Priority Editing\"). Specifications contain YAML frontmatter with metadata (id, title, status, features) and markdown content describing the feature. In the dashboard portfolio hierarchy, specifications are the middle level between initiatives and tasks.\n\n**Important:** The `features:` field in specification frontmatter is **metadata only** (for describing sub-components), not a rendering hierarchy level in the dashboard. The dashboard renders Initiative \u2192 Specification \u2192 Task (3 levels).\n\n**Hierarchy Position:** Level 2 (middle)  \n**File Format:** Markdown with YAML frontmatter  \n**Location:** `specifications/initiatives/<initiative-name>/*.md`  \n**Related:** Initiative, Task, Portfolio, Feature (metadata)",
+        "Feature-level design document with YAML frontmatter"
+      ]
+    },
+    "feature": {
+      "name": "Feature (Spec Context)",
+      "definition": "Sub-component within specification",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Sub-component within specification"
+      ]
+    },
+    "initiative": {
+      "name": "Initiative",
+      "definition": "A **grouping of related specifications** united by a common strategic goal or theme (e.g., \"Dashboard Enhancements\", \"Framework Distribution\"). Initiatives serve as the top-level organizational unit in the portfolio view and are derived from the `initiative:` field in specification frontmatter. Multiple specifications can belong to the same initiative.\n\n**Hierarchy Position:** Level 1 (top)  \n**Example:** \"Dashboard Enhancements\" initiative contains 9 specifications  \n**Location:** Specification frontmatter (`initiative: \"Dashboard Enhancements\"`)  \n**Related:** Specification, Portfolio, Task",
+      "related_terms": [
+        "Specification",
+        "Portfolio",
+        "Task"
+      ],
+      "reference": null,
+      "source": "existing",
+      "sources": [
+        "existing",
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "A **grouping of related specifications** united by a common strategic goal or theme (e.g., \"Dashboard Enhancements\", \"Framework Distribution\"). Initiatives serve as the top-level organizational unit in the portfolio view and are derived from the `initiative:` field in specification frontmatter. Multiple specifications can belong to the same initiative.\n\n**Hierarchy Position:** Level 1 (top)  \n**Example:** \"Dashboard Enhancements\" initiative contains 9 specifications  \n**Location:** Specification frontmatter (`initiative: \"Dashboard Enhancements\"`)  \n**Related:** Specification, Portfolio, Task",
+        "Top-level grouping of specifications"
+      ]
+    },
+    "feature status": {
+      "name": "Feature Status",
+      "definition": "draft/in_progress/done/blocked",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "draft/in_progress/done/blocked"
+      ]
+    },
+    "phase checkpoint protocol": {
+      "name": "Phase Checkpoint Protocol",
+      "definition": "6-step phase completion verification",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "6-step phase completion verification"
+      ]
+    },
+    "role boundaries": {
+      "name": "Role Boundaries",
+      "definition": "Authority matrix: PRIMARY/CONSULT/NO per phase ### 11. Commit & Version Control (Directive 026)",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Authority matrix: PRIMARY/CONSULT/NO per phase ### 11. Commit & Version Control (Directive 026)"
+      ]
+    },
+    "agent slug": {
+      "name": "Agent Slug",
+      "definition": "Lowercase, hyphenated agent identifier for commits",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Lowercase, hyphenated agent identifier for commits"
+      ]
+    },
+    "commit frequency": {
+      "name": "Commit Frequency",
+      "definition": "Principle of small, atomic commits",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Principle of small, atomic commits"
+      ]
+    },
+    "atomic commit": {
+      "name": "Atomic Commit",
+      "definition": "Single-purpose commit for one logical unit",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Single-purpose commit for one logical unit"
+      ]
+    },
+    "human in charge": {
+      "name": "Human in Charge",
+      "definition": "A governance principle emphasizing that humans retain ultimate responsibility, authority, and decision-making power in agent-augmented workflows. Distinct from \"human in the loop\" (which focuses on oversight/approval), \"human in charge\" explicitly centers human accountability and intervention rights. The human in charge bears responsibility for work outcomes and maintains authority to override, redirect, or halt agentic operations at any point.\n\n**Key distinctions from \"human in the loop\":**\n- **Responsibility:** Human bears accountability for outcomes, not just oversight\n- **Authority:** Power to make significant decisions and interventions\n- **Control:** Ability to halt, redirect, or override agent operations\n- **Ownership:** Ultimate arbiter of quality, direction, and delivery\n\n**Practical implications:**\n- Agents request permission for high-impact changes\n- Humans retain approval authority over critical decisions\n- Agents escalate uncertainty or risk immediately\n- Human judgment overrides agent recommendations when conflicting\n\n**Reference:** Directive 026 (Commit Protocol), Directive 011 (Risk & Escalation)  \n**Related:** Escalation, Alignment, Collaboration Contract",
+      "related_terms": [
+        "Escalation",
+        "Alignment",
+        "Collaboration Contract"
+      ],
+      "reference": "Directive 026 (Commit Protocol), Directive 011 (Risk & Escalation)",
+      "source": "existing",
+      "sources": [
+        "existing",
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "A governance principle emphasizing that humans retain ultimate responsibility, authority, and decision-making power in agent-augmented workflows. Distinct from \"human in the loop\" (which focuses on oversight/approval), \"human in charge\" explicitly centers human accountability and intervention rights. The human in charge bears responsibility for work outcomes and maintains authority to override, redirect, or halt agentic operations at any point.\n\n**Key distinctions from \"human in the loop\":**\n- **Responsibility:** Human bears accountability for outcomes, not just oversight\n- **Authority:** Power to make significant decisions and interventions\n- **Control:** Ability to halt, redirect, or override agent operations\n- **Ownership:** Ultimate arbiter of quality, direction, and delivery\n\n**Practical implications:**\n- Agents request permission for high-impact changes\n- Humans retain approval authority over critical decisions\n- Agents escalate uncertainty or risk immediately\n- Human judgment overrides agent recommendations when conflicting\n\n**Reference:** Directive 026 (Commit Protocol), Directive 011 (Risk & Escalation)  \n**Related:** Escalation, Alignment, Collaboration Contract",
+        "Governance centering human accountability and authority"
+      ]
+    },
+    "session override": {
+      "name": "Session Override",
+      "definition": "Human-authorized temporary protocol deviation ### 12. Framework Guardian (Directive 025)",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Human-authorized temporary protocol deviation ### 12. Framework Guardian (Directive 025)"
+      ]
+    },
+    "framework distribution": {
+      "name": "Framework Distribution",
+      "definition": "Zip-based packaging with integrity verification",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Zip-based packaging with integrity verification"
+      ]
+    },
+    "framework guardian": {
+      "name": "Framework Guardian",
+      "definition": "Agent for audits, upgrades (read-only, recommend-only)",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Agent for audits, upgrades (read-only, recommend-only)"
+      ]
+    },
+    "framework audit": {
+      "name": "Framework Audit",
+      "definition": "Validation against canonical manifest checksums",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Validation against canonical manifest checksums"
+      ]
+    },
+    "manifest": {
+      "name": "Manifest",
+      "definition": "Authoritative registry (META/MANIFEST.yml) with SHA256 checksums",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Authoritative registry (META/MANIFEST.yml) with SHA256 checksums"
+      ]
+    },
+    "conflict classification": {
+      "name": "Conflict Classification",
+      "definition": "Upgrade conflict categories: Auto-Merge/Non-Breaking/Local/Breaking",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Upgrade conflict categories: Auto-Merge/Non-Breaking/Local/Breaking"
+      ]
+    },
+    "anti-corruption layer": {
+      "name": "Anti-Corruption Layer (ACL)",
+      "definition": "Translation layer protecting downstream context ### 13. Context-Aware Design (Directive 037)",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Translation layer protecting downstream context ### 13. Context-Aware Design (Directive 037)"
+      ]
+    },
+    "bounded context": {
+      "name": "Bounded Context",
+      "definition": "Explicit boundary with consistent domain model and language",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Explicit boundary with consistent domain model and language"
+      ]
+    },
+    "context boundary": {
+      "name": "Context Boundary",
+      "definition": "Edge between contexts requiring translation",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Edge between contexts requiring translation"
+      ]
+    },
+    "published language": {
+      "name": "Published Language",
+      "definition": "Stable API published for multiple consumers",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Stable API published for multiple consumers"
+      ]
+    },
+    "context map": {
+      "name": "Context Map",
+      "definition": "Visual diagram of context relationships",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Visual diagram of context relationships"
+      ]
+    },
+    "shared kernel": {
+      "name": "Shared Kernel",
+      "definition": "Small shared model requiring high coordination",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Small shared model requiring high coordination"
+      ]
+    },
+    "ubiquitous language": {
+      "name": "Ubiquitous Language",
+      "definition": "Shared vocabulary within bounded context",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Shared vocabulary within bounded context"
+      ]
+    },
+    "living glossary": {
+      "name": "Living Glossary",
+      "definition": "Continuously updated, executable glossary with enforcement",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)",
+        "living-glossary-practice.md"
+      ],
+      "definitions": [
+        "Continuously updated, executable glossary with enforcement",
+        "Continuously updated, executable glossary treated as infrastructure rather than static documentation, evolving with code and domain understanding"
+      ]
+    },
+    "enforcement tier": {
+      "name": "Enforcement Tier",
+      "definition": "Advisory/Acknowledgment/Hard Failure governance levels ### 14. Prompt & Communication (Directives 015, 023)",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Advisory/Acknowledgment/Hard Failure governance levels ### 14. Prompt & Communication (Directives 015, 023)"
+      ]
+    },
+    "prompt documentation": {
+      "name": "Prompt Documentation",
+      "definition": "Optional SWOT analysis of task prompts",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Optional SWOT analysis of task prompts"
+      ]
+    },
+    "swot analysis": {
+      "name": "SWOT Analysis (Prompt Context)",
+      "definition": "Evaluation framework for prompt quality",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Evaluation framework for prompt quality"
+      ]
+    },
+    "success criteria": {
+      "name": "Success Criteria",
+      "definition": "Measurable conditions defining task completion",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Measurable conditions defining task completion"
+      ]
+    },
+    "deliverable": {
+      "name": "Deliverable",
+      "definition": "Specific artifact or output with file paths and validation --- ## Additional Terms Extracted (69-99)",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Specific artifact or output with file paths and validation --- ## Additional Terms Extracted (69-99)"
+      ]
+    },
+    "6-phase cycle": {
+      "name": "6-Phase Cycle",
+      "definition": "Analysis \u2192 Architecture \u2192 Planning \u2192 Tests \u2192 Code \u2192 Review",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Analysis \u2192 Architecture \u2192 Planning \u2192 Tests \u2192 Code \u2192 Review"
+      ]
+    },
+    "phase skipping": {
+      "name": "Phase Skipping",
+      "definition": "Anti-pattern of bypassing required workflow phases",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Anti-pattern of bypassing required workflow phases"
+      ]
+    },
+    "role overstepping": {
+      "name": "Role Overstepping",
+      "definition": "Agent acting outside authority boundaries",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Agent acting outside authority boundaries"
+      ]
+    },
+    "quad-a pattern": {
+      "name": "Quad-A Pattern",
+      "definition": "Test structure: Arrange-Act-Assert-After",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Test structure: Arrange-Act-Assert-After"
+      ]
+    },
+    "characterization test": {
+      "name": "Characterization Test",
+      "definition": "Safety net for legacy code before changes",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Safety net for legacy code before changes"
+      ]
+    },
+    "flaky test": {
+      "name": "Flaky Test",
+      "definition": "Non-deterministic test requiring stabilization",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Non-deterministic test requiring stabilization"
+      ]
+    },
+    "test readability": {
+      "name": "Test Readability",
+      "definition": "Clarity of test intent and structure",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Clarity of test intent and structure"
+      ]
+    },
+    "anemic domain model": {
+      "name": "Anemic Domain Model",
+      "definition": "Anti-pattern with logic in services not domain objects",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Anti-pattern with logic in services not domain objects"
+      ]
+    },
+    "specification frontmatter": {
+      "name": "Specification Frontmatter",
+      "definition": "YAML metadata at top of specification files",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "YAML metadata at top of specification files"
+      ]
+    },
+    "progress rollup": {
+      "name": "Progress Rollup",
+      "definition": "Calculation of initiative/spec progress from task statuses",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Calculation of initiative/spec progress from task statuses"
+      ]
+    },
+    "orphan task": {
+      "name": "Orphan Task",
+      "definition": "Task not linked to any specification",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Task not linked to any specification"
+      ]
+    },
+    "portfolio view": {
+      "name": "Portfolio View",
+      "definition": "Dashboard hierarchy: Initiative \u2192 Specification \u2192 Task",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Dashboard hierarchy: Initiative \u2192 Specification \u2192 Task"
+      ]
+    },
+    "task-to-specification linking": {
+      "name": "Task-to-Specification Linking",
+      "definition": "Via `specification:` field in task YAML",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Via `specification:` field in task YAML"
+      ]
+    },
+    "premortem risk identification": {
+      "name": "Premortem Risk Identification",
+      "definition": "Anticipating failure modes before starting",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Anticipating failure modes before starting"
+      ]
+    },
+    "adversarial testing": {
+      "name": "Adversarial Testing",
+      "definition": "Stress-testing proposals with edge cases",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Stress-testing proposals with edge cases"
+      ]
+    },
+    "ammerse analysis": {
+      "name": "AMMERSE Analysis",
+      "definition": "Trade-off framework for decision-making",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Trade-off framework for decision-making"
+      ]
+    },
+    "stopping conditions": {
+      "name": "Stopping Conditions",
+      "definition": "Pre-defined criteria for ending or pausing work",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Pre-defined criteria for ending or pausing work"
+      ]
+    },
+    "fresh context iteration": {
+      "name": "Fresh Context Iteration",
+      "definition": "Starting from clean context periodically",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Starting from clean context periodically"
+      ]
+    },
+    "safe-to-fail experiment": {
+      "name": "Safe-to-Fail Experiment",
+      "definition": "Small, reversible exploratory work",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Small, reversible exploratory work"
+      ]
+    },
+    "incremental code review": {
+      "name": "Incremental Code Review",
+      "definition": "Reviewing changes in small batches",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Reviewing changes in small batches"
+      ]
+    },
+    "extract-before-interpret": {
+      "name": "Extract-Before-Interpret",
+      "definition": "Data gathering before analysis",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Data gathering before analysis"
+      ]
+    },
+    "fail-fast validation": {
+      "name": "Fail-Fast Validation",
+      "definition": "Early input checking to prevent cascading errors",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Early input checking to prevent cascading errors"
+      ]
+    },
+    "smallest viable diff": {
+      "name": "Smallest Viable Diff",
+      "definition": "Minimal change to achieve goal",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Minimal change to achieve goal"
+      ]
+    },
+    "bdd": {
+      "name": "BDD (Behavior-Driven Development)",
+      "definition": "Given/When/Then acceptance test format",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Given/When/Then acceptance test format"
+      ]
+    },
+    "gherkin": {
+      "name": "Gherkin",
+      "definition": "BDD scenario language syntax",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "BDD scenario language syntax"
+      ]
+    },
+    "integration test": {
+      "name": "Integration Test",
+      "definition": "Testing component interactions",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Testing component interactions"
+      ]
+    },
+    "system test": {
+      "name": "System Test",
+      "definition": "End-to-end testing across full system",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "End-to-end testing across full system"
+      ]
+    },
+    "regression prevention": {
+      "name": "Regression Prevention",
+      "definition": "Tests ensuring bugs don't recur",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Tests ensuring bugs don't recur"
+      ]
+    },
+    "test coverage": {
+      "name": "Test Coverage",
+      "definition": "Percentage of code exercised by tests",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Percentage of code exercised by tests"
+      ]
+    },
+    "continuous integration": {
+      "name": "Continuous Integration",
+      "definition": "Automated build/test on every commit",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Automated build/test on every commit"
+      ]
+    },
+    "trunk-based development": {
+      "name": "Trunk-Based Development",
+      "definition": "Short-lived branches, frequent integration --- ## Confidence Rating Methodology **High Confidence (74 terms):** - Explicit definition provided in directive - Consistent usage across multiple contexts - Clear boundaries and distinct from related concepts - Examples or usage guidelines included **Medium Confidence (21 terms):** - Implicit definition derivable from context - Some ambiguity in scope or boundaries - Limited usage examples - May overlap with related concepts **Low Confidence (4 terms):** - Emerging concept not fully defined - Highly context-dependent meaning - Sparse usage in directives - Requires domain expert validation --- ## Quality Gates Applied \u2705 **Domain-Specific Filter:** Excluded generic programming terms (list, dict, array, function, class) unless given domain-specific meaning \u2705 **Context Grounding:** Every term includes source directive and usage context \u2705 **Relationship Mapping:** Related_terms connections enable navigation \u2705 **Usage Notes:** Practical application guidance when available \u2705 **Confidence Transparency:** Explicit rating per term --- ## Recommended Next Steps",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Short-lived branches, frequent integration --- ## Confidence Rating Methodology **High Confidence (74 terms):** - Explicit definition provided in directive - Consistent usage across multiple contexts - Clear boundaries and distinct from related concepts - Examples or usage guidelines included **Medium Confidence (21 terms):** - Implicit definition derivable from context - Some ambiguity in scope or boundaries - Limited usage examples - May overlap with related concepts **Low Confidence (4 terms):** - Emerging concept not fully defined - Highly context-dependent meaning - Sparse usage in directives - Requires domain expert validation --- ## Quality Gates Applied \u2705 **Domain-Specific Filter:** Excluded generic programming terms (list, dict, array, function, class) unless given domain-specific meaning \u2705 **Context Grounding:** Every term includes source directive and usage context \u2705 **Relationship Mapping:** Related_terms connections enable navigation \u2705 **Usage Notes:** Practical application guidance when available \u2705 **Confidence Transparency:** Explicit rating per term --- ## Recommended Next Steps"
+      ]
+    },
+    "curator review:** validate consistency with existing glossary.md entries\n2. **bidirectional links:** ensure related_terms connections are mutual\n3. **domain expert validation:** confirm ddd terms align with standard definitions\n4. **elevation candidates:** identify high-confidence terms for canonical status\n5. **disambiguation:** flag terms needing context-specific definitions\n6. **integration:** link to ide glossary tools7. **enforcement planning:** determine which terms warrant acknowledgment/hard-failure tiers\n\n---\n\n## terms requiring special attention\n\n**potential synonyms to reconcile:": {
+      "name": "Curator Review:** Validate consistency with existing GLOSSARY.md entries\n2. **Bidirectional Links:** Ensure related_terms connections are mutual\n3. **Domain Expert Validation:** Confirm DDD terms align with standard definitions\n4. **Elevation Candidates:** Identify high-confidence terms for canonical status\n5. **Disambiguation:** Flag terms needing context-specific definitions\n6. **Integration:** Link to IDE glossary tools (Contextive)\n7. **Enforcement Planning:** Determine which terms warrant acknowledgment/hard-failure tiers\n\n---\n\n## Terms Requiring Special Attention\n\n**Potential Synonyms to Reconcile:",
+      "definition": "Work Log vs. Worklog (both used; prefer \"Work Log\" per GLOSSARY.md) - Specification vs. Spec (abbreviation common; both acceptable) - Feature (metadata) vs. Feature (capability) - context disambiguates **Terms with Multiple Meanings:** - Feature: (1) spec frontmatter metadata, (2) user-facing capability - Context: (1) bounded context (DDD), (2) agent context (memory), (3) execution context - Mode: (1) reasoning mode, (2) operational mode, (3) file permissions **Emerging Concepts (Low Confidence):** - Flaky Terminal Behavior (environment-specific) - Session Override (governance edge case) - Course Correction (Ralph Wiggum-specific) - Warning Sign (checklist-specific) --- ## Statistics Summary | Category | Count | Percentage | |----------|-------|------------| | **Total Terms** | 99 | 100% | | High Confidence | 74 | 75% | | Medium Confidence | 21 | 21% | | Low Confidence | 4 | 4% | | **By Domain** | | | | Framework | 45 | 45% | | Development Practice | 28 | 28% | | Domain-Driven Design | 16 | 16% | | Testing | 10 | 10% | --- ## Methodology Notes **Extraction Process:**",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Work Log vs. Worklog (both used; prefer \"Work Log\" per GLOSSARY.md) - Specification vs. Spec (abbreviation common; both acceptable) - Feature (metadata) vs. Feature (capability) - context disambiguates **Terms with Multiple Meanings:** - Feature: (1) spec frontmatter metadata, (2) user-facing capability - Context: (1) bounded context (DDD), (2) agent context (memory), (3) execution context - Mode: (1) reasoning mode, (2) operational mode, (3) file permissions **Emerging Concepts (Low Confidence):** - Flaky Terminal Behavior (environment-specific) - Session Override (governance edge case) - Course Correction (Ralph Wiggum-specific) - Warning Sign (checklist-specific) --- ## Statistics Summary | Category | Count | Percentage | |----------|-------|------------| | **Total Terms** | 99 | 100% | | High Confidence | 74 | 75% | | Medium Confidence | 21 | 21% | | Low Confidence | 4 | 4% | | **By Domain** | | | | Framework | 45 | 45% | | Development Practice | 28 | 28% | | Domain-Driven Design | 16 | 16% | | Testing | 10 | 10% | --- ## Methodology Notes **Extraction Process:**"
+      ]
+    },
+    "batch1-directives-candidates.yaml": {
+      "name": "batch1-directives-candidates.yaml",
+      "definition": "Full structured YAML (99 entries)",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Full structured YAML (99 entries)"
+      ]
+    },
+    "batch1-directives-extraction-summary.md": {
+      "name": "batch1-directives-extraction-summary.md",
+      "definition": "This summary document",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "This summary document"
+      ]
+    },
+    "readme.md": {
+      "name": "README.md",
+      "definition": "Glossary candidates directory guide --- **Extraction Complete** \u2705 **Agent:** Lexical Larry **Date:** 2026-02-10 **Next:** Curator review and domain expert validation",
+      "context": "directives",
+      "source": "Batch 1: Directives (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 1: Directives (summary)"
+      ],
+      "definitions": [
+        "Glossary candidates directory guide --- **Extraction Complete** \u2705 **Agent:** Lexical Larry **Date:** 2026-02-10 **Next:** Curator review and domain expert validation"
+      ]
+    },
+    "specification-driven development": {
+      "name": "Specification-Driven Development",
+      "definition": "Development methodology where specifications serve as primary artifacts bridging strategic intent and implementation, remaining independent of tests or architectural decisions",
+      "context": "Development Methodology - SDD",
+      "source": "spec-driven-development.md",
+      "related_terms": [
+        "Living Specification",
+        "Scenario-Driven Design",
+        "Specification Stub"
+      ],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "spec-driven-development.md"
+      ],
+      "definitions": [
+        "Development methodology where specifications serve as primary artifacts bridging strategic intent and implementation, remaining independent of tests or architectural decisions"
+      ]
+    },
+    "six-phase cycle": {
+      "name": "Six-Phase Cycle",
+      "definition": "Structured specification-driven workflow with distinct phases (Analysis, Architecture, Planning, Acceptance Test, Implementation, Review), each with a primary owner and explicit hand-offs",
+      "context": "Development Methodology - SDD",
+      "source": "spec-driven-6-phase-cycle.md",
+      "related_terms": [
+        "Phase Checkpoint Protocol",
+        "Momentum Bias Prevention",
+        "Role Separation"
+      ],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "spec-driven-6-phase-cycle.md"
+      ],
+      "definitions": [
+        "Structured specification-driven workflow with distinct phases (Analysis, Architecture, Planning, Acceptance Test, Implementation, Review), each with a primary owner and explicit hand-offs"
+      ]
+    },
+    "reverse speccing": {
+      "name": "Reverse Speccing",
+      "definition": "Dual-agent validation technique reconstructing system understanding purely from test code to measure how effectively tests serve as executable specifications",
+      "context": "Quality Validation / Testing",
+      "source": "reverse-speccing.md",
+      "related_terms": [
+        "Test-as-Documentation",
+        "Naive Reconstruction",
+        "Architecture Blind Spot"
+      ],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "reverse-speccing.md"
+      ],
+      "definitions": [
+        "Dual-agent validation technique reconstructing system understanding purely from test code to measure how effectively tests serve as executable specifications"
+      ]
+    },
+    "feasibility shift": {
+      "name": "Feasibility Shift",
+      "definition": "Transformation where previously infeasible practice becomes operationally viable due to technological change (e.g., agentic systems enabling continuous linguistic monitoring)",
+      "context": "Meta-Pattern / Technology Impact",
+      "source": "language-first-architecture.md, living-glossary-practice.md",
+      "related_terms": [
+        "Economic Feasibility",
+        "Agentic Enablement"
+      ],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "language-first-architecture.md, living-glossary-practice.md"
+      ],
+      "definitions": [
+        "Transformation where previously infeasible practice becomes operationally viable due to technological change (e.g., agentic systems enabling continuous linguistic monitoring)"
+      ]
+    },
+    "linguistic signal": {
+      "name": "Linguistic Signal",
+      "definition": "Observable pattern in terminology usage that indicates potential architectural problems before they manifest in code or process failures",
+      "context": "Architecture - DDD",
+      "source": "language-first-architecture.md",
+      "related_terms": [
+        "Language-First Architecture",
+        "Vocabulary Fragmentation",
+        "Semantic Conflict"
+      ],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "language-first-architecture.md"
+      ],
+      "definitions": [
+        "Observable pattern in terminology usage that indicates potential architectural problems before they manifest in code or process failures"
+      ]
+    },
+    "decision debt": {
+      "name": "Decision Debt",
+      "definition": "Ratio of decision markers not yet promoted to formal ADRs; acceptable <20%, requires action >40%",
+      "context": "Development Methodology / Metrics",
+      "source": "decision-first-development.md",
+      "related_terms": [
+        "Decision Marker",
+        "ADR Promotion"
+      ],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "decision-first-development.md"
+      ],
+      "definitions": [
+        "Ratio of decision markers not yet promoted to formal ADRs; acceptable <20%, requires action >40%"
+      ]
+    },
+    "meta-awareness": {
+      "name": "Meta-Awareness",
+      "definition": "Agent capability to observe and reason about its own execution state, recognize problematic patterns, and make course corrections before completing tasks",
+      "context": "Agent Behavior / Self-Observation",
+      "source": "ralph-wiggum-loop.md",
+      "related_terms": [
+        "Ralph Wiggum Loop",
+        "Meta-Mode"
+      ],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "ralph-wiggum-loop.md"
+      ],
+      "definitions": [
+        "Agent capability to observe and reason about its own execution state, recognize problematic patterns, and make course corrections before completing tasks"
+      ]
+    },
+    "organic emergence": {
+      "name": "Organic Emergence",
+      "definition": "Principle of letting patterns emerge naturally from observed practice before codifying them, rather than prescribing patterns prematurely",
+      "context": "Meta-Pattern / Design Principle",
+      "source": "agent-profile-handoff-patterns.md, locality-of-change.md",
+      "related_terms": [
+        "Pattern Before Prescription",
+        "Premature Abstraction"
+      ],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "agent-profile-handoff-patterns.md, locality-of-change.md"
+      ],
+      "definitions": [
+        "Principle of letting patterns emerge naturally from observed practice before codifying them, rather than prescribing patterns prematurely"
+      ]
+    },
+    "systematic reading": {
+      "name": "Systematic Reading",
+      "definition": "Read each approach file completely",
+      "context": "approaches",
+      "source": "Batch 2: Approaches (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 2: Approaches (summary)"
+      ],
+      "definitions": [
+        "Read each approach file completely"
+      ]
+    },
+    "concept identification": {
+      "name": "Concept Identification",
+      "definition": "Flag conceptual terms, mental models, patterns",
+      "context": "approaches",
+      "source": "Batch 2: Approaches (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 2: Approaches (summary)"
+      ],
+      "definitions": [
+        "Flag conceptual terms, mental models, patterns"
+      ]
+    },
+    "context extraction": {
+      "name": "Context Extraction",
+      "definition": "Extract definition from surrounding paragraphs",
+      "context": "approaches",
+      "source": "Batch 2: Approaches (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 2: Approaches (summary)"
+      ],
+      "definitions": [
+        "Extract definition from surrounding paragraphs"
+      ]
+    },
+    "related terms mapping": {
+      "name": "Related Terms Mapping",
+      "definition": "Identify term clusters and relationships",
+      "context": "approaches",
+      "source": "Batch 2: Approaches (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 2: Approaches (summary)"
+      ],
+      "definitions": [
+        "Identify term clusters and relationships"
+      ]
+    },
+    "confidence assessment": {
+      "name": "Confidence Assessment",
+      "definition": "Evaluate clarity, consistency, and context",
+      "context": "approaches",
+      "source": "Batch 2: Approaches (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 2: Approaches (summary)"
+      ],
+      "definitions": [
+        "Evaluate clarity, consistency, and context"
+      ]
+    },
+    "yaml generation": {
+      "name": "YAML Generation",
+      "definition": "Format with metadata, confidence, and notes --- ## Recommendations ### For Glossary Integration",
+      "context": "approaches",
+      "source": "Batch 2: Approaches (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 2: Approaches (summary)"
+      ],
+      "definitions": [
+        "Format with metadata, confidence, and notes --- ## Recommendations ### For Glossary Integration"
+      ]
+    },
+    "prioritize high-confidence terms": {
+      "name": "Prioritize High-Confidence Terms (89 terms)",
+      "definition": "These have clear definitions and strong contextual support - Recommend immediate integration into `doctrine/GLOSSARY.md`",
+      "context": "approaches",
+      "source": "Batch 2: Approaches (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 2: Approaches (summary)"
+      ],
+      "definitions": [
+        "These have clear definitions and strong contextual support - Recommend immediate integration into `doctrine/GLOSSARY.md`"
+      ]
+    },
+    "review medium-confidence terms": {
+      "name": "Review Medium-Confidence Terms (32 terms)",
+      "definition": "May require additional examples or clarification - Consider pilot integration with [DRAFT] status",
+      "context": "approaches",
+      "source": "Batch 2: Approaches (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 2: Approaches (summary)"
+      ],
+      "definitions": [
+        "May require additional examples or clarification - Consider pilot integration with [DRAFT] status"
+      ]
+    },
+    "defer low-confidence terms": {
+      "name": "Defer Low-Confidence Terms (8 terms)",
+      "definition": "Require more usage examples or stabilized definitions - Revisit after 6 months of operational observation",
+      "context": "approaches",
+      "source": "Batch 2: Approaches (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 2: Approaches (summary)"
+      ],
+      "definitions": [
+        "Require more usage examples or stabilized definitions - Revisit after 6 months of operational observation"
+      ]
+    },
+    "address overlaps with batch 1": {
+      "name": "Address Overlaps with Batch 1",
+      "definition": "~12 terms appear in both batches (e.g., Bounded Context, ADR references) - Consolidate definitions, preferring approach-level (strategic) framing ### For Documentation Enhancements",
+      "context": "approaches",
+      "source": "Batch 2: Approaches (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 2: Approaches (summary)"
+      ],
+      "definitions": [
+        "~12 terms appear in both batches (e.g., Bounded Context, ADR references) - Consolidate definitions, preferring approach-level (strategic) framing ### For Documentation Enhancements"
+      ]
+    },
+    "create visual concept maps": {
+      "name": "Create Visual Concept Maps",
+      "definition": "Cluster related terms (e.g., DDD concepts, SDD lifecycle, testing patterns) - Show relationships and dependencies visually",
+      "context": "approaches",
+      "source": "Batch 2: Approaches (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 2: Approaches (summary)"
+      ],
+      "definitions": [
+        "Cluster related terms (e.g., DDD concepts, SDD lifecycle, testing patterns) - Show relationships and dependencies visually"
+      ]
+    },
+    "add concrete examples": {
+      "name": "Add Concrete Examples",
+      "definition": "Supplement abstract terms (Feasibility Shift, Organic Emergence) with real-world examples - Link to work logs or completed tasks demonstrating concepts",
+      "context": "approaches",
+      "source": "Batch 2: Approaches (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 2: Approaches (summary)"
+      ],
+      "definitions": [
+        "Supplement abstract terms (Feasibility Shift, Organic Emergence) with real-world examples - Link to work logs or completed tasks demonstrating concepts"
+      ]
+    },
+    "cross-reference adrs": {
+      "name": "Cross-Reference ADRs",
+      "definition": "Many terms reference architectural decisions (ADR-008, ADR-017, etc.) - Ensure bidirectional links between glossary and ADRs",
+      "context": "approaches",
+      "source": "Batch 2: Approaches (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 2: Approaches (summary)"
+      ],
+      "definitions": [
+        "Many terms reference architectural decisions (ADR-008, ADR-017, etc.) - Ensure bidirectional links between glossary and ADRs"
+      ]
+    },
+    "maintain living document": {
+      "name": "Maintain Living Document",
+      "definition": "Glossary should follow its own principle\u2014continuous updates as terminology evolves - Quarterly reviews to add new terms, deprecate obsolete ones ### For Future Batch Extractions",
+      "context": "approaches",
+      "source": "Batch 2: Approaches (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 2: Approaches (summary)"
+      ],
+      "definitions": [
+        "Glossary should follow its own principle\u2014continuous updates as terminology evolves - Quarterly reviews to add new terms, deprecate obsolete ones ### For Future Batch Extractions"
+      ]
+    },
+    "batch 3: tactics**- expect more procedural terms, step-by-step patterns\n   - likely higher term density but lower strategic significance\n\n2. **batch 4: specifications**- domain-specific terminology, feature-related concepts\n   - may require separate domain glossaries\n\n3. **batch 5: adrs**- decision-specific rationale, trade-off terminology\n   - high overlap with approaches but more concrete\n\n---\n\n## appendix: files processed\n\n### files with terms extracted1. spec-driven-development.md\n2. spec-driven-6-phase-cycle.md\n3. decision-first-development.md\n4. language-first-architecture.md\n5. bounded-context-linguistic-discovery.md\n6. living-glossary-practice.md\n7. evidence-based-requirements.md\n8. reverse-speccing.md\n9. test-first-bug-fixing.md\n10. test-readability-clarity-check.md\n11. traceability-chain-pattern.md\n12. traceable-decisions-detailed-guide.md\n13. ralph-wiggum-loop.md\n14. work-directory-orchestration.md\n15. locality-of-change.md\n16. meta-analysis.md\n17. trunk-based-development.md\n18. target-audience-fit.md\n19. style-execution-primers.md\n20. agent-profile-handoff-patterns.md\n21. design_diagramming-incremental_detail.md\n22. tooling-setup-best-practices.md\n23. bug-fixing-checklist.md\n24. file_based_collaboration/readme.md25. operating_procedures/readme.md26. prompt_documentation/readme.md27. 01_redundancy_rationale.md### files without terms extracted- readme.md- file-based-orchestration.md- file_based_collaboration/01-07- operating_procedures/01_redundancy_rationale.md- prompt_documentation/01-04---\n\n## metrics summary\n\n| metric | value | target | status |\n|--------|-------|--------|--------|\n| **approaches processed** | 41 | 41 | \u2705 complete |\n| **terms extracted** | 129 | 100+ | \u2705 exceeds target |\n| **high-confidence terms** | 89 | 70+ | \u2705 high quality |\n| **extraction time** | ~3 hours | <4 hours | \u2705 on schedule |\n| **average terms/file** | 4.8 | 3-5 | \u2705 good density |\n| **duplicate rate** | ~9% | <15% | \u2705 low overlap |\n\n---\n\n## next steps\n\n1. **review candidates** \u2705 done\n   - generated batch2-approaches-candidates.yaml with 129 terms\n\n2. **integration planning**- compare with batch 1 to identify overlaps\n   - prioritize high-confidence terms for immediate integration\n   - create consolidated glossary merge plan\n\n3. **glossary update**- integrate high-confidence terms into doctrine/glossary.md\n   - add cross-references to approaches and adrs\n   - update glossary maintenance documentation\n\n4. **batch 3 extraction**- extract from doctrine/tactics/\n   - expected ~80-100 terms5. **quality review**- cross-validate all batches\n   - consolidate duplicate definitions\n   - generate final integrated glossary v2.0\n\n---\n\n**status:** \u2705 batch 2 extraction complete  \n**deliverables:": {
+      "name": "Batch 3: Tactics** (~30 files expected)\n   - Expect more procedural terms, step-by-step patterns\n   - Likely higher term density but lower strategic significance\n\n2. **Batch 4: Specifications** (variable count)\n   - Domain-specific terminology, feature-related concepts\n   - May require separate domain glossaries\n\n3. **Batch 5: ADRs** (~40+ decisions)\n   - Decision-specific rationale, trade-off terminology\n   - High overlap with approaches but more concrete\n\n---\n\n## Appendix: Files Processed\n\n### Files with Terms Extracted (27)\n\n1. spec-driven-development.md\n2. spec-driven-6-phase-cycle.md\n3. decision-first-development.md\n4. language-first-architecture.md\n5. bounded-context-linguistic-discovery.md\n6. living-glossary-practice.md\n7. evidence-based-requirements.md\n8. reverse-speccing.md\n9. test-first-bug-fixing.md\n10. test-readability-clarity-check.md\n11. traceability-chain-pattern.md\n12. traceable-decisions-detailed-guide.md\n13. ralph-wiggum-loop.md\n14. work-directory-orchestration.md\n15. locality-of-change.md\n16. meta-analysis.md\n17. trunk-based-development.md\n18. target-audience-fit.md\n19. style-execution-primers.md\n20. agent-profile-handoff-patterns.md\n21. design_diagramming-incremental_detail.md\n22. tooling-setup-best-practices.md\n23. bug-fixing-checklist.md\n24. file_based_collaboration/README.md (partial)\n25. operating_procedures/README.md (partial)\n26. prompt_documentation/README.md (partial)\n27. 01_redundancy_rationale.md (partial)\n\n### Files Without Terms Extracted (14)\n\n- README.md (index, no conceptual terms)\n- file-based-orchestration.md (superseded)\n- file_based_collaboration/01-07 (operational checklists)\n- operating_procedures/01_redundancy_rationale.md (duplicate)\n- prompt_documentation/01-04 (process guidelines)\n\n---\n\n## Metrics Summary\n\n| Metric | Value | Target | Status |\n|--------|-------|--------|--------|\n| **Approaches processed** | 41 | 41 | \u2705 Complete |\n| **Terms extracted** | 129 | 100+ | \u2705 Exceeds target |\n| **High-confidence terms** | 89 | 70+ | \u2705 High quality |\n| **Extraction time** | ~3 hours | <4 hours | \u2705 On schedule |\n| **Average terms/file** | 4.8 | 3-5 | \u2705 Good density |\n| **Duplicate rate** | ~9% | <15% | \u2705 Low overlap |\n\n---\n\n## Next Steps\n\n1. **Review Candidates** \u2705 DONE\n   - Generated batch2-approaches-candidates.yaml with 129 terms\n\n2. **Integration Planning** (Week of 2026-02-17)\n   - Compare with Batch 1 to identify overlaps\n   - Prioritize high-confidence terms for immediate integration\n   - Create consolidated glossary merge plan\n\n3. **Glossary Update** (Week of 2026-02-24)\n   - Integrate high-confidence terms into doctrine/GLOSSARY.md\n   - Add cross-references to approaches and ADRs\n   - Update glossary maintenance documentation\n\n4. **Batch 3 Extraction** (Week of 2026-03-03)\n   - Extract from doctrine/tactics/\n   - Expected ~80-100 terms (more procedural focus)\n\n5. **Quality Review** (Week of 2026-03-10)\n   - Cross-validate all batches\n   - Consolidate duplicate definitions\n   - Generate final integrated glossary v2.0\n\n---\n\n**Status:** \u2705 Batch 2 extraction complete  \n**Deliverables:",
+      "definition": "[x] batch2-approaches-candidates.yaml (129 terms) - [x] batch2-approaches-extraction-summary.md (this document) - [ ] Comparison analysis with Batch 1 (pending) - [ ] Integration into doctrine/GLOSSARY.md (pending) **Confidence Assessment:** High\u2014extraction methodology consistent, term definitions well-grounded in source material, cross-referencing comprehensive. **Agent:** Lexical Larry **Date:** 2026-02-10 **Review Recommended:** Yes\u2014by Curator Claire or Architect Alphonso for validation",
+      "context": "approaches",
+      "source": "Batch 2: Approaches (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 2: Approaches (summary)"
+      ],
+      "definitions": [
+        "[x] batch2-approaches-candidates.yaml (129 terms) - [x] batch2-approaches-extraction-summary.md (this document) - [ ] Comparison analysis with Batch 1 (pending) - [ ] Integration into doctrine/GLOSSARY.md (pending) **Confidence Assessment:** High\u2014extraction methodology consistent, term definitions well-grounded in source material, cross-referencing comprehensive. **Agent:** Lexical Larry **Date:** 2026-02-10 **Review Recommended:** Yes\u2014by Curator Claire or Architect Alphonso for validation"
+      ]
+    },
+    "\"hand-off\"vs. \"handoff pattern\"": {
+      "name": "\"Hand-off\" (Batch 3) vs. \"Handoff Pattern\" (Batch 2)",
+      "definition": "**Recommendation:** Keep separate. Batch 2 = conceptual pattern, Batch 3 = procedural execution.",
+      "context": "tactics",
+      "source": "Batch 3: Tactics (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 3: Tactics (summary)"
+      ],
+      "definitions": [
+        "**Recommendation:** Keep separate. Batch 2 = conceptual pattern, Batch 3 = procedural execution."
+      ]
+    },
+    "\"evidence type\"vs. \"evidence classification\"": {
+      "name": "\"Evidence Type\" (Batch 3) vs. \"Evidence Classification\" (if in Batch 2)",
+      "definition": "**Recommendation:** Verify Batch 2, may need merge.",
+      "context": "tactics",
+      "source": "Batch 3: Tactics (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 3: Tactics (summary)"
+      ],
+      "definitions": [
+        "**Recommendation:** Verify Batch 2, may need merge."
+      ]
+    },
+    "\"frozen context\"vs. \"context freeze\"": {
+      "name": "\"Frozen Context\" (Batch 3) vs. \"Context Freeze\" (potential Batch 1)",
+      "definition": "**Recommendation:** Check existing glossary, may already be defined. ### Terminology Refinement Opportunities **Consider standardizing:** - \"Assessment\" vs. \"Analysis\" (both used for evaluation activities) - \"Validation\" vs. \"Verification\" (used somewhat interchangeably) - \"Checkpoint\" vs. \"Gate\" (both mean validation point) **Recommendation:** Document as synonyms rather than consolidate, as usage contexts differ. --- ## Integration with Existing Glossary ### Check Against Current GLOSSARY.md **Before finalizing, verify these terms don't already exist:**",
+      "context": "tactics",
+      "source": "Batch 3: Tactics (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 3: Tactics (summary)"
+      ],
+      "definitions": [
+        "**Recommendation:** Check existing glossary, may already be defined. ### Terminology Refinement Opportunities **Consider standardizing:** - \"Assessment\" vs. \"Analysis\" (both used for evaluation activities) - \"Validation\" vs. \"Verification\" (used somewhat interchangeably) - \"Checkpoint\" vs. \"Gate\" (both mean validation point) **Recommendation:** Document as synonyms rather than consolidate, as usage contexts differ. --- ## Integration with Existing Glossary ### Check Against Current GLOSSARY.md **Before finalizing, verify these terms don't already exist:**"
+      ]
+    },
+    "guidelines:** values, preferences2. **approaches:** mental models, philosophies\n3. **directives:** instructions, constraints\n4. **tactics:** procedural execution\n5. **templates:** output structures**critical distinction:": {
+      "name": "Guidelines:** Values, preferences (highest precedence)\n2. **Approaches:** Mental models, philosophies\n3. **Directives:** Instructions, constraints\n4. **Tactics:** Procedural execution\n5. **Templates:** Output structures (lowest precedence)\n\n**Critical Distinction:",
+      "definition": "**Source:** `doctrine/` (edit here) - **Distribution:** `.github/`, `.claude/`, `.opencode/` (generated) **Export Pipeline:** Transforms source to tool-specific formats **Prevents:** Layer boundary violations, source/distribution confusion, manual edits to generated files --- ## Confidence Analysis ### High Confidence (100% - 120 terms) **Why 100% high confidence:**",
+      "context": "agents",
+      "source": "Batch 4: Agents (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 4: Agents (summary)"
+      ],
+      "definitions": [
+        "**Source:** `doctrine/` (edit here) - **Distribution:** `.github/`, `.claude/`, `.opencode/` (generated) **Export Pipeline:** Transforms source to tool-specific formats **Prevents:** Layer boundary violations, source/distribution confusion, manual edits to generated files --- ## Confidence Analysis ### High Confidence (100% - 120 terms) **Why 100% high confidence:**"
+      ]
+    },
+    "clear source context:** agent profiles explicitly define roles, capabilities, boundaries\n2. **consistent patterns:** standard profile structure across all 21 agents\n3. **explicit definitions:** specialization sections detail focus/awareness/avoid/success\n4. **well-documented protocols:** hand-off protocols and phase authority clearly specified\n5. **concrete artifacts:** output artifacts with defined locations and formats\n\n**agent role names:** all 21 agents have explicit role definitions with examples\n**collaboration protocols:** phase authority tables explicitly define primary/consult/no\n**output artifacts:** clear templates and directory paths specified\n**quality gates:** concrete thresholds**no medium or low confidence terms:** all extracted terms have clear definitions grounded in agent profile context.\n\n---\n\n## relationship to previous batches\n\n### batch 1- 99 terms\n**overlap:** directives referenced by agents**new context:** agent-specific application of directives### batch 2- 129 terms\n**overlap:** approaches like language-first architecture, spec-driven development\n**new context:** which agents embody which approaches\n\n### batch 3- 127 terms\n**overlap:** phase checkpoint protocol, 6-phase spec-driven implementation flow\n**new context:** which agents execute which tactics\n\n### batch 4- 120 terms\n**unique focus:": {
+      "name": "Clear source context:** Agent profiles explicitly define roles, capabilities, boundaries\n2. **Consistent patterns:** Standard profile structure across all 21 agents\n3. **Explicit definitions:** Specialization sections detail focus/awareness/avoid/success\n4. **Well-documented protocols:** Hand-off protocols and phase authority clearly specified\n5. **Concrete artifacts:** Output artifacts with defined locations and formats\n\n**Agent Role Names:** All 21 agents have explicit role definitions with examples\n**Collaboration Protocols:** Phase authority tables explicitly define PRIMARY/CONSULT/NO\n**Output Artifacts:** Clear templates and directory paths specified\n**Quality Gates:** Concrete thresholds (\u226580% coverage, mypy clean, etc.)\n\n**No medium or low confidence terms:** All extracted terms have clear definitions grounded in agent profile context.\n\n---\n\n## Relationship to Previous Batches\n\n### Batch 1 (Directives) - 99 terms\n**Overlap:** Directives referenced by agents (ATDD, TDD, Boy Scout Rule, Spec-Driven Development)\n**New Context:** Agent-specific application of directives (who applies when)\n\n### Batch 2 (Approaches) - 129 terms\n**Overlap:** Approaches like Language-First Architecture, Spec-Driven Development\n**New Context:** Which agents embody which approaches\n\n### Batch 3 (Tactics) - 127 terms\n**Overlap:** Phase Checkpoint Protocol, 6-Phase Spec-Driven Implementation Flow\n**New Context:** Which agents execute which tactics\n\n### Batch 4 (Agents) - 120 terms\n**Unique Focus:",
+      "definition": "Agent role names and identities (21 new terms) - Collaboration boundaries and handoff protocols (mostly new) - Agent-specific output artifacts (AGENT_STATUS, LEX_REPORT, etc.) - Phase authority assignments (new granularity) - Specialized capabilities per agent **Integration Value:** Completes WHO-WHAT-HOW-WHY stack: - **WHO:** Agents (Batch 4) - **WHAT:** Directives (Batch 1) - **HOW:** Tactics (Batch 3) - **WHY:** Approaches (Batch 2) --- ## Curation Recommendations ### 1. Agent Role Name Consolidation **Issue:** 21 agent role terms may be verbose for glossary **Recommendation:** - Create single \"Agent Roles\" glossary entry with table - Link to individual agent profile files for full details - Or keep individual entries for discoverability (searchability) **Decision needed:** Breadth vs. depth trade-off --- ### 2. Phase Authority Integration **Issue:** Phase 1-6 terms are tightly coupled to Spec-Driven Development **Recommendation:** - Group under \"Spec-Driven Development Phases\" parent term - Cross-reference to Directive 034 and 6-Phase tactic - Ensure Phase Checkpoint Protocol is linked --- ### 3. Output Artifact Organization **Issue:** 22 artifact terms may benefit from categorization **Recommendation:** - Group by agent owner (Bootstrap artifacts, Coordination artifacts, etc.) - Or by purpose (Structural, Planning, Quality, Style, etc.) - Maintain cross-references between artifacts (AGENT_STATUS \u2194 WORKFLOW_LOG \u2194 HANDOFFS) --- ### 4. Technology-Specific Term Depth **Issue:** Python-specific terms (pytest, mypy, ruff, black) may be too implementation-focused **Recommendation:** - Keep if Python is primary language in target repos - Or generalize to \"Testing Framework\", \"Type Checker\", \"Linter\", \"Formatter\" - Decision depends on glossary audience (Python devs vs. multi-language teams) --- ### 5. Doctrine Stack Terminology **Issue:** \"Source vs Distribution\" and \"Export Pipeline\" are meta-framework concepts **Recommendation:** - Mark as \"Framework Meta\" or \"Doctrine Architecture\" category - Ensure Curator Claire profile is referenced - Link to distribution architecture ADRs --- ### 6. Review Dimensions Expansion **Issue:** Four review dimensions could have more detailed definitions **Recommendation:** - Expand with concrete checklists from Reviewer agent profile - Add examples of findings for each dimension - Link to Review Report template --- ### 7. Collaboration Pattern Terms **Issue:** \"Hand-off Protocol\", \"Specialization Boundary\", \"Escalation\" are general patterns **Recommendation:** - Ensure these connect to Collaboration Contract sections - Cross-reference between agent profiles showing handoff examples - Document escalation thresholds (>30% uncertainty rule) --- ## Integration with Living Glossary Practice ### Candidate Status All 120 terms marked as `status: candidate` ready for curation workflow. ### Enforcement Tier All terms marked as `enforcement_tier: advisory` (default for initial extraction). **Curation Phase Should:** - Promote critical terms to \"acknowledgment_required\" (e.g., Phase Authority, Core/Local Boundary) - Consider \"hard_failure\" for must-not-violate patterns (e.g., editing distribution files directly) ### Ownership Assignment **Recommended Owners by Category:** - **Agent Roles:** Framework Guardian (meta-framework) - **Collaboration Protocols:** Manager Mike (orchestration) - **Spec-Driven Development:** Analyst Annie + Architect Alphonso + Planning Petra (joint) - **Quality Gates:** Reviewer (quality assurance) - **Doctrine Stack:** Curator Claire (architecture) - **Tech-Specific:** Python Pedro (Python), Java Jenny (Java), etc. --- ## Next Steps ### Immediate (Post-Batch-4)",
+      "context": "agents",
+      "source": "Batch 4: Agents (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 4: Agents (summary)"
+      ],
+      "definitions": [
+        "Agent role names and identities (21 new terms) - Collaboration boundaries and handoff protocols (mostly new) - Agent-specific output artifacts (AGENT_STATUS, LEX_REPORT, etc.) - Phase authority assignments (new granularity) - Specialized capabilities per agent **Integration Value:** Completes WHO-WHAT-HOW-WHY stack: - **WHO:** Agents (Batch 4) - **WHAT:** Directives (Batch 1) - **HOW:** Tactics (Batch 3) - **WHY:** Approaches (Batch 2) --- ## Curation Recommendations ### 1. Agent Role Name Consolidation **Issue:** 21 agent role terms may be verbose for glossary **Recommendation:** - Create single \"Agent Roles\" glossary entry with table - Link to individual agent profile files for full details - Or keep individual entries for discoverability (searchability) **Decision needed:** Breadth vs. depth trade-off --- ### 2. Phase Authority Integration **Issue:** Phase 1-6 terms are tightly coupled to Spec-Driven Development **Recommendation:** - Group under \"Spec-Driven Development Phases\" parent term - Cross-reference to Directive 034 and 6-Phase tactic - Ensure Phase Checkpoint Protocol is linked --- ### 3. Output Artifact Organization **Issue:** 22 artifact terms may benefit from categorization **Recommendation:** - Group by agent owner (Bootstrap artifacts, Coordination artifacts, etc.) - Or by purpose (Structural, Planning, Quality, Style, etc.) - Maintain cross-references between artifacts (AGENT_STATUS \u2194 WORKFLOW_LOG \u2194 HANDOFFS) --- ### 4. Technology-Specific Term Depth **Issue:** Python-specific terms (pytest, mypy, ruff, black) may be too implementation-focused **Recommendation:** - Keep if Python is primary language in target repos - Or generalize to \"Testing Framework\", \"Type Checker\", \"Linter\", \"Formatter\" - Decision depends on glossary audience (Python devs vs. multi-language teams) --- ### 5. Doctrine Stack Terminology **Issue:** \"Source vs Distribution\" and \"Export Pipeline\" are meta-framework concepts **Recommendation:** - Mark as \"Framework Meta\" or \"Doctrine Architecture\" category - Ensure Curator Claire profile is referenced - Link to distribution architecture ADRs --- ### 6. Review Dimensions Expansion **Issue:** Four review dimensions could have more detailed definitions **Recommendation:** - Expand with concrete checklists from Reviewer agent profile - Add examples of findings for each dimension - Link to Review Report template --- ### 7. Collaboration Pattern Terms **Issue:** \"Hand-off Protocol\", \"Specialization Boundary\", \"Escalation\" are general patterns **Recommendation:** - Ensure these connect to Collaboration Contract sections - Cross-reference between agent profiles showing handoff examples - Document escalation thresholds (>30% uncertainty rule) --- ## Integration with Living Glossary Practice ### Candidate Status All 120 terms marked as `status: candidate` ready for curation workflow. ### Enforcement Tier All terms marked as `enforcement_tier: advisory` (default for initial extraction). **Curation Phase Should:** - Promote critical terms to \"acknowledgment_required\" (e.g., Phase Authority, Core/Local Boundary) - Consider \"hard_failure\" for must-not-violate patterns (e.g., editing distribution files directly) ### Ownership Assignment **Recommended Owners by Category:** - **Agent Roles:** Framework Guardian (meta-framework) - **Collaboration Protocols:** Manager Mike (orchestration) - **Spec-Driven Development:** Analyst Annie + Architect Alphonso + Planning Petra (joint) - **Quality Gates:** Reviewer (quality assurance) - **Doctrine Stack:** Curator Claire (architecture) - **Tech-Specific:** Python Pedro (Python), Java Jenny (Java), etc. --- ## Next Steps ### Immediate (Post-Batch-4)"
+      ]
+    },
+    "deduplication:** compare 475 total termsacross batches\n2. **consolidation:** merge overlapping definitions with enhanced context\n3. **categorization:** organize by domain4. **ownership assignment:** per bounded context or role\n5. **enforcement calibration:** promote critical terms from advisory\n6. **cross-reference validation:** ensure related_terms links are bidirectional\n7. **template integration:** verify all artifact terms have templates\n8. **ide integration:** prepare for contextive plugin deployment\n\n---\n\n## success criteria met\n\n\u2705 **coverage:** 21/21 agent profiles processed\u2705 **confidence:** 120/120 high-confidence terms\u2705 **focus:** role-specific terminology, collaboration, handoff patterns\n\u2705 **documentation:** clear definitions with source citations\n\u2705 **relationships:** related terms mapped for navigation\n\u2705 **integration:** completes who-what-how-why doctrine stack\n\n**ready for curation phase.": {
+      "name": "Deduplication:** Compare 475 total terms (99+129+127+120) across batches\n2. **Consolidation:** Merge overlapping definitions with enhanced context\n3. **Categorization:** Organize by domain (DDD, Testing, Architecture, Agents, etc.)\n4. **Ownership Assignment:** Per bounded context or role\n5. **Enforcement Calibration:** Promote critical terms from advisory\n6. **Cross-Reference Validation:** Ensure related_terms links are bidirectional\n7. **Template Integration:** Verify all artifact terms have templates\n8. **IDE Integration:** Prepare for Contextive plugin deployment\n\n---\n\n## Success Criteria Met\n\n\u2705 **Coverage:** 21/21 agent profiles processed (100%)\n\u2705 **Confidence:** 120/120 high-confidence terms (100%)\n\u2705 **Focus:** Role-specific terminology, collaboration, handoff patterns\n\u2705 **Documentation:** Clear definitions with source citations\n\u2705 **Relationships:** Related terms mapped for navigation\n\u2705 **Integration:** Completes WHO-WHAT-HOW-WHY doctrine stack\n\n**Ready for curation phase.",
+      "definition": "-- ## File Outputs - `batch4-agents-candidates.yaml` - 120 candidate glossary entries - `batch4-agents-extraction-log.md` - Detailed extraction process log - `batch4-agents-extraction-summary.md` - This comprehensive summary **Next:** `batch1-4-complete-integration-plan.md` - Consolidation strategy across all four batches --- **Extraction Status:** \u2705 COMPLETE **Quality:** \u2705 HIGH (100% high-confidence) **Ready for:** Curation Phase **Batch:** 4 of 4 (FINAL extraction before curation) --- _Extracted by: Lexical Larry_ _Date: 2026-02-10_ _Total Agent Profiles Analyzed: 21_ _Total Terms Extracted: 120_ _Confidence Distribution: 120 high, 0 medium, 0 low_",
+      "context": "agents",
+      "source": "Batch 4: Agents (summary)",
+      "related_terms": [],
+      "confidence": "high",
+      "enforcement_tier": "advisory",
+      "sources": [
+        "Batch 4: Agents (summary)"
+      ],
+      "definitions": [
+        "-- ## File Outputs - `batch4-agents-candidates.yaml` - 120 candidate glossary entries - `batch4-agents-extraction-log.md` - Detailed extraction process log - `batch4-agents-extraction-summary.md` - This comprehensive summary **Next:** `batch1-4-complete-integration-plan.md` - Consolidation strategy across all four batches --- **Extraction Status:** \u2705 COMPLETE **Quality:** \u2705 HIGH (100% high-confidence) **Ready for:** Curation Phase **Batch:** 4 of 4 (FINAL extraction before curation) --- _Extracted by: Lexical Larry_ _Date: 2026-02-10_ _Total Agent Profiles Analyzed: 21_ _Total Terms Extracted: 120_ _Confidence Distribution: 120 high, 0 medium, 0 low_"
+      ]
+    }
+  }
+}
