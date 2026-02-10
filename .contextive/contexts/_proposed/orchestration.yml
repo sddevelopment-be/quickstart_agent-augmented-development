@@ -1,0 +1,200 @@
+# Orchestration Domain Glossary
+# Version: 1.0.0 (PROPOSED)
+# Date: 2026-02-10
+# Purpose: File-based task coordination and execution vocabulary
+# Status: DRAFT - Created from Strategic Linguistic Assessment
+
+name: "Orchestration Domain"
+description: "File-based task coordination and execution vocabulary"
+terms:
+  - term: "TaskDescriptor"
+    definition: "YAML-serializable representation of a task for file I/O operations"
+    context: "Orchestration Context"
+    status: "proposed"
+    rationale: "Replaces raw Dict[str, Any] usage, provides semantic clarity"
+    related_terms:
+      - "TaskAggregate (Task Domain)"
+      - "WorkItem (Collaboration Context)"
+    
+  - term: "Work Directory"
+    definition: "File-based orchestration workspace at work/collaboration/ containing task lifecycle directories"
+    context: "Orchestration Context"
+    status: "canonical"
+    source: "ADR-004: Work Directory Structure"
+    implementation: "work/collaboration/"
+    
+  - term: "Agent Queue"
+    definition: "Directory-based task assignment mechanism at work/collaboration/assigned/<agent>/"
+    context: "Orchestration Context"
+    status: "canonical"
+    usage: "Tasks assigned to specific agents are placed in their queue directory"
+    implementation: "work/collaboration/assigned/{agent-name}/"
+    
+  - term: "Task Lifecycle Directory"
+    definition: "File system directory representing a task's current state (inbox, assigned, done, error)"
+    context: "Orchestration Context"
+    status: "canonical"
+    values: ["inbox", "assigned", "done", "error"]
+    state_machine: "inbox → assigned → {done | error}"
+    
+  - term: "Serialize"
+    definition: "Convert in-memory task representation to YAML-compatible dictionary for persistence"
+    context: "Orchestration Context"
+    status: "proposed"
+    opposite: "Deserialize"
+    
+  - term: "Deserialize"
+    definition: "Parse YAML file content into in-memory task representation"
+    context: "Orchestration Context"
+    status: "proposed"
+    opposite: "Serialize"
+    
+  - term: "Persist"
+    definition: "Write task descriptor to file system, ensuring durability"
+    context: "Orchestration Context"
+    status: "canonical"
+    implementation: "task_utils.write_task()"
+    
+  - term: "Load"
+    definition: "Read task descriptor from file system"
+    context: "Orchestration Context"
+    status: "canonical"
+    implementation: "task_utils.read_task()"
+    
+  - term: "File-Based Coordination"
+    definition: "Orchestration pattern using file system as coordination mechanism instead of message queues or databases"
+    context: "Orchestration Context"
+    status: "canonical"
+    source: "ADR-008: File-Based Async Coordination"
+    benefits:
+      - "Git-trackable state"
+      - "No central server required"
+      - "Transparent for debugging"
+      - "Platform-agnostic"
+    
+  - term: "Task File"
+    definition: "YAML file containing task descriptor, named {task-id}.yaml"
+    context: "Orchestration Context"
+    status: "canonical"
+    naming_convention: "{ISO-timestamp}-{agent}-{slug}.yaml"
+    schema: "docs/templates/agent-tasks/task-base.yaml"
+    
+  - term: "Task Assignment"
+    definition: "Process of moving task file from inbox/ to assigned/{agent}/ directory"
+    context: "Orchestration Context"
+    status: "canonical"
+    implementation: "agent_orchestrator.assign_tasks()"
+    state_transition: "inbox → assigned"
+    
+  - term: "Task Completion"
+    definition: "Process of moving task file from assigned/ to done/ directory with result block"
+    context: "Orchestration Context"
+    status: "canonical"
+    state_transition: "assigned → done"
+    required_fields: ["result", "completed_at"]
+    
+  - term: "Task Error"
+    definition: "Task that failed execution, moved to error/ directory with error block"
+    context: "Orchestration Context"
+    status: "canonical"
+    state_transition: "assigned → error"
+    required_fields: ["error", "error_at"]
+    
+  - term: "Orchestrator"
+    definition: "System component responsible for task assignment, lifecycle management, and coordination"
+    context: "Orchestration Context"
+    status: "canonical"
+    implementation: "src/framework/orchestration/agent_orchestrator.py"
+    responsibilities:
+      - "Assign tasks from inbox to agents"
+      - "Monitor task timeouts"
+      - "Detect artifact conflicts"
+      - "Archive old completed tasks"
+      - "Create follow-up tasks (handoffs)"
+
+# Anti-Corruption Layer Vocabulary
+# (Translation between Orchestration and other contexts)
+
+  - term: "Parser"
+    definition: "Anti-Corruption Layer component that converts YAML dictionary to TaskDescriptor"
+    context: "Orchestration Context (ACL)"
+    status: "proposed"
+    implementation: "src/orchestration/translation.parse_task_descriptor()"
+    translation: "Dict[str, Any] → TaskDescriptor"
+    
+  - term: "Serializer"
+    definition: "Anti-Corruption Layer component that converts TaskDescriptor to YAML dictionary"
+    context: "Orchestration Context (ACL)"
+    status: "proposed"
+    implementation: "src/orchestration/translation.serialize_task_descriptor()"
+    translation: "TaskDescriptor → Dict[str, Any]"
+
+# Lifecycle State Vocabulary
+
+  - term: "Inbox State"
+    definition: "Task awaiting assignment, located in work/collaboration/inbox/"
+    context: "Orchestration Context"
+    status: "canonical"
+    transitions_to: ["Assigned State", "Error State"]
+    
+  - term: "Assigned State"
+    definition: "Task assigned to specific agent, located in work/collaboration/assigned/{agent}/"
+    context: "Orchestration Context"
+    status: "canonical"
+    transitions_to: ["In Progress State", "Done State", "Error State", "Blocked State"]
+    
+  - term: "In Progress State"
+    definition: "Task actively being executed by agent"
+    context: "Orchestration Context"
+    status: "canonical"
+    file_location: "work/collaboration/assigned/{agent}/ (status field updated)"
+    transitions_to: ["Done State", "Blocked State", "Error State"]
+    
+  - term: "Done State"
+    definition: "Task successfully completed, moved to work/collaboration/done/"
+    context: "Orchestration Context"
+    status: "canonical"
+    terminal: true
+    transitions_to: []
+    
+  - term: "Error State"
+    definition: "Task failed execution, moved to work/collaboration/error/"
+    context: "Orchestration Context"
+    status: "canonical"
+    terminal: true
+    transitions_to: []
+    
+  - term: "Blocked State"
+    definition: "Task execution blocked on dependency or external resource"
+    context: "Orchestration Context"
+    status: "canonical"
+    transitions_to: ["In Progress State", "Error State"]
+
+# Related Concepts (cross-context references)
+
+  - term: "TaskAggregate"
+    definition: "Domain model representation of task with business logic (see Task Domain glossary)"
+    context: "Cross-Reference (Task Domain Context)"
+    status: "proposed"
+    note: "TaskDescriptor (Orchestration) is serialized form of TaskAggregate (Domain)"
+    
+  - term: "WorkItem"
+    definition: "Human-facing workflow representation for agent queues (see Collaboration glossary)"
+    context: "Cross-Reference (Collaboration Context)"
+    status: "proposed"
+    note: "WorkItem (Collaboration) is presentation layer for TaskAggregate (Domain)"
+
+# Metadata
+
+owner: "Architect Alphonso"
+reviewers: ["Python Pedro", "Curator Claire"]
+approval_required: true
+enforcement_tier: "advisory"  # Default tier per living-glossary-practice.md
+supersedes: null
+decision_history:
+  - date: "2026-02-10"
+    rationale: "Created from Strategic Linguistic Assessment to document operational vocabulary"
+    alternatives_considered:
+      - "Keep vocabulary implicit in code"
+      - "Single unified glossary (rejected due to context mixing)"
+    decision: "Create context-specific glossary per bounded context principle"
