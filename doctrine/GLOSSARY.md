@@ -1,7 +1,7 @@
 # Agent Framework Glossary
 
-**Version:** 1.1.0  
-**Last Updated:** 2026-02-07  
+**Version:** 1.2.0  
+**Last Updated:** 2026-02-10  
 **Purpose:** Centralized definitions of common terminology used across agent profiles, directives, and documentation.
 
 ---
@@ -68,6 +68,22 @@ The initialization sequence an agent follows when first loaded or after context 
 
 **Reference:** `guidelines/bootstrap.md`  
 **Related:** Rehydration, Context Layer
+
+### Business Logic
+
+The core rules, workflows, and domain-specific behaviors that define how a system operates. Business logic includes state transitions, validation rules, domain models, and policy enforcement that implement the system's purpose and requirements. Distinct from infrastructure code (authentication, routing, database access) and utility code (formatting, parsing, general helpers).
+
+**Characteristics:**
+- Encodes system-specific rules and constraints
+- Drives state transitions and workflow orchestration
+- Validates inputs against domain requirements
+- Implements policies, calculations, and business rules
+
+**Location in this framework:** Primarily in `src/` directory (production code), not in `tools/` (development utilities) or `tests/` (verification code).
+
+**Example:** `TaskStatus` enum with state machine logic defining valid transitions between task states.
+
+**Related:** Production Code, TDD, Specification
 
 ### Collaboration Contract
 
@@ -217,6 +233,28 @@ A foundational execution pattern defined in ADR-011 that establishes minimum qua
 
 **Reference:** Directive 010, Directive 014  
 **Related:** Work Log, Mode
+
+### Production Code
+
+Code that executes in production environments and delivers the system's core functionality. Production code is subject to the highest quality standards including comprehensive test coverage, type safety, security reviews, and performance optimization. Excludes test code, development tools, examples, documentation generators, and other support infrastructure.
+
+**Quality Requirements:**
+- Comprehensive automated test coverage (unit, integration, acceptance)
+- Type safety and compile-time verification where applicable
+- Security hardening and input validation
+- Performance profiling and optimization
+- Error handling and logging instrumentation
+
+**Location in this framework:** `src/` directory (and deployed artifacts derived from it).
+
+**Excluded from production code:**
+- `tests/` — Test suites and test utilities
+- `tools/` — Development scripts and utilities
+- `examples/` — Sample code and demonstrations
+- `docs/` — Documentation and generation scripts
+- Build configuration and development tooling
+
+**Related:** Business Logic, TDD, Testing Pyramid
 
 ### Reasoning Mode
 
