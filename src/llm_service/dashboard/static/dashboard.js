@@ -14,6 +14,8 @@
     let costChart = null;
     let modelChart = null;
     let reconnectAttempts = 0;
+    let showFinishedWork = false; // Controls visibility of finished tasks
+    let showCompletedInitiatives = false; // Controls visibility of completed/deprecated initiatives
 
     // Initialize dashboard on DOM ready
     if (document.readyState === 'loading') {
@@ -30,6 +32,12 @@
         
         // Initialize charts
         initializeCharts();
+        
+        // Initialize toggle for finished work section
+        initializeFinishedWorkToggle();
+        
+        // Initialize toggle for completed initiatives
+        initializeCompletedInitiativesToggle();
         
         // Load initial data
         loadDashboardData();
@@ -161,8 +169,9 @@
 
     async function loadDashboardData() {
         try {
-            // Load task snapshot
-            const tasksResponse = await fetch('/api/tasks');
+            // Load task snapshot (exclude finished tasks by default)
+            const apiUrl = showFinishedWork ? '/api/tasks' : '/api/tasks?include_done=false';
+            const tasksResponse = await fetch(apiUrl);
             const tasksData = await tasksResponse.json();
             updateTaskBoard(tasksData);
 
@@ -174,6 +183,76 @@
             updateLastUpdated();
         } catch (error) {
             console.error('Failed to load dashboard data:', error);
+        }
+    }
+
+    async function loadFinishedTasks() {
+        // Lazy load finished tasks (done and error) when expanding finished section
+        try {
+            console.log('📦 Loading finished tasks...');
+            const response = await fetch('/api/tasks/finished');
+            const finishedData = await response.json();
+            
+            // Update done tasks
+            const doneTasks = [];
+            if (finishedData.done && typeof finishedData.done === 'object') {
+                for (const agent in finishedData.done) {
+                    doneTasks.push(...finishedData.done[agent]);
+                }
+            } else if (Array.isArray(finishedData.done)) {
+                doneTasks.push(...finishedData.done);
+            }
+            updateTaskColumn('done', doneTasks);
+            
+            // Update error tasks
+            const errorTasks = [];
+            if (finishedData.error && typeof finishedData.error === 'object') {
+                for (const agent in finishedData.error) {
+                    errorTasks.push(...finishedData.error[agent]);
+                }
+            } else if (Array.isArray(finishedData.error)) {
+                errorTasks.push(...finishedData.error);
+            }
+            updateTaskColumn('error', errorTasks);
+            
+            console.log(`✅ Loaded ${doneTasks.length} done and ${errorTasks.length} error tasks`);
+        } catch (error) {
+            console.error('Failed to load finished tasks:', error);
+        }
+    }
+
+    function getTaskColumn(task) {
+        // Determine which column a task should appear in based on its status
+        const status = task.status || task.state || 'inbox';
+        
+        switch (status.toLowerCase()) {
+            case 'inbox':
+            case 'pending':
+                return 'inbox';
+                
+            case 'assigned':
+                return 'assigned';
+                
+            case 'in_progress':
+            case 'in-progress':
+            case 'active':
+                return 'in-progress';
+                
+            case 'done':
+            case 'completed':
+                return 'done';
+                
+            case 'error':
+            case 'failed':
+                return 'error';
+                
+            case 'blocked':
+                // Blocked tasks stay in their current column but get special styling
+                return getTaskColumn({...task, status: task.previous_status || 'assigned'});
+                
+            default:
+                console.warn(`Unknown task status: ${status}. Defaulting to inbox.`);
+                return 'inbox';
         }
     }
 
@@ -190,6 +269,15 @@
         }
         updateTaskColumn('assigned', assignedTasks);
         
+        // Update in-progress (filter from data or create empty)
+        const inProgressTasks = [];
+        if (data['in-progress'] && Array.isArray(data['in-progress'])) {
+            inProgressTasks.push(...data['in-progress']);
+        } else if (data['in_progress'] && Array.isArray(data['in_progress'])) {
+            inProgressTasks.push(...data['in_progress']);
+        }
+        updateTaskColumn('in-progress', inProgressTasks);
+        
         // Update done (nested by agent)
         const doneTasks = [];
         if (data.done && typeof data.done === 'object') {
@@ -199,9 +287,20 @@
         }
         updateTaskColumn('done', doneTasks);
         
-        // Update active tasks count
+        // Update error column
+        const errorTasks = [];
+        if (data.error && Array.isArray(data.error)) {
+            errorTasks.push(...data.error);
+        } else if (data.error && typeof data.error === 'object') {
+            for (const agent in data.error) {
+                errorTasks.push(...data.error[agent]);
+            }
+        }
+        updateTaskColumn('error', errorTasks);
+        
+        // Update active tasks count (inbox + assigned + in-progress)
         document.getElementById('tasks-active').textContent = 
-            (data.inbox?.length || 0) + assignedTasks.length;
+            (data.inbox?.length || 0) + assignedTasks.length + inProgressTasks.length;
     }
 
     function updateTaskColumn(columnId, tasks) {
@@ -241,13 +340,51 @@
     }
 
     function createTaskCard(task) {
+        // Check if task is BLOCKED (looking at status or tags)
+        const isBlocked = task.status === 'blocked' || 
+                         task.state === 'blocked' ||
+                         (task.tags && task.tags.includes('blocked'));
+        
+        // Use special blocked rendering if task is blocked
+        if (isBlocked) {
+            return renderBlockedTask(task);
+        }
+        
         const priority = task.priority || 'medium';
         const agent = task.agent || 'unassigned';
         const createdAt = task.created_at ? new Date(task.created_at).toLocaleString() : 'Unknown';
         
+        const blockedClass = isBlocked ? 'task-blocked' : '';
+        
         return `
-            <div class="task-card priority-${priority.toLowerCase()}">
+            <div class="task-card priority-${priority.toLowerCase()} ${blockedClass}">
                 <h4>${escapeHtml(task.title || task.id)}</h4>
+                <div class="task-meta">
+                    <span>👤 ${escapeHtml(agent)}</span>
+                    ${createPriorityControl(task)}
+                    <span>🕐 ${createdAt}</span>
+                </div>
+            </div>
+        `;
+    }
+    
+    function renderBlockedTask(task) {
+        // Enhanced rendering for blocked tasks with warning icon and red styling
+        const priority = task.priority || 'medium';
+        const agent = task.agent || 'unassigned';
+        const createdAt = task.created_at ? new Date(task.created_at).toLocaleString() : 'Unknown';
+        const blockReason = task.block_reason || task.blocked_reason || 'Blocked';
+        
+        return `
+            <div class="task-card task-blocked priority-${priority.toLowerCase()}" 
+                 style="border-left: 4px solid #dc3545;">
+                <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                    <span style="color: #dc3545; font-size: 18px; margin-right: 8px;">⚠️</span>
+                    <h4 style="margin: 0; color: #dc3545;">${escapeHtml(task.title || task.id)}</h4>
+                </div>
+                <div class="blocked-reason" style="background: #f8d7da; padding: 6px; border-radius: 4px; margin-bottom: 8px; font-size: 12px; color: #721c24;">
+                    ${escapeHtml(blockReason)}
+                </div>
                 <div class="task-meta">
                     <span>👤 ${escapeHtml(agent)}</span>
                     ${createPriorityControl(task)}
@@ -774,6 +911,9 @@
             container.innerHTML = '<div class="empty-state">No initiatives found. Add specifications with frontmatter to see them here.</div>';
         } else {
             container.innerHTML = initiatives.map(initiative => createInitiativeCard(initiative)).join('');
+            
+            // Apply filter to hide completed initiatives by default
+            filterPortfolioDisplay();
         }
         
         // Render orphan tasks
@@ -799,7 +939,7 @@
         const taskCount = initiative.task_count || 0;
         
         return `
-            <div class="initiative-card" data-initiative-id="${escapeHtml(initiative.id)}">
+            <div class="initiative-card" data-initiative-id="${escapeHtml(initiative.id)}" data-progress="${progress}">
                 <div class="initiative-header" data-action="toggle-initiative" data-initiative-id="${escapeHtml(initiative.id)}">
                     <span class="initiative-toggle" id="toggle-${escapeHtml(initiative.id)}">▶</span>
                     <div class="initiative-info">
@@ -1178,6 +1318,182 @@
     
     // ===========================================
     // End Multi-Page Navigation
+    // ===========================================
+
+    // ===========================================
+    // Finished Work Section Toggle (ADR-040)
+    // ===========================================
+    
+    async function toggleFinishedWork() {
+        // Enhanced toggle function with state management and API integration
+        const toggleBtn = document.getElementById('toggle-finished-work');
+        const section = document.getElementById('finished-work-section');
+        
+        if (!toggleBtn || !section) {
+            console.warn('⚠️ Toggle finished work button or section not found');
+            return;
+        }
+        
+        const isCurrentlyHidden = section.classList.contains('hidden');
+        
+        if (isCurrentlyHidden) {
+            // Expanding: Load finished tasks if not already shown
+            showFinishedWork = true;
+            
+            // Show section immediately
+            section.classList.remove('hidden');
+            section.setAttribute('aria-hidden', 'false');
+            toggleBtn.setAttribute('aria-expanded', 'true');
+            
+            // Update button text and icon
+            const textElement = toggleBtn.querySelector('.toggle-text');
+            const iconElement = toggleBtn.querySelector('.toggle-icon');
+            if (textElement) textElement.textContent = 'Hide Finished Work';
+            if (iconElement) iconElement.textContent = '▲';
+            
+            // Lazy load finished tasks
+            await loadFinishedTasks();
+            
+            console.log('📂 Finished work section expanded with lazy loading');
+        } else {
+            // Collapsing: Hide section
+            showFinishedWork = false;
+            
+            section.classList.add('hidden');
+            section.setAttribute('aria-hidden', 'true');
+            toggleBtn.setAttribute('aria-expanded', 'false');
+            
+            // Update button text and icon
+            const textElement = toggleBtn.querySelector('.toggle-text');
+            const iconElement = toggleBtn.querySelector('.toggle-icon');
+            if (textElement) textElement.textContent = 'Show Finished Work';
+            if (iconElement) iconElement.textContent = '▼';
+            
+            console.log('📂 Finished work section collapsed');
+        }
+    }
+
+    function initializeFinishedWorkToggle() {
+        const toggleBtn = document.getElementById('toggle-finished-work');
+        const section = document.getElementById('finished-work-section');
+        
+        if (!toggleBtn || !section) {
+            console.warn('⚠️ Toggle finished work button or section not found');
+            return;
+        }
+        
+        // Use the enhanced toggle function
+        toggleBtn.addEventListener('click', toggleFinishedWork);
+        
+        console.log('✅ Enhanced finished work toggle initialized');
+    }
+    
+    // ===========================================
+    // Completed Initiatives Toggle (Portfolio)
+    // ===========================================
+    
+    /**
+     * Toggle visibility of completed and deprecated initiatives
+     */
+    async function toggleCompletedInitiatives() {
+        const toggleBtn = document.getElementById('toggle-completed-initiatives');
+        const container = document.getElementById('portfolio-container');
+        
+        if (!toggleBtn || !container) {
+            console.warn('⚠️ Toggle completed initiatives button or portfolio container not found');
+            return;
+        }
+        
+        const isCurrentlyHidden = !showCompletedInitiatives;
+        
+        if (isCurrentlyHidden) {
+            // Expanding: Show completed initiatives
+            showCompletedInitiatives = true;
+            
+            // Update button text and icon
+            const textElement = toggleBtn.querySelector('.toggle-text');
+            const iconElement = toggleBtn.querySelector('.toggle-icon');
+            if (textElement) textElement.textContent = 'Hide Finished Initiatives';
+            if (iconElement) iconElement.textContent = '▲';
+            
+            toggleBtn.setAttribute('aria-expanded', 'true');
+            
+            // Apply filter to show completed initiatives
+            filterPortfolioDisplay();
+            
+            console.log('📂 Completed initiatives section expanded');
+        } else {
+            // Collapsing: Hide completed initiatives
+            showCompletedInitiatives = false;
+            
+            // Update button text and icon
+            const textElement = toggleBtn.querySelector('.toggle-text');
+            const iconElement = toggleBtn.querySelector('.toggle-icon');
+            if (textElement) textElement.textContent = 'Show Finished Initiatives';
+            if (iconElement) iconElement.textContent = '▼';
+            
+            toggleBtn.setAttribute('aria-expanded', 'false');
+            
+            // Apply filter to hide completed initiatives
+            filterPortfolioDisplay();
+            
+            console.log('📂 Completed initiatives section collapsed');
+        }
+    }
+    
+    /**
+     * Filter portfolio display based on showCompletedInitiatives state
+     * Hides/shows initiatives with 100% progress (fully implemented)
+     * 
+     * Note: An initiative is only "finished" when progress === 100, not just 
+     * when status is "implemented". Status can be "implemented" with incomplete features.
+     */
+    function filterPortfolioDisplay() {
+        const initiativeCards = document.querySelectorAll('.initiative-card');
+        
+        initiativeCards.forEach(card => {
+            // Get progress from data attribute or progress bar
+            const progress = parseInt(card.dataset.progress || '0', 10);
+            const statusBadge = card.querySelector('.badge.status-deprecated');
+            
+            // Hide if:
+            // - Progress is 100% (fully complete) OR
+            // - Status is deprecated (no longer relevant)
+            // AND toggle is off (not showing finished work)
+            const isFullyComplete = progress === 100;
+            const isDeprecated = statusBadge !== null;
+            
+            if ((isFullyComplete || isDeprecated) && !showCompletedInitiatives) {
+                // Hide completed/deprecated initiatives when toggle is off
+                card.classList.add('hidden');
+            } else {
+                // Show all initiatives when toggle is on, or show active initiatives always
+                card.classList.remove('hidden');
+            }
+        });
+        
+        console.log(`🔍 Portfolio filtered: showCompletedInitiatives=${showCompletedInitiatives}`);
+    }
+    
+    /**
+     * Initialize toggle for completed initiatives
+     */
+    function initializeCompletedInitiativesToggle() {
+        const toggleBtn = document.getElementById('toggle-completed-initiatives');
+        
+        if (!toggleBtn) {
+            console.warn('⚠️ Toggle completed initiatives button not found');
+            return;
+        }
+        
+        // Attach event listener
+        toggleBtn.addEventListener('click', toggleCompletedInitiatives);
+        
+        console.log('✅ Completed initiatives toggle initialized');
+    }
+    
+    // ===========================================
+    // End Completed Initiatives Toggle
     // ===========================================
 
     // Export for debugging
