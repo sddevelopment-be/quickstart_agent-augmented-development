@@ -1,0 +1,56 @@
+# Contextive Glossary Hierarchy
+# Version: 1.0.0
+# Date: 2026-02-10
+# Purpose: IDE integration for terminology inline reference
+
+contexts:
+  - name: "Framework"
+    description: "Agent framework and doctrine stack terminology"
+    terms:
+      - term: "Agent"
+        definition: "Autonomous system operating within SDD contextual environment"
+      
+      - term: "Bounded Context"
+        definition: "Explicit boundary within which domain model and ubiquitous language have clear meaning"
+      
+      - term: "Doctrine Stack"
+        definition: "Layered system: Guidelines → Approaches → Directives → Tactics → Templates"
+      
+      - term: "Ubiquitous Language"
+        definition: "Shared vocabulary between domain experts and developers, used in all communication"
+  
+  - name: "DDD-Core"
+    description: "Domain-Driven Design core concepts"
+    terms:
+      - term: "Aggregate"
+        definition: "Cluster of domain objects treated as unit for data changes, enforces invariants"
+      
+      - term: "Anti-Corruption Layer"
+        definition: "Translation layer protecting downstream context from upstream changes"
+      
+      - term: "Context Map"
+        definition: "Visual diagram showing relationships between bounded contexts"
+      
+      - term: "Domain Event"
+        definition: "Business-significant state change, named in past tense (OrderPlaced, PaymentReceived)"
+      
+      - term: "Entity"
+        definition: "Object with distinct identity that persists over time"
+      
+      - term: "Value Object"
+        definition: "Object defined by attributes, no identity, immutable"
+
+  - name: "Organizational"
+    description: "Team topology and Conway's Law patterns"
+    terms:
+      - term: "Conway's Law"
+        definition: "System architecture mirrors organizational communication structure"
+      
+      - term: "Stream-Aligned Team"
+        definition: "Team organized around value stream, owns domain vocabulary"
+      
+      - term: "Cognitive Load"
+        definition: "Mental capacity required to understand system, limits vocabulary size"
+
+# Usage: Install Contextive plugin for VS Code
+# More terms to be added in Phase 3 expansion
