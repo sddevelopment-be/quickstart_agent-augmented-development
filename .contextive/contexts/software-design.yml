@@ -1,0 +1,22 @@
+# Software Design and Architecture Glossary
+# Version: 1.0.0
+# Date: 2026-02-10
+# Purpose: Software design and architecture concepts
+
+name: "Software Design and Architecture"
+description: "Software design and architecture concepts"
+terms:
+  - term: "Anti-Corruption Layer"
+    definition: "Translation layer protecting downstream from upstream changes"
+  
+  - term: "Published Language"
+    definition: "Stable API for integration between contexts"
+  
+  - term: "Shared Kernel"
+    definition: "Small shared model between contexts requiring high coordination"
+  
+  - term: "Conformist"
+    definition: "Downstream accepts upstream model without translation"
+  
+  - term: "Partnership"
+    definition: "Two contexts with mutual dependency requiring coordination"

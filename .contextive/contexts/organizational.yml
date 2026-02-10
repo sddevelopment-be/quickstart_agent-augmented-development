@@ -1,0 +1,19 @@
+# Organizational Patterns Glossary
+# Version: 1.0.0
+# Date: 2026-02-10
+# Purpose: Team topology and Conway's Law patterns
+
+name: "Organizational"
+description: "Team topology and Conway's Law patterns"
+terms:
+  - term: "Conway's Law"
+    definition: "System architecture mirrors organizational communication structure"
+  
+  - term: "Stream-Aligned Team"
+    definition: "Team organized around value stream, owns domain vocabulary"
+  
+  - term: "Cognitive Load"
+    definition: "Mental capacity required to understand system, limits vocabulary size"
+  
+  - term: "Upstream/Downstream"
+    definition: "Data flow relationship where upstream provides, downstream consumes"

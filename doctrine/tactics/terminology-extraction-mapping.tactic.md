@@ -450,7 +450,7 @@ After initial deployment:
 
 **Reference Docs:**
 - [DDD Core Concepts Reference](../docs/ddd-core-concepts-reference.md) - Core terminology
-- [Contextive Integration Guide](../docs/contextive-integration-guide.md) - IDE setup
+- Contextive Glossaries - See `.contextive/contexts/` directory
 
 ---
 

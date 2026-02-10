@@ -9,7 +9,7 @@
 
 ## Integration Complete
 
-All materials from `docs/architecture/experiments/ubiquitous-language/` have been successfully integrated into the doctrine framework.
+Core approaches, tactics, and selected reference documents from `docs/architecture/experiments/ubiquitous-language/` have been successfully integrated into the doctrine framework. Additional specialized reference documents remain in the experiment directory for reference and are tracked below.
 
 ---
 
@@ -93,13 +93,13 @@ All materials from `docs/architecture/experiments/ubiquitous-language/` have bee
 
 4. **Conway's Law Organizational Patterns** (deferred)
    - **Content:** Team topology analysis, semantic boundary prediction
-   - **Status:** Core concepts in Bounded Context Discovery approach
-   - **Substitute:** Approach + Context Boundary Inference tactic sufficient
+   - **Status:** Covered by organizational glossary in `.contextive/contexts/organizational.yml`
+   - **Substitute:** Glossary provides core patterns; full guide can be created on-demand
 
-5. **Concept Mapping Methodology** (deferred)
+5. **Concept Mapping Methodology** (not integrated)
    - **Content:** Visual relationship mapping techniques
-   - **Status:** Existing concept-map.md in experiment directory
-   - **Substitute:** Reference experiment materials directly
+   - **Status:** Available in experiment `concept-map.md` for reference
+   - **Substitute:** Experiment materials serve as examples; separate doctrine doc not needed
 
 ---
 

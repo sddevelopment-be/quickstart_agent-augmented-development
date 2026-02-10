@@ -164,7 +164,7 @@ decision_history:
 - Context-aware (shows terms for current module's context)
 - Reduces cognitive load (no context switching)
 
-**Setup:** See [Contextive Integration Guide](../docs/contextive-integration-guide.md)
+**Setup:** Configure Contextive IDE plugin to load glossaries from `.contextive/contexts/` directory (doctrine.yml, ddd.yml, organizational.yml, software-design.yml)
 
 ---
 
@@ -363,7 +363,7 @@ The [Customer](#customer) places an [Order](#order) which triggers [Fulfillment]
 
 ### Related Documentation
 - **[DDD Core Concepts Reference](../docs/ddd-core-concepts-reference.md)** - Core terminology
-- **[Contextive Integration Guide](../docs/contextive-integration-guide.md)** - Tooling setup
+- **Contextive Glossaries** - See `.contextive/contexts/` for IDE integration setup
 - **[Linguistic Anti-Patterns Catalog](../docs/linguistic-anti-patterns.md)** - Common failures
 
 ---

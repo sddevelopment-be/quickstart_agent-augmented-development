@@ -316,7 +316,7 @@ Once contexts are identified, define their relationships:
 
 ### Related Documentation
 - **[DDD Core Concepts Reference](../docs/ddd-core-concepts-reference.md)** - Terminology
-- **[Organizational Patterns: Conway's Law](../docs/organizational-patterns-conways-law.md)** - Team structure analysis
+- **Conway's Law Patterns** - See organizational glossary in `.contextive/contexts/organizational.yml`
 
 ---
 
