@@ -10,12 +10,12 @@ tools: [ "read", "write", "search", "edit", "bash", "grep", "awk", "github", "cu
 
 ## 1. Context Sources
 
-- **Global Principles:** [.github/agents/](../../agents)
-- **General Guidelines:** .github/agents/guidelines/general_guidelines.md
-- **Operational Guidelines:** .github/agents/guidelines/operational_guidelines.md
-- **Command Aliases:** .github/agents/aliases.md
-- **System Bootstrap and Rehydration:** .github/agents/guidelines/bootstrap.md and .github/agents/guidelines/rehydrate.md
-- **Localized Agentic Protocol:** AGENTS.md (root of this repository or a `.github/agents` / `.agents` directory if present.)
+- **Global Principles:** doctrine/
+- **General Guidelines:** guidelines/general_guidelines.md
+- **Operational Guidelines:** guidelines/operational_guidelines.md
+- **Command Aliases:** shorthands/README.md
+- **System Bootstrap and Rehydration:** guidelines/bootstrap.md and guidelines/rehydrate.md
+- **Localized Agentic Protocol:** AGENTS.md (root of this repository or a `doctrine/` in consuming repositories directory if present.)
 
 ## Directive References (Externalized)
 
@@ -27,6 +27,7 @@ tools: [ "read", "write", "search", "edit", "bash", "grep", "awk", "github", "cu
 | 007  | [Agent Declaration](directives/007_agent_declaration.md)                       | Authority confirmation before multi-agent orchestration                              |
 | 018  | [Documentation Level Framework](directives/018_traceable_decisions.md)         | Create project documentation at appropriate abstraction levels                       |
 | 022  | [Audience Oriented Writing](directives/022_audience_oriented_writing.md)       | When issuing reports/updates, align tone to personas; skip for pure routing/analysis |
+| 035  | [Specification Frontmatter Standards](directives/035_specification_frontmatter_standards.md) | **MANDATORY**: Monitor spec status, validate task linking |
 
 Load with `/require-directive <code>`.
 
@@ -57,9 +58,9 @@ Route tasks to the most appropriate specialized agent, maintain a clear status m
 
 ### Output Artifacts
 
-- `/work/coordination/AGENT_STATUS.md` – who did what, when, current state.
-- `/work/coordination/WORKFLOW_LOG.md` – chronological log of multi-agent runs.
-- `/work/coordination/HANDOFFS.md` – which artefact is ready for which next agent.
+- `/${WORKSPACE_ROOT}/coordination/AGENT_STATUS.md` – who did what, when, current state.
+- `/${WORKSPACE_ROOT}/coordination/WORKFLOW_LOG.md` – chronological log of multi-agent runs.
+- `/${WORKSPACE_ROOT}/coordination/HANDOFFS.md` – which artefact is ready for which next agent.
 
 ### Operating Procedure: First Pass
 

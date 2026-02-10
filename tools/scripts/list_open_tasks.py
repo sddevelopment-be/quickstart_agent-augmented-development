@@ -24,7 +24,12 @@ Related ADRs:
 
 Directive Compliance:
     - 017 (TDD): Implemented with test coverage
-    - 021 (Locality): Minimal file operations using common modules
+    - 021 (Locality): Uses extracted query functions from src/framework/orchestration/task_query.py
+
+Note:
+    Query functions (find_task_files, load_open_tasks, filter_tasks) were extracted
+    to src/framework/orchestration/task_query.py for reuse by dashboard and other
+    production components. This script now imports from the shared module.
 """
 
 from __future__ import annotations
@@ -39,91 +44,13 @@ from typing import Any
 REPO_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
-from common.task_schema import load_task_safe
-from common.types import TaskStatus
-
-
-def find_task_files(work_dir: Path) -> list[Path]:
-    """
-    Find all task YAML files in the collaboration directory.
-
-    Args:
-        work_dir: Work collaboration directory (work/collaboration)
-
-    Returns:
-        List of paths to task files
-    """
-    task_files: list[Path] = []
-
-    # Search in assigned directories
-    assigned_dir = work_dir / "assigned"
-    if assigned_dir.exists():
-        task_files.extend(assigned_dir.rglob("*.yaml"))
-
-    return task_files
-
-
-def load_open_tasks(work_dir: Path) -> list[dict[str, Any]]:
-    """
-    Load all tasks that are not in terminal states.
-
-    Args:
-        work_dir: Work collaboration directory
-
-    Returns:
-        List of task dictionaries
-    """
-    task_files = find_task_files(work_dir)
-    open_tasks = []
-
-    for task_file in task_files:
-        task = load_task_safe(task_file)
-        if task is None:
-            continue
-
-        # Skip terminal states (done, error)
-        status = task.get("status", "")
-        try:
-            task_status = TaskStatus(status)
-            if not TaskStatus.is_terminal(task_status):
-                open_tasks.append(task)
-        except ValueError:
-            # Invalid status, skip
-            continue
-
-    return open_tasks
-
-
-def filter_tasks(
-    tasks: list[dict[str, Any]],
-    status: str | None = None,
-    agent: str | None = None,
-    priority: str | None = None,
-) -> list[dict[str, Any]]:
-    """
-    Filter tasks based on criteria.
-
-    Args:
-        tasks: List of task dictionaries
-        status: Filter by status (optional)
-        agent: Filter by agent (optional)
-        priority: Filter by priority (optional)
-
-    Returns:
-        Filtered list of tasks
-    """
-    filtered = tasks
-
-    if status:
-        filtered = [t for t in filtered if t.get("status") == status]
-
-    if agent:
-        filtered = [t for t in filtered if t.get("agent") == agent]
-
-    if priority:
-        filtered = [t for t in filtered if t.get("priority") == priority]
-
-    return filtered
+# Import shared query functions from production module (extracted from this script)
+# See: src/framework/orchestration/task_query.py
+from framework.orchestration.task_query import (
+    find_task_files,
+    load_open_tasks,
+    filter_tasks,
+)
 
 
 def format_tasks_table(tasks: list[dict[str, Any]]) -> str:

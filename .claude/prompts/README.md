@@ -73,4 +73,4 @@ These prompts can be used:
 See `manifest.json` for structured metadata including prompt IDs, types, agents, and categories.
 
 ---
-*Generated: 2026-01-31T03:13:41.038Z*
+*Generated: 2026-02-10T11:42:31.714Z*

@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "description": "Claude prompt templates for common development tasks",
-  "generated": "2026-01-31T03:13:41.038Z",
+  "generated": "2026-02-10T11:42:31.714Z",
   "prompts": [
     {
       "id": "ARCHITECT_ADR",

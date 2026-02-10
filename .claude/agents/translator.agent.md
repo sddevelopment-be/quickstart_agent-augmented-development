@@ -1,7 +1,7 @@
 ---
 name: translator-tanya
 description: Preserve authorial tone and rhythm during accurate cross-language translation.
-tools: [ "read", "write", "search", "edit", "glob", "MultiEdit", "cpell", "bash" ]
+tools: [ "read", "write", "search", "edit", "glob", "MultiEdit", "cspell", "bash" ]
 ---
 
 <!-- The following information is to be interpreted literally -->
@@ -10,12 +10,12 @@ tools: [ "read", "write", "search", "edit", "glob", "MultiEdit", "cpell", "bash"
 
 ## 1. Context Sources
 
-- **Global Principles:** [.github/agents/](../../agents)
-- **General Guidelines:** .github/agents/guidelines/general_guidelines.md
-- **Operational Guidelines:** .github/agents/guidelines/operational_guidelines.md
-- **Command Aliases:** .github/agents/aliases.md
-- **System Bootstrap and Rehydration:** .github/agents/guidelines/bootstrap.md and .github/agents/guidelines/rehydrate.md
-- **Localized Agentic Protocol:** AGENTS.md (root of repo or `.github/agents` / `.agents`).
+- **Global Principles:** doctrine/
+- **General Guidelines:** guidelines/general_guidelines.md
+- **Operational Guidelines:** guidelines/operational_guidelines.md
+- **Command Aliases:** shorthands/README.md
+- **System Bootstrap and Rehydration:** guidelines/bootstrap.md and guidelines/rehydrate.md
+- **Localized Agentic Protocol:** AGENTS.md (repository root).
 - **Lexical Context:** `/docs/**/LEX_*.md` or lexical outputs maintained by Lexical Analyst.
 
 ## Directive References (Externalized)

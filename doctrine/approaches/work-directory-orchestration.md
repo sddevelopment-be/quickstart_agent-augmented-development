@@ -93,6 +93,56 @@ created_by: "stijn"
 YAML
 ```
 
+## Task Management Scripts
+
+Agents MUST use the provided scripts to ensure proper validation and state transitions:
+
+### Starting Tasks
+```bash
+python tools/scripts/start_task.py TASK_ID
+```
+- Validates current state is 'assigned'
+- Updates status to 'in_progress'
+- Adds started_at timestamp
+- Enforces state transition rules
+
+### Completing Tasks
+```bash
+python tools/scripts/complete_task.py TASK_ID
+```
+- Validates result block exists (unless --force used)
+- Updates status to 'done'
+- Adds completed_at timestamp
+- Moves task to done/{agent}/ directory
+- Enforces state transition rules
+
+### Freezing Tasks (when blocked)
+```bash
+python tools/scripts/freeze_task.py TASK_ID --reason "Reason for pause"
+```
+- Preserves original status and context
+- Adds freeze_reason and frozen_at timestamp
+- Moves task to fridge/ directory
+- Allows later review and unfreezing
+
+### Listing Open Tasks
+```bash
+python tools/scripts/list_open_tasks.py [--status STATUS] [--agent AGENT] [--priority PRIORITY]
+```
+- Lists all non-terminal tasks (not done/error)
+- Supports filtering by status, agent, priority
+- Available output formats: table (default) or json
+
+### Script Benefits
+- **Validation:** Enforces proper YAML structure and required fields
+- **State Management:** Centralized state machine prevents invalid transitions
+- **Consistency:** Standardized timestamps and metadata
+- **Auditability:** Clear lifecycle tracking
+- **Error Prevention:** Validates task completeness before state changes
+
+### Manual Operations (Deprecated)
+❗️ **Do NOT manually move task files or edit status fields directly.** Use the provided scripts to ensure data integrity and proper validation.
+
 ## Operating Roles
 
 ### Human Operators
@@ -114,11 +164,24 @@ YAML
 ### Specialized Agents
 
 1. Poll `${WORKSPACE_ROOT}/collaboration/assigned/<agent>/` for `status: assigned`.
-2. Update to `in_progress`, stamp `started_at`, and commit change.
+2. **Start task** using the provided script:
+   ```bash
+   python tools/scripts/start_task.py TASK_ID
+   ```
+   This automatically updates status to `in_progress`, stamps `started_at`, and validates state transitions.
 3. Produce the requested artefacts, referencing directives/approaches as needed.
 4. Update the task YAML with `result` (summary, artefacts, optional `next_agent`, completion metadata).
-5. Move file to `${WORKSPACE_ROOT}/collaboration/done/<agent>/`, add a work log under `work/reports/logs/<agent>/`, and commit together.
-6. If blocked, add an `error` block, set `status: error`, and notify humans via coordination artefacts.
+5. **Complete task** using the provided script:
+   ```bash
+   python tools/scripts/complete_task.py TASK_ID
+   ```
+   This validates the result block exists, moves the file to `${WORKSPACE_ROOT}/collaboration/done/<agent>/`, and enforces proper state transitions.
+6. Add a work log under `work/reports/logs/<agent>/`, and commit together.
+7. If blocked, **freeze task** using the provided script:
+   ```bash
+   python tools/scripts/freeze_task.py TASK_ID --reason "Reason for pause/block"
+   ```
+   This moves the task to fridge/ with metadata while preserving original status for later review.
 
 ## Collaboration Artefacts
 
@@ -161,6 +224,12 @@ The orchestrator converts this into a fresh YAML task inside `inbox/`, copying d
 # Validate a task against the schema
 python validation/validate-task-schema.py ${WORKSPACE_ROOT}/collaboration/inbox/task.yaml
 
+# List all open tasks
+python tools/scripts/list_open_tasks.py
+
+# List tasks by status or agent
+python tools/scripts/list_open_tasks.py --status assigned --agent python-pedro
+
 # Ensure structure + directory health
 bash validation/validate-work-structure.sh
 
@@ -181,10 +250,12 @@ tail -n 50 ${WORKSPACE_ROOT}/collaboration/HANDOFFS.md
 | Symptom                     | Likely Cause                                                     | Action                                                                            |
 |-----------------------------|------------------------------------------------------------------|-----------------------------------------------------------------------------------|
 | Task stuck in `assigned`    | Agent/orchestrator not running                                   | Check automation logs, restart agent, ensure polling directory matches agent name |
-| Task stuck in `in_progress` | Agent crash, timeout, or forgot to update                        | Review `WORKFLOW_LOG.md`, inspect agent logs, reset status if needed              |
+| Task stuck in `in_progress` | Agent crash, timeout, or forgot to update                        | Review `WORKFLOW_LOG.md`, inspect agent logs, use `complete_task.py` or `freeze_task.py` |
+| Task completion fails       | Missing result block or invalid state transition                 | Add result block to task YAML, or use `--force` flag with `complete_task.py`     |
 | Handoff missing             | Orchestrator didn’t run after completion or invalid `next_agent` | Rerun orchestrator, verify agent directory exists, or create task manually        |
 | Merge conflicts in `work/`  | Concurrent edits                                                 | Resolve per-file, keeping latest task status; use `git log work/` for history     |
-| Unknown directory clutter   | Tasks in wrong folders                                           | Run `validation/validate-work-structure.sh` and relocate files                    |
+| Unknown directory clutter   | Tasks in wrong folders                                           | Run `validation/validate-work-structure.sh` and relocate files using scripts     |
+| Invalid task status         | Manual file editing bypassed validation                         | Use `start_task.py`, `complete_task.py`, or `freeze_task.py` instead of manual edits |
 
 ## References
 

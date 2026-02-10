@@ -272,7 +272,11 @@ body {
 
 .inbox-header { background-color: #1e3a8a; }
 .assigned-header { background-color: #ea580c; }
+.in-progress-header { 
+    background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+}
 .done-header { background-color: #059669; }
+.error-header { background-color: #7f1d1d; }
 
 .column-header h3 {
     font-size: 1rem;
@@ -291,6 +295,10 @@ body {
     min-height: 300px;
     max-height: 500px;
     overflow-y: auto;
+}
+
+.task-list.scrollable {
+    max-height: 400px;
 }
 
 .task-card {
@@ -312,6 +320,30 @@ body {
 .task-card.priority-high { border-left-color: var(--warning-color); }
 .task-card.priority-medium { border-left-color: var(--primary-color); }
 .task-card.priority-low { border-left-color: var(--text-muted); }
+
+/* BLOCKED Task Styling */
+.task-card.task-blocked {
+    border: 2px solid var(--danger-color);
+    border-left: 4px solid var(--danger-color);
+    background-color: rgba(239, 68, 68, 0.1);
+}
+
+.task-card.task-blocked:hover {
+    background-color: rgba(239, 68, 68, 0.15);
+}
+
+.task-card.task-blocked h4::before {
+    content: "⚠️ ";
+    margin-right: 0.25rem;
+    color: var(--danger-color);
+}
+
+.blocked-icon {
+    display: inline-block;
+    color: var(--danger-color);
+    margin-right: 0.5rem;
+    font-size: 1.1rem;
+}
 
 .task-card h4 {
     font-size: 0.95rem;
@@ -336,6 +368,91 @@ body {
     text-align: center;
     color: var(--text-muted);
     padding: 2rem;
+}
+
+/* Toggle Finished Work Button */
+.toggle-finished-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding: 0.75rem 1.25rem;
+    background-color: transparent;
+    border: 2px dashed var(--border-color);
+    color: var(--text-secondary);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.toggle-finished-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background-color: rgba(59, 130, 246, 0.05);
+}
+
+.toggle-finished-btn:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.toggle-finished-btn:active {
+    transform: scale(0.98);
+}
+
+.toggle-icon {
+    display: inline-block;
+    transition: transform 0.2s ease;
+    font-size: 0.9rem;
+}
+
+.toggle-finished-btn[aria-expanded="true"] .toggle-icon {
+    transform: rotate(180deg);
+}
+
+.toggle-text {
+    flex: 1;
+    text-align: left;
+}
+
+/* Finished Work Section Container */
+.finished-work-section {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    animation: slideDown 0.3s ease-out;
+}
+
+.finished-work-section.hidden {
+    display: none;
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
 }
 
 /* Charts */
@@ -907,6 +1024,20 @@ canvas {
     
     .sidebar-left {
         grid-template-columns: 1fr;
+    }
+    
+    .kanban-board {
+        grid-template-columns: 1fr;
+    }
+    
+    .toggle-finished-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .finished-work-section {
+        margin-top: 1rem;
+        padding: 0.75rem;
     }
 }
 

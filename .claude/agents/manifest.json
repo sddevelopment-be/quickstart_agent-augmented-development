@@ -1,8 +1,14 @@
 {
   "version": "1.0.0",
   "description": "Claude agent profiles for specialist roles",
-  "generated": "2026-01-31T03:13:41.032Z",
+  "generated": "2026-02-10T11:42:31.707Z",
   "agents": [
+    {
+      "id": "analyst-annie",
+      "name": "analyst-annie",
+      "description": "Requirements and validation specialist focused on producing testable, data-backed specifications.",
+      "file": "analyst-annie.agent.md"
+    },
     {
       "id": "architect",
       "name": "architect-alphonso",
@@ -28,6 +34,12 @@
       "file": "build-automation.agent.md"
     },
     {
+      "id": "code-reviewer-cindy",
+      "name": "code-reviewer-cindy",
+      "description": "Review specialist focused on code quality, standards compliance, and traceability.",
+      "file": "code-reviewer-cindy.agent.md"
+    },
+    {
       "id": "curator",
       "name": "curator-claire",
       "description": "Maintain structural, tonal, and metadata integrity across artifacts.",
@@ -40,10 +52,22 @@
       "file": "diagrammer.agent.md"
     },
     {
+      "id": "framework-guardian",
+      "name": "framework-guardian",
+      "description": "Audit framework installations and guide safe upgrades without overwriting local intent.",
+      "file": "framework-guardian.agent.md"
+    },
+    {
       "id": "frontend",
       "name": "frontend-freddy",
       "description": "Integrate design, technical architecture, and usability reasoning for coherent front-end systems.",
       "file": "frontend.agent.md"
+    },
+    {
+      "id": "java-jenny",
+      "name": "java-jenny",
+      "description": "Java development specialist focused on code quality, style enforcement, and testing standards.",
+      "file": "java-jenny.agent.md"
     },
     {
       "id": "lexical",
@@ -64,10 +88,22 @@
       "file": "project-planner.agent.md"
     },
     {
+      "id": "python-pedro",
+      "name": "python-pedro",
+      "description": "Python development specialist applying ATDD + TDD, self-review, and architectural alignment.",
+      "file": "python-pedro.agent.md"
+    },
+    {
       "id": "researcher",
       "name": "researcher-ralph",
       "description": "Deliver grounded, verifiable insights for systemic reasoning.",
       "file": "researcher.agent.md"
+    },
+    {
+      "id": "reviewer",
+      "name": "reviewer",
+      "description": "Quality assurance specialist conducting systematic content reviews through multiple lenses (structural, editorial, technical, standards compliance).",
+      "file": "reviewer.agent.md"
     },
     {
       "id": "scribe",

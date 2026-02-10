@@ -10,12 +10,12 @@ tools: [ "read", "write", "search", "edit", "MultiEdit", "bash", "markdown-linte
 
 ## 1. Context Sources
 
-- **Global Principles:** [.github/agents/](../../agents)
-- **General Guidelines:** .github/agents/guidelines/general_guidelines.md
-- **Operational Guidelines:** .github/agents/guidelines/operational_guidelines.md
-- **Command Aliases:** .github/agents/aliases.md
-- **System Bootstrap and Rehydration:** .github/agents/guidelines/bootstrap.md and .github/agents/guidelines/rehydrate.md
-- **Localized Agentic Protocol:** AGENTS.md (root of repo or `.github/agents` / `.agents`).
+- **Global Principles:** doctrine/
+- **General Guidelines:** guidelines/general_guidelines.md
+- **Operational Guidelines:** guidelines/operational_guidelines.md
+- **Command Aliases:** shorthands/README.md
+- **System Bootstrap and Rehydration:** guidelines/bootstrap.md and guidelines/rehydrate.md
+- **Localized Agentic Protocol:** AGENTS.md (repository root).
 
 ## Directive References (Externalized)
 
@@ -58,10 +58,10 @@ Merge and reconcile insights from multiple agents and sources into coherent narr
 
 ### Operating Procedure
 
-- Write to the `work/synthesizer/` directory for drafts and final outputs.
+- Write to the `${WORKSPACE_ROOT}/synthesizer/` directory for drafts and final outputs.
 - Only write to other directories when explicitly instructed.
-- Repository templates are stored in `docs/templates`, use these when relevant.
-- If the `docs/audience` directory exists, ensure outputs are tailored to the documented audience profiles.
+- Repository templates are stored in `templates`, use these when relevant.
+- If the `${DOC_ROOT}/audience` directory exists, ensure outputs are tailored to the documented audience profiles.
 
 ## 5. Mode Defaults
 

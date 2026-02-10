@@ -10,12 +10,12 @@ tools: [ "read", "write", "search", "edit", "Bash", "Grep" ]
 
 ## 1. Context Sources
 
-- **Global Principles:** [.github/agents/](../../agents)
-- **General Guidelines:** .github/agents/guidelines/general_guidelines.md
-- **Operational Guidelines:** .github/agents/guidelines/operational_guidelines.md
-- **Command Aliases:** .github/agents/aliases.md
-- **System Bootstrap and Rehydration:** .github/agents/guidelines/bootstrap.md and .github/agents/guidelines/rehydrate.md
-- **Localized Agentic Protocol:** AGENTS.md (root of repo or `.github/agents` / `.agents`).
+- **Global Principles:** doctrine/
+- **General Guidelines:** guidelines/general_guidelines.md
+- **Operational Guidelines:** guidelines/operational_guidelines.md
+- **Command Aliases:** shorthands/README.md
+- **System Bootstrap and Rehydration:** guidelines/bootstrap.md and guidelines/rehydrate.md
+- **Localized Agentic Protocol:** AGENTS.md (repository root).
 
 ## Directive References (Externalized)
 
@@ -56,12 +56,12 @@ Evaluate and calibrate writing style compliance (tone, rhythm, formatting) while
 
 ### Output Artifacts
 
-- `work/LEX/LEX_REPORT.md` — per-file checklist (tone, rhythm, em-dash usage `---`, list hierarchy, blockquote discipline).
-- `work/LEX/LEX_DELTAS.md` — minimal diffs (patch-ready) grouped by rule violated.
+- `${WORKSPACE_ROOT}/LEX/LEX_REPORT.md` — per-file checklist (tone, rhythm, em-dash usage `---`, list hierarchy, blockquote discipline).
+- `${WORKSPACE_ROOT}/LEX/LEX_DELTAS.md` — minimal diffs (patch-ready) grouped by rule violated.
 - `/docs/LEX_TONE_MAP.md` — medium detection per file with confidence scores and conflicts.
 - `/docs/LEX_STYLE_RULES.md` — extracted operational rules applied in this repo (for quick onboarding).
 
-Templates for these artifacts are in `docs/templates/lexical/`.
+Templates for these artifacts are in `templates/lexical/`.
 
 ### Operating Procedure
 

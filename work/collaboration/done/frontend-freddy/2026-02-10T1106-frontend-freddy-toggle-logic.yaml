@@ -1,0 +1,51 @@
+id: 2026-02-10T1106-frontend-freddy-toggle-logic
+title: Frontend - Toggle Logic & Task Rendering
+agent: frontend-freddy
+status: inbox
+priority: high
+created_at: 2026-02-10T11:04:44Z
+estimated_effort_hours: 3
+mode: /programming
+
+description: |
+  Implement JavaScript logic for toggling finished work visibility and update
+  task rendering to route tasks to correct columns including new In Progress column.
+
+acceptance_criteria:
+  - showFinishedWork state toggles correctly
+  - toggleFinishedWork() expands/collapses finished section
+  - Button text changes between "Show" and "Hide Finished Work"
+  - Button icon changes between ▼ and ▲
+  - Tasks route to correct columns based on status
+  - IN_PROGRESS tasks appear in In Progress column
+  - BLOCKED tasks display with ⚠️ icon and red styling
+  - loadFinishedTasks() lazy loads done/error tasks
+  - WebSocket updates work correctly
+  - Task counts update accurately
+
+implementation_guidance:
+  - Add showFinishedWork boolean at top level
+  - Update getTaskColumn() to handle IN_PROGRESS status
+  - Add renderBlockedTask() for special styling
+  - Call loadFinishedTasks() only when expanding
+  - Use fetch('/api/tasks?include_done=false') for active tasks
+  - Use fetch('/api/tasks/finished') for finished tasks
+
+files_to_modify:
+  - src/llm_service/dashboard/static/dashboard.js
+
+functions_to_add:
+  - toggleFinishedWork()
+  - loadFinishedTasks()
+  - renderBlockedTask()
+
+functions_to_update:
+  - getTaskColumn() - add IN_PROGRESS case
+  - renderTask() - add blocked task handling
+  - loadDashboardData() - exclude finished by default
+
+dependencies:
+  - 2026-02-10T1104-python-pedro-dashboard-api-filtering
+  - 2026-02-10T1105-frontend-freddy-kanban-restructure
+
+specification: .copilot/session-state/609c38ab-7216-4fdd-84c6-5c07537b8965/plan.md

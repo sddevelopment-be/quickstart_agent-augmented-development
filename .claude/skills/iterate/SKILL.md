@@ -25,16 +25,30 @@ Acting as orchestrator in file-based agent collaboration, execute a batch:
 
    a. Initialize as assigned agent (backend-dev, architect, frontend, etc.)
 
-   b. Follow TDD/ATDD cycle:
+   b. **Start task using script:**
+      ```bash
+      python tools/scripts/start_task.py TASK_ID
+      ```
+
+   c. Follow TDD/ATDD cycle:
       - **RED:** Write failing test first
       - **GREEN:** Implement minimum code to pass
       - **REFACTOR:** Improve code quality
 
-   c. Run all tests: ensure passing before proceeding
+   d. Run all tests: ensure passing before proceeding
 
-   d. Move completed task: `inbox/` → `done/<agent>/`
+   e. **Complete task using script:**
+      ```bash
+      python tools/scripts/complete_task.py TASK_ID
+      ```
+      (Validates result block exists and moves to done/{agent}/)
 
-   e. Create work log (directive 014) in `work/reports/logs/<agent>/`
+   f. Create work log (directive 014) in `work/reports/logs/<agent>/`
+
+   **If blocked:** Use freeze script instead:
+   ```bash
+   python tools/scripts/freeze_task.py TASK_ID --reason "Specific blocking reason"
+   ```
 
 3. **Planning Petra: Update artifacts**
    - Update roadmap if exists (`docs/architecture/roadmap-*.md`)
@@ -58,8 +72,9 @@ Acting as orchestrator in file-based agent collaboration, execute a batch:
 - ✅ All tests passing
 - ✅ Coverage >80% (target)
 - ✅ Work logs created (directive 014)
-- ✅ Tasks moved to `done/<agent>/`
+- ✅ Tasks completed using `complete_task.py` script (moved to `done/<agent>/`)
 - ✅ Planning artifacts updated
+- ✅ Any blocked tasks frozen using `freeze_task.py`
 
 ## Directives Applied
 
@@ -92,15 +107,19 @@ Agent (Petra): Starting M2 Batch 2.3 (2 tasks: GenericYAMLAdapter + ENV support)
 
 Agent (Backend-Dev):
   - Task 1: GenericYAMLAdapter [HIGH]
+    - Started: `python tools/scripts/start_task.py 2026-02-05-generic-yaml-adapter`
     - RED: 24 failing tests written
     - GREEN: Implementation complete, all tests pass
     - REFACTOR: Extracted common patterns
+    - Completed: `python tools/scripts/complete_task.py 2026-02-05-generic-yaml-adapter`
     - Result: 82% coverage, 3.5h (vs 5h estimated)
 
   - Task 2: ENV variable support [HIGH]
+    - Started: `python tools/scripts/start_task.py 2026-02-05-env-support`
     - RED: 20 failing tests written
     - GREEN: Template expansion implemented
     - REFACTOR: Security validations added
+    - Completed: `python tools/scripts/complete_task.py 2026-02-05-env-support`
     - Result: 100% coverage, 1.5h (vs 2h estimated)
 
 Agent (Petra):
@@ -108,6 +127,7 @@ Agent (Petra):
   ✅ 44 tests passing (92% coverage)
   ✅ Work logs: work/reports/logs/backend-dev/2026-02-05-m2-batch-2.3.md
   ✅ Roadmap updated: M2 Tool Integration 100% complete
+  ✅ Tasks properly completed using scripts (validation passed)
   📊 Overall progress: 45% (M1-M2 done, M3-M4 remaining)
 
   Next recommended batch: M3 Batch 3.1 - Telemetry Infrastructure (3 tasks)

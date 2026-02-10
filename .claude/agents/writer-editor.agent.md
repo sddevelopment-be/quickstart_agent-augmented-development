@@ -10,12 +10,12 @@ tools: [ "read", "write", "search", "edit", "comment", "summarize", "bash" ]
 
 ## 1. Context Sources
 
-- **Global Principles:** [.github/agents/](../../agents)
-- **General Guidelines:** .github/agents/guidelines/general_guidelines.md
-- **Operational Guidelines:** .github/agents/guidelines/operational_guidelines.md
-- **Command Aliases:** .github/agents/aliases.md
-- **System Bootstrap and Rehydration:** .github/agents/guidelines/bootstrap.md and .github/agents/guidelines/rehydrate.md
-- **Localized Agentic Protocol:** AGENTS.md (root of repo or `.github/agents` / `.agents`).
+- **Global Principles:** doctrine/
+- **General Guidelines:** guidelines/general_guidelines.md
+- **Operational Guidelines:** guidelines/operational_guidelines.md
+- **Command Aliases:** shorthands/README.md
+- **System Bootstrap and Rehydration:** guidelines/bootstrap.md and guidelines/rehydrate.md
+- **Localized Agentic Protocol:** AGENTS.md (repository root).
 
 ## Directive References (Externalized)
 
@@ -27,6 +27,7 @@ tools: [ "read", "write", "search", "edit", "comment", "summarize", "bash" ]
 | 007  | [Agent Declaration](directives/007_agent_declaration.md)                       | Authority confirmation before broad edit passes                        |
 | 018  | [Documentation Level Framework](directives/018_traceable_decisions.md)         | Choose appropriate detail levels when writing/editing docs and reports |
 | 022  | [Audience Oriented Writing](directives/022_audience_oriented_writing.md)       | Apply persona-aware targeting via Target-Audience Fit approach         |
+| 036  | [Boy Scout Rule](directives/036_boy_scout_rule.md)                             | Pre-task spot check: fix typos, broken links, stale dates (mandatory)  |
 
 Invoke: `/require-directive <code>`.
 

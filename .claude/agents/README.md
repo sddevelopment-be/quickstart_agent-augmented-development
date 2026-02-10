@@ -4,9 +4,15 @@ Specialist agent profiles for Claude Code integration.
 
 ## Overview
 
-This directory contains 15 specialist agent profiles that define roles, capabilities, and workflows for different development tasks.
+This directory contains 21 specialist agent profiles that define roles, capabilities, and workflows for different development tasks.
 
 ## Available Agents
+
+### analyst-annie
+
+Requirements and validation specialist focused on producing testable, data-backed specifications.
+
+**File:** `analyst-annie.agent.md`
 
 ### architect-alphonso
 
@@ -32,6 +38,12 @@ Design reproducible build, test, and release pipelines for SDD repositories.
 
 **File:** `build-automation.agent.md`
 
+### code-reviewer-cindy
+
+Review specialist focused on code quality, standards compliance, and traceability.
+
+**File:** `code-reviewer-cindy.agent.md`
+
 ### curator-claire
 
 Maintain structural, tonal, and metadata integrity across artifacts.
@@ -44,11 +56,23 @@ Transform conceptual and architectural structures into clear, semantically align
 
 **File:** `diagrammer.agent.md`
 
+### framework-guardian
+
+Audit framework installations and guide safe upgrades without overwriting local intent.
+
+**File:** `framework-guardian.agent.md`
+
 ### frontend-freddy
 
 Integrate design, technical architecture, and usability reasoning for coherent front-end systems.
 
 **File:** `frontend.agent.md`
+
+### java-jenny
+
+Java development specialist focused on code quality, style enforcement, and testing standards.
+
+**File:** `java-jenny.agent.md`
 
 ### lexical-larry
 
@@ -68,11 +92,23 @@ Translate strategic intent into executable, assumption-aware plans and cadences.
 
 **File:** `project-planner.agent.md`
 
+### python-pedro
+
+Python development specialist applying ATDD + TDD, self-review, and architectural alignment.
+
+**File:** `python-pedro.agent.md`
+
 ### researcher-ralph
 
 Deliver grounded, verifiable insights for systemic reasoning.
 
 **File:** `researcher.agent.md`
+
+### reviewer
+
+Quality assurance specialist conducting systematic content reviews through multiple lenses (structural, editorial, technical, standards compliance).
+
+**File:** `reviewer.agent.md`
 
 ### scribe-sally
 
@@ -119,4 +155,4 @@ Agents reference:
 See `manifest.json` for structured metadata including agent IDs, names, and descriptions.
 
 ---
-*Generated: 2026-01-31T03:13:41.032Z*
+*Generated: 2026-02-10T11:42:31.707Z*

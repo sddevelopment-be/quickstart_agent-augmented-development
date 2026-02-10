@@ -123,14 +123,50 @@
                         </div>
                     </div>
                     
-                    <!-- Done Column -->
+                    <!-- In Progress Column -->
                     <div class="kanban-column">
-                        <div class="column-header done-header">
-                            <h3>✅ Done</h3>
-                            <span class="task-count" id="done-count">0</span>
+                        <div class="column-header in-progress-header">
+                            <h3>⚙️ In Progress</h3>
+                            <span class="task-count" id="in-progress-count">0</span>
                         </div>
-                        <div class="task-list" id="done-tasks">
-                            <div class="empty-state">No completed tasks</div>
+                        <div class="task-list" id="in-progress-tasks">
+                            <div class="empty-state">No in-progress tasks</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Toggle Finished Work Section -->
+                <button id="toggle-finished-work" class="toggle-finished-btn" 
+                        aria-expanded="false" aria-controls="finished-work-section"
+                        aria-label="Show finished work section">
+                    <span class="toggle-icon">▼</span>
+                    <span class="toggle-text">Show Finished Work</span>
+                </button>
+                
+                <!-- Finished Work Section (Collapsed by default) -->
+                <div id="finished-work-section" class="finished-work-section hidden" role="region" 
+                     aria-labelledby="toggle-finished-work" aria-hidden="true">
+                    <div class="kanban-board">
+                        <!-- Done Column -->
+                        <div class="kanban-column">
+                            <div class="column-header done-header">
+                                <h3>✅ Done</h3>
+                                <span class="task-count" id="done-count">0</span>
+                            </div>
+                            <div class="task-list scrollable" id="done-tasks">
+                                <div class="empty-state">No completed tasks</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Error Column -->
+                        <div class="kanban-column">
+                            <div class="column-header error-header">
+                                <h3>❌ Error</h3>
+                                <span class="task-count" id="error-count">0</span>
+                            </div>
+                            <div class="task-list scrollable" id="error-tasks">
+                                <div class="empty-state">No errored tasks</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -143,6 +179,15 @@
                 <!-- Portfolio Overview - Initiative Tracking -->
                 <section class="portfolio-section">
                     <h2>📊 Portfolio Overview</h2>
+                    
+                    <!-- Toggle Completed Initiatives Section -->
+                    <button id="toggle-completed-initiatives" class="toggle-finished-btn" 
+                            aria-expanded="false" aria-controls="portfolio-container"
+                            aria-label="Show completed and deprecated initiatives">
+                        <span class="toggle-icon">▼</span>
+                        <span class="toggle-text">Show Finished Initiatives</span>
+                    </button>
+                    
                     <div id="portfolio-container" class="portfolio-container">
                         <div class="empty-state">Loading portfolio...</div>
                     </div>

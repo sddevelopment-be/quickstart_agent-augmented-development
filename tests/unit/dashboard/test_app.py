@@ -5,7 +5,7 @@ Tests Flask + SocketIO integration following TDD (Directive 017).
 """
 
 import pytest
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, patch, ANY
 import json
 
 
@@ -258,3 +258,153 @@ class TestDashboardAPI:
         assert data['costs']['month'] == 0.0
         assert data['costs']['total'] == 0.0
         assert 'timestamp' in data
+
+
+class TestDashboardAPIFiltering:
+    """Test suite for Dashboard API task filtering functionality."""
+    
+    def test_tasks_endpoint_include_done_parameter_default(self):
+        """Test: /api/tasks endpoint excludes done tasks by default when using query params."""
+        from llm_service.dashboard.app import create_app
+        
+        app, _ = create_app()
+        client = app.test_client()
+        
+        # Mock the refactored load_tasks_with_filter function
+        with patch('llm_service.dashboard.app.load_tasks_with_filter') as mock_load_filtered:
+            mock_load_filtered.return_value = [
+                {'id': 'task-1', 'title': 'Open Task', 'status': 'assigned'},
+                {'id': 'task-2', 'title': 'In Progress', 'status': 'in_progress'}
+            ]
+            
+            # Use explicit include_done=false to trigger new behavior
+            response = client.get('/api/tasks?include_done=false')
+            
+            assert response.status_code == 200
+            data = json.loads(response.data)
+            assert len(data) == 2
+            # Should call load_tasks_with_filter with include_done=False
+            mock_load_filtered.assert_called_once_with(ANY, include_done=False)
+
+    def test_tasks_endpoint_include_done_false(self):
+        """Test: /api/tasks?include_done=false returns only active tasks."""
+        from llm_service.dashboard.app import create_app
+        
+        app, _ = create_app()
+        client = app.test_client()
+        
+        # Mock the refactored function
+        with patch('llm_service.dashboard.app.load_tasks_with_filter') as mock_load_filtered:
+            mock_load_filtered.return_value = [
+                {'id': 'task-1', 'title': 'Open Task', 'status': 'assigned'},
+                {'id': 'task-2', 'title': 'In Progress', 'status': 'in_progress'}
+            ]
+            
+            response = client.get('/api/tasks?include_done=false')
+            
+            assert response.status_code == 200
+            data = json.loads(response.data)
+            assert len(data) == 2
+            # Should call with include_done=False
+            mock_load_filtered.assert_called_once_with(ANY, include_done=False)
+
+    def test_tasks_endpoint_include_done_true(self):
+        """Test: /api/tasks?include_done=true returns all tasks including done."""
+        from llm_service.dashboard.app import create_app
+        
+        app, _ = create_app()
+        client = app.test_client()
+        
+        # Mock the refactored function
+        with patch('llm_service.dashboard.app.load_tasks_with_filter') as mock_load_filtered:
+            mock_load_filtered.return_value = [
+                {'id': 'task-1', 'title': 'Open Task', 'status': 'assigned'},
+                {'id': 'task-2', 'title': 'Done Task', 'status': 'done'}, 
+                {'id': 'task-3', 'title': 'Error Task', 'status': 'error'}
+            ]
+            
+            response = client.get('/api/tasks?include_done=true')
+            
+            assert response.status_code == 200
+            data = json.loads(response.data)
+            assert len(data) == 3  # Should include all tasks
+            # Should call with include_done=True
+            mock_load_filtered.assert_called_once_with(ANY, include_done=True)
+
+    def test_tasks_finished_endpoint(self):
+        """Test: /api/tasks/finished returns only DONE and ERROR tasks."""
+        from llm_service.dashboard.app import create_app
+        
+        app, _ = create_app()
+        client = app.test_client()
+        
+        # Mock the refactored function
+        with patch('llm_service.dashboard.app.load_tasks_with_filter') as mock_load_filtered:
+            mock_load_filtered.return_value = [
+                {'id': 'task-1', 'title': 'Done Task', 'status': 'done'},
+                {'id': 'task-2', 'title': 'Error Task', 'status': 'error'}
+            ]
+            
+            response = client.get('/api/tasks/finished')
+            
+            assert response.status_code == 200
+            data = json.loads(response.data)
+            
+            # Should only return done and error tasks
+            assert len(data) == 2
+            task_ids = [task['id'] for task in data]
+            assert 'task-1' in task_ids  # done
+            assert 'task-2' in task_ids  # error
+            # Should call with terminal_only=True
+            mock_load_filtered.assert_called_once_with(ANY, include_done=True, terminal_only=True)
+
+    def test_tasks_finished_endpoint_empty_result(self):
+        """Test: /api/tasks/finished returns empty list when no finished tasks."""
+        from llm_service.dashboard.app import create_app
+        
+        app, _ = create_app()
+        client = app.test_client()
+        
+        # Mock no finished tasks
+        with patch('llm_service.dashboard.app.load_tasks_with_filter') as mock_load_filtered:
+            mock_load_filtered.return_value = []
+            
+            response = client.get('/api/tasks/finished')
+            
+            assert response.status_code == 200
+            data = json.loads(response.data)
+            assert len(data) == 0
+            # Should call with terminal_only=True
+            mock_load_filtered.assert_called_once_with(ANY, include_done=True, terminal_only=True)
+
+    def test_tasks_websocket_events_include_status(self):
+        """Test: WebSocket events include status metadata."""
+        from llm_service.dashboard.app import create_app
+        
+        app, socketio = create_app()
+        client = socketio.test_client(app, namespace='/dashboard')
+        
+        # Mock task data
+        task_data = {
+            'id': 'test-task',
+            'title': 'Test Task',
+            'status': 'assigned',
+            'priority': 'high'
+        }
+        
+        # Emit a task update event
+        socketio.emit('task.updated', {
+            'task_id': 'test-task',
+            'status': 'assigned',
+            'task_data': task_data,
+            'timestamp': '2026-02-10T11:04:00Z'
+        }, namespace='/dashboard')
+        
+        received = client.get_received(namespace='/dashboard')
+        
+        # Should receive event with status metadata
+        task_events = [e for e in received if e.get('name') == 'task.updated']
+        assert len(task_events) > 0
+        event_data = task_events[0]['args'][0]
+        assert 'status' in event_data
+        assert 'task_data' in event_data
