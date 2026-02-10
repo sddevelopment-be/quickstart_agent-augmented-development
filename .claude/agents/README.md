@@ -135,24 +135,24 @@ Revise and refine existing written content for tone, clarity, and strategic/oper
 **File:** `writer-editor.agent.md`
 
 
+## Format
+
+These are **simplified** agent profiles optimized for Claude Code subagent invocations.
+Each file contains YAML frontmatter (name, description, tools, model) and a brief
+behavioral description with focus/avoid guidance. Full doctrine profiles are in
+`doctrine/agents/`.
+
 ## Usage
 
-These agent profiles can be used with Claude Code to:
-- Bootstrap specialized development contexts
-- Ensure consistent workflows across tasks
-- Reference domain-specific directives and approaches
-- Maintain alignment with project architecture
+Claude Code loads these as subagent definitions via the Task tool. Each agent specifies:
+- **tools**: Claude Code-native tool names (Read, Write, Edit, Bash, Grep, Glob, etc.)
+- **model**: Suggested model (opus for architects/reviewers, sonnet for developers)
 
-## Integration
+## Source
 
-Agents reference:
-- **Directives:** `.github/agents/directives/` - Operational guidelines
-- **Approaches:** `.github/agents/approaches/` - Workflow patterns
-- **Guidelines:** `.github/agents/guidelines/` - General principles
+Generated from `doctrine/agents/*.agent.md` by `tools/exporters/claude-code-generator.js`.
+Run `npm run deploy:claude:agents` to regenerate.
 
 ## Manifest
 
-See `manifest.json` for structured metadata including agent IDs, names, and descriptions.
-
----
-*Generated: 2026-02-10T14:52:46.080Z*
+See `manifest.json` for structured metadata.

@@ -2,7 +2,7 @@
 
 **Date:** 2026-02-10
 **Scope:** Evaluate `config/`, `.claude/`, and `doctrine/` for Claude Code compatibility
-**Status:** Analysis complete — actionable recommendations below
+**Status:** Analysis complete — recommendations 1-3, 5 implemented via SPEC-DIST-002
 
 ---
 
@@ -39,11 +39,11 @@ The `config/models.yaml` is significantly outdated. All downstream files (`agent
 | Directory                 | Native? | Present? | Status                         |
 |---------------------------|---------|----------|--------------------------------|
 | `skills/<name>/SKILL.md`  | Yes     | Yes (26) | Used correctly                 |
-| `agents/<name>.md`        | Yes     | Yes (22) | Overbuilt — see Section 3      |
-| `CLAUDE.md`               | Yes     | **No**   | Major gap — auto-loaded file missing |
-| `rules/*.md`              | Yes     | **No**   | Missing — best home for doctrine layers |
+| `agents/<name>.md`        | Yes     | Yes (21) | **Simplified** (SPEC-DIST-002) |
+| `CLAUDE.md`               | Yes     | Yes      | **Created** (SPEC-DIST-002)    |
+| `rules/*.md`              | Yes     | Yes (5)  | **Created** (SPEC-DIST-002)    |
 | `settings.local.json`     | Yes     | Yes      | Correct                        |
-| `prompts/`                | **No**  | Yes (15) | Not natively recognized        |
+| `prompts/`                | **No**  | Legacy   | **Deprecated** (SPEC-DIST-002) |
 
 ### Key Findings
 
@@ -154,9 +154,9 @@ The doctrine stack should split accordingly: values and conventions go in always
 
 ### Priority Order for Implementation
 
-1. Create `CLAUDE.md` — highest impact, lowest effort
-2. Create `.claude/rules/` with distilled doctrine content — high impact, moderate effort
-3. Simplify `.claude/agents/` files — moderate impact, moderate effort
+1. ~~Create `CLAUDE.md`~~ — **DONE** (SPEC-DIST-002, 43 lines)
+2. ~~Create `.claude/rules/` with distilled doctrine content~~ — **DONE** (5 rules files, 75-79 lines each)
+3. ~~Simplify `.claude/agents/` files~~ — **DONE** (21 agents, ~14 lines each)
 4. Fix stale paths in skills — low effort, prevents confusion
-5. Remove `.claude/prompts/` — cleanup, low effort
+5. ~~Remove `.claude/prompts/` from default deploy~~ — **DONE** (deprecated behind --prompts-legacy)
 6. Update `config/models.yaml` and downstream files — correctness, moderate effort

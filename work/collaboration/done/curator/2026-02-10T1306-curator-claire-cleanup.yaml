@@ -1,6 +1,6 @@
 id: dist002-task-3.2-cleanup
 agent: curator
-status: assigned
+status: done
 priority: medium
 specification: specifications/initiatives/framework-distribution/SPEC-DIST-002-claude-code-optimization.md
 title: 'Task 3.2: Cleanup legacy prompts and update documentation'
@@ -27,3 +27,16 @@ milestone: SPEC-DIST-002 Implementation
 dependencies:
 - dist002-task-3.1-validation
 estimated_effort_hours: 3
+started_at: '2026-02-10T14:54:05Z'
+result:
+  summary: "Cleanup complete. .claude/agents/README.md updated for simplified format.\
+    \ claude_code-fit.md updated with implementation status (items 1-3, 5 marked DONE).\
+    \ Native Recognition Matrix updated. Prompts deprecated from default deploy (legacy\
+    \ files retained for reference). 21 references to .claude/prompts/ found \u2014\
+    \ all are in documentation, specs, or test assertions (expected, not orphaned)."
+  artefacts_modified:
+  - .claude/agents/README.md
+  - work/reports/claude_code-fit.md
+  notes: ".claude/prompts/ directory retained (not deleted) \u2014 contains legacy\
+    \ content for reference. Deploy script no longer populates it by default."
+completed_at: '2026-02-10T14:56:47Z'
