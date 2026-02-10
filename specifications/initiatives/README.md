@@ -8,6 +8,7 @@ This directory contains **specifications grouped by initiative** — strategic t
 specifications/initiatives/
 ├── dashboard-enhancements/     # Real-Time Dashboard & Portfolio View
 ├── framework-distribution/     # Multi-Tool Distribution Architecture
+├── quickstart-onboarding/      # Repository Initialization & Setup Wizard
 ├── src-consolidation/          # Code Consolidation & Shared Abstractions
 └── [cold-storage]/             # Superseded or deferred initiatives
 ```
@@ -37,6 +38,17 @@ Multi-format distribution architecture for Doctrine framework (GitHub Copilot, C
 
 **Key Specs:**
 - SPEC-DIST-001: Doctrine Framework Multi-Tool Distribution Architecture
+
+### Quickstart & Onboarding
+**Status:** Proposed  
+**Priority:** HIGH  
+**Specifications:** 2 active  
+
+Enhanced repository initialization with interactive setup wizard, reducing setup time from hours to <15 minutes with best practices by default.
+
+**Key Specs:**
+- SPEC-QUICK-001: Enhanced Repository Initialization Sequence (automated/guided/wizard modes)
+- SPEC-QUICK-002: Repository Setup Wizard (interactive Python + Rich UI)
 
 ### Src Consolidation
 **Status:** Proposed  
