@@ -213,61 +213,18 @@ The [Customer](#customer) places an [Order](#order) which triggers [Fulfillment]
 
 ---
 
-## Maintenance Workflow
+## Maintenance Rhythm
 
-### Continuous Capture
+Living glossaries require ongoing care through four maintenance cycles:
 
-**Frequency:** Ongoing, automated observation
+1. **Continuous Capture** (ongoing) - Automated observation and candidate generation
+2. **Weekly Triage** (30 min/week) - Rapid decision-making by context owners
+3. **Quarterly Health Check** (2 hours/quarter) - Staleness audit, coverage assessment, conflict resolution
+4. **Annual Governance Retrospective** (half-day/year) - Policy review, organizational alignment
 
-**Process:**
-1. **Agents observe:** Code, docs, meetings, PRs
-2. **Pattern detection:** Identify new terms, conflicts, drift
-3. **Candidate generation:** Propose glossary entries
-4. **Human review:** Owner approves/rejects/modifies
+**Rationale:** Different timescales serve different purposes. Continuous capture keeps data fresh. Weekly triage prevents backlog buildup. Quarterly reviews catch drift. Annual retrospectives enable strategic adjustments.
 
-**Output:** Glossary candidates queue for weekly triage
-
----
-
-### Weekly Triage
-
-**Frequency:** Weekly 30-minute session
-
-**Process:**
-1. **Review candidates:** Agent-generated proposals
-2. **Make decisions:** Approve, reject, defer
-3. **Assign enforcement tiers:** Advisory, acknowledgment, hard failure
-4. **Update glossary:** Commit changes with rationale
-
-**Participants:** Context owners, architects, domain experts
-
----
-
-### Quarterly Health Check
-
-**Frequency:** Quarterly 2-hour workshop
-
-**Activities:**
-1. **Staleness audit:** Identify outdated definitions
-2. **Coverage assessment:** Missing domain terms?
-3. **Conflict resolution:** Address ambiguities
-4. **Enforcement review:** Are tiers appropriate?
-
-**Outcome:** Glossary refinement plan, enforcement adjustments
-
----
-
-### Annual Governance Retrospective
-
-**Frequency:** Annual half-day session
-
-**Activities:**
-1. **Hard failure justification review:** Were blocks necessary?
-2. **False positive analysis:** Agent accuracy assessment
-3. **Organizational alignment:** Conway's Law validation
-4. **Tooling evolution:** What worked? What didn't?
-
-**Outcome:** Governance policy updates, process improvements
+**See:** [Glossary Maintenance Workflow Tactic](../tactics/glossary-maintenance-workflow.tactic.md) for detailed step-by-step procedures
 
 ---
 
@@ -291,6 +248,22 @@ The [Customer](#customer) places an [Order](#order) which triggers [Fulfillment]
 - Throwaway code or experiments
 - Domain vocabulary is trivial
 - Team communication already excellent
+
+---
+
+## Integration with Doctrine Stack
+
+### Related Approaches
+- **[Language-First Architecture](language-first-architecture.md)** - Strategic framework for linguistic monitoring
+- **[Bounded Context Linguistic Discovery](bounded-context-linguistic-discovery.md)** - Context boundary identification
+
+### Related Directives
+- **[Directive 018: Traceable Decisions](../directives/018_traceable_decisions.md)** - Document terminology in ADRs
+- **[Directive 038: Ensure Conceptual Alignment](../directives/038_ensure_conceptual_alignment.md)** - Term confirmation protocol
+
+### Related Tactics
+- **[Glossary Maintenance Workflow](../tactics/glossary-maintenance-workflow.tactic.md)** - Step-by-step maintenance procedures
+- **[Terminology Extraction and Mapping](../tactics/terminology-extraction-mapping.tactic.md)** - Initial glossary creation
 
 ---
 

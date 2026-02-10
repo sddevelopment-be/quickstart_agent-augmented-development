@@ -129,104 +129,19 @@ validation_result: null
 
 ---
 
-## Integration with Requirements Process
+## Requirements Validation Process
 
-### Phase 1: Research and Claim Extraction
+Evidence-based requirements follow a five-phase validation cycle:
 
-**Activities:**
-1. **Literature review:** Extract claims from academic papers, books, industry reports
-2. **Stakeholder interviews:** Capture assertions from domain experts, users, developers
-3. **Production data analysis:** Identify patterns, correlations, anomalies
+1. **Research and Claim Extraction** - Build inventory from literature, interviews, production data
+2. **Claim Prioritization** - Focus on high-impact, testable claims (avoid analysis paralysis)
+3. **Experiment Design** - Define falsifiable hypotheses with clear pass/fail criteria
+4. **Validation Execution** - Run experiments, analyze results, update claim status
+5. **Requirements Synthesis** - Translate validated claims to requirements with traceability
 
-**Output:** Claim inventory with 20-50 claims classified by evidence type
+**Rationale:** This process transforms assumptions into validated knowledge. By testing claims before committing to implementation, teams avoid costly rework from invalidated assumptions. Traceability from requirements → claims → evidence enables confidence-based decision-making.
 
-**Agent:** Researcher Ralph
-
----
-
-### Phase 2: Claim Prioritization
-
-**Activities:**
-1. **Assess testability:** ✅ Testable, ⚠️ Partially, ❌ Not testable
-2. **Evaluate impact:** High, Medium, Low business value
-3. **Estimate effort:** Quick (<1 week), Moderate (1-4 weeks), Lengthy (>4 weeks)
-
-**Output:** Prioritized backlog of claims to validate
-
-**Decision Criteria:**
-- High impact + Testable + Quick → Validate immediately
-- High impact + Partially testable + Moderate → Design proxy metrics
-- Low impact or Not testable → Defer or reframe
-
-**Agent:** Analyst Annie, Architect Alphonso (joint decision)
-
----
-
-### Phase 3: Experiment Design
-
-**Activities:**
-1. **Define hypothesis:** Restate claim as falsifiable hypothesis
-2. **Design validation experiment:** Metrics, data collection, success criteria
-3. **Identify confounds:** What else could explain results?
-4. **Plan analysis:** Statistical tests, qualitative analysis methods
-
-**Output:** Experiment plan with clear pass/fail criteria
-
-**Example:**
-```markdown
-**Hypothesis:** Terminology inconsistency correlates with defect rates (r > 0.5)
-
-**Validation Experiment:**
-- **Data Collection:** Scan codebase for naming consistency (AST analysis)
-- **Defect Data:** Historical bug reports, severity classification
-- **Analysis:** Pearson correlation between inconsistency score and defect density
-- **Success Criteria:** r > 0.5 with p < 0.05
-- **Confounds:** Code age, team experience, module complexity
-```
-
-**Agent:** Analyst Annie
-
----
-
-### Phase 4: Validation Execution
-
-**Activities:**
-1. **Collect data:** Run experiments, surveys, measurements
-2. **Analyze results:** Statistical tests, qualitative coding
-3. **Update claim status:** Accepted, Rejected, Superseded
-4. **Document findings:** Evidence summary, confidence level
-
-**Output:** Validated claims with confidence levels
-
-**Agent:** Researcher Ralph, Analyst Annie
-
----
-
-### Phase 5: Requirements Synthesis
-
-**Activities:**
-1. **Translate claims to requirements:** "Because X (claim), we require Y (feature)"
-2. **Define acceptance criteria:** Testable conditions per validated claim
-3. **Establish traceability:** Requirements → Claims → Evidence
-
-**Output:** Evidence-backed specifications
-
-**Example:**
-```markdown
-**Requirement REQ-001:** Implement PR-level glossary validation
-
-**Rationale:**
-- **Claim CLAIM-003:** Early terminology feedback reduces integration defects
-- **Evidence:** Validated empirically in pilot (r=0.72, p<0.01)
-- **Confidence:** High ✅
-
-**Acceptance Criteria:**
-1. PR checks flag cross-context terminology violations
-2. Developers receive advisory-level feedback (not blocking)
-3. Response time <2 seconds per PR
-```
-
-**Agent:** Analyst Annie
+**See:** [Requirements Validation Workflow Tactic](../tactics/requirements-validation-workflow.tactic.md) for detailed step-by-step procedures
 
 ---
 
@@ -249,6 +164,22 @@ validation_result: null
 - Throwaway prototypes or experiments
 - Time-to-market pressure exceeds validation value
 - No access to validation data (interviews, production metrics, etc.)
+
+---
+
+## Integration with Doctrine Stack
+
+### Related Approaches
+- **[Language-First Architecture](language-first-architecture.md)** - Linguistic analysis as architectural signal
+- **[Living Glossary Practice](living-glossary-practice.md)** - Terminology validation infrastructure
+
+### Related Directives
+- **[Directive 018: Traceable Decisions](../directives/018_traceable_decisions.md)** - ADR-to-evidence traceability
+- **[Directive 034: Specification-Driven Development](../directives/034_spec_driven_development.md)** - Requirements quality standards
+
+### Related Tactics
+- **[Requirements Validation Workflow](../tactics/requirements-validation-workflow.tactic.md)** - Step-by-step validation procedures
+- **[Claim Inventory Development](../tactics/claim-inventory-development.tactic.md)** - Research cataloging methods
 
 ---
 
