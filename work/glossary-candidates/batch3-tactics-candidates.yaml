@@ -1,0 +1,1261 @@
+# Batch 3: Tactics Layer Glossary Candidates
+# Domain: Procedural/Execution Terms from doctrine/tactics/
+# Extraction Date: 2026-02-10
+# Agent: Lexical Larry
+# Method: Systematic extraction per Living Glossary Practice
+
+metadata:
+  batch_id: "batch3"
+  source_layer: "tactics"
+  extraction_date: "2026-02-10"
+  agent: "Lexical Larry"
+  total_tactics_processed: 38
+  total_terms_extracted: 127
+  confidence_distribution:
+    high: 95
+    medium: 26
+    low: 6
+
+# =============================================================================
+# CATEGORY: 6-Phase SDD Workflow
+# Source: 6-phase-spec-driven-implementation-flow.tactic.md, phase-checkpoint-protocol.md
+# =============================================================================
+
+candidates:
+  - term: "Phase Checkpoint Protocol"
+    definition: "Systematic validation procedure executed at the end of every phase in specification-driven development to prevent phase-skipping violations and ensure proper hand-offs"
+    context: "SDD workflow governance"
+    source: "phase-checkpoint-protocol.md"
+    related_terms: ["Phase Skipping", "Hand-off", "Role Boundaries"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+    notes: "Validated in SPEC-DIST-001 with 0 violations"
+
+  - term: "Phase Skipping"
+    definition: "Workflow violation where an agent bypasses required intermediate phases (e.g., jumping from Analysis directly to Implementation)"
+    context: "SDD workflow violations"
+    source: "phase-checkpoint-protocol.md"
+    related_terms: ["Phase Checkpoint Protocol", "Role Overstepping"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Role Overstepping"
+    definition: "Violation where an agent performs work outside their designated authority level (PRIMARY, CONSULT, or NO)"
+    context: "Agent authority boundaries"
+    source: "phase-checkpoint-protocol.md"
+    related_terms: ["Phase Skipping", "Role Boundaries Table"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Hand-off"
+    definition: "Explicit transfer of responsibility from one agent to another at phase boundaries, documented in commit messages"
+    context: "SDD workflow coordination"
+    source: "6-phase-spec-driven-implementation-flow.md"
+    related_terms: ["Phase Checkpoint Protocol", "Phase Declaration"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Phase Declaration"
+    definition: "Commit message annotation indicating which phase of the 6-phase cycle a commit belongs to"
+    context: "SDD commit practices"
+    source: "6-phase-spec-driven-implementation-flow.md"
+    related_terms: ["Hand-off", "Phase Checkpoint Protocol"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "RED Phase"
+    definition: "ATDD workflow state where acceptance tests have been written but fail, proving tests work before implementation"
+    context: "Test-driven development"
+    source: "6-phase-spec-driven-implementation-flow.md"
+    related_terms: ["GREEN Phase", "Acceptance Test Implementation"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "GREEN Phase"
+    definition: "TDD/ATDD workflow state where tests pass after implementation, validating correct behavior"
+    context: "Test-driven development"
+    source: "6-phase-spec-driven-implementation-flow.md"
+    related_terms: ["RED Phase", "Implementation Phase"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+# =============================================================================
+# CATEGORY: Testing & Quality Assurance
+# Source: ATDD_adversarial-acceptance.tactic.md, adversarial-testing.tactic.md, etc.
+# =============================================================================
+
+  - term: "Adversarial Acceptance Testing"
+    definition: "ATDD practice of deliberately exploring failure scenarios to define acceptance boundaries for misuse, edge cases, and unsafe defaults"
+    context: "Testing methodology"
+    source: "ATDD_adversarial-acceptance.tactic.md"
+    related_terms: ["Acceptance Boundary", "Adversarial Testing", "Contract Decision"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Acceptance Boundary"
+    definition: "Explicit specification of when a system refuses, constrains, or safely degrades rather than accepting input"
+    context: "System behavior specification"
+    source: "ATDD_adversarial-acceptance.tactic.md"
+    related_terms: ["Adversarial Acceptance Testing", "Contract Decision"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Contract Decision"
+    definition: "Explicit determination of intended outcome for a failure scenario: prevent, reject, degrade, or tolerate"
+    context: "Requirements specification"
+    source: "ATDD_adversarial-acceptance.tactic.md"
+    related_terms: ["Acceptance Boundary", "Failure Scenario"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Failure Scenario"
+    definition: "Concrete description of how a feature could fail, including trigger, manifestation, and likely cause"
+    context: "Risk analysis"
+    source: "ATDD_adversarial-acceptance.tactic.md"
+    related_terms: ["Adversarial Testing", "Premortem Analysis"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Adversarial Testing"
+    definition: "Stress-testing technique that deliberately attempts to make a proposal, design, or decision fail to surface weaknesses and blind spots"
+    context: "Decision validation"
+    source: "adversarial-testing.tactic.md"
+    related_terms: ["Failure Scenario", "Premortem Risk Identification"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Test Boundary"
+    definition: "Scope of components included in a test based on functional responsibility rather than structural layers"
+    context: "Unit testing strategy"
+    source: "test-boundaries-by-responsibility.tactic.md"
+    related_terms: ["Inside Boundary", "Outside Boundary", "Functional Responsibility"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Inside Boundary (Testing)"
+    definition: "Components directly responsible for feature logic that should NOT be mocked in tests"
+    context: "Unit testing scope"
+    source: "test-boundaries-by-responsibility.tactic.md"
+    related_terms: ["Outside Boundary", "Test Boundary"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Outside Boundary (Testing)"
+    definition: "Supporting infrastructure and external dependencies that SHOULD be mocked/stubbed in tests"
+    context: "Unit testing scope"
+    source: "test-boundaries-by-responsibility.tactic.md"
+    related_terms: ["Inside Boundary", "Test Boundary"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Reverse Speccing"
+    definition: "Validation technique where system understanding is reconstructed purely from test code to measure test quality as executable specification"
+    context: "Test quality assessment"
+    source: "test-to-system-reconstruction.tactic.md"
+    related_terms: ["Naive Reconstruction", "Test-as-Documentation"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Naive Reconstruction"
+    definition: "First phase of reverse speccing where Agent A reconstructs system understanding with zero external context (tests only)"
+    context: "Test validation procedure"
+    source: "test-to-system-reconstruction.tactic.md"
+    related_terms: ["Reverse Speccing", "Expert Review"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Expert Review (Testing)"
+    definition: "Second phase of reverse speccing where Agent B validates reconstruction against ground truth with full context access"
+    context: "Test validation procedure"
+    source: "test-to-system-reconstruction.tactic.md"
+    related_terms: ["Naive Reconstruction", "Accuracy Assessment"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+# =============================================================================
+# CATEGORY: Risk Analysis & Decision Support
+# Source: premortem-risk-identification.tactic.md, ammerse-analysis.tactic.md, etc.
+# =============================================================================
+
+  - term: "Premortem Risk Identification"
+    definition: "Proactive failure analysis that assumes a proposal has already failed and identifies critical failure modes before execution"
+    context: "Risk management"
+    source: "premortem-risk-identification.tactic.md"
+    related_terms: ["Failure Scenario", "Mitigation Strategy", "Risk Matrix"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Risk Matrix"
+    definition: "2x2 grid plotting failure scenarios by impact (vertical) and likelihood (horizontal) for prioritization"
+    context: "Risk prioritization"
+    source: "premortem-risk-identification.tactic.md"
+    related_terms: ["Premortem Risk Identification", "Impact Rating"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Mitigation Strategy"
+    definition: "Concrete plan defining prevention actions, detection signals, and response procedures for a failure scenario"
+    context: "Risk management"
+    source: "premortem-risk-identification.tactic.md"
+    related_terms: ["Premortem Risk Identification", "Failure Scenario"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "AMMERSE Analysis"
+    definition: "Decision-making framework evaluating practices across seven dimensions: Agile, Minimal, Maintainable, Environmental, Reachable, Solvable, Extensible"
+    context: "Trade-off analysis"
+    source: "ammerse-analysis.tactic.md"
+    related_terms: ["Trade-off Analysis", "Contextual Fit"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "AMMERSE Dimensions"
+    definition: "Seven evaluation criteria for practices: Agile, Minimal, Maintainable, Environmental, Reachable, Solvable, Extensible"
+    context: "Decision framework"
+    source: "ammerse-analysis.tactic.md"
+    related_terms: ["AMMERSE Analysis"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Contextual Fit"
+    definition: "Degree to which a solution aligns with organizational culture, constraints, and environmental factors"
+    context: "Decision analysis"
+    source: "ammerse-analysis.tactic.md"
+    related_terms: ["AMMERSE Analysis", "Environmental Dimension"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+# =============================================================================
+# CATEGORY: Autonomous Operation & AFK Mode
+# Source: autonomous-operation-protocol.tactic.md
+# =============================================================================
+
+  - term: "AFK Mode"
+    definition: "Autonomous operation protocol where agents work independently when human is away from keyboard, with clear decision boundaries and commit frequency expectations"
+    context: "Agent autonomy"
+    source: "autonomous-operation-protocol.tactic.md"
+    related_terms: ["Decision Boundary", "Commit Checkpoint", "Escalation Protocol"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Decision Boundary"
+    definition: "Classification of decision types as Minor (autonomous), Moderate (autonomous with note), or Critical (pause and escalate)"
+    context: "Agent autonomy governance"
+    source: "autonomous-operation-protocol.tactic.md"
+    related_terms: ["AFK Mode", "Escalation Protocol"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Commit Checkpoint"
+    definition: "Regular commit cadence (every 15-30 minutes) in autonomous work to create reversible progress points"
+    context: "Version control practice"
+    source: "autonomous-operation-protocol.tactic.md"
+    related_terms: ["AFK Mode", "Self-Observation Checkpoint"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Escalation Protocol"
+    definition: "Procedure for pausing autonomous work and documenting critical decisions requiring human guidance"
+    context: "Agent autonomy governance"
+    source: "autonomous-operation-protocol.tactic.md"
+    related_terms: ["Decision Boundary", "AFK Mode"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Self-Observation Checkpoint"
+    definition: "Periodic validation (every 25% progress or 30 minutes) during autonomous work to detect scope drift and assess confidence"
+    context: "Agent autonomy quality gate"
+    source: "autonomous-operation-protocol.tactic.md"
+    related_terms: ["Commit Checkpoint", "Ralph Wiggum Loop"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+# =============================================================================
+# CATEGORY: Analysis & Extraction
+# Source: analysis-extract-before-interpret.tactic.md, code-documentation-analysis.tactic.md
+# =============================================================================
+
+  - term: "Extract Before Interpret"
+    definition: "Analysis discipline that separates observable fact extraction from meaning assignment to prevent premature interpretation bias"
+    context: "Analysis methodology"
+    source: "analysis-extract-before-interpret.tactic.md"
+    related_terms: ["Extraction Phase", "Interpretation Phase"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Extraction Phase"
+    definition: "First step of analysis where observable elements are extracted verbatim without judgment or conclusions"
+    context: "Analysis procedure"
+    source: "analysis-extract-before-interpret.tactic.md"
+    related_terms: ["Extract Before Interpret", "Interpretation Phase"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Interpretation Phase"
+    definition: "Second step of analysis where meaning is assigned to previously extracted facts as a separate, explicit activity"
+    context: "Analysis procedure"
+    source: "analysis-extract-before-interpret.tactic.md"
+    related_terms: ["Extraction Phase", "Extract Before Interpret"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Co-occurrence Analysis"
+    definition: "Technique for clustering terminology by analyzing which terms appear together in the same files or contexts"
+    context: "Linguistic analysis"
+    source: "code-documentation-analysis.tactic.md"
+    related_terms: ["Semantic Clustering", "Terminology Extraction"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Definition Conflict Detection"
+    definition: "Analysis process identifying same terms with different meanings across codebases or contexts"
+    context: "Linguistic analysis"
+    source: "code-documentation-analysis.tactic.md"
+    related_terms: ["Semantic Conflict", "Context Boundary"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Semantic Clustering"
+    definition: "Grouping of related domain terms based on co-occurrence patterns and semantic similarity"
+    context: "Linguistic analysis"
+    source: "code-documentation-analysis.tactic.md"
+    related_terms: ["Co-occurrence Analysis", "Vocabulary Domain"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+# =============================================================================
+# CATEGORY: Context & Bounded Context Discovery
+# Source: context-boundary-inference.tactic.md, context-establish-and-freeze.tactic.md, etc.
+# =============================================================================
+
+  - term: "Context Boundary Inference"
+    definition: "Systematic detection of bounded context boundaries from team structure and terminology conflicts using Conway's Law principles"
+    context: "DDD architectural analysis"
+    source: "context-boundary-inference.tactic.md"
+    related_terms: ["Conway's Law", "Vocabulary Ownership", "Semantic Boundary"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Vocabulary Ownership"
+    definition: "Assignment of terminology domains to specific teams based on code authorship and documentation patterns"
+    context: "Linguistic governance"
+    source: "context-boundary-inference.tactic.md"
+    related_terms: ["Context Boundary", "Semantic Clustering"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Team Communication Matrix"
+    definition: "Documentation of communication frequency and artifact sharing patterns between organizational teams"
+    context: "Organizational analysis"
+    source: "context-boundary-inference.tactic.md"
+    related_terms: ["Conway's Law", "Team Interaction Mapping"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Conway's Law Prediction"
+    definition: "Hypothesis that semantic boundaries align with low-frequency communication boundaries between teams"
+    context: "Organizational architecture"
+    source: "context-boundary-inference.tactic.md"
+    related_terms: ["Context Boundary", "Team Communication Matrix"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Translation Rule"
+    definition: "Explicit mapping defining how terminology changes when crossing bounded context boundaries"
+    context: "Context integration"
+    source: "context-boundary-inference.tactic.md"
+    related_terms: ["Anti-Corruption Layer", "Context Boundary"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Establish and Freeze Context"
+    definition: "Tactic requiring explicit context clarification before work begins, then freezing that context for task duration to prevent scope drift"
+    context: "Work initiation discipline"
+    source: "context-establish-and-freeze.tactic.md"
+    related_terms: ["Frozen Context", "Context Drift", "Goals and Non-Goals"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Frozen Context"
+    definition: "Agreed-upon goals, constraints, and assumptions that remain fixed during task execution unless explicitly renegotiated"
+    context: "Scope management"
+    source: "context-establish-and-freeze.tactic.md"
+    related_terms: ["Establish and Freeze Context", "Context Drift"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Context Drift"
+    definition: "Unacknowledged change in task goals, constraints, or assumptions during execution leading to scope creep"
+    context: "Scope violation"
+    source: "context-establish-and-freeze.tactic.md"
+    related_terms: ["Frozen Context", "Scope Creep"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Goals and Non-Goals"
+    definition: "Explicit declaration of what a task is expected to achieve AND what is deliberately out of scope"
+    context: "Task scoping"
+    source: "context-establish-and-freeze.tactic.md"
+    related_terms: ["Establish and Freeze Context"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+# =============================================================================
+# CATEGORY: Event Storming & Discovery
+# Source: event-storming-discovery.tactic.md
+# =============================================================================
+
+  - term: "Event Storming"
+    definition: "Collaborative workshop technique using sticky notes to discover domain events, processes, and bounded context boundaries"
+    context: "DDD discovery methodology"
+    source: "event-storming-discovery.tactic.md"
+    related_terms: ["Domain Event", "Event Cluster", "Boundary Signal"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Domain Event"
+    definition: "Business-significant state change named in past tense (e.g., OrderPlaced, PaymentReceived, ShipmentCompleted)"
+    context: "Event-driven design"
+    source: "event-storming-discovery.tactic.md"
+    related_terms: ["Event Storming", "Event Cluster"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Event Cluster"
+    definition: "Natural grouping of related domain events indicating potential bounded context boundaries"
+    context: "DDD discovery"
+    source: "event-storming-discovery.tactic.md"
+    related_terms: ["Domain Event", "Event Storming"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Boundary Signal"
+    definition: "Indicator of context boundaries: event clusters that separate naturally, different actors, vocabulary divergence, or team responsibility shifts"
+    context: "Context boundary detection"
+    source: "event-storming-discovery.tactic.md"
+    related_terms: ["Event Cluster", "Context Boundary"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Event Storming Sticky Colors"
+    definition: "Color-coding system: Orange=events, Blue=actors, Purple=policies, Light Blue=commands"
+    context: "Workshop visualization"
+    source: "event-storming-discovery.tactic.md"
+    related_terms: ["Event Storming"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "medium"
+
+# =============================================================================
+# CATEGORY: Claim-Based Requirements & Evidence
+# Source: claim-inventory-development.tactic.md, requirements-validation-workflow.tactic.md
+# =============================================================================
+
+  - term: "Claim Inventory"
+    definition: "Systematic catalog of verifiable assertions from research sources with evidence classification enabling testable requirements"
+    context: "Evidence-based requirements"
+    source: "claim-inventory-development.tactic.md"
+    related_terms: ["Evidence Type", "Testability Assessment", "Traceability Chain"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Evidence Type"
+    definition: "Classification of claim support: Empirical (quantitative), Observational (qualitative), Theoretical (conceptual), or Prescriptive (best practices)"
+    context: "Research methodology"
+    source: "claim-inventory-development.tactic.md"
+    related_terms: ["Claim Inventory", "Confidence Level"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Testability Assessment"
+    definition: "Evaluation of whether a claim can be validated: Fully Testable, Partially Testable, or Not Testable"
+    context: "Requirements validation"
+    source: "claim-inventory-development.tactic.md"
+    related_terms: ["Claim Inventory", "Validation Experiment"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Validation Experiment"
+    definition: "Rigorous test designed to accept or reject a claim hypothesis with clear success criteria and confound controls"
+    context: "Evidence-based validation"
+    source: "claim-inventory-development.tactic.md"
+    related_terms: ["Testability Assessment", "Falsifiable Hypothesis"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Claim Relationship"
+    definition: "Connections between claims: Supporting, Contradicting, Prerequisite, or Alternative explanations"
+    context: "Knowledge modeling"
+    source: "claim-inventory-development.tactic.md"
+    related_terms: ["Claim Inventory", "Claim Map"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Traceability Chain"
+    definition: "Bidirectional linking pattern: Evidence → Claim → Hypothesis → Requirement → Acceptance Criteria"
+    context: "Requirements engineering"
+    source: "claim-inventory-development.tactic.md"
+    related_terms: ["Claim Inventory", "Evidence-Based Requirements"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Falsifiable Hypothesis"
+    definition: "Testable prediction restated from a claim in If-Then-Because format with measurable outcomes"
+    context: "Scientific method application"
+    source: "requirements-validation-workflow.tactic.md"
+    related_terms: ["Validation Experiment", "Success Criteria"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Confounding Variable"
+    definition: "Alternative explanation for observed results that must be controlled in validation experiments"
+    context: "Experimental design"
+    source: "requirements-validation-workflow.tactic.md"
+    related_terms: ["Validation Experiment", "Multivariate Analysis"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+# =============================================================================
+# CATEGORY: Change Management & Refactoring
+# Source: change-apply-smallest-viable-diff.tactic.md, refactoring-*.tactic.md
+# =============================================================================
+
+  - term: "Smallest Viable Diff"
+    definition: "Principle of introducing changes using minimal modification that achieves stated goal, avoiding unintended side effects"
+    context: "Change discipline"
+    source: "change-apply-smallest-viable-diff.tactic.md"
+    related_terms: ["Surgical Modification", "Gold-plating", "Locality of Change"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Surgical Modification"
+    definition: "Precise, minimal code changes targeting only files and sections necessary to achieve goal"
+    context: "Refactoring practice"
+    source: "change-apply-smallest-viable-diff.tactic.md"
+    related_terms: ["Smallest Viable Diff", "Reviewable Change"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Gold-plating"
+    definition: "Anti-pattern of opportunistic improvements beyond stated goal (while-I'm-here syndrome)"
+    context: "Scope violation"
+    source: "change-apply-smallest-viable-diff.tactic.md"
+    related_terms: ["Scope Creep", "Smallest Viable Diff"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "First-Order Concept"
+    definition: "Extracted abstraction representing a clear domain or technical concept with single, well-defined responsibility"
+    context: "Refactoring pattern"
+    source: "refactoring-extract-first-order-concept.tactic.md"
+    related_terms: ["Concept Extraction", "Single Responsibility"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Concept Extraction"
+    definition: "Refactoring that makes implicit or duplicated logic explicit by extracting it into a named abstraction"
+    context: "Code improvement"
+    source: "refactoring-extract-first-order-concept.tactic.md"
+    related_terms: ["First-Order Concept", "Rule of Three"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Rule of Three"
+    definition: "Heuristic to consider extraction when duplication appears in three locations, not two, to avoid premature abstraction"
+    context: "Refactoring timing"
+    source: "refactoring-extract-first-order-concept.tactic.md"
+    related_terms: ["Concept Extraction", "Premature Abstraction"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Strangler Fig Pattern"
+    definition: "Incremental refactoring pattern introducing new implementation alongside old, gradually rerouting behavior, then removing old code"
+    context: "Large-scale refactoring"
+    source: "refactoring-strangler-fig.tactic.md"
+    related_terms: ["Rerouting", "Coexistence Period", "Shadow Mode"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Rerouting"
+    definition: "Incremental process of shifting calls from old to new implementation one call site or module at a time"
+    context: "Strangler fig execution"
+    source: "refactoring-strangler-fig.tactic.md"
+    related_terms: ["Strangler Fig Pattern", "Coexistence Period"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Shadow Mode"
+    definition: "Safety mechanism running old and new implementations in parallel to compare outputs before full rerouting"
+    context: "Migration validation"
+    source: "refactoring-strangler-fig.tactic.md"
+    related_terms: ["Strangler Fig Pattern", "Feature Flag"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+# =============================================================================
+# CATEGORY: Validation & Input Processing
+# Source: input-validation-fail-fast.tactic.md, task-completion-validation.tactic.md
+# =============================================================================
+
+  - term: "Fail-Fast Validation"
+    definition: "Input validation strategy halting at first failure rather than continuing through all checks"
+    context: "Error handling pattern"
+    source: "input-validation-fail-fast.tactic.md"
+    related_terms: ["Validation Sequence", "Dual-Level Error Feedback"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Validation Sequence"
+    definition: "Ordered validation checks: Presence → Format → Range → Logical Consistency → Uniqueness"
+    context: "Input processing"
+    source: "input-validation-fail-fast.tactic.md"
+    related_terms: ["Fail-Fast Validation", "Validation Category"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Dual-Level Error Feedback"
+    definition: "Error reporting pattern providing generic user-facing messages and detailed internal diagnostic logs"
+    context: "Error communication"
+    source: "input-validation-fail-fast.tactic.md"
+    related_terms: ["Fail-Fast Validation", "Reference Number"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Validation Category"
+    definition: "Classification of validation types: Presence, Format, Range, Logical Consistency, Uniqueness, Referential Integrity"
+    context: "Input validation"
+    source: "input-validation-fail-fast.tactic.md"
+    related_terms: ["Validation Sequence"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "medium"
+
+  - term: "Schema Validation"
+    definition: "Automated verification that YAML task files comply with defined structure before marking tasks complete"
+    context: "File-based orchestration quality"
+    source: "task-completion-validation.tactic.md"
+    related_terms: ["Task Schema", "Validation Gate"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+# =============================================================================
+# CATEGORY: Experiments & Safe-to-Fail
+# Source: safe-to-fail-experiment-design.tactic.md, stopping-conditions.tactic.md
+# =============================================================================
+
+  - term: "Safe-to-Fail Experiment"
+    definition: "Bounded exploration with reversibility mechanisms, explicit success/failure criteria, and acceptable loss limits"
+    context: "Innovation practice"
+    source: "safe-to-fail-experiment-design.tactic.md"
+    related_terms: ["Experiment Boundary", "Reversibility Mechanism", "Blast Radius"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Experiment Boundary"
+    definition: "Explicit scope, duration, resource, and audience limits containing risk of experimentation"
+    context: "Experiment design"
+    source: "safe-to-fail-experiment-design.tactic.md"
+    related_terms: ["Safe-to-Fail Experiment", "Blast Radius"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Reversibility Mechanism"
+    definition: "Pre-implemented rollback capability using version control, feature flags, or parallel deployment"
+    context: "Risk mitigation"
+    source: "safe-to-fail-experiment-design.tactic.md"
+    related_terms: ["Safe-to-Fail Experiment", "Feature Flag"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Blast Radius"
+    definition: "Scope of potential impact from experiment failure, deliberately contained through boundaries"
+    context: "Risk containment"
+    source: "safe-to-fail-experiment-design.tactic.md"
+    related_terms: ["Experiment Boundary", "Safe-to-Fail Experiment"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Decision Rule"
+    definition: "Pre-defined interpretation logic for experiment results determining proceed, pivot, or abandon actions"
+    context: "Experiment analysis"
+    source: "safe-to-fail-experiment-design.tactic.md"
+    related_terms: ["Success Criteria", "Failure Criteria"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Stopping Condition"
+    definition: "Clear, measurable threshold defining when to stop pursuing a goal based on acceptable loss limits"
+    context: "Commitment management"
+    source: "stopping-conditions.tactic.md"
+    related_terms: ["Hard Limit", "Warning Signal", "Trigger Declaration"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Hard Limit"
+    definition: "Concrete resource boundary (financial, time, physical, mental, moral, social) triggering immediate stop"
+    context: "Boundary enforcement"
+    source: "stopping-conditions.tactic.md"
+    related_terms: ["Stopping Condition", "Trigger Declaration"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Warning Signal"
+    definition: "Observable red flag indicating trouble requiring attention or reassessment"
+    context: "Early detection"
+    source: "stopping-conditions.tactic.md"
+    related_terms: ["Stopping Condition", "Hard Limit"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Trigger Declaration"
+    definition: "Pre-commitment statement in 'When X happens, then I will stop' format conditioning behavior"
+    context: "Behavioral conditioning"
+    source: "stopping-conditions.tactic.md"
+    related_terms: ["Stopping Condition", "Hard Limit"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+# =============================================================================
+# CATEGORY: Review & Incremental Practices
+# Source: review-intent-and-risk-first.tactic.md, code-review-incremental.tactic.md
+# =============================================================================
+
+  - term: "Intent-First Review"
+    definition: "Review discipline summarizing apparent intent before identifying risks or suggesting changes"
+    context: "Code review methodology"
+    source: "review-intent-and-risk-first.tactic.md"
+    related_terms: ["Risk Categorization", "High-Value Feedback"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Risk Categorization"
+    definition: "Classification of review concerns by type: Correctness, Maintainability, Impact, Misuse"
+    context: "Review analysis"
+    source: "review-intent-and-risk-first.tactic.md"
+    related_terms: ["Intent-First Review", "Impact Assessment"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "High-Value Feedback"
+    definition: "Review feedback that is specific, categorized by severity, and respectful of author context"
+    context: "Review quality"
+    source: "review-intent-and-risk-first.tactic.md"
+    related_terms: ["Intent-First Review", "Low-Noise Feedback"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Incremental Review"
+    definition: "Code review practice examining changes without expanding scope or rewriting implementation"
+    context: "Review discipline"
+    source: "code-review-incremental.tactic.md"
+    related_terms: ["Review Boundary", "Locality of Change"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+# =============================================================================
+# CATEGORY: Documentation & Curation
+# Source: documentation-curation-audit.tactic.md, lexical-style-diagnostic.tactic.md
+# =============================================================================
+
+  - term: "Documentation Curation Audit"
+    definition: "Systematic audit of directory structure, naming conventions, cross-references, and metadata completeness"
+    context: "Documentation quality"
+    source: "documentation-curation-audit.tactic.md"
+    related_terms: ["Structural Consistency", "Cross-Reference Integrity"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Cross-Reference Integrity"
+    definition: "Validation that all internal links resolve correctly and referenced documents exist"
+    context: "Documentation quality"
+    source: "documentation-curation-audit.tactic.md"
+    related_terms: ["Orphaned File", "Documentation Curation Audit"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Orphaned File"
+    definition: "Document with no parent README reference or incoming links, reducing discoverability"
+    context: "Documentation structure"
+    source: "documentation-curation-audit.tactic.md"
+    related_terms: ["Cross-Reference Integrity", "Structural Consistency"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Lexical Style Diagnostic"
+    definition: "Analysis of documentation for style inconsistencies, readability issues, and tone misalignments"
+    context: "Writing quality"
+    source: "lexical-style-diagnostic.tactic.md"
+    related_terms: ["Readability Scoring", "Tone Consistency", "Minimal Diff"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Readability Scoring"
+    definition: "Quantitative assessment using metrics like Flesch-Kincaid grade level and paragraph length distribution"
+    context: "Writing analysis"
+    source: "lexical-style-diagnostic.tactic.md"
+    related_terms: ["Lexical Style Diagnostic"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "medium"
+
+  - term: "Tone Consistency"
+    definition: "Alignment of voice with target audience, avoiding informal/formal mixing"
+    context: "Writing quality"
+    source: "lexical-style-diagnostic.tactic.md"
+    related_terms: ["Lexical Style Diagnostic", "Voice Preservation"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+# =============================================================================
+# CATEGORY: Execution Patterns
+# Source: execution-fresh-context-iteration.tactic.md, reflection-post-action-learning-loop.tactic.md
+# =============================================================================
+
+  - term: "Fresh Context Iteration"
+    definition: "Execution pattern running single instruction repeatedly in fresh context with no memory between runs"
+    context: "Deterministic execution"
+    source: "execution-fresh-context-iteration.tactic.md"
+    related_terms: ["Context Carry-over", "External Aggregation"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Context Carry-over"
+    definition: "Undesired influence of previous iteration results on subsequent runs, introducing bias"
+    context: "Execution quality issue"
+    source: "execution-fresh-context-iteration.tactic.md"
+    related_terms: ["Fresh Context Iteration"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "External Aggregation"
+    definition: "Result consolidation performed outside execution loop to maintain iteration independence"
+    context: "Data processing pattern"
+    source: "execution-fresh-context-iteration.tactic.md"
+    related_terms: ["Fresh Context Iteration"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Post-Action Learning Loop"
+    definition: "Reflection tactic capturing concrete lessons after task completion to inform future work"
+    context: "Continuous improvement"
+    source: "reflection-post-action-learning-loop.tactic.md"
+    related_terms: ["Lesson Extraction", "Knowledge Encoding"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Lesson Extraction"
+    definition: "Identification of 1-3 concrete, actionable insights from completed work"
+    context: "Learning practice"
+    source: "reflection-post-action-learning-loop.tactic.md"
+    related_terms: ["Post-Action Learning Loop", "Knowledge Encoding"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Knowledge Encoding"
+    definition: "Documentation of lessons in discoverable locations (tactics, directives, templates, guidelines)"
+    context: "Organizational learning"
+    source: "reflection-post-action-learning-loop.tactic.md"
+    related_terms: ["Lesson Extraction", "Post-Action Learning Loop"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+# =============================================================================
+# CATEGORY: ADR & Decision Workflows
+# Source: adr-drafting-workflow.tactic.md
+# =============================================================================
+
+  - term: "ADR Drafting Workflow"
+    definition: "Systematic process for creating Architecture Decision Records with trade-off analysis and risk assessment"
+    context: "Decision documentation"
+    source: "adr-drafting-workflow.tactic.md"
+    related_terms: ["Trade-off Analysis", "Option Impact Matrix"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Option Impact Matrix"
+    definition: "Qualitative scoring of alternatives against impact areas (performance, maintainability, etc.)"
+    context: "Decision analysis"
+    source: "adr-drafting-workflow.tactic.md"
+    related_terms: ["ADR Drafting Workflow", "Trade-off Analysis"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Rejection Rationale"
+    definition: "One-sentence explanation for each alternative not selected, documenting why it was rejected"
+    context: "Decision transparency"
+    source: "adr-drafting-workflow.tactic.md"
+    related_terms: ["ADR Drafting Workflow", "Alternatives Considered"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+# =============================================================================
+# CATEGORY: Glossary & Terminology Management
+# Source: glossary-maintenance-workflow.tactic.md, terminology-extraction-mapping.tactic.md
+# =============================================================================
+
+  - term: "Glossary Maintenance Workflow"
+    definition: "Four-cycle process: Continuous Capture → Weekly Triage → Quarterly Health Check → Annual Governance Retrospective"
+    context: "Living glossary operations"
+    source: "glossary-maintenance-workflow.tactic.md"
+    related_terms: ["Glossary Triage", "Staleness Audit", "Coverage Assessment"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Glossary Triage"
+    definition: "Weekly 30-minute session reviewing agent-generated candidates and making approve/reject/defer/merge decisions"
+    context: "Glossary workflow"
+    source: "glossary-maintenance-workflow.tactic.md"
+    related_terms: ["Glossary Maintenance Workflow", "Context Owner"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Staleness Audit"
+    definition: "Quarterly review identifying outdated definitions (>6 months unchanged) and validating against current implementation"
+    context: "Glossary quality"
+    source: "glossary-maintenance-workflow.tactic.md"
+    related_terms: ["Glossary Maintenance Workflow", "Coverage Assessment"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Coverage Assessment"
+    definition: "Quarterly analysis of missing domain terms by comparing codebase terminology to glossary entries"
+    context: "Glossary completeness"
+    source: "glossary-maintenance-workflow.tactic.md"
+    related_terms: ["Glossary Maintenance Workflow", "Gap Closure Plan"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Term Candidate"
+    definition: "Proposed glossary entry with preliminary definition, source references, and confidence level awaiting triage"
+    context: "Glossary workflow"
+    source: "glossary-maintenance-workflow.tactic.md"
+    related_terms: ["Glossary Triage", "Continuous Capture"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Continuous Capture"
+    definition: "Automated or ongoing observation of code commits, documentation, and communication to identify terminology candidates"
+    context: "Glossary workflow"
+    source: "glossary-maintenance-workflow.tactic.md"
+    related_terms: ["Term Candidate", "Glossary Maintenance Workflow"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+# =============================================================================
+# CATEGORY: BDD & Behavior Specification
+# Source: development-bdd.tactic.md
+# =============================================================================
+
+  - term: "BDD Scenario"
+    definition: "Behavior specification in Given/When/Then format describing observable outcomes in business-relevant language"
+    context: "Behavior-driven development"
+    source: "development-bdd.tactic.md"
+    related_terms: ["Given-When-Then", "Executable Specification"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Given-When-Then"
+    definition: "BDD scenario structure: Given (context), When (action), Then (expected outcome)"
+    context: "Specification format"
+    source: "development-bdd.tactic.md"
+    related_terms: ["BDD Scenario", "Observable Behavior"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Observable Behavior"
+    definition: "System outcomes verifiable without knowledge of implementation details"
+    context: "Testing principle"
+    source: "development-bdd.tactic.md"
+    related_terms: ["BDD Scenario", "Behavioral Contract"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+# =============================================================================
+# CATEGORY: Agent Operations
+# Source: agent-profile-creation.tactic.md, repository-initialization.tactic.md
+# =============================================================================
+
+  - term: "Agent Profile"
+    definition: "Structured specification of agent identity, capabilities, collaboration patterns, and tooling requirements"
+    context: "Agent framework"
+    source: "agent-profile-creation.tactic.md"
+    related_terms: ["Collaboration Contract", "Capability Boundary"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Collaboration Contract"
+    definition: "Explicit agreement defining handoffs FROM and TO an agent and peer collaboration patterns"
+    context: "Agent coordination"
+    source: "agent-profile-creation.tactic.md"
+    related_terms: ["Agent Profile", "Hand-off"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Capability Boundary"
+    definition: "Explicit definition of agent expertise boundaries - what they can and cannot do"
+    context: "Agent specialization"
+    source: "agent-profile-creation.tactic.md"
+    related_terms: ["Agent Profile", "Specialization"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Repository Initialization"
+    definition: "Bootstrap procedure creating standard directory structure, configuration files, and initial documentation per SDD framework"
+    context: "Project setup"
+    source: "repository-initialization.tactic.md"
+    related_terms: ["Directory Structure", "Configuration Files"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+# =============================================================================
+# CATEGORY: Team & Organizational Analysis
+# Source: team-interaction-mapping.tactic.md
+# =============================================================================
+
+  - term: "Team Interaction Mapping"
+    definition: "Documentation of organizational communication patterns to identify vocabulary clusters and predict semantic boundaries"
+    context: "Organizational analysis"
+    source: "team-interaction-mapping.tactic.md"
+    related_terms: ["Communication Frequency", "Vocabulary Cluster", "Conway's Law"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Communication Frequency"
+    definition: "Classification of team interaction cadence: Daily, Weekly, Monthly, or Rarely"
+    context: "Organizational patterns"
+    source: "team-interaction-mapping.tactic.md"
+    related_terms: ["Team Interaction Mapping", "Shared Artifact"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "medium"
+
+  - term: "Shared Artifact"
+    definition: "Resources multiple teams contribute to: repositories, documentation, meetings"
+    context: "Collaboration indicator"
+    source: "team-interaction-mapping.tactic.md"
+    related_terms: ["Team Interaction Mapping", "Communication Frequency"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "medium"
+
+  - term: "Vocabulary Cluster"
+    definition: "Set of domain terms consistently used by a specific team, indicating ownership and expertise"
+    context: "Linguistic patterns"
+    source: "team-interaction-mapping.tactic.md"
+    related_terms: ["Vocabulary Ownership", "Team Interaction Mapping"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+# =============================================================================
+# CATEGORY: Tactics Curation
+# Source: tactics-curation.tactic.md
+# =============================================================================
+
+  - term: "Tactics Curation"
+    definition: "Meta-tactic maintaining structural, tonal, and metadata integrity across the tactics layer"
+    context: "Doctrine maintenance"
+    source: "tactics-curation.tactic.md"
+    related_terms: ["Metadata Header", "Tactics Catalog", "Template Compliance"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Metadata Header"
+    definition: "Structured front matter in tactic files: Invoked By, Related Tactics, Complements"
+    context: "Tactic documentation"
+    source: "tactics-curation.tactic.md"
+    related_terms: ["Tactics Curation", "Relationship Tracking"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Tactics Catalog"
+    definition: "README.md in tactics directory listing all available tactics with intent and invocation context"
+    context: "Doctrine navigation"
+    source: "tactics-curation.tactic.md"
+    related_terms: ["Tactics Curation", "Discoverability"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+  - term: "Template Compliance"
+    definition: "Validation that tactics follow standardized structure from doctrine/templates/tactic.md"
+    context: "Quality assurance"
+    source: "tactics-curation.tactic.md"
+    related_terms: ["Tactics Curation", "Structural Consistency"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "high"
+
+# =============================================================================
+# CATEGORY: Emerging/Lower-Confidence Terms
+# =============================================================================
+
+  - term: "Momentum Bias Trap"
+    definition: "Tendency to continue work into next phase without proper checkpoint due to task momentum"
+    context: "Workflow violation"
+    source: "phase-checkpoint-protocol.md"
+    related_terms: ["Phase Skipping", "Phase Checkpoint Protocol"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "medium"
+
+  - term: "Directive Adherence Lapse"
+    definition: "Skipping required procedures because documentation feels like overhead"
+    context: "Process violation"
+    source: "phase-checkpoint-protocol.md"
+    related_terms: ["Phase Checkpoint Protocol"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "low"
+
+  - term: "Sunk-Cost Fallacy Override"
+    definition: "Continuing past stopping conditions by rationalizing invested effort rather than acknowledging limits"
+    context: "Decision bias"
+    source: "stopping-conditions.tactic.md"
+    related_terms: ["Stopping Condition", "Hard Limit"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "medium"
+
+  - term: "Analysis Paralysis"
+    definition: "Endless validation or research without delivery due to perfectionism or risk aversion"
+    context: "Process anti-pattern"
+    source: "requirements-validation-workflow.tactic.md"
+    related_terms: ["Time-boxing", "Evidence-Based Requirements"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "low"
+
+  - term: "Cherry-Picking Evidence"
+    definition: "Ignoring claims that contradict preferences, undermining intellectual honesty"
+    context: "Research anti-pattern"
+    source: "requirements-validation-workflow.tactic.md"
+    related_terms: ["Claim Inventory", "Confirmation Bias"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "medium"
+
+  - term: "Evidence Theater"
+    definition: "Collecting evidence to justify pre-decided requirements rather than genuinely testing hypotheses"
+    context: "Research anti-pattern"
+    source: "requirements-validation-workflow.tactic.md"
+    related_terms: ["Claim Inventory", "Intellectual Honesty"]
+    status: "candidate"
+    enforcement_tier: "advisory"
+    confidence: "medium"
+
+# =============================================================================
+# END OF CANDIDATES
+# =============================================================================
