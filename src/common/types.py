@@ -36,6 +36,15 @@ class TaskStatus(str, Enum):
     NEW → INBOX → ASSIGNED → IN_PROGRESS → {DONE | ERROR | BLOCKED}
 
     Inherits from str to maintain YAML serialization compatibility.
+
+    State Machine:
+    - NEW can transition to: INBOX, ASSIGNED, ERROR
+    - INBOX can transition to: ASSIGNED, ERROR
+    - ASSIGNED can transition to: IN_PROGRESS, BLOCKED, ERROR
+    - IN_PROGRESS can transition to: DONE, BLOCKED, ERROR
+    - BLOCKED can transition to: IN_PROGRESS, ERROR
+    - DONE is terminal (no transitions)
+    - ERROR is terminal (no transitions)
     """
 
     # Lifecycle states
@@ -61,6 +70,80 @@ class TaskStatus(str, Enum):
     def is_pending(cls, status: "TaskStatus") -> bool:
         """Check if status represents a pending (not yet started) state."""
         return status in {cls.NEW, cls.INBOX}
+
+    def valid_transitions(self) -> set["TaskStatus"]:
+        """
+        Get valid next states from current state.
+
+        Returns:
+            Set of TaskStatus values that are valid transitions from this state.
+            Terminal states (DONE, ERROR) return empty set.
+
+        Example:
+            >>> TaskStatus.ASSIGNED.valid_transitions()
+            {TaskStatus.IN_PROGRESS, TaskStatus.BLOCKED, TaskStatus.ERROR}
+        """
+        _transitions: dict[TaskStatus, set[TaskStatus]] = {
+            TaskStatus.NEW: {TaskStatus.INBOX, TaskStatus.ASSIGNED, TaskStatus.ERROR},
+            TaskStatus.INBOX: {TaskStatus.ASSIGNED, TaskStatus.ERROR},
+            TaskStatus.ASSIGNED: {TaskStatus.IN_PROGRESS, TaskStatus.BLOCKED, TaskStatus.ERROR},
+            TaskStatus.IN_PROGRESS: {TaskStatus.DONE, TaskStatus.BLOCKED, TaskStatus.ERROR},
+            TaskStatus.BLOCKED: {TaskStatus.IN_PROGRESS, TaskStatus.ERROR},
+            TaskStatus.DONE: set(),  # Terminal state
+            TaskStatus.ERROR: set(),  # Terminal state
+        }
+        return _transitions[self]
+
+    def can_transition_to(self, target: "TaskStatus") -> bool:
+        """
+        Check if transition from current state to target state is valid.
+
+        Args:
+            target: Target state to transition to
+
+        Returns:
+            True if transition is allowed, False otherwise
+
+        Example:
+            >>> TaskStatus.ASSIGNED.can_transition_to(TaskStatus.IN_PROGRESS)
+            True
+            >>> TaskStatus.DONE.can_transition_to(TaskStatus.ASSIGNED)
+            False
+        """
+        return target in self.valid_transitions()
+
+    @classmethod
+    def validate_transition(cls, current: "TaskStatus", target: "TaskStatus") -> None:
+        """
+        Validate state transition and raise error if invalid.
+
+        Args:
+            current: Current state
+            target: Target state to transition to
+
+        Raises:
+            ValueError: If transition is not allowed, with descriptive error message
+
+        Example:
+            >>> TaskStatus.validate_transition(TaskStatus.ASSIGNED, TaskStatus.IN_PROGRESS)
+            # No error raised
+
+            >>> TaskStatus.validate_transition(TaskStatus.DONE, TaskStatus.ASSIGNED)
+            ValueError: Invalid transition from DONE to ASSIGNED. Valid transitions: none (terminal state)
+        """
+        if not current.can_transition_to(target):
+            valid = current.valid_transitions()
+            if valid:
+                valid_str = ", ".join(sorted(s.value.upper() for s in valid))
+                raise ValueError(
+                    f"Invalid transition from {current.value.upper()} to {target.value.upper()}. "
+                    f"Valid transitions: {valid_str}"
+                )
+            else:
+                raise ValueError(
+                    f"Invalid transition from {current.value.upper()} to {target.value.upper()}. "
+                    f"Valid transitions: none (terminal state)"
+                )
 
 
 class FeatureStatus(str, Enum):

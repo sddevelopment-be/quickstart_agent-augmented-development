@@ -69,6 +69,15 @@ def complete_task(task_id: str, work_dir: Path, force: bool = False) -> None:
             "Add task result or use --force to skip validation."
         )
 
+    # Validate state transition using centralized state machine
+    current_status_str = task.get("status")
+    try:
+        current_status = TaskStatus(current_status_str)
+    except ValueError:
+        raise ValueError(f"Invalid current status: {current_status_str}")
+
+    TaskStatus.validate_transition(current_status, TaskStatus.DONE)
+
     # Update task status
     task["status"] = TaskStatus.DONE.value
     task["completed_at"] = get_utc_timestamp()
@@ -86,7 +95,7 @@ def complete_task(task_id: str, work_dir: Path, force: bool = False) -> None:
     task_file.unlink()
 
     print(f"✓ Task {task_id} completed successfully")
-    print(f"  Status: {task.get('status', 'unknown')} → done")
+    print(f"  Status: {current_status.value} → done")
     print(f"  Completed at: {task['completed_at']}")
     print(f"  Moved to: {dest_path.relative_to(work_dir)}")
 

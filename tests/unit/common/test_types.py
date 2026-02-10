@@ -59,6 +59,213 @@ class TestTaskStatus:
         assert str(status.value) == "done"
 
 
+class TestTaskStatusStateMachine:
+    """Test TaskStatus state machine methods."""
+    
+    # ============================================================
+    # Test valid_transitions() method
+    # ============================================================
+    
+    def test_new_valid_transitions(self):
+        """Test valid transitions from NEW state."""
+        transitions = TaskStatus.NEW.valid_transitions()
+        assert transitions == {TaskStatus.INBOX, TaskStatus.ASSIGNED, TaskStatus.ERROR}
+    
+    def test_inbox_valid_transitions(self):
+        """Test valid transitions from INBOX state."""
+        transitions = TaskStatus.INBOX.valid_transitions()
+        assert transitions == {TaskStatus.ASSIGNED, TaskStatus.ERROR}
+    
+    def test_assigned_valid_transitions(self):
+        """Test valid transitions from ASSIGNED state."""
+        transitions = TaskStatus.ASSIGNED.valid_transitions()
+        assert transitions == {TaskStatus.IN_PROGRESS, TaskStatus.BLOCKED, TaskStatus.ERROR}
+    
+    def test_in_progress_valid_transitions(self):
+        """Test valid transitions from IN_PROGRESS state."""
+        transitions = TaskStatus.IN_PROGRESS.valid_transitions()
+        assert transitions == {TaskStatus.DONE, TaskStatus.BLOCKED, TaskStatus.ERROR}
+    
+    def test_blocked_valid_transitions(self):
+        """Test valid transitions from BLOCKED state."""
+        transitions = TaskStatus.BLOCKED.valid_transitions()
+        assert transitions == {TaskStatus.IN_PROGRESS, TaskStatus.ERROR}
+    
+    def test_done_valid_transitions(self):
+        """Test DONE state has no valid transitions (terminal)."""
+        transitions = TaskStatus.DONE.valid_transitions()
+        assert transitions == set()
+    
+    def test_error_valid_transitions(self):
+        """Test ERROR state has no valid transitions (terminal)."""
+        transitions = TaskStatus.ERROR.valid_transitions()
+        assert transitions == set()
+    
+    # ============================================================
+    # Test can_transition_to() method - Valid transitions
+    # ============================================================
+    
+    def test_can_transition_new_to_inbox(self):
+        """Test NEW can transition to INBOX."""
+        assert TaskStatus.NEW.can_transition_to(TaskStatus.INBOX) is True
+    
+    def test_can_transition_new_to_assigned(self):
+        """Test NEW can transition to ASSIGNED."""
+        assert TaskStatus.NEW.can_transition_to(TaskStatus.ASSIGNED) is True
+    
+    def test_can_transition_new_to_error(self):
+        """Test NEW can transition to ERROR."""
+        assert TaskStatus.NEW.can_transition_to(TaskStatus.ERROR) is True
+    
+    def test_can_transition_inbox_to_assigned(self):
+        """Test INBOX can transition to ASSIGNED."""
+        assert TaskStatus.INBOX.can_transition_to(TaskStatus.ASSIGNED) is True
+    
+    def test_can_transition_assigned_to_in_progress(self):
+        """Test ASSIGNED can transition to IN_PROGRESS."""
+        assert TaskStatus.ASSIGNED.can_transition_to(TaskStatus.IN_PROGRESS) is True
+    
+    def test_can_transition_in_progress_to_done(self):
+        """Test IN_PROGRESS can transition to DONE."""
+        assert TaskStatus.IN_PROGRESS.can_transition_to(TaskStatus.DONE) is True
+    
+    def test_can_transition_blocked_to_in_progress(self):
+        """Test BLOCKED can transition back to IN_PROGRESS."""
+        assert TaskStatus.BLOCKED.can_transition_to(TaskStatus.IN_PROGRESS) is True
+    
+    # ============================================================
+    # Test can_transition_to() method - Invalid transitions
+    # ============================================================
+    
+    def test_cannot_transition_new_to_in_progress(self):
+        """Test NEW cannot transition directly to IN_PROGRESS."""
+        assert TaskStatus.NEW.can_transition_to(TaskStatus.IN_PROGRESS) is False
+    
+    def test_cannot_transition_new_to_done(self):
+        """Test NEW cannot transition directly to DONE."""
+        assert TaskStatus.NEW.can_transition_to(TaskStatus.DONE) is False
+    
+    def test_cannot_transition_inbox_to_in_progress(self):
+        """Test INBOX cannot transition directly to IN_PROGRESS."""
+        assert TaskStatus.INBOX.can_transition_to(TaskStatus.IN_PROGRESS) is False
+    
+    def test_cannot_transition_assigned_to_done(self):
+        """Test ASSIGNED cannot transition directly to DONE."""
+        assert TaskStatus.ASSIGNED.can_transition_to(TaskStatus.DONE) is False
+    
+    def test_cannot_transition_done_to_any(self):
+        """Test DONE cannot transition to any state (terminal)."""
+        assert TaskStatus.DONE.can_transition_to(TaskStatus.NEW) is False
+        assert TaskStatus.DONE.can_transition_to(TaskStatus.INBOX) is False
+        assert TaskStatus.DONE.can_transition_to(TaskStatus.ASSIGNED) is False
+        assert TaskStatus.DONE.can_transition_to(TaskStatus.IN_PROGRESS) is False
+        assert TaskStatus.DONE.can_transition_to(TaskStatus.BLOCKED) is False
+        assert TaskStatus.DONE.can_transition_to(TaskStatus.ERROR) is False
+    
+    def test_cannot_transition_error_to_any(self):
+        """Test ERROR cannot transition to any state (terminal)."""
+        assert TaskStatus.ERROR.can_transition_to(TaskStatus.NEW) is False
+        assert TaskStatus.ERROR.can_transition_to(TaskStatus.INBOX) is False
+        assert TaskStatus.ERROR.can_transition_to(TaskStatus.ASSIGNED) is False
+        assert TaskStatus.ERROR.can_transition_to(TaskStatus.IN_PROGRESS) is False
+        assert TaskStatus.ERROR.can_transition_to(TaskStatus.BLOCKED) is False
+        assert TaskStatus.ERROR.can_transition_to(TaskStatus.DONE) is False
+    
+    # ============================================================
+    # Test validate_transition() class method - Valid transitions
+    # ============================================================
+    
+    def test_validate_transition_assigned_to_in_progress(self):
+        """Test validate_transition allows ASSIGNED → IN_PROGRESS."""
+        # Should not raise
+        TaskStatus.validate_transition(TaskStatus.ASSIGNED, TaskStatus.IN_PROGRESS)
+    
+    def test_validate_transition_in_progress_to_done(self):
+        """Test validate_transition allows IN_PROGRESS → DONE."""
+        # Should not raise
+        TaskStatus.validate_transition(TaskStatus.IN_PROGRESS, TaskStatus.DONE)
+    
+    def test_validate_transition_blocked_to_in_progress(self):
+        """Test validate_transition allows BLOCKED → IN_PROGRESS."""
+        # Should not raise
+        TaskStatus.validate_transition(TaskStatus.BLOCKED, TaskStatus.IN_PROGRESS)
+    
+    # ============================================================
+    # Test validate_transition() class method - Invalid transitions
+    # ============================================================
+    
+    def test_validate_transition_done_to_assigned_raises(self):
+        """Test validate_transition raises for DONE → ASSIGNED."""
+        with pytest.raises(ValueError, match="Invalid transition.*DONE.*ASSIGNED"):
+            TaskStatus.validate_transition(TaskStatus.DONE, TaskStatus.ASSIGNED)
+    
+    def test_validate_transition_new_to_done_raises(self):
+        """Test validate_transition raises for NEW → DONE."""
+        with pytest.raises(ValueError, match="Invalid transition.*NEW.*DONE"):
+            TaskStatus.validate_transition(TaskStatus.NEW, TaskStatus.DONE)
+    
+    def test_validate_transition_inbox_to_in_progress_raises(self):
+        """Test validate_transition raises for INBOX → IN_PROGRESS."""
+        with pytest.raises(ValueError, match="Invalid transition.*INBOX.*IN_PROGRESS"):
+            TaskStatus.validate_transition(TaskStatus.INBOX, TaskStatus.IN_PROGRESS)
+    
+    def test_validate_transition_assigned_to_done_raises(self):
+        """Test validate_transition raises for ASSIGNED → DONE."""
+        with pytest.raises(ValueError, match="Invalid transition.*ASSIGNED.*DONE"):
+            TaskStatus.validate_transition(TaskStatus.ASSIGNED, TaskStatus.DONE)
+    
+    def test_validate_transition_error_to_in_progress_raises(self):
+        """Test validate_transition raises for ERROR → IN_PROGRESS (terminal state)."""
+        with pytest.raises(ValueError, match="Invalid transition.*ERROR.*IN_PROGRESS"):
+            TaskStatus.validate_transition(TaskStatus.ERROR, TaskStatus.IN_PROGRESS)
+    
+    # ============================================================
+    # Test edge cases
+    # ============================================================
+    
+    def test_self_transition_not_allowed(self):
+        """Test that transitioning to the same state is not allowed."""
+        # Self-transitions should not be in valid_transitions
+        for status in TaskStatus:
+            transitions = status.valid_transitions()
+            assert status not in transitions, f"{status} should not transition to itself"
+    
+    def test_all_non_terminal_states_have_error_transition(self):
+        """Test that all non-terminal states can transition to ERROR."""
+        non_terminal = [
+            TaskStatus.NEW,
+            TaskStatus.INBOX,
+            TaskStatus.ASSIGNED,
+            TaskStatus.IN_PROGRESS,
+            TaskStatus.BLOCKED,
+        ]
+        
+        for status in non_terminal:
+            assert TaskStatus.ERROR in status.valid_transitions(), \
+                f"{status} should be able to transition to ERROR"
+    
+    def test_terminal_states_have_no_transitions(self):
+        """Test that terminal states have no outgoing transitions."""
+        terminal = [TaskStatus.DONE, TaskStatus.ERROR]
+        
+        for status in terminal:
+            assert len(status.valid_transitions()) == 0, \
+                f"Terminal state {status} should have no valid transitions"
+    
+    def test_validate_transition_error_message_format(self):
+        """Test that validation error messages are informative."""
+        try:
+            TaskStatus.validate_transition(TaskStatus.DONE, TaskStatus.ASSIGNED)
+            pytest.fail("Expected ValueError to be raised")
+        except ValueError as e:
+            error_msg = str(e)
+            # Check that error message contains both states
+            assert "DONE" in error_msg or "done" in error_msg
+            assert "ASSIGNED" in error_msg or "assigned" in error_msg
+            # Check that it indicates it's invalid
+            assert "invalid" in error_msg.lower() or "cannot" in error_msg.lower()
+
+
 class TestFeatureStatus:
     """Test FeatureStatus enum."""
     

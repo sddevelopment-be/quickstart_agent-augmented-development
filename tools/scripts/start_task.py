@@ -57,11 +57,14 @@ def start_task(task_id: str, work_dir: Path) -> None:
     task = read_task(task_file)
 
     # Validate current status
-    current_status = task.get("status")
-    if current_status != TaskStatus.ASSIGNED.value:
-        raise ValueError(
-            f"Task must be in 'assigned' state to start. Current status: {current_status}"
-        )
+    current_status_str = task.get("status")
+    try:
+        current_status = TaskStatus(current_status_str)
+    except ValueError:
+        raise ValueError(f"Invalid current status: {current_status_str}")
+
+    # Validate state transition using centralized state machine
+    TaskStatus.validate_transition(current_status, TaskStatus.IN_PROGRESS)
 
     # Update task
     task["status"] = TaskStatus.IN_PROGRESS.value
@@ -71,7 +74,7 @@ def start_task(task_id: str, work_dir: Path) -> None:
     write_task(task_file, task)
 
     print(f"✓ Task {task_id} started successfully")
-    print("  Status: assigned → in_progress")
+    print(f"  Status: {current_status.value} → in_progress")
     print(f"  Started at: {task['started_at']}")
 
 
