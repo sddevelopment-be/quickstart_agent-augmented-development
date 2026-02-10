@@ -1,0 +1,1738 @@
+metadata:
+  extraction_date: '2026-02-10'
+  source_directory: doctrine/agents/
+  agents_processed: 21
+  agent: lexical-larry
+  method: Manual extraction with contextual analysis focusing on agent roles, collaboration, and handoff patterns
+  confidence_distribution:
+    high: 120
+    medium: 0
+    low: 0
+  notes: >
+    Final extraction batch (4 of 4) before curation phase.
+    Focus on role-specific terminology, collaboration boundaries, handoff protocols.
+    Agent profiles define WHO does WHAT in the doctrine ecosystem.
+
+candidates:
+  # ==========================================
+  # AGENT ROLE NAMES AND IDENTITIES
+  # ==========================================
+
+  - term: Analyst Annie
+    definition: Requirements and validation specialist agent focused on producing testable, data-backed specifications with validated acceptance criteria
+    context: Agent Roles - Requirements Analysis
+    source: analyst-annie.agent.md
+    related_terms:
+      - Requirements Specialist
+      - Specification-Driven Development
+      - Phase 1 (Analysis)
+      - Validation Script
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: PRIMARY authority for Phase 1 (Analysis) in Spec-Driven Development workflow
+
+  - term: Architect Alphonso
+    definition: Architecture specialist agent who clarifies complex systems with contextual trade-offs, creates ADRs, and provides system decomposition with explicit decision rationale
+    context: Agent Roles - Architecture
+    source: architect.agent.md
+    related_terms:
+      - Architecture Specialist
+      - ADR
+      - System Decomposition
+      - Phase 2 (Architecture)
+      - Trade-off Analysis
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: PRIMARY authority for Phase 2 (Architecture) in Spec-Driven Development workflow
+
+  - term: Backend Benny
+    definition: Backend developer specialist agent focused on resilient service backends, integration surfaces, API design, and persistence strategy with traceable decisions
+    context: Agent Roles - Backend Development
+    source: backend-dev.agent.md
+    related_terms:
+      - Backend Developer Specialist
+      - Service Design
+      - API Contract
+      - Persistence Strategy
+      - Integration Surface
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Applies ATDD + TDD + Boy Scout Rule; specializes in backend architecture
+
+  - term: Bootstrap Bill
+    definition: Repository scaffolding specialist agent who maps repository topology, generates structural artifacts (REPO_MAP, SURFACES, WORKFLOWS), and creates doctrine configuration for efficient multi-agent collaboration
+    context: Agent Roles - Repository Initialization
+    source: bootstrap-bill.agent.md
+    related_terms:
+      - Repository Scaffolding
+      - Doctrine Configuration
+      - REPO_MAP
+      - Topology Mapping
+      - Structural Artifact
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Creates .doctrine/config.yaml with path variables for workspace, docs, specs
+
+  - term: DevOps Danny
+    definition: Build automation specialist agent who designs reproducible build, test, and release pipelines with documented runbooks and traceable deployment flows
+    context: Agent Roles - Build Automation
+    source: build-automation.agent.md
+    related_terms:
+      - Build Automation Specialist
+      - CI/CD Pipeline
+      - Reproducible Build
+      - Deployment Pipeline
+      - Release Automation
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Also known as Build Automation agent; focuses on pipeline reliability
+
+  - term: Code Reviewer Cindy
+    definition: Review specialist agent focused on code quality, standards compliance, and traceability validation without making direct code modifications
+    context: Agent Roles - Code Review
+    source: code-reviewer-cindy.agent.md
+    related_terms:
+      - Review Specialist
+      - Code Quality
+      - Standards Compliance
+      - Traceability Check
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Provides feedback only; does not modify code directly
+
+  - term: Curator Claire
+    definition: Structural and tonal consistency specialist agent who maintains cross-document integrity, enforces doctrine stack boundaries, and prevents drift through systematic audits
+    context: Agent Roles - Content Curation
+    source: curator.agent.md
+    related_terms:
+      - Curator
+      - Structural Consistency
+      - Tonal Integrity
+      - Doctrine Stack
+      - Discrepancy Report
+      - Source vs Distribution
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Deep knowledge of 5-layer doctrine stack; distinguishes source (doctrine/) from distribution (.github/, .claude/)
+
+  - term: Diagram Daisy
+    definition: Diagramming specialist agent who transforms conceptual and architectural structures into semantically aligned diagram-as-code artifacts (Mermaid, PlantUML, Graphviz)
+    context: Agent Roles - Visualization
+    source: diagrammer.agent.md
+    related_terms:
+      - Diagramming Specialist
+      - Diagram-as-Code
+      - Semantic Fidelity
+      - Visual Representation
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Focuses on reproducible, text-based diagrams with semantic clarity
+
+  - term: Framework Guardian
+    definition: Framework integrity specialist agent who audits framework installations against canonical manifests, detects drift, and guides safe upgrades while preserving local customizations
+    context: Agent Roles - Framework Maintenance
+    source: framework-guardian.agent.md
+    related_terms:
+      - Framework Integrity
+      - Manifest Audit
+      - Drift Detection
+      - Upgrade Plan
+      - Core/Local Boundary
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Never modifies files directly; produces audit reports and upgrade plans only
+
+  - term: Frontend Freddy
+    definition: Front-end specialist agent integrating design, technical architecture, and usability reasoning for coherent UI systems with maintainable component patterns
+    context: Agent Roles - Frontend Development
+    source: frontend.agent.md
+    related_terms:
+      - Frontend Specialist
+      - UI Architecture
+      - Component Patterns
+      - State Boundaries
+      - Design System
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Applies ATDD + TDD + Boy Scout Rule; balances scalability, accessibility, maintainability
+
+  - term: Java Jenny
+    definition: Java development specialist agent focused on code quality, style enforcement, and testing standards using Maven and Java ecosystem tooling
+    context: Agent Roles - Java Development
+    source: java-jenny.agent.md
+    related_terms:
+      - Java Specialist
+      - Code Quality
+      - Maven
+      - JVM Ecosystem
+      - Test-First Development
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Applies ATDD + TDD + Boy Scout Rule; Java-specific implementation patterns
+
+  - term: Lexical Larry
+    definition: Lexical analyst specialist agent who evaluates writing style compliance (tone, rhythm, formatting) while preserving authorial voice through minimal, rule-grounded edits
+    context: Agent Roles - Style Analysis
+    source: lexical.agent.md
+    related_terms:
+      - Lexical Analyst
+      - Style Compliance
+      - Tone Fidelity
+      - Authorial Voice
+      - LEX_REPORT
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Produces LEX_REPORT, LEX_DELTAS, LEX_TONE_MAP, LEX_STYLE_RULES
+
+  - term: Manager Mike
+    definition: Coordination specialist agent who routes tasks to appropriate agents, maintains workflow status maps, and prevents conflicting edits through file-based orchestration
+    context: Agent Roles - Orchestration
+    source: manager.agent.md
+    related_terms:
+      - Coordinator
+      - Task Router
+      - Workflow Status
+      - Hand-off Tracking
+      - AGENT_STATUS
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Maintains AGENT_STATUS.md, WORKFLOW_LOG.md, HANDOFFS.md for coordination
+
+  - term: Planning Petra
+    definition: Project planning specialist agent who translates strategic intent into executable, assumption-aware plans with milestone definitions and dependency mapping
+    context: Agent Roles - Project Planning
+    source: project-planner.agent.md
+    related_terms:
+      - Planning Specialist
+      - Milestone Definition
+      - Dependency Mapping
+      - Batch Planning
+      - PLAN_OVERVIEW
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: PRIMARY authority for Phase 3 (Planning) in Spec-Driven Development workflow
+
+  - term: Python Pedro
+    definition: Python development specialist agent applying ATDD + TDD with type safety, idiomatic Python 3.9+ patterns, and comprehensive testing using pytest ecosystem
+    context: Agent Roles - Python Development
+    source: python-pedro.agent.md
+    related_terms:
+      - Python Specialist
+      - Type Hints
+      - pytest
+      - Coverage Threshold
+      - Self-Review Protocol
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Requires ≥80% coverage, mypy type checking, ruff linting, black formatting
+
+  - term: Researcher Ralph
+    definition: Research and corroboration specialist agent who gathers, synthesizes, and contextualizes information with source-grounded summaries for systemic reasoning
+    context: Agent Roles - Research
+    source: researcher.agent.md
+    related_terms:
+      - Research Specialist
+      - Literature Synthesis
+      - Comparative Analysis
+      - Source Grounding
+      - Verifiable Knowledge
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Focuses on verifiable, citation-backed insights; avoids unsupported extrapolation
+
+  - term: Reviewer
+    definition: Quality assurance specialist agent conducting systematic multi-dimensional reviews (structural, editorial, technical, standards compliance) without making direct changes
+    context: Agent Roles - Quality Assurance
+    source: reviewer.agent.md
+    related_terms:
+      - Quality Assurance
+      - Review Dimensions
+      - Finding Summary
+      - Review Report
+      - Validation Checklist
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Produces review reports with prioritized findings; coordinates with other agents for fixes
+
+  - term: Scribe Sally
+    definition: Documentation and transcription specialist agent who maintains traceable, neutral documentation integrity through structured summaries and meeting notes
+    context: Agent Roles - Documentation
+    source: scribe.agent.md
+    related_terms:
+      - Documentation Specialist
+      - Meeting Notes
+      - Structured Summary
+      - Neutral Tone
+      - Timestamp
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Focuses on neutral, portable summaries; avoids editorial interpretation
+
+  - term: Synthesizer Sam
+    definition: Multi-agent integration specialist who merges insights from multiple agents into coherent narratives and conceptual models while preserving source integrity
+    context: Agent Roles - Integration
+    source: synthesizer.agent.md
+    related_terms:
+      - Integration Specialist
+      - Pattern Synthesis
+      - Coherence Articulation
+      - Cross-Agent Integration
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: DO NOT UPDATE VISION OR PRINCIPLES unless explicitly directed
+
+  - term: Translator Tanya
+    definition: Contextual interpreter specialist agent who preserves authorial tone and rhythm during accurate cross-language translation using voice fidelity techniques
+    context: Agent Roles - Translation
+    source: translator.agent.md
+    related_terms:
+      - Translation Specialist
+      - Voice Fidelity
+      - Tone Preservation
+      - Contextual Pass
+      - VOICE_DIFF
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Provides literal pre-pass + contextual pass comparison for validation
+
+  - term: Editor Eddy
+    definition: Writer and editor specialist agent who revises existing content for tone, clarity, and alignment while preserving factual integrity and authorial rhythm
+    context: Agent Roles - Editorial
+    source: writer-editor.agent.md
+    related_terms:
+      - Writer-Editor
+      - Editorial Specialist
+      - Paragraph-Level Refinement
+      - Voice Alignment
+      - Boy Scout Rule
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Polishes text without introducing new facts or altering intent
+
+  # ==========================================
+  # SPECIALIZATION PATTERNS
+  # ==========================================
+
+  - term: Requirements Specialist
+    definition: Agent specialization focused on requirements elicitation, specification authoring, data validation, and production-data alignment to reduce ambiguity
+    context: Agent Specializations
+    source: analyst-annie.agent.md
+    related_terms:
+      - Analyst Annie
+      - Specification
+      - Validation Script
+      - Data Quality
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Primary focus for Analyst Annie
+
+  - term: Architecture Specialist
+    definition: Agent specialization focused on system decomposition, design interfaces, explicit decision records (ADRs), and trade-off analysis for complex systems
+    context: Agent Specializations
+    source: architect.agent.md
+    related_terms:
+      - Architect Alphonso
+      - ADR
+      - System Decomposition
+      - Trade-off Analysis
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Primary focus for Architect Alphonso
+
+  - term: Backend Developer Specialist
+    definition: Agent specialization focused on API/service design, persistence strategy, performance budgets, failure-mode mapping, and backend architecture
+    context: Agent Specializations
+    source: backend-dev.agent.md
+    related_terms:
+      - Backend Benny
+      - Service Design
+      - Persistence Strategy
+      - Performance Budget
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Primary focus for Backend Benny
+
+  - term: Repository Scaffolding
+    definition: Process of mapping repository topology and generating structural artifacts (REPO_MAP, SURFACES, WORKFLOWS) to enable multi-agent collaboration
+    context: Agent Specializations
+    source: bootstrap-bill.agent.md
+    related_terms:
+      - Bootstrap Bill
+      - REPO_MAP
+      - Topology Mapping
+      - Structural Artifact
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Core responsibility of Bootstrap Bill
+
+  - term: Build Automation Specialist
+    definition: Agent specialization focused on build graph modeling, CI/CD flow design, caching strategy, dependency integrity, and reproducible pipelines
+    context: Agent Specializations
+    source: build-automation.agent.md
+    related_terms:
+      - DevOps Danny
+      - CI/CD Pipeline
+      - Reproducible Build
+      - Build Graph
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Primary focus for DevOps Danny
+
+  # ==========================================
+  # COLLABORATION PROTOCOLS
+  # ==========================================
+
+  - term: Hand-off Protocol
+    definition: Structured process for transferring work between agents in a multi-agent workflow, specifying what artifacts are ready, which agent receives them, and validation criteria
+    context: Agent Collaboration
+    source: analyst-annie.agent.md, architect.agent.md, project-planner.agent.md
+    related_terms:
+      - Phase Authority
+      - Spec-Driven Development
+      - Agent Assignment
+      - HANDOFFS.md
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Ensures clean boundaries and prevents rework; documented in HANDOFFS.md
+
+  - term: Phase Authority
+    definition: Designation of which agent has PRIMARY, CONSULT, or NO authority during each phase of the Spec-Driven Development workflow
+    context: Agent Collaboration - Spec-Driven Development
+    source: analyst-annie.agent.md, architect.agent.md, project-planner.agent.md
+    related_terms:
+      - Spec-Driven Development
+      - Phase Checkpoint Protocol
+      - Hand-off Protocol
+      - Phase 1 (Analysis)
+      - Phase 2 (Architecture)
+      - Phase 3 (Planning)
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Prevents agents from operating outside their authority; enforces clean phase transitions
+
+  - term: Phase 1 (Analysis)
+    definition: First phase of Spec-Driven Development where requirements are elicited, specifications are authored, and acceptance criteria are defined; Analyst Annie has PRIMARY authority
+    context: Spec-Driven Development Phases
+    source: analyst-annie.agent.md
+    related_terms:
+      - Analyst Annie
+      - Phase Authority
+      - Specification
+      - Acceptance Criteria
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Produces specification stubs and requirements analysis
+
+  - term: Phase 2 (Architecture)
+    definition: Second phase of Spec-Driven Development where solutions are evaluated, trade-off analysis performed, and architectural design approved; Architect Alphonso has PRIMARY authority
+    context: Spec-Driven Development Phases
+    source: architect.agent.md
+    related_terms:
+      - Architect Alphonso
+      - Phase Authority
+      - Trade-off Analysis
+      - ADR
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Receives specification from Analyst Annie; hands to Planning Petra after architectural review
+
+  - term: Phase 3 (Planning)
+    definition: Third phase of Spec-Driven Development where task breakdown, dependency analysis, and agent assignment occur; Planning Petra has PRIMARY authority
+    context: Spec-Driven Development Phases
+    source: project-planner.agent.md
+    related_terms:
+      - Planning Petra
+      - Phase Authority
+      - Task Breakdown
+      - Dependency Mapping
+      - YAML Task File
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Receives approved specification from Architect Alphonso; creates YAML task files
+
+  - term: Phase 4 (Acceptance Tests)
+    definition: Fourth phase of Spec-Driven Development where acceptance criteria are implemented as executable tests before code implementation begins
+    context: Spec-Driven Development Phases
+    source: analyst-annie.agent.md, backend-dev.agent.md
+    related_terms:
+      - ATDD
+      - Acceptance Criteria
+      - Executable Test
+      - Phase Authority
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Assigned agent creates tests; Analyst Annie may provide clarification
+
+  - term: Phase 5 (Implementation)
+    definition: Fifth phase of Spec-Driven Development where production code is written to satisfy acceptance tests using TDD cycle
+    context: Spec-Driven Development Phases
+    source: backend-dev.agent.md, python-pedro.agent.md
+    related_terms:
+      - TDD
+      - RED-GREEN-REFACTOR
+      - Phase Authority
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Assigned agent implements code; follows test-first discipline
+
+  - term: Phase 6 (Review)
+    definition: Sixth phase of Spec-Driven Development where multiple review types occur - architecture compliance (Architect), acceptance criteria validation (Analyst), code quality (Reviewer)
+    context: Spec-Driven Development Phases
+    source: analyst-annie.agent.md, architect.agent.md, reviewer.agent.md
+    related_terms:
+      - Review
+      - Architecture Compliance
+      - Acceptance Criteria
+      - Code Quality
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Multi-agent review phase with specialized validations
+
+  # ==========================================
+  # OUTPUT ARTIFACTS
+  # ==========================================
+
+  - term: Validation Script
+    definition: Executable script or SQL query that validates requirements against real production data, capturing pass rates and edge cases for specification quality assurance
+    context: Artifacts - Requirements Analysis
+    source: analyst-annie.agent.md
+    related_terms:
+      - Analyst Annie
+      - Data Validation
+      - Specification
+      - Representative Data
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Stored in ${SPEC_ROOT}/ or work/ directory; documents data quality issues
+
+  - term: System Decomposition
+    definition: Architectural artifact that breaks down complex systems into components, interfaces, and relationships with explicit trade-offs and decision rationale
+    context: Artifacts - Architecture
+    source: architect.agent.md
+    related_terms:
+      - Architect Alphonso
+      - ADR
+      - Component Diagram
+      - Interface Design
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Often includes PlantUML or Mermaid diagrams
+
+  - term: REPO_MAP
+    definition: Structural artifact generated by Bootstrap Bill that documents repository topology, directory roles, key files, and navigation paths for multi-agent orientation
+    context: Artifacts - Repository Structure
+    source: bootstrap-bill.agent.md
+    related_terms:
+      - Bootstrap Bill
+      - Repository Scaffolding
+      - Topology Mapping
+      - SURFACES
+      - WORKFLOWS
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Machine-usable map enabling fast agent context loading
+
+  - term: SURFACES
+    definition: Artifact documenting integration points, APIs, config files, and external dependencies discovered during repository bootstrapping
+    context: Artifacts - Repository Structure
+    source: bootstrap-bill.agent.md
+    related_terms:
+      - Bootstrap Bill
+      - REPO_MAP
+      - Integration Surface
+      - API Contract
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Part of scaffolding triad (REPO_MAP, SURFACES, WORKFLOWS)
+
+  - term: WORKFLOWS
+    definition: Artifact documenting build, test, CI/CD, and deployment workflows discovered during repository bootstrapping
+    context: Artifacts - Repository Structure
+    source: bootstrap-bill.agent.md
+    related_terms:
+      - Bootstrap Bill
+      - REPO_MAP
+      - CI/CD Pipeline
+      - Build Graph
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Part of scaffolding triad (REPO_MAP, SURFACES, WORKFLOWS)
+
+  - term: Doctrine Configuration
+    definition: YAML configuration file (.doctrine/config.yaml) that defines path variables (workspace_root, doc_root, spec_root, output_root) and repository metadata for doctrine framework integration
+    context: Artifacts - Repository Configuration
+    source: bootstrap-bill.agent.md
+    related_terms:
+      - Bootstrap Bill
+      - Path Variable
+      - workspace_root
+      - doc_root
+      - spec_root
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Generated from templates/automation/doctrine-config-template.yaml
+
+  - term: Audit Report
+    definition: Structured document produced by Framework Guardian comparing installed framework state against canonical manifest, classifying files as MISSING, UNCHANGED, DIVERGED, or CUSTOM
+    context: Artifacts - Framework Maintenance
+    source: framework-guardian.agent.md
+    related_terms:
+      - Framework Guardian
+      - Manifest
+      - Drift Detection
+      - Framework Integrity
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Saved to validation/FRAMEWORK_AUDIT_REPORT.md
+
+  - term: Upgrade Plan
+    definition: Detailed document produced by Framework Guardian classifying upgrade conflicts and proposing minimal patches while preserving local customizations
+    context: Artifacts - Framework Maintenance
+    source: framework-guardian.agent.md
+    related_terms:
+      - Framework Guardian
+      - Conflict Classification
+      - Core/Local Boundary
+      - Minimal Patch
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Saved to validation/FRAMEWORK_UPGRADE_PLAN.md; never proposes automatic overwrites
+
+  - term: LEX_REPORT
+    definition: Lexical analysis artifact documenting per-file style compliance (tone, rhythm, markdown hygiene) with rule violation annotations
+    context: Artifacts - Style Analysis
+    source: lexical.agent.md
+    related_terms:
+      - Lexical Larry
+      - LEX_DELTAS
+      - LEX_TONE_MAP
+      - Style Compliance
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Stored in work/LEX/LEX_REPORT.md
+
+  - term: LEX_DELTAS
+    definition: Minimal diff artifact produced by Lexical Larry showing suggested edits grouped by rule violated, ready for patch application
+    context: Artifacts - Style Analysis
+    source: lexical.agent.md
+    related_terms:
+      - Lexical Larry
+      - LEX_REPORT
+      - Minimal Diff
+      - Rule Violation
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Stored in work/LEX/LEX_DELTAS.md
+
+  - term: LEX_TONE_MAP
+    definition: Medium detection artifact showing which writing medium (Pattern, Podcast, LinkedIn, Essay) applies to each file with confidence scores
+    context: Artifacts - Style Analysis
+    source: lexical.agent.md
+    related_terms:
+      - Lexical Larry
+      - Medium Detection
+      - Tone Fidelity
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Stored in /docs/LEX_TONE_MAP.md
+
+  - term: AGENT_STATUS
+    definition: Coordination artifact maintained by Manager Mike documenting which agent did what, when, and current workflow state
+    context: Artifacts - Orchestration
+    source: manager.agent.md
+    related_terms:
+      - Manager Mike
+      - WORKFLOW_LOG
+      - HANDOFFS
+      - Agent Assignment
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Stored in ${WORKSPACE_ROOT}/coordination/AGENT_STATUS.md
+
+  - term: WORKFLOW_LOG
+    definition: Chronological log of multi-agent workflow execution maintained by Manager Mike for traceability and coordination
+    context: Artifacts - Orchestration
+    source: manager.agent.md
+    related_terms:
+      - Manager Mike
+      - AGENT_STATUS
+      - Hand-off Tracking
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Stored in ${WORKSPACE_ROOT}/coordination/WORKFLOW_LOG.md
+
+  - term: HANDOFFS
+    definition: Coordination artifact documenting which work products are ready for which next agent in the workflow
+    context: Artifacts - Orchestration
+    source: manager.agent.md
+    related_terms:
+      - Manager Mike
+      - Hand-off Protocol
+      - Agent Assignment
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Stored in ${WORKSPACE_ROOT}/coordination/HANDOFFS.md
+
+  - term: PLAN_OVERVIEW
+    definition: Planning artifact documenting current goals, themes, and focus areas for project execution
+    context: Artifacts - Planning
+    source: project-planner.agent.md
+    related_terms:
+      - Planning Petra
+      - NEXT_BATCH
+      - Milestone Definition
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Stored in ${DOC_ROOT}/planning/PLAN_OVERVIEW.md
+
+  - term: NEXT_BATCH
+    definition: Planning artifact containing small batch of concrete, ready-to-run tasks for immediate execution (typically 1-2 weeks of work)
+    context: Artifacts - Planning
+    source: project-planner.agent.md
+    related_terms:
+      - Planning Petra
+      - PLAN_OVERVIEW
+      - Batch Planning
+      - Task Breakdown
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Stored in ${DOC_ROOT}/planning/NEXT_BATCH.md
+
+  - term: Review Report
+    definition: Comprehensive quality assurance artifact documenting findings across multiple review dimensions (structural, editorial, technical, standards) with prioritized recommendations
+    context: Artifacts - Quality Assurance
+    source: reviewer.agent.md
+    related_terms:
+      - Reviewer
+      - Review Dimensions
+      - Finding Summary
+      - Validation Checklist
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Stored in ${WORKSPACE_ROOT}/reports/reviews/; includes executive summary
+
+  - term: Discrepancy Report
+    definition: Artifact produced by Curator Claire outlining detected inconsistencies across documents, their locations, and recommended corrective actions
+    context: Artifacts - Curation
+    source: curator.agent.md
+    related_terms:
+      - Curator Claire
+      - Corrective Action Set
+      - Structural Consistency
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Part of curation workflow; identifies drift and misalignment
+
+  # ==========================================
+  # QUALITY GATES AND PROCEDURES
+  # ==========================================
+
+  - term: Self-Review Protocol
+    definition: Systematic quality checklist executed by development agents before marking work complete, including test execution, type checking, linting, coverage validation, and ADR compliance
+    context: Quality Gates - Development
+    source: python-pedro.agent.md
+    related_terms:
+      - Coverage Threshold
+      - Type Checking
+      - Lint Results
+      - ADR Compliance
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Python Pedro requires ≥80% coverage, mypy clean, ruff clean, black formatted
+
+  - term: Coverage Threshold
+    definition: Minimum percentage of code covered by tests required before code can be accepted; typically ≥80% for production code
+    context: Quality Gates - Testing
+    source: python-pedro.agent.md, java-jenny.agent.md
+    related_terms:
+      - Self-Review Protocol
+      - Test Coverage
+      - pytest
+      - Quality Gate
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Exceptions must be documented in ADR with justification
+
+  - term: Type Checking
+    definition: Static analysis validation using mypy (Python) or similar tools to ensure type safety before code acceptance
+    context: Quality Gates - Code Quality
+    source: python-pedro.agent.md
+    related_terms:
+      - Self-Review Protocol
+      - mypy
+      - Type Hints
+      - Type Safety
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: No type errors allowed except explicitly ignored with comment justification
+
+  - term: RED-GREEN-REFACTOR
+    definition: TDD cycle where tests are written first and fail (RED), minimal code makes them pass (GREEN), then code is improved while keeping tests green (REFACTOR)
+    context: Development Practices - TDD
+    source: python-pedro.agent.md, backend-dev.agent.md, java-jenny.agent.md
+    related_terms:
+      - TDD
+      - Test-First Development
+      - Directive 017
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Core TDD practice applied by all coding agents
+
+  - term: Review Dimensions
+    definition: Multiple perspectives applied during systematic quality review - structural (organization), editorial (clarity), technical (accuracy), standards compliance
+    context: Quality Assurance - Review
+    source: reviewer.agent.md
+    related_terms:
+      - Reviewer
+      - Structural Review
+      - Editorial Review
+      - Technical Review
+      - Standards Compliance Review
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Comprehensive reviews apply all four dimensions
+
+  - term: Structural Review
+    definition: Review dimension focused on organization, flow, completeness, template compliance, cross-reference validity, and heading hierarchy
+    context: Quality Assurance - Review Types
+    source: reviewer.agent.md
+    related_terms:
+      - Review Dimensions
+      - Template Compliance
+      - Cross-Reference
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Part of multi-dimensional review process
+
+  - term: Editorial Review
+    definition: Review dimension focused on clarity, readability, style consistency, grammar, terminology alignment, and appropriate tone
+    context: Quality Assurance - Review Types
+    source: reviewer.agent.md
+    related_terms:
+      - Review Dimensions
+      - Style Consistency
+      - Terminology
+      - Glossary
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Validates against GLOSSARY.md for terminology consistency
+
+  - term: Technical Review
+    definition: Review dimension focused on accuracy verification, example correctness, reference citations, code functionality, and version currency
+    context: Quality Assurance - Review Types
+    source: reviewer.agent.md
+    related_terms:
+      - Review Dimensions
+      - Technical Accuracy
+      - Code Correctness
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Includes testing commands and validating links
+
+  - term: Standards Compliance Review
+    definition: Review dimension focused on adherence to style guides, templates, directives, ADRs, file naming conventions, and required metadata
+    context: Quality Assurance - Review Types
+    source: reviewer.agent.md
+    related_terms:
+      - Review Dimensions
+      - Style Guide
+      - Template Compliance
+      - Directive Compliance
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Validates against documented standards and templates
+
+  # ==========================================
+  # WORKSPACE ORGANIZATION
+  # ==========================================
+
+  - term: workspace_root
+    definition: Path variable in doctrine configuration pointing to task orchestration workspace directory (default 'work') where agents create work logs, coordination artifacts, and intermediate outputs
+    context: Configuration - Path Variables
+    source: bootstrap-bill.agent.md
+    related_terms:
+      - Doctrine Configuration
+      - doc_root
+      - spec_root
+      - output_root
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Configurable in .doctrine/config.yaml; used as ${WORKSPACE_ROOT} in agent profiles
+
+  - term: doc_root
+    definition: Path variable in doctrine configuration pointing to documentation root directory (default 'docs') where architectural docs, guides, and reference materials reside
+    context: Configuration - Path Variables
+    source: bootstrap-bill.agent.md
+    related_terms:
+      - Doctrine Configuration
+      - workspace_root
+      - spec_root
+      - output_root
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Configurable in .doctrine/config.yaml; used as ${DOC_ROOT} in agent profiles
+
+  - term: spec_root
+    definition: Path variable in doctrine configuration pointing to specification files directory (default 'specifications') where functional and technical specs are stored
+    context: Configuration - Path Variables
+    source: bootstrap-bill.agent.md
+    related_terms:
+      - Doctrine Configuration
+      - workspace_root
+      - doc_root
+      - Specification
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Configurable in .doctrine/config.yaml; used as ${SPEC_ROOT} in agent profiles
+
+  - term: output_root
+    definition: Path variable in doctrine configuration pointing to generated artifacts directory (default 'output') for build products, reports, and exports
+    context: Configuration - Path Variables
+    source: bootstrap-bill.agent.md
+    related_terms:
+      - Doctrine Configuration
+      - workspace_root
+      - doc_root
+      - Build Artifact
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Configurable in .doctrine/config.yaml; used as ${OUTPUT_ROOT} in agent profiles
+
+  # ==========================================
+  # DOCTRINE STACK CONCEPTS
+  # ==========================================
+
+  - term: Source vs Distribution
+    definition: Architectural distinction where doctrine/ contains canonical source content and tool-specific directories (.github/, .claude/, .opencode/) contain generated distribution artifacts
+    context: Doctrine Stack - Architecture
+    source: curator.agent.md
+    related_terms:
+      - Curator Claire
+      - Export Pipeline
+      - Doctrine Stack
+      - Tool-Specific Distribution
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Critical rule - always edit source (doctrine/), never distribution files
+
+  - term: Export Pipeline
+    definition: Automated process (npm run export:all, npm run deploy:all) that transforms doctrine/ source content into tool-specific distribution formats with semantic preservation
+    context: Doctrine Stack - Distribution
+    source: curator.agent.md
+    related_terms:
+      - Source vs Distribution
+      - Format Transformation
+      - Semantic Preservation
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Must run after doctrine changes; transformations must preserve meaning
+
+  - term: Tool-Specific Distribution
+    definition: Generated content formatted for specific development tools (GitHub Copilot, Claude Desktop, OpenCode, Cursor) deployed to tool-specific directories
+    context: Doctrine Stack - Distribution
+    source: curator.agent.md
+    related_terms:
+      - Source vs Distribution
+      - Export Pipeline
+      - .github/
+      - .claude/
+      - .opencode/
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Never manually edit; regenerate from doctrine/ source
+
+  - term: Layer Boundary
+    definition: Separation between doctrine stack layers (Guidelines, Approaches, Directives, Tactics, Templates) that must be respected to prevent content type mixing
+    context: Doctrine Stack - Architecture
+    source: curator.agent.md
+    related_terms:
+      - Doctrine Stack
+      - Curator Claire
+      - Guideline
+      - Approach
+      - Directive
+      - Tactic
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Directives reference tactics (not embed them); approaches explain WHY (not HOW)
+
+  # ==========================================
+  # SPECIALIZED CAPABILITIES
+  # ==========================================
+
+  - term: Topology Mapping
+    definition: Process of scanning and documenting repository structure, identifying directory roles, key files, configuration locations, and navigation paths
+    context: Agent Capabilities - Repository Analysis
+    source: bootstrap-bill.agent.md
+    related_terms:
+      - Bootstrap Bill
+      - REPO_MAP
+      - Repository Scaffolding
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Enables rapid agent orientation in unfamiliar codebases
+
+  - term: Drift Detection
+    definition: Process of identifying divergence between installed framework files and canonical manifest through checksum comparison and file classification
+    context: Agent Capabilities - Framework Maintenance
+    source: framework-guardian.agent.md
+    related_terms:
+      - Framework Guardian
+      - Manifest
+      - Audit Report
+      - Framework Integrity
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Classifies files as MISSING, UNCHANGED, DIVERGED, CUSTOM
+
+  - term: Conflict Classification
+    definition: Process of categorizing upgrade conflicts as auto-merge candidates, local customizations to preserve, or breaking changes requiring manual review
+    context: Agent Capabilities - Framework Maintenance
+    source: framework-guardian.agent.md
+    related_terms:
+      - Framework Guardian
+      - Upgrade Plan
+      - Core/Local Boundary
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Never proposes automatic overwrites; always preserves local customizations
+
+  - term: Core/Local Boundary
+    definition: Architectural separation between framework core files (managed by framework) and local customizations (managed by repository owner) to prevent silent overwrites
+    context: Framework Architecture
+    source: framework-guardian.agent.md
+    related_terms:
+      - Framework Guardian
+      - Conflict Classification
+      - Local Customization
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Local customizations should relocate to local/ directories when conflicts arise
+
+  - term: Medium Detection
+    definition: Process of identifying which writing medium (Pattern, Podcast, LinkedIn, Essay) applies to content based on style patterns and tone markers
+    context: Agent Capabilities - Style Analysis
+    source: lexical.agent.md
+    related_terms:
+      - Lexical Larry
+      - LEX_TONE_MAP
+      - Tone Fidelity
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Produces confidence scores; flags conflicts when mixed mediums detected
+
+  - term: Voice Fidelity
+    definition: Quality measure of how well translated or edited content preserves the original author's distinctive tone, rhythm, and cadence
+    context: Agent Capabilities - Translation/Editing
+    source: translator.agent.md, writer-editor.agent.md
+    related_terms:
+      - Translator Tanya
+      - Editor Eddy
+      - Authorial Voice
+      - Tone Preservation
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Measured through VOICE_DIFF comparison; critical for translation quality
+
+  - term: Diagram-as-Code
+    definition: Practice of creating diagrams using text-based formats (Mermaid, PlantUML, Graphviz) for version control, reproducibility, and semantic fidelity
+    context: Agent Capabilities - Visualization
+    source: diagrammer.agent.md
+    related_terms:
+      - Diagram Daisy
+      - Semantic Fidelity
+      - Mermaid
+      - PlantUML
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Preferred over binary image formats for maintainability
+
+  - term: Semantic Fidelity
+    definition: Quality measure of how accurately a diagram or visualization represents the underlying conceptual, architectural, or organizational relationships
+    context: Agent Capabilities - Visualization
+    source: diagrammer.agent.md
+    related_terms:
+      - Diagram Daisy
+      - Diagram-as-Code
+      - Visual Representation
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Prioritizes conceptual clarity over visual complexity
+
+  # ==========================================
+  # INTEGRATION PATTERNS
+  # ==========================================
+
+  - term: Agent Assignment
+    definition: Process of selecting and routing specific tasks to the most appropriate specialized agent based on task type, required capabilities, and phase authority
+    context: Orchestration - Task Routing
+    source: manager.agent.md
+    related_terms:
+      - Manager Mike
+      - Hand-off Protocol
+      - Phase Authority
+      - AGENT_STATUS
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Manager Mike maintains assignment tracking in AGENT_STATUS.md
+
+  - term: Batch Planning
+    definition: Planning approach that breaks work into small, time-boxed batches (typically 1-2 weeks) rather than fixed-date commitments, enabling adaptive execution
+    context: Planning - Execution Strategy
+    source: project-planner.agent.md
+    related_terms:
+      - Planning Petra
+      - NEXT_BATCH
+      - Milestone Definition
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Batches are units, not promises; enables resilience to change
+
+  - term: Task Breakdown
+    definition: Process of decomposing specifications into concrete, executable tasks with clear dependencies, acceptance criteria, and agent assignments
+    context: Planning - Work Decomposition
+    source: project-planner.agent.md
+    related_terms:
+      - Planning Petra
+      - Phase 3 (Planning)
+      - YAML Task File
+      - Dependency Mapping
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Phase 3 responsibility; creates YAML task files for orchestration
+
+  - term: Dependency Mapping
+    definition: Process of identifying and documenting prerequisite relationships between tasks, ensuring correct execution sequence and preventing blockers
+    context: Planning - Work Sequencing
+    source: project-planner.agent.md
+    related_terms:
+      - Planning Petra
+      - Task Breakdown
+      - DEPENDENCIES
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Documented in ${DOC_ROOT}/planning/DEPENDENCIES.md
+
+  - term: YAML Task File
+    definition: Structured task definition file used in file-based orchestration containing task metadata, dependencies, acceptance criteria, and agent assignment
+    context: Orchestration - Task Definition
+    source: project-planner.agent.md, manager.agent.md
+    related_terms:
+      - Planning Petra
+      - Manager Mike
+      - File-Based Orchestration
+      - Task Breakdown
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Created in Phase 3 (Planning); managed through assigned/ and done/ directories
+
+  - term: Finding Summary
+    definition: Executive summary component of review report highlighting critical issues, key findings, and top recommendations for quick stakeholder assessment
+    context: Quality Assurance - Reporting
+    source: reviewer.agent.md
+    related_terms:
+      - Reviewer
+      - Review Report
+      - Review Dimensions
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Enables rapid triage without reading full review details
+
+  - term: Validation Checklist
+    definition: Systematic checklist confirming all review criteria were applied, evidence collected, recommendations prioritized, and quality standards met
+    context: Quality Assurance - Verification
+    source: reviewer.agent.md
+    related_terms:
+      - Reviewer
+      - Review Report
+      - Quality Standard
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Part of review report structure; ensures review completeness
+
+  # ==========================================
+  # TESTING AND QUALITY CONCEPTS
+  # ==========================================
+
+  - term: Acceptance Criteria
+    definition: Explicit, testable conditions that must be satisfied for a feature or requirement to be considered complete and acceptable
+    context: Testing - Requirements
+    source: analyst-annie.agent.md, python-pedro.agent.md
+    related_terms:
+      - ATDD
+      - Phase 1 (Analysis)
+      - Executable Test
+      - Specification
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Defined in Phase 1; implemented as executable tests in Phase 4
+
+  - term: Executable Test
+    definition: Automated test that validates acceptance criteria through code execution, providing verifiable evidence of requirement satisfaction
+    context: Testing - Automation
+    source: python-pedro.agent.md, backend-dev.agent.md
+    related_terms:
+      - ATDD
+      - Acceptance Criteria
+      - Phase 4 (Acceptance Tests)
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Created before implementation; guides development through failing tests
+
+  - term: Representative Data
+    definition: Real-world or production-like data samples used during requirements analysis to capture actual patterns, edge cases, and validation scenarios
+    context: Testing - Data Quality
+    source: analyst-annie.agent.md
+    related_terms:
+      - Analyst Annie
+      - Validation Script
+      - Data Validation
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Anonymized/representative; stored in work/ or data/fixtures/
+
+  - term: Minimal Patch
+    definition: Smallest possible code or configuration change required to resolve an issue, upgrade conflict, or implement a fix without unnecessary modifications
+    context: Development - Change Management
+    source: framework-guardian.agent.md, python-pedro.agent.md
+    related_terms:
+      - Framework Guardian
+      - Locality of Change
+      - Upgrade Plan
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Follows Directive 021 (Locality of Change); minimizes risk and review burden
+
+  - term: Corrective Action Set
+    definition: Minimal change proposals produced by Curator Claire to align artifacts without overhauling original content, preserving authorial voice
+    context: Curation - Change Management
+    source: curator.agent.md
+    related_terms:
+      - Curator Claire
+      - Discrepancy Report
+      - Minimal Change
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: No silent edits; always collaborative approval process
+
+  # ==========================================
+  # SPECIALIZED WORKFLOWS
+  # ==========================================
+
+  - term: 6-Phase Spec-Driven Implementation Flow
+    definition: Complete workflow sequence through all six phases of Spec-Driven Development from analysis through review with explicit phase authority and handoff protocols
+    context: Workflows - Spec-Driven Development
+    source: analyst-annie.agent.md, architect.agent.md, project-planner.agent.md
+    related_terms:
+      - Spec-Driven Development
+      - Phase Authority
+      - Hand-off Protocol
+      - Phase Checkpoint Protocol
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Detailed in 6-phase-spec-driven-implementation-flow.tactic.md
+
+  - term: Milestone Definition
+    definition: Planning artifact that establishes significant checkpoints with goals, themes, decision gates, and validation hooks while remaining resilient to change
+    context: Planning - Goal Setting
+    source: project-planner.agent.md
+    related_terms:
+      - Planning Petra
+      - PLAN_OVERVIEW
+      - Batch Planning
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Annotates assumptions and re-planning triggers
+
+  - term: Trade-off Analysis
+    definition: Architectural reasoning process that explicitly documents alternatives considered, evaluation criteria, and rationale for chosen approach
+    context: Architecture - Decision Making
+    source: architect.agent.md
+    related_terms:
+      - Architect Alphonso
+      - ADR
+      - Phase 2 (Architecture)
+      - System Decomposition
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Critical component of ADRs; prevents cargo-cult architecture
+
+  - term: Build Graph
+    definition: Directed acyclic graph representing build dependencies, execution order, caching boundaries, and artifact relationships in CI/CD pipeline
+    context: Build Automation - Dependency Management
+    source: build-automation.agent.md
+    related_terms:
+      - DevOps Danny
+      - CI/CD Pipeline
+      - Reproducible Build
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Models build system for predictable, traceable execution
+
+  - term: Reproducible Build
+    definition: Build process that produces identical artifacts from the same source inputs across different environments and time periods
+    context: Build Automation - Reliability
+    source: build-automation.agent.md
+    related_terms:
+      - DevOps Danny
+      - Build Graph
+      - CI/CD Pipeline
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Requires dependency pinning, environment isolation, deterministic tooling
+
+  - term: Persistence Strategy
+    definition: Architectural decision defining how data is stored, retrieved, updated, and maintained including database choice, schema design, and transaction boundaries
+    context: Backend Architecture - Data Management
+    source: backend-dev.agent.md
+    related_terms:
+      - Backend Benny
+      - Service Design
+      - Performance Budget
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Part of backend architecture responsibility
+
+  - term: Performance Budget
+    definition: Explicit constraints on response time, throughput, resource usage, or latency that backend services must satisfy
+    context: Backend Architecture - Quality Attributes
+    source: backend-dev.agent.md
+    related_terms:
+      - Backend Benny
+      - Persistence Strategy
+      - Service Design
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Defined during architecture phase; validated during implementation
+
+  - term: Service Design
+    definition: Architectural process defining service boundaries, API contracts, integration patterns, and failure modes for backend systems
+    context: Backend Architecture - System Design
+    source: backend-dev.agent.md
+    related_terms:
+      - Backend Benny
+      - API Contract
+      - Integration Surface
+      - Persistence Strategy
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Primary focus of Backend Benny
+
+  - term: Integration Surface
+    definition: Set of APIs, protocols, data formats, and contracts through which a system interacts with external systems or services
+    context: Backend Architecture - External Integration
+    source: backend-dev.agent.md, bootstrap-bill.agent.md
+    related_terms:
+      - Backend Benny
+      - Bootstrap Bill
+      - API Contract
+      - SURFACES
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Documented in SURFACES artifact during bootstrapping
+
+  - term: API Contract
+    definition: Explicit specification of API endpoints, request/response formats, error handling, versioning, and behavioral guarantees
+    context: Backend Architecture - Interface Definition
+    source: backend-dev.agent.md
+    related_terms:
+      - Backend Benny
+      - Service Design
+      - Integration Surface
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Aligned with existing architecture docs per Directive 004
+
+  # ==========================================
+  # FRONTEND-SPECIFIC CONCEPTS
+  # ==========================================
+
+  - term: UI Architecture
+    definition: Structural design of user interface including component hierarchies, state boundaries, data flow patterns, and interaction flows
+    context: Frontend Architecture
+    source: frontend.agent.md
+    related_terms:
+      - Frontend Freddy
+      - Component Patterns
+      - State Boundaries
+      - Design System
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Primary focus of Frontend Freddy
+
+  - term: Component Patterns
+    definition: Reusable UI component designs with established structure, behavior, styling, and composition rules for consistent interface development
+    context: Frontend Architecture - Reusability
+    source: frontend.agent.md
+    related_terms:
+      - Frontend Freddy
+      - UI Architecture
+      - Design System
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Balances scalability, accessibility, maintainability
+
+  - term: State Boundaries
+    definition: Explicit divisions defining where application state is owned, how it flows between components, and mutation responsibilities
+    context: Frontend Architecture - State Management
+    source: frontend.agent.md
+    related_terms:
+      - Frontend Freddy
+      - UI Architecture
+      - Data Flow
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Part of maintainable design system architecture
+
+  - term: Design System
+    definition: Collection of reusable components, patterns, guidelines, and assets enabling consistent, scalable UI development
+    context: Frontend Architecture - Consistency
+    source: frontend.agent.md
+    related_terms:
+      - Frontend Freddy
+      - Component Patterns
+      - UI Architecture
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Maintains balance between consistency and flexibility
+
+  # ==========================================
+  # PYTHON-SPECIFIC CONCEPTS
+  # ==========================================
+
+  - term: Type Hints
+    definition: Python 3.9+ annotations specifying expected types for function parameters, return values, and variables to enable static analysis
+    context: Python Development - Type Safety
+    source: python-pedro.agent.md
+    related_terms:
+      - Python Pedro
+      - mypy
+      - Type Checking
+      - Type Safety
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Required for all function signatures and complex variables
+
+  - term: pytest
+    definition: Python testing framework used for unit tests, integration tests, and acceptance tests with fixtures, parametrization, and coverage reporting
+    context: Python Development - Testing
+    source: python-pedro.agent.md
+    related_terms:
+      - Python Pedro
+      - Test-First Development
+      - Coverage Threshold
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: All tests use pytest with appropriate fixtures
+
+  - term: mypy
+    definition: Static type checker for Python that validates type hints and detects type-related errors before runtime
+    context: Python Development - Type Safety
+    source: python-pedro.agent.md
+    related_terms:
+      - Python Pedro
+      - Type Hints
+      - Type Checking
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Strict mode recommended; no type errors allowed in self-review
+
+  - term: ruff
+    definition: Fast Python linter replacing flake8, isort, pydocstyle for code quality checks and style enforcement
+    context: Python Development - Code Quality
+    source: python-pedro.agent.md
+    related_terms:
+      - Python Pedro
+      - black
+      - Code Quality
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Must pass ruff check in self-review protocol
+
+  - term: black
+    definition: Opinionated Python code formatter ensuring consistent code style with PEP 8 compliance
+    context: Python Development - Code Formatting
+    source: python-pedro.agent.md
+    related_terms:
+      - Python Pedro
+      - ruff
+      - Code Quality
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Line length 100; automatic formatting required
+
+  # ==========================================
+  # REASONING AND MODES
+  # ==========================================
+
+  - term: /analysis-mode
+    definition: Reasoning mode focusing on systematic decomposition, structural analysis, and diagnostic evaluation; default mode for most agents
+    context: Agent Modes - Reasoning
+    source: All agent profiles
+    related_terms:
+      - /creative-mode
+      - /meta-mode
+      - Mode Protocol
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Default reasoning mode for analytical work
+
+  - term: /creative-mode
+    definition: Reasoning mode focusing on option generation, pattern shaping, alternative exploration, and narrative construction
+    context: Agent Modes - Reasoning
+    source: All agent profiles
+    related_terms:
+      - /analysis-mode
+      - /meta-mode
+      - Mode Protocol
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Used for exploration and ideation phases
+
+  - term: /meta-mode
+    definition: Reasoning mode focusing on process reflection, alignment validation, governance review, and methodology evaluation
+    context: Agent Modes - Reasoning
+    source: All agent profiles
+    related_terms:
+      - /analysis-mode
+      - /creative-mode
+      - Mode Protocol
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Used for retrospectives and process improvement
+
+  # ==========================================
+  # COLLABORATION BOUNDARIES
+  # ==========================================
+
+  - term: Specialization Boundary
+    definition: Explicit limits on agent capabilities defining what each agent will and won't do to prevent scope creep and role confusion
+    context: Agent Collaboration - Role Definition
+    source: All agent profiles
+    related_terms:
+      - Collaboration Contract
+      - Hand-off Protocol
+      - Escalation
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Each agent profile defines Primary focus, Secondary awareness, Avoid, Success criteria
+
+  - term: Escalation
+    definition: Process of surfacing issues to humans or higher-authority agents when uncertainty exceeds threshold (typically >30%) or critical deviations detected
+    context: Agent Collaboration - Problem Resolution
+    source: All agent profiles
+    related_terms:
+      - Collaboration Contract
+      - Specialization Boundary
+      - Integrity Symbol
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Escalate before issues become problems; ask for help when stuck
+
+  - term: Tonal Integrity
+    definition: Preservation of consistent voice, rhythm, and authorial personality across documents while preventing style drift or flattening
+    context: Content Quality - Voice Preservation
+    source: curator.agent.md, lexical.agent.md, writer-editor.agent.md
+    related_terms:
+      - Curator Claire
+      - Lexical Larry
+      - Editor Eddy
+      - Authorial Voice
+      - Voice Fidelity
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Maintained through curation audits and minimal edits
+
+  - term: Authorial Voice
+    definition: Distinctive writing style, tone, rhythm, and personality of the original author that must be preserved during editing, translation, or curation
+    context: Content Quality - Voice Preservation
+    source: lexical.agent.md, translator.agent.md, writer-editor.agent.md
+    related_terms:
+      - Voice Fidelity
+      - Tonal Integrity
+      - Tone Preservation
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Calm, slightly amusing, patient tone in this framework
+
+  - term: Tone Preservation
+    definition: Active maintenance of original tone and emotional register during content transformation (translation, editing, summarization)
+    context: Content Quality - Voice Preservation
+    source: translator.agent.md, writer-editor.agent.md
+    related_terms:
+      - Authorial Voice
+      - Voice Fidelity
+      - Tonal Integrity
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Critical for translation quality and editorial refinement
+
+  - term: Structural Artifact
+    definition: Generated documentation or code that describes repository organization, workflows, or architectural patterns for orientation and navigation
+    context: Artifacts - Repository Documentation
+    source: bootstrap-bill.agent.md
+    related_terms:
+      - Bootstrap Bill
+      - REPO_MAP
+      - SURFACES
+      - WORKFLOWS
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Machine-usable artifacts enabling multi-agent collaboration
+
+  - term: Framework Integrity
+    definition: State where installed framework files match canonical manifest specifications without unauthorized modifications or drift
+    context: Framework Maintenance - Quality
+    source: framework-guardian.agent.md
+    related_terms:
+      - Framework Guardian
+      - Manifest
+      - Drift Detection
+      - Audit Report
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Verified through checksum comparison and file classification
+
+  - term: Manifest
+    definition: Canonical list of framework files with checksums and metadata defining expected installation state for drift detection
+    context: Framework Maintenance - Source of Truth
+    source: framework-guardian.agent.md
+    related_terms:
+      - Framework Guardian
+      - Framework Integrity
+      - Drift Detection
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Stored in META/MANIFEST.yml; maintained by core framework team
+
+  - term: Local Customization
+    definition: Repository-specific modifications to framework files or addition of custom files that must be preserved during framework upgrades
+    context: Framework Maintenance - Customization
+    source: framework-guardian.agent.md
+    related_terms:
+      - Framework Guardian
+      - Core/Local Boundary
+      - Conflict Classification
+    status: candidate
+    enforcement_tier: advisory
+    confidence: high
+    notes: Should relocate to local/ directories to avoid upgrade conflicts
