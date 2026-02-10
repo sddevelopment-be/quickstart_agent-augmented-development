@@ -59,6 +59,25 @@ def is_iso8601(timestamp: str) -> bool:
         return False
 
 
+def suggest_timestamp_fix(timestamp: str) -> str:
+    """Suggest a fix for common timestamp format issues."""
+    timestamp = str(timestamp)
+    
+    # Case 1: Space instead of T (e.g., "2026-02-09 04:40:00+00:00")
+    if " " in timestamp and "T" not in timestamp:
+        timestamp = timestamp.replace(" ", "T", 1)
+    
+    # Case 2: Timezone offset instead of Z (e.g., "2026-02-09T04:40:00+00:00")
+    if timestamp.endswith("+00:00") or timestamp.endswith("-00:00"):
+        timestamp = timestamp[:-6] + "Z"
+    
+    # Case 3: Missing Z suffix (e.g., "2026-02-09T04:40:00")
+    if not timestamp.endswith("Z") and "+" not in timestamp and "-" not in timestamp[-6:]:
+        timestamp = timestamp + "Z"
+    
+    return timestamp
+
+
 def validate_task_file(path: Path) -> list[str]:
     errors: list[str] = []
     task = load_task(path)
@@ -113,7 +132,12 @@ def validate_task_file(path: Path) -> list[str]:
         if ts_field in task and task[ts_field] is not None:
             timestamp = str(task[ts_field])
             if not is_iso8601(timestamp):
-                errors.append(f"{ts_field} must be ISO8601 with Z suffix")
+                suggestion = suggest_timestamp_fix(timestamp)
+                errors.append(
+                    f"{ts_field} must be ISO8601 with Z suffix\n"
+                    f"  Current: {timestamp}\n"
+                    f"  Suggested: {suggestion}"
+                )
 
     context = task.get("context")
     if context is not None and not isinstance(context, dict):
@@ -124,7 +148,15 @@ def validate_task_file(path: Path) -> list[str]:
 
     if status == "done":
         if not isinstance(result, dict):
-            errors.append("result block required for completed tasks")
+            errors.append(
+                "result block required for completed tasks\n"
+                "  Expected structure:\n"
+                "    result:\n"
+                "      summary: \"Description of what was accomplished\"\n"
+                "      artefacts:  # or 'artifacts'\n"
+                "        - path/to/file1.py\n"
+                "        - path/to/file2.md"
+            )
         else:
             if not result.get("summary"):
                 errors.append("result.summary is required when result is present")
@@ -133,10 +165,19 @@ def validate_task_file(path: Path) -> list[str]:
             if not isinstance(result_artefacts, list) or not all(
                 isinstance(a, str) for a in result_artefacts
             ):
-                errors.append("result.artefacts/artifacts must be a list of strings")
-            if "completed_at" in result and not is_iso8601(str(result["completed_at"])):
+                # Check if user mistakenly used "artifacts_created" or other field
+                hint = ""
+                if "artifacts_created" in result or "artefacts_created" in result:
+                    hint = "\n  Hint: Use 'artefacts' or 'artifacts', not 'artifacts_created'"
                 errors.append(
-                    "result.completed_at must be ISO8601 with Z suffix when present"
+                    f"result.artefacts/artifacts must be a list of strings{hint}"
+                )
+            if "completed_at" in result and not is_iso8601(str(result["completed_at"])):
+                suggestion = suggest_timestamp_fix(str(result["completed_at"]))
+                errors.append(
+                    f"result.completed_at must be ISO8601 with Z suffix when present\n"
+                    f"  Current: {result['completed_at']}\n"
+                    f"  Suggested: {suggestion}"
                 )
     elif result is not None:
         errors.append("result block should only be present when status is 'done'")
@@ -150,8 +191,11 @@ def validate_task_file(path: Path) -> list[str]:
             if "timestamp" in error_block and not is_iso8601(
                 str(error_block["timestamp"])
             ):
+                suggestion = suggest_timestamp_fix(str(error_block["timestamp"]))
                 errors.append(
-                    "error.timestamp must be ISO8601 with Z suffix when present"
+                    f"error.timestamp must be ISO8601 with Z suffix when present\n"
+                    f"  Current: {error_block['timestamp']}\n"
+                    f"  Suggested: {suggestion}"
                 )
     elif error_block is not None:
         errors.append("error block should only be present when status is 'error'")

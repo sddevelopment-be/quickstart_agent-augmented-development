@@ -4,14 +4,14 @@ agent: python-pedro
 status: done
 priority: medium
 title: Review src/ for Duplicate Concept Representations
-created: 2026-02-08 03:28:00+00:00
-assigned_at: 2026-02-09 04:40:00+00:00
-started_at: 2026-02-09 04:40:00+00:00
-completed_at: 2026-02-09 04:50:42+00:00
+created: '2026-02-08T03:28:00Z'
+assigned_at: '2026-02-09T04:40:00Z'
+started_at: '2026-02-09T04:40:00Z'
+completed_at: '2026-02-09T04:50:42Z'
 description: "Analyze the src/ directory (llm_service + framework) to identify duplicate\
   \ or \ninconsistent representations of the same concepts. Ensure shared abstractions\
   \ \n(Task, Agent, TaskStatus, etc.) are used consistently throughout both modules.\n"
-artifacts:
+artefacts:
 - work/reports/analysis/2026-02-09-src-concept-duplication-inventory.md
 - work/reports/analysis/2026-02-09-src-abstraction-dependencies.md
 - work/reports/logs/python-pedro/2026-02-09-src-duplicates-analysis.md
@@ -24,7 +24,7 @@ result:
     files_analyzed: 39
     concepts_mapped: 6
     duplications_found: 6
-  artifacts_created:
+  artefacts:
   - work/reports/analysis/2026-02-09-src-concept-duplication-inventory.md
   - work/reports/analysis/2026-02-09-src-abstraction-dependencies.md
   - work/reports/logs/python-pedro/2026-02-09-src-duplicates-analysis.md
