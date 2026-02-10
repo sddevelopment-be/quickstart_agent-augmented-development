@@ -1,0 +1,27 @@
+@startuml Event Storming Template
+
+' Event Storming Visual Template
+' Colors match standard Event Storming sticky note conventions
+
+title Event Storming - [Context Name]
+
+' Domain Events (Orange)
+rectangle "EventName1" #FF8C00
+rectangle "EventName2" #FF8C00
+
+' Commands (Light Blue)
+rectangle "Command Name" #87CEEB
+
+' Actors (Blue)
+actor "Actor Name" #4169E1
+
+' Policies (Purple)
+rectangle "Policy Name\n(automation)" #9370DB
+
+' Flow
+"Actor Name" --> "Command Name"
+"Command Name" --> "EventName1"
+"EventName1" --> "Policy Name\n(automation)"
+"Policy Name\n(automation)" --> "EventName2"
+
+@enduml
