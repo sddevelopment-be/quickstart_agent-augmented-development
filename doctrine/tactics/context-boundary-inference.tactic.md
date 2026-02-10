@@ -410,7 +410,7 @@ Establish explicit bounded contexts with Anti-Corruption Layers at boundaries.
 
 **Reference Docs:**
 - [DDD Core Concepts Reference](../docs/ddd-core-concepts-reference.md) - Context mapping patterns
-- [Organizational Patterns: Conway's Law](../docs/organizational-patterns-conways-law.md) - Team analysis
+- Conway's Law Patterns - See `.contextive/contexts/organizational.yml`
 
 ---
 

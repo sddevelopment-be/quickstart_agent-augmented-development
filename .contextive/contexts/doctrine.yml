@@ -1,0 +1,13 @@
+# Doctrine Framework Glossary
+# Version: 1.0.0
+# Date: 2026-02-10
+# Purpose: Agent framework and doctrine stack terminology
+
+name: "Doctrine"
+description: "Agent framework and doctrine stack terminology"
+terms:
+  - term: "Agent"
+    definition: "Autonomous system operating within SDD contextual environment"
+  
+  - term: "Doctrine Stack"
+    definition: "Layered system: Guidelines → Approaches → Directives → Tactics → Templates"

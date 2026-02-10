@@ -222,7 +222,7 @@ This is not an incremental improvement—it's a **feasibility shift** that makes
 ### Related Documentation
 - **[DDD Core Concepts Reference](../docs/ddd-core-concepts-reference.md)** - Terminology primer
 - **[Linguistic Anti-Patterns Catalog](../docs/linguistic-anti-patterns.md)** - Common failure modes
-- **[Contextive Integration Guide](../docs/contextive-integration-guide.md)** - Tooling setup
+- **Contextive Glossaries** - See `.contextive/contexts/` for IDE integration glossaries
 
 ---
 

@@ -1,0 +1,40 @@
+# Domain-Driven Design Glossary
+# Version: 1.0.0
+# Date: 2026-02-10
+# Purpose: Domain-Driven Design core concepts
+
+name: "Domain Driven Design"
+description: "Domain-Driven Design core concepts"
+terms:
+  - term: "Bounded Context"
+    definition: "Explicit boundary within which domain model and ubiquitous language have clear meaning"
+  
+  - term: "Ubiquitous Language"
+    definition: "Shared vocabulary between domain experts and developers, used in all communication"
+  
+  - term: "Aggregate"
+    definition: "Cluster of domain objects treated as unit for data changes, enforces invariants"
+  
+  - term: "Anti-Corruption Layer"
+    definition: "Translation layer protecting downstream context from upstream changes"
+  
+  - term: "Context Map"
+    definition: "Visual diagram showing relationships between bounded contexts"
+  
+  - term: "Domain Event"
+    definition: "Business-significant state change, named in past tense (OrderPlaced, PaymentReceived)"
+  
+  - term: "Entity"
+    definition: "Object with distinct identity that persists over time"
+  
+  - term: "Value Object"
+    definition: "Object defined by attributes, no identity, immutable"
+  
+  - term: "Upstream"
+    definition: "Context that provides data/services to downstream contexts"
+  
+  - term: "Downstream"
+    definition: "Context that consumes data/services from upstream contexts"
+  
+  - term: "Published Language"
+    definition: "Stable API that upstream context exposes for multiple downstream consumers"
