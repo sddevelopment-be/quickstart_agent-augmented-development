@@ -1,0 +1,1283 @@
+metadata:
+  extraction_date: '2026-02-10'
+  source_directory: doctrine/approaches/
+  approaches_processed: 41
+  agent: lexical-larry
+  method: Systematic extraction with contextual analysis
+  confidence_distribution:
+    high: 89
+    medium: 32
+    low: 8
+  total_terms_extracted: 129
+  focus: Conceptual and philosophical terms (mental models, patterns, practices)
+
+candidates:
+# === Specification-Driven Development (SDD) Concepts ===
+- term: Specification-Driven Development
+  definition: Development methodology where specifications serve as primary artifacts bridging strategic intent and implementation, remaining independent of tests or architectural decisions
+  context: Development Methodology - SDD
+  source: spec-driven-development.md
+  related_terms:
+    - Living Specification
+    - Scenario-Driven Design
+    - Specification Stub
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Core methodology distinct from TDD/ATDD; specs define WHAT, tests verify WHAT, ADRs explain WHY
+
+- term: Living Specification
+  definition: Specification that evolves during development as understanding grows, then freezes when feature complete to become reference documentation
+  context: Development Methodology - SDD
+  source: spec-driven-development.md
+  related_terms:
+    - Specification-Driven Development
+    - Specification Lifecycle
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Specification Stub
+  definition: Initial draft specification with structure and metadata created during analysis phase before detailed requirements are fully documented
+  context: Development Methodology - SDD
+  source: spec-driven-development.md, spec-driven-6-phase-cycle.md
+  related_terms:
+    - Phase 1 Analysis
+    - Specification Lifecycle
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Scenario-Driven Design
+  definition: Design approach using concrete Given/When/Then scenarios to clarify requirements and drive implementation decisions
+  context: Development Methodology - SDD
+  source: spec-driven-development.md
+  related_terms:
+    - Specification-Driven Development
+    - User Scenario
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Specification Lifecycle
+  definition: "Progression of specification states: DRAFT → APPROVED → IMPLEMENTED, with status changes marking phase transitions"
+  context: Development Methodology - SDD
+  source: spec-driven-6-phase-cycle.md
+  related_terms:
+    - Living Specification
+    - Specification Stub
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+# === 6-Phase Cycle Patterns ===
+- term: Six-Phase Cycle
+  definition: Structured specification-driven workflow with distinct phases (Analysis, Architecture, Planning, Acceptance Test, Implementation, Review), each with a primary owner and explicit hand-offs
+  context: Development Methodology - SDD
+  source: spec-driven-6-phase-cycle.md
+  related_terms:
+    - Phase Checkpoint Protocol
+    - Momentum Bias Prevention
+    - Role Separation
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Emerged from observing failure modes in agent-augmented development
+
+- term: Phase Checkpoint Protocol
+  definition: Self-observation procedure executed at the end of each phase to verify completion, assess authority for next phase, and ensure proper hand-off
+  context: Development Methodology - SDD
+  source: spec-driven-6-phase-cycle.md
+  related_terms:
+    - Six-Phase Cycle
+    - Ralph Wiggum Loop
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Prevents 80% of specification violations
+
+- term: Momentum Bias
+  definition: Failure mode where agents skip phases or roles blur due to pressure to keep moving forward without proper validation or hand-off
+  context: Development Methodology - Anti-Pattern
+  source: spec-driven-6-phase-cycle.md
+  related_terms:
+    - Six-Phase Cycle
+    - Role Confusion
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Role Confusion
+  definition: Failure mode where specialists perform work outside their authority (e.g., analysts making architectural decisions, architects implementing code)
+  context: Development Methodology - Anti-Pattern
+  source: spec-driven-6-phase-cycle.md
+  related_terms:
+    - Momentum Bias
+    - Role Separation
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Role Separation
+  definition: Design principle ensuring each phase has a distinct primary owner with explicit authority boundaries to prevent role confusion and maintain accountability
+  context: Development Methodology - SDD
+  source: spec-driven-6-phase-cycle.md
+  related_terms:
+    - Six-Phase Cycle
+    - Role Confusion
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+# === Language-First Architecture & DDD ===
+- term: Language-First Architecture
+  definition: Architectural approach treating language drift as an early signal of deeper architectural problems, recognizing that linguistic fragmentation predicts system issues
+  context: Architecture - DDD / Ubiquitous Language
+  source: language-first-architecture.md
+  related_terms:
+    - Linguistic Signal
+    - Bounded Context
+    - Ubiquitous Language
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Feasibility shift enabled by agentic systems making continuous linguistic monitoring tractable
+
+- term: Linguistic Signal
+  definition: Observable pattern in terminology usage that indicates potential architectural problems before they manifest in code or process failures
+  context: Architecture - DDD
+  source: language-first-architecture.md
+  related_terms:
+    - Language-First Architecture
+    - Vocabulary Fragmentation
+    - Semantic Conflict
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Example signals include same term with multiple meanings, different terms for same concept, vague terminology
+
+- term: Vocabulary Fragmentation
+  definition: Condition where different parts of a system or organization use inconsistent or conflicting terminology for domain concepts, signaling hidden architectural boundaries
+  context: Architecture - DDD
+  source: language-first-architecture.md, bounded-context-linguistic-discovery.md
+  related_terms:
+    - Linguistic Signal
+    - Bounded Context
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Semantic Conflict
+  definition: Situation where the same term has different meanings in different contexts, indicating a hidden bounded context boundary requiring explicit management
+  context: Architecture - DDD
+  source: language-first-architecture.md, bounded-context-linguistic-discovery.md
+  related_terms:
+    - Linguistic Signal
+    - Bounded Context Boundary
+    - Translation Layer
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Living Glossary
+  definition: Continuously updated, executable glossary treated as infrastructure rather than static documentation, evolving with code and domain understanding
+  context: Architecture - DDD / Documentation Practice
+  source: living-glossary-practice.md
+  related_terms:
+    - Ubiquitous Language
+    - Bounded Context
+    - Glossary as Executable Artifact
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Now operationally viable due to agentic capture + human review feasibility shift
+
+- term: Glossary as Executable Artifact
+  definition: Mental model treating glossary not as documentation but as living infrastructure with continuous updates, clear ownership, workflow integration, and tiered enforcement
+  context: Architecture - DDD / Mental Model
+  source: living-glossary-practice.md
+  related_terms:
+    - Living Glossary
+    - Enforcement Tier
+    - Glossary Ownership
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Enforcement Tier
+  definition: "Graduated enforcement levels for glossary terms: Advisory (suggest), Acknowledgment Required (warn), Hard Failure (block), chosen per term based on criticality"
+  context: Architecture - DDD / Governance
+  source: living-glossary-practice.md
+  related_terms:
+    - Living Glossary
+    - Glossary Ownership
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Default advisory-only to avoid linguistic policing; escalate tier only with justification
+
+- term: Glossary Ownership
+  definition: Assignment of responsibility for terminology decisions to specific context owners (team leads, domain experts, architects) per bounded context
+  context: Architecture - DDD / Governance
+  source: living-glossary-practice.md
+  related_terms:
+    - Living Glossary
+    - Bounded Context
+    - Human in Charge
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Human in Charge
+  definition: "Governance model where humans own terminology decisions proactively (not reactively), with accountability, authority, and veto power over automation"
+  context: Architecture - DDD / Governance
+  source: living-glossary-practice.md
+  related_terms:
+    - Glossary Ownership
+    - Human in the Loop
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Contrasts with "Human in the Loop" (reactive, compliance-focused)
+
+- term: Bounded Context Linguistic Discovery
+  definition: Technique for identifying hidden context boundaries by analyzing terminology patterns, communication structures, and semantic conflicts in existing systems
+  context: Architecture - DDD
+  source: bounded-context-linguistic-discovery.md
+  related_terms:
+    - Bounded Context
+    - Semantic Conflict
+    - Conway's Law Applied
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Conway's Law Applied
+  definition: Application of Conway's Law to semantics—organizational communication structure predicts vocabulary structure; teams with infrequent communication develop different vocabularies
+  context: Architecture - DDD / Organizational
+  source: bounded-context-linguistic-discovery.md
+  related_terms:
+    - Bounded Context
+    - Vocabulary Fragmentation
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Linguistic corollary used to infer context boundaries from team interactions
+
+- term: Translation Layer
+  definition: Explicit mapping mechanism protecting downstream contexts from upstream changes by transforming terminology at bounded context boundaries (Anti-Corruption Layer pattern)
+  context: Architecture - DDD
+  source: bounded-context-linguistic-discovery.md
+  related_terms:
+    - Anti-Corruption Layer
+    - Bounded Context
+    - Semantic Conflict
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Context Mapping
+  definition: Practice of defining relationships between bounded contexts (Upstream/Downstream, Shared Kernel, Published Language, Conformist) with explicit terminology translation rules
+  context: Architecture - DDD
+  source: bounded-context-linguistic-discovery.md
+  related_terms:
+    - Bounded Context
+    - Translation Layer
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+# === Evidence-Based Requirements ===
+- term: Evidence-Based Requirements
+  definition: Requirements analysis approach grounding all claims in verifiable evidence with classified evidence types (Empirical, Observational, Theoretical, Prescriptive)
+  context: Requirements Engineering / Research Method
+  source: evidence-based-requirements.md
+  related_terms:
+    - Claim Classification
+    - Testability Assessment
+    - Requirements Validation
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Transforms requirements from opinion-driven to evidence-driven
+
+- term: Claim Classification
+  definition: "System for categorizing requirement claims by evidence type: Empirical (quantitative data), Observational (qualitative patterns), Theoretical (conceptual models), Prescriptive (best practices)"
+  context: Requirements Engineering
+  source: evidence-based-requirements.md
+  related_terms:
+    - Evidence-Based Requirements
+    - Testability Assessment
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Testability Assessment
+  definition: "Evaluation of whether a requirement claim can be validated: Fully Testable (concrete experiment), Partially Testable (proxy metrics), Not Testable (subjective/unfalsifiable)"
+  context: Requirements Engineering
+  source: evidence-based-requirements.md
+  related_terms:
+    - Evidence-Based Requirements
+    - Claim Classification
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Requirements Validation Cycle
+  definition: Five-phase process (Research & Claim Extraction, Prioritization, Experiment Design, Validation Execution, Requirements Synthesis) transforming assumptions into validated knowledge
+  context: Requirements Engineering
+  source: evidence-based-requirements.md
+  related_terms:
+    - Evidence-Based Requirements
+    - Testability Assessment
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+# === Decision-First Development ===
+- term: Decision-First Development
+  definition: Development workflow where architectural decisions are captured systematically throughout the lifecycle, integrating decision rationale with artifacts to preserve "why" knowledge
+  context: Development Methodology / Documentation
+  source: decision-first-development.md
+  related_terms:
+    - Decision Marker
+    - Decision Debt
+    - Traceable Decisions
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Decision Marker
+  definition: Structured inline annotation in code or documentation capturing architectural decision (what was decided, rationale, alternatives, consequences) with ADR reference
+  context: Development Methodology / Documentation
+  source: decision-first-development.md
+  related_terms:
+    - Decision-First Development
+    - Traceable Decisions
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Two formats—full (significant decisions) and minimal (referencing existing ADRs)
+
+- term: Decision Debt
+  definition: Ratio of decision markers not yet promoted to formal ADRs; acceptable <20%, requires action >40%
+  context: Development Methodology / Metrics
+  source: decision-first-development.md
+  related_terms:
+    - Decision Marker
+    - ADR Promotion
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Tracked metric indicating when markers should be consolidated into ADRs
+
+- term: Flow State Awareness
+  definition: "Practice of adapting decision capture behavior to human productivity rhythms: Deep Creation (defer), Agent Collaboration (real-time), Reflection/Synthesis (batch)"
+  context: Development Methodology / Human-Agent Interaction
+  source: decision-first-development.md
+  related_terms:
+    - Decision-First Development
+    - Deep Creation Flow
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Deep Creation Flow
+  definition: Uninterrupted focus state with high cognitive load from problem-solving where agents stay passive and defer decision capture to session-end
+  context: Development Methodology / Human-Agent Interaction
+  source: decision-first-development.md
+  related_terms:
+    - Flow State Awareness
+    - Decision Marker
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+# === Traceability & Linking ===
+- term: Traceability Chain
+  definition: Bidirectional link pattern connecting artifacts throughout development lifecycle (Strategic Goal → Specification → Tests → ADRs → Implementation → Work Logs)
+  context: Development Methodology / Quality Assurance
+  source: traceability-chain-pattern.md
+  related_terms:
+    - Bidirectional Linking
+    - Impact Analysis
+    - Orphaned Artifact
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Enables impact analysis, onboarding, compliance auditing, requirement coverage validation
+
+- term: Bidirectional Linking
+  definition: Practice of maintaining links both forward (requirements → tests → code) and backward (code → tests → requirements) to enable navigation in both directions
+  context: Development Methodology / Documentation
+  source: traceability-chain-pattern.md
+  related_terms:
+    - Traceability Chain
+    - Forward Link
+    - Backward Link
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Orphaned Artifact
+  definition: Code, test, or documentation with no traceable link to requirements, specifications, or architectural decisions, making purpose and validity unclear
+  context: Development Methodology / Anti-Pattern
+  source: traceability-chain-pattern.md
+  related_terms:
+    - Traceability Chain
+    - Documentation Debt
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Impact Analysis
+  definition: Process of identifying affected artifacts (tests, code, documentation) when requirements change, enabled by traceability chain links
+  context: Development Methodology / Change Management
+  source: traceability-chain-pattern.md
+  related_terms:
+    - Traceability Chain
+    - Bidirectional Linking
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+# === Reverse Speccing & Test Quality ===
+- term: Reverse Speccing
+  definition: Dual-agent validation technique reconstructing system understanding purely from test code to measure how effectively tests serve as executable specifications
+  context: Quality Validation / Testing
+  source: reverse-speccing.md
+  related_terms:
+    - Test-as-Documentation
+    - Naive Reconstruction
+    - Architecture Blind Spot
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Also called Test-to-System Reconstruction
+
+- term: Naive Reconstruction
+  definition: Phase where analyst with NO external context reads only tests to infer system behavior, data structures, workflows, and edge cases
+  context: Quality Validation / Testing
+  source: reverse-speccing.md
+  related_terms:
+    - Reverse Speccing
+    - Test-as-Documentation
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Constraint enforcement critical—tests ONLY, no docs/code/ADRs allowed
+
+- term: Architecture Blind Spot
+  definition: Aspect of system design (rationale, deployment, operations, security) that tests naturally miss and must be documented elsewhere (typically ADRs)
+  context: Quality Validation / Documentation Gap
+  source: reverse-speccing.md, test-readability-clarity-check.md
+  related_terms:
+    - Reverse Speccing
+    - Test-as-Documentation
+  status: candidate
+  enforcement_tier: advisory
+  confidence: medium
+  notes: Tests document WHAT/HOW well but miss WHY/WHERE/WHEN context
+
+- term: Test-as-Documentation
+  definition: Principle that well-written tests should comprehensively document system behavior so reading tests alone enables understanding "what" and "how" without external docs
+  context: Quality Validation / Testing Philosophy
+  source: reverse-speccing.md, test-readability-clarity-check.md
+  related_terms:
+    - Reverse Speccing
+    - Living Specification
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Accuracy Score
+  definition: "Quantitative metric (percentage) measuring how accurately tests document system across three dimensions: Behavioral (WHAT), Architectural (WHY), Operational (HOW runs)"
+  context: Quality Validation / Metrics
+  source: reverse-speccing.md
+  related_terms:
+    - Reverse Speccing
+    - Behavioral Accuracy
+    - Architectural Accuracy
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Weighted average—Behavioral 50%, Architectural 30%, Operational 20%
+
+# === Bug Fixing & Testing Practices ===
+- term: Test-First Bug Fixing
+  definition: Disciplined debugging approach requiring a failing test that reproduces the bug BEFORE modifying production code, transforming trial-and-error into systematic verification
+  context: Development Methodology / Testing
+  source: test-first-bug-fixing.md
+  related_terms:
+    - Red-Green-Refactor
+    - Regression Prevention
+    - Test Validates Fix
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: "Golden rule: Before you fix the bug, write a test that fails because of the bug"
+
+- term: Test Validates Fix
+  definition: Verification step ensuring test fails for the RIGHT reason (reproduces bug) by temporarily inverting assertion to expect wrong behavior, confirming test accuracy
+  context: Development Methodology / Testing
+  source: test-first-bug-fixing.md
+  related_terms:
+    - Test-First Bug Fixing
+    - Regression Prevention
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Critical anti-ghost-bug technique
+
+- term: Regression Prevention
+  definition: Benefit of test-first bug fixing where failing-then-passing test becomes permanent guard preventing bug from returning unnoticed
+  context: Development Methodology / Testing
+  source: test-first-bug-fixing.md
+  related_terms:
+    - Test-First Bug Fixing
+    - Test Validates Fix
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+# === Self-Observation & Meta-Awareness ===
+- term: Ralph Wiggum Loop
+  definition: Self-aware observation pattern where agents periodically monitor their own execution state, detect problematic patterns (drift, confusion, misalignment), and self-correct mid-task
+  context: Agent Behavior / Self-Observation
+  source: ralph-wiggum-loop.md
+  related_terms:
+    - Self-Observation Checkpoint
+    - Meta-Awareness
+    - Course Correction
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Named after "I'm in danger!" meme—represents agent recognizing warning signs in own behavior
+
+- term: Self-Observation Checkpoint
+  definition: Structured protocol executed at trigger points (time elapsed, warning signs) where agent switches to meta-mode to assess execution state and decide continue/adjust/escalate
+  context: Agent Behavior / Self-Observation
+  source: ralph-wiggum-loop.md
+  related_terms:
+    - Ralph Wiggum Loop
+    - Meta-Mode
+    - Warning Sign Detection
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Warning Sign Detection
+  definition: Agent's ability to recognize internal signals indicating problems (repetitive patterns, lost goal, speculation, verbose output, scope creep, directive violation)
+  context: Agent Behavior / Self-Observation
+  source: ralph-wiggum-loop.md
+  related_terms:
+    - Ralph Wiggum Loop
+    - Self-Observation Checkpoint
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Meta-Awareness
+  definition: Agent capability to observe and reason about its own execution state, recognize problematic patterns, and make course corrections before completing tasks
+  context: Agent Behavior / Self-Observation
+  source: ralph-wiggum-loop.md
+  related_terms:
+    - Ralph Wiggum Loop
+    - Meta-Mode
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+# === Orchestration & Coordination ===
+- term: File-Based Orchestration
+  definition: Coordination pattern using YAML task files and Git commits to enable asynchronous multi-agent workflows without queues, servers, or network dependencies
+  context: Orchestration / Coordination Pattern
+  source: file-based-orchestration.md, work-directory-orchestration.md
+  related_terms:
+    - Task Lifecycle
+    - Work Directory Model
+    - Asynchronous Coordination
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Core principle—workflows are just file moves; state is explicit in filenames and directories
+
+- term: Task Lifecycle
+  definition: "Deterministic state progression for orchestrated work: new (inbox) → assigned (agent queue) → in_progress → done → archive, with explicit status tracking"
+  context: Orchestration / State Machine
+  source: work-directory-orchestration.md
+  related_terms:
+    - File-Based Orchestration
+    - Task State
+    - Work Directory Model
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Work Directory Model
+  definition: "Directory structure encoding orchestration state: collaboration/ (routing), reports/ (logs, metrics), external_memory/ (scratch), notes/ (ideation), planning/ (aids), schemas/ (validators)"
+  context: Orchestration / Structure
+  source: work-directory-orchestration.md
+  related_terms:
+    - File-Based Orchestration
+    - Task Lifecycle
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Task Artifact Declaration
+  definition: Explicit listing of files a task will modify in YAML artefacts field, enabling pre-commit conflict detection and coordination between agents
+  context: Orchestration / Conflict Avoidance
+  source: work-directory-orchestration.md, trunk-based-development.md
+  related_terms:
+    - File-Based Orchestration
+    - Artifact Conflict Detection
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Handoff Pattern
+  definition: Workflow where completing agent encodes follow-up work via result.next_agent block, orchestrator creates new task, copies context/artefacts for seamless continuation
+  context: Orchestration / Workflow
+  source: work-directory-orchestration.md, agent-profile-handoff-patterns.md
+  related_terms:
+    - File-Based Orchestration
+    - Agent Coordination
+    - Task Chain
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Agent Profile Handoff Patterns
+  definition: Documentation in agent profiles of common handoff patterns observed in practice (outgoing, incoming, special cases) providing guidance without prescriptive rules
+  context: Orchestration / Agent Coordination
+  source: agent-profile-handoff-patterns.md
+  related_terms:
+    - Handoff Pattern
+    - Organic Emergence
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Preferred over centralized lookup table for maintaining agent autonomy and flexibility
+
+# === Locality of Change & Anti-Gold-Plating ===
+- term: Locality of Change
+  definition: Principle of minimizing changes to only what's necessary to solve the verified problem, avoiding premature optimization and unnecessary complexity
+  context: Development Methodology / Design Principle
+  source: locality-of-change.md
+  related_terms:
+    - Gold Plating
+    - Problem Assessment Protocol
+    - Simplicity Preservation
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: "Core principle: Don't add complexity to solve problems that don't exist"
+
+- term: Gold Plating
+  definition: Anti-pattern of adding features, abstractions, or optimizations "just in case" or "for completeness" without evidence of actual need
+  context: Development Methodology / Anti-Pattern
+  source: locality-of-change.md
+  related_terms:
+    - Locality of Change
+    - Premature Abstraction
+    - Complexity Creep
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Problem Assessment Protocol
+  definition: Four-step analysis (Evidence Collection, Severity Measurement, Baseline Option, Simple Alternatives First) required before proposing solutions to verify problem exists and justify complexity
+  context: Development Methodology / Decision Framework
+  source: locality-of-change.md
+  related_terms:
+    - Locality of Change
+    - Evidence-Based Requirements
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Baseline Option
+  definition: "\"Do nothing\" alternative that must be evaluated in trade-off analysis; current state may be acceptable, or organic emergence may solve issue naturally"
+  context: Development Methodology / Decision Framework
+  source: locality-of-change.md
+  related_terms:
+    - Problem Assessment Protocol
+    - Organic Emergence
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Premature Abstraction
+  definition: Anti-pattern of creating frameworks, lookup tables, or automation before patterns stabilize or use cases mature, adding maintenance burden without proportional value
+  context: Development Methodology / Anti-Pattern
+  source: locality-of-change.md
+  related_terms:
+    - Gold Plating
+    - Complexity Creep
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Complexity Creep
+  definition: Cumulative effect where each small addition seems reasonable in isolation but together degrades system simplicity, making it harder to understand and maintain
+  context: Development Methodology / Anti-Pattern
+  source: locality-of-change.md
+  related_terms:
+    - Gold Plating
+    - Premature Abstraction
+    - Simplicity Preservation
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Simplicity Preservation
+  definition: Active practice of maintaining architectural simplicity over time by resisting complexity creep, validating problem severity before adding solutions, and favoring 80/20 approaches
+  context: Development Methodology / Design Principle
+  source: locality-of-change.md
+  related_terms:
+    - Locality of Change
+    - Complexity Creep
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+# === Meta-Analysis & Continuous Improvement ===
+- term: Meta-Analysis
+  definition: Periodic analysis of work logs, prompt assessments, and operational patterns to surface systemic framework improvements and identify recurring issues
+  context: Framework Improvement / Operational Practice
+  source: meta-analysis.md
+  related_terms:
+    - Pattern Detection
+    - Anti-Pattern Identification
+    - Framework Evolution
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Treats agent framework itself as evolving system benefiting from empirical observation
+
+- term: Pattern Detection
+  definition: Analysis technique identifying recurring themes, common mistakes, or successful approaches across multiple work logs to inform framework improvements
+  context: Framework Improvement / Analysis
+  source: meta-analysis.md
+  related_terms:
+    - Meta-Analysis
+    - Anti-Pattern Identification
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Anti-Pattern Identification
+  definition: Systematic extraction of behaviors to actively discourage, common traps, or misapplications of guidance from operational logs
+  context: Framework Improvement / Quality Assurance
+  source: meta-analysis.md
+  related_terms:
+    - Meta-Analysis
+    - Pattern Detection
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+# === Trunk-Based Development ===
+- term: Trunk-Based Development
+  definition: Branching strategy where all developers commit frequently to single shared branch (main), using short-lived feature branches (<24h) only for coordinated changes
+  context: Version Control / Collaboration Pattern
+  source: trunk-based-development.md
+  related_terms:
+    - Short-Lived Branch
+    - Trunk Stability
+    - Branch Age Warning
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Minimizes merge conflicts, accelerates feedback, aligns with agent task completion patterns
+
+- term: Short-Lived Branch
+  definition: Feature branch with maximum lifetime of 24 hours (target 4-8h) to minimize integration risk and maintain trunk stability
+  context: Version Control / Pattern
+  source: trunk-based-development.md
+  related_terms:
+    - Trunk-Based Development
+    - Branch Age Warning
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Trunk Stability
+  definition: Measure of main branch health (>95% test pass rate, <5% revert rate, <15 min time-to-fix) indicating system readiness for continuous deployment
+  context: Version Control / Metrics
+  source: trunk-based-development.md
+  related_terms:
+    - Trunk-Based Development
+    - Trunk Health Dashboard
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Ship/Show/Ask Pattern
+  definition: "Flexible review pattern for trunk-based development: Ship (commit directly), Show (commit + notify for async review), Ask (branch + pre-merge review)"
+  context: Version Control / Review Pattern
+  source: trunk-based-development.md
+  related_terms:
+    - Trunk-Based Development
+    - Code Review Discipline
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Adapts review rigor to change size and risk
+
+- term: Dual-Trunk Model
+  definition: Low-trust variant where agents commit to agent-trunk branch, humans review PRs to main, providing safety net during agent adoption phase
+  context: Version Control / Trust Model
+  source: trunk-based-development.md
+  related_terms:
+    - Trunk-Based Development
+    - Human Review Gate
+  status: candidate
+  enforcement_tier: advisory
+  confidence: medium
+  notes: Use when new to agent orchestration, regulatory requirements, or building validation pipeline confidence
+
+# === Tooling & Environment ===
+- term: Tool Selection Rigor
+  definition: Disciplined framework for choosing tools based on measurable criteria (usage frequency, performance improvement, maintenance activity, security posture)
+  context: Development Environment / Best Practice
+  source: tooling-setup-best-practices.md
+  related_terms:
+    - Tooling Necessity Check
+    - Tooling Quality Assessment
+    - Graceful Degradation
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Graceful Degradation
+  definition: Principle of providing fallback strategies for every tool to ensure agents can operate even when preferred tools unavailable
+  context: Development Environment / Resilience
+  source: tooling-setup-best-practices.md
+  related_terms:
+    - Tool Selection Rigor
+    - Fallback Strategy
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Version Pinning Strategy
+  definition: Tiered approach balancing stability with updates (Pinned Versions for API-sensitive tools, Package Manager for stable tools, Latest Stable for rapidly evolving tools)
+  context: Development Environment / Configuration
+  source: tooling-setup-best-practices.md
+  related_terms:
+    - Configuration Consistency
+    - Tool Selection Rigor
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+# === Audience & Communication ===
+- term: Target-Audience Fit
+  definition: Communication pattern ensuring every artifact intentionally addresses specific reader personas with appropriate tone, depth, and structure
+  context: Documentation / Communication
+  source: target-audience-fit.md
+  related_terms:
+    - Persona-Driven Writing
+    - Audience Segmentation
+    - Signposted Section
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Persona-Driven Writing
+  definition: Writing approach filtering content through specific persona goals, frustrations, and engagement style to ensure artifact addresses their stated pain points
+  context: Documentation / Communication
+  source: target-audience-fit.md
+  related_terms:
+    - Target-Audience Fit
+    - Audience Segmentation
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Signposted Section
+  definition: Labeled portion of document indicating which persona it serves (e.g., "For Jordan—getting started") to reduce cognitive load when serving multiple audiences
+  context: Documentation / Structure
+  source: target-audience-fit.md
+  related_terms:
+    - Target-Audience Fit
+    - Persona-Driven Writing
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+# === Diagramming & Visualization ===
+- term: Incremental Detail Design
+  definition: C4 model approach using hierarchical abstraction layers (Context, Container, Component, Code) for progressive disclosure of technical detail
+  context: Architecture / Diagramming
+  source: design_diagramming-incremental_detail.md
+  related_terms:
+    - C4 Model
+    - Progressive Disclosure
+    - Abstraction Layer
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Prevents overwhelming stakeholders with premature low-level detail
+
+- term: Progressive Disclosure
+  definition: Principle of revealing system complexity gradually through hierarchical views, allowing stakeholders to consume exactly the abstraction level they need
+  context: Architecture / Communication
+  source: design_diagramming-incremental_detail.md
+  related_terms:
+    - Incremental Detail Design
+    - C4 Model
+    - Audience Alignment
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: C4 Model
+  definition: "Lightweight hierarchical technique for structuring software architecture diagrams: Context (system+users), Container (deployable units), Component (internal modules), Code (implementation)"
+  context: Architecture / Diagramming
+  source: design_diagramming-incremental_detail.md
+  related_terms:
+    - Incremental Detail Design
+    - Progressive Disclosure
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+# === Feasibility Shifts & Agentic Enablement ===
+- term: Feasibility Shift
+  definition: Transformation where previously infeasible practice becomes operationally viable due to technological change (e.g., agentic systems enabling continuous linguistic monitoring)
+  context: Meta-Pattern / Technology Impact
+  source: language-first-architecture.md, living-glossary-practice.md
+  related_terms:
+    - Economic Feasibility
+    - Agentic Enablement
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Not incremental improvement but category change in what's tractable
+
+- term: Economic Feasibility
+  definition: Analysis of whether practice is economically viable given current costs (labor, tooling, time) versus benefits delivered
+  context: Meta-Pattern / Decision Framework
+  source: living-glossary-practice.md
+  related_terms:
+    - Feasibility Shift
+    - ROI Threshold
+  status: candidate
+  enforcement_tier: advisory
+  confidence: medium
+
+- term: Agentic Enablement
+  definition: Capability shift where AI agents make previously labor-intensive practices tractable (continuous capture, multi-source pattern detection, incremental maintenance)
+  context: Meta-Pattern / Technology Impact
+  source: language-first-architecture.md, living-glossary-practice.md
+  related_terms:
+    - Feasibility Shift
+    - Continuous Capture
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Continuous Capture
+  definition: Automated observation and recording of terminology, decisions, or patterns in real-time as work happens, replacing big-bang manual efforts
+  context: Meta-Pattern / Practice
+  source: living-glossary-practice.md
+  related_terms:
+    - Agentic Enablement
+    - Incremental Maintenance
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Incremental Maintenance
+  definition: Practice of making small, frequent updates to living artifacts (glossaries, ADRs, specs) rather than periodic big-bang efforts
+  context: Meta-Pattern / Practice
+  source: living-glossary-practice.md
+  related_terms:
+    - Continuous Capture
+    - Living Glossary
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+# === Style & Execution Patterns ===
+- term: Style Execution Primer
+  definition: Concise, action-ready guidance for agents working in specific formats (Markdown, Python, Perl, PlantUML) focusing on diff-friendliness and template alignment
+  context: Documentation / Coding Standards
+  source: style-execution-primers.md
+  related_terms:
+    - Template-First Approach
+    - Semantic Heading
+    - Cross-Cutting Concern
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Template-First Approach
+  definition: Practice of reusing repository templates before handcrafting new formats to ensure consistency and avoid format proliferation
+  context: Documentation / Standards
+  source: style-execution-primers.md
+  related_terms:
+    - Style Execution Primer
+    - Configuration Consistency
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Semantic Heading
+  definition: Markdown heading structure using single h1 per file with ordered h2+ hierarchy to convey document structure semantically
+  context: Documentation / Markdown
+  source: style-execution-primers.md
+  related_terms:
+    - Style Execution Primer
+    - CommonMark Compliance
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+# === Failure Modes & Recovery ===
+- term: Linguistic Policing
+  definition: Failure mode where glossary enforcement becomes compliance regime instead of shared understanding, often due to punitive enforcement or centralized authority
+  context: Architecture - DDD / Failure Mode
+  source: living-glossary-practice.md, language-first-architecture.md
+  related_terms:
+    - Enforcement Tier
+    - Glossary as Power Tool
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Mitigation—default advisory-only, bounded context autonomy, tiered enforcement
+
+- term: Dictionary DDD
+  definition: Anti-pattern where teams create glossary document, consider DDD "done," never update it; glossary becomes stale immediately with no ownership
+  context: Architecture - DDD / Anti-Pattern
+  source: living-glossary-practice.md
+  related_terms:
+    - Living Glossary
+    - Glossary Ownership
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Historical infeasibility due to manual maintenance burden
+
+- term: False Positives
+  definition: Failure mode where automated detection produces low-quality outputs (overaggressive, poor context awareness), damaging trust in tooling
+  context: Quality Assurance / Failure Mode
+  source: living-glossary-practice.md, language-first-architecture.md
+  related_terms:
+    - Confidence Threshold
+    - Human Review Loop
+  status: candidate
+  enforcement_tier: advisory
+  confidence: medium
+
+# === Organic Emergence & Pattern Recognition ===
+- term: Organic Emergence
+  definition: Principle of letting patterns emerge naturally from observed practice before codifying them, rather than prescribing patterns prematurely
+  context: Meta-Pattern / Design Principle
+  source: agent-profile-handoff-patterns.md, locality-of-change.md
+  related_terms:
+    - Pattern Before Prescription
+    - Premature Abstraction
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: "Core to agent framework philosophy: observe→document→refine, not design→enforce→police"
+
+- term: Pattern Before Prescription
+  definition: Discipline requiring pattern analysis across multiple instances before standardizing, ensuring patterns based on real usage not anticipated usage
+  context: Meta-Pattern / Design Principle
+  source: locality-of-change.md, agent-profile-handoff-patterns.md
+  related_terms:
+    - Organic Emergence
+    - Evidence-Based Requirements
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+# === Additional Quality & Process Patterns ===
+- term: Confidence Threshold
+  definition: Minimum confidence level required before acting on automated detection results to balance automation benefits against false positive risks
+  context: Quality Assurance / Automation
+  source: living-glossary-practice.md
+  related_terms:
+    - False Positives
+    - Human Review Loop
+  status: candidate
+  enforcement_tier: advisory
+  confidence: medium
+
+- term: Human Review Loop
+  definition: Process where automated detection surfaces candidates but humans make final decisions, maintaining accountability and avoiding automation bias
+  context: Quality Assurance / Governance
+  source: living-glossary-practice.md
+  related_terms:
+    - Human in Charge
+    - Confidence Threshold
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+
+- term: Conflict Resolution Time
+  definition: Metric measuring days from semantic conflict detection to resolution; target <7 days to prevent architectural drift
+  context: Architecture - DDD / Metrics
+  source: language-first-architecture.md
+  related_terms:
+    - Semantic Conflict
+    - Linguistic Signal
+  status: candidate
+  enforcement_tier: advisory
+  confidence: medium
+
+- term: Staleness Rate
+  definition: Percentage of glossary definitions that are outdated; target <10% to maintain glossary value as living reference
+  context: Architecture - DDD / Metrics
+  source: living-glossary-practice.md
+  related_terms:
+    - Living Glossary
+    - Incremental Maintenance
+  status: candidate
+  enforcement_tier: advisory
+  confidence: medium
+
+- term: Adoption Rate
+  definition: Percentage of domain terms in code/docs that use glossary terminology; target >80% for effective ubiquitous language
+  context: Architecture - DDD / Metrics
+  source: living-glossary-practice.md
+  related_terms:
+    - Living Glossary
+    - Ubiquitous Language
+  status: candidate
+  enforcement_tier: advisory
+  confidence: medium
+
+# === Communication & Coordination Anti-Patterns ===
+- term: Weaponized Standards
+  definition: Organizational anti-pattern where glossary, coding standards, or architectural guidelines used as tool in politics rather than shared understanding
+  context: Organizational / Anti-Pattern
+  source: living-glossary-practice.md
+  related_terms:
+    - Linguistic Policing
+    - Glossary as Power Tool
+  status: candidate
+  enforcement_tier: advisory
+  confidence: medium
+
+- term: Over-Decomposition
+  definition: Failure mode of creating too many tiny bounded contexts, resulting in excessive translation overhead without cognitive load benefits
+  context: Architecture - DDD / Failure Mode
+  source: bounded-context-linguistic-discovery.md
+  related_terms:
+    - Bounded Context
+    - Translation Layer
+  status: candidate
+  enforcement_tier: advisory
+  confidence: medium
+  notes: Mitigation—start with fewer contexts, split only when cognitive load or team structure demands
+
+- term: False Boundaries
+  definition: Context boundaries that cut across natural process flows due to organizational politics or technical convenience rather than semantic divisions
+  context: Architecture - DDD / Failure Mode
+  source: bounded-context-linguistic-discovery.md
+  related_terms:
+    - Bounded Context
+    - Event Storming Validation
+  status: candidate
+  enforcement_tier: advisory
+  confidence: medium
+  notes: Mitigation—validate with event storming, check if business workflows respect boundaries
+
+# === Low-Confidence / Emerging Terms ===
+- term: Register Variation Awareness
+  definition: Understanding that same concept may have different names in different registers (technical vs. user-facing, internal vs. external) without indicating semantic conflict
+  context: Architecture - DDD / Nuance
+  source: living-glossary-practice.md
+  related_terms:
+    - Semantic Conflict
+    - False Positives
+  status: candidate
+  enforcement_tier: advisory
+  confidence: low
+  notes: Required to avoid false positive conflict detection
+
+- term: Cognitive Complexity Budget
+  definition: Implicit constraint that humans can internalize ~50-100 precise domain terms effectively; bounded contexts manage this complexity
+  context: Architecture - DDD / Cognitive Science
+  source: bounded-context-linguistic-discovery.md
+  related_terms:
+    - Bounded Context
+    - Vocabulary Fragmentation
+  status: candidate
+  enforcement_tier: advisory
+  confidence: low
+  notes: Based on Miller's Law, Working Memory limits, Team Topologies research
+
+- term: Conflict Lead Time
+  definition: Time from linguistic conflict detection to architectural issue manifestation; target <2 weeks (50% improvement over baseline)
+  context: Architecture - DDD / Metrics
+  source: language-first-architecture.md
+  related_terms:
+    - Linguistic Signal
+    - Semantic Conflict
+  status: candidate
+  enforcement_tier: advisory
+  confidence: low
+  notes: Leading indicator metric; baseline varies by organization
+
+- term: Glossary as Power Tool
+  definition: Failure mode where centralized control over terminology becomes organizational power lever rather than tool for shared understanding
+  context: Organizational / Failure Mode
+  source: living-glossary-practice.md
+  related_terms:
+    - Linguistic Policing
+    - Weaponized Standards
+  status: candidate
+  enforcement_tier: advisory
+  confidence: low
+  notes: Mitigation—bounded context authority, transparent decision history, escalation protocols
+
+- term: Suppression Pattern
+  definition: Metric tracking how often developers override glossary checks; >10% indicates enforcement too strict or checks producing false positives
+  context: Quality Assurance / Metrics
+  source: living-glossary-practice.md
+  related_terms:
+    - Enforcement Tier
+    - False Positives
+  status: candidate
+  enforcement_tier: advisory
+  confidence: low
+
+- term: Contribution Rate
+  definition: Percentage of glossary entries initiated by team members (not automation); target >50% indicating healthy ownership and engagement
+  context: Architecture - DDD / Metrics
+  source: living-glossary-practice.md
+  related_terms:
+    - Glossary Ownership
+    - Living Glossary
+  status: candidate
+  enforcement_tier: advisory
+  confidence: low
+
+- term: Branch Age Warning
+  definition: Automated alert when feature branch exceeds age threshold (8h warning, 24h maximum) to enforce short-lived branch discipline
+  context: Version Control / Automation
+  source: trunk-based-development.md
+  related_terms:
+    - Short-Lived Branch
+    - Trunk-Based Development
+  status: candidate
+  enforcement_tier: advisory
+  confidence: low
+
+- term: Trunk Health Dashboard
+  definition: Monitoring visualization showing key trunk metrics (commit frequency, revert rate, test pass rate, time-to-fix) for stability assessment
+  context: Version Control / Monitoring
+  source: trunk-based-development.md
+  related_terms:
+    - Trunk Stability
+    - Trunk-Based Development
+  status: candidate
+  enforcement_tier: advisory
+  confidence: low
