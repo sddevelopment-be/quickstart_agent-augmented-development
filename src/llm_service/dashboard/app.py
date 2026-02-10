@@ -14,6 +14,63 @@ from datetime import datetime, timezone
 from typing import Dict, Optional, Any
 import os
 import secrets
+from pathlib import Path
+
+# Import task query functions
+from src.framework.orchestration.task_query import (
+    load_open_tasks,
+    find_task_files,
+)
+from src.common.task_schema import load_task_safe
+from src.common.types import TaskStatus
+
+
+def load_tasks_with_filter(work_dir: Path, include_done: bool = False, terminal_only: bool = False) -> list[dict]:
+    """
+    Load tasks with filtering options.
+    
+    Args:
+        work_dir: Work collaboration directory
+        include_done: Include finished (done/error) tasks
+        terminal_only: Return only terminal status tasks
+    
+    Returns:
+        List of task dictionaries matching filter criteria
+    """
+    if not include_done and not terminal_only:
+        # Use optimized function for active tasks only
+        return load_open_tasks(work_dir)
+    
+    # Load all tasks including finished ones
+    task_files = find_task_files(work_dir, include_done=True)
+    filtered_tasks = []
+    
+    for task_file in task_files:
+        task = load_task_safe(task_file)
+        if task is None:
+            continue
+            
+        # Check status filter
+        status = task.get("status", "")
+        try:
+            task_status = TaskStatus(status)
+            
+            if terminal_only:
+                # Only include terminal status tasks
+                if TaskStatus.is_terminal(task_status):
+                    filtered_tasks.append(task)
+            elif include_done:
+                # Include all tasks
+                filtered_tasks.append(task)
+            else:
+                # Include only active tasks
+                if not TaskStatus.is_terminal(task_status):
+                    filtered_tasks.append(task)
+        except ValueError:
+            # Invalid status, skip silently
+            continue
+            
+    return filtered_tasks
 
 
 def add_security_headers(response):
@@ -207,14 +264,28 @@ def register_routes(app: Flask) -> None:
     def tasks():
         """
         Return current task state across all workflow directories.
-
+        
+        Query Parameters:
+            include_done (bool): Include finished (done/error) tasks. Default: true
+        
         Returns:
-            JSON with tasks grouped by status (inbox/assigned/done)
+            JSON with tasks in nested format: {inbox: [], assigned: {agent: []}, done: {agent: []}}
         """
-        # Get task snapshot from file watcher
+        # Get include_done parameter (default: true for backward compatibility)
+        include_done = request.args.get('include_done', 'true').lower() == 'true'
+        
+        # Get task snapshot from file watcher (always returns nested format)
         watcher = app.config.get("FILE_WATCHER")
         if watcher:
-            return jsonify(watcher.get_task_snapshot())
+            snapshot = watcher.get_task_snapshot()
+            
+            # If include_done=false, remove done and error tasks from snapshot
+            if not include_done:
+                snapshot = snapshot.copy()
+                snapshot['done'] = {}
+                snapshot['error'] = {}
+            
+            return jsonify(snapshot)
 
         # Fallback if watcher not initialized
         return jsonify(
@@ -222,9 +293,22 @@ def register_routes(app: Flask) -> None:
                 "inbox": [],
                 "assigned": {},
                 "done": {},
+                "error": {},
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         )
+
+    @app.route("/api/tasks/finished")
+    def tasks_finished():
+        """
+        Return only finished tasks (DONE and ERROR status).
+        
+        Returns:
+            JSON array with tasks that have terminal status (done/error)
+        """
+        work_dir = Path(app.config.get("WORK_DIR", "work/collaboration"))
+        finished_tasks = load_tasks_with_filter(work_dir, include_done=True, terminal_only=True)
+        return jsonify(finished_tasks)
 
     @app.route("/api/portfolio")
     def portfolio():
