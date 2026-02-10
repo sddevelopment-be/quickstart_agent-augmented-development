@@ -23,21 +23,30 @@
 const fs = require('fs').promises;
 const path = require('path');
 
+// Claude Code generator (SPEC-DIST-002)
+const { simplifyAgent, generateRulesFile, generateClaudeMd, RULES_MAPPING } = require('../exporters/claude-code-generator');
+const { parseAgentFile } = require('../exporters/parser');
+
+// Repository root
+const ROOT = path.join(__dirname, '..', '..');
+
 // Source directories (from export)
 const DIST_DIR = path.join(__dirname, '..', 'dist');
 const SKILLS_DIR = path.join(DIST_DIR, 'skills');
 const OPENCODE_DIR = path.join(DIST_DIR, 'opencode');
 
 // Source directories (direct)
-const AGENTS_SOURCE_DIR = path.join(__dirname, '..', '..', 'doctrine', 'agents');
-const PROMPTS_SOURCE_DIR = path.join(__dirname, '..', '..', 'docs', 'templates', 'prompts');
+const AGENTS_SOURCE_DIR = path.join(ROOT, 'doctrine', 'agents');
+const PROMPTS_SOURCE_DIR = path.join(ROOT, 'docs', 'templates', 'prompts');
 
 // Target directories (tool-specific)
-const CLAUDE_SKILLS_DIR = path.join(__dirname, '..', '.claude', 'skills');
-const CLAUDE_AGENTS_DIR = path.join(__dirname, '..', '.claude', 'agents');
-const CLAUDE_PROMPTS_DIR = path.join(__dirname, '..', '.claude', 'prompts');
-const COPILOT_INSTRUCTIONS_DIR = path.join(__dirname, '..', '.github', 'instructions');
-const OPENCODE_TARGET_DIR = path.join(__dirname, '..', '.opencode');
+const CLAUDE_DIR = path.join(ROOT, '.claude');
+const CLAUDE_SKILLS_DIR = path.join(CLAUDE_DIR, 'skills');
+const CLAUDE_AGENTS_DIR = path.join(CLAUDE_DIR, 'agents');
+const CLAUDE_PROMPTS_DIR = path.join(CLAUDE_DIR, 'prompts');
+const CLAUDE_RULES_DIR = path.join(CLAUDE_DIR, 'rules');
+const COPILOT_INSTRUCTIONS_DIR = path.join(ROOT, '.github', 'instructions');
+const OPENCODE_TARGET_DIR = path.join(ROOT, '.opencode');
 
 /**
  * Deploy Claude Code skills
@@ -517,34 +526,23 @@ async function deployClaudeAgents() {
     try {
       const sourcePath = path.join(AGENTS_SOURCE_DIR, file);
       const targetPath = path.join(CLAUDE_AGENTS_DIR, file);
-      
-      // Read source content
-      const content = await fs.readFile(sourcePath, 'utf-8');
-      
-      // Copy to target
-      await fs.writeFile(targetPath, content);
 
-      // Parse frontmatter to get agent metadata
-      const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
-      let metadata = { name: file.replace('.agent.md', ''), description: '' };
-      
-      if (frontmatterMatch) {
-        const frontmatter = frontmatterMatch[1];
-        const nameMatch = frontmatter.match(/name:\s*(.+)/);
-        const descMatch = frontmatter.match(/description:\s*(.+)/);
-        if (nameMatch) metadata.name = nameMatch[1].trim();
-        if (descMatch) metadata.description = descMatch[1].trim();
-      }
+      // Parse via IR and simplify (SPEC-DIST-002)
+      const ir = await parseAgentFile(sourcePath);
+      const simplified = simplifyAgent(ir);
+
+      // Write simplified agent
+      await fs.writeFile(targetPath, simplified);
 
       // Add to manifest
       manifest.agents.push({
         id: file.replace('.agent.md', ''),
-        name: metadata.name,
-        description: metadata.description,
+        name: ir.frontmatter.name,
+        description: ir.frontmatter.description,
         file: file
       });
 
-      console.log(`   ✅ ${file}`);
+      console.log(`   ✅ ${file} (simplified)`);
       results.deployed++;
     } catch (error) {
       console.log(`   ❌ ${file}: ${error.message}`);
@@ -813,16 +811,74 @@ See \`manifest.json\` for structured metadata including prompt IDs, types, agent
 }
 
 /**
+ * Deploy Claude Code rules files (SPEC-DIST-002)
+ * Generates .claude/rules/*.md from doctrine source files
+ */
+async function deployClaudeRules() {
+  console.log('📏 Deploying Claude Code rules...');
+
+  await fs.mkdir(CLAUDE_RULES_DIR, { recursive: true });
+
+  const results = { deployed: 0, errors: [] };
+
+  for (const [ruleName, sourcePaths] of Object.entries(RULES_MAPPING)) {
+    try {
+      const absolutePaths = sourcePaths.map(p => path.join(ROOT, p));
+      const content = await generateRulesFile(absolutePaths, ruleName);
+      await fs.writeFile(path.join(CLAUDE_RULES_DIR, `${ruleName}.md`), content);
+
+      console.log(`   ✅ rules/${ruleName}.md`);
+      results.deployed++;
+    } catch (error) {
+      console.log(`   ❌ rules/${ruleName}.md: ${error.message}`);
+      results.errors.push({ file: `${ruleName}.md`, error: error.message });
+    }
+  }
+
+  return results;
+}
+
+/**
+ * Deploy CLAUDE.md project instructions (SPEC-DIST-002)
+ * Generates CLAUDE.md at repository root from doctrine sources
+ */
+async function deployClaudeMd() {
+  console.log('📋 Deploying CLAUDE.md...');
+
+  const results = { deployed: 0, errors: [] };
+
+  try {
+    const content = await generateClaudeMd({
+      visionFile: path.join(ROOT, 'docs', 'VISION.md'),
+      quickRefFile: path.join(ROOT, 'doctrine', 'directives', '003_repository_quick_reference.md'),
+      pythonConventionsFile: path.join(ROOT, 'doctrine', 'guidelines', 'python-conventions.md'),
+      projectRoot: ROOT
+    });
+
+    await fs.writeFile(path.join(ROOT, 'CLAUDE.md'), content);
+    console.log('   ✅ CLAUDE.md');
+    results.deployed++;
+  } catch (error) {
+    console.log(`   ❌ CLAUDE.md: ${error.message}`);
+    results.errors.push({ file: 'CLAUDE.md', error: error.message });
+  }
+
+  return results;
+}
+
+/**
  * Main deployment function
  */
 async function main() {
   const args = process.argv.slice(2);
   const deployAll = args.includes('--all') || args.length === 0;
   const deployClaude = deployAll || args.includes('--claude');
-  const deployAgents = deployAll || args.includes('--agents');
-  const deployPrompts = deployAll || args.includes('--prompts');
+  const deployAgentsFlag = deployAll || args.includes('--agents');
+  const deployPromptsLegacy = args.includes('--prompts-legacy') || args.includes('--prompts');
   const deployCopilot = deployAll || args.includes('--copilot');
   const deployOpenCodeFlag = deployAll || args.includes('--opencode');
+  const deployRulesFlag = deployAll || args.includes('--rules');
+  const deployClaudeMdFlag = deployAll || args.includes('--claude-md');
 
   console.log('🚀 Deploying to Claude Code...\n');
 
@@ -836,10 +892,26 @@ async function main() {
     } catch {
       console.error('⚠️  dist/ directory not found for skills deployment.');
       console.error('   Run `npm run export:all` first if deploying skills.');
-      if (deployClaude && !deployAgents && !deployPrompts) {
+      if (deployClaude && !deployAgentsFlag && !deployRulesFlag && !deployClaudeMdFlag) {
         process.exit(1);
       }
     }
+  }
+
+  // CLAUDE.md (SPEC-DIST-002)
+  if (deployClaudeMdFlag) {
+    const results = await deployClaudeMd();
+    totalDeployed += results.deployed;
+    totalErrors += results.errors.length;
+    console.log();
+  }
+
+  // Rules files (SPEC-DIST-002)
+  if (deployRulesFlag) {
+    const results = await deployClaudeRules();
+    totalDeployed += results.deployed;
+    totalErrors += results.errors.length;
+    console.log();
   }
 
   if (deployClaude) {
@@ -849,14 +921,15 @@ async function main() {
     console.log();
   }
 
-  if (deployAgents) {
+  if (deployAgentsFlag) {
     const results = await deployClaudeAgents();
     totalDeployed += results.deployed;
     totalErrors += results.errors.length;
     console.log();
   }
 
-  if (deployPrompts) {
+  // Prompts deprecated (SPEC-DIST-002 FR-4), retained behind --prompts-legacy
+  if (deployPromptsLegacy) {
     const results = await deployClaudePrompts();
     totalDeployed += results.deployed;
     totalErrors += results.errors.length;
@@ -885,9 +958,11 @@ async function main() {
   }
   console.log();
   console.log('Deployed locations:');
+  if (deployClaudeMdFlag) console.log('   └─ CLAUDE.md:       ./CLAUDE.md');
+  if (deployRulesFlag) console.log('   └─ Claude Rules:    .claude/rules/*.md');
   if (deployClaude) console.log('   └─ Claude Skills:   .claude/skills/*/SKILL.md');
-  if (deployAgents) console.log('   └─ Claude Agents:   .claude/agents/*.agent.md');
-  if (deployPrompts) console.log('   └─ Claude Prompts:  .claude/prompts/*.{md,yaml}');
+  if (deployAgentsFlag) console.log('   └─ Claude Agents:   .claude/agents/*.agent.md (simplified)');
+  if (deployPromptsLegacy) console.log('   └─ Claude Prompts:  .claude/prompts/*.{md,yaml} (legacy)');
   if (deployCopilot) console.log('   └─ Copilot:         .github/instructions/*.instructions.md');
   if (deployOpenCodeFlag) console.log('   └─ OpenCode:        .opencode/agents/, .opencode/skills/');
 }

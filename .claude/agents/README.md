@@ -155,4 +155,4 @@ Agents reference:
 See `manifest.json` for structured metadata including agent IDs, names, and descriptions.
 
 ---
-*Generated: 2026-02-10T11:42:31.707Z*
+*Generated: 2026-02-10T14:52:46.080Z*

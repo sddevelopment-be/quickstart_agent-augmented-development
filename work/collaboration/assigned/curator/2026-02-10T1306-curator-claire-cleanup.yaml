@@ -1,0 +1,29 @@
+id: dist002-task-3.2-cleanup
+agent: curator
+status: assigned
+priority: medium
+specification: specifications/initiatives/framework-distribution/SPEC-DIST-002-claude-code-optimization.md
+title: 'Task 3.2: Cleanup legacy prompts and update documentation'
+description: 'Remove .claude/prompts/ directory from repository. Verify no prompt
+  content is lost (already covered by skills). Update .claude/agents/README.md to
+  reflect simplified agent format. Update work/reports/claude_code-fit.md recommendations
+  to mark completed items. Verify no orphaned references to .claude/prompts/ in codebase.
+  Update work log.
+
+  '
+artefacts:
+- .claude/agents/README.md
+- work/reports/claude_code-fit.md
+context:
+  specification: specifications/initiatives/framework-distribution/SPEC-DIST-002-claude-code-optimization.md
+  fit_analysis: work/reports/claude_code-fit.md
+requirements:
+- .claude/prompts/ removed
+- No orphaned references to .claude/prompts/
+- Documentation accurate and current
+created: '2026-02-10T13:06:00Z'
+batch: 'Batch 3: Validation & Cleanup'
+milestone: SPEC-DIST-002 Implementation
+dependencies:
+- dist002-task-3.1-validation
+estimated_effort_hours: 3

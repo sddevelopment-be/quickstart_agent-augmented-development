@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "description": "Claude agent profiles for specialist roles",
-  "generated": "2026-02-10T11:42:31.707Z",
+  "generated": "2026-02-10T14:52:46.080Z",
   "agents": [
     {
       "id": "analyst-annie",

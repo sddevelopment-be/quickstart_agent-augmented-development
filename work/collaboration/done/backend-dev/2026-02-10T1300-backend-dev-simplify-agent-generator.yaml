@@ -1,0 +1,43 @@
+id: dist002-task-1.1-simplify-agent
+agent: backend-dev
+status: done
+priority: critical
+specification: specifications/initiatives/framework-distribution/SPEC-DIST-002-claude-code-optimization.md
+title: 'Task 1.1: Implement simplifyAgent() in claude-code-generator.js'
+description: "Create tools/exporters/claude-code-generator.js module. Implement simplifyAgent(agentIR)\
+  \ function that transforms full doctrine agent profiles (~100 lines with directive\
+  \ tables, bootstrap declarations, mode protocols) into lean Claude Code subagent\
+  \ definitions (<40 lines with name, description, tools, purpose, specialization).\
+  \ Implement tool name mapping (doctrine lowercase \u2192 Claude Code PascalCase)\
+  \ and model inference (architect\u2192opus, dev\u2192sonnet). Write unit tests against\
+  \ real agent IRs. See technical design: work/reports/architecture/2026-02-10-SPEC-DIST-002-technical-design.md\
+  \ section 2.1.\n"
+artefacts:
+- tools/exporters/claude-code-generator.js
+- tests/unit/exporters/claude-code-generator.test.js
+context:
+  specification: specifications/initiatives/framework-distribution/SPEC-DIST-002-claude-code-optimization.md
+  technical_design: work/reports/architecture/2026-02-10-SPEC-DIST-002-technical-design.md
+  existing_parser: tools/exporters/parser.js
+requirements:
+- Output <40 lines per agent
+- Strip directive tables, bootstrap declarations, mode protocols
+- Map tools to Claude Code PascalCase names
+- Infer model hint from agent role
+- Unit tests >85% coverage
+created: '2026-02-10T13:00:00Z'
+batch: 'Batch 1: Generator Core'
+milestone: SPEC-DIST-002 Implementation
+dependencies: []
+estimated_effort_hours: 3
+started_at: '2026-02-10T14:12:29Z'
+result:
+  summary: simplifyAgent() implemented with full TDD cycle. 28 unit tests pass. Output
+    15 lines per agent (vs 40-line limit). Tool mapping, model inference, content
+    stripping all verified.
+  artefacts_created:
+  - tools/exporters/claude-code-generator.js
+  - tests/unit/exporters/claude-code-generator.test.js
+  tests_passed: 28
+  tests_failed: 0
+completed_at: '2026-02-10T14:17:43Z'

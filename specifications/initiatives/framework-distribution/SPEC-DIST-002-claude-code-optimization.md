@@ -1,7 +1,7 @@
 ---
 id: SPEC-DIST-002
 title: Claude Code Distribution Optimization
-status: approved
+status: implemented
 initiative: framework-distribution
 version: 1.1.0
 author: Claude Sonnet 4.5
@@ -234,35 +234,35 @@ Output: Concise rules file with only actionable instructions
 ## Acceptance Criteria
 
 **AC-1: CLAUDE.md exists and is well-formed**
-- [ ] `CLAUDE.md` exists at repository root after `npm run deploy:claude`
-- [ ] Contains project purpose, repository structure, coding conventions, and common commands
-- [ ] Is under 120 lines
-- [ ] Does not inline full doctrine content (uses pointers/links)
+- [x] `CLAUDE.md` exists at repository root after `npm run deploy:claude`
+- [x] Contains project purpose, repository structure, coding conventions, and common commands
+- [x] Is under 120 lines
+- [x] Does not inline full doctrine content (uses pointers/links)
 
 **AC-2: Rules files exist and are well-formed**
-- [ ] `.claude/rules/` directory contains at least 5 rules files after deployment
-- [ ] Each rules file is under 80 lines
-- [ ] Each rules file contains a source attribution comment
-- [ ] Rules content matches source doctrine content (no invented instructions)
+- [x] `.claude/rules/` directory contains at least 5 rules files after deployment
+- [x] Each rules file is under 80 lines
+- [x] Each rules file contains a source attribution comment
+- [x] Rules content matches source doctrine content (no invented instructions)
 
 **AC-3: Agent files are simplified**
-- [ ] `.claude/agents/*.md` files are under 40 lines each after deployment
-- [ ] Each agent retains: name, description, tools, purpose, specialization
-- [ ] Each agent omits: directive tables, bootstrap declarations, mode protocols
-- [ ] Agent manifest.json is still generated
+- [x] `.claude/agents/*.md` files are under 40 lines each after deployment
+- [x] Each agent retains: name, description, tools, purpose, specialization
+- [x] Each agent omits: directive tables, bootstrap declarations, mode protocols
+- [x] Agent manifest.json is still generated
 
 **AC-4: Prompts directory not created**
-- [ ] `.claude/prompts/` is NOT created by `npm run deploy:claude`
-- [ ] Existing `.claude/prompts/` content can be cleaned up manually
+- [x] `.claude/prompts/` is NOT created by `npm run deploy:claude`
+- [x] Existing `.claude/prompts/` content can be cleaned up manually
 
 **AC-5: Pipeline integration**
-- [ ] `npm run deploy:claude` produces all artifacts (skills + agents + rules + CLAUDE.md)
-- [ ] `node tools/scripts/deploy-skills.js --rules` produces only rules
-- [ ] `node tools/scripts/deploy-skills.js --claude-md` produces only CLAUDE.md
-- [ ] Existing `--claude` and `--agents` flags still work
+- [x] `npm run deploy:claude` produces all artifacts (skills + agents + rules + CLAUDE.md)
+- [x] `node tools/scripts/deploy-skills.js --rules` produces only rules
+- [x] `node tools/scripts/deploy-skills.js --claude-md` produces only CLAUDE.md
+- [x] Existing `--claude` and `--agents` flags still work
 
 **AC-6: Idempotency**
-- [ ] Running `npm run deploy:claude` twice produces identical file content
+- [x] Running `npm run deploy:claude` twice produces identical file content
 
 ---
 

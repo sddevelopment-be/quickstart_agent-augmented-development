@@ -1,0 +1,52 @@
+id: dist002-task-2.1-deploy-integration
+agent: build-automation
+status: done
+priority: high
+specification: specifications/initiatives/framework-distribution/SPEC-DIST-002-claude-code-optimization.md
+title: 'Task 2.1: Integrate claude-code-generator into deploy-skills.js'
+description: 'Wire the new claude-code-generator.js functions into the existing deploy-skills.js
+  pipeline. Add deployClaudeMd() calling generateClaudeMd(). Add deployClaudeRules()
+  calling generateRulesFile() for each RULES_MAPPING entry. Modify deployClaudeAgents()
+  to use parser.js + simplifyAgent() instead of verbatim file copy. Add CLI flags
+  --rules and --claude-md. Update --all default to include new artifacts. Deprecate
+  deployClaudePrompts() (retain behind --prompts-legacy flag). Update summary output
+  and deployed locations listing. Update package.json with deploy:claude:rules and
+  deploy:claude:md scripts. See technical design section 2.2.
+
+  '
+artefacts:
+- tools/scripts/deploy-skills.js
+- package.json
+context:
+  specification: specifications/initiatives/framework-distribution/SPEC-DIST-002-claude-code-optimization.md
+  technical_design: work/reports/architecture/2026-02-10-SPEC-DIST-002-technical-design.md
+  generator_module: tools/exporters/claude-code-generator.js
+requirements:
+- npm run deploy:claude produces CLAUDE.md + rules + simplified agents + skills
+- --rules flag works standalone
+- --claude-md flag works standalone
+- --prompts-legacy retains old behavior
+- Existing flags unaffected
+- npm run build succeeds end-to-end
+created: '2026-02-10T13:03:00Z'
+batch: 'Batch 2: Deployment Integration'
+milestone: SPEC-DIST-002 Implementation
+dependencies:
+- dist002-task-1.1-simplify-agent
+- dist002-task-1.2-rules-generator
+- dist002-task-1.3-claudemd-generator
+estimated_effort_hours: 3.5
+started_at: '2026-02-10T14:39:15Z'
+result:
+  summary: Pipeline integration complete. deploy-skills.js updated with deployClaudeMd(),
+    deployClaudeRules(), simplified deployClaudeAgents(). New flags --rules, --claude-md,
+    --prompts-legacy. package.json updated. Idempotency verified. All 21 agents +
+    5 rules + CLAUDE.md deploy successfully.
+  artefacts_modified:
+  - tools/scripts/deploy-skills.js
+  - package.json
+  tests_passed: 0
+  tests_failed: 0
+  verification: 'Manual verification: --claude-md, --rules, --agents flags all work
+    standalone. Idempotency confirmed via diff.'
+completed_at: '2026-02-10T14:51:21Z'
