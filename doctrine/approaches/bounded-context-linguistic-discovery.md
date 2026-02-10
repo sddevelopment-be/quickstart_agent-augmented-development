@@ -75,23 +75,13 @@ Bounded contexts are not arbitrary divisions—they emerge from genuine semantic
 
 **Method: Team Interaction Mapping**
 
-1. **Map teams and their primary communication channels**
-   - Which teams talk daily? Weekly? Rarely?
-   - What artifacts do they exchange?
-   - What meetings do they share?
+Map organizational communication patterns to identify vocabulary clusters. This systematic analysis reveals where semantic boundaries align with (or contradict) team structure.
 
-2. **Identify vocabulary clusters**
-   - Which teams use the same terms consistently?
-   - Where do term definitions diverge?
-   - What translation happens at handoffs?
+**See:** [Team Interaction Mapping Tactic](../../tactics/team-interaction-mapping.tactic.md) for detailed procedure
 
-3. **Overlay vocabulary boundaries on team boundaries**
-   - Do semantic boundaries align with team boundaries?
-   - Where is the mismatch?
+**Core Insight:** Teams that communicate infrequently develop different vocabularies. Where vocabulary diverges, context boundaries likely exist (Conway's Law).
 
-**Hypothesis:** Teams that communicate infrequently develop different vocabularies. Where vocabulary diverges, context boundaries belong.
-
-**Validation:** Ask teams to define the same term. If definitions differ significantly, a boundary exists.
+**Validation Approach:** Ask teams to define the same term independently. If definitions differ significantly, a boundary exists.
 
 ---
 
@@ -99,30 +89,13 @@ Bounded contexts are not arbitrary divisions—they emerge from genuine semantic
 
 **Technique: Semantic Cluster Analysis**
 
-**Steps:**
-1. **Extract terminology from codebase:**
-   - Class/module/function names
-   - Code comments
-   - Test descriptions
-   - Documentation sections
+Extract terminology from codebase and documentation to identify implicit context boundaries through semantic clustering and ownership patterns.
 
-2. **Cluster by semantic similarity:**
-   - Which terms co-occur frequently?
-   - Which are never used together?
-   - Where do definitions conflict?
+**See:** [Code and Documentation Analysis Tactic](../../tactics/code-documentation-analysis.tactic.md) for step-by-step procedure
 
-3. **Map clusters to code ownership:**
-   - Which team owns which cluster?
-   - Where do clusters span team boundaries?
+**Tools:** grep/rg, AST parsers, git log analysis, LLM-based semantic similarity
 
-4. **Propose context boundaries:**
-   - Align boundaries with semantic clusters
-   - Validate with team ownership patterns
-
-**Tools:**
-- `grep`/`rg` for term frequency analysis
-- AST parsers for structural analysis
-- LLM-based semantic similarity scoring
+**Key Insight:** Terms that co-occur frequently and are owned by the same team likely belong to same bounded context. Terms with same name but different meanings signal hidden boundary.
 
 ---
 
@@ -130,27 +103,13 @@ Bounded contexts are not arbitrary divisions—they emerge from genuine semantic
 
 **Collaborative Workshop Technique**
 
-**Process:**
-1. **Domain Event Discovery:**
-   - Orange stickies: business-significant state changes
-   - Named in past tense (OrderPlaced, PaymentReceived)
+Visual workshop using sticky notes to discover domain events, processes, and bounded contexts through collaborative mapping with domain experts.
 
-2. **Identify Event Clusters:**
-   - Which events occur together?
-   - Which never interact?
-   - Where are natural process boundaries?
+**See:** [Event Storming Discovery Tactic](../../tactics/event-storming-discovery.tactic.md) for facilitation guide and PlantUML template
 
-3. **Map Actors and Commands:**
-   - Blue stickies: actors (roles)
-   - Purple stickies: policies (rules)
-   - Light blue: commands (user actions)
+**Outcome:** Visual map of bounded contexts grounded in business processes and terminology, validated by stakeholders in real-time.
 
-4. **Draw Context Boundaries:**
-   - Where event clusters separate
-   - Where different actors own processes
-   - Where vocabulary naturally diverges
-
-**Outcome:** Visual map of bounded contexts grounded in business processes and terminology.
+**Best For:** Complex domains, cross-functional alignment, rapid boundary discovery (2-4 hours vs weeks of analysis).
 
 ---
 
