@@ -1,0 +1,101 @@
+metadata:
+  extraction_date: '2026-02-10'
+  source_directory: doctrine/directives/
+  directives_processed: 32
+  agent: lexical-larry
+  method: Manual extraction with context analysis
+  confidence_distribution:
+    high: 74
+    medium: 21
+    low: 4
+candidates:
+- term: Bypass Check
+  definition: Pre-execution verification that checks for LOCAL_ENV.md file containing
+    environment-specific constraints or instructions before proceeding with standard
+    directives
+  context: Framework - Environment Configuration
+  source: Directive 001 (CLI and Shell Tooling)
+  related_terms:
+  - LOCAL_ENV.md
+  - Remediation Technique
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: First step agents must perform before executing CLI operations
+- term: Remediation Technique
+  definition: Fallback workflow for handling unreliable terminal interactions by creating
+    shell scripts, piping output to files, and capturing results from files instead
+    of direct terminal interaction
+  context: Framework - Terminal Operations
+  source: Directive 001 (CLI and Shell Tooling)
+  related_terms:
+  - Bypass Check
+  - Flaky Terminal Behavior
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Required when terminal interaction is inconsistent or fails
+- term: Flaky Terminal Behavior
+  definition: Unreliable or inconsistent terminal/shell interactions in agent-based
+    workflows that require remediation techniques to ensure reliable command execution
+  context: Framework - Terminal Operations
+  source: Directive 001 (CLI and Shell Tooling)
+  related_terms:
+  - Remediation Technique
+  status: candidate
+  enforcement_tier: advisory
+  confidence: medium
+  notes: Signals need to apply remediation technique documented in LOCAL_ENV.md
+- term: Fallback Strategy
+  definition: Alternative approach when preferred tooling (fd, rg, ast-grep, etc.)
+    is unavailable, using universally available alternatives (find, grep) with equivalent
+    functionality
+  context: Framework - Tooling
+  source: Directive 013 (Tooling Setup & Fallbacks)
+  related_terms:
+  - Tool Suite
+  - Escalation
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Ensures agents can function across varied environments
+- term: Token Discipline
+  definition: Practice of maintaining essential governance layers in active memory
+    while offloading task-specific details to external files, optimizing context window
+    usage without losing behavioral guardrails
+  context: Framework - Context Management
+  source: Directive 002 (Context Notes)
+  related_terms:
+  - External Memory
+  - Context Layer
+  - Offloading
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Critical for agents managing large context loads
+- term: External Memory
+  definition: Storage location (work/notes/external_memory/) for offloaded task-specific
+    details, allowing agents to swap context in/out while maintaining core behavioral
+    norms
+  context: Framework - Context Management
+  source: Directive 002 (Context Notes), Directive 003 (Repository Structure)
+  related_terms:
+  - Token Discipline
+  - Context Layer
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Enables context continuity across sessions
+- term: Offloading
+  definition: The act of moving detailed context (notes, enumerations, specifics)
+    from active agent memory into external files to conserve token budget while maintaining
+    reference capability
+  context: Framework - Context Management
+  source: Directive 002 (Context Notes)
+  related_terms:
+  - Token Discipline
+  - External Memory
+  status: candidate
+  enforcement_tier: advisory
+  confidence: high
+  notes: Essential practice for long-running tasks
