@@ -19,8 +19,8 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from common.task_schema import load_task_safe
-from common.types import TaskStatus
+from src.common.task_schema import load_task_safe
+from src.common.types import TaskStatus
 
 
 def find_task_files(work_dir: Path, include_done: bool = False) -> list[Path]:
