@@ -1,36 +1,37 @@
-# Example Agent Configuration
+# Agent Configuration
 # This file defines agent-to-tool mappings and model preferences
+# Updated: 2026-02-10 to reflect current model IDs
 
 agents:
   architect:
     preferred_tool: cursor
-    preferred_model: gpt-4-turbo
+    preferred_model: gpt-4o
     fallback_chain:
-      - cursor:gpt-4-turbo
-      - claude-code:claude-opus-20240229
-      - codex:gpt-4
+      - cursor:gpt-4o
+      - claude-code:claude-opus-4-6
+      - claude-code:claude-sonnet-4-5-20250929
     task_types:
-      analysis: gpt-4-turbo
-      synthesis: claude-opus-20240229
-      diagramming: gpt-4-turbo
+      analysis: gpt-4o
+      synthesis: claude-opus-4-6
+      diagramming: gpt-4o
 
   backend-dev:
     preferred_tool: claude-code
-    preferred_model: claude-sonnet-20240229
+    preferred_model: claude-sonnet-4-5-20250929
     fallback_chain:
-      - claude-code:claude-sonnet-20240229
-      - codex:gpt-4
-      - claude-code:claude-haiku-20240307
+      - claude-code:claude-sonnet-4-5-20250929
+      - claude-code:claude-haiku-4-5-20251001
+      - cursor:gpt-4o
     task_types:
-      coding: claude-sonnet-20240229
-      debugging: gpt-4
-      refactoring: claude-haiku-20240307
-      simple: claude-haiku-20240307
+      coding: claude-sonnet-4-5-20250929
+      debugging: claude-sonnet-4-5-20250929
+      refactoring: claude-sonnet-4-5-20250929
+      simple: claude-haiku-4-5-20251001
 
   planner:
-    preferred_tool: codex
-    preferred_model: gpt-4-turbo
+    preferred_tool: claude-code
+    preferred_model: claude-opus-4-6
     fallback_chain:
-      - codex:gpt-4-turbo
-      - cursor:gpt-4-turbo
-      - claude-code:claude-opus-20240229
+      - claude-code:claude-opus-4-6
+      - cursor:gpt-4o
+      - claude-code:claude-sonnet-4-5-20250929

@@ -1,5 +1,6 @@
-# Example Tool Configuration  
+# Tool Configuration
 # This file defines available LLM CLI tools and their invocation patterns
+# Updated: 2026-02-10 to reflect current model IDs and remove retired tools
 
 tools:
   claude-code:
@@ -10,29 +11,15 @@ tools:
       macos: /usr/local/bin/claude
       windows: /usr/bin/claude  # Via WSL2
     models:
-      - claude-opus-20240229
-      - claude-sonnet-20240229
-      - claude-haiku-20240307
+      - claude-opus-4-6
+      - claude-sonnet-4-5-20250929
+      - claude-haiku-4-5-20251001
     capabilities:
       - code_generation
       - code_review
       - long_context
-
-  codex:
-    binary: codex
-    command_template: "{binary} generate --prompt={prompt_file} --model={model}"
-    platforms:
-      linux: /usr/local/bin/codex
-      macos: /usr/local/bin/codex
-      windows: /usr/bin/codex  # Via WSL2
-    models:
-      - code-davinci-002
-      - gpt-4-turbo
-      - gpt-4
-    capabilities:
-      - code_generation
-      - code_completion
-      - technical_documentation
+      - subagent_invocation
+    note: "Primary tool for Claude-based workflows"
 
   cursor:
     binary: cursor
@@ -42,10 +29,20 @@ tools:
       macos: /Applications/Cursor.app/Contents/MacOS/cursor
       windows: C:\Users\{USER}\AppData\Local\Programs\cursor\cursor.exe
     models:
-      - gpt-4-turbo
-      - gpt-4
-      - gpt-3.5-turbo
+      - gpt-4o
+      - claude-opus-4-6
+      - claude-sonnet-4-5-20250929
     capabilities:
       - code_generation
       - code_editing
       - project_context
+      - multimodal
+    note: "IDE integration with multiple model providers"
+
+  # --- Deprecated/Removed Tools ---
+
+  # codex:
+  #   note: "OpenAI Codex CLI was shut down in March 2023. No direct replacement."
+  #   note: "For OpenAI models, use API integrations or cursor with gpt-4o"
+  #   retired: true
+  #   retired_date: "2023-03-23"

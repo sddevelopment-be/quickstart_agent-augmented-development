@@ -1,40 +1,11 @@
-# Example Model Catalog
+# Model Catalog
 # This file defines model specifications, costs, and capabilities
+# Updated: 2026-02-10 to reflect current model IDs and pricing
 
 models:
-  gpt-4-turbo:
-    provider: openai
-    cost_per_1k_tokens:
-      input: 0.01
-      output: 0.03
-    context_window: 128000
-    task_suitability:
-      - architecture
-      - complex_reasoning
-      - code_review
-      - analysis
+  # --- Anthropic Claude Models (Current) ---
 
-  gpt-4:
-    provider: openai
-    cost_per_1k_tokens:
-      input: 0.03
-      output: 0.06
-    context_window: 8192
-    task_suitability:
-      - architecture
-      - complex_reasoning
-
-  gpt-3.5-turbo:
-    provider: openai
-    cost_per_1k_tokens:
-      input: 0.0005
-      output: 0.0015
-    context_window: 16384
-    task_suitability:
-      - simple_queries
-      - fast_responses
-
-  claude-opus-20240229:
+  claude-opus-4-6:
     provider: anthropic
     cost_per_1k_tokens:
       input: 0.015
@@ -42,10 +13,13 @@ models:
     context_window: 200000
     task_suitability:
       - complex_reasoning
+      - architecture
       - long_documents
       - code_review
+      - analysis
+    note: "Most capable model for complex reasoning and extended thinking"
 
-  claude-sonnet-20240229:
+  claude-sonnet-4-5-20250929:
     provider: anthropic
     cost_per_1k_tokens:
       input: 0.003
@@ -56,8 +30,11 @@ models:
       - long_documents
       - editing
       - balanced_performance
+      - backend_development
+      - frontend_development
+    note: "Balanced performance/cost for most development tasks"
 
-  claude-haiku-20240307:
+  claude-haiku-4-5-20251001:
     provider: anthropic
     cost_per_1k_tokens:
       input: 0.00025
@@ -67,14 +44,103 @@ models:
       - simple_queries
       - fast_responses
       - high_volume
-      - simple
+      - simple_tasks
+    note: "Fastest and most cost-effective for simple tasks"
+
+  # --- OpenAI Models (Current) ---
+
+  gpt-4o:
+    provider: openai
+    cost_per_1k_tokens:
+      input: 0.0025
+      output: 0.01
+    context_window: 128000
+    task_suitability:
+      - architecture
+      - complex_reasoning
+      - code_review
+      - analysis
+      - multimodal
+    note: "GPT-4 Omni - combines capabilities with lower cost"
+
+  gpt-4o-mini:
+    provider: openai
+    cost_per_1k_tokens:
+      input: 0.00015
+      output: 0.0006
+    context_window: 128000
+    task_suitability:
+      - simple_queries
+      - fast_responses
+      - high_volume
+      - coding
+    note: "Cost-effective alternative to GPT-3.5 Turbo"
+
+  # --- Legacy/Deprecated Models (for reference) ---
+
+  claude-opus-20240229:
+    provider: anthropic
+    deprecated: true
+    superseded_by: claude-opus-4-6
+    cost_per_1k_tokens:
+      input: 0.015
+      output: 0.075
+    context_window: 200000
+    note: "Claude 3 Opus - superseded by Claude Opus 4.6"
+
+  claude-sonnet-20240229:
+    provider: anthropic
+    deprecated: true
+    superseded_by: claude-sonnet-4-5-20250929
+    cost_per_1k_tokens:
+      input: 0.003
+      output: 0.015
+    context_window: 200000
+    note: "Claude 3 Sonnet - superseded by Claude Sonnet 4.5"
+
+  claude-haiku-20240307:
+    provider: anthropic
+    deprecated: true
+    superseded_by: claude-haiku-4-5-20251001
+    cost_per_1k_tokens:
+      input: 0.00025
+      output: 0.00125
+    context_window: 200000
+    note: "Claude 3 Haiku - superseded by Claude Haiku 4.5"
+
+  gpt-4-turbo:
+    provider: openai
+    deprecated: true
+    superseded_by: gpt-4o
+    cost_per_1k_tokens:
+      input: 0.01
+      output: 0.03
+    context_window: 128000
+    note: "Superseded by GPT-4o"
+
+  gpt-4:
+    provider: openai
+    deprecated: true
+    superseded_by: gpt-4o
+    cost_per_1k_tokens:
+      input: 0.03
+      output: 0.06
+    context_window: 8192
+    note: "Original GPT-4 8k - superseded by GPT-4o"
+
+  gpt-3.5-turbo:
+    provider: openai
+    deprecated: true
+    superseded_by: gpt-4o-mini
+    cost_per_1k_tokens:
+      input: 0.0005
+      output: 0.0015
+    context_window: 16384
+    note: "Superseded by GPT-4o Mini"
 
   code-davinci-002:
     provider: openai
-    cost_per_1k_tokens:
-      input: 0.02
-      output: 0.02
-    context_window: 8000
-    task_suitability:
-      - code_generation
-      - code_completion
+    deprecated: true
+    retired: true
+    retired_date: "2023-03-23"
+    note: "OpenAI Codex - shut down March 2023, no replacement"
