@@ -90,4 +90,57 @@ python_functions = "test_*"
 addopts = "-v --tb=short"
 markers = [
     "timeout: marks tests with execution timeout limits",
+    "unit: marks tests as unit tests",
+    "integration: marks tests as integration tests",
+    "e2e: marks tests as end-to-end tests",
+    "atdd: marks tests as acceptance test driven development tests",
+    "tdd: marks tests as test driven development tests",
 ]
+
+[tool.importlinter]
+root_package = "src"
+
+[[tool.importlinter.contracts]]
+name = "Bounded context independence"
+type = "layers"
+layers = [
+    "src.domain.common",
+    "src.domain.collaboration | src.domain.doctrine | src.domain.specifications",
+]
+
+[[tool.importlinter.contracts]]
+name = "No collaboration → doctrine imports"
+type = "forbidden"
+source_modules = ["src.domain.collaboration"]
+forbidden_modules = ["src.domain.doctrine", "src.domain.specifications"]
+
+[[tool.importlinter.contracts]]
+name = "No doctrine → specifications imports"
+type = "forbidden"
+source_modules = ["src.domain.doctrine"]
+forbidden_modules = ["src.domain.specifications"]
+
+[[tool.importlinter.contracts]]
+name = "Domain isolation from framework"
+type = "forbidden"
+source_modules = ["src.domain"]
+forbidden_modules = ["src.framework", "src.llm_service"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = "src.domain.*"
+strict = true

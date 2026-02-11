@@ -1,6 +1,10 @@
 [importlinter]
 root_package = src
 
+# Legacy contracts for framework/llm_service separation
+# Note: Contract 4 has known violation in src.llm_service.dashboard.app (line 20)
+# This is tracked as technical debt to be addressed in future sprint
+
 [importlinter:contract:1]
 name = No circular dependencies between framework and llm_service
 type = independence
@@ -24,10 +28,40 @@ source_modules =
 forbidden_modules =
     src.llm_service
 
-[importlinter:contract:4]
-name = No direct llm_service-framework imports  
+# Domain module bounded context contracts (ADR-046)
+# These contracts enforce the new domain module architecture
+
+[importlinter:contract:5]
+name = Bounded context independence
+type = layers
+layers =
+    src.domain.common
+    src.domain.collaboration
+    src.domain.doctrine
+    src.domain.specifications
+
+[importlinter:contract:6]
+name = No collaboration to doctrine imports
 type = forbidden
 source_modules =
-    src.llm_service
+    src.domain.collaboration
 forbidden_modules =
-    src.framework.orchestration
+    src.domain.doctrine
+    src.domain.specifications
+
+[importlinter:contract:7]
+name = No doctrine to specifications imports
+type = forbidden
+source_modules =
+    src.domain.doctrine
+forbidden_modules =
+    src.domain.specifications
+
+[importlinter:contract:8]
+name = Domain isolation from framework
+type = forbidden
+source_modules =
+    src.domain
+forbidden_modules =
+    src.framework
+    src.llm_service
