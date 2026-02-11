@@ -2,7 +2,7 @@
 # Task Descriptor: ADR-045 Task 5 - Dashboard Integration (Portfolio View Only)
 id: "2026-02-11T1100-adr045-task5-dashboard-integration"
 title: "ADR-045 Task 5: Dashboard Integration (Portfolio View Only)"
-assignee: backend-dev
+assignee: python-pedro
 batch: "M5.1"
 priority: MEDIUM
 status: assigned

@@ -1,7 +1,7 @@
 ---
 id: 2026-02-05T1400-backend-dev-rich-terminal-ui
 title: "Rich Terminal UI Implementation"
-agent: backend-dev
+agent: python-pedro
 priority: LOW
 status: pending
 estimated_hours: 2-3

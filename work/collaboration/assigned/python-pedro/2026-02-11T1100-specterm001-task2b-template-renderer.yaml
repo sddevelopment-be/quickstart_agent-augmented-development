@@ -2,7 +2,7 @@
 # Task Descriptor: SPEC-TERM-001 Task 2b - Refactor TemplateManager → TemplateRenderer
 id: "2026-02-11T1100-specterm001-task2b-template-renderer"
 title: "SPEC-TERM-001 Task 2b: Refactor TemplateManager → TemplateRenderer"
-assignee: backend-dev
+assignee: python-pedro
 batch: "SPEC-TERM-001"
 priority: HIGH
 status: assigned

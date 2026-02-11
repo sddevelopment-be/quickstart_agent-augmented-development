@@ -2,7 +2,7 @@
 # Task Descriptor: ADR-046 Task 3 - Update Import Statements
 id: "2026-02-11T1100-adr046-task3-update-imports"
 title: "ADR-046 Task 3: Update Import Statements Across Codebase"
-assignee: backend-dev
+assignee: python-pedro
 batch: "M5.1"
 priority: CRITICAL
 status: assigned

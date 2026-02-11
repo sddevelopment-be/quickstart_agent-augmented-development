@@ -2,7 +2,7 @@
 # Task Descriptor: SPEC-TERM-001 Task 2c - Refactor TaskAssignmentHandler → TaskAssigner
 id: "2026-02-11T1100-specterm001-task2c-task-assigner"
 title: "SPEC-TERM-001 Task 2c: Refactor TaskAssignmentHandler → TaskAssigner"
-assignee: backend-dev
+assignee: python-pedro
 batch: "SPEC-TERM-001"
 priority: HIGH
 status: assigned

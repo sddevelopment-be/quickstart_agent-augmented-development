@@ -2,7 +2,7 @@
 # Task Descriptor: ADR-046 Task 1 - Create Domain Directory Structure
 id: "2026-02-11T0900-adr046-task1-domain-structure"
 title: "ADR-046 Task 1: Create Domain Directory Structure"
-assignee: backend-dev
+assignee: python-pedro
 batch: "M5.1"
 priority: CRITICAL
 status: assigned
