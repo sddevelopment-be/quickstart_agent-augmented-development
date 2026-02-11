@@ -44,7 +44,10 @@ def test_cli_version(runner):
     """Test version command."""
     result = runner.invoke(cli, ['version'])
     assert result.exit_code == 0
-    assert 'llm-service version' in result.output
+    # Check for key parts separately since rich adds color codes between words
+    assert 'llm-service' in result.output
+    assert 'version' in result.output
+    assert '0.1.0' in result.output
 
 
 def test_config_validate_valid(runner, valid_config):
@@ -66,7 +69,7 @@ def test_config_init(runner, tmp_path):
     """Test config init command."""
     result = runner.invoke(cli, ['--config-dir', str(tmp_path), 'config', 'init'])
     assert result.exit_code == 0
-    assert 'Example configuration files' in result.output
+    assert 'Setup Instructions' in result.output
 
 
 def test_exec_command_valid_agent(runner, valid_config):

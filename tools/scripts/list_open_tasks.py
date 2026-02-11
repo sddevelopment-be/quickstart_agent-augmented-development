@@ -44,9 +44,10 @@ from typing import Any
 REPO_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
-# Import shared query functions from production module (extracted from this script)
-# See: src/framework/orchestration/task_query.py
-from src.framework.orchestration.task_query import (
+# Import shared query functions from domain layer (ADR-046)
+# Previously: src/framework/orchestration/task_query.py
+# Now: src/domain/collaboration/task_query.py
+from src.domain.collaboration.task_query import (
     find_task_files,
     load_open_tasks,
     filter_tasks,

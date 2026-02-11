@@ -7,11 +7,13 @@ Tests cover:
 - filter_tasks() - Multi-criteria filtering
 - count_tasks_by_status() - Status distribution metrics
 - count_tasks_by_agent() - Agent workload metrics
+
+Note: Module moved to domain layer as part of ADR-046
 """
 
 import pytest
 from pathlib import Path
-from src.framework.orchestration.task_query import (
+from src.domain.collaboration.task_query import (
     find_task_files,
     load_open_tasks,
     filter_tasks,
@@ -101,7 +103,8 @@ class TestFindTaskFiles:
         """Should exclude done directory by default."""
         files = find_task_files(mock_work_dir, include_done=False)
         
-        assert not any("done" in str(f) for f in files)
+        # Check that no files are from the done/ directory
+        assert not any("/done/" in str(f) or str(f).endswith("/done") for f in files)
     
     def test_includes_done_when_requested(self, mock_work_dir):
         """Should include done directory when include_done=True."""
