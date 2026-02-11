@@ -1112,6 +1112,8 @@ Track significant changes to this specification:
 - ADR: `docs/architecture/adrs/_drafts/ADR-XXX-task-context-boundary-definition.md`
 - ADR: `docs/architecture/adrs/ADR-042-shared-task-domain-model.md`
 - ADR: `docs/architecture/adrs/ADR-043-status-enumeration-standard.md`
+- ADR: `docs/architecture/adrs/ADR-045-doctrine-concept-domain-model.md` (NEW - 2026-02-11)
+- ADR: `docs/architecture/adrs/ADR-046-domain-module-refactoring.md` (NEW - 2026-02-11)
 - Directive: `.github/agents/directives/034_spec_driven_development.md`
 - Directive: `.github/agents/directives/035_specification_frontmatter_standards.md`
 
