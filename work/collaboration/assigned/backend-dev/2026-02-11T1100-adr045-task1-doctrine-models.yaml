@@ -1,0 +1,285 @@
+---
+# Task Descriptor: ADR-045 Task 1 - Create Doctrine Domain Models
+id: "2026-02-11T1100-adr045-task1-doctrine-models"
+title: "ADR-045 Task 1: Create Doctrine Domain Models"
+assignee: backend-dev
+batch: "M5.1"
+priority: CRITICAL
+status: assigned
+created: "2026-02-11T11:00:00Z"
+specification: "docs/architecture/adrs/ADR-045-doctrine-concept-domain-model.md"
+related_decisions:
+  - "docs/architecture/adrs/ADR-045-doctrine-concept-domain-model.md"
+  - "docs/architecture/adrs/ADR-046-domain-module-refactoring.md"
+dependencies:
+  - type: prerequisite
+    task_id: "2026-02-11T1100-adr046-task4-validate-refactor"
+    description: "Bounded context structure must be complete and validated"
+blocks:
+  - "2026-02-11T1100-adr045-task2-parsers"
+estimated_hours: 4
+tags:
+  - adr-045
+  - domain-model
+  - doctrine
+  - immutable-dataclasses
+  - tdd
+---
+
+# Task: Create Doctrine Domain Models
+
+## Context
+
+**Initiative:** M5 Batch 5.1 - Conceptual Alignment Foundation  
+**ADR:** ADR-045 (Doctrine Concept Domain Model)  
+**Strategic Goal:** Create immutable, type-safe domain models for doctrine artifacts
+
+**Why This Matters:**
+- Foundational domain models for doctrine representation
+- Type safety eliminates runtime errors
+- Immutability prevents state corruption
+- Source traceability enables audit trails
+- Enables programmatic doctrine manipulation
+
+## Objective
+
+Create 6 frozen dataclasses for doctrine artifacts: Agent, Directive, Tactic, Approach, StyleGuide, Template. All models immutable, type-safe, mypy validated, with TDD coverage.
+
+## Acceptance Criteria
+
+**MUST:**
+- [ ] 6 dataclasses created in `src/domain/doctrine/`
+- [ ] All dataclasses immutable (`@dataclass(frozen=True)`)
+- [ ] Type hints on all fields (mypy strict mode compatible)
+- [ ] Source file traceability (file path, line numbers)
+- [ ] Metadata fields (version, date, status, tags)
+- [ ] Unit tests for each class (TDD: write tests first)
+- [ ] Documentation strings for all classes and fields
+
+**SHOULD:**
+- [ ] Validation methods (e.g., `validate_directive_id()`)
+- [ ] Rich comparison methods (equality, ordering)
+- [ ] String representations (`__repr__`, `__str__`)
+- [ ] Factory methods for common patterns
+
+**MUST NOT:**
+- [ ] Mutable fields (use tuple/frozenset for collections)
+- [ ] Business logic (models are data structures only)
+- [ ] External dependencies (keep models pure)
+
+## Deliverables
+
+1. **Domain Models:**
+   - `src/domain/doctrine/models.py` - All 6 dataclasses
+   - `src/domain/doctrine/__init__.py` - Public API exports
+
+2. **Unit Tests (TDD):**
+   - `tests/unit/domain/doctrine/test_models.py`
+   - Tests for all classes
+   - Edge cases and validation
+
+3. **Documentation:**
+   - Docstrings for all classes
+   - Usage examples in module docstring
+
+## Test Plan
+
+**TDD Approach:**
+1. Write test for Agent dataclass
+2. Implement Agent dataclass to pass test
+3. Write test for Directive dataclass
+4. Implement Directive dataclass to pass test
+5. Repeat for Tactic, Approach, StyleGuide, Template
+
+**Test Coverage Requirements:**
+- [ ] Construction with valid data
+- [ ] Immutability enforcement (frozen)
+- [ ] Type validation (mypy)
+- [ ] Source traceability fields
+- [ ] Metadata completeness
+- [ ] String representations
+
+**Test Commands:**
+```bash
+# TDD cycle
+pytest tests/unit/domain/doctrine/test_models.py -v --cov=src.domain.doctrine.models
+
+# Type checking
+mypy src/domain/doctrine/models.py --strict
+
+# Coverage target: ≥90%
+pytest tests/unit/domain/doctrine/ --cov=src.domain.doctrine --cov-report=term-missing
+```
+
+## Implementation Notes
+
+### Domain Model Structure
+
+**Agent Dataclass:**
+```python
+from dataclasses import dataclass, field
+from typing import FrozenSet
+from pathlib import Path
+from datetime import date
+
+@dataclass(frozen=True)
+class Agent:
+    """Agent profile domain model.
+    
+    Represents an AI agent with capabilities, constraints, and execution patterns.
+    Immutable domain object with source traceability.
+    """
+    id: str  # e.g., "backend-dev"
+    name: str  # e.g., "Backend Dev"
+    specialization: str
+    capabilities: FrozenSet[str]
+    required_directives: FrozenSet[str]  # e.g., frozenset(["001", "016", "017"])
+    primers: FrozenSet[str]  # Execution primers
+    
+    # Source traceability
+    source_file: Path
+    source_hash: str  # SHA-256 of source file
+    
+    # Metadata
+    version: str = "1.0"
+    created_date: date | None = None
+    status: str = "active"  # active, deprecated, experimental
+    tags: FrozenSet[str] = field(default_factory=frozenset)
+    
+    def __post_init__(self):
+        """Validate agent model after construction."""
+        # Validation logic (if needed)
+        pass
+    
+    def __repr__(self) -> str:
+        return f"Agent(id={self.id!r}, name={self.name!r}, specialization={self.specialization!r})"
+```
+
+**Directive Dataclass:**
+```python
+@dataclass(frozen=True)
+class Directive:
+    """Directive domain model.
+    
+    Represents a mandatory framework rule or policy.
+    """
+    id: str  # e.g., "001", "016"
+    number: int  # e.g., 1, 16
+    title: str
+    category: str  # e.g., "context-management", "testing"
+    scope: str  # e.g., "all-agents", "specialist-only"
+    enforcement: str  # mandatory, recommended, optional
+    
+    # Content
+    description: str
+    rationale: str
+    examples: tuple[str, ...]  # Immutable sequence
+    
+    # Source traceability
+    source_file: Path
+    source_hash: str
+    
+    # Metadata
+    version: str = "1.0"
+    status: str = "active"
+    tags: FrozenSet[str] = field(default_factory=frozenset)
+    
+    def __repr__(self) -> str:
+        return f"Directive(id={self.id!r}, title={self.title!r})"
+```
+
+**Similar structure for:**
+- `Tactic` - Specific execution pattern
+- `Approach` - Recommended technique
+- `StyleGuide` - Writing/coding standards
+- `Template` - Reusable template structure
+
+### Type Safety Checklist
+
+- [ ] All fields type-annotated
+- [ ] Collections use immutable types (tuple, frozenset)
+- [ ] Optional fields use `| None` syntax (Python 3.10+)
+- [ ] Mypy strict mode compatibility
+- [ ] No `Any` types (explicit types only)
+
+### TDD Test Structure
+
+```python
+# tests/unit/domain/doctrine/test_models.py
+
+import pytest
+from pathlib import Path
+from src.domain.doctrine.models import Agent, Directive
+
+class TestAgentModel:
+    """Test suite for Agent domain model."""
+    
+    def test_agent_construction_valid_data(self):
+        """Agent should construct with valid data."""
+        agent = Agent(
+            id="backend-dev",
+            name="Backend Dev",
+            specialization="Backend development",
+            capabilities=frozenset(["python", "architecture"]),
+            required_directives=frozenset(["001", "016"]),
+            primers=frozenset(["ATDD", "TDD"]),
+            source_file=Path(".github/agents/backend-dev.agent.md"),
+            source_hash="abc123...",
+        )
+        assert agent.id == "backend-dev"
+        assert "python" in agent.capabilities
+    
+    def test_agent_immutability(self):
+        """Agent should be immutable (frozen dataclass)."""
+        agent = Agent(...)
+        with pytest.raises(AttributeError):
+            agent.id = "modified"  # Should raise FrozenInstanceError
+    
+    def test_agent_type_validation(self):
+        """Agent should enforce type constraints."""
+        # mypy catches this at compile time
+        # Runtime validation in __post_init__ if needed
+        pass
+    
+    # More tests...
+
+class TestDirectiveModel:
+    """Test suite for Directive domain model."""
+    # Similar test structure
+```
+
+## Risk Assessment
+
+**RISK:** Low (pure data structures, no business logic)
+
+**Mitigation:**
+- TDD approach (tests before implementation)
+- Type checking (mypy validation)
+- Immutability prevents state bugs
+- No external dependencies
+
+## Definition of Done
+
+- [ ] 6 dataclasses implemented (`Agent`, `Directive`, `Tactic`, `Approach`, `StyleGuide`, `Template`)
+- [ ] All models immutable (`frozen=True`)
+- [ ] Type hints complete (mypy strict passes)
+- [ ] Source traceability fields included
+- [ ] Unit tests pass (≥90% coverage)
+- [ ] Documentation complete
+- [ ] Task 2 unblocked (parsers can use models)
+
+## References
+
+- **ADR:** `docs/architecture/adrs/ADR-045-doctrine-concept-domain-model.md`
+- **Related:** `docs/architecture/adrs/ADR-046-domain-module-refactoring.md`
+- **Planning:** `docs/planning/NEXT_BATCH.md` (M5.1)
+- **Python Dataclasses:** [PEP 557](https://peps.python.org/pep-0557/)
+- **Type Hints:** [PEP 484](https://peps.python.org/pep-0484/)
+
+---
+
+**Estimated Effort:** 4 hours  
+**Agent:** Backend Dev  
+**Batch:** M5 Batch 5.1 - Conceptual Alignment Foundation  
+**Priority:** ⭐⭐⭐⭐⭐ CRITICAL (blocks all ADR-045 tasks)  
+**Approach:** Test-Driven Development (TDD)

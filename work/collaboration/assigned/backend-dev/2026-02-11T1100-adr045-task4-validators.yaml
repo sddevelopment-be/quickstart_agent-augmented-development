@@ -1,0 +1,390 @@
+---
+# Task Descriptor: ADR-045 Task 4 - Validators and Comprehensive Tests
+id: "2026-02-11T1100-adr045-task4-validators"
+title: "ADR-045 Task 4: Validators and Comprehensive Tests"
+assignee: backend-dev
+batch: "M5.1"
+priority: HIGH
+status: assigned
+created: "2026-02-11T11:00:00Z"
+specification: "docs/architecture/adrs/ADR-045-doctrine-concept-domain-model.md"
+related_decisions:
+  - "docs/architecture/adrs/ADR-045-doctrine-concept-domain-model.md"
+dependencies:
+  - type: prerequisite
+    task_id: "2026-02-11T1100-adr045-task3-agent-parser"
+    description: "Parsers must be complete before validation layer"
+blocks:
+  - "2026-02-11T1100-adr045-task5-dashboard-integration"
+estimated_hours: 2-3
+tags:
+  - adr-045
+  - validation
+  - cross-references
+  - testing
+  - checkpoint
+---
+
+# Task: Validators and Comprehensive Tests
+
+## Context
+
+**Initiative:** M5 Batch 5.1 - Conceptual Alignment Foundation  
+**ADR:** ADR-045 (Doctrine Concept Domain Model)  
+**Strategic Goal:** Validation layer for domain objects with cross-reference checking and comprehensive test coverage
+
+**Why This Matters:**
+- Detects broken cross-references (directives ↔ agents)
+- Validates metadata completeness
+- Ensures doctrine integrity
+- Provides checkpoint before dashboard integration
+- Foundation for automated compliance checking
+
+## Objective
+
+Create validation layer for domain objects with cross-reference checking (directives referenced by agents must exist). Achieve ≥90% test coverage with performance tests for loading 20+ agents.
+
+## Acceptance Criteria
+
+**MUST:**
+- [ ] Validate cross-references (agent.required_directives → existing directives)
+- [ ] Detect broken links (missing directives, invalid agent references)
+- [ ] Validate metadata completeness (required fields present)
+- [ ] Test coverage ≥90% for entire doctrine domain module
+- [ ] Performance tests (load 20+ agents without degradation)
+- [ ] Alphonso notified for checkpoint review
+
+**SHOULD:**
+- [ ] Circular dependency detection (A requires B requires A)
+- [ ] Duplicate ID detection (two agents with same ID)
+- [ ] Version compatibility checking
+- [ ] Deprecation warnings
+
+**MUST NOT:**
+- [ ] Modify domain objects during validation (read-only)
+- [ ] Auto-fix validation errors (report only)
+
+## Deliverables
+
+1. **Validation Layer:**
+   - `src/domain/doctrine/validators.py` - All validator implementations
+   - Cross-reference validator
+   - Metadata validator
+   - Integrity checker
+
+2. **Comprehensive Tests:**
+   - `tests/unit/domain/doctrine/test_validators.py` - Validator tests
+   - `tests/integration/doctrine/test_doctrine_loading.py` - End-to-end tests
+   - `tests/performance/doctrine/test_load_performance.py` - Performance benchmarks
+
+3. **Validation Report:**
+   - `work/validation/adr045-validation-report.md`
+   - Test coverage summary
+   - Performance benchmark results
+   - Checkpoint request for Alphonso
+
+## Test Plan
+
+**TDD Approach:**
+1. Write test for cross-reference validation
+2. Implement cross-reference validator
+3. Write test for metadata validation
+4. Implement metadata validator
+5. Write integration tests (load all agents)
+6. Write performance tests (20+ agents)
+
+**Test Coverage Requirements:**
+- [ ] Cross-reference validation (valid and broken)
+- [ ] Metadata validation (complete and incomplete)
+- [ ] Circular dependency detection
+- [ ] Duplicate ID detection
+- [ ] Performance benchmarks (load time < 500ms for 20 agents)
+
+**Test Commands:**
+```bash
+# Unit tests
+pytest tests/unit/domain/doctrine/test_validators.py -v
+
+# Integration tests (load all real agent profiles)
+pytest tests/integration/doctrine/test_doctrine_loading.py -v
+
+# Performance tests
+pytest tests/performance/doctrine/test_load_performance.py -v --benchmark-only
+
+# Coverage check (must be ≥90%)
+pytest tests/unit/domain/doctrine/ --cov=src.domain.doctrine --cov-report=term-missing --cov-fail-under=90
+
+# Full suite
+pytest tests/unit/domain/doctrine/ tests/integration/doctrine/ -v
+```
+
+## Implementation Notes
+
+### Validator Structure
+
+```python
+# src/domain/doctrine/validators.py
+
+from typing import List, Set
+from dataclasses import dataclass
+
+from .models import Agent, Directive
+from .exceptions import ValidationError
+
+@dataclass
+class ValidationResult:
+    """Result of validation check."""
+    valid: bool
+    errors: List[str]
+    warnings: List[str]
+    
+    @property
+    def has_errors(self) -> bool:
+        return len(self.errors) > 0
+    
+    @property
+    def has_warnings(self) -> bool:
+        return len(self.warnings) > 0
+
+class CrossReferenceValidator:
+    """Validates cross-references between doctrine artifacts."""
+    
+    def __init__(self, directives: List[Directive], agents: List[Agent]):
+        """Initialize validator with loaded artifacts."""
+        self.directives = {d.id: d for d in directives}
+        self.agents = {a.id: a for a in agents}
+    
+    def validate_agent_directives(self, agent: Agent) -> ValidationResult:
+        """Validate that all required directives exist.
+        
+        Args:
+            agent: Agent to validate
+        
+        Returns:
+            ValidationResult with errors for missing directives
+        """
+        errors = []
+        warnings = []
+        
+        for directive_id in agent.required_directives:
+            if directive_id not in self.directives:
+                errors.append(
+                    f"Agent {agent.id} requires non-existent directive: {directive_id}"
+                )
+            elif self.directives[directive_id].status == "deprecated":
+                warnings.append(
+                    f"Agent {agent.id} requires deprecated directive: {directive_id}"
+                )
+        
+        return ValidationResult(
+            valid=(len(errors) == 0),
+            errors=errors,
+            warnings=warnings
+        )
+    
+    def validate_all(self) -> ValidationResult:
+        """Validate all cross-references."""
+        all_errors = []
+        all_warnings = []
+        
+        for agent in self.agents.values():
+            result = self.validate_agent_directives(agent)
+            all_errors.extend(result.errors)
+            all_warnings.extend(result.warnings)
+        
+        return ValidationResult(
+            valid=(len(all_errors) == 0),
+            errors=all_errors,
+            warnings=all_warnings
+        )
+
+class MetadataValidator:
+    """Validates metadata completeness and correctness."""
+    
+    def validate_agent(self, agent: Agent) -> ValidationResult:
+        """Validate agent metadata."""
+        errors = []
+        warnings = []
+        
+        # Required fields
+        if not agent.id:
+            errors.append("Agent ID is required")
+        if not agent.name:
+            errors.append("Agent name is required")
+        if not agent.specialization:
+            errors.append("Agent specialization is required")
+        
+        # Status validation
+        valid_statuses = {"active", "deprecated", "experimental"}
+        if agent.status not in valid_statuses:
+            errors.append(f"Invalid agent status: {agent.status}")
+        
+        # Version format
+        if not agent.version or not agent.version[0].isdigit():
+            warnings.append(f"Agent {agent.id} has invalid version: {agent.version}")
+        
+        return ValidationResult(
+            valid=(len(errors) == 0),
+            errors=errors,
+            warnings=warnings
+        )
+
+class IntegrityChecker:
+    """Checks overall doctrine integrity."""
+    
+    def check_duplicate_ids(self, agents: List[Agent]) -> ValidationResult:
+        """Check for duplicate agent IDs."""
+        seen_ids = set()
+        errors = []
+        
+        for agent in agents:
+            if agent.id in seen_ids:
+                errors.append(f"Duplicate agent ID: {agent.id}")
+            seen_ids.add(agent.id)
+        
+        return ValidationResult(
+            valid=(len(errors) == 0),
+            errors=errors,
+            warnings=[]
+        )
+    
+    def check_circular_dependencies(self, agents: List[Agent]) -> ValidationResult:
+        """Detect circular handoff dependencies."""
+        # Build dependency graph
+        # Detect cycles using DFS
+        # Report errors if found
+        pass
+```
+
+### Integration Test Structure
+
+```python
+# tests/integration/doctrine/test_doctrine_loading.py
+
+import pytest
+from pathlib import Path
+from src.domain.doctrine.parsers import AgentParser, DirectiveParser
+from src.domain.doctrine.validators import CrossReferenceValidator
+
+class TestDoctrineLoading:
+    """Integration tests for loading real doctrine artifacts."""
+    
+    def test_load_all_agents(self):
+        """Load all agent profiles from .github/agents/."""
+        agents_dir = Path(".github/agents")
+        agent_files = list(agents_dir.glob("*.agent.md"))
+        
+        assert len(agent_files) > 0, "No agent files found"
+        
+        parser = AgentParser()
+        agents = []
+        
+        for file_path in agent_files:
+            agent = parser.parse(file_path)
+            agents.append(agent)
+        
+        # Should successfully load all agents
+        assert len(agents) == len(agent_files)
+    
+    def test_load_all_directives(self):
+        """Load all directives from directives/."""
+        directives_dir = Path("directives")
+        directive_files = list(directives_dir.glob("*.md"))
+        
+        parser = DirectiveParser()
+        directives = []
+        
+        for file_path in directive_files:
+            directive = parser.parse(file_path)
+            directives.append(directive)
+        
+        assert len(directives) == len(directive_files)
+    
+    def test_cross_reference_validation(self):
+        """Validate cross-references between all agents and directives."""
+        # Load all artifacts
+        agents = self._load_all_agents()
+        directives = self._load_all_directives()
+        
+        # Validate
+        validator = CrossReferenceValidator(directives, agents)
+        result = validator.validate_all()
+        
+        # Report errors
+        if result.has_errors:
+            pytest.fail(f"Validation errors:\n" + "\n".join(result.errors))
+        
+        # Warnings are okay, just print
+        if result.has_warnings:
+            print("Validation warnings:\n" + "\n".join(result.warnings))
+```
+
+### Performance Test Structure
+
+```python
+# tests/performance/doctrine/test_load_performance.py
+
+import pytest
+import time
+from pathlib import Path
+from src.domain.doctrine.parsers import AgentParser
+
+class TestLoadPerformance:
+    """Performance benchmarks for doctrine loading."""
+    
+    def test_load_20_agents_performance(self, benchmark):
+        """Loading 20 agents should complete in <500ms."""
+        agents_dir = Path(".github/agents")
+        agent_files = list(agents_dir.glob("*.agent.md"))[:20]
+        
+        parser = AgentParser()
+        
+        def load_agents():
+            agents = []
+            for file_path in agent_files:
+                agent = parser.parse(file_path)
+                agents.append(agent)
+            return agents
+        
+        # Benchmark
+        result = benchmark(load_agents)
+        
+        # Assertions
+        assert len(result) == 20
+        assert benchmark.stats.mean < 0.5  # 500ms max
+```
+
+## Risk Assessment
+
+**RISK:** Low (validation layer, no modifications to domain)
+
+**Mitigation:**
+- TDD approach
+- Read-only validation
+- Comprehensive test coverage
+- Performance benchmarks
+
+## Definition of Done
+
+- [ ] Cross-reference validator implemented
+- [ ] Metadata validator implemented
+- [ ] Integrity checker implemented
+- [ ] Test coverage ≥90% for doctrine module
+- [ ] Integration tests pass (load all real agents/directives)
+- [ ] Performance tests pass (<500ms for 20 agents)
+- [ ] Validation report created
+- [ ] Alphonso notified for checkpoint review
+- [ ] Task 5 unblocked (dashboard integration)
+
+## References
+
+- **ADR:** `docs/architecture/adrs/ADR-045-doctrine-concept-domain-model.md`
+- **Planning:** `docs/planning/NEXT_BATCH.md` (M5.1)
+
+---
+
+**Estimated Effort:** 2-3 hours  
+**Agent:** Backend Dev  
+**Batch:** M5 Batch 5.1 - Conceptual Alignment Foundation  
+**Priority:** ⭐⭐⭐⭐ HIGH (checkpoint before dashboard integration)  
+**Checkpoint:** ✋ REQUIRED (Architect Alphonso approval before Task 5)

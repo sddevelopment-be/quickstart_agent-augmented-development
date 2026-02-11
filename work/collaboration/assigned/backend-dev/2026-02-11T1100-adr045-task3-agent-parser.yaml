@@ -1,0 +1,392 @@
+---
+# Task Descriptor: ADR-045 Task 3 - Agent Profile Parser with Capabilities
+id: "2026-02-11T1100-adr045-task3-agent-parser"
+title: "ADR-045 Task 3: Enhanced Agent Profile Parser"
+assignee: backend-dev
+batch: "M5.1"
+priority: HIGH
+status: assigned
+created: "2026-02-11T11:00:00Z"
+specification: "docs/architecture/adrs/ADR-045-doctrine-concept-domain-model.md"
+related_decisions:
+  - "docs/architecture/adrs/ADR-045-doctrine-concept-domain-model.md"
+dependencies:
+  - type: prerequisite
+    task_id: "2026-02-11T1100-adr045-task2-parsers"
+    description: "Base parser infrastructure must exist"
+blocks:
+  - "2026-02-11T1100-adr045-task4-validators"
+estimated_hours: 2
+tags:
+  - adr-045
+  - agent-parser
+  - capabilities
+  - handoff-patterns
+---
+
+# Task: Enhanced Agent Profile Parser
+
+## Context
+
+**Initiative:** M5 Batch 5.1 - Conceptual Alignment Foundation  
+**ADR:** ADR-045 (Doctrine Concept Domain Model)  
+**Strategic Goal:** Specialized parser for agent profiles with advanced features (capabilities, primers, handoff patterns)
+
+**Why This Matters:**
+- Agent profiles have complex structure beyond basic parsing
+- Capabilities section requires structured extraction
+- Execution primers need special handling
+- Handoff patterns enable workflow automation
+- Constraints inform agent selection logic
+
+## Objective
+
+Extend AgentParser with specialized handling for capabilities, execution primers, common handoff patterns, and constraints. Maintain TDD approach with comprehensive edge case coverage.
+
+## Acceptance Criteria
+
+**MUST:**
+- [ ] Parse `## Capabilities` section (structured data)
+- [ ] Parse execution primer requirements (Directive 010 compliance)
+- [ ] Parse common handoff patterns (who hands off to whom)
+- [ ] Parse constraints and preferences
+- [ ] Unit tests cover edge cases (missing sections, malformed data)
+- [ ] Integration with Agent dataclass (from Task 1)
+
+**SHOULD:**
+- [ ] Parse agent collaboration patterns
+- [ ] Extract reasoning mode preferences
+- [ ] Parse success criteria patterns
+- [ ] Handle optional sections gracefully
+
+**MUST NOT:**
+- [ ] Fail on missing optional sections
+- [ ] Parse non-agent files (strict filename pattern)
+
+## Deliverables
+
+1. **Enhanced Parser:**
+   - Update `src/domain/doctrine/parsers.py` (AgentParser class)
+   - Capability extraction methods
+   - Primer parsing logic
+   - Handoff pattern extraction
+
+2. **Extended Agent Model:**
+   - Update `src/domain/doctrine/models.py` (Agent dataclass)
+   - Add fields: `handoff_patterns`, `constraints`, `preferences`
+
+3. **Unit Tests:**
+   - `tests/unit/domain/doctrine/test_agent_parser.py`
+   - Capability parsing tests
+   - Primer extraction tests
+   - Handoff pattern tests
+
+## Test Plan
+
+**TDD Approach:**
+1. Write test for capability parsing
+2. Implement capability extraction
+3. Write test for primer parsing
+4. Implement primer extraction
+5. Write test for handoff patterns
+6. Implement pattern extraction
+
+**Test Coverage Requirements:**
+- [ ] Capabilities section (present and absent)
+- [ ] Primer requirements (various formats)
+- [ ] Handoff patterns (single and multiple)
+- [ ] Constraints (hard and soft)
+- [ ] Malformed sections (error handling)
+
+**Test Commands:**
+```bash
+# TDD cycle
+pytest tests/unit/domain/doctrine/test_agent_parser.py -v --cov=src.domain.doctrine.parsers
+
+# Integration test with real agent profiles
+pytest tests/integration/doctrine/test_agent_loading.py -v
+
+# Coverage target: ≥90%
+pytest tests/unit/domain/doctrine/ --cov=src.domain.doctrine --cov-report=term-missing
+```
+
+## Implementation Notes
+
+### Enhanced Agent Dataclass
+
+```python
+# src/domain/doctrine/models.py (update)
+
+from dataclasses import dataclass, field
+from typing import FrozenSet, Dict, Any
+
+@dataclass(frozen=True)
+class Agent:
+    """Agent profile domain model (enhanced)."""
+    
+    # ... existing fields ...
+    
+    # NEW: Advanced features
+    handoff_patterns: tuple[HandoffPattern, ...] = field(default_factory=tuple)
+    constraints: FrozenSet[str] = field(default_factory=frozenset)
+    preferences: Dict[str, Any] = field(default_factory=dict)  # Immutable via frozendict
+    
+    # Capability details
+    capability_descriptions: Dict[str, str] = field(default_factory=dict)
+    
+    # Execution patterns
+    default_mode: str = "analysis-mode"  # Default reasoning mode
+    primer_matrix: tuple[PrimerEntry, ...] = field(default_factory=tuple)
+
+@dataclass(frozen=True)
+class HandoffPattern:
+    """Common handoff pattern (who → who, for what)."""
+    from_agent: str
+    to_agent: str
+    context: str
+    example: str | None = None
+
+@dataclass(frozen=True)
+class PrimerEntry:
+    """Execution primer requirement."""
+    task_type: str
+    required_primers: FrozenSet[str]
+    mode: str  # analysis, creative, meta
+```
+
+### Enhanced AgentParser
+
+```python
+# src/domain/doctrine/parsers.py (update)
+
+import re
+from typing import Dict, List
+
+class AgentParser:
+    """Enhanced parser for agent profiles."""
+    
+    def parse(self, file_path: Path) -> Agent:
+        """Parse agent profile with advanced features."""
+        # ... base parsing logic ...
+        
+        # NEW: Parse advanced sections
+        capabilities_detail = self._parse_capabilities_section(content)
+        handoff_patterns = self._parse_handoff_patterns(content)
+        constraints = self._parse_constraints(content)
+        primer_matrix = self._parse_primer_matrix(content)
+        
+        return Agent(
+            # ... existing fields ...
+            handoff_patterns=tuple(handoff_patterns),
+            constraints=frozenset(constraints),
+            capability_descriptions=capabilities_detail,
+            primer_matrix=tuple(primer_matrix),
+        )
+    
+    def _parse_capabilities_section(self, content: str) -> Dict[str, str]:
+        """Parse ## Capabilities section into structured data.
+        
+        Example input:
+            ## Capabilities
+            - **Primary:** Python development, testing
+            - **Secondary:** Architecture review
+            - **Avoid:** Frontend work
+        
+        Returns:
+            {"primary": "Python development, testing", 
+             "secondary": "Architecture review",
+             "avoid": "Frontend work"}
+        """
+        capabilities = {}
+        
+        # Find ## Capabilities section
+        section_match = re.search(
+            r'## Capabilities\s*\n(.*?)(?=\n##|\Z)',
+            content,
+            re.DOTALL
+        )
+        if not section_match:
+            return capabilities
+        
+        section_content = section_match.group(1)
+        
+        # Extract bullet points with **Category:**
+        pattern = r'- \*\*(\w+):\*\*\s*(.+?)(?=\n-|\Z)'
+        for match in re.finditer(pattern, section_content, re.DOTALL):
+            category = match.group(1).lower()
+            description = match.group(2).strip()
+            capabilities[category] = description
+        
+        return capabilities
+    
+    def _parse_handoff_patterns(self, content: str) -> List[HandoffPattern]:
+        """Parse common handoff patterns from agent profile.
+        
+        Example input:
+            ### Common Handoff Patterns
+            - **From Architect:** Receives architecture decisions for implementation
+            - **To Code Reviewer:** Sends implementation for review
+        
+        Returns:
+            [HandoffPattern(from_agent="architect", to_agent="backend-dev", ...)]
+        """
+        patterns = []
+        
+        # Find ### Common Handoff Patterns section
+        section_match = re.search(
+            r'### Common Handoff Patterns\s*\n(.*?)(?=\n###|\n##|\Z)',
+            content,
+            re.DOTALL
+        )
+        if not section_match:
+            return patterns
+        
+        section_content = section_match.group(1)
+        
+        # Extract From/To patterns
+        from_pattern = r'- \*\*From (\w+(?:-\w+)?):\*\*\s*(.+)'
+        to_pattern = r'- \*\*To (\w+(?:-\w+)?):\*\*\s*(.+)'
+        
+        for match in re.finditer(from_pattern, section_content):
+            from_agent = match.group(1).lower()
+            context = match.group(2).strip()
+            patterns.append(HandoffPattern(
+                from_agent=from_agent,
+                to_agent=self._extract_agent_id_from_content(content),
+                context=context
+            ))
+        
+        for match in re.finditer(to_pattern, section_content):
+            to_agent = match.group(1).lower()
+            context = match.group(2).strip()
+            patterns.append(HandoffPattern(
+                from_agent=self._extract_agent_id_from_content(content),
+                to_agent=to_agent,
+                context=context
+            ))
+        
+        return patterns
+    
+    def _parse_constraints(self, content: str) -> List[str]:
+        """Parse constraints section."""
+        # Similar pattern matching for constraints
+        pass
+    
+    def _parse_primer_matrix(self, content: str) -> List[PrimerEntry]:
+        """Parse execution primer matrix (Directive 010 compliance)."""
+        # Extract primer requirements by task type
+        pass
+```
+
+### TDD Test Structure
+
+```python
+# tests/unit/domain/doctrine/test_agent_parser.py
+
+import pytest
+from pathlib import Path
+from src.domain.doctrine.parsers import AgentParser
+from src.domain.doctrine.models import Agent, HandoffPattern
+
+class TestAgentParserCapabilities:
+    """Test capability parsing."""
+    
+    @pytest.fixture
+    def agent_file_with_capabilities(self, tmp_path):
+        """Create agent profile with capabilities section."""
+        file_path = tmp_path / "backend-dev.agent.md"
+        file_path.write_text("""---
+id: backend-dev
+name: Backend Dev
+---
+
+# Agent Profile: Backend Dev
+
+## Capabilities
+
+- **Primary:** Python development, API design, testing
+- **Secondary:** Architecture review, code documentation
+- **Avoid:** Frontend work, DevOps tasks
+
+## Common Handoff Patterns
+
+- **From Architect:** Receives ADRs for implementation
+- **To Code Reviewer:** Sends code for review
+""")
+        return file_path
+    
+    def test_parse_capabilities_all_categories(self, agent_file_with_capabilities):
+        """Parser should extract all capability categories."""
+        parser = AgentParser()
+        agent = parser.parse(agent_file_with_capabilities)
+        
+        assert "primary" in agent.capability_descriptions
+        assert "Python development" in agent.capability_descriptions["primary"]
+        assert "secondary" in agent.capability_descriptions
+        assert "avoid" in agent.capability_descriptions
+    
+    def test_parse_handoff_patterns(self, agent_file_with_capabilities):
+        """Parser should extract handoff patterns."""
+        parser = AgentParser()
+        agent = parser.parse(agent_file_with_capabilities)
+        
+        assert len(agent.handoff_patterns) == 2
+        
+        # Verify From Architect pattern
+        from_patterns = [p for p in agent.handoff_patterns if p.from_agent == "architect"]
+        assert len(from_patterns) == 1
+        assert "ADRs" in from_patterns[0].context
+    
+    def test_parse_missing_capabilities_section(self, tmp_path):
+        """Parser should handle missing capabilities section."""
+        file_path = tmp_path / "minimal-agent.agent.md"
+        file_path.write_text("""---
+id: minimal-agent
+name: Minimal Agent
+---
+
+# Agent Profile: Minimal Agent
+""")
+        parser = AgentParser()
+        agent = parser.parse(file_path)
+        
+        # Should not fail, just return empty capabilities
+        assert agent.capability_descriptions == {}
+    
+    # More tests...
+```
+
+## Risk Assessment
+
+**RISK:** Low (enhancement of existing parser, optional features)
+
+**Mitigation:**
+- TDD approach (tests first)
+- Graceful handling of missing sections
+- No breaking changes to existing parser
+- Optional fields in Agent model
+
+## Definition of Done
+
+- [ ] Capabilities section parsing functional
+- [ ] Primer requirements extraction working
+- [ ] Handoff patterns parsed correctly
+- [ ] Constraints and preferences extracted
+- [ ] Unit tests pass (≥90% coverage)
+- [ ] Edge cases handled (missing sections)
+- [ ] Integration with Agent dataclass complete
+- [ ] Task 4 unblocked (validators can use enhanced data)
+
+## References
+
+- **ADR:** `docs/architecture/adrs/ADR-045-doctrine-concept-domain-model.md`
+- **Directive 010:** Primer Execution Matrix
+- **Planning:** `docs/planning/NEXT_BATCH.md` (M5.1)
+
+---
+
+**Estimated Effort:** 2 hours  
+**Agent:** Backend Dev  
+**Batch:** M5 Batch 5.1 - Conceptual Alignment Foundation  
+**Priority:** ⭐⭐⭐⭐ HIGH (enhances agent orchestration)  
+**Approach:** Test-Driven Development (TDD)

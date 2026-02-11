@@ -1,0 +1,335 @@
+---
+# Task Descriptor: ADR-046 Task 4 - Validate and Document Refactoring
+id: "2026-02-11T1100-adr046-task4-validate-refactor"
+title: "ADR-046 Task 4: Test and Document Domain Refactoring"
+assignee: backend-dev
+batch: "M5.1"
+priority: CRITICAL
+status: assigned
+created: "2026-02-11T11:00:00Z"
+specification: "docs/architecture/adrs/ADR-046-domain-module-refactoring.md"
+related_decisions:
+  - "docs/architecture/adrs/ADR-046-domain-module-refactoring.md"
+  - "docs/architecture/adrs/ADR-045-doctrine-concept-domain-model.md"
+dependencies:
+  - type: prerequisite
+    task_id: "2026-02-11T1100-adr046-task3-update-imports"
+    description: "Import updates must be complete and tests passing"
+blocks:
+  - "2026-02-11T1100-adr045-task1-doctrine-models"
+estimated_hours: 2-3
+tags:
+  - adr-046
+  - domain-refactoring
+  - validation
+  - documentation
+  - checkpoint
+---
+
+# Task: Test and Document Domain Refactoring
+
+## Context
+
+**Initiative:** M5 Batch 5.1 - Conceptual Alignment Foundation  
+**ADR:** ADR-046 (Domain Module Refactoring)  
+**Strategic Goal:** Comprehensive validation and documentation of bounded context refactoring
+
+**Why This Matters:**
+- Confirms refactoring success (all systems operational)
+- Unblocks ADR-045 implementation (doctrine domain model)
+- Provides architectural documentation for team
+- Critical checkpoint before proceeding to next phase
+
+## Objective
+
+Execute comprehensive testing and documentation of bounded context refactoring. Update architecture diagrams, validate bounded context boundaries, and mark ADR-046 as IMPLEMENTED.
+
+## Acceptance Criteria
+
+**MUST:**
+- [ ] All unit tests pass (100% pass rate)
+- [ ] All integration tests pass
+- [ ] Import statement validation (no `src.common.*` except stubs)
+- [ ] Bounded context boundaries documented
+- [ ] Architecture diagrams updated
+- [ ] ADR-046 status updated to IMPLEMENTED
+- [ ] Alphonso notified for checkpoint review
+
+**SHOULD:**
+- [ ] Performance benchmarks (ensure no regression)
+- [ ] Type checking passes (mypy validation)
+- [ ] Code coverage maintained or improved
+- [ ] Migration retrospective document created
+
+**MUST NOT:**
+- [ ] Proceed to ADR-045 before Alphonso checkpoint approval
+- [ ] Delete old `src/common/` yet (preserve for rollback safety)
+
+## Deliverables
+
+1. **Test Validation Report:**
+   - `work/validation/adr046-test-report.md`
+   - Unit test results
+   - Integration test results
+   - Performance benchmark comparison
+   - Type checking results
+
+2. **Updated Documentation:**
+   - `docs/architecture/domain-structure.md` - Bounded context reference
+   - `docs/architecture/adrs/ADR-046-domain-module-refactoring.md` - Status update
+   - Architecture diagrams updated (if diagrammer available)
+
+3. **Migration Retrospective:**
+   - `work/retrospectives/adr046-migration-retrospective.md`
+   - What went well
+   - What could improve
+   - Lessons for future refactorings
+
+4. **Checkpoint Request:**
+   - `work/coordination/adr046-checkpoint-request.md`
+   - Summary for Alphonso review
+   - Go/No-Go decision point for ADR-045
+
+## Test Plan
+
+**Comprehensive Test Suite:**
+
+```bash
+# Unit tests (must pass 100%)
+pytest tests/unit/ -v --cov=src --cov-report=term-missing
+
+# Integration tests (must pass 100%)
+pytest tests/integration/ -v
+
+# Type checking (must pass with 0 errors)
+mypy src/ --strict
+
+# Import validation (no old imports)
+grep -r "from src.common" src/ tests/ | grep -v "DEPRECATED"
+# Should return empty (or only deprecation stubs)
+
+# Performance benchmarks (no regression)
+pytest tests/benchmarks/ --benchmark-only
+```
+
+**Validation Checklist:**
+- [ ] Zero test failures
+- [ ] Zero type errors
+- [ ] Zero old import references (except stubs)
+- [ ] Code coverage ≥ previous baseline
+- [ ] Performance within 5% of baseline
+
+## Implementation Notes
+
+### Bounded Context Documentation Structure
+
+Create `docs/architecture/domain-structure.md`:
+
+```markdown
+# Domain Structure: Bounded Contexts
+
+**Status:** IMPLEMENTED (ADR-046)  
+**Last Updated:** 2026-02-11
+
+## Overview
+
+The domain layer (`src/domain/`) is organized into bounded contexts per Domain-Driven Design (DDD) principles.
+
+## Bounded Contexts
+
+### collaboration/ — Agent Orchestration Context
+
+**Purpose:** Multi-agent coordination, task management, batch execution
+
+**Key Concepts:**
+- Task: Unit of work assigned to agents
+- Orchestrator: Multi-agent workflow coordinator
+- Batch: Collection of related tasks
+- Iteration: Planning cycle
+
+**Ubiquitous Language:**
+- "assign task to agent" (not "schedule job")
+- "orchestrate workflow" (not "manage process")
+- "agent completes task" (not "worker finishes job")
+
+**Files:**
+- `task_schema.py` - Task domain model
+- `orchestrator.py` - Workflow coordination
+
+---
+
+### doctrine/ — Framework Governance Context
+
+**Purpose:** Doctrine artifact representations (directives, approaches, tactics, agent profiles)
+
+**Key Concepts:**
+- Directive: Mandatory framework rule
+- Approach: Recommended technique
+- Tactic: Specific execution pattern
+- Agent Profile: Agent capabilities and constraints
+
+**Ubiquitous Language:**
+- "follow directive" (not "comply with rule")
+- "apply approach" (not "use method")
+- "execute tactic" (not "implement pattern")
+
+**Files:**
+- `agent_loader.py` - Agent profile parsing
+- `directive_parser.py` - Directive parsing
+
+---
+
+### specifications/ — Product Planning Context
+
+**Purpose:** Feature specifications, initiatives, portfolio management
+
+**Key Concepts:**
+- Specification: Feature definition
+- Initiative: Strategic effort
+- Portfolio: Collection of initiatives
+- Feature: Deliverable capability
+
+**Ubiquitous Language:**
+- "deliver specification" (not "complete story")
+- "track initiative" (not "manage project")
+- "portfolio view" (not "roadmap dashboard")
+
+**Files:**
+- (Future: Portfolio dashboard integration)
+
+---
+
+### common/ — Shared Utilities (No Domain Context)
+
+**Purpose:** Generic utilities with NO domain semantics
+
+**Key Concepts:**
+- Generic validators (no domain knowledge)
+- Generic parsers (no domain assumptions)
+- File system utilities
+- Type utilities
+
+**Constraint:** If a utility knows domain concepts, it belongs in a bounded context, not here.
+
+## Migration Status
+
+- [x] Directory structure created (Task 1)
+- [x] Files moved to bounded contexts (Task 2)
+- [x] Imports updated (Task 3)
+- [x] Tests passing, refactoring validated (Task 4)
+- [ ] Domain models implemented (ADR-045, next phase)
+
+## Related Decisions
+
+- ADR-046: Domain Module Refactoring (IMPLEMENTED)
+- ADR-045: Doctrine Concept Domain Model (NEXT)
+- ADR-042: Shared Task Domain Model
+
+## References
+
+- **DDD Reference:** [Domain-Driven Design by Eric Evans]
+- **Bounded Contexts:** [Martin Fowler's BoundedContext]
+```
+
+### ADR-046 Status Update
+
+Update ADR-046 frontmatter:
+```yaml
+status: IMPLEMENTED
+implementation_date: "2026-02-11"
+validation: PASSED
+checkpoint_approved_by: architect-alphonso
+```
+
+### Checkpoint Request Template
+
+Create `work/coordination/adr046-checkpoint-request.md`:
+
+```markdown
+# ADR-046 Checkpoint Request
+
+**To:** Architect Alphonso  
+**From:** Backend Dev  
+**Date:** 2026-02-11  
+**Subject:** ADR-046 Implementation Complete - Checkpoint Review Requested
+
+## Summary
+
+Bounded context refactoring (ADR-046) complete. Requesting checkpoint approval to proceed with ADR-045 (doctrine domain model).
+
+## Implementation Results
+
+✅ All acceptance criteria met:
+- Directory structure created
+- Files moved with preserved history
+- Imports updated across ~50 files
+- All tests passing (100% pass rate)
+- Documentation updated
+
+## Test Results
+
+- **Unit Tests:** PASS (327/327)
+- **Integration Tests:** PASS (52/52)
+- **Type Checking:** PASS (0 errors)
+- **Code Coverage:** 87% (baseline: 85%)
+- **Performance:** Within 2% of baseline
+
+## Risks Mitigated
+
+- Git history preserved (rollback available)
+- Incremental commits (granular control)
+- Team coordination successful
+- No production incidents
+
+## Next Steps (Pending Approval)
+
+**If APPROVED:**
+- Proceed with ADR-045 Task 1 (doctrine domain models)
+- Estimated start: Immediate
+- Estimated duration: 4h
+
+**If CHANGES REQUESTED:**
+- Address feedback
+- Re-submit for approval
+
+## Decision Request
+
+**Go/No-Go for ADR-045 implementation?**
+
+_Awaiting checkpoint approval..._
+```
+
+## Risk Assessment
+
+**RISK:** Low (validation phase only, no new changes)
+
+**Mitigation:**
+- Comprehensive test coverage
+- Performance benchmarks
+- Type checking validation
+- Alphonso checkpoint before proceeding
+
+## Definition of Done
+
+- [ ] All tests pass (unit, integration, full suite)
+- [ ] Import validation confirms no old imports
+- [ ] Bounded context boundaries documented
+- [ ] Architecture diagrams updated
+- [ ] ADR-046 marked IMPLEMENTED
+- [ ] Migration retrospective completed
+- [ ] Checkpoint request submitted to Alphonso
+- [ ] **Alphonso approval received before ADR-045**
+
+## References
+
+- **ADR:** `docs/architecture/adrs/ADR-046-domain-module-refactoring.md`
+- **Related:** `docs/architecture/adrs/ADR-045-doctrine-concept-domain-model.md`
+- **Planning:** `docs/planning/NEXT_BATCH.md` (M5.1)
+
+---
+
+**Estimated Effort:** 2-3 hours  
+**Agent:** Backend Dev  
+**Batch:** M5 Batch 5.1 - Conceptual Alignment Foundation  
+**Priority:** ⭐⭐⭐⭐⭐ CRITICAL (checkpoint before ADR-045)  
+**Checkpoint:** ✋ REQUIRED (Architect Alphonso approval before proceeding)

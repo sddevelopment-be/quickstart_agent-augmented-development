@@ -1,0 +1,372 @@
+---
+# Task Descriptor: ADR-045 Task 2 - Implement Doctrine Parsers
+id: "2026-02-11T1100-adr045-task2-parsers"
+title: "ADR-045 Task 2: Implement Parsers for Doctrine Artifacts"
+assignee: backend-dev
+batch: "M5.1"
+priority: CRITICAL
+status: assigned
+created: "2026-02-11T11:00:00Z"
+specification: "docs/architecture/adrs/ADR-045-doctrine-concept-domain-model.md"
+related_decisions:
+  - "docs/architecture/adrs/ADR-045-doctrine-concept-domain-model.md"
+dependencies:
+  - type: prerequisite
+    task_id: "2026-02-11T1100-adr045-task1-doctrine-models"
+    description: "Domain models must exist before parsers can populate them"
+blocks:
+  - "2026-02-11T1100-adr045-task3-agent-parser"
+estimated_hours: 4
+tags:
+  - adr-045
+  - doctrine-parsers
+  - yaml
+  - markdown
+  - tdd
+---
+
+# Task: Implement Parsers for Doctrine Artifacts
+
+## Context
+
+**Initiative:** M5 Batch 5.1 - Conceptual Alignment Foundation  
+**ADR:** ADR-045 (Doctrine Concept Domain Model)  
+**Strategic Goal:** Parse YAML/Markdown doctrine files into immutable domain objects
+
+**Why This Matters:**
+- Enables programmatic access to doctrine artifacts
+- Validates artifact structure at load time
+- Provides source traceability (file → domain object)
+- Foundation for dashboard integration
+- Enables automated compliance checking
+
+## Objective
+
+Implement YAML/Markdown parsers to load doctrine artifacts (agent profiles, directives, tactics, approaches) into domain objects. TDD approach with comprehensive error handling.
+
+## Acceptance Criteria
+
+**MUST:**
+- [ ] Parser for agent profiles (`*.agent.md`)
+- [ ] Parser for directives (`NNN_*.md`)
+- [ ] Parser for tactics (`*.tactic.md`)
+- [ ] Parser for approaches (`*.md`)
+- [ ] TDD: Write tests first, then implementation
+- [ ] Validation of parsed data (schema compliance)
+- [ ] Error handling for malformed files
+
+**SHOULD:**
+- [ ] Incremental parsing (handle partial failures)
+- [ ] Detailed error messages (line numbers, context)
+- [ ] Performance optimization (lazy loading if needed)
+- [ ] Caching layer (avoid re-parsing unchanged files)
+
+**MUST NOT:**
+- [ ] Modify source files during parsing (read-only)
+- [ ] Swallow errors silently (explicit error handling)
+- [ ] Load non-doctrine files (strict file pattern matching)
+
+## Deliverables
+
+1. **Parser Implementations:**
+   - `src/domain/doctrine/parsers.py` - All parser implementations
+   - `src/domain/doctrine/exceptions.py` - Parser-specific exceptions
+
+2. **Unit Tests (TDD):**
+   - `tests/unit/domain/doctrine/test_parsers.py`
+   - Tests for each parser type
+   - Error handling tests
+
+3. **Test Fixtures:**
+   - `tests/fixtures/doctrine/` - Sample files for testing
+   - Valid and invalid examples
+
+## Test Plan
+
+**TDD Approach:**
+1. Write test for directive parser (valid input)
+2. Implement directive parser to pass test
+3. Write test for directive parser (invalid input)
+4. Add error handling
+5. Repeat for agent, tactic, approach parsers
+
+**Test Coverage Requirements:**
+- [ ] Valid file parsing (happy path)
+- [ ] Invalid file handling (error cases)
+- [ ] Missing fields (validation)
+- [ ] Malformed YAML/Markdown
+- [ ] File not found errors
+- [ ] Source hash verification
+
+**Test Commands:**
+```bash
+# TDD cycle
+pytest tests/unit/domain/doctrine/test_parsers.py -v --cov=src.domain.doctrine.parsers
+
+# Coverage target: ≥90%
+pytest tests/unit/domain/doctrine/ --cov=src.domain.doctrine --cov-report=term-missing
+
+# Type checking
+mypy src/domain/doctrine/parsers.py --strict
+```
+
+## Implementation Notes
+
+### Parser Structure
+
+**Directive Parser:**
+```python
+# src/domain/doctrine/parsers.py
+
+import hashlib
+from pathlib import Path
+from typing import Protocol
+import yaml
+import frontmatter
+
+from .models import Directive, Agent, Tactic, Approach
+from .exceptions import ParseError, ValidationError
+
+class DirectiveParser:
+    """Parser for directive Markdown files."""
+    
+    def parse(self, file_path: Path) -> Directive:
+        """Parse directive file into Directive domain object.
+        
+        Args:
+            file_path: Path to directive file (e.g., 001_context_notes.md)
+        
+        Returns:
+            Directive domain object
+        
+        Raises:
+            ParseError: If file cannot be parsed
+            ValidationError: If parsed data is invalid
+        """
+        if not file_path.exists():
+            raise ParseError(f"Directive file not found: {file_path}")
+        
+        # Load file content
+        content = file_path.read_text(encoding="utf-8")
+        
+        # Parse frontmatter (if exists)
+        post = frontmatter.loads(content)
+        metadata = post.metadata
+        
+        # Extract directive ID from filename (e.g., "001_context_notes.md" → "001")
+        directive_id = self._extract_directive_id(file_path.name)
+        
+        # Parse content sections (title, description, rationale, examples)
+        title = self._extract_title(post.content)
+        description = self._extract_section(post.content, "## Description")
+        rationale = self._extract_section(post.content, "## Rationale")
+        examples = self._extract_examples(post.content)
+        
+        # Calculate source hash
+        source_hash = hashlib.sha256(content.encode()).hexdigest()
+        
+        # Construct Directive domain object
+        return Directive(
+            id=directive_id,
+            number=int(directive_id),
+            title=title,
+            category=metadata.get("category", "uncategorized"),
+            scope=metadata.get("scope", "all-agents"),
+            enforcement=metadata.get("enforcement", "mandatory"),
+            description=description,
+            rationale=rationale,
+            examples=tuple(examples),
+            source_file=file_path,
+            source_hash=source_hash,
+            version=metadata.get("version", "1.0"),
+            status=metadata.get("status", "active"),
+            tags=frozenset(metadata.get("tags", [])),
+        )
+    
+    def _extract_directive_id(self, filename: str) -> str:
+        """Extract directive ID from filename."""
+        # Implementation
+        pass
+    
+    def _extract_title(self, content: str) -> str:
+        """Extract title from Markdown content."""
+        # Implementation
+        pass
+    
+    def _extract_section(self, content: str, heading: str) -> str:
+        """Extract section content under a heading."""
+        # Implementation
+        pass
+    
+    def _extract_examples(self, content: str) -> list[str]:
+        """Extract example code blocks."""
+        # Implementation
+        pass
+```
+
+**Agent Parser:**
+```python
+class AgentParser:
+    """Parser for agent profile Markdown files."""
+    
+    def parse(self, file_path: Path) -> Agent:
+        """Parse agent profile into Agent domain object."""
+        # Similar structure to DirectiveParser
+        # Extract: id, name, specialization, capabilities, directives, primers
+        pass
+```
+
+**Similar parsers for:**
+- `TacticParser` - Parse `*.tactic.md` files
+- `ApproachParser` - Parse approach documents
+
+### Error Handling
+
+```python
+# src/domain/doctrine/exceptions.py
+
+class DoctrineParseError(Exception):
+    """Base exception for doctrine parsing errors."""
+    pass
+
+class ParseError(DoctrineParseError):
+    """Failed to parse file (syntax errors, file not found)."""
+    pass
+
+class ValidationError(DoctrineParseError):
+    """Parsed data failed validation (missing required fields)."""
+    pass
+
+class InvalidDirectiveId(ValidationError):
+    """Directive ID format invalid."""
+    pass
+```
+
+### TDD Test Structure
+
+```python
+# tests/unit/domain/doctrine/test_parsers.py
+
+import pytest
+from pathlib import Path
+from src.domain.doctrine.parsers import DirectiveParser
+from src.domain.doctrine.exceptions import ParseError, ValidationError
+
+class TestDirectiveParser:
+    """Test suite for DirectiveParser."""
+    
+    @pytest.fixture
+    def sample_directive_file(self, tmp_path):
+        """Create a sample directive file for testing."""
+        file_path = tmp_path / "001_context_notes.md"
+        file_path.write_text("""---
+category: context-management
+scope: all-agents
+enforcement: mandatory
+version: "1.0"
+status: active
+tags:
+  - context
+  - notes
+---
+
+# Directive 001: Context Notes
+
+## Description
+
+Agents must maintain context notes during execution.
+
+## Rationale
+
+Context preservation enables coherent multi-turn conversations.
+
+## Examples
+
+```
+# Context note format
+- Task: Implement feature X
+- Status: In progress
+```
+""")
+        return file_path
+    
+    def test_parse_valid_directive(self, sample_directive_file):
+        """Parser should parse valid directive file."""
+        parser = DirectiveParser()
+        directive = parser.parse(sample_directive_file)
+        
+        assert directive.id == "001"
+        assert directive.number == 1
+        assert directive.title == "Context Notes"
+        assert directive.category == "context-management"
+        assert directive.enforcement == "mandatory"
+        assert "context" in directive.tags
+    
+    def test_parse_missing_file(self):
+        """Parser should raise ParseError for missing file."""
+        parser = DirectiveParser()
+        with pytest.raises(ParseError, match="not found"):
+            parser.parse(Path("nonexistent.md"))
+    
+    def test_parse_invalid_format(self, tmp_path):
+        """Parser should raise ValidationError for invalid format."""
+        file_path = tmp_path / "invalid.md"
+        file_path.write_text("Not a valid directive")
+        
+        parser = DirectiveParser()
+        with pytest.raises(ValidationError):
+            parser.parse(file_path)
+    
+    def test_source_hash_calculation(self, sample_directive_file):
+        """Parser should calculate correct source hash."""
+        parser = DirectiveParser()
+        directive = parser.parse(sample_directive_file)
+        
+        # Verify hash is 64 character hex string (SHA-256)
+        assert len(directive.source_hash) == 64
+        assert all(c in "0123456789abcdef" for c in directive.source_hash)
+    
+    # More tests...
+
+class TestAgentParser:
+    """Test suite for AgentParser."""
+    # Similar test structure
+```
+
+## Risk Assessment
+
+**RISK:** Medium (parsing external files, error handling complexity)
+
+**Mitigation:**
+- TDD approach (test error cases first)
+- Comprehensive exception handling
+- Validation layer after parsing
+- Test fixtures cover edge cases
+- File format documentation
+
+## Definition of Done
+
+- [ ] 4 parsers implemented (Directive, Agent, Tactic, Approach)
+- [ ] All parsers return immutable domain objects
+- [ ] TDD: Tests written first, then implementation
+- [ ] Error handling comprehensive
+- [ ] Validation layer functional
+- [ ] Test coverage ≥90%
+- [ ] Type checking passes (mypy strict)
+- [ ] Task 3 unblocked (agent parser enhancements)
+
+## References
+
+- **ADR:** `docs/architecture/adrs/ADR-045-doctrine-concept-domain-model.md`
+- **Related:** `docs/architecture/adrs/ADR-046-domain-module-refactoring.md`
+- **Planning:** `docs/planning/NEXT_BATCH.md` (M5.1)
+- **Python Frontmatter:** [python-frontmatter](https://github.com/eyeseast/python-frontmatter)
+- **YAML:** [PyYAML](https://pyyaml.org/)
+
+---
+
+**Estimated Effort:** 4 hours  
+**Agent:** Backend Dev  
+**Batch:** M5 Batch 5.1 - Conceptual Alignment Foundation  
+**Priority:** ⭐⭐⭐⭐⭐ CRITICAL (blocks Task 3 and dashboard integration)  
+**Approach:** Test-Driven Development (TDD)
