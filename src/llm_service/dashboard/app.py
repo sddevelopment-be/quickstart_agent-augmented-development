@@ -17,12 +17,12 @@ import secrets
 from pathlib import Path
 
 # Import task query functions
-from framework.orchestration.task_query import (
+from src.framework.orchestration.task_query import (
     load_open_tasks,
     find_task_files,
 )
-from common.task_schema import load_task_safe
-from common.types import TaskStatus
+from src.domain.collaboration.task_schema import load_task_safe
+from src.domain.collaboration.types import TaskStatus
 
 
 def load_tasks_with_filter(work_dir: Path, include_done: bool = False, terminal_only: bool = False) -> list[dict]:

@@ -19,7 +19,7 @@ import pytest
 import yaml
 
 # Imports (path configured in conftest.py)
-from framework.orchestration.task_age_checker import TaskAgeChecker
+from src.framework.orchestration.task_age_checker import TaskAgeChecker
 
 # ============================================================================
 # Test Fixtures

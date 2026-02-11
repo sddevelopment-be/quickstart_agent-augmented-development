@@ -19,8 +19,8 @@ import pytest
 import yaml
 
 # Imports from src/ (path configured in conftest.py)
-from common.task_schema import TaskIOError, TaskValidationError, read_task
-from framework.orchestration.task_utils import (
+from src.domain.collaboration.task_schema import TaskIOError, TaskValidationError, read_task
+from src.framework.orchestration.task_utils import (
     get_utc_timestamp,
     log_event,
     update_task_status,
