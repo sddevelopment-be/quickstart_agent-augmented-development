@@ -93,8 +93,8 @@
 
 ### 🔍 For Code Reviewers (All Developers)
 **Your tools:**
-- `work/terminology-quick-reference.md` (7 pages - PRINT THIS)
-- `work/LEX/TERMINOLOGY_ISSUE_TRACKER.md` (comment templates)
+- `.doctrine-config/tactics/terminology-validation-checklist.tactic.md` (Quick reference - PRINT THIS)
+- `.doctrine-config/templates/pr-comment-templates.md` (Comment templates)
 
 **Your actions:**
 1. Read quick reference guide (15 min)
@@ -106,7 +106,8 @@
 
 ### 🐍 For Python Developers
 **Your guide:**
-- `work/LEX/LEXICAL_STYLE_GUIDE.md` (10 pages - BOOKMARK THIS)
+- `.doctrine-config/styleguides/python-naming-conventions.md` (Python conventions - BOOKMARK THIS)
+- `doctrine/docs/styleguides/domain-driven-naming.md` (Generic DDD principles)
 
 **Your actions:**
 1. Apply naming conventions in new code
@@ -175,8 +176,10 @@ work/logs/architect/
 ```
 work/
 ├── terminology-validation-report.md                           45 KB
-├── terminology-validation-executive-summary.md                 6 KB
-└── terminology-quick-reference.md                              7 KB
+└── terminology-validation-executive-summary.md                 6 KB
+
+.doctrine-config/tactics/
+└── terminology-validation-checklist.tactic.md                  9 KB
 ```
 
 **Key Statistics:**
@@ -192,9 +195,16 @@ work/
 work/LEX/
 ├── LEXICAL_ANALYSIS_REPORT.md                                 44 KB
 ├── LEXICAL_EXECUTIVE_SUMMARY.md                              6.5 KB
-├── LEXICAL_STYLE_GUIDE.md                                    9.9 KB
-├── TERMINOLOGY_ISSUE_TRACKER.md                               11 KB
 └── README.md                                                 8.2 KB
+
+.doctrine-config/styleguides/
+└── python-naming-conventions.md                                5 KB
+
+doctrine/docs/styleguides/
+└── domain-driven-naming.md                                     9 KB
+
+.doctrine-config/templates/
+└── pr-comment-templates.md                                    10 KB
 ```
 
 ---

@@ -365,7 +365,7 @@ This comprehensive conceptual alignment assessment was performed following the *
 3. Start with advisory enforcement only (no blocking)
 4. Provide feedback on false positives
 
-**Location:** `work/terminology-quick-reference.md`, `work/LEX/TERMINOLOGY_ISSUE_TRACKER.md`
+**Location:** `.doctrine-config/tactics/terminology-validation-checklist.tactic.md`, `.doctrine-config/templates/pr-comment-templates.md`
 
 ---
 
@@ -375,7 +375,7 @@ This comprehensive conceptual alignment assessment was performed following the *
 3. Opportunistic refactoring of generic class names during maintenance
 4. Contribute glossary candidates when domain concepts emerge
 
-**Location:** `work/LEX/LEXICAL_STYLE_GUIDE.md`
+**Location:** `.doctrine-config/styleguides/python-naming-conventions.md`, `doctrine/docs/styleguides/domain-driven-naming.md`
 
 ---
 
