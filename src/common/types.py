@@ -1,4 +1,18 @@
 """
+⚠️ DEPRECATED: This file has been split into bounded contexts
+
+This location is preserved for backwards compatibility during migration.
+
+Import from new locations:
+    from src.domain.collaboration.types import TaskStatus, TaskMode, TaskPriority
+    from src.domain.doctrine.types import AgentIdentity, validate_agent, get_all_agents
+    from src.domain.specifications.types import FeatureStatus
+
+Migration: ADR-046 Task 2
+See: src/common/MIGRATION_GUIDE.md
+
+---
+
 Shared type definitions for the agent-augmented development framework.
 
 This module provides type-safe enumerations and type aliases used
@@ -7,6 +21,7 @@ across framework orchestration and dashboard modules.
 Related ADRs:
 - ADR-043: Status Enumeration Standard
 - ADR-044: Agent Identity Type Safety
+- ADR-046: Domain Module Refactoring
 """
 
 from enum import Enum
