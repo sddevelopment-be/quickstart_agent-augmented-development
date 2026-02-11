@@ -37,8 +37,8 @@ import yaml
 REPO_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
-from common.task_schema import read_task
-from common.types import TaskStatus
+from src.domain.collaboration.task_schema import read_task
+from src.domain.collaboration.types import TaskStatus
 
 # Path to scripts under test
 SCRIPTS_DIR = REPO_ROOT / "tools" / "scripts"
