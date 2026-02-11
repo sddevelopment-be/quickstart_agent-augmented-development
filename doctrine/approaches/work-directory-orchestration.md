@@ -204,13 +204,13 @@ Source agents encode follow-up work via the `result.next_agent` block:
 
 ```yaml
 result:
-  summary: "Created ADR-006 with recommendations"
+  summary: "Created ADR-NNN (recommendation decision) with recommendations"
   artefacts:
-    - ${DOC_ROOT}/architecture/adrs/ADR-006.md
+    - ${DOC_ROOT}/architecture/adrs/ADR-NNN (recommendation decision).md
   next_agent: writer-editor
-  next_task_title: "Review and polish ADR-006"
+  next_task_title: "Review and polish ADR-NNN (recommendation decision)"
   next_artefacts:
-    - ${DOC_ROOT}/architecture/adrs/ADR-006.md
+    - ${DOC_ROOT}/architecture/adrs/ADR-NNN (recommendation decision).md
   next_task_notes:
     - "Check for clarity"
   completed_at: "2025-11-23T15:45:00Z"
@@ -259,10 +259,10 @@ tail -n 50 ${WORKSPACE_ROOT}/collaboration/HANDOFFS.md
 
 ## References
 
-- ADR-002 — File-Based Asynchronous Agent Coordination
-- ADR-003 — Task Lifecycle & State Management
-- ADR-004 — Work Directory Structure
-- ADR-005 — Coordinator Agent Pattern
+- ADR-YYY (coordination pattern) — File-Based Asynchronous Agent Coordination
+- ADR-MMM (lifecycle management) — Task Lifecycle & State Management
+- ADR-PPP (structure pattern) — Work Directory Structure
+- ADR-QQQ (agent pattern) — Coordinator Agent Pattern
 - Directive 014 — Work Log Creation
 - Directive 019 — File-Based Collaboration
 - `docs/HOW_TO_USE/multi-agent-orchestration.md`

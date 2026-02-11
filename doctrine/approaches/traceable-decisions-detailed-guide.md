@@ -32,10 +32,10 @@ Before proposing architectural changes, agents MUST:
 [Agent performing task: "Implement agent handoff protocol"]
 
 Step 1: Load ${DOC_ROOT}/architecture/adrs/README.md
-Step 2: Identify relevant: ADR-002, ADR-003, ADR-008
-Step 3: Load full text of ADR-008 (File-Based Async Coordination)
+Step 2: Identify relevant: ADR-YYY (coordination pattern), ADR-MMM (lifecycle management), ADR-NNN (coordination pattern)
+Step 3: Load full text of ADR-NNN (coordination pattern) (File-Based Async Coordination)
 Step 4: Check for conflicts: None found
-Step 5: Reference in proposal: "Per ADR-008, will use file-based handoff..."
+Step 5: Reference in proposal: "Per ADR-NNN (coordination pattern), will use file-based handoff..."
 ```
 
 ### 2.2 Decision Marker Generation
@@ -95,7 +95,7 @@ Context: [Link to ideation/synthesis if applicable]
 feat: add decision rationale to task schema
 
 Decision: Extend task YAML with decision_rationale block
-ADR: ADR-014
+ADR: ADR-PPP (traceability pattern)
 Rationale: Enable agents to document decision context during execution
 Context: See synthesis/traceable-decision-patterns-synthesis.md
 ```
@@ -110,7 +110,7 @@ result:
   artefacts:
     - "${DOC_ROOT}/architecture/protocols/agent-handoff.md"
   decision_rationale:
-    adr: "ADR-008"
+    adr: "ADR-NNN (coordination pattern)"
     justification: "File-based coordination aligns with established pattern"
     alternatives_considered: ["API-based", "message queue"]
     chosen_because: "Git-native, no additional infrastructure, transparent state"
@@ -124,12 +124,12 @@ Work logs MUST include decision-making context in the "Context" or "Approach" se
 ```markdown
 ## Context
 
-This task required implementing agent handoff protocol per ADR-008.
+This task required implementing agent handoff protocol per ADR-NNN (coordination pattern).
 
 **Relevant ADRs:**
-- ADR-008: File-Based Async Coordination (primary guidance)
-- ADR-003: Task Lifecycle State Management (handoff timing)
-- ADR-014: Traceable Decision Integration (documentation requirements)
+- ADR-NNN (coordination pattern): File-Based Async Coordination (primary guidance)
+- ADR-MMM (lifecycle management): Task Lifecycle State Management (handoff timing)
+- ADR-PPP (traceability pattern): Traceable Decision Integration (documentation requirements)
 
 **Decision Points:**
 1. Handoff trigger: Task completion vs. explicit signal
@@ -162,8 +162,8 @@ When creating artifacts governed by ADRs, reference decisions in headers:
 ```markdown
 # Agent Handoff Protocol
 
-**Governed by:** [ADR-008: File-Based Async Coordination](../adrs/ADR-008.md)
-**Related:** [ADR-003: Task Lifecycle](../adrs/ADR-003.md)
+**Governed by:** [ADR-NNN (coordination pattern): File-Based Async Coordination](../adrs/ADR-NNN (coordination pattern).md)
+**Related:** [ADR-MMM (lifecycle management): Task Lifecycle](../adrs/ADR-MMM (lifecycle management).md)
 
 [Document content...]
 ```
@@ -174,8 +174,8 @@ When creating artifacts governed by ADRs, reference decisions in headers:
 """
 Agent coordination module implementing file-based handoffs.
 
-Architecture: ADR-008 (File-Based Async Coordination)
-Related: ADR-003 (Task Lifecycle State Management)
+Architecture: ADR-NNN (coordination pattern) (File-Based Async Coordination)
+Related: ADR-MMM (lifecycle management) (Task Lifecycle State Management)
 """
 ```
 
@@ -183,8 +183,8 @@ Related: ADR-003 (Task Lifecycle State Management)
 
 ```yaml
 # Task schema definition
-# Governed by: ADR-003 (Task Lifecycle)
-# Extended by: ADR-014 (Traceable Decisions)
+# Governed by: ADR-MMM (lifecycle management) (Task Lifecycle)
+# Extended by: ADR-PPP (traceability pattern) (Traceable Decisions)
 
 task:
   id: string
@@ -197,9 +197,9 @@ When creating ADRs that relate to existing decisions:
 
 ```markdown
 **Related ADRs:**
-- [ADR-001: Modular Directives](ADR-001-modular-agent-directive-system.md) — Provides directive framework
-- [ADR-003: Task Lifecycle](ADR-003-task-lifecycle-state-management.md) — Defines state transitions
-- Supersedes: ADR-007 (deprecated manual coordination approach)
+- [ADR-XXX (framework pattern): Modular Directives](ADR-XXX (framework pattern)-modular-agent-directive-system.md) — Provides directive framework
+- [ADR-MMM (lifecycle management): Task Lifecycle](ADR-MMM (lifecycle management)-task-lifecycle-state-management.md) — Defines state transitions
+- Supersedes: ADR-ZZZ (deprecated pattern) (deprecated manual coordination approach)
 - Superseded by: None
 ```
 
@@ -281,8 +281,8 @@ Agent: [Waits for human to initiate interaction]
 
 ```
 Human: "Should we use file-based or API coordination?"
-Agent: "Checking ADR-008... File-based coordination is established pattern.
-        Shall I add decision marker referencing ADR-008?"
+Agent: "Checking ADR-NNN (coordination pattern)... File-based coordination is established pattern.
+        Shall I add decision marker referencing ADR-NNN (coordination pattern)?"
 Human: "Yes"
 Agent: [Adds formatted marker with ADR reference]
 ```
@@ -361,7 +361,7 @@ Agents should be able to respond to these queries:
 
 "Why did we choose file-based coordination?"
 → Search for "DECISION-MARKER" + "coordination"
-→ Load ADR-008
+→ Load ADR-NNN (coordination pattern)
 → Explain rationale with context
 
 "Show me all decisions about error handling"
@@ -420,13 +420,13 @@ If conflicts arise:
 ```markdown
 # Agent Task Assignment Protocol
 
-**Governed by:** [ADR-003: Task Lifecycle State Management](../adrs/ADR-003.md)
+**Governed by:** [ADR-MMM (lifecycle management): Task Lifecycle State Management](../adrs/ADR-MMM (lifecycle management).md)
 
 ## Task States
 
-Tasks progress through well-defined states as specified in ADR-003:
+Tasks progress through well-defined states as specified in ADR-MMM (lifecycle management):
 
-<!-- DECISION: ADR-003 - Task states ensure deterministic lifecycle -->
+<!-- DECISION: ADR-MMM (lifecycle management) - Task states ensure deterministic lifecycle -->
 
 1. **new**: Created in inbox/
 2. **assigned**: Moved to assigned/<agent>/
@@ -439,7 +439,7 @@ Tasks progress through well-defined states as specified in ADR-003:
 ```markdown
 # Agent Handoff Error Recovery
 
-<!-- DECISION-MARKER: ADR-014 -->
+<!-- DECISION-MARKER: ADR-PPP (traceability pattern) -->
 **Decision:** Retry handoffs up to 3 times before escalating to error state
 **Rationale:** Transient file system issues should not fail coordination
 **Alternatives:** 
@@ -462,12 +462,12 @@ status: done
 title: "Design agent handoff error recovery"
 
 result:
-  summary: "Created retry logic for handoff failures per ADR-008 resilience principles"
+  summary: "Created retry logic for handoff failures per ADR-NNN (coordination pattern) resilience principles"
   artefacts:
     - "${DOC_ROOT}/architecture/protocols/handoff-error-recovery.md"
     - "src/coordination/retry.py"
   decision_rationale:
-    adr: "ADR-014"
+    adr: "ADR-PPP (traceability pattern)"
     justification: "Error recovery requires explicit decision documentation"
     alternatives_considered: 
       - "Immediate failure"
@@ -486,12 +486,12 @@ result:
 
 ## Context
 
-Task required designing error recovery for agent handoffs per ADR-008.
+Task required designing error recovery for agent handoffs per ADR-NNN (coordination pattern).
 
 **Relevant ADRs:**
-- ADR-008: File-Based Async Coordination (primary)
-- ADR-003: Task Lifecycle State Management (error states)
-- ADR-014: Traceable Decision Integration (documentation requirements)
+- ADR-NNN (coordination pattern): File-Based Async Coordination (primary)
+- ADR-MMM (lifecycle management): Task Lifecycle State Management (error states)
+- ADR-PPP (traceability pattern): Traceable Decision Integration (documentation requirements)
 
 **Key Question:** How many retries before escalating to error state?
 
@@ -512,12 +512,12 @@ Analyzed trade-offs between reliability and failure detection:
 3. **Fixed retry limit (3 attempts)**:
    - Pro: Handles transient issues, detects real failures within 5 seconds
    - Con: Must choose arbitrary limit
-   - Decision: **Selected** (documented in ADR-014 marker)
+   - Decision: **Selected** (documented in ADR-PPP (traceability pattern) marker)
 
 ## Decision Marker Added
 
 Added full decision marker to `${DOC_ROOT}/architecture/protocols/handoff-error-recovery.md`:
-- References ADR-014 for traceability
+- References ADR-PPP (traceability pattern) for traceability
 - Documents alternatives and rationale
 - Includes consequences (3-5 second delay in error detection)
 
@@ -560,12 +560,12 @@ If architectural decisions ARE made without traceability:
 
 This directive should be updated when:
 
-- ADR-014 is revised with new decision marker formats
+- ADR-PPP (traceability pattern) is revised with new decision marker formats
 - New decision artifact types are introduced
 - Validation tooling changes requirements
 - Decision debt thresholds are adjusted based on empirical data
 
-Version history maintained in ADR-014.
+Version history maintained in ADR-PPP (traceability pattern).
 
 ---
 
@@ -575,4 +575,4 @@ Version history maintained in ADR-014.
 **Safety Critical:** false  
 **Dependencies:** 004 (Documentation), 008 (Templates)  
 **Related:** 012 (Operating Procedures), 014 (Work Logs)  
-**Source ADR:** [ADR-014: Traceable Decision Integration](../../${DOC_ROOT}/architecture/adrs/ADR-014-traceable-decision-integration.md)
+**Source ADR:** [ADR-PPP (traceability pattern): Traceable Decision Integration](../../${DOC_ROOT}/architecture/adrs/ADR-PPP (traceability pattern)-traceable-decision-integration.md)

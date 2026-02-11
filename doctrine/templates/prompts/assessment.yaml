@@ -1,6 +1,6 @@
 # Template 5: Assessment (Evaluation & Recommendations)
 # Version: 1.0.0
-# Addresses: Patterns 1-3, 5-7, 9-11 from ADR-023
+# Addresses: Patterns 1-3, 5-7, 9-11 from Directive 023 (Clarification Before Execution)
 #
 # This template is for evaluating systems, code, processes, or decisions.
 # Use for code reviews, architecture assessments, or framework evaluations.
@@ -300,4 +300,4 @@ If applicable, compare against:
 
 **Template Version:** 1.0.0  
 **Last Updated:** 2026-01-30  
-**Related:** ADR-023 Prompt Optimization Framework
+**Related:** Directive 023 (Clarification Before Execution) Prompt Optimization Framework

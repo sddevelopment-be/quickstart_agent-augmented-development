@@ -196,7 +196,7 @@ See [`migration-checklist.md`](./migration-checklist.md#common-pitfalls-and-solu
 
 - **IR Structure:** `docs/technical/ir-structure.md`
 - **Export Pipeline Design:** `work/analysis/tech-design-export-pipeline.md`
-- **Multi-Format Strategy:** `work/analysis/ADR-013-multi-format-distribution.md`
+- **Multi-Format Strategy:** `work/analysis/architecture-decision-multi-format.md`
 - **Work Log:** `work/reports/logs/architect/2026-01-29-task-1.3-schema-conventions.md`
 
 ### External References

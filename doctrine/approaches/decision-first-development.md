@@ -7,7 +7,7 @@
 
 ## Overview
 
-This approach describes how to systematically capture architectural decisions throughout the development lifecycle, integrating decision rationale with artifacts to preserve "why" knowledge for future contributors and AI agents. It implements the traceable decision patterns established in ADR-017.
+This approach describes how to systematically capture architectural decisions throughout the development lifecycle, integrating decision rationale with artifacts to preserve "why" knowledge for future contributors and AI agents. It implements the traceable decision patterns established in Directive 018 (Traceable Decisions).
 
 ## Core Principles
 
@@ -232,10 +232,10 @@ async def process_task():
 
 ```
 Human: "Should we use file-based or API coordination?"
-Agent: "Checking ADR-008... File-based coordination is established pattern.
-        Shall I add decision marker referencing ADR-008?"
+Agent: "Checking ADR-NNN (coordination pattern)... File-based coordination is established pattern.
+        Shall I add decision marker referencing ADR-NNN (coordination pattern)?"
 Human: "Yes"
-Agent: [Adds formatted decision marker with ADR-008 reference]
+Agent: [Adds formatted decision marker with ADR-NNN (coordination pattern) reference]
 ```
 
 ### Reflection/Synthesis Flow
@@ -344,7 +344,7 @@ Agent: "Found 5 decision markers related to coordination patterns.
 ### Inline Marker (Full Format)
 
 ```markdown
-<!-- DECISION-MARKER: ADR-017 -->
+<!-- DECISION-MARKER: Directive 018 (Traceable Decisions) -->
 **Decision:** Use file-based coordination for agent handoffs
 **Rationale:** Git-native, transparent, no infrastructure dependencies
 **Alternatives:** Message queue (rejected: operational complexity), API (rejected: network dependency)
@@ -357,7 +357,7 @@ Agent: "Found 5 decision markers related to coordination patterns.
 ### Inline Marker (Minimal)
 
 ```markdown
-<!-- DECISION: ADR-017 - File-based coordination chosen for Git-native transparency -->
+<!-- DECISION: Directive 018 (Traceable Decisions) - File-based coordination chosen for Git-native transparency -->
 ```
 
 ### Commit Message Format
@@ -365,7 +365,7 @@ Agent: "Found 5 decision markers related to coordination patterns.
 ```
 feat: implement async task routing
 
-Decision: File-based coordination (ADR-008)
+Decision: File-based coordination (ADR-NNN (coordination pattern))
 Rationale: Git-native, transparent, no new dependencies
 Context: Exploration in ${DOC_ROOT}/ideation/architecture/2025-11-20-coordination-patterns.md
 ```
@@ -377,7 +377,7 @@ task:
   id: "2025-11-25T1200-architect-coordination"
   status: "done"
   decision_rationale:
-    adr: "ADR-017"
+    adr: "Directive 018 (Traceable Decisions)"
     justification: "Traceable decision patterns require explicit linking"
     alternatives_considered: ["inline comments only", "separate decision log"]
     chosen_because: "Integrated with task lifecycle, visible to agents"
@@ -625,7 +625,7 @@ python ${WORKSPACE_ROOT}/scripts/calculate-decision-debt.py work/logs/
 
 ## References
 
-- **Authoritative ADR:** [ADR-017: Traceable Decision Integration](../../../${DOC_ROOT}/architecture/adrs/ADR-017-traceable-decision-integration.md)
+- **Authoritative ADR:** [Directive 018 (Traceable Decisions): Traceable Decision Integration](../../../${DOC_ROOT}/architecture/adrs/Directive 018 (Traceable Decisions)-traceable-decision-integration.md)
 - **Synthesis:** [Traceable Decision Patterns Synthesis](../../../${DOC_ROOT}/architecture/synthesis/traceable-decision-patterns-synthesis.md)
 - **Source Ideation:**
     - [Structured Knowledge Sharing](../../../${DOC_ROOT}/ideation/tracability/structured_knowledge_sharing.md)
@@ -635,11 +635,11 @@ python ${WORKSPACE_ROOT}/scripts/calculate-decision-debt.py work/logs/
     - 008: Artifact Templates
     - 018: Traceable Decisions (implementing directive)
 - **Related ADRs:**
-    - ADR-001: Modular Agent Directive System
-    - ADR-003: Task Lifecycle and State Management
-    - ADR-004: Work Directory Structure
-    - ADR-008: File-Based Async Coordination
-    - ADR-009: Orchestration Metrics Standard
+    - ADR-XXX (framework pattern): Modular Agent Directive System
+    - ADR-YYY (lifecycle pattern): Task Lifecycle and State Management
+    - ADR-ZZZ (structure pattern): Work Directory Structure
+    - ADR-NNN (coordination pattern): File-Based Async Coordination
+    - ADR-MMM (metrics pattern): Orchestration Metrics Standard
 
 ## Change Log
 

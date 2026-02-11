@@ -248,9 +248,9 @@ Write assessment report to `work/reports/assessments/`:
 **Cross-references:**
 - Uses Directive 018 (Documentation Levels) to calibrate detail
 - Applies Directive 022 (Audience Orientation) for report writing
-- Follows ADR-011 (Primer Execution Matrix) for appropriate depth
+- Follows DDR-001 (Primer Execution Matrix) and Directive 010 for appropriate depth
 - Logs analysis per Directive 014 (Work Logging)
-- May surface items for ADR process (Directive 005)
+- May surface items for architectural decision process (Directive 005)
 
 **Collaboration:**
 - Share findings with relevant specialists

@@ -10,7 +10,7 @@
 
 - `docs/technical/ir-structure.md` (Intermediate Representation Specification)
 - `work/analysis/tech-design-export-pipeline.md` (Export Pipeline Design)
-- `work/analysis/ADR-013-multi-format-distribution.md` (Multi-Format Strategy)
+- `work/analysis/architecture-decision-multi-format.md` (Multi-Format Strategy)
 
 ---
 

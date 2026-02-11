@@ -36,7 +36,7 @@ title: "Create ADR for API versioning strategy"
 mode: "/analysis-mode"
 priority: "high"
 artefacts:
-  - "${DOC_ROOT}/architecture/adrs/ADR-006-api-versioning.md"
+  - "${DOC_ROOT}/architecture/adrs/ADR-NNN (versioning decision)-api-versioning.md"
 context:
   repo: "sddevelopment-be/quickstart_agent-augmented-development"
   branch: "feature/api-design"
@@ -49,13 +49,13 @@ created_by: "planning-agent"
 
 # After completion by architect agent, this would be added:
 # result:
-#   summary: "Created ADR-006 with versioning recommendations"
+#   summary: "Created ADR-NNN (versioning decision) with versioning recommendations"
 #   artefacts:
-#     - "${DOC_ROOT}/architecture/adrs/ADR-006-api-versioning.md"
+#     - "${DOC_ROOT}/architecture/adrs/ADR-NNN (versioning decision)-api-versioning.md"
 #   next_agent: "writer-editor"
-#   next_task_title: "Review and polish ADR-006 for clarity"
+#   next_task_title: "Review and polish ADR-NNN (versioning decision) for clarity"
 #   next_artefacts:
-#     - "${DOC_ROOT}/architecture/adrs/ADR-006-api-versioning.md"
+#     - "${DOC_ROOT}/architecture/adrs/ADR-NNN (versioning decision)-api-versioning.md"
 #   next_task_notes:
 #     - "Check for consistent terminology"
 #     - "Ensure examples are clear"

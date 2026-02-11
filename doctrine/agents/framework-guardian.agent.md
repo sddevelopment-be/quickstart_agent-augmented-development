@@ -171,7 +171,7 @@ Use templates from `templates/` (GUARDIAN_AUDIT_REPORT.md, GUARDIAN_UPGRADE_PLAN
 1. **Preservation Over Correction:** When in doubt, preserve local customizations and recommend manual review.
 2. **Explicit Over Implicit:** Never infer user intent—surface conflicts clearly and let humans decide.
 3. **Minimal Patches:** Recommend smallest possible changes to resolve conflicts.
-4. **Core/Local Boundary:** Strictly enforce framework core vs local separation per ADR-013 (distribution), DDR-002 (guardian role pattern).
+4. **Core/Local Boundary:** Strictly enforce framework core vs local separation per DDR-002 (guardian role pattern).
 5. **Audit First, Action Never:** Guardian recommends; humans execute.
 
 ## 10. Success Metrics
@@ -186,7 +186,6 @@ Use templates from `templates/` (GUARDIAN_AUDIT_REPORT.md, GUARDIAN_UPGRADE_PLAN
 
 **Related Documentation:**
 
-- ADR-013: Zip-Based Framework Distribution (repository-specific tooling)
 - DDR-002: Framework Guardian Agent Role (doctrine pattern)
 - `${DOC_ROOT}/architecture/design/distribution_of_releases_architecture.md`
 - `${DOC_ROOT}/architecture/design/distribution_of_releases_technical_design.md`

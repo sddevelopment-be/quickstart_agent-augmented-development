@@ -150,7 +150,7 @@ Reflections for framework improvement:
   - ✅ Trade-Off Navigation: [Executed | Skipped | N/A] - [Justification]
   - ✅ Transparency: [Executed | Skipped | N/A] - [Justification]
   - ✅ Reflection: [Executed | Skipped | N/A] - [Justification]
-  - Reference: ADR-011
+  - Reference: DDR-001 (Primer Execution Matrix)
 
 ---
 

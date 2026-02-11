@@ -225,7 +225,7 @@ Enable agents to operate autonomously when human-in-charge is away from keyboard
 Add validation for task assignment conflicts
 
 Prevents race condition where two agents could be assigned
-the same task simultaneously. Refs: ADR-015.
+the same task simultaneously. Refs: ADR-NNN (task pattern).
 
 # Bad: Vague, no context
 Update files
@@ -237,14 +237,14 @@ Update files
 
 ### Example 1: Documentation Update (Low Risk)
 
-**Task:** Update ADR-020 with implementation notes  
+**Task:** Update ADR-MMM (implementation decision) with implementation notes  
 **Decision Boundary:** Autonomous (factual updates only)  
 **Outcome:** 3 commits over 45 minutes, all pushed, session complete
 
 **Commits:**
-1. `Add implementation timeline to ADR-020`
+1. `Add implementation timeline to ADR-MMM (implementation decision)`
 2. `Document learnings from orchestration refactor`
-3. `Cross-reference ADR-020 with related directives`
+3. `Cross-reference ADR-MMM (implementation decision) with related directives`
 
 **No escalations needed.**
 

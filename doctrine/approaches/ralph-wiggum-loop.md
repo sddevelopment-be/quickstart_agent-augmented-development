@@ -3,7 +3,7 @@
 **Version:** 1.0.0  
 **Date:** 2026-01-31  
 **Status:** Proposed  
-**Related:** Directive 010 (Mode Protocol), ADR-011 (Primer Alignment), Directive 024 (Self-Observation Protocol)
+**Related:** Directive 010 (Mode Protocol), DDR-001 (Primer Execution Matrix), Directive 024 (Self-Observation Protocol)
 
 ## Purpose
 
@@ -167,7 +167,7 @@ The Ralph Wiggum loop **uses** meta-mode but is **not** meta-mode itself:
 
 Think of meta-mode as the "language" and the Ralph Wiggum loop as a specific "conversation" in that language.
 
-### Relation to Reflection Loop Primer (ADR-011)
+### Relation to Reflection Loop Primer (DDR-001)
 
 The reflection loop primer is broader (end-of-task reflection), while Ralph Wiggum is targeted (mid-task checkpoints):
 
@@ -339,7 +339,7 @@ Watch for:
 - **Directive 014:** Work Log Creation (documentation requirements)
 - **Directive 020:** Locality of Change (scope discipline)
 - **Directive 024:** Self-Observation Protocol (formal specification)
-- **ADR-011:** Command Alias Primer Alignment (reflection loop)
+- **DDR-001:** Primer Execution Matrix (reflection loop primer definition)
 
 ## Version History
 

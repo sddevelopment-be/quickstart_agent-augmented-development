@@ -93,9 +93,9 @@ def test_websocket_connection_from_localhost():
 **Example:**
 ```markdown
 ## Acceptance Test
-# Implementation note: Uses Flask-SocketIO per ADR-028
+# Implementation note: Uses Flask-SocketIO per ADR-NNN (technology choice)
 
-## ADR-028: WebSocket Technology Choice
+## ADR-NNN (technology choice): WebSocket Technology Choice
 **Decision:** Use Flask-SocketIO for real-time communication
 **Rationale:** Minimal setup, built-in CORS support
 **Consequences:** Tests must use socketio client library
@@ -118,14 +118,14 @@ def test_websocket_connection_from_localhost():
 """
 Dashboard WebSocket server implementation.
 
-Architecture: Flask-SocketIO for real-time communication (ADR-028)
+Architecture: Flask-SocketIO for real-time communication (ADR-NNN (technology choice))
 Specification: specifications/features/dashboard-integration.md
 Tests: tests/acceptance/dashboard/
 """
 
-from flask_socketio import SocketIO  # ADR-028: Chosen technology
+from flask_socketio import SocketIO  # ADR-NNN (technology choice): Chosen technology
 
-# Configuration per ADR-028: Enable CORS for local development
+# Configuration per ADR-NNN (technology choice): Enable CORS for local development
 socketio = SocketIO(app, cors_allowed_origins='*', async_mode='threading')
 ```
 
@@ -143,11 +143,11 @@ socketio = SocketIO(app, cors_allowed_origins='*', async_mode='threading')
 
 **Task:** Fix dashboard WebSocket CORS errors
 **Specification:** specifications/features/dashboard-integration.md (FR-M1)
-**ADR Referenced:** ADR-028 (WebSocket Technology Choice)
+**ADR Referenced:** ADR-NNN (technology choice) (WebSocket Technology Choice)
 
 **Changes Made:**
 - Modified: src/llm_service/dashboard/app.py
-  - Added: cors_allowed_origins='*' per ADR-028
+  - Added: cors_allowed_origins='*' per ADR-NNN (technology choice)
   - Rationale: Enables localhost connections (FR-M1 requirement)
 
 **Tests Passing:**
@@ -193,7 +193,7 @@ socketio = SocketIO(app, cors_allowed_origins='*', async_mode='threading')
 **Markdown Documents:**
 ```markdown
 **Specification:** [Dashboard Integration](../specifications/features/dashboard-integration.md) (FR-M1)
-**ADR:** [ADR-028: WebSocket Technology](../docs/architecture/adrs/028-websocket-technology.md)
+**ADR:** [ADR-NNN (technology choice): WebSocket Technology](../docs/architecture/adrs/028-websocket-technology.md)
 **Tests:** `tests/acceptance/dashboard/test_websocket_connection.py`
 ```
 
@@ -201,7 +201,7 @@ socketio = SocketIO(app, cors_allowed_origins='*', async_mode='threading')
 ```python
 """
 Specification: specifications/features/dashboard-integration.md
-Architecture: ADR-028 (WebSocket Technology Choice)
+Architecture: ADR-NNN (technology choice) (WebSocket Technology Choice)
 Tests: tests/acceptance/dashboard/
 """
 ```
@@ -211,7 +211,7 @@ Tests: tests/acceptance/dashboard/
 context:
   specification: specifications/features/dashboard-integration.md
   requirement: FR-M1
-  adr: ADR-028
+  adr: ADR-NNN (technology choice)
   tests: tests/acceptance/dashboard/
 ```
 

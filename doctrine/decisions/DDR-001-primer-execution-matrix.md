@@ -4,7 +4,7 @@
 
 **status**: Accepted  
 **date**: 2026-02-11  
-**supersedes**: ADR-011 (content extracted and elevated to doctrine)
+**supersedes**: Repository-level primer decisions (elevated to framework level)
 
 ### Context
 

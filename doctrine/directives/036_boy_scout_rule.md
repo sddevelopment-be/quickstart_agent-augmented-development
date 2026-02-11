@@ -425,12 +425,12 @@ cd docs/
 ```markdown
 # Before
 Last updated: 2025-08-15
-See [ADR-001](../adrs/ADR-001.md) for details.
+See architectural decision for core directive system details.
 To recieve updates...
 
 # After
 Last updated: 2026-02-09
-See [ADR-001](../architecture/adrs/ADR-001-modular-agent-directive-system.md)
+See architectural decision documentation for modular agent directive system.
 To receive updates...
 ```
 

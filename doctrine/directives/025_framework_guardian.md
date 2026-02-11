@@ -291,7 +291,6 @@ Log primer usage in work logs per Directive 014.
 ## Cross-References
 
 - **DDR-002:** Framework Guardian Agent Role (doctrine pattern)
-- **ADR-013:** Zip-Based Framework Distribution (repository-specific tooling)
 - **Directive 004:** Documentation & Context Files (manifest location)
 - **Directive 006:** Version Governance (framework version tracking)
 - **Directive 008:** Artifact Templates (audit/upgrade templates)

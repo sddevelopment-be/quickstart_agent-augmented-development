@@ -24,7 +24,7 @@ Use a conventional, scoped prefix: `type(scope): summary`
 - `docs(readme): update installation instructions`
 - `refactor(agents): extract common validation logic`
 - `chore(deps): update black to 25.11.0`
-- `architecture(adr): add ADR-024 for caching strategy`
+- `architecture(adr): add ADR-NNN (caching strategy) for caching strategy`
 
 ### Type Prefixes
 
@@ -61,7 +61,7 @@ feat(orchestration): add configurable task timeouts
 Enables users to specify per-task execution limits to prevent
 runaway processes. Defaults to 30 minutes if not specified.
 
-Related: ADR-018 (Traceable Decisions)
+Related: Directive 018 (Traceable Decisions) (Traceable Decisions)
 Closes: #142
 ```
 

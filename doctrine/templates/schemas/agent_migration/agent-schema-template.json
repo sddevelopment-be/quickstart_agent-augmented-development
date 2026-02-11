@@ -63,7 +63,7 @@
           "title": "File Path",
           "description": "File path relative to repository root",
           "pattern": "^[^/].*$",
-          "examples": ["docs/adr/ADR-001-architecture-decision.md", "src/main.js"]
+          "examples": ["docs/architecture/adrs/ADR-NNN-example.md", "src/main.js"]
         },
         "type": {
           "type": "string",
@@ -253,7 +253,7 @@
         "examples": [
           [
             {
-              "path": "docs/adr/ADR-013-multi-format.md",
+              "path": "docs/architecture/adrs/ADR-NNN-example.md",
               "type": "ADR",
               "format": "markdown"
             }

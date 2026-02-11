@@ -133,7 +133,7 @@ cat /path/to/your/repo/.framework_meta.yml
 
 ## Framework Guardian Metadata
 
-> 🛡️ This release has been validated by Framework Guardian per ADR-014.
+> 🛡️ This release has been validated by Framework Guardian per DDR-002 (Framework Guardian).
 
 ```yaml
 guardian_metadata:
@@ -386,8 +386,8 @@ If you encounter issues not covered here:
 
 ### Architecture Documents
 
-- [ADR-013: Zip-Based Framework Distribution](${DOC_ROOT}/architecture/adrs/ADR-013-zip-distribution.md)
-- [ADR-014: Framework Guardian Agent](${DOC_ROOT}/architecture/adrs/ADR-014-framework-guardian-agent.md)
+- [DDR-002 (Distribution Pattern): Zip-Based Framework Distribution](${DOC_ROOT}/architecture/adrs/DDR-002 (Distribution Pattern)-zip-distribution.md)
+- [DDR-002 (Framework Guardian): Framework Guardian Agent](${DOC_ROOT}/architecture/adrs/DDR-002 (Framework Guardian)-framework-guardian-agent.md)
 
 ### Operational Guides
 
@@ -476,13 +476,13 @@ If you encounter issues not covered here:
 - **What's New**: User-facing changes organized by category
 - **Breaking Changes**: CRITICAL for downstream teams
 - **Upgrade Instructions**: Practical step-by-step commands
-- **Framework Guardian Metadata**: NEW in v2.0.0 - ADR-014 compliance
+- **Framework Guardian Metadata**: NEW in v2.0.0 - DDR-002 (Framework Guardian) compliance
 - **Distribution Metadata**: NEW in v2.0.0 - Packaging details
 - **Troubleshooting**: Common issues specific to this release
 
 ### Guardian Metadata (NEW in v2.0.0)
 
-The Guardian Metadata section is a key addition per ADR-014. It provides:
+The Guardian Metadata section is a key addition per DDR-002 (Framework Guardian). It provides:
 
 - Audit status and completeness
 - File integrity verification
@@ -513,6 +513,6 @@ The Distribution Metadata section provides transparency about:
 ### Template Evolution
 
 - **v1.0.0**: Basic release notes structure
-- **v2.0.0**: Added Guardian Metadata and Distribution Metadata sections per ADR-013/014
+- **v2.0.0**: Added Guardian Metadata and Distribution Metadata sections per DDR-002 (Distribution Pattern)/014
 
 **Feedback:** Submit improvements to this template via PR or issue.

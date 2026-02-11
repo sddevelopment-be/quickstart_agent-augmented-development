@@ -100,7 +100,7 @@ User: /review
 Agent (Alphonso):
   Reviewed: M2 Batch 2.3 - Generic YAML Adapter
   Status: ✅ APPROVED
-  - ADR-029 compliance: ✅
+  - ADR-NNN (architecture pattern) compliance: ✅
   - Test coverage: 92% (excellent)
   - Security: ✅ ENV validation present
   Minor: Add type hints (low priority)

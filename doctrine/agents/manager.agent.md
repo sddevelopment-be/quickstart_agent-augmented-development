@@ -150,7 +150,7 @@ current_cycle:
   phase: "Phase 3: Implementation Planning"
   progress: "60%"
   blockers: 
-    - "Waiting on ADR-045 approval"
+    - "Waiting on architecture decision approval"
   next_milestone: "Tasks created by 2026-02-13"
   assigned_agents:
     - "Planning Petra (active)"

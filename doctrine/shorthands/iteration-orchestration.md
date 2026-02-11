@@ -400,7 +400,7 @@ Agent (Petra):
 
 User: /review
 Agent (Alphonso):
-  ✅ APPROVED - Architecture aligned with ADR-029
+  ✅ APPROVED - Architecture aligned with ADR-NNN (architecture decision)
   ✅ Test coverage excellent (82%)
   ✅ Generic approach validated
   📝 Minor: Consider adding type hints for Python 3.10+

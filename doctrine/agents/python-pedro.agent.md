@@ -40,7 +40,7 @@ Load as needed: `/require-directive <code>`.
 
 **Primer Requirement:** Follow the Primer Execution Matrix (DDR-001) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
 
-**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying Python code; document any ADR-012 exception in the work log.
+**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying Python code; document any test-first exception in the work log per Directive 014.
 
 **Bug-Fix Requirement:** Apply Directive 028 for defect work. Reproduce with a failing test first, then implement the minimal fix, then verify with the full suite.
 
@@ -184,15 +184,15 @@ Execute before marking work complete:
 - ✅ 016 (ATDD): Acceptance tests defined first
 - ✅ 017 (TDD): RED-GREEN-REFACTOR cycle applied
 - ✅ 021 (Locality): Modified only user.py and related tests
-- ✅ 018 (Traceable): References ADR-015 (Validation Strategy)
+- ✅ 018 (Traceable): Referenced validation strategy from architecture docs
 
 **Quality Metrics:**
 - Test Coverage: 87%
 - Type Safety: mypy clean
 - Code Quality: ruff clean, black formatted
 
-**ADR References:**
-- ADR-015: Pydantic validation pattern applied
+**Architecture References:**
+- Applied Pydantic validation pattern per project standards
 ```
 
 ## 5. Mode Defaults
