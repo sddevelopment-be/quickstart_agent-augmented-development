@@ -1,0 +1,361 @@
+name: Work Directory Validation (Enhanced)
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+concurrency:
+  group: validation-enhanced-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate Work Directory with Error Reporting
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Python environment
+        uses: ./.github/actions/setup-python-env
+        with:
+          python-version: '3.10'
+          cache-key-prefix: 'pip-validation'
+      
+      # Structure Validation
+      - name: Validate work directory structure
+        id: structure
+        run: |
+          set +e  # Don't exit on error, capture output
+          OUTPUT_FILE="output/structure_validation.txt"
+          mkdir -p output
+          
+          echo "Validating work directory structure..."
+          bash tools/validators/validate-work-structure.sh 2>&1 | tee "$OUTPUT_FILE"
+          EXIT_CODE=${PIPESTATUS[0]}
+          
+          echo "exit_code=$EXIT_CODE" >> $GITHUB_OUTPUT
+          echo "output_file=$OUTPUT_FILE" >> $GITHUB_OUTPUT
+          
+          if [ $EXIT_CODE -eq 0 ]; then
+            echo "structure_valid=true" >> $GITHUB_OUTPUT
+          else
+            echo "structure_valid=false" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+      
+      - name: Generate structure error report
+        if: always() && steps.structure.outputs.structure_valid == 'false'
+        uses: ./.github/actions/error-summary
+        with:
+          workflow-name: "Work Directory Validation"
+          job-name: "validate"
+          validator-name: "work-structure"
+          input-file: ${{ steps.structure.outputs.output_file }}
+          fail-on-errors: 'false'
+      
+      # Schema Validation
+      - name: Validate task YAML files
+        id: schema
+        run: |
+          set +e
+          OUTPUT_FILE="output/schema_validation.txt"
+          mkdir -p output
+          
+          echo "Validating task YAML schemas..."
+          
+          # Find YAML files under done/ directories changed in the last 15 days
+          task_files=$(
+            git log --since="15 days ago" --name-only --pretty=format: --diff-filter=ACMR \
+              ":(glob)work/**/done/**/*.yaml" \
+            | sort -u \
+            | while IFS= read -r file; do
+                [ -f "$file" ] && [ "$file" != ".gitkeep" ] && echo "$file"
+              done
+          )
+          
+          if [ -z "$task_files" ]; then
+            echo "No task files found to validate"
+            echo "schema_valid=true" >> $GITHUB_OUTPUT
+            echo "exit_code=0" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          # Validate each file and collect output
+          validation_failed=0
+          while IFS= read -r file; do
+            echo "Validating: $file"
+            if ! python tools/validators/validate-task-schema.py "$file" 2>&1 | tee -a "$OUTPUT_FILE"; then
+              validation_failed=1
+              echo "❌ Failed: $file"
+            else
+              echo "✅ Valid: $file"
+            fi
+          done <<< "$task_files"
+          
+          echo "exit_code=$validation_failed" >> $GITHUB_OUTPUT
+          echo "output_file=$OUTPUT_FILE" >> $GITHUB_OUTPUT
+          
+          if [ $validation_failed -eq 1 ]; then
+            echo "schema_valid=false" >> $GITHUB_OUTPUT
+          else
+            echo "schema_valid=true" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+      
+      - name: Generate schema error report
+        if: always() && steps.schema.outputs.schema_valid == 'false'
+        uses: ./.github/actions/error-summary
+        with:
+          workflow-name: "Work Directory Validation"
+          job-name: "validate"
+          validator-name: "task-schema"
+          input-file: ${{ steps.schema.outputs.output_file }}
+          fail-on-errors: 'false'
+      
+      # Naming Validation
+      - name: Validate task naming conventions
+        id: naming
+        run: |
+          set +e
+          OUTPUT_FILE="output/naming_validation.txt"
+          mkdir -p output
+          
+          echo "Validating task naming conventions..."
+          bash tools/validators/validate-task-naming.sh 2>&1 | tee "$OUTPUT_FILE"
+          EXIT_CODE=${PIPESTATUS[0]}
+          
+          echo "exit_code=$EXIT_CODE" >> $GITHUB_OUTPUT
+          echo "output_file=$OUTPUT_FILE" >> $GITHUB_OUTPUT
+          
+          if [ $EXIT_CODE -eq 0 ]; then
+            echo "naming_valid=true" >> $GITHUB_OUTPUT
+          else
+            echo "naming_valid=false" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+      
+      - name: Generate naming error report
+        if: always() && steps.naming.outputs.naming_valid == 'false'
+        uses: ./.github/actions/error-summary
+        with:
+          workflow-name: "Work Directory Validation"
+          job-name: "validate"
+          validator-name: "task-naming"
+          input-file: ${{ steps.naming.outputs.output_file }}
+          fail-on-errors: 'false'
+      
+      # E2E Tests
+      - name: Check for E2E tests
+        id: check_e2e
+        run: |
+          if [ -f "tests/orchestration/test_orchestration_e2e.py" ]; then
+            echo "e2e_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "e2e_exists=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Run E2E tests
+        id: e2e
+        if: steps.check_e2e.outputs.e2e_exists == 'true'
+        run: |
+          set +e
+          OUTPUT_FILE="output/e2e_validation.txt"
+          mkdir -p output
+          
+          echo "Running E2E orchestration tests..."
+          python -m pytest tests/orchestration/test_orchestration_e2e.py -v 2>&1 | tee "$OUTPUT_FILE"
+          EXIT_CODE=${PIPESTATUS[0]}
+          
+          echo "exit_code=$EXIT_CODE" >> $GITHUB_OUTPUT
+          echo "output_file=$OUTPUT_FILE" >> $GITHUB_OUTPUT
+          
+          if [ $EXIT_CODE -eq 0 ]; then
+            echo "e2e_valid=true" >> $GITHUB_OUTPUT
+          else
+            echo "e2e_valid=false" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+      
+      - name: Generate E2E error report
+        if: always() && steps.check_e2e.outputs.e2e_exists == 'true' && steps.e2e.outputs.e2e_valid == 'false'
+        uses: ./.github/actions/error-summary
+        with:
+          workflow-name: "Work Directory Validation"
+          job-name: "validate"
+          validator-name: "e2e-tests"
+          input-file: ${{ steps.e2e.outputs.output_file }}
+          fail-on-errors: 'false'
+      
+      # Aggregate and Report
+      - name: Generate unified validation summary
+        id: summary
+        if: always()
+        run: |
+          echo "# 🔍 Work Directory Validation Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Workflow Run:** [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Build summary table
+          echo "| Check | Status | Details |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|---------|" >> $GITHUB_STEP_SUMMARY
+          
+          # Structure
+          if [ "${{ steps.structure.outputs.structure_valid }}" = "true" ]; then
+            echo "| Work directory structure | ✅ Valid | - |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| Work directory structure | ❌ Invalid | [Error Report](./output/error-reports/) |" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # Schema
+          if [ "${{ steps.schema.outputs.schema_valid }}" = "true" ]; then
+            echo "| Task YAML schemas | ✅ Valid | - |" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ steps.schema.outputs.schema_valid }}" = "false" ]; then
+            echo "| Task YAML schemas | ❌ Invalid | [Error Report](./output/error-reports/) |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| Task YAML schemas | ⚠️ Skipped | No files to validate |" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # Naming
+          if [ "${{ steps.naming.outputs.naming_valid }}" = "true" ]; then
+            echo "| Task naming conventions | ✅ Valid | - |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| Task naming conventions | ❌ Invalid | [Error Report](./output/error-reports/) |" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # E2E
+          if [ "${{ steps.check_e2e.outputs.e2e_exists }}" = "true" ]; then
+            if [ "${{ steps.e2e.outputs.e2e_valid }}" = "true" ]; then
+              echo "| E2E tests | ✅ Passed | - |" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "| E2E tests | ❌ Failed | [Error Report](./output/error-reports/) |" >> $GITHUB_STEP_SUMMARY
+            fi
+          else
+            echo "| E2E tests | ⚠️ Skipped | Tests not available |" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Determine overall status
+          all_valid=true
+          [ "${{ steps.structure.outputs.structure_valid }}" != "true" ] && all_valid=false
+          [ "${{ steps.schema.outputs.schema_valid }}" = "false" ] && all_valid=false
+          [ "${{ steps.naming.outputs.naming_valid }}" != "true" ] && all_valid=false
+          [ "${{ steps.check_e2e.outputs.e2e_exists }}" = "true" ] && [ "${{ steps.e2e.outputs.e2e_valid }}" != "true" ] && all_valid=false
+          
+          if [ "$all_valid" = "true" ]; then
+            echo "## ✅ All validations passed" >> $GITHUB_STEP_SUMMARY
+            echo "validation_status=success" >> $GITHUB_OUTPUT
+          else
+            echo "## ❌ Some validations failed" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### 🤖 For Copilot Agents:" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Structured error reports available:**" >> $GITHUB_STEP_SUMMARY
+            echo "1. Download the \`error-summary-*\` artifacts from this run" >> $GITHUB_STEP_SUMMARY
+            echo "2. Parse the JSON files for programmatic error handling" >> $GITHUB_STEP_SUMMARY
+            echo "3. Review markdown files for human-readable summaries" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Quick fixes:**" >> $GITHUB_STEP_SUMMARY
+            echo '```bash' >> $GITHUB_STEP_SUMMARY
+            echo "# Structure issues" >> $GITHUB_STEP_SUMMARY
+            echo "bash tools/validators/validate-work-structure.sh" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "# Schema errors" >> $GITHUB_STEP_SUMMARY
+            echo "python tools/validators/validate-task-schema.py <file.yaml>" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "# Naming issues" >> $GITHUB_STEP_SUMMARY
+            echo "bash tools/validators/validate-task-naming.sh" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "validation_status=failure" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Comment on PR
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const validationStatus = '${{ steps.summary.outputs.validation_status }}';
+            const structureValid = '${{ steps.structure.outputs.structure_valid }}' === 'true';
+            const schemaValid = '${{ steps.schema.outputs.schema_valid }}' === 'true';
+            const namingValid = '${{ steps.naming.outputs.naming_valid }}' === 'true';
+            const e2eExists = '${{ steps.check_e2e.outputs.e2e_exists }}' === 'true';
+            const e2eValid = '${{ steps.e2e.outputs.e2e_valid }}' === 'true';
+            
+            let body = '## 🔍 Work Directory Validation Results\n\n';
+            body += `**Workflow Run:** [${context.runId}](${context.payload.repository.html_url}/actions/runs/${context.runId})\n\n`;
+            
+            body += '| Check | Status |\n';
+            body += '|-------|--------|\n';
+            body += `| Work directory structure | ${structureValid ? '✅ Valid' : '❌ Invalid'} |\n`;
+            body += `| Task YAML schemas | ${schemaValid ? '✅ Valid' : '❌ Invalid'} |\n`;
+            body += `| Task naming conventions | ${namingValid ? '✅ Valid' : '❌ Invalid'} |\n`;
+            body += `| E2E tests | ${e2eExists ? (e2eValid ? '✅ Passed' : '❌ Failed') : '⚠️ Skipped'} |\n`;
+            body += '\n';
+            
+            if (validationStatus === 'success') {
+              body += '### ✅ All validations passed!\n\n';
+              body += 'Your work directory changes are valid and ready to merge.\n';
+            } else {
+              body += '### ❌ Some validations failed\n\n';
+              body += '#### 🤖 Agent-Friendly Error Reports Available\n\n';
+              body += 'Download structured error reports from workflow artifacts:\n';
+              body += `- \`error-summary-work-structure-${context.runId}\` (if failed)\n`;
+              body += `- \`error-summary-task-schema-${context.runId}\` (if failed)\n`;
+              body += `- \`error-summary-task-naming-${context.runId}\` (if failed)\n\n`;
+              body += 'Each artifact contains:\n';
+              body += '- **JSON**: Machine-readable error details with locations and suggestions\n';
+              body += '- **Markdown**: Human-readable summary with fix instructions\n\n';
+              body += '#### Quick Local Validation\n';
+              body += '```bash\n';
+              body += 'bash tools/validators/validate-work-structure.sh\n';
+              body += 'python tools/validators/validate-task-schema.py work/path/to/task.yaml\n';
+              body += 'bash tools/validators/validate-task-naming.sh\n';
+              body += '```\n';
+            }
+            
+            // Find and update/create comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            
+            const botComment = comments.find(comment => 
+              comment.user.type === 'Bot' && 
+              comment.body.includes('Work Directory Validation Results')
+            );
+            
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }
+      
+      - name: Fail if validation failed
+        if: steps.summary.outputs.validation_status == 'failure'
+        run: |
+          echo "❌ Validation failed - see structured error reports in artifacts"
+          exit 1

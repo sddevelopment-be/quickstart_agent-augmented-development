@@ -1,0 +1,136 @@
+name: 'Generate Error Summary'
+description: 'Generate agent-friendly error summaries for validation failures'
+author: 'DevOps Danny'
+
+inputs:
+  workflow-name:
+    description: 'Name of the workflow'
+    required: true
+  job-name:
+    description: 'Name of the job'
+    required: true
+  validator-name:
+    description: 'Name of the validator (e.g., task-schema, work-structure)'
+    required: true
+  input-file:
+    description: 'Path to file containing validation output'
+    required: false
+    default: ''
+  fail-on-errors:
+    description: 'Fail the action if errors are found'
+    required: false
+    default: 'true'
+  emit-annotations:
+    description: 'Emit GitHub Actions annotations for inline feedback'
+    required: false
+    default: 'true'
+  upload-artifact:
+    description: 'Upload JSON summary as workflow artifact'
+    required: false
+    default: 'true'
+
+outputs:
+  json-path:
+    description: 'Path to generated JSON summary'
+    value: ${{ steps.generate.outputs.json-path }}
+  markdown-path:
+    description: 'Path to generated Markdown summary'
+    value: ${{ steps.generate.outputs.markdown-path }}
+  error-count:
+    description: 'Number of errors found'
+    value: ${{ steps.parse.outputs.error-count }}
+  warning-count:
+    description: 'Number of warnings found'
+    value: ${{ steps.parse.outputs.warning-count }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+    
+    - name: Generate error summary
+      id: generate
+      shell: bash
+      run: |
+        OUTPUT_DIR="${GITHUB_WORKSPACE}/output/error-reports"
+        mkdir -p "$OUTPUT_DIR"
+        
+        TIMESTAMP=$(date -u +"%Y%m%d_%H%M%S")
+        JSON_PATH="${OUTPUT_DIR}/errors_${TIMESTAMP}.json"
+        MARKDOWN_PATH="${OUTPUT_DIR}/errors_${TIMESTAMP}.md"
+        
+        SCRIPT_PATH="${GITHUB_WORKSPACE}/tools/scripts/generate-error-summary.py"
+        
+        # Build command
+        CMD=(
+          python3 "$SCRIPT_PATH"
+          --workflow "${{ inputs.workflow-name }}"
+          --job "${{ inputs.job-name }}"
+          --validator "${{ inputs.validator-name }}"
+          --output-json "$JSON_PATH"
+          --output-markdown "$MARKDOWN_PATH"
+        )
+        
+        if [[ -n "${{ inputs.input-file }}" ]]; then
+          CMD+=(--input "${{ inputs.input-file }}")
+        fi
+        
+        if [[ "${{ inputs.emit-annotations }}" == "true" ]]; then
+          CMD+=(--emit-annotations)
+        fi
+        
+        if [[ "${{ inputs.fail-on-errors }}" == "true" ]]; then
+          CMD+=(--fail-on-errors)
+        fi
+        
+        # Execute and capture exit code
+        EXIT_CODE=0
+        "${CMD[@]}" || EXIT_CODE=$?
+        
+        # Set outputs
+        echo "json-path=$JSON_PATH" >> $GITHUB_OUTPUT
+        echo "markdown-path=$MARKDOWN_PATH" >> $GITHUB_OUTPUT
+        echo "exit-code=$EXIT_CODE" >> $GITHUB_OUTPUT
+        
+        # Append to step summary
+        if [[ -f "$MARKDOWN_PATH" ]]; then
+          cat "$MARKDOWN_PATH" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        exit $EXIT_CODE
+    
+    - name: Parse error counts
+      id: parse
+      if: always()
+      shell: bash
+      run: |
+        JSON_PATH="${{ steps.generate.outputs.json-path }}"
+        
+        if [[ -f "$JSON_PATH" ]]; then
+          ERROR_COUNT=$(python3 -c "import json; print(json.load(open('$JSON_PATH'))['summary']['total_errors'])")
+          WARNING_COUNT=$(python3 -c "import json; print(json.load(open('$JSON_PATH'))['summary']['total_warnings'])")
+          
+          echo "error-count=$ERROR_COUNT" >> $GITHUB_OUTPUT
+          echo "warning-count=$WARNING_COUNT" >> $GITHUB_OUTPUT
+        else
+          echo "error-count=0" >> $GITHUB_OUTPUT
+          echo "warning-count=0" >> $GITHUB_OUTPUT
+        fi
+    
+    - name: Upload error summary artifact
+      if: always() && inputs.upload-artifact == 'true'
+      uses: actions/upload-artifact@v4
+      with:
+        name: error-summary-${{ inputs.validator-name }}-${{ github.run_id }}
+        path: |
+          ${{ steps.generate.outputs.json-path }}
+          ${{ steps.generate.outputs.markdown-path }}
+        retention-days: 30
+        if-no-files-found: warn
+
+branding:
+  icon: 'alert-circle'
+  color: 'red'

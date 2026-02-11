@@ -11,6 +11,54 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - Agent-Friendly Error Reporting System (2025-02-11)
+
+**Implemented by:** DevOps Danny
+
+#### Added
+- **Error Aggregation Infrastructure**
+  - `tools/scripts/generate-error-summary.py` - Python script for structured error reporting
+  - `tools/scripts/generate-error-summary.sh` - Shell wrapper with GitHub Actions integration
+  - Structured error data model with location tracking, severity levels, and fix suggestions
+  - JSON output for programmatic agent access
+  - Markdown output for human-readable summaries
+  - GitHub Actions annotations for inline PR feedback
+
+- **Reusable GitHub Action**
+  - `.github/actions/error-summary/action.yml` - Composite action for easy workflow integration
+  - Automatic artifact upload with configurable retention
+  - Output variables for downstream workflow steps
+  - Integrated step summary generation
+
+- **Enhanced Validation Workflow**
+  - `.github/workflows/validation-enhanced.yml` - Demonstration workflow with full error reporting
+  - Multi-validator integration (structure, schema, naming, E2E tests)
+  - Automated PR comments with structured error reports
+  - Agent-friendly instructions and artifact links
+
+- **Comprehensive Documentation**
+  - `docs/error-reporting-system.md` - Complete system documentation (522 lines)
+  - `docs/error-reporting-quick-reference.md` - Quick start guide (365 lines)
+  - `docs/IMPLEMENTATION_ERROR_REPORTING.md` - Implementation summary
+  - Updated `tools/scripts/README.md` with error reporting section
+
+- **Examples & Testing**
+  - `examples/error-reports/` - Example JSON and Markdown error reports
+  - `tests/test_error_reporting_integration.sh` - Integration test suite (7/7 passing)
+  - Sample error scenarios for agent training
+
+#### Benefits
+- **For Agents:** Machine-readable JSON with precise locations and actionable suggestions
+- **For Humans:** Clear Markdown summaries, inline annotations, and PR comments
+- **For Repository:** Reproducible error reporting, improved CI/CD reliability
+
+#### Alignment
+- Follows Directive 001 (CLI & Shell Tooling), Directive 018 (Documentation Framework)
+- Implements test-first approach per Directive 028 (Bug Fixing Techniques)
+- Aligned with ADR-011 (Primer Execution Matrix) and ADR-028
+
+---
+
 ### Major Refactoring - Code Artifact Consolidation (2026-02-08)
 
 #### Changed
