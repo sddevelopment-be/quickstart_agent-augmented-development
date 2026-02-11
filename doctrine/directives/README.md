@@ -1,14 +1,14 @@
 # Directives Index
 
 **Version:** 1.0.0  
-**Last Updated:** 2026-02-08  
+**Last Updated:** 2026-02-11  
 **Curator:** Claire
 
 ---
 
 ## Purpose
 
-Directives are explicit instructions and constraints for agent behavior. Each directive is numbered (001-035+) for load-on-demand efficiency and prescribes what must or must not be done in specific situations.
+Directives are explicit instructions and constraints for agent behavior. Each directive is numbered (001-039+) for load-on-demand efficiency and prescribes what must or must not be done in specific situations.
 
 ---
 
@@ -45,6 +45,10 @@ Directives are explicit instructions and constraints for agent behavior. Each di
 | 028  | [Bugfixing Techniques](./028_bugfixing_techniques.md) | Systematic bug resolution strategies |
 | 034  | [Spec-Driven Development](./034_spec_driven_development.md) | Specification-first methodology |
 | 035  | [Specification Frontmatter Standards](./035_specification_frontmatter_standards.md) | Metadata requirements for specs |
+| 036  | [Boy Scout Rule](./036_boy_scout_rule.md) | Leave code better than you found it |
+| 037  | [Context-Aware Design](./037_context_aware_design.md) | Design decisions based on context |
+| 038  | [Ensure Conceptual Alignment](./038_ensure_conceptual_alignment.md) | Maintain conceptual integrity |
+| 039  | [Refactoring Techniques](./039_refactoring_techniques.md) | Safe, incremental code structure improvements |
 
 ---
 
@@ -120,5 +124,5 @@ When adding a new directive:
 
 ---
 
-**Last Reviewed:** 2026-02-08  
-**Next Review:** 2027-02-08
+**Last Reviewed:** 2026-02-11  
+**Next Review:** 2027-02-11
