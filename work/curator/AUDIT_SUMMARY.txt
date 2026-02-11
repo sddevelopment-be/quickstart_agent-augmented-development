@@ -1,0 +1,143 @@
+═══════════════════════════════════════════════════════════════════
+ DOCTRINE DEPENDENCY DIRECTION AUDIT - COMPLETE
+═══════════════════════════════════════════════════════════════════
+
+Question: "For Claire: I noticed a doctrine artefact pointing to an 
+          ADR (which are local). That is violating our dependency 
+          direction constraints, is it not?"
+
+Answer:   ✅ YES - Multiple violations confirmed
+
+═══════════════════════════════════════════════════════════════════
+ FINDINGS SUMMARY
+═══════════════════════════════════════════════════════════════════
+
+Total Violations: 114
+
+  🔴 CRITICAL:       6  (Direct dependencies, breaks portability)
+  🟠 MODERATE-HIGH:  1  (Bootstrap circular dependencies)
+  🟡 MODERATE:      16  (Context references, boilerplate)
+  🟢 LOW/INFO:      91  (Templates with ${DOC_ROOT} - intentional)
+
+═══════════════════════════════════════════════════════════════════
+ CRITICAL FILES
+═══════════════════════════════════════════════════════════════════
+
+1. doctrine/directives/023_clarification_before_execution.md
+   └─ References ADR-023 as implementation basis (4 violations)
+
+2. doctrine/directives/034_spec_driven_development.md
+   └─ Uses ADR-028, ADR-032 as authoritative examples (3 violations)
+
+3. doctrine/GLOSSARY.md
+   └─ Defines "Primer" relative to ADR-011 (2 violations)
+
+4. doctrine/directives/019_file_based_collaboration.md
+   └─ Cites ADR-002, ADR-003 in references (2 violations)
+
+5. doctrine/directives/025_framework_guardian.md
+   └─ Circular dependency: references ADR-013, ADR-014 (3 violations)
+
+6. doctrine/directives/018_traceable_decisions.md
+   └─ Self-references ADR-017 (1 violation)
+
+═══════════════════════════════════════════════════════════════════
+ DELIVERABLES
+═══════════════════════════════════════════════════════════════════
+
+Location: work/curator/
+
+📄 INDEX.md                                    (This summary + guide)
+📄 EXECUTIVE_SUMMARY.md                        (2-min stakeholder view)
+📋 REMEDIATION_CHECKLIST.md                    (Step-by-step fixes)
+📊 2026-02-11-doctrine-dependency-violations-report.md  (Full 26KB)
+📝 worklog-2026-02-11-doctrine-dependency-audit.md      (Audit trail)
+🔧 validate-dependencies.sh                    (CI validation script)
+
+═══════════════════════════════════════════════════════════════════
+ REMEDIATION PLAN
+═══════════════════════════════════════════════════════════════════
+
+Phase 1 [P1 - Critical]        4-6 hours   Fix 6 critical violations
+Phase 2 [P2 - Moderate]        2-3 hours   Fix 16 moderate violations
+Phase 3 [P3 - Prevention]      2-3 hours   CI + hooks + docs
+Phase 4 [P4 - Framework FDs]   4-6 hours   Create doctrine/decisions/
+                              ─────────
+                    TOTAL:    12-18 hours
+
+═══════════════════════════════════════════════════════════════════
+ NOVEL PROPOSAL: FRAMEWORK DECISIONS
+═══════════════════════════════════════════════════════════════════
+
+Problem: Some ADRs are framework-level (ADR-011, ADR-013, ADR-014)
+         Creating circular dependencies when referenced from doctrine/
+
+Solution: Create doctrine/decisions/ with FD-NNN prefix
+          
+          FD = Framework Decision (ships with framework)
+          ADR = Architecture Decision (repository-specific)
+
+Example: ADR-011 (Primer Execution) → FD-001 (Primer Execution)
+         ADR-013 (Zip Distribution) → FD-002 (Zip Distribution)
+         ADR-014 (Framework Guardian) → FD-003 (Framework Guardian)
+
+Benefits: ✅ Resolves circular dependencies
+          ✅ Clear framework vs. repository distinction
+          ✅ Maintains traceability
+          ✅ Preserves portability
+
+═══════════════════════════════════════════════════════════════════
+ VALIDATION
+═══════════════════════════════════════════════════════════════════
+
+Test the violations detection:
+
+  bash work/curator/validate-dependencies.sh
+
+Current result: ❌ 60+ violations detected
+
+After Phase 1-2:  ✅ 0 critical/moderate violations
+After Phase 3-4:  ✅ 0 violations + CI enforcement
+
+═══════════════════════════════════════════════════════════════════
+ NEXT STEPS
+═══════════════════════════════════════════════════════════════════
+
+For @stijn-dejongh:
+
+  1. Review EXECUTIVE_SUMMARY.md (2 minutes)
+  2. Approve/reject Framework Decision proposal
+  3. Prioritize remediation phases
+  4. Assign implementation work
+
+For Implementer:
+
+  1. Create branch: fix/doctrine-dependency-violations
+  2. Follow REMEDIATION_CHECKLIST.md step-by-step
+  3. Test with validate-dependencies.sh after each change
+  4. Submit PR when Phase 1-2 complete
+
+═══════════════════════════════════════════════════════════════════
+ QUESTIONS
+═══════════════════════════════════════════════════════════════════
+
+1. Framework Decision pattern - approve?
+2. Remediation timing - immediate or next sprint?
+3. CI enforcement - hard fail or warning?
+4. Agent profiles - batch update or individual?
+
+═══════════════════════════════════════════════════════════════════
+ STATUS
+═══════════════════════════════════════════════════════════════════
+
+✅ Audit complete
+✅ Violations confirmed and categorized
+✅ Remediation plan created
+✅ Prevention strategy defined
+✅ Validation script functional
+
+⏳ Awaiting review and approval from @stijn-dejongh
+
+═══════════════════════════════════════════════════════════════════
+ CURATOR CLAIRE - DEPENDENCY DIRECTION AUDIT - 2026-02-11
+═══════════════════════════════════════════════════════════════════
