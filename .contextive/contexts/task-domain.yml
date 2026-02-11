@@ -1,0 +1,163 @@
+# Task Domain Glossary
+# Version: 1.0.0
+# Date: 2026-02-10
+# Purpose: Task lifecycle, status, and agent interaction vocabulary
+# Status: ACTIVE
+
+name: "Task Domain"
+description: "Task lifecycle, status, and agent interaction vocabulary"
+terms:
+  - term: "TaskStatus"
+    definition: "Enumeration of task lifecycle states"
+    context: "Task Domain"
+    status: "canonical"
+    source: "src/common/types.py"
+    values:
+      - "inbox: Task awaiting assignment"
+      - "assigned: Task assigned to agent, not yet started"
+      - "in_progress: Task actively being executed"
+      - "done: Task successfully completed"
+      - "error: Task failed execution"
+      - "blocked: Task execution blocked on dependency"
+    state_machine: "inbox → assigned → in_progress → {done | error | blocked}"
+    related_terms:
+      - "Task Lifecycle Directory (Orchestration Context)"
+    implementation: "src/common/types.py: TaskStatus(Enum)"
+    
+  - term: "FeatureStatus"
+    definition: "Enumeration of feature implementation states in specifications"
+    context: "Task Domain"
+    status: "canonical"
+    source: "src/common/types.py"
+    values:
+      - "planned: Feature identified, not started"
+      - "in_progress: Feature under development"
+      - "completed: Feature implemented and verified"
+      - "blocked: Feature blocked on dependency"
+      - "deferred: Feature postponed to future release"
+    related_terms:
+      - "Feature (Portfolio Domain)"
+      - "Specification (Portfolio Domain)"
+    implementation: "src/common/types.py: FeatureStatus(Enum)"
+    
+  - term: "TaskPriority"
+    definition: "Enumeration of task priority levels for scheduling and resource allocation"
+    context: "Task Domain"
+    status: "canonical"
+    source: "src/common/types.py"
+    values:
+      - "critical: Blocking issue, immediate attention required"
+      - "high: Important feature or significant improvement"
+      - "medium: Standard priority, normal queue processing"
+      - "low: Nice-to-have, process when available"
+    usage: "Used by orchestrator for task assignment ordering"
+    implementation: "src/common/types.py: TaskPriority(Enum)"
+    
+  - term: "TaskMode"
+    definition: "Agent operating mode for task execution style"
+    context: "Task Domain"
+    status: "canonical"
+    source: "src/common/types.py"
+    values:
+      - "analysis: Deep analysis and investigation mode"
+      - "creative: Generative and exploratory mode"
+      - "meta: System-level reflection and process improvement"
+      - "execution: Direct implementation and execution"
+    usage: "Specified in task descriptor to guide agent behavior"
+    related_terms:
+      - "Agent (Orchestration Context)"
+    implementation: "src/common/types.py: TaskMode(Enum)"
+    
+  - term: "AgentIdentity"
+    definition: "Type-safe identifier for agent specializations"
+    context: "Task Domain"
+    status: "canonical"
+    source: "src/common/types.py"
+    purpose: "Ensures valid agent references, prevents typos in agent names"
+    examples:
+      - "architect-alphonso"
+      - "python-pedro"
+      - "curator-claire"
+      - "code-reviewer-cindy"
+      - "lexical-larry"
+    validation: "Must match agent profile file name in .github/agents/profiles/"
+    related_terms:
+      - "Agent (Orchestration Context)"
+      - "Agent Queue (Orchestration Context)"
+    implementation: "src/common/types.py: AgentIdentity(str) with validation"
+    
+  - term: "TaskDescriptor"
+    definition: "YAML-serializable representation of a task for file I/O operations"
+    context: "Task Domain"
+    status: "proposed"
+    rationale: "Replaces raw Dict[str, Any] usage, provides semantic clarity"
+    structure:
+      - "id: Unique task identifier (ISO timestamp + agent + slug)"
+      - "title: Human-readable task summary"
+      - "description: Detailed task requirements"
+      - "agent: Target agent identity"
+      - "status: Current TaskStatus value"
+      - "priority: TaskPriority value"
+      - "mode: TaskMode for execution style"
+      - "created_at: ISO 8601 timestamp"
+      - "updated_at: ISO 8601 timestamp"
+      - "result: Execution result (optional, present when done)"
+      - "error: Error details (optional, present when error)"
+    schema: "docs/templates/agent-tasks/task-base.yaml"
+    related_terms:
+      - "Task File (Orchestration Context)"
+      - "Serialize/Deserialize (Orchestration Context)"
+    
+  - term: "TaskAggregate"
+    definition: "Domain model representation of task with business logic"
+    context: "Task Domain"
+    status: "proposed"
+    rationale: "Separates domain logic from file I/O concerns"
+    responsibilities:
+      - "Validate task state transitions"
+      - "Enforce business rules (e.g., priority constraints)"
+      - "Calculate derived properties (e.g., time in state)"
+      - "Emit domain events (future)"
+    note: "TaskDescriptor (Orchestration) is serialized form of TaskAggregate (Domain)"
+    related_terms:
+      - "TaskDescriptor (serialization layer)"
+      - "Task File (persistence layer)"
+
+# Anti-Corruption Layer Vocabulary
+# (Translation between Task Domain and other contexts)
+
+  - term: "Task Translation"
+    definition: "Conversion between TaskAggregate (domain) and TaskDescriptor (I/O)"
+    context: "Task Domain (ACL)"
+    status: "proposed"
+    patterns:
+      - "TaskAggregate → TaskDescriptor: serialize_task()"
+      - "TaskDescriptor → TaskAggregate: parse_task()"
+    rationale: "Isolates domain logic from file format changes"
+    
+  - term: "Status Transition Validator"
+    definition: "Component that validates TaskStatus state transitions"
+    context: "Task Domain"
+    status: "proposed"
+    valid_transitions:
+      inbox: ["assigned", "error"]
+      assigned: ["in_progress", "blocked", "error"]
+      in_progress: ["done", "blocked", "error"]
+      blocked: ["in_progress", "error"]
+      done: []  # terminal state
+      error: []  # terminal state
+    implementation: "To be created in task domain module"
+
+# Metadata
+
+owner: "Curator Claire"
+reviewers: ["Architect Alphonso", "Python Pedro"]
+approval_required: true
+enforcement_tier: "advisory"  # Default tier per living-glossary-practice.md
+supersedes: null
+created_from: "Terminology Validation Report (2026-02-10)"
+decision_history:
+  - date: "2026-02-10"
+    rationale: "Created to document task-specific vocabulary identified in code but missing from glossary"
+    source: "work/terminology-validation-report.md, Section 4.2"
+    decision: "Extract task domain into separate glossary per bounded context principle"

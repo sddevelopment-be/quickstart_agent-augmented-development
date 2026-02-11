@@ -16,8 +16,12 @@ This directory contains the results of a comprehensive lexical analysis performe
 |------|---------|----------|------|
 | **LEXICAL_ANALYSIS_REPORT.md** | Comprehensive linguistic analysis | Architects, curators, strategic decisions | 43KB |
 | **LEXICAL_EXECUTIVE_SUMMARY.md** | Executive overview with priorities | Tech leads, managers, prioritization | 7KB |
-| **LEXICAL_STYLE_GUIDE.md** | Actionable style guidance | All contributors, daily reference | 10KB |
-| **TERMINOLOGY_ISSUE_TRACKER.md** | Code review quick reference | Code reviewers, PR workflow | 10KB |
+
+**Note:** Style guides and review templates have been reorganized to permanent locations:
+- **Python Naming:** `.doctrine-config/styleguides/python-naming-conventions.md`
+- **Generic DDD Naming:** `doctrine/docs/styleguides/domain-driven-naming.md`
+- **Review Checklist:** `.doctrine-config/tactics/terminology-validation-checklist.tactic.md`
+- **PR Templates:** `.doctrine-config/templates/pr-comment-templates.md`
 
 ---
 
@@ -28,12 +32,14 @@ This directory contains the results of a comprehensive lexical analysis performe
 **Then dive into:** [LEXICAL_ANALYSIS_REPORT.md](LEXICAL_ANALYSIS_REPORT.md) Section 6 (Recommendations)
 
 ### For Daily Work
-→ **Reference:** [LEXICAL_STYLE_GUIDE.md](LEXICAL_STYLE_GUIDE.md)  
-**Quick lookup:** [TERMINOLOGY_ISSUE_TRACKER.md](TERMINOLOGY_ISSUE_TRACKER.md)
+→ **Reference:** `.doctrine-config/styleguides/python-naming-conventions.md` (Python)  
+→ **Reference:** `doctrine/docs/styleguides/domain-driven-naming.md` (Generic DDD)  
+**Quick lookup:** `.doctrine-config/tactics/terminology-validation-checklist.tactic.md`
 
 ### For Code Review
-→ **Primary tool:** [TERMINOLOGY_ISSUE_TRACKER.md](TERMINOLOGY_ISSUE_TRACKER.md)  
-**Style reference:** [LEXICAL_STYLE_GUIDE.md](LEXICAL_STYLE_GUIDE.md) Section "Enforcement Philosophy"
+→ **Primary tool:** `.doctrine-config/tactics/terminology-validation-checklist.tactic.md`  
+**Comment templates:** `.doctrine-config/templates/pr-comment-templates.md`  
+**Style reference:** `.doctrine-config/styleguides/python-naming-conventions.md`
 
 ---
 
@@ -85,16 +91,16 @@ This directory contains the results of a comprehensive lexical analysis performe
 
 ### For Implementation (Developers)
 
-1. Reference [LEXICAL_STYLE_GUIDE.md](LEXICAL_STYLE_GUIDE.md) during writing
+1. Reference `.doctrine-config/styleguides/python-naming-conventions.md` during writing
 2. Apply patterns from "Python Naming Conventions" section
 3. Use "Glossary Term Usage" guidance in docstrings
-4. Follow "ADR Writing Style" for architectural docs
+4. Follow generic DDD principles from `doctrine/docs/styleguides/domain-driven-naming.md`
 
 ### For Code Review (Reviewers)
 
-1. Keep [TERMINOLOGY_ISSUE_TRACKER.md](TERMINOLOGY_ISSUE_TRACKER.md) open during reviews
+1. Keep `.doctrine-config/tactics/terminology-validation-checklist.tactic.md` open during reviews
 2. Check "Quick Checklist" for each PR
-3. Use "Comment Templates Library" for consistent feedback
+3. Use `.doctrine-config/templates/pr-comment-templates.md` for consistent feedback
 4. Apply enforcement philosophy: Advisory → Acknowledgment → Escalation
 
 ### For Deep Analysis (Architects, Curators)

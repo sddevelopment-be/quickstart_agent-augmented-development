@@ -38,13 +38,13 @@ terms:
     state_machine: "inbox → assigned → {done | error}"
     
   - term: "Serialize"
-    definition: "Convert in-memory task representation to YAML-compatible dictionary for persistence"
+    definition: "Convert logical representation to textual/storable format (e.g., save as file). Applies to any data structure, not just tasks."
     context: "Orchestration Context"
     status: "proposed"
     opposite: "Deserialize"
     
   - term: "Deserialize"
-    definition: "Parse YAML file content into in-memory task representation"
+    definition: "Parse textual/storable format into in-memory representation. Applies to any data structure, not just tasks."
     context: "Orchestration Context"
     status: "proposed"
     opposite: "Serialize"
@@ -80,7 +80,7 @@ terms:
     schema: "docs/templates/agent-tasks/task-base.yaml"
     
   - term: "Task Assignment"
-    definition: "Process of moving task file from inbox/ to assigned/{agent}/ directory"
+    definition: "Give task to a specialist agent for execution. Implementation: tracked via file-system operation (move to assigned/)."
     context: "Orchestration Context"
     status: "canonical"
     implementation: "agent_orchestrator.assign_tasks()"

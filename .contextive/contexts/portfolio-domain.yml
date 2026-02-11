@@ -1,0 +1,193 @@
+# Portfolio Domain Glossary
+# Version: 1.0.0
+# Date: 2026-02-10
+# Purpose: Portfolio management, specification, and feature tracking vocabulary
+# Status: ACTIVE
+
+name: "Portfolio Domain"
+description: "Portfolio management, specification, and feature tracking vocabulary"
+terms:
+  - term: "Specification"
+    definition: "Formal requirements document defining a project's scope, features, and acceptance criteria"
+    context: "Portfolio Domain"
+    status: "canonical"
+    source: "src/llm_service/dashboard/spec_parser.py"
+    structure:
+      - "metadata: Project name, version, status, dates"
+      - "initiatives: High-level project groupings"
+      - "features: Detailed capabilities within initiatives"
+      - "dependencies: Cross-feature and external dependencies"
+      - "acceptance_criteria: Success measures per feature"
+    file_format: "YAML (.spec.yaml)"
+    location: "specifications/"
+    usage: "Primary source of truth for project requirements"
+    related_terms:
+      - "Initiative"
+      - "Feature"
+      - "Portfolio View"
+    
+  - term: "Initiative"
+    definition: "High-level grouping of related features representing a major project theme or objective"
+    context: "Portfolio Domain"
+    status: "canonical"
+    source: "specifications/*.spec.yaml"
+    purpose: "Organize features into logical groups for tracking and reporting"
+    examples:
+      - "Core Platform Features"
+      - "Developer Experience Improvements"
+      - "Documentation & Onboarding"
+      - "Performance Optimization"
+    relationship: "One initiative contains many features"
+    related_terms:
+      - "Specification"
+      - "Feature"
+    
+  - term: "Feature"
+    definition: "Specific capability or requirement within a specification, representing a discrete unit of value"
+    context: "Portfolio Domain"
+    status: "canonical"
+    source: "specifications/*.spec.yaml"
+    properties:
+      - "id: Unique identifier within specification"
+      - "title: Brief feature description"
+      - "description: Detailed requirements"
+      - "status: FeatureStatus value"
+      - "priority: Feature priority level"
+      - "acceptance_criteria: List of success conditions"
+      - "dependencies: List of prerequisite features"
+    relationship: "Features belong to initiatives, map to tasks"
+    lifecycle: "planned → in_progress → completed | blocked | deferred"
+    related_terms:
+      - "FeatureStatus (Task Domain)"
+      - "Initiative"
+      - "Specification"
+    
+  - term: "Portfolio View"
+    definition: "Dashboard UI representation showing project specifications, initiatives, and feature status"
+    context: "Portfolio Domain"
+    status: "canonical"
+    source: "src/llm_service/dashboard/"
+    purpose: "Provide stakeholders with real-time visibility into project portfolio"
+    features:
+      - "Specification listing and filtering"
+      - "Initiative progress tracking"
+      - "Feature status visualization"
+      - "Dependency graph navigation"
+      - "Task assignment monitoring"
+    implementation: "Flask web application at /dashboard"
+    related_terms:
+      - "Specification"
+      - "Initiative"
+      - "Feature"
+      - "Dashboard (Infrastructure)"
+    
+  - term: "Specification Parser"
+    definition: "Component that reads and validates specification YAML files"
+    context: "Portfolio Domain"
+    status: "canonical"
+    implementation: "src/llm_service/dashboard/spec_parser.py"
+    responsibilities:
+      - "Parse specification YAML files"
+      - "Validate structure against schema"
+      - "Extract initiatives and features"
+      - "Build dependency graph"
+    related_terms:
+      - "Specification"
+      - "Feature"
+    
+  - term: "Feature Dependency"
+    definition: "Relationship between features where one feature requires another to be completed first"
+    context: "Portfolio Domain"
+    status: "canonical"
+    types:
+      - "blocking: Feature cannot start until dependency completes"
+      - "related: Features share context but can proceed independently"
+    representation: "List of feature IDs in specification YAML"
+    visualization: "Dependency graph in Portfolio View"
+    related_terms:
+      - "Feature"
+      - "FeatureStatus (Task Domain - blocked)"
+    
+  - term: "Specification Repository"
+    definition: "Component managing persistence and querying of specification documents"
+    context: "Portfolio Domain"
+    status: "proposed"
+    rationale: "Currently handled by direct file access, should be encapsulated"
+    responsibilities:
+      - "Load specifications from file system"
+      - "Cache parsed specifications"
+      - "Query features by status, initiative, dependency"
+      - "Validate specification updates"
+    implementation: "To be refactored from spec_parser.py"
+    note: "Proposed to replace SpecificationCache with Repository pattern"
+    
+  - term: "Initiative Progress"
+    definition: "Calculated metric showing completion percentage of features within an initiative"
+    context: "Portfolio Domain"
+    status: "canonical"
+    calculation: "(completed_features / total_features) * 100"
+    displayed_in: "Portfolio View, executive reports"
+    related_terms:
+      - "Initiative"
+      - "Feature"
+      - "FeatureStatus (Task Domain)"
+    
+  - term: "Feature-Task Mapping"
+    definition: "Association between portfolio features and execution tasks"
+    context: "Portfolio Domain (Cross-Context)"
+    status: "proposed"
+    purpose: "Link strategic planning (features) with operational execution (tasks)"
+    representation: "Task YAML includes feature_id reference"
+    benefits:
+      - "Trace feature status from tasks"
+      - "Aggregate task results to feature completion"
+      - "Enable feature-driven task generation"
+    related_terms:
+      - "Feature (Portfolio Domain)"
+      - "Task (Task Domain)"
+      - "TaskDescriptor (Task Domain)"
+    
+  - term: "Specification Validation"
+    definition: "Process of checking specification files against schema and business rules"
+    context: "Portfolio Domain"
+    status: "canonical"
+    checks:
+      - "YAML syntax validity"
+      - "Required fields presence"
+      - "Feature ID uniqueness within specification"
+      - "Dependency references validity (no dangling refs)"
+      - "Status value validity (matches FeatureStatus enum)"
+    implementation: "src/llm_service/dashboard/spec_parser.py: validate_spec()"
+    related_terms:
+      - "Specification"
+      - "FeatureStatus (Task Domain)"
+
+# Bounded Context Boundaries
+
+  - term: "Portfolio-Task Boundary"
+    definition: "Translation layer between portfolio planning and task execution"
+    context: "Portfolio Domain (ACL)"
+    status: "proposed"
+    translation_patterns:
+      - "Feature (Portfolio) → Task (Task Domain): feature-driven task generation"
+      - "TaskStatus (Task Domain) → FeatureStatus (Portfolio): status aggregation"
+    note: "Currently implicit, should be explicit Anti-Corruption Layer"
+    related_terms:
+      - "Feature-Task Mapping"
+      - "TaskStatus (Task Domain)"
+      - "FeatureStatus (Task Domain)"
+
+# Metadata
+
+owner: "Curator Claire"
+reviewers: ["Architect Alphonso", "Frontend Freddy"]
+approval_required: true
+enforcement_tier: "advisory"  # Default tier per living-glossary-practice.md
+supersedes: null
+created_from: "Terminology Validation Report (2026-02-10)"
+decision_history:
+  - date: "2026-02-10"
+    rationale: "Dashboard context has rich domain vocabulary not in any glossary. Created separate bounded context glossary."
+    source: "work/terminology-validation-report.md, Section 3.3"
+    decision: "Extract portfolio domain into separate glossary per bounded context principle"
+    note: "Generic class names (TaskAssignmentHandler, SpecificationCache) should be refactored per domain-driven-naming.md"
