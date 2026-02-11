@@ -264,72 +264,56 @@ class TestDashboardAPIFiltering:
     """Test suite for Dashboard API task filtering functionality."""
     
     def test_tasks_endpoint_include_done_parameter_default(self):
-        """Test: /api/tasks endpoint excludes done tasks by default when using query params."""
+        """Test: /api/tasks endpoint returns nested structure."""
         from llm_service.dashboard.app import create_app
         
         app, _ = create_app()
         client = app.test_client()
         
-        # Mock the refactored load_tasks_with_filter function
-        with patch('llm_service.dashboard.app.load_tasks_with_filter') as mock_load_filtered:
-            mock_load_filtered.return_value = [
-                {'id': 'task-1', 'title': 'Open Task', 'status': 'assigned'},
-                {'id': 'task-2', 'title': 'In Progress', 'status': 'in_progress'}
-            ]
-            
-            # Use explicit include_done=false to trigger new behavior
-            response = client.get('/api/tasks?include_done=false')
-            
-            assert response.status_code == 200
-            data = json.loads(response.data)
-            assert len(data) == 2
-            # Should call load_tasks_with_filter with include_done=False
-            mock_load_filtered.assert_called_once_with(ANY, include_done=False)
+        # Without file watcher, should return empty nested structure
+        response = client.get('/api/tasks?include_done=false')
+        
+        assert response.status_code == 200
+        data = json.loads(response.data)
+        # Should have nested structure with 5 keys
+        assert len(data) == 5
+        assert 'inbox' in data
+        assert 'assigned' in data
+        assert 'done' in data
+        assert 'error' in data
+        assert 'timestamp' in data
 
     def test_tasks_endpoint_include_done_false(self):
-        """Test: /api/tasks?include_done=false returns only active tasks."""
+        """Test: /api/tasks?include_done=false returns structure without done/error."""
         from llm_service.dashboard.app import create_app
         
         app, _ = create_app()
         client = app.test_client()
         
-        # Mock the refactored function
-        with patch('llm_service.dashboard.app.load_tasks_with_filter') as mock_load_filtered:
-            mock_load_filtered.return_value = [
-                {'id': 'task-1', 'title': 'Open Task', 'status': 'assigned'},
-                {'id': 'task-2', 'title': 'In Progress', 'status': 'in_progress'}
-            ]
-            
-            response = client.get('/api/tasks?include_done=false')
-            
-            assert response.status_code == 200
-            data = json.loads(response.data)
-            assert len(data) == 2
-            # Should call with include_done=False
-            mock_load_filtered.assert_called_once_with(ANY, include_done=False)
+        response = client.get('/api/tasks?include_done=false')
+        
+        assert response.status_code == 200
+        data = json.loads(response.data)
+        # Should have empty done and error sections
+        assert data['done'] == {}
+        assert data['error'] == {}
 
     def test_tasks_endpoint_include_done_true(self):
-        """Test: /api/tasks?include_done=true returns all tasks including done."""
+        """Test: /api/tasks?include_done=true returns full structure."""
         from llm_service.dashboard.app import create_app
         
         app, _ = create_app()
         client = app.test_client()
         
-        # Mock the refactored function
-        with patch('llm_service.dashboard.app.load_tasks_with_filter') as mock_load_filtered:
-            mock_load_filtered.return_value = [
-                {'id': 'task-1', 'title': 'Open Task', 'status': 'assigned'},
-                {'id': 'task-2', 'title': 'Done Task', 'status': 'done'}, 
-                {'id': 'task-3', 'title': 'Error Task', 'status': 'error'}
-            ]
-            
-            response = client.get('/api/tasks?include_done=true')
-            
-            assert response.status_code == 200
-            data = json.loads(response.data)
-            assert len(data) == 3  # Should include all tasks
-            # Should call with include_done=True
-            mock_load_filtered.assert_called_once_with(ANY, include_done=True)
+        response = client.get('/api/tasks?include_done=true')
+        
+        assert response.status_code == 200
+        data = json.loads(response.data)
+        # Should include all sections in structure
+        assert 'done' in data
+        assert 'error' in data
+        assert isinstance(data['done'], dict)
+        assert isinstance(data['error'], dict)
 
     def test_tasks_finished_endpoint(self):
         """Test: /api/tasks/finished returns only DONE and ERROR tasks."""

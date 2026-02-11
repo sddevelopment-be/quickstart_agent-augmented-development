@@ -1,21 +1,17 @@
 """
-Test for task_query.py import consistency bug.
+Test for task_query.py module location after ADR-046 refactoring.
 
-This test verifies that the task_query module can be imported correctly
-when the dashboard runs, exposing the import path inconsistency bug.
+This test verifies that the task_query module has been properly moved
+to the domain layer and can be imported correctly.
 
-Bug Description:
-    - task_query.py uses: from common.task_schema import load_task_safe
-    - app.py uses: from src.domain.collaboration.task_schema import load_task_safe
-    - When dashboard runs, PYTHONPATH doesn't include 'src/', causing ModuleNotFoundError
+ADR-046 Context:
+    - task_query.py moved from framework.orchestration to domain.collaboration
+    - This aligns with bounded context architecture
+    - Dashboard and framework both depend on domain layer (no circular deps)
 
 Expected Behavior:
-    - All production code should use consistent import paths
-    - task_query.py should use 'from src.common...' like other production modules
-
-Related:
-    - Issue: Empty dashboard UI (tasks not loading)
-    - Root Cause: task_query module import failure on dashboard startup
+    - All production code imports from src.domain.collaboration.task_query
+    - No imports from old src.framework.orchestration.task_query location
 """
 
 import sys
@@ -27,72 +23,50 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 def test_task_query_module_can_be_imported():
     """
-    Test that task_query module can be imported successfully.
-    
-    This test FAILS with current code because task_query.py uses
-    'from common...' instead of 'from src.common...'
+    Test that task_query module can be imported from domain layer.
     """
-    # Simulate dashboard import context (no PYTHONPATH manipulation)
-    # Dashboard runs from repository root without adding 'src/' to path
-    
     try:
-        # This import should work like app.py imports work
-        from src.framework.orchestration import task_query
+        # Import from new domain location (ADR-046)
+        from src.domain.collaboration import task_query
         
         # Verify the module loaded successfully
         assert hasattr(task_query, 'find_task_files')
         assert hasattr(task_query, 'load_open_tasks')
         assert hasattr(task_query, 'filter_tasks')
         
-        print("✅ PASS: task_query module imported successfully")
+        print("✅ PASS: task_query module imported successfully from domain layer")
         return True
         
     except ModuleNotFoundError as e:
-        # This is the bug we're catching
         print(f"❌ FAIL: task_query module import failed: {e}")
-        print("Root cause: Inconsistent import paths in task_query.py")
-        print("Expected: 'from src.common...' (like app.py)")
-        print("Actual: 'from common...' (missing src. prefix)")
         return False
 
 
-def test_task_query_imports_match_dashboard_convention():
+def test_task_query_imports_use_domain_layer():
     """
-    Verify task_query.py uses the same import convention as app.py.
-    
-    This ensures import consistency across production modules.
+    Verify task_query.py is in domain layer (ADR-046).
     """
-    task_query_path = Path("src/framework/orchestration/task_query.py")
-    assert task_query_path.exists(), "task_query.py not found"
+    # New location after ADR-046
+    task_query_path = Path("src/domain/collaboration/task_query.py")
+    assert task_query_path.exists(), "task_query.py should be in domain.collaboration"
     
-    content = task_query_path.read_text()
+    # Old location should not exist
+    old_path = Path("src/framework/orchestration/task_query.py")
+    assert not old_path.exists(), "Old task_query.py should be removed from framework"
     
-    # Check for incorrect imports (without src. prefix)
-    incorrect_imports = [
-        line for line in content.splitlines()
-        if line.strip().startswith("from common.")
-    ]
-    
-    # Should use 'from src.common...' not 'from common...'
-    if len(incorrect_imports) == 0:
-        print("✅ PASS: All imports use correct 'src.' prefix")
-        return True
-    else:
-        print(f"❌ FAIL: Found {len(incorrect_imports)} imports without 'src.' prefix:")
-        for line in incorrect_imports:
-            print(f"  - {line.strip()}")
-        print("\nAll production modules should use 'from src.common...' for consistency")
-        return False
+    print("✅ PASS: task_query.py correctly located in domain layer")
+    return True
 
 
 def test_dashboard_can_import_task_query_functions():
     """
-    Test that dashboard app.py can successfully import and use task_query functions.
+    Test that dashboard can import task_query functions from domain layer.
     
-    This simulates the actual dashboard startup import sequence.
+    This verifies the architectural fix where dashboard depends on domain
+    instead of framework (prevents circular dependencies).
     """
-    # Import as dashboard does
-    from src.framework.orchestration.task_query import (
+    # Import from domain layer (ADR-046)
+    from src.domain.collaboration.task_query import (
         find_task_files,
         load_open_tasks,
         filter_tasks,
@@ -103,7 +77,7 @@ def test_dashboard_can_import_task_query_functions():
     assert callable(load_open_tasks)
     assert callable(filter_tasks)
     
-    # Verify they have correct signatures (basic check)
+    # Verify they have correct signatures
     import inspect
     
     find_sig = inspect.signature(find_task_files)
@@ -119,25 +93,31 @@ def test_dashboard_can_import_task_query_functions():
 
 
 if __name__ == "__main__":
-    # Run tests to expose the bug
+    # Run tests
     print("=" * 70)
-    print("Testing task_query.py import consistency (TDD RED phase)")
+    print("Testing task_query.py location after ADR-046 refactoring")
     print("=" * 70)
     print()
     
     results = []
     
-    print("Test 1: Module can be imported")
+    print("Test 1: Module can be imported from domain layer")
     print("-" * 70)
     results.append(test_task_query_module_can_be_imported())
     print()
     
-    print("Test 2: Import paths match dashboard convention")
+    print("Test 2: Module is in correct location (domain)")
     print("-" * 70)
-    results.append(test_task_query_imports_match_dashboard_convention())
+    try:
+        test_task_query_imports_use_domain_layer()
+        print("✅ PASS: Correctly located in domain layer")
+        results.append(True)
+    except AssertionError as e:
+        print(f"❌ FAIL: {e}")
+        results.append(False)
     print()
     
-    print("Test 3: Dashboard can import task_query functions")
+    print("Test 3: Dashboard can import from domain layer")
     print("-" * 70)
     try:
         test_dashboard_can_import_task_query_functions()

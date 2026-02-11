@@ -76,11 +76,21 @@ class TestToolConfig:
         assert len(config.models) == 2
 
     def test_tool_config_missing_placeholder(self):
-        """Test that missing required placeholders are rejected."""
-        with pytest.raises(ValidationError, match="missing required placeholder"):
+        """Test that command template must reference binary."""
+        # Validation was relaxed to only require binary reference
+        # This should pass now (no longer requires {model})
+        config = ToolConfig(
+            binary='test',
+            command_template='{binary} {prompt_file}',  # Missing {model} is OK
+            models=['model1'],
+        )
+        assert config.binary == 'test'
+        
+        # But missing binary reference should fail
+        with pytest.raises(ValidationError, match="should reference the binary"):
             ToolConfig(
                 binary='test',
-                command_template='{binary} {prompt_file}',  # Missing {model}
+                command_template='{prompt_file} {model}',  # Missing binary reference
                 models=['model1'],
             )
 
