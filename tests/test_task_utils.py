@@ -580,7 +580,7 @@ def test_find_task_file_exists(tmp_path: Path) -> None:
     Related: Enhancement H1 consolidation of find_task_file utility.
     """
     # Import here to avoid import errors before implementation
-    from framework.orchestration.task_utils import find_task_file
+    from src.framework.orchestration.task_utils import find_task_file
     
     # Arrange
     work_dir = tmp_path / "work"
@@ -605,7 +605,7 @@ def test_find_task_file_exists(tmp_path: Path) -> None:
 
 def test_find_task_file_not_found(tmp_path: Path) -> None:
     """Test find_task_file returns None when task doesn't exist."""
-    from framework.orchestration.task_utils import find_task_file
+    from src.framework.orchestration.task_utils import find_task_file
     
     # Arrange
     work_dir = tmp_path / "work"
@@ -627,7 +627,7 @@ def test_find_task_file_not_found(tmp_path: Path) -> None:
 
 def test_find_task_file_missing_assigned_dir(tmp_path: Path) -> None:
     """Test find_task_file returns None when assigned directory doesn't exist."""
-    from framework.orchestration.task_utils import find_task_file
+    from src.framework.orchestration.task_utils import find_task_file
     
     # Arrange
     work_dir = tmp_path / "work"
@@ -646,7 +646,7 @@ def test_find_task_file_missing_assigned_dir(tmp_path: Path) -> None:
 
 def test_find_task_file_nested_subdirectories(tmp_path: Path) -> None:
     """Test find_task_file searches recursively in agent subdirectories."""
-    from framework.orchestration.task_utils import find_task_file
+    from src.framework.orchestration.task_utils import find_task_file
     
     # Arrange
     work_dir = tmp_path / "work"
@@ -677,7 +677,7 @@ def test_find_task_file_nested_subdirectories(tmp_path: Path) -> None:
 
 def test_find_task_file_first_match(tmp_path: Path) -> None:
     """Test find_task_file returns first match when duplicates exist."""
-    from framework.orchestration.task_utils import find_task_file
+    from src.framework.orchestration.task_utils import find_task_file
     
     # Arrange
     work_dir = tmp_path / "work"

@@ -15,9 +15,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-# Import shared task I/O from common module (ADR-042)
-from common.task_schema import read_task, write_task
-from common.types import TaskStatus
+# Import shared task I/O from domain module (ADR-046)
+from src.domain.collaboration.task_schema import read_task, write_task
+from src.domain.collaboration.types import TaskStatus
 
 # Re-export for backward compatibility
 __all__ = [

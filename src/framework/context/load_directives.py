@@ -17,7 +17,7 @@ from pathlib import Path
 # Add parent directory to path for common utilities
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from common.path_utils import get_agents_dir
+from src.domain.common.path_utils import get_agents_dir
 
 
 class DirectiveLoader:

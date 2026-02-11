@@ -28,10 +28,10 @@ from pathlib import Path
 
 # Add parent directory to path for imports
 REPO_ROOT = Path(__file__).parent.parent.parent
-sys.path.insert(0, str(REPO_ROOT / "src"))
+sys.path.insert(0, str(REPO_ROOT))
 
-from common.task_schema import read_task, write_task
-from framework.orchestration.task_utils import find_task_file, get_utc_timestamp
+from src.domain.collaboration.task_schema import read_task, write_task
+from src.framework.orchestration.task_utils import find_task_file, get_utc_timestamp
 
 
 def freeze_task(task_id: str, reason: str, work_dir: Path) -> None:
