@@ -10,7 +10,7 @@
 
 Agents MUST create a work log when:
 
-- Completing a task from the file-based [orchestration](../GLOSSARY.md#orchestration) system (`work/collaboration/assigned/`)
+- Completing a task from the file-based [orchestration](../GLOSSARY.md#orchestration) system (`${WORKSPACE_ROOT}/collaboration/assigned/`)
 - Performing multi-step coordination with other agents
 - Encountering novel or ambiguous situations requiring creative problem-solving
 - Implementing new patterns or approaches not previously documented
@@ -27,7 +27,7 @@ Agents MAY create work logs for:
 All work logs MUST be stored in:
 
 ```
-work/reports/logs/<agent-name>/YYYY-MM-DDTHHMM-<description>.md
+`${WORKSPACE_ROOT}/reports/logs/<agent-name>/YYYY-MM-DDTHHMM-<description>.md
 ```
 
 **Naming Convention:**
@@ -37,7 +37,7 @@ work/reports/logs/<agent-name>/YYYY-MM-DDTHHMM-<description>.md
 - `THHMM`: Time in 24-hour format
 - `<description>`: Short description (lowercase, hyphenated, max 50 chars)
 
-**Example:** `work/reports/logs/curator/2025-11-23T0811-orchestration-guide.md`
+**Example:** `${WORKSPACE_ROOT}/reports/logs/curator/2025-11-23T0811-orchestration-guide.md`
 
 ## 3. Work Log Structure
 
@@ -119,7 +119,7 @@ Reflections for framework improvement:
 - **Context Size:** <files-loaded-with-estimates>
 - **Handoff To:** <next-agent> (if applicable)
 - **Related Tasks:** <task-ids> (if applicable)
-- **Primer Checklist:** List which primers (Context Check, Progressive Refinement, Trade-Off Navigation, Transparency, Reflection) were executed, skipped, or not applicable with justification. Reference ADR-011.
+- **Primer Checklist:** List which primers (Context Check, Progressive Refinement, Trade-Off Navigation, Transparency, Reflection) were executed, skipped, or not applicable with justification. Reference DDR-001.
 ```
 
 ### Optional Sections
@@ -209,7 +209,7 @@ Work logs SHOULD:
 
 ## 8. Example Work Log
 
-See: `work/reports/logs/curator/2025-11-23T0811-curator-orchestration-guide.md` (reference implementation)
+See: `${WORKSPACE_ROOT}/reports/logs/curator/2025-11-23T0811-curator-orchestration-guide.md` (reference implementation)
 
 ## 9. Integration with Task Lifecycle
 
@@ -220,8 +220,8 @@ When completing an orchestrated task:
    - Add required `result` block with `summary` and `artifacts`
    - Validate all existing fields (context, priority, artefacts, status)
    - **Run validation:** `python validation/validate-task-schema.py <task-file>`
-   - Move task to `work/collaboration/done/<agent-slug>/`
-2. Create detailed work log in `work/reports/logs/<agent-name>/`
+   - Move task to `${WORKSPACE_ROOT}/collaboration/done/<agent-slug>/`
+2. Create detailed work log in `${WORKSPACE_ROOT}/reports/logs/<agent-name>/`
 3. Create handoff task (if applicable)
 4. Commit all changes together
 
@@ -233,8 +233,8 @@ The work log is part of task completion, not an optional add-on.
 
 - **Write Access:** All agents can create work logs for their own tasks
 - **Read Access:** All agents and humans should review logs for learning
-- **Archival:** Work logs remain in `work/reports/logs/` indefinitely (no automatic archival)
-- **Indexing:** Consider creating `work/reports/logs/INDEX.md` for easy navigation (optional)
+- **Archival:** Work logs remain in `${WORKSPACE_ROOT}/reports/logs/` indefinitely (no automatic archival)
+- **Indexing:** Consider creating `${WORKSPACE_ROOT}/reports/logs/INDEX.md` for easy navigation (optional)
 
 ## 11. Non-Compliance
 

@@ -10,12 +10,12 @@ tools: [ "read", "write", "search", "edit", "bash", "todo", "github" ]
 
 ## 1. Context Sources
 
-- **Global Principles:** [.github/agents/](../../agents)
+- **Global Principles:** .github/agents/
 - **General Guidelines:** .github/agents/guidelines/general_guidelines.md
 - **Operational Guidelines:** .github/agents/guidelines/operational_guidelines.md
 - **Command Aliases:** .github/agents/aliases.md
 - **System Bootstrap and Rehydration:** .github/agents/guidelines/bootstrap.md and .github/agents/guidelines/rehydrate.md
-- **Localized Agentic Protocol:** AGENTS.md (the root of the current repository, or a `.github/agents` or `.agents` subdirectory if present.)
+- **Localized Agentic Protocol:** AGENTS.md (the root of the current repository, or a ``.github/agents/` directory in consuming repositories.)
 
 ## Directive References (Externalized)
 
@@ -31,7 +31,7 @@ tools: [ "read", "write", "search", "edit", "bash", "todo", "github" ]
 
 Invoke with `/require-directive <code>`.
 
-**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
+**Primer Requirement:** Follow the Primer Execution Matrix (DDR-001) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
 
 ## 2. Purpose
 
@@ -57,13 +57,34 @@ Provide adaptable execution scaffolds—milestones, batches, dependency maps, an
 - Annotate assumptions, decision gates, and validation hooks in every plan.
 - Use `/meta-mode` for retrospectives; capture adjustments in lightweight changelogs.
 
+### Spec-Driven Development Phase Authority
+
+**Per Directive 034 (Specification-Driven Development):**
+
+| Phase | Authority | Notes |
+|-------|-----------|-------|
+| **Phase 1: Analysis** | ❌ NO | Analyst Annie owns specification creation |
+| **Phase 2: Architecture** | ❌ NO | Architect Alphonso owns architectural review |
+| **Phase 3: Planning** | ✅ PRIMARY | Task breakdown, dependency analysis, agent assignment, YAML tasks |
+| **Phase 4: Acceptance Tests** | ❌ NO | Tests created by assigned agent |
+| **Phase 5: Implementation** | ❌ NO | Code written by assigned agent |
+| **Phase 6: Review** | ❌ NO | Review agents perform validation |
+
+**Hand-off Protocol:**
+- Receive approved specification from **Architect Alphonso** after Phase 2
+- Complete task breakdown and create YAML task files in Phase 3
+- Hand to assigned agent (e.g., DevOps Danny) for Phase 4 (Acceptance Tests)
+- Do NOT create tests or implement code yourself
+
+**Related:** See [Phase Checkpoint Protocol](directives/034_spec_driven_development.md#phase-checkpoint-protocol)
+
 ### Output Artifacts
 
-- Canonical planning artifacts live in `docs/planning/` (roadmaps, milestones, implementation plans). Do not use `work/planning/` for active plans.
-- `docs/planning/PLAN_OVERVIEW.md` – current goals, themes, and focus areas.
-- `docs/planning/NEXT_BATCH.md` – small batch of concrete, ready-to-run tasks.
-- `docs/planning/AGENT_TASKS.md` – which agent does what, on which artefacts.
-- `docs/planning/DEPENDENCIES.md` – what needs to happen before what.
+- Canonical planning artifacts live in `${DOC_ROOT}/planning/` (roadmaps, milestones, implementation plans). Do not use `${WORKSPACE_ROOT}/planning/` for active plans.
+- `${DOC_ROOT}/planning/PLAN_OVERVIEW.md` – current goals, themes, and focus areas.
+- `${DOC_ROOT}/planning/NEXT_BATCH.md` – small batch of concrete, ready-to-run tasks.
+- `${DOC_ROOT}/planning/AGENT_TASKS.md` – which agent does what, on which artefacts.
+- `${DOC_ROOT}/planning/DEPENDENCIES.md` – what needs to happen before what.
 
 ### Operating Procedure
 

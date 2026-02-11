@@ -186,7 +186,7 @@ No. It feels slower initially, but it's faster in total:
 When working on a bug fix task:
 
 ```yaml
-# work/collaboration/inbox/YYYY-MM-DD-bug-fix-task.yaml
+# ${WORKSPACE_ROOT}/collaboration/inbox/YYYY-MM-DD-bug-fix-task.yaml
 task_id: "bug-fix-[description]"
 assigned_to: "[agent-name]"
 approach: "test-first-bug-fixing"  # ← RECOMMENDED
@@ -243,8 +243,8 @@ Watch for these anti-patterns:
 
 ### Full Documentation
 
-- **Detailed Approach:** `.github/agents/approaches/test-first-bug-fixing.md`
-- **Checklist:** `.github/agents/approaches/bug-fixing-checklist.md`
+- **Detailed Approach:** `approaches/test-first-bug-fixing.md`
+- **Checklist:** `approaches/bug-fixing-checklist.md`
 
 ### External References
 

@@ -608,7 +608,7 @@ Conduct a comprehensive assessment once per year:
   grep "command not found" logs/*.log | sort | uniq -c
   
   # Survey agent profiles for tool references
-  rg "rg|fd|jq|yq|ast-grep|fzf" .github/agents/*.agent.md
+  rg "rg|fd|jq|yq|ast-grep|fzf" agents/*.agent.md
   ```
 
 **Strategic Decisions:**
@@ -716,7 +716,7 @@ The tooling setup integrates with file-based orchestration to eliminate installa
 Configure the orchestration system to verify tooling before task assignment:
 
 ```python
-# In work/scripts/agent_orchestrator.py
+# In ${WORKSPACE_ROOT}/scripts/agent_orchestrator.py
 
 def verify_tooling_setup(agent_profile):
     """Verify required tools are available before task assignment."""
@@ -1000,7 +1000,7 @@ Use this for rapid validation of tooling setup decisions:
 - **Directive 001:** [CLI & Shell Tooling](./../directives/001_cli_shell_tooling.md) — Detailed tool usage patterns
 - **Directive 013:** [Tooling Setup & Fallbacks](./../directives/013_tooling_setup.md) — Installation instructions
 - **Directive 011:** [Risk & Escalation](./../directives/011_risk_escalation.md) — How to escalate tool unavailability
-- **ADR-012:** Testing Requirements (Directive 016, 017)
+- **Directive 017 (TDD):** Testing Requirements (Directive 016, 017)
 - **Assessment:
   ** [Copilot Tooling Value Assessment](../../../work/reports/logs/architect/2025-11-24-copilot-tooling-value-assessment.md) — Data-driven analysis supporting these practices
 

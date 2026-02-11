@@ -58,13 +58,13 @@ For each file listed in `META/MANIFEST.yml`:
    - Guardian cannot distinguish intent—surface all diverged files for human review.
 
 4. **Orphan Detection:**
-   - Scan framework directories (`.github/agents/`, `docs/templates/`, etc.).
+   - Scan framework directories (`doctrine/` in consuming repositories, `templates/`, etc.).
    - Identify files not listed in manifest.
    - Classify as `CUSTOM` (potentially local additions or orphaned files).
 
 ### Audit Report Structure
 
-Generate `validation/FRAMEWORK_AUDIT_REPORT.md` using template from `docs/templates/GUARDIAN_AUDIT_REPORT.md`.
+Generate `validation/FRAMEWORK_AUDIT_REPORT.md` using template from `templates/GUARDIAN_AUDIT_REPORT.md`.
 
 Include:
 
@@ -138,7 +138,7 @@ For each `.framework-new` file:
 
 ### Upgrade Plan Structure
 
-Generate `validation/FRAMEWORK_UPGRADE_PLAN.md` using template from `docs/templates/GUARDIAN_UPGRADE_PLAN.md`.
+Generate `validation/FRAMEWORK_UPGRADE_PLAN.md` using template from `templates/GUARDIAN_UPGRADE_PLAN.md`.
 
 Include:
 
@@ -224,11 +224,11 @@ Guardian participates in file-based orchestration per Directive 019:
    - Creates work log in `work/logs/framework-guardian/` per Directive 014.
 
 4. **Status Updates:**
-   - Updates `work/collaboration/AGENT_STATUS.md` with completion timestamp.
+   - Updates `${WORKSPACE_ROOT}/collaboration/AGENT_STATUS.md` with completion timestamp.
 
 ## Templates and Standards
 
-**Audit Report Template:** `docs/templates/GUARDIAN_AUDIT_REPORT.md`
+**Audit Report Template:** `templates/GUARDIAN_AUDIT_REPORT.md`
 
 Required sections:
 - Metadata
@@ -237,7 +237,7 @@ Required sections:
 - Critical Findings
 - Recommendations
 
-**Upgrade Plan Template:** `docs/templates/GUARDIAN_UPGRADE_PLAN.md`
+**Upgrade Plan Template:** `templates/GUARDIAN_UPGRADE_PLAN.md`
 
 Required sections:
 - Metadata
@@ -280,7 +280,7 @@ Required sections:
 
 ## Primer Integration
 
-Per ADR-011 and Directive 010, Guardian invokes:
+Per DDR-001 and Directive 010, Guardian invokes:
 
 - **Transparency Primer:** When surfacing conflicts or uncertainties (⚠️ markers).
 - **Risk Awareness Primer:** When escalating critical issues (❗️ markers).
@@ -290,8 +290,7 @@ Log primer usage in work logs per Directive 014.
 
 ## Cross-References
 
-- **ADR-013:** Zip-Based Framework Distribution
-- **ADR-014:** Framework Guardian Agent Decision
+- **DDR-002:** Framework Guardian Agent Role (doctrine pattern)
 - **Directive 004:** Documentation & Context Files (manifest location)
 - **Directive 006:** Version Governance (framework version tracking)
 - **Directive 008:** Artifact Templates (audit/upgrade templates)

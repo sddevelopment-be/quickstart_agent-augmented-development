@@ -16,11 +16,11 @@ Use this when you need a compact, ready-to-run context for single-agent or low-r
 
 ## References Instead of Inline Walls of Text
 
-- General behavior and collaboration expectations: `.github/agents/guidelines/general_guidelines.md`
-- Repo-specific operational norms: `.github/agents/guidelines/operational_guidelines.md`
-- Alias commands and mode markers: `.github/agents/aliases.md`
-- Specialist capabilities: `.github/agents/*.agent.md`
-- Extended directives (load as needed): `.github/agents/directives/XXX_name.md` via `load_directives.sh`
+- General behavior and collaboration expectations: `guidelines/general_guidelines.md`
+- Repo-specific operational norms: `guidelines/operational_guidelines.md`
+- Alias commands and mode markers: `shorthands/README.md`
+- Specialist capabilities: agent profile files
+- Extended directives (load as needed): `directives/XXX_name.md` via `load_directives.sh`
 
 ## High-Stakes Toggle
 
@@ -30,7 +30,7 @@ If the task is high-risk, append the full governance pack: general + operational
 
 - Prefer links and section references over inlining entire guidelines in the prompt.
 - Drop non-essential sections when the task scope is narrow.
-- Keep transient reasoning in `work/notes` instead of the prompt transcript.
+- Keep transient reasoning in `${WORKSPACE_ROOT}/notes` instead of the prompt transcript.
 
 ## Scripted Context Assembly
 

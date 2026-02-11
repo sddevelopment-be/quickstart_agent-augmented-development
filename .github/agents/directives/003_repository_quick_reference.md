@@ -4,7 +4,7 @@
 
 Key Directories:
 
-- `.github/agents/` — Agent profiles, directives, approaches, guidelines
+- `doctrine/` in consuming repositories — Agent profiles, directives, approaches, guidelines
 - `work/` — Orchestration workspace (see work/README.md for structure)
     - `work/collaboration/` — Task orchestration (inbox, new, assigned, in_progress, done, archive)
     - `work/reports/` — Agent outputs (logs, metrics, benchmarks)
@@ -13,15 +13,15 @@ Key Directories:
     - `work/notes/` — Temporary notes and ideation
     - `work/articles/` — Public-facing articles and documentation experiments
 - `docs/` — Documentation (templates, architecture, HOW_TO_USE guides)
-    - `docs/templates/LEX/` — Lexical guidelines and terminology
-    - `docs/templates/structure/` — Structural templates and patterns
+    - `templates/LEX/` — Lexical guidelines and terminology
+    - `templates/structure/` — Structural templates and patterns
     - `docs/architecture/adrs/` — Architecture Decision Records
 - `validation/` — Validation scripts and test artifacts
 - `ops/` — Operational scripts and utilities
     - `ops/framework-core/` — Core framework utilities
     - `ops/orchestration/` — Orchestration and agent utilities
 - Generated (do not edit): `.git/`, `__pycache__/`, `.pytest_cache/`
-- Templates: `docs/templates/`, org-wide: `sddevelopment-be/templates/` (requires access / local clone)
+- Templates: `templates/`, org-wide: `sddevelopment-be/templates/` (requires access / local clone)
 
 Dependencies: `requirements.txt` (Python packages)
 

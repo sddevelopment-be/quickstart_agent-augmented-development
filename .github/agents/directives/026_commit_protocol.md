@@ -59,7 +59,7 @@
 
 ```bash
 general-purpose: refactor validation logic - extract helper functions
-architect: document API decision - add ADR-023 for REST vs GraphQL
+architect: document API decision - add ADR for REST vs GraphQL choice
 curator: normalize directory structure - align metadata in approaches/
 scribe: update README - add installation section
 bootstrap-bill: scaffold test directory - create pytest fixtures

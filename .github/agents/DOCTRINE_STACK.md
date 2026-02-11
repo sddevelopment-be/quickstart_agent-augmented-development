@@ -22,7 +22,7 @@ A doctrine stack separates concerns deliberately. Each layer has a distinct role
 
 ### 1. Guidelines
 
-**Location:** `.github/agents/guidelines/*.md`  
+**Location:** `guidelines/*.md`  
 **Purpose:** Enduring values, preferences, and guardrails  
 **Role:** Define *how work should feel* and *what to optimize for or avoid*
 
@@ -39,7 +39,7 @@ A doctrine stack separates concerns deliberately. Each layer has a distinct role
 
 ### 2. Approaches
 
-**Location:** `.github/agents/approaches/*.md`  
+**Location:** `approaches/*.md`  
 **Purpose:** Conceptual models and philosophies for reasoning  
 **Role:** Explain *how problems are generally framed and explored*
 
@@ -56,7 +56,7 @@ A doctrine stack separates concerns deliberately. Each layer has a distinct role
 
 ### 3. Directives
 
-**Location:** `.github/agents/directives/XXX_name.md`  
+**Location:** `directives/XXX_name.md`  
 **Purpose:** Explicit instructions or constraints  
 **Role:** Select *what must be done or not done in a specific situation*
 
@@ -73,7 +73,7 @@ A doctrine stack separates concerns deliberately. Each layer has a distinct role
 
 ### 4. Templates
 
-**Location:** `docs/templates/`  
+**Location:** `templates/`  
 **Purpose:** Structural output contracts  
 **Role:** Define *what shape results must take*
 
@@ -90,7 +90,7 @@ A doctrine stack separates concerns deliberately. Each layer has a distinct role
 
 ### 5. Tactics
 
-**Location:** `.github/agents/tactics/*.tactic.md`  
+**Location:** `tactics/*.tactic.md`  
 **Purpose:** Procedural execution guides  
 **Role:** Define *how a specific task is carried out, step by step*
 
@@ -111,7 +111,7 @@ A doctrine stack separates concerns deliberately. Each layer has a distinct role
 
 **Discovery mechanism:**
 - **Primary:** Directives explicitly invoke tactics at workflow steps
-- **Secondary:** Agents discover via `.github/agents/tactics/README.md` and propose to Human
+- **Secondary:** Agents discover via `tactics/README.md` and propose to Human
 - See [Discovering Available Tactics](#discovering-available-tactics) below
 
 ---
@@ -268,7 +268,7 @@ The doctrine stack layers map to AGENTS.md Section 2 (Context Stack Overview):
 
 **Owner:** Curator Claire  
 **Review Cycle:** Annual or when 5+ new layers/patterns emerge  
-**Change Protocol:** Proposals via `work/collaboration/inbox/` task files  
+**Change Protocol:** Proposals via `${WORKSPACE_ROOT}/collaboration/inbox/` task files  
 **Version Governance:** Follow Directive 006 (Version Governance)
 
 **Version History:**

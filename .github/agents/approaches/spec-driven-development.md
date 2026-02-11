@@ -100,7 +100,7 @@ Feature: Dashboard Real-Time Updates
 
 **Example:**
 ```markdown
-# ADR-032: Use Flask-SocketIO for Real-Time Updates
+# ADR-NNN (WebSocket technology choice): Use Flask-SocketIO for Real-Time Updates
 
 ## Context
 Dashboard requires real-time updates for stock prices.
@@ -247,7 +247,7 @@ START: Do I need to document something?
 1. **Create Specification Stub**
    ```bash
    # Create file at appropriate location
-   docs/specifications/features/[feature-name].md
+   docs/${SPEC_ROOT}/features/[feature-name].md
    ```
 
 2. **Draft Specification**
@@ -307,7 +307,7 @@ and assign to appropriate specialist."
 
 ```
 For Backend-Dev Benny:
-"Convert specification scenarios from docs/specifications/features/[name].md 
+"Convert specification scenarios from docs/${SPEC_ROOT}/features/[name].md 
 into Gherkin acceptance tests. Ensure all requirements (FR1-FRN) have 
 corresponding test coverage."
 
@@ -364,7 +364,7 @@ acceptance tests pass."
 
 2. **Freeze on Completion**
    - Mark status as "Implemented"
-   - Move to `docs/specifications/archive/` (optional)
+   - Move to `docs/${SPEC_ROOT}/archive/` (optional)
    - Spec becomes reference documentation
 
 3. **Future Changes**
@@ -378,7 +378,7 @@ acceptance tests pass."
 
 ### 1. Feature Specifications
 
-**Location:** `docs/specifications/features/`  
+**Location:** `docs/${SPEC_ROOT}/features/`  
 **Focus:** User-facing functionality, workflows, UI behavior  
 **Example:** `dashboard-real-time-updates.md`
 
@@ -389,7 +389,7 @@ acceptance tests pass."
 
 ### 2. API Specifications
 
-**Location:** `docs/specifications/apis/`  
+**Location:** `docs/${SPEC_ROOT}/apis/`  
 **Focus:** Interface contracts, endpoints, data models  
 **Example:** `llm-service-rest-api.md`
 
@@ -400,7 +400,7 @@ acceptance tests pass."
 
 ### 3. Architecture Specifications
 
-**Location:** `docs/architecture/design/`  
+**Location:** `${DOC_ROOT}/architecture/design/`  
 **Focus:** Component interactions, patterns, system behavior  
 **Example:** `file-based-orchestration-spec.md`
 
@@ -411,7 +411,7 @@ acceptance tests pass."
 
 ### 4. Integration Specifications
 
-**Location:** `docs/specifications/integrations/`  
+**Location:** `docs/${SPEC_ROOT}/integrations/`  
 **Focus:** External system interactions, protocols  
 **Example:** `anthropic-api-integration.md`
 
@@ -436,14 +436,14 @@ Specifications integrate seamlessly with our YAML task workflow:
 **Requires Specification:** Yes (complex WebSocket implementation)
 
 **Specification:**
-- Path: `docs/specifications/features/dashboard-real-time-updates.md`
+- Path: `docs/${SPEC_ROOT}/features/dashboard-real-time-updates.md`
 - Status: Approved
 - Author: Architect Alphonso
 ```
 
 ### 2. Task Assignment
 
-**File:** `work/collaboration/inbox/[timestamp]-backend-dev-websocket-impl.yaml`
+**File:** `${WORKSPACE_ROOT}/collaboration/inbox/[timestamp]-backend-dev-websocket-impl.yaml`
 
 ```yaml
 id: 2026-02-05T1500-backend-dev-websocket-impl
@@ -455,8 +455,8 @@ artefacts:
   - src/api/websocket/
   - tests/acceptance/features/real-time-updates.feature
 context:
-  specification: docs/specifications/features/dashboard-real-time-updates.md
-  related_adr: docs/architecture/decisions/ADR-032-websocket-framework.md
+  specification: docs/${SPEC_ROOT}/features/dashboard-real-time-updates.md
+  related_adr: ${DOC_ROOT}/architecture/decisions/ADR-NNN (WebSocket technology choice)-websocket-framework.md
   acceptance_tests: tests/acceptance/features/real-time-updates.feature
 requirements:
   - Implement all scenarios from specification
@@ -471,7 +471,7 @@ requirements:
 ```markdown
 ## Implementation Log: WebSocket Real-Time Updates
 
-**Specification:** docs/specifications/features/dashboard-real-time-updates.md  
+**Specification:** docs/${SPEC_ROOT}/features/dashboard-real-time-updates.md  
 **Status:** In Progress
 
 ### Progress
@@ -560,7 +560,7 @@ This approach is inspired by [spec-kitty's specification-driven methodology](htt
 🔄 **ATDD Coupling** - Specifications drive acceptance tests (Directive 016)  
 🔄 **File-Based Orchestration** - Specs referenced from YAML tasks, not worktree frontmatter
 
-**Reference:** See [spec-kitty comparative analysis](../../../docs/architecture/design/comparative_study/2026-02-05-spec-kitty-comparative-analysis.md) for detailed comparison.
+**Reference:** See [spec-kitty comparative analysis](../../../${DOC_ROOT}/architecture/design/comparative_study/2026-02-05-spec-kitty-comparative-analysis.md) for detailed comparison.
 
 ---
 
@@ -610,7 +610,7 @@ SHALL be handled gracefully with error recovery."
 ```markdown
 ✅ GOOD:
 "Real-time communication uses WebSocket protocol via 
-Flask-SocketIO (see ADR-032 for architectural rationale).
+Flask-SocketIO (see ADR-NNN (WebSocket technology choice) for architectural rationale).
 This specification defines the connection lifecycle, 
 message format, and error handling requirements."
 ```
@@ -692,9 +692,9 @@ A specification is successful when:
 ```
 "Create an API specification for the LLM Service REST endpoints 
 including authentication, request/response formats, error codes, 
-and rate limiting. Reference ADR-025 for auth framework choice."
+and rate limiting. Reference ADR-MMM (auth framework choice) for auth framework choice."
 
-"Review specification at docs/specifications/features/[name].md 
+"Review specification at docs/${SPEC_ROOT}/features/[name].md 
 for technical feasibility. Flag any architectural concerns or 
 missing constraints."
 ```
@@ -744,7 +744,7 @@ documenting this constraint."
 
 **Example Prompts:**
 ```
-"Review specification at docs/specifications/features/[name].md 
+"Review specification at docs/${SPEC_ROOT}/features/[name].md 
 for clarity. Ensure scenarios are unambiguous and requirements 
 use consistent SHALL/SHOULD/MAY language."
 
@@ -762,7 +762,7 @@ consistently used."
 
 **Example Prompts:**
 ```
-"Validate that specification docs/specifications/features/[name].md 
+"Validate that specification docs/${SPEC_ROOT}/features/[name].md 
 follows the standard template and includes all required sections 
 (Overview, Requirements, Scenarios, Constraints, etc.)."
 
@@ -780,7 +780,7 @@ in References section."
 ```
 Architect Alphonso:
 "Create a specification for [feature-name] at 
-docs/specifications/features/[filename].md. Include:
+`${DOC_ROOT}/${SPEC_ROOT}/features/[filename].md. Include:
 - Overview of feature purpose
 - Functional requirements (FR1-FRN)
 - Non-functional requirements (performance, security)
@@ -795,7 +795,7 @@ Reference ADR-XXX for architectural context."
 ```
 Backend-Dev Benny:
 "Convert specification scenarios from 
-docs/specifications/features/[name].md into Gherkin 
+`${DOC_ROOT}/${SPEC_ROOT}/features/[name].md into Gherkin 
 acceptance tests at tests/acceptance/features/[name].feature. 
 Ensure all requirements have test coverage."
 ```
@@ -814,7 +814,7 @@ before coding."
 
 ```
 Backend-Dev Benny:
-"Update specification docs/specifications/features/[name].md 
+"Update specification docs/${SPEC_ROOT}/features/[name].md 
 to document constraint discovered during implementation: 
 [description]. Add as NFR-X and note in change log."
 ```
@@ -823,7 +823,7 @@ to document constraint discovered during implementation:
 
 ```
 Architect Alphonso:
-"Review specification at docs/specifications/features/[name].md 
+"Review specification at docs/${SPEC_ROOT}/features/[name].md 
 for:
 - Technical feasibility
 - Completeness (all scenarios covered?)
@@ -864,7 +864,7 @@ Approve or request changes."
 
 **External References:**
 - [spec-kitty Repository](https://github.com/Priivacy-ai/spec-kitty) - Original inspiration
-- [spec-kitty Comparative Analysis](../../../docs/architecture/design/comparative_study/2026-02-05-spec-kitty-comparative-analysis.md) - Detailed comparison
+- [spec-kitty Comparative Analysis](../../../${DOC_ROOT}/architecture/design/comparative_study/2026-02-05-spec-kitty-comparative-analysis.md) - Detailed comparison
 - [Behavior-Driven Development](https://cucumber.io/docs/bdd/) - Related methodology
 
 ---

@@ -18,7 +18,7 @@ Escalation Triggers:
 - Divergence between Operational and Strategic guidance
 - Multi-agent [artifact](../GLOSSARY.md#artifact) conflict (two agents editing same file set)
 - Version mismatch in governance layers (see [Version Governance](../GLOSSARY.md#version-governance) and 006)
-- Failure to execute Transparency & Error Signaling [primer](../GLOSSARY.md#primer) (see ADR-011) when a risk is discovered
+- Failure to execute Transparency & Error Signaling [primer](../GLOSSARY.md#primer) (see DDR-001) when a risk is discovered
 
 Procedure:
 

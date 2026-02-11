@@ -4,7 +4,7 @@
 
 The file-based collaboration approach enables asynchronous, transparent, Git-native multi-agent coordination through YAML task files that move through a defined lifecycle.
 
-**Core Principle:** All inter-agent coordination happens through YAML task files in `work/collaboration/`.
+**Core Principle:** All inter-agent coordination happens through YAML task files in `${WORKSPACE_ROOT}/collaboration/`.
 
 ## Task Lifecycle
 
@@ -36,13 +36,13 @@ When working within the file-based orchestration system, load only the step rele
 
 ## Quick Reference
 
-- **Inbox**: `work/collaboration/inbox/` - New tasks
-- **Assigned**: `work/collaboration/assigned/<agent>/` - Your tasks
-- **Done**: `work/collaboration/done/<agent>/` - Completed work
+- **Inbox**: `${WORKSPACE_ROOT}/collaboration/inbox/` - New tasks
+- **Assigned**: `${WORKSPACE_ROOT}/collaboration/assigned/<agent>/` - Your tasks
+- **Done**: `${WORKSPACE_ROOT}/collaboration/done/<agent>/` - Completed work
 - **Logs**: `work/reports/logs/<agent>/` - Execution logs
 
 ## Related Documentation
 
-- `work/collaboration/README.md` - Collaboration directory guide
+- `${WORKSPACE_ROOT}/collaboration/README.md` - Collaboration directory guide
 - `work/README.md` - Complete work directory documentation
-- `docs/templates/task-descriptor.yaml` - Task YAML schema
+- `templates/task-descriptor.yaml` - Task YAML schema

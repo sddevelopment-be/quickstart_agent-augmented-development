@@ -1,8 +1,77 @@
 # **Command Aliases Reference**
 
-*Last updated: 2025-11-15*
+*Last updated: 2026-02-08*
 *Format: Markdown checklist (human-readable + agent-parsable)*
-*Version: v1.1.1*
+*Version: v1.2.0*
+
+---
+
+## Overview
+
+This directory contains shorthand commands (aliases) that provide quick access to common agent workflows, task patterns, and operational modes. Shorthands enable efficient interaction by encapsulating complex multi-step processes into single commands.
+
+---
+
+## Available Shorthands
+
+### Session Management
+
+**[/afk-mode](afk-mode.md)** - Away From Keyboard Mode
+- Autonomous operation with commit frequency, push permission, decision boundaries
+- Minor decisions autonomous, critical decisions pause
+- Created: 2026-02-08
+
+---
+
+### Task Execution
+
+**[/architect-adr](architect-adr.md)** - Draft Architectural Decision Record
+- Agent: Architect Alphonso
+- Complexity: High
+- Outputs: ADR markdown, option impact matrix, success metrics
+
+**[/automation-script](automation-script.md)** - Generate Automation Script
+- Agent: DevOps Danny
+- Complexity: Medium
+- Outputs: Executable script with error handling and documentation
+
+**[/bootstrap-repo](bootstrap-repo.md)** - Repository Bootstrap & Scaffolding
+- Agent: Bootstrap Bill
+- Complexity: Medium
+- Outputs: Directory structure, config files, initial docs
+
+**[/curate-directory](curate-directory.md)** - Directory Curation Pass
+- Agent: Curator Claire
+- Complexity: Medium
+- Outputs: Discrepancy report, corrective actions, validation summary
+
+**[/editor-revision](editor-revision.md)** - Document Revision
+- Agent: Writer-Editor
+- Complexity: Medium
+- Outputs: Revised document with style improvements
+
+**[/lexical-analysis](lexical-analysis.md)** - Lexical Style Diagnostic
+- Agent: Lexical Larry
+- Complexity: Low
+- Outputs: Style report, readability metrics, minimal diff proposals
+
+**[/new-agent](new-agent.md)** - Create New Specialist Agent
+- Agent: Manager Mike
+- Complexity: Medium
+- Outputs: Agent profile, capability docs, collaboration contract
+
+**[/test-readability-check](test-readability-check.md)** - Test Suite Documentation Assessment
+- Agent: Dual-agent (Analyst + Expert)
+- Complexity: High
+- Outputs: Accuracy score, documentation gaps, recommendations
+
+---
+
+### Orchestration
+
+**[/iteration-orchestration](iteration-orchestration.md)** - Iteration Cycle Workflow
+- Multi-phase orchestration pattern
+- Includes planning, execution, review, documentation
 
 ---
 

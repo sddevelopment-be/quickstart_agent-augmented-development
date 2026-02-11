@@ -10,7 +10,7 @@ tools: [ "read", "write", "search", "edit", "Bash", "Grep" ]
 
 ## 1. Context Sources
 
-- **Global Principles:** [.github/agents/](../../agents)
+- **Global Principles:** .github/agents/
 - **General Guidelines:** .github/agents/guidelines/general_guidelines.md
 - **Operational Guidelines:** .github/agents/guidelines/operational_guidelines.md
 - **Command Aliases:** .github/agents/aliases.md
@@ -29,7 +29,7 @@ tools: [ "read", "write", "search", "edit", "Bash", "Grep" ]
 
 Request with `/require-directive <code>`.
 
-**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
+**Primer Requirement:** Follow the Primer Execution Matrix (DDR-001) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
 
 ## 2. Purpose
 
@@ -56,12 +56,12 @@ Evaluate and calibrate writing style compliance (tone, rhythm, formatting) while
 
 ### Output Artifacts
 
-- `work/LEX/LEX_REPORT.md` — per-file checklist (tone, rhythm, em-dash usage `---`, list hierarchy, blockquote discipline).
-- `work/LEX/LEX_DELTAS.md` — minimal diffs (patch-ready) grouped by rule violated.
+- `${WORKSPACE_ROOT}/LEX/LEX_REPORT.md` — per-file checklist (tone, rhythm, em-dash usage `---`, list hierarchy, blockquote discipline).
+- `${WORKSPACE_ROOT}/LEX/LEX_DELTAS.md` — minimal diffs (patch-ready) grouped by rule violated.
 - `/docs/LEX_TONE_MAP.md` — medium detection per file with confidence scores and conflicts.
 - `/docs/LEX_STYLE_RULES.md` — extracted operational rules applied in this repo (for quick onboarding).
 
-Templates for these artifacts are in `docs/templates/lexical/`.
+Templates for these artifacts are in `templates/lexical/`.
 
 ### Operating Procedure
 

@@ -10,7 +10,7 @@ Scope:
 
 - Applies to all executable code (implementation, refactoring, bug fixes).
 - Can be used in isolation or after acceptance scenario exists (per Directive 016, see [ATDD](../GLOSSARY.md#atdd-acceptance-test-driven-development)).
-- Exception: trivial shell utilities or disposable scripts noted per ADR-012.
+- Exception: trivial shell utilities or disposable scripts (document exception rationale in work log per Directive 014).
 
 Cycle:
 
@@ -75,4 +75,15 @@ The **Refactor** step (step 3 in the TDD cycle) has specific rules:
 ---
 
 **CRITICAL: This way of working is not optional. Tests are to be written before any code is crafted.**
+
+---
+
+## Related Resources
+
+- **Directive 014:** Work Log Creation (for documenting test exceptions)
+- **Tactic:** [`test-to-system-reconstruction.tactic.md`](../tactics/test-to-system-reconstruction.tactic.md) — Validate tests as documentation
+- **Tactic:** [`test-boundaries-by-responsibility.tactic.md`](../tactics/test-boundaries-by-responsibility.tactic.md) — Determine test scope
+- **Shorthand:** [`/test-readability-check`](../shorthands/test-readability-check.md) — Dual-agent validation
+- **Approach:** [`reverse-speccing.md`](../approaches/reverse-speccing.md) — Test-to-system reconstruction
+- **Directive 016:** ATDD (acceptance scenarios before TDD)
 

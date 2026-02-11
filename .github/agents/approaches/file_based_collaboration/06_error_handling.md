@@ -11,7 +11,7 @@ When a task cannot be completed due to errors, blockers, or issues beyond your c
     - `message`: Clear description of the problem
     - `details`: Technical specifics, stack traces, or context
     - `failed_at`: ISO 8601 timestamp
-3. Leave task in `work/collaboration/assigned/<your-agent-name>/`
+3. Leave task in `${WORKSPACE_ROOT}/collaboration/assigned/<your-agent-name>/`
 4. Log detailed error information in `work/reports/logs/<your-agent-name>/`
 
 ## Example
@@ -25,7 +25,7 @@ title: "Review and update template structure"
 error:
   message: "Template directory structure conflicts with existing standards"
   details: |
-    Found inconsistency in docs/templates/architecture/ naming conventions.
+    Found inconsistency in templates/architecture/ naming conventions.
     Expected: ADR-XXX-description.md
     Found: adr-XXX-description.md (lowercase)
     Requires human decision on canonical format.

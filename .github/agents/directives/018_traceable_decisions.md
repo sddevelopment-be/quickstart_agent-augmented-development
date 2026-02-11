@@ -1,8 +1,8 @@
 <!-- The following information is to be interpreted literally -->
 
-# 018 Documentation Level Framework Directive
+# 018 Traceable Decisions Directive
 
-**Purpose:** Guide agents in choosing appropriate documentation detail levels to minimize drift and maintenance burden.
+**Purpose:** Guide agents in capturing architectural decisions and maintaining decision traceability throughout the development lifecycle.
 
 **Applies to:** Creating or updating documentation, reports, READMEs, and work logs.
 
@@ -15,8 +15,7 @@
 > **Document decisions and intent at the level they're made.**  
 > **Let code and file structure document implementation details.**
 
-Documentation should match the **stability
-** of what it describes. High-specificity documentation of volatile details creates high drift risk and maintenance burden.
+Documentation should match the **stability** of what it describes. High-specificity documentation of volatile details creates high drift risk and maintenance burden.
 
 ---
 
@@ -164,7 +163,7 @@ Issue definitions: issue-definitions/*.yml
 
 ### ✅ Good Documentation
 
-- `docs/architecture/adrs/ADR-*.md` - Design decisions with rationale
+- `${DOC_ROOT}/architecture/adrs/ADR-*.md` - Design decisions with rationale
 - `agents/approaches/*.md` - Patterns and architectural approaches
 - `ops/scripts/planning/README.md` - Architecture and usage (not file inventory)
 
@@ -176,8 +175,18 @@ Issue definitions: issue-definitions/*.yml
 
 ---
 
-**Summary:** Document the **stable intent** behind your work, not the **volatile details
-**. Let code, file structure, and discovery tools document the specifics.
+**Summary:** Document the **stable intent** behind your work, not the **volatile details**. Let code, file structure, and discovery tools document the specifics.
+
+---
+
+## Related Resources
+
+- **Approach:** [`traceable-decisions-detailed-guide.md`](../approaches/traceable-decisions-detailed-guide.md)
+- **Tactic:** [`adr-drafting-workflow.tactic.md`](../tactics/adr-drafting-workflow.tactic.md) — Systematic ADR creation
+- **Tactic:** [`premortem-risk-identification.tactic.md`](../tactics/premortem-risk-identification.tactic.md) — Risk analysis
+- **Shorthand:** [`/architect-adr`](../shorthands/architect-adr.md) — Quick ADR drafting
+
+---
 
 _Directive 018 - Documentation Level Framework_  
 _Last Updated: 2025-11-27_

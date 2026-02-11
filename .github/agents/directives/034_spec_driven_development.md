@@ -231,13 +231,78 @@ Brief description of the feature and its purpose.
 
 ---
 
+## Phase Checkpoint Protocol
+
+**Purpose:** Prevent phase-skipping violations and ensure proper hand-offs between agents.
+
+**Implementation:** See [Tactic: Phase Checkpoint Protocol](../tactics/phase-checkpoint-protocol.md)
+
+**Key Requirement:** Execute the 6-step checkpoint at the end of EVERY phase:
+
+1. ✅ Identify current phase [1-6]
+2. ✅ Verify phase completion [YES/NO]
+3. ✅ Identify next phase owner [Agent name]
+4. ✅ Check your authority [YES/NO/CONSULT]
+5. ✅ Verify Directives 014/015 satisfied [YES/NO]
+6. ✅ Execute hand-off (commit, notify, document)
+
+**Validation:** 0 violations in SPEC-DIST-001 full cycle (2026-02-08)
+
+### Role Boundaries Table
+
+**Authority levels:**
+- ✅ **PRIMARY:** Agent has full authority and responsibility for this phase
+- ⚠️ **CONSULT:** Agent can advise but should not execute work
+- ❌ **NO:** Agent should not participate in this phase
+
+| Agent | Phase 1<br>(Analysis) | Phase 2<br>(Architecture) | Phase 3<br>(Planning) | Phase 4<br>(Tests) | Phase 5<br>(Code) | Phase 6<br>(Review) |
+|-------|---------|---------|---------|---------|---------|---------|
+| **Analyst Annie** | ✅ PRIMARY | ⚠️ Consult | ⚠️ Consult | ❌ No | ❌ No | ⚠️ AC review only |
+| **Architect Alphonso** | ⚠️ Consult | ✅ PRIMARY | ❌ No | ❌ No | ❌ No | ✅ Arch review |
+| **Planning Petra** | ❌ No | ❌ No | ✅ PRIMARY | ❌ No | ❌ No | ❌ No |
+| **DevOps Danny** | ❌ No | ⚠️ Consult | ❌ No | ✅ If assigned | ✅ If assigned | ⚠️ Peer review |
+| **Backend-Dev** | ❌ No | ⚠️ Consult | ❌ No | ✅ If assigned | ✅ If assigned | ⚠️ Peer review |
+| **Frontend-Dev** | ❌ No | ⚠️ Consult | ❌ No | ✅ If assigned | ✅ If assigned | ⚠️ Peer review |
+| **Framework Guardian Gail** | ❌ No | ❌ No | ❌ No | ❌ No | ❌ No | ✅ Standards review |
+| **Curator Claire** | ❌ No | ❌ No | ❌ No | ❌ No | ❌ No | ✅ Documentation review |
+
+**Notes:**
+- **If assigned:** Implementation agents (DevOps Danny, Backend-Dev, Frontend-Dev) are assigned by Planning Petra in Phase 3
+- **AC review:** Acceptance Criteria review (verify spec requirements met)
+- **Peer review:** Code quality and implementation review
+- **Arch review:** Architecture compliance review
+- **Standards review:** Directive compliance and code standards
+
+### Common Violations to Avoid
+
+❌ **Phase Skipping:** Analyst jumping from Phase 1 to Phase 5 (implementation)  
+→ **Prevention:** Use [Phase Checkpoint Protocol tactic](../tactics/phase-checkpoint-protocol.md)
+
+❌ **Role Overstepping:** Analyst doing Architect's work (trade-off analysis, technical design)  
+→ **Prevention:** Check Role Boundaries Table before continuing
+
+❌ **Missing Documentation:** Skipping work logs (Directive 014) or prompt docs (Directive 015)  
+→ **Prevention:** Checkpoint Step 5 verifies directive compliance
+
+❌ **Premature Implementation:** Starting code before acceptance tests exist (violates ATDD)  
+→ **Prevention:** Phase 4 (tests) MUST complete before Phase 5 (code)
+
+**Related Resources:**
+- **Approach:** [Spec-Driven 6-Phase Cycle](../approaches/spec-driven-6-phase-cycle.md) - Philosophy & rationale
+- **Tactic:** [6-Phase Implementation Flow](../tactics/6-phase-spec-driven-implementation-flow.md) - Execution checklist
+- **Tactic:** [Phase Checkpoint Protocol](../tactics/phase-checkpoint-protocol.md) - Phase transition verification
+- **Guideline:** [Commit Message Phase Declarations](../guidelines/commit-message-phase-declarations.md) - Commit standards
+- **Approach:** [Ralph Wiggum Loop](../approaches/ralph-wiggum-loop.md) - Mid-execution self-observation
+
+---
+
 ## Examples
 
 ### Example 1: When to Use Spec vs. ADR
 
 **Scenario:** Dashboard needs real-time updates
 
-**ADR (ADR-032):**
+**ADR (Example):**
 - **Decision:** Use Flask-SocketIO for WebSocket support
 - **Why:** Evaluated alternatives (polling, SSE, WebSockets)
 - **Trade-offs:** Complexity vs. real-time capability
@@ -322,7 +387,7 @@ This directive is inspired by [spec-kitty's specification-driven approach](https
 - **ATDD integration:** Our acceptance tests (Directive 016) are more tightly coupled to specs
 - **File-based workflow:** Specs are part of our version-controlled, Git-auditable workflow
 
-**Reference:** See [spec-kitty comparative analysis](../../docs/architecture/design/comparative_study/2026-02-05-spec-kitty-comparative-analysis.md) for detailed comparison.
+**Reference:** See [spec-kitty comparative analysis](../docs/references/comparative_studies/2026-02-05-spec-kitty-comparative-analysis.md) for detailed comparison.
 
 ---
 
@@ -339,6 +404,106 @@ A specification is successful when:
 
 ---
 
+## Common Anti-Patterns
+
+### 1. Implementation-First Approach
+
+**Symptom:** Creating implementation tasks before defining requirements
+
+**Example:**
+```yaml
+# ❌ BAD: Direct implementation task without spec
+title: "Fix dashboard CORS errors"
+description: "Add cors_allowed_origins to Flask-SocketIO"
+```
+
+**Problem:**
+- No clear acceptance criteria
+- Weak traceability to requirements
+- Risk of solving wrong problem
+
+**Fix:** Write specification → derive tests → create tasks
+
+```markdown
+# ✅ GOOD: Specification first
+FR-M1: System MUST accept WebSocket connections from localhost
+- Rationale: Dashboard unusable without real-time updates
+- Success Criteria: WebSocket connection succeeds (not 400 error)
+- Test: Given dashboard running, When browser connects, Then connection accepted
+```
+
+### 2. Confusing Specifications with ADRs
+
+**Symptom:** Including architectural trade-off analysis in functional specs
+
+**Example:**
+```markdown
+❌ BAD in specification:
+"We will use Flask-SocketIO instead of native WebSockets because:
+ - Context: Need real-time communication
+ - Decision: Flask-SocketIO chosen
+ - Consequences: Adds dependency, simplifies CORS handling"
+```
+
+**Problem:** Mixing "what" (behavior) with "why" (technical decisions)
+
+**Fix:** 
+- **ADRs** = Architectural decisions (technology choices)
+- **Specs** = Functional behavior (what system does)
+
+```markdown
+✅ GOOD in specification:
+FR-M1: System MUST provide real-time task updates via WebSocket
+- Implementation details: See ADR for WebSocket Technology Choice
+
+✅ GOOD in ADR:
+ADR: Use Flask-SocketIO for Real-Time Communication
+- Context: Need WebSocket support with minimal setup
+- Decision: Flask-SocketIO
+- Consequences: [trade-offs]
+```
+
+### 3. Mandatory Specs for Everything
+
+**Symptom:** Creating specifications for trivial features
+
+**Example:**
+```markdown
+❌ BAD: Over-specification
+Specification: Add "Clear Cache" Button
+- 15 pages of requirements
+- 20 scenarios
+- 2 weeks to write spec
+```
+
+**Problem:**
+- Documentation debt
+- Slowed velocity
+- Over-engineering simple work
+
+**Fix:** Match rigor to complexity (see "When to Create Specifications")
+
+```markdown
+✅ GOOD: Acceptance test only (simple feature)
+Feature: Clear Cache Button
+  Scenario: User clears cache
+    Given cache contains data
+    When user clicks "Clear Cache"
+    Then cache is emptied
+    And user sees "Cache cleared" message
+```
+
+**Rule:** If acceptance test is unambiguous, skip the spec.
+
+---
+
+## Case Studies
+
+**Real-World Example:**
+- [Dashboard Integration SDD Learning](../../work/reports/reflections/2026-02-06-specification-driven-development-learnings.md) - Implementation-first anti-pattern and correction
+
+---
+
 ## References
 
 **Related Directives:**
@@ -350,8 +515,8 @@ A specification is successful when:
 - [Spec-Driven Development PRIMER](../approaches/spec-driven-development.md) - Detailed guidance (to be created)
 
 **Related Documents:**
-- [spec-kitty Comparative Analysis](../../docs/architecture/design/comparative_study/2026-02-05-spec-kitty-comparative-analysis.md)
-- [spec-kitty Source Reference](../../docs/architecture/design/comparative_study/references/spec-kitty-spec-driven.md)
+- [spec-kitty Comparative Analysis](../docs/references/comparative_studies/2026-02-05-spec-kitty-comparative-analysis.md)
+- [spec-kitty Source Reference](../docs/references/comparative_studies/references/spec-kitty-spec-driven.md)
 
 **External References:**
 - [spec-kitty Repository](https://github.com/Priivacy-ai/spec-kitty) - Original inspiration

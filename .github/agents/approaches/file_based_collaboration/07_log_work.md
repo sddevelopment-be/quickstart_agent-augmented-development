@@ -9,7 +9,7 @@ After completing any task (successful or failed).
 Create execution logs in:
 
 ```
-work/reports/logs/<your-agent-name>/YYYY-MM-DDTHHMM-<description>.md
+`${WORKSPACE_ROOT}/reports/logs/<your-agent-name>/YYYY-MM-DDTHHMM-<description>.md
 ```
 
 ## Log Contents
@@ -38,7 +38,7 @@ Refactored verbose Directive 019 into minimal directive with approach references
 
 ## Approach
 
-Extracted step-by-step content into .github/agents/approaches/file_based_collaboration/
+Extracted step-by-step content into approaches/file_based_collaboration/
 with one file per logical step, allowing agents to load only task-relevant information.
 
 ## Guidelines & Directives Used

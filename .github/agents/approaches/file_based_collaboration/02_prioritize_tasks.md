@@ -19,8 +19,8 @@ Process tasks in this order:
 
 ```bash
 # List tasks with priority field visible
-grep -l "priority: critical" work/collaboration/assigned/<agent>/*.yaml
-grep -l "priority: high" work/collaboration/assigned/<agent>/*.yaml
+grep -l "priority: critical" ${WORKSPACE_ROOT}/collaboration/assigned/<agent>/*.yaml
+grep -l "priority: high" ${WORKSPACE_ROOT}/collaboration/assigned/<agent>/*.yaml
 ```
 
 ## Next Steps

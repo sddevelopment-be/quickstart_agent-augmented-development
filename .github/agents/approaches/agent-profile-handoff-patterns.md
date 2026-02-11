@@ -1,9 +1,9 @@
 # Agent Profile Handoff Patterns Template
 
-**Purpose:** Guide for documenting common handoff patterns in agent profiles as recommended by ADR-011.
+**Purpose:** Guide for documenting common handoff patterns in agent profiles as recommended by DDR-001 (Primer Execution Matrix).
 
 **Last Updated:** 2025-11-24  
-**Related ADR:** ADR-015 (Follow-Up Task Lookup Pattern - Rejected)
+**Related ADR:** ADR-NNN (Follow-Up Task Pattern) (Follow-Up Task Lookup Pattern - Rejected)
 
 ## Overview
 
@@ -16,7 +16,7 @@ Instead of a centralized lookup table, each agent profile documents its own obse
 
 ## Template Structure
 
-Add this section to each agent profile (`.github/agents/<agent-name>.agent.md`):
+Add this section to each agent profile (`agents/<agent-name>.agent.md`):
 
 ```markdown
 ## Common Handoff Patterns
@@ -59,7 +59,7 @@ Add this section to each agent profile (`.github/agents/<agent-name>.agent.md`):
 **Pattern:** ADR Creation → Diagrammer
 - **When:** ADR describes complex component relationships or architectural patterns
 - **Purpose:** Visual representation improves comprehension and communication
-- **Example:** 2025-11-23T1738 (ADR-009 → diagram updates)
+- **Example:** 2025-11-23T1738 (ADR-MMM (diagram updates pattern) → diagram updates)
 
 **Pattern:** ADR Creation → Writer-Editor
 - **When:** ADR targets broad audience or requires polish for publication
@@ -181,7 +181,7 @@ Add this section to each agent profile (`.github/agents/<agent-name>.agent.md`):
 **Pattern:** Architect → Diagrammer
 - **When:** Architectural concepts benefit from visual representation
 - **Purpose:** Create PlantUML diagrams for ADRs, technical designs
-- **Example:** 2025-11-23T1738 (ADR-009 → diagram updates)
+- **Example:** 2025-11-23T1738 (ADR-MMM (diagram updates pattern) → diagram updates)
 
 ### Special Cases
 
@@ -283,12 +283,12 @@ Add this section to each agent profile (`.github/agents/<agent-name>.agent.md`):
 
 ## References
 
-- **ADR-015:** Follow-Up Task Lookup Pattern (Rejected)
-- **ADR-008:** File-Based Asynchronous Coordination
-- **File-Based Orchestration Approach:** `.github/agents/approaches/file-based-orchestration.md`
-- **Agent Profiles:** `.github/agents/*.agent.md`
+- **ADR-NNN (Follow-Up Task Pattern):** Follow-Up Task Lookup Pattern (Rejected)
+- **ADR-PPP (coordination pattern):** File-Based Asynchronous Coordination
+- **File-Based Orchestration Approach:** `approaches/file-based-orchestration.md`
+- **Agent Profiles:** agent profile files
 
 ---
 
 _Maintained by: Curator Claire & Architect Alphonso_  
-_For questions, see: ADR-015 or file-based-orchestration.md_
+_For questions, see: ADR-NNN (Follow-Up Task Pattern) or file-based-orchestration.md_

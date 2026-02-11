@@ -24,11 +24,11 @@ How agents should operate inside this repository.
 
 ### Repository Structure Note
 
-**Important:** The `agents/` directory is a symlink to `.github/agents/`. Any changes made to files or directories under
-`agents/` will actually modify `.github/agents/` and vice versa. This means:
+**Important:** The `agents/` directory is a symlink to `doctrine/` in consuming repositories. Any changes made to files or directories under
+`agents/` will actually modify `doctrine/` in consuming repositories and vice versa. This means:
 
-- `agents/directives/` → `.github/agents/directives/` (same location)
-- `agents/approaches/` → `.github/agents/approaches/` (same location)
+- `agents/directives/` → `directives/` (same location)
+- `agents/approaches/` → `approaches/` (same location)
 - There is only ONE copy of each file, not duplicates
 - Edits to either path modify the same underlying file
 
@@ -45,12 +45,12 @@ How agents should operate inside this repository.
 
 - Prefer links and section references over inlining entire guidelines in the prompt.
 - Drop non-essential sections when the task scope is narrow.
-- Keep transient reasoning in `work/notes` instead of the prompt transcript.
+- Keep transient reasoning in `${WORKSPACE_ROOT}/notes` instead of the prompt transcript.
 
 ## Style Guidelines
 
-- Reuse existing templates and patterns (`docs/templates/`) whenever possible.
-- Adhere to the writing guidelines in the `docs/styleguide/` directory.
+- Reuse existing templates and patterns (`templates/`) whenever possible.
+- Adhere to the writing guidelines in the `${DOC_ROOT}/styleguide/` directory.
 - Use clear, concise language. Maintain a calm and professional tone.
 - Follow existing style conventions in code and documentation.
 - Content over Hype: Avoid buzzwords and jargon unless necessary.

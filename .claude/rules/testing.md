@@ -8,7 +8,7 @@
 Scope:
 
 - Applies to features, bug fixes, and refactors that alter externally observable behaviour (API responses, CLI output, workflows, documents).
-- Exception: trivial throw-away utilities or single-use shell scripts (log exception in [work log](../GLOSSARY.md#work-log) and reference ADR-012).
+- Exception: trivial throw-away utilities or single-use shell scripts (document exception rationale in [work log](../GLOSSARY.md#work-log) per Directive 014).
 
 Workflow:
 
@@ -47,7 +47,7 @@ Scope:
 
 - Applies to all executable code (implementation, refactoring, bug fixes).
 - Can be used in isolation or after acceptance scenario exists (per Directive 016, see [ATDD](../GLOSSARY.md#atdd-acceptance-test-driven-development)).
-- Exception: trivial shell utilities or disposable scripts noted per ADR-012.
+- Exception: trivial shell utilities or disposable scripts (document exception rationale in work log per Directive 014).
 
 Cycle:
 

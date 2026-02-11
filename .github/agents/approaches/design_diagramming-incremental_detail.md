@@ -16,7 +16,7 @@ The C4 model (Context, Container, Component, Code) is a lightweight hierarchical
 - **Audience Alignment:** Each level maps cleanly to stakeholder concerns (executives → context, architects → container, contributors → component/code).  
 - **Change Isolation:** Updates typically occur in one level; reduces churn in higher-level diagrams when low-level implementation evolves.  
 - **Cognitive Efficiency:** Prevents premature low-level detail exposure; improves clarity in design discussions.  
-- **Traceability:** Facilitates linking decisions in ADRs (e.g., ADR-020 multi-tier runtime) to visual artifacts at the correct abstraction layer.  
+- **Traceability:** Facilitates linking architectural decisions (e.g., runtime architecture decisions) to visual artifacts at the correct abstraction layer.  
 - **Consistency:** Encourages uniform naming, boundaries, and depiction across systems.
 
 ## Recommended Practices

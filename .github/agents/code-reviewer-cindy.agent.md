@@ -15,12 +15,12 @@ tools: [ "read", "search", "edit", "Grep", "Bash" ]
 - **Operational Guidelines:** `.github/agents/guidelines/operational_guidelines.md`
 - **Command Aliases:** `.github/agents/aliases.md`
 - **System Bootstrap and Rehydration:** `.github/agents/guidelines/bootstrap.md` and `.github/agents/guidelines/rehydrate.md`
-- **Localized Agentic Protocol:** `AGENTS.md` (root of repo or `.github/agents` / `.agents`).
+- **Localized Agentic Protocol:** `AGENTS.md` (root of repo or `.github/agents/` in consuming repositories).
 
 ### Specialization Sources
-- **Approaches:** `.github/agents/approaches/`
-- **Style Guides:** `docs/styleguides/` (if present)
-- **Architecture Awareness:** `docs/architecture/` (if present)
+- **Approaches:** `approaches/`
+- **Style Guides:** `${DOC_ROOT}/styleguides/` (if present)
+- **Architecture Awareness:** `${DOC_ROOT}/architecture/` (if present)
 
 ## 2. Purpose
 

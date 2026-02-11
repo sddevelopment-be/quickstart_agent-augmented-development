@@ -26,7 +26,7 @@ These guidelines apply to all agents in this repository.
 
 ## Collaboration
 
-- Respect repo-specific rules from `docs/specific_guidelines.md`.
+- Respect repo-specific rules from `${DOC_ROOT}/specific_guidelines.md`.
 - When you create or modify files, summarise the change in a short note.
 - Use `work/` for intermediate notes and coordination.
 

@@ -15,7 +15,7 @@ tools: [ "read", "write", "search", "edit", "bash", "markdown-linter" ]
 - **Operational Guidelines:** .github/agents/guidelines/operational_guidelines.md
 - **Command Aliases:** .github/agents/aliases.md
 - **System Bootstrap and Rehydration:** .github/agents/guidelines/bootstrap.md and .github/agents/guidelines/rehydrate.md
-- **Localized Agentic Protocol:** AGENTS.md (the root of the current repository, or a `.github/agents` or `.agents` subdirectory if present.)
+- **Localized Agentic Protocol:** AGENTS.md (the root of the current repository, or a ``.github/agents/` directory in consuming repositories.)
 - **Terminology Reference:** [GLOSSARY.md](./GLOSSARY.md) for standardized term definitions
 
 ## Directive References (Externalized)
@@ -37,7 +37,7 @@ tools: [ "read", "write", "search", "edit", "bash", "markdown-linter" ]
 
 (See `./directives/XXX_*.md` for full text; load on demand with `/require-directive <code>`)
 
-**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
+**Primer Requirement:** Follow the Primer Execution Matrix (DDR-001) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
 
 ## 2. Purpose
 
@@ -69,10 +69,10 @@ When executing audits or upgrade guidance:
 
 - **Audit Reports:** Structured `validation/FRAMEWORK_AUDIT_REPORT.md` comparing installed state against `META/MANIFEST.yml`.
 - **Upgrade Plans:** Detailed `validation/FRAMEWORK_UPGRADE_PLAN.md` classifying conflicts and proposing minimal patches.
-- **Work Logs:** Per Directive 014 in `work/logs/framework-guardian/`.
+- **Work Logs:** Per Directive 014 in `${WORKSPACE_ROOT}/logs/framework-guardian/`.
 - **Escalation Markers:** Use ❗️ for missing manifest/metadata, ⚠️ for manual-decision conflicts.
 
-Use templates from `docs/templates/` (GUARDIAN_AUDIT_REPORT.md, GUARDIAN_UPGRADE_PLAN.md).
+Use templates from `templates/` (GUARDIAN_AUDIT_REPORT.md, GUARDIAN_UPGRADE_PLAN.md).
 
 ### Operating Procedure
 
@@ -108,9 +108,9 @@ Use templates from `docs/templates/` (GUARDIAN_AUDIT_REPORT.md, GUARDIAN_UPGRADE
 **Integration with File-Based Orchestration:**
 
 - Guardian is invoked by Manager Mike during iteration cycles after packaging/install tasks.
-- Reads task YAML from `work/assigned/framework-guardian/`.
-- Updates task status and moves to `work/done/framework-guardian/` upon completion.
-- Creates work logs in `work/logs/framework-guardian/`.
+- Reads task YAML from `${WORKSPACE_ROOT}/assigned/framework-guardian/`.
+- Updates task status and moves to `${WORKSPACE_ROOT}/done/framework-guardian/` upon completion.
+- Creates work logs in `${WORKSPACE_ROOT}/logs/framework-guardian/`.
 
 ## 5. Mode Defaults
 
@@ -171,7 +171,7 @@ Use templates from `docs/templates/` (GUARDIAN_AUDIT_REPORT.md, GUARDIAN_UPGRADE
 1. **Preservation Over Correction:** When in doubt, preserve local customizations and recommend manual review.
 2. **Explicit Over Implicit:** Never infer user intent—surface conflicts clearly and let humans decide.
 3. **Minimal Patches:** Recommend smallest possible changes to resolve conflicts.
-4. **Core/Local Boundary:** Strictly enforce framework core vs local separation per ADR-013/014.
+4. **Core/Local Boundary:** Strictly enforce framework core vs local separation per DDR-002 (guardian role pattern).
 5. **Audit First, Action Never:** Guardian recommends; humans execute.
 
 ## 10. Success Metrics
@@ -186,9 +186,8 @@ Use templates from `docs/templates/` (GUARDIAN_AUDIT_REPORT.md, GUARDIAN_UPGRADE
 
 **Related Documentation:**
 
-- ADR-013: Zip-Based Framework Distribution
-- ADR-014: Framework Guardian Agent
-- `docs/architecture/design/distribution_of_releases_architecture.md`
-- `docs/architecture/design/distribution_of_releases_technical_design.md`
-- `docs/templates/GUARDIAN_AUDIT_REPORT.md`
-- `docs/templates/GUARDIAN_UPGRADE_PLAN.md`
+- DDR-002: Framework Guardian Agent Role (doctrine pattern)
+- `${DOC_ROOT}/architecture/design/distribution_of_releases_architecture.md`
+- `${DOC_ROOT}/architecture/design/distribution_of_releases_technical_design.md`
+- `templates/GUARDIAN_AUDIT_REPORT.md`
+- `templates/GUARDIAN_UPGRADE_PLAN.md`

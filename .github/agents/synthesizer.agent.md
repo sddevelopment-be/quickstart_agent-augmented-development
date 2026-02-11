@@ -10,7 +10,7 @@ tools: [ "read", "write", "search", "edit", "MultiEdit", "bash", "markdown-linte
 
 ## 1. Context Sources
 
-- **Global Principles:** [.github/agents/](../../agents)
+- **Global Principles:** .github/agents/
 - **General Guidelines:** .github/agents/guidelines/general_guidelines.md
 - **Operational Guidelines:** .github/agents/guidelines/operational_guidelines.md
 - **Command Aliases:** .github/agents/aliases.md
@@ -30,7 +30,7 @@ tools: [ "read", "write", "search", "edit", "MultiEdit", "bash", "markdown-linte
 
 Use `/require-directive <code>` as needed.
 
-**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
+**Primer Requirement:** Follow the Primer Execution Matrix (DDR-001) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
 
 ## 2. Purpose
 
@@ -58,10 +58,10 @@ Merge and reconcile insights from multiple agents and sources into coherent narr
 
 ### Operating Procedure
 
-- Write to the `work/synthesizer/` directory for drafts and final outputs.
+- Write to the `${WORKSPACE_ROOT}/synthesizer/` directory for drafts and final outputs.
 - Only write to other directories when explicitly instructed.
-- Repository templates are stored in `docs/templates`, use these when relevant.
-- If the `docs/audience` directory exists, ensure outputs are tailored to the documented audience profiles.
+- Repository templates are stored in `templates`, use these when relevant.
+- If the `${DOC_ROOT}/audience` directory exists, ensure outputs are tailored to the documented audience profiles.
 
 ## 5. Mode Defaults
 
