@@ -18,14 +18,14 @@ from pathlib import Path
 import pytest
 import yaml
 
-# Add ops directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent.parent / "ops" / "framework-core"))
+# Add framework directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent / "src" / "framework" / "context"))
 
 # Import the module directly
 import importlib.util
 spec = importlib.util.spec_from_file_location(
     "template_status_checker",
-    Path(__file__).parent.parent / "ops" / "framework-core" / "template-status-checker.py"
+    Path(__file__).parent.parent / "src" / "framework" / "context" / "template-status-checker.py"
 )
 template_status_checker = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(template_status_checker)

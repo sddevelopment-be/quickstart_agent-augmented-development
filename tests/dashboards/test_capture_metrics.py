@@ -16,14 +16,14 @@ import pytest
 import yaml
 
 # Add dashboards directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "ops" / "dashboards"))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "tools" / "dashboards"))
 
 # Import from file with dash in name
 import importlib.util
 
 spec = importlib.util.spec_from_file_location(
     "capture_metrics",
-    Path(__file__).parent.parent.parent / "ops" / "dashboards" / "capture-metrics.py",
+    Path(__file__).parent.parent.parent / "tools" / "dashboards" / "capture-metrics.py",
 )
 capture_metrics = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(capture_metrics)

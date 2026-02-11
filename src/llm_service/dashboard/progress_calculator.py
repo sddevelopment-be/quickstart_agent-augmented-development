@@ -11,7 +11,7 @@ from typing import List, Dict, Optional
 import logging
 
 # Import status enums (ADR-043)
-from src.common.types import TaskStatus, FeatureStatus
+from common.types import TaskStatus, FeatureStatus
 
 logger = logging.getLogger(__name__)
 

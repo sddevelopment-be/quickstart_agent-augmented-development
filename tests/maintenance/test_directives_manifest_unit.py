@@ -29,7 +29,7 @@ class TestDirectiveFileScanning:
         (directives_dir / "README.md").write_text("readme")
         (directives_dir / "temp.txt").write_text("temp")
         
-        from ops.scripts.maintenance.update_directives_manifest import (
+        from tools.scripts.maintenance.update_directives_manifest import (
             scan_directive_files,
         )
         
@@ -40,7 +40,7 @@ class TestDirectiveFileScanning:
 
     def test_extract_code_from_filename(self):
         """Should extract code number from filename."""
-        from ops.scripts.maintenance.update_directives_manifest import (
+        from tools.scripts.maintenance.update_directives_manifest import (
             extract_directive_code,
         )
         
@@ -50,7 +50,7 @@ class TestDirectiveFileScanning:
 
     def test_extract_slug_from_filename(self):
         """Should extract slug from filename."""
-        from ops.scripts.maintenance.update_directives_manifest import (
+        from tools.scripts.maintenance.update_directives_manifest import (
             extract_directive_slug,
         )
         
@@ -62,7 +62,7 @@ class TestDirectiveFileScanning:
 
     def test_handles_missing_directory(self):
         """Should handle non-existent directives directory gracefully."""
-        from ops.scripts.maintenance.update_directives_manifest import (
+        from tools.scripts.maintenance.update_directives_manifest import (
             scan_directive_files,
         )
         
@@ -98,7 +98,7 @@ class TestManifestParsing:
         manifest_file = tmp_path / "manifest.json"
         manifest_file.write_text(json.dumps(manifest_data))
         
-        from ops.scripts.maintenance.update_directives_manifest import load_manifest
+        from tools.scripts.maintenance.update_directives_manifest import load_manifest
         
         manifest = load_manifest(manifest_file)
         
@@ -107,7 +107,7 @@ class TestManifestParsing:
 
     def test_handles_missing_manifest(self, tmp_path):
         """Should handle missing manifest file gracefully."""
-        from ops.scripts.maintenance.update_directives_manifest import load_manifest
+        from tools.scripts.maintenance.update_directives_manifest import load_manifest
         
         with pytest.raises(FileNotFoundError):
             load_manifest(tmp_path / "nonexistent.json")
@@ -117,7 +117,7 @@ class TestManifestParsing:
         manifest_file = tmp_path / "manifest.json"
         manifest_file.write_text("{invalid json")
         
-        from ops.scripts.maintenance.update_directives_manifest import load_manifest
+        from tools.scripts.maintenance.update_directives_manifest import load_manifest
         
         with pytest.raises(json.JSONDecodeError):
             load_manifest(manifest_file)
@@ -128,7 +128,7 @@ class TestValidationLogic:
 
     def test_detect_missing_manifest_entry(self):
         """Should detect when a file exists but has no manifest entry."""
-        from ops.scripts.maintenance.update_directives_manifest import (
+        from tools.scripts.maintenance.update_directives_manifest import (
             find_missing_entries,
         )
         
@@ -148,7 +148,7 @@ class TestValidationLogic:
 
     def test_detect_orphaned_manifest_entry(self):
         """Should detect when manifest entry exists but file doesn't."""
-        from ops.scripts.maintenance.update_directives_manifest import (
+        from tools.scripts.maintenance.update_directives_manifest import (
             find_orphaned_entries,
         )
         
@@ -168,7 +168,7 @@ class TestValidationLogic:
 
     def test_detect_code_mismatch(self):
         """Should detect when code in filename doesn't match manifest."""
-        from ops.scripts.maintenance.update_directives_manifest import (
+        from tools.scripts.maintenance.update_directives_manifest import (
             validate_metadata_consistency,
         )
         
@@ -182,7 +182,7 @@ class TestValidationLogic:
 
     def test_detect_slug_mismatch(self):
         """Should detect when slug in filename doesn't match manifest."""
-        from ops.scripts.maintenance.update_directives_manifest import (
+        from tools.scripts.maintenance.update_directives_manifest import (
             validate_metadata_consistency,
         )
         
@@ -196,7 +196,7 @@ class TestValidationLogic:
 
     def test_valid_metadata_returns_no_mismatches(self):
         """Should return empty list when metadata is consistent."""
-        from ops.scripts.maintenance.update_directives_manifest import (
+        from tools.scripts.maintenance.update_directives_manifest import (
             validate_metadata_consistency,
         )
         
@@ -213,7 +213,7 @@ class TestManifestUpdating:
 
     def test_create_manifest_entry_from_file(self):
         """Should create a properly formatted manifest entry from file info."""
-        from ops.scripts.maintenance.update_directives_manifest import (
+        from tools.scripts.maintenance.update_directives_manifest import (
             create_manifest_entry,
         )
         
@@ -234,7 +234,7 @@ class TestManifestUpdating:
 
     def test_update_manifest_preserves_structure(self, tmp_path):
         """Should preserve manifest structure when updating."""
-        from ops.scripts.maintenance.update_directives_manifest import (
+        from tools.scripts.maintenance.update_directives_manifest import (
             update_manifest,
         )
         
@@ -280,7 +280,7 @@ class TestManifestUpdating:
 
     def test_remove_orphaned_entries(self):
         """Should remove entries for non-existent files."""
-        from ops.scripts.maintenance.update_directives_manifest import (
+        from tools.scripts.maintenance.update_directives_manifest import (
             remove_orphaned_entries,
         )
         
@@ -305,7 +305,7 @@ class TestReportGeneration:
 
     def test_generate_report_with_issues(self):
         """Should generate a comprehensive report of all issues."""
-        from ops.scripts.maintenance.update_directives_manifest import (
+        from tools.scripts.maintenance.update_directives_manifest import (
             ValidationResult,
         )
         
@@ -327,7 +327,7 @@ class TestReportGeneration:
 
     def test_generate_report_no_issues(self):
         """Should generate a success report when no issues found."""
-        from ops.scripts.maintenance.update_directives_manifest import (
+        from tools.scripts.maintenance.update_directives_manifest import (
             ValidationResult,
         )
         
@@ -348,7 +348,7 @@ class TestCLIInterface:
 
     def test_parse_dry_run_argument(self):
         """Should parse --dry-run flag correctly."""
-        from ops.scripts.maintenance.update_directives_manifest import parse_args
+        from tools.scripts.maintenance.update_directives_manifest import parse_args
         
         args = parse_args(["--dry-run"])
         
@@ -357,7 +357,7 @@ class TestCLIInterface:
 
     def test_parse_fix_argument(self):
         """Should parse --fix flag correctly."""
-        from ops.scripts.maintenance.update_directives_manifest import parse_args
+        from tools.scripts.maintenance.update_directives_manifest import parse_args
         
         args = parse_args(["--fix"])
         
@@ -366,7 +366,7 @@ class TestCLIInterface:
 
     def test_parse_directives_dir_argument(self):
         """Should parse --directives-dir argument correctly."""
-        from ops.scripts.maintenance.update_directives_manifest import parse_args
+        from tools.scripts.maintenance.update_directives_manifest import parse_args
         
         args = parse_args(["--directives-dir", "/custom/path"])
         
@@ -374,7 +374,7 @@ class TestCLIInterface:
 
     def test_default_directives_dir(self):
         """Should use default directives directory when not specified."""
-        from ops.scripts.maintenance.update_directives_manifest import parse_args
+        from tools.scripts.maintenance.update_directives_manifest import parse_args
         
         args = parse_args([])
         

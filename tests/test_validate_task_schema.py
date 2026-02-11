@@ -18,11 +18,14 @@ import pytest
 import yaml
 
 # Add validation directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent))
+sys.path.insert(0, str(Path(__file__).parent.parent / "tools" / "validators"))
 
 # Import from validate-task-schema.py by loading it as a module
 import importlib.util
-spec = importlib.util.spec_from_file_location("validate_task_schema", Path(__file__).parent / "validate-task-schema.py")
+spec = importlib.util.spec_from_file_location(
+    "validate_task_schema",
+    Path(__file__).parent.parent / "tools" / "validators" / "validate-task-schema.py"
+)
 validate_task_schema = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(validate_task_schema)
 validate_task_file = validate_task_schema.validate_task_file

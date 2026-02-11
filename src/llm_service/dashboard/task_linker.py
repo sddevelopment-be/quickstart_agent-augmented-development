@@ -12,7 +12,7 @@ from typing import Dict, List, Optional, Set
 import logging
 
 # Import shared task loading function (ADR-042)
-from src.common.task_schema import load_task_safe
+from common.task_schema import load_task_safe
 
 logger = logging.getLogger(__name__)
 
