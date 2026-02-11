@@ -1,0 +1,292 @@
+---
+# Task Descriptor: SPEC-TERM-001 Task 2c - Refactor TaskAssignmentHandler → TaskAssigner
+id: "2026-02-11T1100-specterm001-task2c-task-assigner"
+title: "SPEC-TERM-001 Task 2c: Refactor TaskAssignmentHandler → TaskAssigner"
+assignee: backend-dev
+batch: "SPEC-TERM-001"
+priority: HIGH
+status: assigned
+created: "2026-02-11T11:00:00Z"
+specification: "specifications/initiatives/terminology-alignment-refactoring.md"
+related_decisions:
+  - "specifications/initiatives/terminology-alignment-refactoring.md"
+dependencies:
+  - type: prerequisite
+    task_id: "2026-02-11T1100-specterm001-task2b-template-renderer"
+    description: "TemplateRenderer refactoring establishes pattern momentum"
+blocks:
+  - "2026-02-11T1100-specterm001-task3-state-status"
+estimated_hours: 5
+tags:
+  - spec-term-001
+  - refactoring
+  - task-assigner
+  - terminology-alignment
+---
+
+# Task: Refactor TaskAssignmentHandler → TaskAssigner
+
+## Context
+
+**Initiative:** SPEC-TERM-001 - Terminology Alignment Refactoring  
+**Batch:** Phase 2 - Core Component Refactoring  
+**Strategic Goal:** Simplify class name by removing unnecessary "Handler" suffix
+
+**Why This Matters:**
+- "Handler" suffix adds no domain value (redundant with context)
+- Simpler name is clearer: TaskAssigner directly conveys responsibility
+- Follows pattern from Task 2a and 2b
+- Reduces unnecessary verbosity
+- Aligns with domain glossary preference for concise, meaningful names
+
+## Objective
+
+Rename `TaskAssignmentHandler` to `TaskAssigner` and update all references. Simplify method names where appropriate. Update tests, documentation, and imports.
+
+## Acceptance Criteria
+
+**MUST:**
+- [ ] Class renamed from `TaskAssignmentHandler` to `TaskAssigner`
+- [ ] "Handler" suffix removed (simpler class name)
+- [ ] Methods reflect assignment operations
+- [ ] All imports updated across codebase
+- [ ] Tests updated
+- [ ] Documentation updated
+- [ ] Glossary entry added
+- [ ] All tests pass
+
+**SHOULD:**
+- [ ] Method names simplified (remove redundant "assignment")
+- [ ] Error messages updated
+- [ ] Logging statements updated
+
+**MUST NOT:**
+- [ ] Change assignment logic
+- [ ] Break assignment API
+- [ ] Introduce new features
+
+## Deliverables
+
+1. **Refactored Code:**
+   - `src/domain/collaboration/task_assigner.py` (renamed)
+   - Simplified method names
+   - Updated docstrings
+
+2. **Updated Tests:**
+   - `tests/unit/domain/collaboration/test_task_assigner.py` (renamed)
+
+3. **Updated Documentation:**
+   - Docstrings
+   - README/guides (if referenced)
+
+4. **Glossary Entry:**
+   - `docs/glossary.md` - Add "TaskAssigner"
+
+5. **Migration Log:**
+   - `work/refactoring/specterm001-task2c-log.md`
+
+## Test Plan
+
+**Validation Strategy:**
+1. Baseline tests
+2. Rename class and file
+3. Update test names
+4. Update imports
+5. Run full test suite
+6. Spot-check assignment paths
+
+**Test Commands:**
+```bash
+# Baseline
+pytest tests/unit/domain/collaboration/test_task_assignment_handler.py -v
+
+# After refactoring
+pytest tests/unit/domain/collaboration/test_task_assigner.py -v
+
+# Full suite
+pytest tests/ -v
+
+# Type checking
+mypy src/ --strict
+```
+
+## Implementation Notes
+
+### Renaming Strategy
+
+**Step 1: Rename Class and File**
+```bash
+git mv src/domain/collaboration/task_assignment_handler.py \
+       src/domain/collaboration/task_assigner.py
+```
+
+**Step 2: Update Class and Methods**
+```python
+# BEFORE
+class TaskAssignmentHandler:
+    def handle_assignment(self, task_id: str, agent_id: str):
+        """Handle task assignment."""
+        pass
+    
+    def process_assignment_request(self, request: dict):
+        """Process assignment request."""
+        pass
+
+# AFTER
+class TaskAssigner:
+    """Assigns tasks to agents based on capabilities and availability.
+    
+    Responsibilities:
+    - Assign tasks to appropriate agents
+    - Validate agent capabilities match task requirements
+    - Track assignment history
+    """
+    
+    def assign(self, task_id: str, agent_id: str):
+        """Assign task to agent.
+        
+        Args:
+            task_id: Task to assign
+            agent_id: Agent receiving assignment
+        
+        Returns:
+            Assignment confirmation
+        """
+        pass
+    
+    def assign_by_capability(self, task: Task):
+        """Assign task to agent matching capability requirements.
+        
+        Automatically selects agent based on:
+        - Required capabilities
+        - Agent availability
+        - Workload balance
+        """
+        pass
+```
+
+**Step 3: Update Imports**
+```bash
+# Find references
+grep -r "TaskAssignmentHandler" src/ tests/ docs/
+
+# Update imports
+# OLD: from src.domain.collaboration.task_assignment_handler import TaskAssignmentHandler
+# NEW: from src.domain.collaboration.task_assigner import TaskAssigner
+```
+
+### Glossary Entry
+
+```markdown
+## TaskAssigner
+
+**Domain:** Collaboration (Agent Orchestration)  
+**Definition:** Component responsible for assigning tasks to agents based on capabilities and availability.
+
+**Responsibilities:**
+- Assign tasks to appropriate agents
+- Validate agent capabilities match task requirements
+- Balance workload across agents
+- Track assignment history
+
+**Anti-Pattern:** TaskAssignmentHandler (redundant "Handler" suffix, unnecessary verbosity)
+
+**Example Usage:**
+```python
+assigner = TaskAssigner()
+assignment = assigner.assign(task_id="T-001", agent_id="backend-dev")
+
+# Or auto-assign based on capabilities
+assignment = assigner.assign_by_capability(task)
+```
+
+**Related Terms:**
+- Task (what's being assigned)
+- Agent (who receives assignment)
+- Assignment (the act of assigning)
+
+**Related ADRs:** SPEC-TERM-001
+```
+
+### Migration Log Template
+
+```markdown
+# SPEC-TERM-001 Task 2c: TaskAssigner Refactoring Log
+
+**Date:** 2026-02-11  
+**Agent:** Backend Dev  
+**Objective:** Rename TaskAssignmentHandler → TaskAssigner
+
+## Files Changed
+
+### Renamed Files
+- `src/domain/collaboration/task_assignment_handler.py` → `src/domain/collaboration/task_assigner.py`
+- `tests/unit/domain/collaboration/test_task_assignment_handler.py` → `tests/unit/domain/collaboration/test_task_assigner.py`
+
+### Updated Files (Imports)
+(List all files with import updates)
+
+## Methods Renamed
+
+- `handle_assignment()` → `assign()`
+- `process_assignment_request()` → `assign_by_capability()`
+- `get_assignment_status()` → `get_assignment()` (simplified)
+
+## Validation Results
+
+- **Tests Before:** PASS (X/X)
+- **Tests After:** PASS (X/X)
+- **Type Checking:** PASS (0 errors)
+- **Assignment Logic:** Unchanged (validated)
+
+## Simplification Benefits
+
+- Class name: 21 characters → 12 characters (43% shorter)
+- Method name: `handle_assignment()` → `assign()` (clearer, more direct)
+- Reduced verbosity without losing meaning
+
+## Completion
+
+✅ Class renamed  
+✅ Methods simplified  
+✅ Tests updated  
+✅ Documentation updated  
+✅ Glossary entry added  
+✅ Task 3 unblocked
+```
+
+## Risk Assessment
+
+**RISK:** Medium (breaking changes, but isolated component)
+
+**Mitigation:**
+- Follow established pattern (Tasks 2a, 2b)
+- Git history preserved
+- Tests validate behavior
+- Type checking validation
+
+## Definition of Done
+
+- [ ] Class renamed TaskAssigner
+- [ ] File renamed task_assigner.py
+- [ ] Methods simplified (handle_assignment → assign)
+- [ ] All imports updated
+- [ ] Tests pass (100%)
+- [ ] Type checking passes
+- [ ] Documentation updated
+- [ ] Glossary entry added
+- [ ] Migration log created
+- [ ] Task 3 unblocked (State/Status)
+
+## References
+
+- **Specification:** `specifications/initiatives/terminology-alignment-refactoring.md`
+- **Pattern Reference:** Tasks 2a (ModelRouter), 2b (TemplateRenderer)
+- **Glossary:** `docs/glossary.md`
+
+---
+
+**Estimated Effort:** 5 hours  
+**Agent:** Backend Dev  
+**Batch:** SPEC-TERM-001 Phase 2  
+**Priority:** ⭐⭐⭐⭐ HIGH (completes core class refactorings)
