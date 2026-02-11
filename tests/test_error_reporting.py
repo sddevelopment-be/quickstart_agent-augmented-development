@@ -21,11 +21,15 @@ sys.path.insert(0, str(REPO_ROOT / "tools" / "scripts"))
 
 # Import needs to be after path setup, and we need to import the module properly
 import importlib.util
+import sys
+
 spec = importlib.util.spec_from_file_location(
     "generate_error_summary",
     REPO_ROOT / "tools" / "scripts" / "generate-error-summary.py"
 )
 generate_error_summary = importlib.util.module_from_spec(spec)
+# FIX: Register module in sys.modules BEFORE executing to avoid dataclass errors
+sys.modules[spec.name] = generate_error_summary
 spec.loader.exec_module(generate_error_summary)
 
 from generate_error_summary import (

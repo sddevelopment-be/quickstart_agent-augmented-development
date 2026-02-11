@@ -37,10 +37,47 @@ Related ADRs
 
 Examples
 --------
->>> # Future usage after Task 2 (file migration)
->>> # from src.domain.doctrine import AgentProfile, Directive
->>> # profile = AgentProfile.load("python-pedro")
->>> # directive = Directive(code="017", title="Test Driven Development")
+>>> from src.domain.doctrine import Agent, Directive
+>>> from pathlib import Path
+>>> agent = Agent(
+...     id="python-pedro",
+...     name="Python Pedro",
+...     specialization="Python development specialist",
+...     capabilities=frozenset(["python", "tdd"]),
+...     required_directives=frozenset(["017"]),
+...     primers=frozenset(["TDD"]),
+...     source_file=Path(".github/agents/python-pedro.agent.md"),
+...     source_hash="abc123",
+... )
+>>> directive = Directive(
+...     id="017",
+...     number=17,
+...     title="Test Driven Development",
+...     category="testing",
+...     scope="all-agents",
+...     enforcement="mandatory",
+...     description="Apply TDD",
+...     rationale="Reduces bugs",
+...     examples=(),
+...     source_file=Path("directives/017.md"),
+...     source_hash="dir123",
+... )
 """
 
-__all__ = []  # Will be populated in Task 2 when files are moved
+from src.domain.doctrine.models import (
+    Agent,
+    Directive,
+    Tactic,
+    Approach,
+    StyleGuide,
+    Template,
+)
+
+__all__ = [
+    "Agent",
+    "Directive",
+    "Tactic",
+    "Approach",
+    "StyleGuide",
+    "Template",
+]
