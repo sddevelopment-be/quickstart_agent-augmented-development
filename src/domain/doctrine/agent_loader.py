@@ -25,7 +25,8 @@ class AgentProfileLoader:
         """
         if doctrine_path is None:
             # Auto-detect doctrine path relative to this file
-            doctrine_path = Path(__file__).parent.parent.parent / "doctrine"
+            # From src/domain/doctrine/agent_loader.py -> root/doctrine
+            doctrine_path = Path(__file__).parent.parent.parent.parent / "doctrine"
         
         self.doctrine_path = Path(doctrine_path)
         self.agents_path = self.doctrine_path / "agents"

@@ -6,7 +6,7 @@ Validates dynamic loading of agent identities from doctrine/agents.
 
 import pytest
 from pathlib import Path
-from src.common.agent_loader import AgentProfileLoader, load_agent_identities
+from src.domain.doctrine.agent_loader import AgentProfileLoader, load_agent_identities
 
 
 class TestAgentProfileLoader:
