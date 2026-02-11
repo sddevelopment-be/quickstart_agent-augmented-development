@@ -302,7 +302,7 @@ Brief description of the feature and its purpose.
 
 **Scenario:** Dashboard needs real-time updates
 
-**ADR (ADR-032):**
+**ADR (Example):**
 - **Decision:** Use Flask-SocketIO for WebSocket support
 - **Why:** Evaluated alternatives (polling, SSE, WebSockets)
 - **Trade-offs:** Complexity vs. real-time capability
@@ -454,10 +454,10 @@ FR-M1: System MUST accept WebSocket connections from localhost
 ```markdown
 ✅ GOOD in specification:
 FR-M1: System MUST provide real-time task updates via WebSocket
-- Implementation details: See ADR-028 (WebSocket Technology Choice)
+- Implementation details: See ADR for WebSocket Technology Choice
 
 ✅ GOOD in ADR:
-ADR-028: Use Flask-SocketIO for Real-Time Communication
+ADR: Use Flask-SocketIO for Real-Time Communication
 - Context: Need WebSocket support with minimal setup
 - Decision: Flask-SocketIO
 - Consequences: [trade-offs]

@@ -37,7 +37,7 @@ tools: ["read", "write", "edit", "MultiEdit", "Bash", "Grep", "Python", "pytest"
 
 Load as needed: `/require-directive <code>`.
 
-**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
+**Primer Requirement:** Follow the Primer Execution Matrix (DDR-001) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
 
 **Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying Python code; document any ADR-012 exception in the work log.
 

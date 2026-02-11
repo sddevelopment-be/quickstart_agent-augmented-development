@@ -390,7 +390,7 @@ class TaskStatus(str, Enum):
 # After
 from typing import List  # Removed unused import
 class TaskStatus(str, Enum):
-    """Task lifecycle states (see ADR-043)"""  # Updated, added ADR reference
+    """Task lifecycle states (see domain model docs)"""  # Updated, added reference
 ```
 
 **Commit:**
@@ -398,7 +398,7 @@ class TaskStatus(str, Enum):
 git commit -m "chore: Boy Scout cleanup in src/common/types.py
 
 - Remove unused Dict import
-- Update docstring with ADR-043 reference
+- Update docstring with domain model reference
 - Format with Black
 
 Pre-task cleanup before adding CANCELLED status"
@@ -416,7 +416,7 @@ Pre-task cleanup before adding CANCELLED status"
 ```bash
 cd docs/
 # Manual review finds:
-# - Broken link to ADR-001
+# - Broken link to architecture decision record
 # - Stale "last updated" date
 # - Typo: "recieve" → "receive"
 ```
@@ -438,7 +438,7 @@ To receive updates...
 ```bash
 git commit -m "docs: Boy Scout cleanup in docs/README.md
 
-- Fix broken ADR-001 link (path changed)
+- Fix broken ADR link (path changed)
 - Update last modified date
 - Fix typo: recieve → receive
 

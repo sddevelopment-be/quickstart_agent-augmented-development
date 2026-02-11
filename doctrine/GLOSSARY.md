@@ -2458,7 +2458,7 @@ The standardized progression of orchestrated tasks through states: **new** (unas
 ** (actively being worked), **done** (completed with results), **archive
 ** (historical record). Task state transitions are tracked through file-based coordination.
 
-**Reference:** Directive 019, ADR-003  
+**Reference:** Directive 019 (File-Based Collaboration)  
 **Related:** Orchestration, Work Log
 
 ### Team Communication Matrix
