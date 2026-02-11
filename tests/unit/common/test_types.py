@@ -5,15 +5,9 @@ Tests TaskStatus, FeatureStatus, TaskMode, TaskPriority enums and AgentIdentity 
 """
 
 import pytest
-from src.common.types import (
-    TaskStatus,
-    FeatureStatus,
-    TaskMode,
-    TaskPriority,
-    AgentIdentity,
-    validate_agent,
-    get_all_agents,
-)
+from src.domain.collaboration.types import TaskStatus, TaskMode, TaskPriority
+from src.domain.doctrine.types import AgentIdentity, validate_agent, get_all_agents
+from src.domain.specifications.types import FeatureStatus
 
 
 class TestTaskStatus:

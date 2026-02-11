@@ -18,7 +18,7 @@ from src.framework.orchestration.task_query import (
     count_tasks_by_status,
     count_tasks_by_agent,
 )
-from src.common.types import TaskStatus
+from src.domain.collaboration.types import TaskStatus
 
 
 @pytest.fixture
