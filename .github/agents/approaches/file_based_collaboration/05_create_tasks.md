@@ -6,7 +6,7 @@ When you need to create a new task that is NOT a delegation (for delegation, use
 
 ## Task Creation Steps
 
-1. Create YAML file in `work/collaboration/inbox/`
+1. Create YAML file in `${WORKSPACE_ROOT}/collaboration/inbox/`
 2. Name: `YYYY-MM-DDTHHMM-<agent>-<slug>.yaml`
 3. Include required fields:
     - `id`: Matches filename without extension
@@ -32,8 +32,8 @@ status: new
 title: "Review and update template structure"
 priority: normal
 artefacts:
-  - docs/templates/README.md
-  - docs/templates/architecture/
+  - templates/README.md
+  - templates/architecture/
 context:
   repo: "sddevelopment-be/quickstart_agent-augmented-development"
   notes:
@@ -45,7 +45,7 @@ created_by: "architect"
 
 ## Template Reference
 
-See `docs/templates/task-descriptor.yaml` for complete schema documentation.
+See `templates/task-descriptor.yaml` for complete schema documentation.
 
 ## Next Steps
 

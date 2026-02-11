@@ -39,7 +39,7 @@ Translate the “Target Audience Personas” practice (see
 |----------------------------------|------------------------------------------------------------------------|
 | Persona files                    | `docs/audience/*.md`                                                   |
 | Persona practice note            | `work/notes/ideation/opinionated_platform/target_audience_personas.md` |
-| Structural templates             | `docs/templates/`                                                      |
+| Structural templates             | `templates/`                                                      |
 | External-memory notes (optional) | `work/notes/external_memory/`                                          |
 
 | Output                       | Expectation                                 |

@@ -6,7 +6,7 @@
 
 **Definition:** See [Agent Profile](../GLOSSARY.md#agent-profile) in the glossary for core concept definition.
 
-Location: `.github/agents/*.agent.md`
+Location: agent profile files
 
 Role Specializations (examples):
 

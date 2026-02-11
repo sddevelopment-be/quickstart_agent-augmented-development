@@ -10,12 +10,12 @@ tools: [ "read", "write", "search", "edit", "web", "bash", "grep" ]
 
 ## 1. Context Sources
 
-- **Global Principles:** [.github/agents/](../../agents)
+- **Global Principles:** .github/agents/
 - **General Guidelines:** .github/agents/guidelines/general_guidelines.md
 - **Operational Guidelines:** .github/agents/guidelines/operational_guidelines.md
 - **Command Aliases:** .github/agents/aliases.md
 - **System Bootstrap and Rehydration:** .github/agents/guidelines/bootstrap.md and .github/agents/guidelines/rehydrate.md
-- **Localized Agentic Protocol:** AGENTS.md (the root of the current repository, or a `.github/agents` or `.agents` subdirectory if present.)
+- **Localized Agentic Protocol:** AGENTS.md (the root of the current repository, or a ``.github/agents/` directory in consuming repositories.)
 
 ## Directive References (Externalized)
 
@@ -29,7 +29,7 @@ tools: [ "read", "write", "search", "edit", "web", "bash", "grep" ]
 
 Load via `/require-directive <code>`.
 
-**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
+**Primer Requirement:** Follow the Primer Execution Matrix (DDR-001) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
 
 **Relevant Approaches:**
 

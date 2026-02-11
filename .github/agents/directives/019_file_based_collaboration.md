@@ -9,22 +9,22 @@
 
 ## Core Principle
 
-All inter-agent coordination happens through YAML task files in `work/collaboration/` that move through a defined lifecycle: **new → assigned →
+All inter-agent coordination happens through YAML task files in `${WORKSPACE_ROOT}/collaboration/` that move through a defined lifecycle: **new → assigned →
 in_progress → done → archive**.
 
 ## Agent Responsibilities
 
-1. **Check for assigned work** in `work/collaboration/assigned/<your-agent-name>/`
+1. **Check for assigned work** in `${WORKSPACE_ROOT}/collaboration/assigned/<your-agent-name>/`
 2. **Process tasks** according to priority (critical > high > normal > low)
 3. **Delegate** work outside your specialization to appropriate agents
-4. **Log your work** in `work/collaboration/done/<your-agent-name>/`
-5. **Create work logs** in `work/reports/logs/<your-agent-name>/`
+4. **Log your work** in `${WORKSPACE_ROOT}/collaboration/done/<your-agent-name>/`
+5. **Create work logs** in `${WORKSPACE_ROOT}/reports/logs/<your-agent-name>/`
 
 ## Approach Reference
 
 **CRITICAL:** Load only the step relevant to your current task phase to maintain token discipline.
 
-See `.github/agents/approaches/file_based_collaboration/README.md` for:
+See `approaches/file_based_collaboration/README.md` for:
 
 - Complete task lifecycle overview
 - Step-by-step procedures (one file per step)
@@ -34,14 +34,64 @@ See `.github/agents/approaches/file_based_collaboration/README.md` for:
 
 ## Quick Procedure
 
-1. Check `work/collaboration/assigned/<your-agent-name>/` for tasks
+1. Check `${WORKSPACE_ROOT}/collaboration/assigned/<your-agent-name>/` for tasks
 2. Load approach step for current phase (check work → prioritize → process → delegate → log)
-3. Follow approach guidance for that specific step
-4. Update task status and create work logs
-5. Move completed tasks to `work/collaboration/done/<your-agent-name>/`
+3. **Use task management scripts** (do NOT manually move files):
+   - **Start:** `python tools/scripts/start_task.py TASK_ID`
+   - **Complete:** `python tools/scripts/complete_task.py TASK_ID`
+   - **Freeze (if blocked):** `python tools/scripts/freeze_task.py TASK_ID --reason "Reason"`
+   - **List tasks:** `python tools/scripts/list_open_tasks.py [--status STATUS] [--agent AGENT]`
+4. Follow approach guidance for that specific step
+5. Update task result block and create work logs
+6. Scripts automatically handle file movements and validation
+
+## Task Management Scripts
+
+**CRITICAL:** Always use the provided scripts instead of manual file operations.
+
+### Script Usage Examples
+
+```bash
+# Start working on an assigned task
+python tools/scripts/start_task.py 2025-11-23T1500-structural-repomap
+
+# Complete a task (validates result block exists)
+python tools/scripts/complete_task.py 2025-11-23T1500-structural-repomap
+
+# Freeze a blocked task
+python tools/scripts/freeze_task.py 2025-11-23T1500-structural-repomap --reason "Waiting for dependency"
+
+# List your assigned tasks
+python tools/scripts/list_open_tasks.py --status assigned --agent structural
+
+# List all high-priority tasks
+python tools/scripts/list_open_tasks.py --priority high
+```
+
+### Benefits of Script Usage
+- ✅ **Validation:** Enforces proper YAML structure and required fields
+- ✅ **State Management:** Prevents invalid status transitions
+- ✅ **Consistency:** Standardized timestamps and metadata
+- ✅ **Auditability:** Clear lifecycle tracking
+- ✅ **Error Prevention:** Validates task completeness before changes
+
+### Deprecated Manual Operations
+❗️ **Do NOT:**
+- Manually move task files between directories
+- Directly edit status fields in YAML
+- Skip validation by manual file operations
+
+Use scripts to ensure data integrity and proper orchestration.
 
 ## Automation Scripts
 
+**Task Management Scripts (Primary):**
+- **start_task.py:** `python tools/scripts/start_task.py TASK_ID`
+- **complete_task.py:** `python tools/scripts/complete_task.py TASK_ID`
+- **freeze_task.py:** `python tools/scripts/freeze_task.py TASK_ID --reason "Reason"`
+- **list_open_tasks.py:** `python tools/scripts/list_open_tasks.py [options]`
+
+**Orchestration & Validation:**
 - Task assignment: `ops/scripts/orchestration/agent_orchestrator.py`
 - Agent base class: `ops/scripts/orchestration/agent_base.py`
 - Task validation: `validation/validate-task-schema.py`
@@ -64,11 +114,11 @@ When active in the orchestration system, always check for assigned work before r
 
 ## Related Documentation
 
-- `work/collaboration/README.md` - Collaboration directory guide
+- `${WORKSPACE_ROOT}/collaboration/README.md` - Collaboration directory guide
 - `work/README.md` - Complete work directory documentation
-- `docs/templates/task-descriptor.yaml` - Task YAML schema
-- ADR-002: File-Based Asynchronous Agent Coordination
-- ADR-003: Task Lifecycle and State Management
+- `templates/task-descriptor.yaml` - Task YAML schema
+- **Directive 007:** Agent Declaration (defines specialization boundaries)
+- **Approach:** [`work-directory-orchestration.md`](../approaches/work-directory-orchestration.md) — Detailed orchestration patterns
 
 ---
 

@@ -243,7 +243,7 @@ cat ops/scripts/orchestration/task_utils.py
 cat ops/scripts/orchestration/agent_orchestrator.py
 
 # Review architecture decisions
-cat docs/architecture/adrs/ADR-008*.md
+cat ${DOC_ROOT}/architecture/adrs/ADR-008*.md
 ```
 
 **Step 2: Accuracy Validation**
@@ -553,11 +553,7 @@ cat work/notes/alphonso_architecture_review.md
 - **Directive 015:** Prompt storage with SWOT
 - **Directive 016:** ATDD workflow
 - **Directive 017:** TDD workflow
-
-### Related ADRs
-
-- **ADR-012:** Test-driven development defaults
-- **ADR-017:** Traceable decisions protocol
+- **Directive 018:** Traceable Decisions (documentation standards)
 
 ---
 

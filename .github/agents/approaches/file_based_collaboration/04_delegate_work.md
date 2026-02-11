@@ -27,18 +27,18 @@ Add a `result` block to your task with delegation fields:
 result:
   summary: "Completed initial architecture design"
   artefacts:
-    - docs/architecture/design.md
+    - ${DOC_ROOT}/architecture/design.md
   next_agent: "diagrammer"
   next_task_title: "Create architecture diagram from design document"
   next_artefacts:
-    - docs/architecture/diagrams/system-overview.puml
+    - ${DOC_ROOT}/architecture/diagrams/system-overview.puml
   next_task_notes:
     - "Focus on component interactions"
     - "Use PlantUML C4 model notation"
   completed_at: "2025-11-26T10:30:00Z"
 ```
 
-The Agent Orchestrator automatically creates the follow-up task in `work/collaboration/inbox/`.
+The Agent Orchestrator automatically creates the follow-up task in `${WORKSPACE_ROOT}/collaboration/inbox/`.
 
 ## Common Delegation Patterns
 

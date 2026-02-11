@@ -17,7 +17,7 @@ Creating enhanced prompt version with improvements.
 **Replace vague terms:**
 
 - Before: "Update the files"
-- After: "Update .github/agents/directives/012_operating_procedures.md"
+- After: "Update directives/012_operating_procedures.md"
 
 **Add exact references:**
 
@@ -151,7 +151,7 @@ Refactor the directive to be more efficient.
 **After:**
 
 ```markdown
-Refactor `.github/agents/directives/012_operating_procedures.md`:
+Refactor `directives/012_operating_procedures.md`:
 1. Extract verbose content (sections 2-3) to `agents/approaches/operating_procedures/`
 2. Replace with cross-references using pattern from Directive 019
 3. Target: 50%+ token reduction (< 228 words)

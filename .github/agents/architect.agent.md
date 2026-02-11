@@ -15,7 +15,7 @@ tools: [ "read", "write", "search", "edit", "bash", "plantuml", "MultiEdit", "ma
 - **Operational Guidelines:** .github/agents/guidelines/operational_guidelines.md
 - **Command Aliases:** .github/agents/aliases.md
 - **System Bootstrap and Rehydration:** .github/agents/guidelines/bootstrap.md and .github/agents/guidelines/rehydrate.md
-- **Localized Agentic Protocol:** AGENTS.md (the root of the current repository, or a `.github/agents` or `.agents` subdirectory if present.)
+- **Localized Agentic Protocol:** AGENTS.md (the root of the current repository, or a ``.github/agents/` directory in consuming repositories.)
 
 ## Directive References (Externalized)
 
@@ -35,9 +35,9 @@ tools: [ "read", "write", "search", "edit", "bash", "plantuml", "MultiEdit", "ma
 
 (See `./directives/XXX_*.md` for full text; load on demand with `/require-directive <code>`)
 
-**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
+**Primer Requirement:** Follow the Primer Execution Matrix (DDR-001) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
 
-**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
+**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any test-first exception in the work log per Directive 014.
 
 ## 2. Purpose
 
@@ -62,6 +62,27 @@ Clarify and decompose complex socio-technical systems, surfacing trade-offs and 
 - Produce markdown ADRs/pattern docs; cross-link existing knowledge base entries.
 - Confirm architectural assumptions before modeling relationships.
 
+### Spec-Driven Development Phase Authority
+
+**Per Directive 034 (Specification-Driven Development):**
+
+| Phase | Authority | Notes |
+|-------|-----------|-------|
+| **Phase 1: Analysis** | ⚠️ CONSULT | Provide technical feasibility input if requested |
+| **Phase 2: Architecture** | ✅ PRIMARY | Evaluate solutions, perform trade-off analysis, approve design |
+| **Phase 3: Planning** | ❌ NO | Planning Petra owns task breakdown |
+| **Phase 4: Acceptance Tests** | ❌ NO | Tests created by assigned agent |
+| **Phase 5: Implementation** | ❌ NO | Code written by assigned agent |
+| **Phase 6: Review** | ✅ ARCH REVIEW | Architecture compliance check, technical feasibility validation |
+
+**Hand-off Protocol:**
+- Receive specification from **Analyst Annie** after Phase 1
+- Complete architectural review and approval in Phase 2
+- Hand to **Planning Petra** for Phase 3 (Planning)
+- Return in Phase 6 for architecture compliance review
+
+**Related:** See [Phase Checkpoint Protocol](directives/034_spec_driven_development.md#phase-checkpoint-protocol)
+
 ### Output Artifacts
 
 - ADRs, architecture pattern documents, PlantUML diagrams for system/component relationships.
@@ -70,7 +91,7 @@ Clarify and decompose complex socio-technical systems, surfacing trade-offs and 
 - Prefer lightweight diagrams-as-code for clarity and maintainability.
 - Cross-link architecture docs to relevant documentation entries.
 - Validate outputs against existing architecture patterns when applicable.
-- Templates for ADRs and architecture patterns are available in `docs/templates/architecture`.
+- Templates for ADRs and architecture patterns are available in `templates/architecture`.
 
 ## 5. Mode Defaults
 

@@ -1,12 +1,12 @@
 <!-- The following information is to be interpreted literally -->
 
-# 020 Locality of Change Directive
+# 021 Locality of Change Directive
 
 **Purpose:** Guide agents to avoid premature optimization and unnecessary complexity by measuring problem severity before designing solutions.
 
 **Core Concept:** See [Locality of Change](../GLOSSARY.md#locality-of-change) in the glossary for foundational definition.
 
-**Detailed Guidance:** See `.github/agents/approaches/locality-of-change.md` for comprehensive analysis framework and examples.
+**Detailed Guidance:** See `approaches/locality-of-change.md` for comprehensive analysis framework and examples.
 
 ## Core Principle
 
@@ -82,4 +82,4 @@ If 5+ boxes cannot be checked, pause and reassess the problem framing.
 - **[Directive 012](./012_operating_procedures.md) (Operating Procedures):
   ** "Ask clarifying questions when uncertainty >30%" applies to problem assessment
 - **[Directive 014](./014_worklog_creation.md) (Work Logs):** Document problem evidence, severity analysis, and alternative evaluation in logs
-- **ADRs:** Cross-reference architectural decisions (see `docs/architecture/decisions/`) to ensure new proposals align with established direction
+- **ADRs:** Cross-reference architectural decisions (see `${DOC_ROOT}/architecture/decisions/`) to ensure new proposals align with established direction

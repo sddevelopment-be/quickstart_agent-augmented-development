@@ -23,10 +23,10 @@ Agents SHOULD store prompt documentation when:
 
 ## 2. Prompt Documentation Location
 
-All prompt documentation MUST be stored in [`work/report/logs/prompts`](/work/reports/logs/prompts) following the naming convention:
+All prompt documentation MUST be stored in [`work/reports/logs/prompts`](/${WORKSPACE_ROOT}/reports/logs/prompts) following the naming convention:
 
 ```
-work/reports/logs/prompts/YYYY-MM-DDTHHMM-<agent>-<slug>-prompt.md
+`${WORKSPACE_ROOT}/reports/logs/prompts/YYYY-MM-DDTHHMM-<agent>-<slug>-prompt.md
 ```
 
 **Naming Convention:**
@@ -37,13 +37,13 @@ work/reports/logs/prompts/YYYY-MM-DDTHHMM-<agent>-<slug>-prompt.md
 - `<slug>`: Short description matching task slug (lowercase, hyphenated, max 50 chars)
 - `-prompt`: Suffix to identify as prompt documentation
 
-**Example:** `work/reports/logs/prompts/2025-11-23T1921-synthesizer-done-work-assessment-prompt.md`
+**Example:** `${WORKSPACE_ROOT}/reports/logs/prompts/2025-11-23T1921-synthesizer-done-work-assessment-prompt.md`
 
 ## 3. Approach Reference
 
 **CRITICAL:** Load only the step relevant to your current documentation phase to maintain token discipline.
 
-See `.github/agents/approaches/prompt_documentation/README.md` for:
+See `approaches/prompt_documentation/README.md` for:
 
 - Complete documentation structure template
 - SWOT analysis guidelines
@@ -53,11 +53,11 @@ See `.github/agents/approaches/prompt_documentation/README.md` for:
 ## 4. Quick Procedure
 
 1. Decide if prompt documentation is warranted (see section 1)
-2. Load `.github/agents/approaches/prompt_documentation/01_documentation_structure.md` for template
-3. Load `.github/agents/approaches/prompt_documentation/02_swot_analysis_guidelines.md` for analysis
-4. Load `.github/agents/approaches/prompt_documentation/03_improvement_guidelines.md` for enhancements
-5. Load `.github/agents/approaches/prompt_documentation/04_pattern_recognition.md` for patterns
-6. Create documentation file in `work/reports/logs/prompts/`
+2. Load `approaches/prompt_documentation/01_documentation_structure.md` for template
+3. Load `approaches/prompt_documentation/02_swot_analysis_guidelines.md` for analysis
+4. Load `approaches/prompt_documentation/03_improvement_guidelines.md` for enhancements
+5. Load `approaches/prompt_documentation/04_pattern_recognition.md` for patterns
+6. Create documentation file in `${WORKSPACE_ROOT}/reports/logs/prompts/`
 7. Commit to Git for future reference
 
 ## 5. Integration with Work Logs
@@ -80,7 +80,7 @@ Both should reference each other:
 
 - Work log: "See prompt documentation for original request analysis"
 - Prompt doc: "See work log for execution details"
-- If the Reflection Loop or Transparency primers (ADR-011) surfaced prompt-quality issues, note the primer invocation in the SWOT analysis for traceability.
+- If the Reflection Loop or Transparency primers (DDR-001) surfaced prompt-quality issues, note the primer invocation in the SWOT analysis for traceability.
 
 ## 6. Benefits
 
@@ -107,7 +107,7 @@ Both should reference each other:
 
 ## 7. Example Reference
 
-See: `work/reports/logs/prompts/2025-11-23T1921-synthesizer-done-work-assessment-prompt.md` (reference implementation)
+See: `${WORKSPACE_ROOT}/reports/logs/prompts/2025-11-23T1921-synthesizer-done-work-assessment-prompt.md` (reference implementation)
 
 ## 8. Validation Criteria
 

@@ -21,7 +21,7 @@ Provide a single, precise reference for the file-based asynchronous orchestratio
 ## Directory Model
 
 ```
-work/
+`${WORKSPACE_ROOT}/
   collaboration/          # Task routing + coordination artifacts
     inbox/                # new tasks
     assigned/<agent>/     # pending agent work
@@ -36,7 +36,7 @@ work/
   scripts/                # Utility + orchestration helpers
 ```
 
-See `work/collaboration/README.md` for directory-specific conventions.
+See `${WORKSPACE_ROOT}/collaboration/README.md` for directory-specific conventions.
 
 ## Task Lifecycle
 
@@ -52,12 +52,12 @@ See `work/collaboration/README.md` for directory-specific conventions.
                                  └───────┘
 ```
 
-- **new** – YAML file created in `work/collaboration/inbox/`, `status: new`.
-- **assigned** – Orchestrator validates task, stamps `assigned_at`, and moves it into `work/collaboration/assigned/<agent>/`.
+- **new** – YAML file created in `${WORKSPACE_ROOT}/collaboration/inbox/`, `status: new`.
+- **assigned** – Orchestrator validates task, stamps `assigned_at`, and moves it into `${WORKSPACE_ROOT}/collaboration/assigned/<agent>/`.
 - **in_progress** – Agent claims the task, updates status, adds `started_at`.
-- **done** – Agent adds a `result` block, moves file to `work/collaboration/done/<agent>/`, and logs work.
+- **done** – Agent adds a `result` block, moves file to `${WORKSPACE_ROOT}/collaboration/done/<agent>/`, and logs work.
 - **error** – Agent cannot complete; status set to `error` for human review.
-- **archive** – Automation moves older completed tasks to `work/collaboration/archive/<YYYY-MM>/`.
+- **archive** – Automation moves older completed tasks to `${WORKSPACE_ROOT}/collaboration/archive/<YYYY-MM>/`.
 
 ## Task Files
 
@@ -67,7 +67,7 @@ See `work/collaboration/README.md` for directory-specific conventions.
 
 ### Required & Optional Fields
 
-Use the templates under `docs/templates/agent-tasks/`:
+Use the templates under `templates/agent-tasks/`:
 
 - `task-descriptor.yaml` – Required fields (`id`, `agent`, `status`, `artefacts`).
 - `task-context.yaml`, `task-examples.yaml`, etc. – Optional helpers.
@@ -76,7 +76,7 @@ Use the templates under `docs/templates/agent-tasks/`:
 ### Quick Creation Example
 
 ```bash
-cat > work/collaboration/inbox/2025-11-23T1500-structural-repomap.yaml <<'YAML'
+cat > ${WORKSPACE_ROOT}/collaboration/inbox/2025-11-23T1500-structural-repomap.yaml <<'YAML'
 id: 2025-11-23T1500-structural-repomap
 agent: structural
 status: new
@@ -93,13 +93,63 @@ created_by: "stijn"
 YAML
 ```
 
+## Task Management Scripts
+
+Agents MUST use the provided scripts to ensure proper validation and state transitions:
+
+### Starting Tasks
+```bash
+python tools/scripts/start_task.py TASK_ID
+```
+- Validates current state is 'assigned'
+- Updates status to 'in_progress'
+- Adds started_at timestamp
+- Enforces state transition rules
+
+### Completing Tasks
+```bash
+python tools/scripts/complete_task.py TASK_ID
+```
+- Validates result block exists (unless --force used)
+- Updates status to 'done'
+- Adds completed_at timestamp
+- Moves task to done/{agent}/ directory
+- Enforces state transition rules
+
+### Freezing Tasks (when blocked)
+```bash
+python tools/scripts/freeze_task.py TASK_ID --reason "Reason for pause"
+```
+- Preserves original status and context
+- Adds freeze_reason and frozen_at timestamp
+- Moves task to fridge/ directory
+- Allows later review and unfreezing
+
+### Listing Open Tasks
+```bash
+python tools/scripts/list_open_tasks.py [--status STATUS] [--agent AGENT] [--priority PRIORITY]
+```
+- Lists all non-terminal tasks (not done/error)
+- Supports filtering by status, agent, priority
+- Available output formats: table (default) or json
+
+### Script Benefits
+- **Validation:** Enforces proper YAML structure and required fields
+- **State Management:** Centralized state machine prevents invalid transitions
+- **Consistency:** Standardized timestamps and metadata
+- **Auditability:** Clear lifecycle tracking
+- **Error Prevention:** Validates task completeness before state changes
+
+### Manual Operations (Deprecated)
+❗️ **Do NOT manually move task files or edit status fields directly.** Use the provided scripts to ensure data integrity and proper validation.
+
 ## Operating Roles
 
 ### Human Operators
 
-1. Create new tasks in `work/collaboration/inbox/` using the template.
-2. Monitor status via `work/collaboration/AGENT_STATUS.md` and `WORKFLOW_LOG.md`.
-3. Review `work/collaboration/done/<agent>/` to audit completed work.
+1. Create new tasks in `${WORKSPACE_ROOT}/collaboration/inbox/` using the template.
+2. Monitor status via `${WORKSPACE_ROOT}/collaboration/AGENT_STATUS.md` and `WORKFLOW_LOG.md`.
+3. Review `${WORKSPACE_ROOT}/collaboration/done/<agent>/` to audit completed work.
 4. Inspect `work/reports/` for agent logs, benchmarks, and synthesizer summaries.
 5. Use `validation/` scripts to enforce schema and structure integrity.
 
@@ -113,12 +163,25 @@ YAML
 
 ### Specialized Agents
 
-1. Poll `work/collaboration/assigned/<agent>/` for `status: assigned`.
-2. Update to `in_progress`, stamp `started_at`, and commit change.
+1. Poll `${WORKSPACE_ROOT}/collaboration/assigned/<agent>/` for `status: assigned`.
+2. **Start task** using the provided script:
+   ```bash
+   python tools/scripts/start_task.py TASK_ID
+   ```
+   This automatically updates status to `in_progress`, stamps `started_at`, and validates state transitions.
 3. Produce the requested artefacts, referencing directives/approaches as needed.
 4. Update the task YAML with `result` (summary, artefacts, optional `next_agent`, completion metadata).
-5. Move file to `work/collaboration/done/<agent>/`, add a work log under `work/reports/logs/<agent>/`, and commit together.
-6. If blocked, add an `error` block, set `status: error`, and notify humans via coordination artefacts.
+5. **Complete task** using the provided script:
+   ```bash
+   python tools/scripts/complete_task.py TASK_ID
+   ```
+   This validates the result block exists, moves the file to `${WORKSPACE_ROOT}/collaboration/done/<agent>/`, and enforces proper state transitions.
+6. Add a work log under `work/reports/logs/<agent>/`, and commit together.
+7. If blocked, **freeze task** using the provided script:
+   ```bash
+   python tools/scripts/freeze_task.py TASK_ID --reason "Reason for pause/block"
+   ```
+   This moves the task to fridge/ with metadata while preserving original status for later review.
 
 ## Collaboration Artefacts
 
@@ -141,13 +204,13 @@ Source agents encode follow-up work via the `result.next_agent` block:
 
 ```yaml
 result:
-  summary: "Created ADR-006 with recommendations"
+  summary: "Created ADR-NNN (recommendation decision) with recommendations"
   artefacts:
-    - docs/architecture/adrs/ADR-006.md
+    - ${DOC_ROOT}/architecture/adrs/ADR-NNN (recommendation decision).md
   next_agent: writer-editor
-  next_task_title: "Review and polish ADR-006"
+  next_task_title: "Review and polish ADR-NNN (recommendation decision)"
   next_artefacts:
-    - docs/architecture/adrs/ADR-006.md
+    - ${DOC_ROOT}/architecture/adrs/ADR-NNN (recommendation decision).md
   next_task_notes:
     - "Check for clarity"
   completed_at: "2025-11-23T15:45:00Z"
@@ -159,15 +222,21 @@ The orchestrator converts this into a fresh YAML task inside `inbox/`, copying d
 
 ```bash
 # Validate a task against the schema
-python validation/validate-task-schema.py work/collaboration/inbox/task.yaml
+python validation/validate-task-schema.py ${WORKSPACE_ROOT}/collaboration/inbox/task.yaml
+
+# List all open tasks
+python tools/scripts/list_open_tasks.py
+
+# List tasks by status or agent
+python tools/scripts/list_open_tasks.py --status assigned --agent python-pedro
 
 # Ensure structure + directory health
 bash validation/validate-work-structure.sh
 
 # View dashboards / logs
-cat work/collaboration/AGENT_STATUS.md
-tail -n 100 work/collaboration/WORKFLOW_LOG.md
-tail -n 50 work/collaboration/HANDOFFS.md
+cat ${WORKSPACE_ROOT}/collaboration/AGENT_STATUS.md
+tail -n 100 ${WORKSPACE_ROOT}/collaboration/WORKFLOW_LOG.md
+tail -n 50 ${WORKSPACE_ROOT}/collaboration/HANDOFFS.md
 ```
 
 ## Archival & Automation
@@ -181,22 +250,24 @@ tail -n 50 work/collaboration/HANDOFFS.md
 | Symptom                     | Likely Cause                                                     | Action                                                                            |
 |-----------------------------|------------------------------------------------------------------|-----------------------------------------------------------------------------------|
 | Task stuck in `assigned`    | Agent/orchestrator not running                                   | Check automation logs, restart agent, ensure polling directory matches agent name |
-| Task stuck in `in_progress` | Agent crash, timeout, or forgot to update                        | Review `WORKFLOW_LOG.md`, inspect agent logs, reset status if needed              |
+| Task stuck in `in_progress` | Agent crash, timeout, or forgot to update                        | Review `WORKFLOW_LOG.md`, inspect agent logs, use `complete_task.py` or `freeze_task.py` |
+| Task completion fails       | Missing result block or invalid state transition                 | Add result block to task YAML, or use `--force` flag with `complete_task.py`     |
 | Handoff missing             | Orchestrator didn’t run after completion or invalid `next_agent` | Rerun orchestrator, verify agent directory exists, or create task manually        |
 | Merge conflicts in `work/`  | Concurrent edits                                                 | Resolve per-file, keeping latest task status; use `git log work/` for history     |
-| Unknown directory clutter   | Tasks in wrong folders                                           | Run `validation/validate-work-structure.sh` and relocate files                    |
+| Unknown directory clutter   | Tasks in wrong folders                                           | Run `validation/validate-work-structure.sh` and relocate files using scripts     |
+| Invalid task status         | Manual file editing bypassed validation                         | Use `start_task.py`, `complete_task.py`, or `freeze_task.py` instead of manual edits |
 
 ## References
 
-- ADR-002 — File-Based Asynchronous Agent Coordination
-- ADR-003 — Task Lifecycle & State Management
-- ADR-004 — Work Directory Structure
-- ADR-005 — Coordinator Agent Pattern
+- ADR-YYY (coordination pattern) — File-Based Asynchronous Agent Coordination
+- ADR-MMM (lifecycle management) — Task Lifecycle & State Management
+- ADR-PPP (structure pattern) — Work Directory Structure
+- ADR-QQQ (agent pattern) — Coordinator Agent Pattern
 - Directive 014 — Work Log Creation
 - Directive 019 — File-Based Collaboration
 - `docs/HOW_TO_USE/multi-agent-orchestration.md`
 - `work/README.md` (high-level overview)
-- `work/collaboration/README.md` (directory-specific guide)
+- `${WORKSPACE_ROOT}/collaboration/README.md` (directory-specific guide)
 
 ---
 

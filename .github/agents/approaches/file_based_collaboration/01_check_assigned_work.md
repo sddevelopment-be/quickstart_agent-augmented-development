@@ -8,14 +8,14 @@
 
 ## Procedure
 
-1. Check `work/collaboration/assigned/<your-agent-name>/` for task YAML files
+1. Check `${WORKSPACE_ROOT}/collaboration/assigned/<your-agent-name>/` for task YAML files
 2. If tasks exist, proceed to Step 2 (Prioritize Tasks)
 3. If no tasks exist, await human instruction or request clarification
 
 ## Example
 
 ```bash
-ls work/collaboration/assigned/curator/*.yaml
+ls ${WORKSPACE_ROOT}/collaboration/assigned/curator/*.yaml
 ```
 
 If files are present, you have assigned work to process.

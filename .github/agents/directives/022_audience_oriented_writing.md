@@ -1,8 +1,6 @@
-# 021 Audience Oriented Writing Directive
+# 022 Audience Oriented Writing Directive
 
-**Purpose:
-** Ensure every written artifact explicitly targets the correct reader persona, leveraging the “Target-Audience Fit” approach and the curated personas under
-`docs/audience/`.
+**Purpose:** Ensure every written artifact explicitly targets the correct reader persona, leveraging the "Target-Audience Fit" approach and the curated personas under `docs/audience/`.
 
 ## Requirements
 

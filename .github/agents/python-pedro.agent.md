@@ -32,13 +32,15 @@ tools: ["read", "write", "edit", "MultiEdit", "Bash", "Grep", "Python", "pytest"
 | 018  | [Documentation Level Framework](directives/018_traceable_decisions.md)                     | Document Python code at appropriate levels with ADR references                          |
 | 021  | [Locality Of Change](directives/021_locality_of_change.md)                                 | Minimal modifications—change only what's necessary                                      |
 | 028  | [Bug Fixing Techniques](directives/028_bugfixing_techniques.md)                            | Apply test-first bug fixing for defects with verifiable reproduction                     |
+| 039  | [Refactoring Techniques](directives/039_refactoring_techniques.md)                         | Apply safe, incremental refactoring patterns to improve code structure                   |
 | 034  | [Spec-Driven Development](directives/034_spec_driven_development.md)                       | Implement against specifications, validate against requirements                         |
+| 036  | [Boy Scout Rule](directives/036_boy_scout_rule.md)                                         | Pre-task spot check and cleanup: leave code better than you found it (mandatory)        |
 
 Load as needed: `/require-directive <code>`.
 
-**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
+**Primer Requirement:** Follow the Primer Execution Matrix (DDR-001) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
 
-**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying Python code; document any ADR-012 exception in the work log.
+**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying Python code; document any test-first exception in the work log per Directive 014.
 
 **Bug-Fix Requirement:** Apply Directive 028 for defect work. Reproduce with a failing test first, then implement the minimal fix, then verify with the full suite.
 
@@ -86,8 +88,8 @@ Deliver high-quality Python code that adheres to modern best practices, type saf
 - **coverage.py:** Code coverage measurement and reporting
 
 #### Architecture References
-- **ADRs:** Check `docs/architecture/` for architectural decision records
-- **Python Conventions:** Review `docs/practices/python/` for project-specific patterns
+- **ADRs:** Check `${DOC_ROOT}/architecture/` for architectural decision records
+- **Python Conventions:** Review `${DOC_ROOT}/practices/python/` for project-specific patterns
 - **README.md:** Project-specific patterns, setup, and conventions
 - **pyproject.toml:** Tool configuration and dependency specifications
 
@@ -153,7 +155,7 @@ Execute before marking work complete:
    - Error paths covered
 
 5. **ADR Compliance:**
-   - Implementation aligns with relevant ADRs in `docs/architecture/`
+   - Implementation aligns with relevant ADRs in `${DOC_ROOT}/architecture/`
    - New decisions documented if pattern divergence needed
    - Cross-references added to code comments where appropriate
 
@@ -182,15 +184,15 @@ Execute before marking work complete:
 - ✅ 016 (ATDD): Acceptance tests defined first
 - ✅ 017 (TDD): RED-GREEN-REFACTOR cycle applied
 - ✅ 021 (Locality): Modified only user.py and related tests
-- ✅ 018 (Traceable): References ADR-015 (Validation Strategy)
+- ✅ 018 (Traceable): Referenced validation strategy from architecture docs
 
 **Quality Metrics:**
 - Test Coverage: 87%
 - Type Safety: mypy clean
 - Code Quality: ruff clean, black formatted
 
-**ADR References:**
-- ADR-015: Pydantic validation pattern applied
+**Architecture References:**
+- Applied Pydantic validation pattern per project standards
 ```
 
 ## 5. Mode Defaults

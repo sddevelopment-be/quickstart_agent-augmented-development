@@ -7,7 +7,7 @@ Creating new prompt documentation file.
 ## File Naming
 
 ```
-work/reports/logs/prompts/YYYY-MM-DDTHHMM-<agent>-<slug>-prompt.md
+`${WORKSPACE_ROOT}/reports/logs/prompts/YYYY-MM-DDTHHMM-<agent>-<slug>-prompt.md
 ```
 
 **Convention:**

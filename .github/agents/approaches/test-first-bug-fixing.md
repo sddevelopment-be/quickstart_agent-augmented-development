@@ -270,7 +270,7 @@ When a bug is reported or test fails:
 ### Agent Collaboration Pattern
 
 ```yaml
-# work/collaboration/inbox/2026-XX-XX-bug-fix-task.yaml
+# ${WORKSPACE_ROOT}/collaboration/inbox/2026-XX-XX-bug-fix-task.yaml
 task_id: "bug-fix-[description]"
 assigned_to: "backend-benny"
 priority: "high"

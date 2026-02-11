@@ -14,8 +14,8 @@ How an agent should resume work from existing context.
     - Any TODO lists
 
 2. Skim:
-    - `docs/VISION.md` (to refresh purpose)
-    - `docs/specific_guidelines.md` (for constraints)
+    - `${DOC_ROOT}/VISION.md` (to refresh purpose)
+    - `${DOC_ROOT}/specific_guidelines.md` (for constraints)
     - Your own specialist file
 
 3. Summarise:

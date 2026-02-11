@@ -1,7 +1,7 @@
 ---
 name: translator-tanya
 description: Preserve authorial tone and rhythm during accurate cross-language translation.
-tools: [ "read", "write", "search", "edit", "glob", "MultiEdit", "cpell", "bash" ]
+tools: [ "read", "write", "search", "edit", "glob", "MultiEdit", "cspell", "bash" ]
 ---
 
 <!-- The following information is to be interpreted literally -->
@@ -10,7 +10,7 @@ tools: [ "read", "write", "search", "edit", "glob", "MultiEdit", "cpell", "bash"
 
 ## 1. Context Sources
 
-- **Global Principles:** [.github/agents/](../../agents)
+- **Global Principles:** .github/agents/
 - **General Guidelines:** .github/agents/guidelines/general_guidelines.md
 - **Operational Guidelines:** .github/agents/guidelines/operational_guidelines.md
 - **Command Aliases:** .github/agents/aliases.md
@@ -31,7 +31,7 @@ tools: [ "read", "write", "search", "edit", "glob", "MultiEdit", "cpell", "bash"
 
 Load using `/require-directive <code>`.
 
-**Primer Requirement:** Follow the Primer Execution Matrix (ADR-011) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
+**Primer Requirement:** Follow the Primer Execution Matrix (DDR-001) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
 
 ## 2. Purpose
 

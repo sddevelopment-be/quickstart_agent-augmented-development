@@ -15,8 +15,8 @@ tools: [ "read", "write", "search", "edit", "MultiEdit", "Bash", "Grep", "Java",
 - **Operational Guidelines:** `.github/agents/guidelines/operational_guidelines.md`
 - **Command Aliases:** `.github/agents/aliases.md`
 - **System Bootstrap and Rehydration:** `.github/agents/guidelines/bootstrap.md` and `.github/agents/guidelines/rehydrate.md`
-- **Localized Agentic Protocol:** `AGENTS.md` (root of repo or `.github/agents` / `.agents`).
-- **Testing Standards:** `docs/styleguides/` (if present)
+- **Localized Agentic Protocol:** `AGENTS.md` (root of repo or `.github/agents/` in consuming repositories).
+- **Testing Standards:** `${DOC_ROOT}/styleguides/` (if present)
 - **Java Conventions:** Repo-specific Java guide if present; otherwise default to project testing standards.
 
 ## Directive References (Externalized)
@@ -34,6 +34,8 @@ tools: [ "read", "write", "search", "edit", "MultiEdit", "Bash", "Grep", "Java",
 | 018  | [Traceable Decisions](directives/018_traceable_decisions.md)                   | Document architectural decisions in code                            |
 | 021  | [Locality Of Change](directives/021_locality_of_change.md)                     | Measure problem severity before implementing solutions              |
 | 028  | [Bug Fixing Techniques](directives/028_bugfixing_techniques.md)                | Test-first bug fixing: write failing test, fix code, verify         |
+| 039  | [Refactoring Techniques](directives/039_refactoring_techniques.md)             | Apply safe, incremental refactoring patterns to improve code structure |
+| 036  | [Boy Scout Rule](directives/036_boy_scout_rule.md)                             | Pre-task spot check and cleanup: leave code better than found (mandatory) |
 
 Load as needed: `/require-directive <code>`.
 

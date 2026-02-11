@@ -6,7 +6,7 @@ When actively working on an assigned task.
 
 ## Processing Steps
 
-1. **Read task YAML** from `work/collaboration/assigned/<your-agent-name>/<task-file>.yaml`
+1. **Read task YAML** from `${WORKSPACE_ROOT}/collaboration/assigned/<your-agent-name>/<task-file>.yaml`
 2. **Update status** to `in_progress` and set `started_at` timestamp (ISO 8601 format)
 3. **Perform specialized work** according to task description and artifacts
 4. **Create/modify artifacts** listed in the `artefacts` field
@@ -18,7 +18,7 @@ When actively working on an assigned task.
     - `next_artefacts` (optional): Files for next agent
     - `next_task_notes` (optional): Context for next agent
 6. **Update status** to `done` and set `completed_at` timestamp
-7. **Move task file** to `work/collaboration/done/<your-agent-name>/`
+7. **Move task file** to `${WORKSPACE_ROOT}/collaboration/done/<your-agent-name>/`
 
 ## Result Block Example
 
@@ -26,8 +26,8 @@ When actively working on an assigned task.
 result:
   summary: "Completed directive refactoring"
   artefacts:
-    - .github/agents/directives/019_file_based_collaboration.md
-    - .github/agents/approaches/file_based_collaboration/
+    - directives/019_file_based_collaboration.md
+    - approaches/file_based_collaboration/
   completed_at: "2025-11-26T06:30:00Z"
 ```
 
