@@ -23,7 +23,7 @@ from rich.table import Table
 @click.version_option(version=__version__, prog_name='llm-service')
 @click.option(
     '--config-dir',
-    type=click.Path(exists=True, file_okay=False, dir_okay=True, path_type=Path),
+    type=click.Path(file_okay=False, dir_okay=True, path_type=Path),
     default='./config',
     help='Path to configuration directory (default: ./config)',
     show_default=True,
@@ -73,6 +73,11 @@ def config_validate(ctx):
     - 1: Configuration has errors
     """
     config_dir = ctx.obj['config_dir']
+    
+    # Validate config directory exists
+    if not config_dir.exists():
+        print_error(f"Configuration directory does not exist: {config_dir}")
+        sys.exit(1)
     
     # Header
     console.print(Panel.fit(
@@ -162,6 +167,9 @@ def config_init(ctx, template, output, force):
     from llm_service.utils.env_scanner import EnvironmentScanner
     
     config_dir = ctx.obj['config_dir']
+    
+    # Create config directory if it doesn't exist
+    config_dir.mkdir(parents=True, exist_ok=True)
     
     # Determine output path
     if output is None:
@@ -553,6 +561,12 @@ def exec_command(ctx, agent, prompt_file, task_type):
     Tool execution will be implemented in Milestone 2.
     """
     config_dir = ctx.obj['config_dir']
+    
+    # Validate config directory exists
+    if not config_dir.exists():
+        print_error(f"Configuration directory does not exist: {config_dir}")
+        console.print("\n💡 Tip: Run [bold cyan]llm-service config init[/bold cyan] to create configuration.")
+        sys.exit(1)
     
     # Header
     console.print(Panel.fit(
