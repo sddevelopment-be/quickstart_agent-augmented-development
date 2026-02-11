@@ -280,7 +280,7 @@ Required sections:
 
 ## Primer Integration
 
-Per ADR-011 and Directive 010, Guardian invokes:
+Per DDR-001 and Directive 010, Guardian invokes:
 
 - **Transparency Primer:** When surfacing conflicts or uncertainties (⚠️ markers).
 - **Risk Awareness Primer:** When escalating critical issues (❗️ markers).
@@ -290,8 +290,8 @@ Log primer usage in work logs per Directive 014.
 
 ## Cross-References
 
-- **ADR-013:** Zip-Based Framework Distribution
-- **ADR-014:** Framework Guardian Agent Decision
+- **DDR-002:** Framework Guardian Agent Role (doctrine pattern)
+- **ADR-013:** Zip-Based Framework Distribution (repository-specific tooling)
 - **Directive 004:** Documentation & Context Files (manifest location)
 - **Directive 006:** Version Governance (framework version tracking)
 - **Directive 008:** Artifact Templates (audit/upgrade templates)

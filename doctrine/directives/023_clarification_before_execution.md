@@ -6,7 +6,7 @@
 
 **Core Concept:** See [Clarification Request](../GLOSSARY.md#clarification-request) in the glossary for foundational definition.
 
-**Related:** ADR-023 (Prompt Optimization Framework) - This directive implements Pattern P1 mitigation (vague success criteria) and supports reducing the 30% clarification rate identified in work log analysis.
+**Context:** This directive implements Pattern P1 mitigation (vague success criteria) and supports reducing clarification overhead identified in iterative development cycles.
 
 ## Core Principle
 
@@ -193,7 +193,7 @@ If user doesn't respond to clarification request:
 
 ## Quality Impact Metrics
 
-This directive targets these efficiency improvements from ADR-023:
+This directive targets efficiency improvements through proactive clarification:
 
 | Metric | Baseline | Target | Directive Contribution |
 |--------|----------|--------|------------------------|
@@ -325,9 +325,9 @@ This directive complements:
 
 ## Enforcement
 
-### Automated Checks (Future - Phase 2 of ADR-023)
+### Automated Checks (Future Enhancement)
 
-Future prompt validator will automatically flag:
+Future tooling may automatically flag:
 - Success criteria without measurable conditions
 - Deliverables without absolute paths
 - Missing constraint sections
@@ -353,9 +353,8 @@ Effective use of this directive:
 
 ## Related Documentation
 
-- **ADR-023:** [Prompt Optimization Framework](/../${DOC_ROOT}/architecture/adrs/ADR-023-prompt-optimization-framework.md)
 - **Templates:** [templates/prompts/](/../templates/prompts/)
-- **Work Log Analysis:** [${WORKSPACE_ROOT}/reports/assessments/work-log-analysis-suboptimal-patterns.md](/../${WORKSPACE_ROOT}/reports/assessments/work-log-analysis-suboptimal-patterns.md)
+- **Work Log Patterns:** See repository work log analysis for optimization insights
 
 ---
 

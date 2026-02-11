@@ -21,7 +21,7 @@ This directive complements Directive 034 (Specification-Driven Development) by d
 ## Core Principle
 
 Every specification MUST include YAML frontmatter with a standardized structure. This frontmatter serves as:
-1. **Machine-readable metadata** for portfolio tracking (ADR-037)
+1. **Machine-readable metadata** for portfolio tracking
 2. **Feature hierarchy definition** for task-to-feature linking
 3. **Progress tracking foundation** for initiative rollup calculations
 4. **Searchable index** for dashboard assignment features
@@ -579,7 +579,7 @@ cat work/collaboration/inbox/2026-02-06T1600-task.yaml | grep specification
 - **Directive 034:** Specification-Driven Development (when to create specs)
 - **Directive 016:** Acceptance Test-Driven Development (linking specs to tests)
 - **Directive 018:** Traceable Decisions (linking specs to ADRs)
-- **ADR-037:** Dashboard Initiative Tracking (portfolio view architecture)
+- **Implementation:** See repository ADRs for portfolio tracking architecture
 - **Template:** `templates/${SPEC_ROOT}/feature-spec-template.md`
 - **README:** `${SPEC_ROOT}/README.md` (overview and guidance)
 
