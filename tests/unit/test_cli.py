@@ -62,7 +62,8 @@ def test_config_validate_missing_dir(runner, tmp_path):
     """Test config validate with missing directory."""
     nonexistent = tmp_path / "nonexistent"
     result = runner.invoke(cli, ['--config-dir', str(nonexistent), 'config', 'validate'])
-    assert result.exit_code == 2  # Click error for invalid path
+    assert result.exit_code == 1  # Command error for missing directory
+    assert "does not exist" in result.output
 
 
 def test_config_init(runner, tmp_path):
