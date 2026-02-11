@@ -99,7 +99,7 @@ Risk Appetite: medium
 Time Horizon: medium (6-12 months)
 ```
 
-**Output:** `ADR-028-websocket-technology-choice.md`
+**Output:** `ADR-NNN (technology choice)-websocket-technology-choice.md`
 
 ---
 

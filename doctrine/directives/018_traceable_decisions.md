@@ -185,7 +185,6 @@ Issue definitions: issue-definitions/*.yml
 - **Tactic:** [`adr-drafting-workflow.tactic.md`](../tactics/adr-drafting-workflow.tactic.md) — Systematic ADR creation
 - **Tactic:** [`premortem-risk-identification.tactic.md`](../tactics/premortem-risk-identification.tactic.md) — Risk analysis
 - **Shorthand:** [`/architect-adr`](../shorthands/architect-adr.md) — Quick ADR drafting
-- **ADR-017:** Self-referential; defines traceable decision patterns
 
 ---
 

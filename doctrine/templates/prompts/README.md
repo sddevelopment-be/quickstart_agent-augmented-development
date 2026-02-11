@@ -2,9 +2,9 @@
 
 This directory contains structured, reusable prompts to streamline common agent-driven tasks. Each prompt begins with context clearing and agent bootstrap to prevent context leakage and degradation.
 
-## 🆕 Canonical Templates (ADR-023 Phase 1)
+## 🆕 Canonical Templates (Directive 023 (Clarification Before Execution) Phase 1)
 
-**NEW:** Five canonical prompt templates implementing the Prompt Optimization Framework (ADR-023). These templates systematically address all 12 suboptimal patterns identified in work log analysis, targeting 30-40% efficiency improvement.
+**NEW:** Five canonical prompt templates implementing the Prompt Optimization Framework (Directive 023 (Clarification Before Execution)). These templates systematically address all 12 suboptimal patterns identified in work log analysis, targeting 30-40% efficiency improvement.
 
 ### Template Overview
 
@@ -38,12 +38,12 @@ All templates include:
 ### Related Documentation
 
 - **Directive 023:** [Clarification Before Execution](/directives/023_clarification_before_execution.md) - Agents request clarification when template sections are incomplete
-- **ADR-023:** [Prompt Optimization Framework](/${DOC_ROOT}/architecture/adrs/ADR-023-prompt-optimization-framework.md) - Architectural design and rationale
-- **Implementation Roadmap:** [ADR-023 Roadmap](/${DOC_ROOT}/architecture/adrs/ADR-023-implementation-roadmap.md) - Four-phase rollout plan
+- **Directive 023 (Clarification Before Execution):** [Prompt Optimization Framework](/${DOC_ROOT}/architecture/adrs/Directive 023 (Clarification Before Execution)-prompt-optimization-framework.md) - Architectural design and rationale
+- **Implementation Roadmap:** [Directive 023 (Clarification Before Execution) Roadmap](/${DOC_ROOT}/architecture/adrs/Directive 023 (Clarification Before Execution)-implementation-roadmap.md) - Four-phase rollout plan
 
 ---
 
-## Legacy Prompts (Pre-ADR-023)
+## Legacy Prompts (Pre-Directive 023 (Clarification Before Execution))
 
 The following prompts predate the canonical templates. They remain valid but will be migrated to template format in Phase 2.
 

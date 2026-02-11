@@ -179,7 +179,7 @@
 
 ### Improvements Applied
 
-1. Added ADR-008 reference to orchestrator tests (architectural context)
+1. Added ADR-NNN (coordination pattern) reference to orchestrator tests (architectural context)
 2. Created operational scenario test for cron cadence (runtime context)
 3. Added inline comment about Git-based trust model (security boundary)
 
@@ -291,7 +291,7 @@
 **Complements:**
 - **Test-Driven Development (TDD):** Validates that TDD produces comprehensible tests
 - **Acceptance Test-Driven Development (ATDD):** Measures spec-to-test traceability
-- **Traceable Decisions (ADR-017):** Identifies where ADR references improve test clarity
+- **Traceable Decisions (Directive 018 (Traceable Decisions)):** Identifies where ADR references improve test clarity
 
 **Differs From:**
 - **Code Review:** Focuses on test documentation quality, not implementation correctness
@@ -306,7 +306,7 @@
 - **Related Approach:** `doctrine/approaches/test-readability-clarity-check.md`
 - **Directive 017:** Test-Driven Development
 - **Directive 016:** Acceptance Test-Driven Development
-- **ADR-012:** Test-Driven Development Mandate
+- **Directive 017 (TDD):** Test-Driven Development Mandate
 
 ---
 

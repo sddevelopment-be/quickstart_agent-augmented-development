@@ -352,7 +352,7 @@ Before considering analysis complete, verify:
 - Approach: `approaches/test-readability-clarity-check.md`
 - Directive 014: Work log standards
 - Directive 015: Prompt storage standards
-- ADR-012: Test-driven development defaults
+- Directive 017 (TDD): Test-driven development defaults
 
 **Example Analysis:**
 - Ralph's Analysis: `${WORKSPACE_ROOT}/notes/ralph_system_analysis_from_tests.md`

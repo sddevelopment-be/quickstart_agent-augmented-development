@@ -4,7 +4,7 @@
 
 **status**: Accepted  
 **date**: 2026-02-11  
-**supersedes**: ADR-014 (content extracted and elevated to doctrine)
+**supersedes**: Repository-level guardian decisions (elevated to framework level)
 
 ### Context
 
@@ -93,5 +93,5 @@ The Framework Guardian role pattern enforces these constraints across all reposi
 ### Related
 
 - **Doctrine**: Directive 025 (Framework Guardian Initialization)
-- **Implementation**: See repository-specific ADRs for distribution mechanisms (e.g., ADR-013 Zip Distribution)
+- **Implementation**: See your repository's architecture decisions for distribution mechanisms
 - **Agent Profile**: `doctrine/agents/framework-guardian.agent.md`

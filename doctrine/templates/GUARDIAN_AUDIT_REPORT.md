@@ -210,7 +210,7 @@ Files found in framework directories but not listed in `META/MANIFEST.yml`:
 
 **For questions or issues with this audit, consult:**
 
-- ADR-014: Framework Guardian Agent
+- DDR-002 (Framework Guardian): Framework Guardian Agent
 - `${DOC_ROOT}/architecture/design/distribution_of_releases_architecture.md`
 - `${DOC_ROOT}/architecture/design/distribution_of_releases_technical_design.md`
 - Directive 025: Framework Guardian procedures

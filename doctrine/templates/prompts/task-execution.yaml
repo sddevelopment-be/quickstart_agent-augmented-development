@@ -1,6 +1,6 @@
 # Template 1: Task Execution (General Purpose)
 # Version: 1.0.0
-# Addresses: Patterns 1-4, 9-12 from ADR-023
+# Addresses: Patterns 1-4, 9-12 from Directive 023 (Clarification Before Execution)
 #
 # This template provides a comprehensive structure for general-purpose task prompts.
 # Use this for most agent tasks requiring clear objectives, deliverables, and constraints.
@@ -145,4 +145,4 @@ Additional context, background, or special considerations:
 
 **Template Version:** 1.0.0  
 **Last Updated:** 2026-01-30  
-**Related:** ADR-023 Prompt Optimization Framework
+**Related:** Directive 023 (Clarification Before Execution) Prompt Optimization Framework

@@ -1,6 +1,6 @@
 # Template 3: Documentation (Structured Documentation)
 # Version: 1.0.0
-# Addresses: Patterns 1-2, 4-6, 9, 11 from ADR-023
+# Addresses: Patterns 1-2, 4-6, 9, 11 from Directive 023 (Clarification Before Execution)
 #
 # This template is for creating or updating documentation with quality gates.
 # Use for user guides, API docs, architecture docs, or technical specifications.
@@ -213,4 +213,4 @@ Ensure documentation is accessible:
 
 **Template Version:** 1.0.0  
 **Last Updated:** 2026-01-30  
-**Related:** ADR-023 Prompt Optimization Framework
+**Related:** Directive 023 (Clarification Before Execution) Prompt Optimization Framework

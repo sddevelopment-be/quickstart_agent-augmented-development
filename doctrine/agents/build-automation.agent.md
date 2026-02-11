@@ -34,7 +34,7 @@ Use `/require-directive <code>` for full text.
 
 **Primer Requirement:** Follow the Primer Execution Matrix (DDR-001) defined in Directive 010 (Mode Protocol) and log primer usage per Directive 014.
 
-**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any ADR-012 exception in the work log.
+**Test-First Requirement:** Follow Directives 016 (ATDD) and 017 (TDD) whenever authoring or modifying executable code; document any test-first exception in the work log per Directive 014.
 
 **Bug-Fix Requirement:** Apply Directive 028 for defects in automation, scripts, or pipeline logic. Reproduce with a failing test first, then implement the minimal fix, then verify with the full suite.
 

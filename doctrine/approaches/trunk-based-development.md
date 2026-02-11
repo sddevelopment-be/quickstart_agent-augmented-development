@@ -118,14 +118,14 @@ python ops/orchestration/task_age_checker.py --warn-only
 
 ```bash
 # Make change
-vim ${DOC_ROOT}/architecture/adrs/ADR-019-trunk-based-development.md
+vim ${DOC_ROOT}/architecture/adrs/ADR-NNN (trunk-based development)-trunk-based-development.md
 
 # Validate locally
 ./validation/validate-all.sh
 
 # Commit directly to trunk
-git add ${DOC_ROOT}/architecture/adrs/ADR-019-trunk-based-development.md
-git commit -m "docs(adr): clarify branch lifetime policy in ADR-019"
+git add ${DOC_ROOT}/architecture/adrs/ADR-NNN (trunk-based development)-trunk-based-development.md
+git commit -m "docs(adr): clarify branch lifetime policy in ADR-NNN (trunk-based development)"
 git push origin main
 ```
 
@@ -143,7 +143,7 @@ git push origin main
 git checkout -b task/2025-11-30T0830-architect-adr019
 
 # Make changes
-vim ${DOC_ROOT}/architecture/adrs/ADR-019-trunk-based-development.md
+vim ${DOC_ROOT}/architecture/adrs/ADR-NNN (trunk-based development)-trunk-based-development.md
 vim ${DOC_ROOT}/architecture/design/trunk_based_development_technical_design.md
 vim approaches/trunk-based-development.md
 
@@ -205,8 +205,8 @@ git commit -m "task(architect): start trunk-based development documentation"
 git push origin main
 
 # 3. Create artifacts incrementally (multiple commits to trunk)
-git add ${DOC_ROOT}/architecture/adrs/ADR-019-trunk-based-development.md
-git commit -m "docs(adr): add ADR-019 trunk-based development"
+git add ${DOC_ROOT}/architecture/adrs/ADR-NNN (trunk-based development)-trunk-based-development.md
+git commit -m "docs(adr): add ADR-NNN (trunk-based development) trunk-based development"
 git push origin main
 
 git add ${DOC_ROOT}/architecture/design/trunk_based_development_technical_design.md
@@ -464,7 +464,7 @@ Trunk-based development uses flexible review patterns:
 ```bash
 # Ship (no review)
 git add <file>
-git commit -m "fix: correct typo in ADR-019"
+git commit -m "fix: correct typo in ADR-NNN (trunk-based development)"
 git push origin main
 
 # Show (async review)
@@ -668,7 +668,7 @@ id: 2025-11-30T0830-architect-adr019
 agent: architect
 status: in_progress
 artefacts:
-  - ${DOC_ROOT}/architecture/adrs/ADR-019-trunk-based-development.md
+  - ${DOC_ROOT}/architecture/adrs/ADR-NNN (trunk-based development)-trunk-based-development.md
   - ${DOC_ROOT}/architecture/design/trunk_based_development_technical_design.md
   - approaches/trunk-based-development.md
 ```
@@ -682,14 +682,14 @@ python ops/orchestration/check-artifact-conflicts.py
 # Example output:
 # ⚠️  Conflict detected!
 # The following artifacts are already being modified:
-#   - ${DOC_ROOT}/architecture/adrs/ADR-019-trunk-based-development.md
+#   - ${DOC_ROOT}/architecture/adrs/ADR-NNN (trunk-based development)-trunk-based-development.md
 #     by: architect (task 2025-11-30T0830-architect-adr019, 1.5h ago)
 #
 # Recommendation:
 #   Wait for task to complete or coordinate with agent
 ```
 
-### 2. Path Conventions (ADR-004)
+### 2. Path Conventions (ADR-ZZZ (path conventions))
 
 Use predictable paths:
 
@@ -750,7 +750,7 @@ coordination:
 
 | From       | To     | Artifact                               | Status      | ETA        |
 |------------|--------|----------------------------------------|-------------|------------|
-| architect  | writer | ADR-019 trunk-based development        | in_progress | 10:00 UTC  |
+| architect  | writer | ADR-NNN (trunk-based development) trunk-based development        | in_progress | 10:00 UTC  |
 | structural | lexical| REPO_MAP.md                            | pending     | 14:00 UTC  |
 ```
 
@@ -934,10 +934,10 @@ git push origin main
 
 ## Related Documentation
 
-- [ADR-019: Adopt Trunk-Based Development](../../${DOC_ROOT}/architecture/adrs/ADR-019-trunk-based-development.md)
+- [ADR-NNN (trunk-based development): Adopt Trunk-Based Development](../../${DOC_ROOT}/architecture/adrs/ADR-NNN (trunk-based development)-trunk-based-development.md)
 - [Technical Design: Trunk-Based Development](../../${DOC_ROOT}/architecture/design/trunk_based_development_technical_design.md)
 - [ADR-003: Task Lifecycle and State Management](../../${DOC_ROOT}/architecture/adrs/ADR-003-task-lifecycle-state-management.md)
-- [ADR-004: Work Directory Structure](../../${DOC_ROOT}/architecture/adrs/ADR-004-work-directory-structure.md)
+- [ADR-ZZZ (path conventions): Work Directory Structure](../../${DOC_ROOT}/architecture/adrs/ADR-ZZZ (path conventions)-work-directory-structure.md)
 - [ADR-012: Default to ATDD + TDD for Code Changes](../../${DOC_ROOT}/architecture/adrs/ADR-012-test-driven-defaults.md)
 
 ---

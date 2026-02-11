@@ -35,8 +35,8 @@ Framework-level decisions that define doctrine concepts, patterns, and governanc
 - Conceptual patterns that apply universally (e.g., primer execution, agent role patterns)
 - Behavioral contracts that define "how agents should operate" across any repository
 
-**When to reference ADRs:**
-- Implementation specifics (e.g., "this repository uses zip distribution per ADR-013")
+**When to reference repository ADRs:**
+- Implementation specifics (e.g., "see your repository's ADRs for distribution mechanisms")
 - Tooling choices, CI pipelines, module structures
 - Examples of how doctrine concepts are implemented locally
 

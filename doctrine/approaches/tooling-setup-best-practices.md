@@ -1000,7 +1000,7 @@ Use this for rapid validation of tooling setup decisions:
 - **Directive 001:** [CLI & Shell Tooling](./../directives/001_cli_shell_tooling.md) — Detailed tool usage patterns
 - **Directive 013:** [Tooling Setup & Fallbacks](./../directives/013_tooling_setup.md) — Installation instructions
 - **Directive 011:** [Risk & Escalation](./../directives/011_risk_escalation.md) — How to escalate tool unavailability
-- **ADR-012:** Testing Requirements (Directive 016, 017)
+- **Directive 017 (TDD):** Testing Requirements (Directive 016, 017)
 - **Assessment:
   ** [Copilot Tooling Value Assessment](../../../work/reports/logs/architect/2025-11-24-copilot-tooling-value-assessment.md) — Data-driven analysis supporting these practices
 

@@ -100,7 +100,7 @@ Feature: Dashboard Real-Time Updates
 
 **Example:**
 ```markdown
-# ADR-032: Use Flask-SocketIO for Real-Time Updates
+# ADR-NNN (WebSocket technology choice): Use Flask-SocketIO for Real-Time Updates
 
 ## Context
 Dashboard requires real-time updates for stock prices.
@@ -456,7 +456,7 @@ artefacts:
   - tests/acceptance/features/real-time-updates.feature
 context:
   specification: docs/${SPEC_ROOT}/features/dashboard-real-time-updates.md
-  related_adr: ${DOC_ROOT}/architecture/decisions/ADR-032-websocket-framework.md
+  related_adr: ${DOC_ROOT}/architecture/decisions/ADR-NNN (WebSocket technology choice)-websocket-framework.md
   acceptance_tests: tests/acceptance/features/real-time-updates.feature
 requirements:
   - Implement all scenarios from specification
@@ -610,7 +610,7 @@ SHALL be handled gracefully with error recovery."
 ```markdown
 ✅ GOOD:
 "Real-time communication uses WebSocket protocol via 
-Flask-SocketIO (see ADR-032 for architectural rationale).
+Flask-SocketIO (see ADR-NNN (WebSocket technology choice) for architectural rationale).
 This specification defines the connection lifecycle, 
 message format, and error handling requirements."
 ```
@@ -692,7 +692,7 @@ A specification is successful when:
 ```
 "Create an API specification for the LLM Service REST endpoints 
 including authentication, request/response formats, error codes, 
-and rate limiting. Reference ADR-025 for auth framework choice."
+and rate limiting. Reference ADR-MMM (auth framework choice) for auth framework choice."
 
 "Review specification at docs/${SPEC_ROOT}/features/[name].md 
 for technical feasibility. Flag any architectural concerns or 

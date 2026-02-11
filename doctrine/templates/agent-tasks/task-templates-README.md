@@ -216,10 +216,10 @@ Validate using: `work/scripts/validate-task-schema.py` (when implemented)
 - **Technical Design**: `${DOC_ROOT}/architecture/design/async_orchestration_technical_design.md`
 - **Work Directory**: `work/README.md`
 - **ADRs**:
-    - ADR-002: File-Based Asynchronous Agent Coordination
-    - ADR-003: Task Lifecycle and State Management
-    - ADR-004: Work Directory Structure
-    - ADR-005: Coordinator Agent Pattern
+    - ADR-YYY (coordination pattern): File-Based Asynchronous Agent Coordination
+    - ADR-MMM (lifecycle pattern): Task Lifecycle and State Management
+    - ADR-ZZZ (structure pattern): Work Directory Structure
+    - ADR-QQQ (coordinator pattern): Coordinator Agent Pattern
 
 ## Questions?
 

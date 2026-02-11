@@ -61,7 +61,7 @@ Or with parameters:
 - **Template:** `doctrine/templates/prompts/BOOTSTRAP_REPO.prompt.md`
 - **Agent Profile:** `doctrine/agents/bootstrap-bill.agent.md`
 - **Directive 003:** Repository Quick Reference
-- **ADR-004:** Work Directory Structure
+- **ADR-NNN (work directory structure):** Work Directory Structure
 
 ---
 
