@@ -1,0 +1,101 @@
+{
+  "workflow": "Work Directory Validation",
+  "job": "validate",
+  "run_id": "12345678",
+  "run_url": "https://github.com/org/repo/actions/runs/12345678",
+  "timestamp": "2025-02-11T20:00:00Z",
+  "summary": {
+    "total_errors": 3,
+    "total_warnings": 1,
+    "total_issues": 4
+  },
+  "errors": [
+    {
+      "error_id": "task-schema_1001",
+      "error_type": "validation_failure",
+      "severity": "error",
+      "message": "work/collaboration/done/2025-02-10T1400-devops-setup.yaml: invalid status 'complete', expected one of ['done', 'assigned', 'in_progress', 'error']",
+      "validator": "task-schema",
+      "timestamp": "2025-02-11T20:00:00Z",
+      "location": {
+        "file_path": "work/collaboration/done/2025-02-10T1400-devops-setup.yaml",
+        "line_number": 5,
+        "column_number": null,
+        "context_lines": []
+      },
+      "suggestions": [
+        {
+          "description": "Update status field to one of: done, assigned, in_progress, error",
+          "diff": null,
+          "command": null
+        }
+      ],
+      "raw_output": "❌ work/collaboration/done/2025-02-10T1400-devops-setup.yaml: invalid status 'complete', expected one of ['done', 'assigned', 'in_progress', 'error']",
+      "documentation_url": null
+    },
+    {
+      "error_id": "task-schema_1002",
+      "error_type": "validation_failure",
+      "severity": "error",
+      "message": "work/collaboration/done/2025-02-10T1500-api-fix.yaml: missing required field: agent",
+      "validator": "task-schema",
+      "timestamp": "2025-02-11T20:00:01Z",
+      "location": {
+        "file_path": "work/collaboration/done/2025-02-10T1500-api-fix.yaml",
+        "line_number": null,
+        "column_number": null,
+        "context_lines": []
+      },
+      "suggestions": [
+        {
+          "description": "Add 'agent' field specifying which agent should handle this task",
+          "diff": null,
+          "command": null
+        }
+      ],
+      "raw_output": "❌ work/collaboration/done/2025-02-10T1500-api-fix.yaml: missing required field: agent",
+      "documentation_url": null
+    },
+    {
+      "error_id": "task-schema_1003",
+      "error_type": "validation_failure",
+      "severity": "error",
+      "message": "work/collaboration/done/2025-02-10T1600-docs-update.yaml: completed_at must be ISO8601 with Z suffix\n  Current: 2025-02-10 16:30:00\n  Suggested: 2025-02-10T16:30:00Z",
+      "validator": "task-schema",
+      "timestamp": "2025-02-11T20:00:02Z",
+      "location": {
+        "file_path": "work/collaboration/done/2025-02-10T1600-docs-update.yaml",
+        "line_number": null,
+        "column_number": null,
+        "context_lines": []
+      },
+      "suggestions": [
+        {
+          "description": "Use UTC timestamp format: YYYY-MM-DDTHH:MM:SSZ",
+          "diff": null,
+          "command": null
+        }
+      ],
+      "raw_output": "❌ work/collaboration/done/2025-02-10T1600-docs-update.yaml: completed_at must be ISO8601 with Z suffix",
+      "documentation_url": null
+    },
+    {
+      "error_id": "work-structure_2001",
+      "error_type": "validation_failure",
+      "severity": "warning",
+      "message": "Agent 'new-agent' missing directory under work/collaboration/assigned/",
+      "validator": "work-structure",
+      "timestamp": "2025-02-11T20:00:03Z",
+      "location": null,
+      "suggestions": [
+        {
+          "description": "Create agent directory",
+          "diff": null,
+          "command": "mkdir -p work/collaboration/assigned/new-agent"
+        }
+      ],
+      "raw_output": "⚠️ Agent 'new-agent' missing directory under work/collaboration/assigned/",
+      "documentation_url": null
+    }
+  ]
+}
