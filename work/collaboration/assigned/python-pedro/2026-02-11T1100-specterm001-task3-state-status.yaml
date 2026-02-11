@@ -2,7 +2,7 @@
 # Task Descriptor: SPEC-TERM-001 Task 3 - Standardize State/Status Terminology
 id: "2026-02-11T1100-specterm001-task3-state-status"
 title: "SPEC-TERM-001 Task 3: Standardize State/Status Terminology"
-assignee: backend-dev
+assignee: python-pedro
 batch: "SPEC-TERM-001"
 priority: MEDIUM
 status: assigned

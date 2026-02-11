@@ -2,7 +2,7 @@
 # Task Descriptor: ADR-045 Task 2 - Implement Doctrine Parsers
 id: "2026-02-11T1100-adr045-task2-parsers"
 title: "ADR-045 Task 2: Implement Parsers for Doctrine Artifacts"
-assignee: backend-dev
+assignee: python-pedro
 batch: "M5.1"
 priority: CRITICAL
 status: assigned

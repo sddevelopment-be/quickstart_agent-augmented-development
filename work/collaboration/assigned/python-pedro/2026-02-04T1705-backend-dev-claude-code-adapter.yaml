@@ -1,5 +1,5 @@
 id: 2026-02-04T1705-backend-dev-claude-code-adapter
-agent: backend-dev
+agent: python-pedro
 status: assigned
 specification: specifications/initiatives/framework-distribution/SPEC-DIST-001-multi-tool-distribution.md
 title: Implement Claude-Code adapter with command template execution

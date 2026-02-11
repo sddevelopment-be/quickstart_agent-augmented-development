@@ -1,5 +1,5 @@
 id: 2026-02-05T1002-backend-dev-routing-integration
-agent: backend-dev
+agent: python-pedro
 status: assigned
 specification: specifications/initiatives/framework-distribution/SPEC-DIST-001-multi-tool-distribution.md
 priority: high

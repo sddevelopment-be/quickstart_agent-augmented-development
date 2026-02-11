@@ -2,7 +2,7 @@
 # Task Descriptor: ADR-045 Task 1 - Create Doctrine Domain Models
 id: "2026-02-11T1100-adr045-task1-doctrine-models"
 title: "ADR-045 Task 1: Create Doctrine Domain Models"
-assignee: backend-dev
+assignee: python-pedro
 batch: "M5.1"
 priority: CRITICAL
 status: assigned

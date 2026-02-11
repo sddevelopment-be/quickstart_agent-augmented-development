@@ -2,7 +2,7 @@
 # Task Descriptor: SPEC-TERM-001 Task 4 - Standardize Load/Read Terminology
 id: "2026-02-11T1100-specterm001-task4-load-read"
 title: "SPEC-TERM-001 Task 4: Standardize Load/Read Terminology"
-assignee: backend-dev
+assignee: python-pedro
 batch: "SPEC-TERM-001"
 priority: MEDIUM
 status: assigned

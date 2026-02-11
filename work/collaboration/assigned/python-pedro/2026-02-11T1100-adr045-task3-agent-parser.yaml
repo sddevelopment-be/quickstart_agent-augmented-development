@@ -2,7 +2,7 @@
 # Task Descriptor: ADR-045 Task 3 - Agent Profile Parser with Capabilities
 id: "2026-02-11T1100-adr045-task3-agent-parser"
 title: "ADR-045 Task 3: Enhanced Agent Profile Parser"
-assignee: backend-dev
+assignee: python-pedro
 batch: "M5.1"
 priority: HIGH
 status: assigned

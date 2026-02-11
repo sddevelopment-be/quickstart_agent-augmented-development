@@ -2,7 +2,7 @@
 # Task Descriptor: SPEC-TERM-001 Task 2a - Refactor ModelConfigurationManager → ModelRouter
 id: "2026-02-11T1100-specterm001-task2a-model-router"
 title: "SPEC-TERM-001 Task 2a: Refactor ModelConfigurationManager → ModelRouter"
-assignee: backend-dev
+assignee: python-pedro
 batch: "SPEC-TERM-001"
 priority: HIGH
 status: assigned
