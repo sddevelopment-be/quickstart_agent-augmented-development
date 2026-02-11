@@ -12,16 +12,13 @@ Tests core task utility functions for:
 
 from __future__ import annotations
 
-import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 import pytest
 import yaml
 
-# Add paths to import modules
-sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
-
+# Imports from src/ (path configured in conftest.py)
 from common.task_schema import TaskIOError, TaskValidationError, read_task
 from framework.orchestration.task_utils import (
     get_utc_timestamp,

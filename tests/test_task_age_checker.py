@@ -12,18 +12,14 @@ Tests task age detection functionality:
 from __future__ import annotations
 
 import json
-import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import pytest
 import yaml
 
-# Add orchestration directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent.parent / "src" / "framework" / "orchestration"))
-sys.path.insert(0, str(Path(__file__).parent.parent / "tools"))  # For common.path_utils
-
-from task_age_checker import TaskAgeChecker
+# Imports (path configured in conftest.py)
+from framework.orchestration.task_age_checker import TaskAgeChecker
 
 # ============================================================================
 # Test Fixtures

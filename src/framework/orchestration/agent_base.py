@@ -21,7 +21,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from src.common.types import TaskStatus
+from common.types import TaskStatus
 from task_utils import get_utc_timestamp, log_event, read_task, write_task
 
 

@@ -25,7 +25,7 @@ from watchdog.events import FileSystemEvent, FileSystemEventHandler
 from watchdog.observers import Observer
 
 if TYPE_CHECKING:
-    from src.llm_service.dashboard.spec_parser import SpecificationMetadata
+    from llm_service.dashboard.spec_parser import SpecificationMetadata
 
 logger = logging.getLogger(__name__)
 
@@ -126,7 +126,7 @@ class SpecificationCache:
         self.file_watcher: Observer | None = None
 
         # Import SpecificationParser (lazy to avoid circular dependencies)
-        from src.llm_service.dashboard.spec_parser import SpecificationParser
+        from llm_service.dashboard.spec_parser import SpecificationParser
         self.parser = SpecificationParser(str(self.base_dir))
 
         logger.info(f"SpecificationCache initialized with base_dir: {self.base_dir}")

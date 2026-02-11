@@ -243,7 +243,7 @@ class TestDirectivesManifestAcceptance:
         Then no discrepancies should be found
         And exit code should be 0
         """
-        from ops.scripts.maintenance.update_directives_manifest import (
+        from tools.scripts.maintenance.update_directives_manifest import (
             DirectivesManifestValidator,
         )
         
@@ -267,7 +267,7 @@ class TestDirectivesManifestAcceptance:
         Then missing file 002_context_notes.md should be detected
         And exit code should be non-zero
         """
-        from ops.scripts.maintenance.update_directives_manifest import (
+        from tools.scripts.maintenance.update_directives_manifest import (
             DirectivesManifestValidator,
         )
         
@@ -290,7 +290,7 @@ class TestDirectivesManifestAcceptance:
         Then orphaned entry for 002_context_notes.md should be detected
         And exit code should be non-zero
         """
-        from ops.scripts.maintenance.update_directives_manifest import (
+        from tools.scripts.maintenance.update_directives_manifest import (
             DirectivesManifestValidator,
         )
         
@@ -314,7 +314,7 @@ class TestDirectivesManifestAcceptance:
         Then metadata mismatch should be detected
         And exit code should be non-zero
         """
-        from ops.scripts.maintenance.update_directives_manifest import (
+        from tools.scripts.maintenance.update_directives_manifest import (
             DirectivesManifestValidator,
         )
         
@@ -336,7 +336,7 @@ class TestDirectivesManifestAcceptance:
         Then discrepancies should be reported
         And manifest file should not be modified
         """
-        from ops.scripts.maintenance.update_directives_manifest import (
+        from tools.scripts.maintenance.update_directives_manifest import (
             DirectivesManifestValidator,
         )
         
@@ -363,7 +363,7 @@ class TestDirectivesManifestAcceptance:
         Then manifest should be updated with the missing entry
         And the updated manifest should validate successfully
         """
-        from ops.scripts.maintenance.update_directives_manifest import (
+        from tools.scripts.maintenance.update_directives_manifest import (
             DirectivesManifestValidator,
         )
         
@@ -391,7 +391,7 @@ class TestDirectivesManifestAcceptance:
             [
                 sys.executable,
                 "-m",
-                "ops.scripts.maintenance.update_directives_manifest",
+                "tools.scripts.maintenance.update_directives_manifest",
                 "--directives-dir",
                 str(temp_directives_dir),
             ],
@@ -413,7 +413,7 @@ class TestDirectivesManifestAcceptance:
         - Specific metadata mismatches
         - Suggestions for resolution
         """
-        from ops.scripts.maintenance.update_directives_manifest import (
+        from tools.scripts.maintenance.update_directives_manifest import (
             DirectivesManifestValidator,
         )
         
@@ -442,7 +442,7 @@ class TestDirectivesManifestAcceptance:
         (directives_dir / "010_mode_protocol.md").write_text("# 010")
         (directives_dir / "025_framework_guardian.md").write_text("# 025")
         
-        from ops.scripts.maintenance.update_directives_manifest import (
+        from tools.scripts.maintenance.update_directives_manifest import (
             scan_directive_files,
         )
         
