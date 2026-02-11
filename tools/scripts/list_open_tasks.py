@@ -42,11 +42,11 @@ from typing import Any
 
 # Add parent directory to path for imports
 REPO_ROOT = Path(__file__).parent.parent.parent
-sys.path.insert(0, str(REPO_ROOT / "src"))
+sys.path.insert(0, str(REPO_ROOT))
 
 # Import shared query functions from production module (extracted from this script)
 # See: src/framework/orchestration/task_query.py
-from framework.orchestration.task_query import (
+from src.framework.orchestration.task_query import (
     find_task_files,
     load_open_tasks,
     filter_tasks,

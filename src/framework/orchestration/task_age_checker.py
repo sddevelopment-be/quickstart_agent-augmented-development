@@ -26,7 +26,7 @@ import yaml
 
 # Add common utilities to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from common.path_utils import get_work_dir
+from src.domain.common.path_utils import get_work_dir
 
 
 class TaskAgeChecker:

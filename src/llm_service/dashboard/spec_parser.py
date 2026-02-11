@@ -15,7 +15,7 @@ import yaml
 import logging
 
 # Import status enums (ADR-043)
-from common.types import FeatureStatus
+from src.domain.specifications.types import FeatureStatus
 
 logger = logging.getLogger(__name__)
 
