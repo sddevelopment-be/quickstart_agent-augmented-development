@@ -6,7 +6,7 @@ when the dashboard runs, exposing the import path inconsistency bug.
 
 Bug Description:
     - task_query.py uses: from common.task_schema import load_task_safe
-    - app.py uses: from src.common.task_schema import load_task_safe
+    - app.py uses: from src.domain.collaboration.task_schema import load_task_safe
     - When dashboard runs, PYTHONPATH doesn't include 'src/', causing ModuleNotFoundError
 
 Expected Behavior:

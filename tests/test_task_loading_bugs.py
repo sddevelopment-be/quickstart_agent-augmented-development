@@ -14,7 +14,7 @@ Bug reports from dashboard:
 import pytest
 from pathlib import Path
 
-from src.common.task_schema import read_task, TaskIOError, TaskValidationError
+from src.domain.collaboration.task_schema import read_task, TaskIOError, TaskValidationError
 
 
 # Test fixtures directory
