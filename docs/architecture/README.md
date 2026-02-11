@@ -19,8 +19,9 @@ The architecture documentation captures:
 |--------------------------------------------------------------------------------|---------------------------------------------------|--------------------------------------------|
 | [`architectural_vision.md`](architectural_vision.md)                           | High-level principles, layers, quality attributes | Architects, stakeholders, new contributors |
 | [`directive_system_architecture.md`](design/directive_system_architecture.md) | Technical details of modular directive system     | Developers, curators, automation agents    |
-| [`agent_specialization_patterns.md`](patterns/agent_specialization_patterns.md)         | Patterns for agent roles and collaboration        | Agent developers, architects               |
+| [`agent_specialization_patterns.md`](patterns/agent_specialization_patterns.md) | Patterns for agent roles and collaboration        | Agent developers, architects               |
 | [`async_multiagent_orchestration.md`](design/async_multiagent_orchestration.md) | File-driven asynchronous multi-agent coordination | Architects, developers, automation agents |
+| **[Doctrine Code Representations Analysis](../work/reports/architecture/architectural-analysis-doctrine-code-representations.md)** | Domain model for doctrine concepts (NEW) | Architects, developers implementing ADR-045/046 |
 
 ### Technical Designs
 
@@ -49,6 +50,11 @@ Architecture Decision Records capture significant architectural decisions made i
 | [ADR-006](adrs/ADR-006-adopt-three-layer-governance-model.md)        | Adopt Three-Layer Governance Model       | Accepted  | 2025-11-22 |
 | [ADR-007](adrs/ADR-007-repository-restructuring-layer-separation.md) | Repository Restructuring for Layer Separation | Rejected / Adapted | 2025-11-22 |
 | [ADR-018](adrs/ADR-018-multi-repository-orchestration-strategy.md)   | Multi-Repository Orchestration Strategy    | Proposed  | 2025-11-27 |
+| [ADR-042](adrs/ADR-042-shared-task-domain-model.md)                  | Shared Task Domain Model                   | Accepted  | 2026-01-XX |
+| [ADR-043](adrs/ADR-043-status-enumeration-standard.md)               | Status Enumeration Standard                | Accepted  | 2026-01-XX |
+| [ADR-044](adrs/ADR-044-agent-identity-type-safety.md)                | Agent Identity Type Safety                 | Accepted  | 2026-01-XX |
+| [ADR-045](adrs/ADR-045-doctrine-concept-domain-model.md)             | Doctrine Concept Domain Model              | Accepted  | 2026-02-11 |
+| [ADR-046](adrs/ADR-046-domain-module-refactoring.md)                 | Domain Module Refactoring                  | Accepted  | 2026-02-11 |
 
 ## Key Architectural Principles
 
@@ -97,17 +103,25 @@ Architecture Decision Records capture significant architectural decisions made i
                  │ references
                  ▼
 ┌──────────────────────────────────────────────┐
-│  Modular Directives (.github/agents/directives/)│
-│  - 001-012: Specialized operational guidance │
+│  Modular Directives (doctrine/directives/)  │
+│  - 001-046+: Specialized operational guidance│
 │  - Manifest: Metadata & dependencies         │
 └────────────────┬─────────────────────────────┘
                  │ consumed by
                  ▼
 ┌──────────────────────────────────────────────┐
-│  Agent Profiles (.github/agents/*.agent.md)  │
+│  Agent Profiles (doctrine/agents/*.agent.md) │
 │  - Role specializations                      │
 │  - Directive dependencies                    │
 │  - Collaboration contracts                   │
+└────────────────┬─────────────────────────────┘
+                 │ represented by (NEW)
+                 ▼
+┌──────────────────────────────────────────────┐
+│  Domain Model (src/domain/)                  │
+│  - collaboration/: Agent, Task, Batch        │
+│  - doctrine/: Directive, Approach, Tactic    │
+│  - specifications/: Spec, Feature, Initiative│
 └────────────────┬─────────────────────────────┘
                  │ use
                  ▼
@@ -117,6 +131,8 @@ Architecture Decision Records capture significant architectural decisions made i
 │  - Standard output formats                   │
 └──────────────────────────────────────────────┘
 ```
+
+**Key Addition (ADR-045, ADR-046):** Domain model layer provides runtime representations of doctrine concepts, enabling programmatic introspection, UI dashboards, and vendor tool distribution.
 
 ## System Boundaries
 
@@ -219,5 +235,5 @@ Architecture Decision Records capture significant architectural decisions made i
 ---
 
 _Maintained by: Architect agents_  
-_Last updated: 2025-11-17_  
-_Version: 1.0.0_
+_Last updated: 2026-02-11_  
+_Version: 1.1.0_ (Added ADR-045/046, Domain Model Architecture)
