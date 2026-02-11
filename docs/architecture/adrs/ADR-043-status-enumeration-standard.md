@@ -1,9 +1,13 @@
 # ADR-043: Status Enumeration Standard
 
-**Status:** Accepted  
+**Status:** ✅ Implemented (superseded by ADR-046 for location)  
 **Date:** 2026-02-09  
+**Implemented:** 2026-02-11  
+**Superseded by:** ADR-046 (types split across `src/domain/collaboration/`, `src/domain/specifications/`)  
 **Deciders:** Architect Alphonso  
-**Related:** ADR-042 (Shared Task Domain Model), Python Pedro Analysis (2026-02-09)
+**Related:** ADR-042 (Shared Task Domain Model), ADR-046 (Domain Refactoring), Python Pedro Analysis (2026-02-09)
+
+> **Note:** This ADR proposed `src/common/types.py`. The file was subsequently split across bounded contexts per ADR-046: `TaskStatus` → `src/domain/collaboration/types.py`, `FeatureStatus` → `src/domain/specifications/types.py`.
 
 ---
 

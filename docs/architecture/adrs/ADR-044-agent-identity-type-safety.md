@@ -1,9 +1,13 @@
 # ADR-044: Agent Identity Type Safety
 
-**Status:** Accepted  
+**Status:** ✅ Implemented (superseded by ADR-046 for location)  
 **Date:** 2026-02-09  
+**Implemented:** 2026-02-11  
+**Superseded by:** ADR-046 (`AgentIdentity` moved to `src/domain/doctrine/types.py`)  
 **Deciders:** Architect Alphonso  
-**Related:** ADR-042 (Shared Task Domain Model), ADR-043 (Status Enumeration)
+**Related:** ADR-042 (Shared Task Domain Model), ADR-043 (Status Enumeration), ADR-046 (Domain Refactoring)
+
+> **Note:** This ADR proposed `src/common/types.py`. The `AgentIdentity` type was subsequently moved to `src/domain/doctrine/types.py` per ADR-046 to align with doctrine domain.
 
 ---
 

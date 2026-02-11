@@ -209,25 +209,32 @@ class TestDomainImportability:
             pytest.fail(f"Failed to import src.domain.common: {e}")
 
 
-class TestExistingCodePreserved:
-    """Verify existing src/common/ is unchanged (MUST NOT requirement)."""
+class TestMigrationCompleted:
+    """Verify migration completed successfully (Task 4 validation)."""
 
-    def test_src_common_still_exists(self):
-        """Existing src/common/ directory must remain unchanged."""
+    def test_src_common_directory_still_exists(self):
+        """src/common/ directory exists but contains only migration docs."""
         common_path = Path("src/common")
         assert common_path.exists(), \
-            "src/common/ must still exist (Task 2 handles migration)"
+            "src/common/ directory should exist (contains MIGRATION_GUIDE.md)"
         assert common_path.is_dir(), "src/common/ must be a directory"
 
-    def test_src_common_files_unchanged(self):
-        """Existing files in src/common/ must remain."""
-        expected_files = [
+    def test_deprecation_stubs_removed(self):
+        """Python deprecation stubs should be removed after migration."""
+        deprecated_files = [
             "src/common/__init__.py",
             "src/common/agent_loader.py",
             "src/common/task_schema.py",
-            "src/common/types.py"
+            "src/common/types.py",
+            "src/common/path_utils.py"
         ]
         
-        for file_path in expected_files:
-            assert Path(file_path).exists(), \
-                f"{file_path} must still exist (not moved yet)"
+        for file_path in deprecated_files:
+            assert not Path(file_path).exists(), \
+                f"{file_path} should be removed after Task 4 cleanup"
+    
+    def test_migration_guide_preserved(self):
+        """MIGRATION_GUIDE.md should be preserved for historical reference."""
+        guide_path = Path("src/common/MIGRATION_GUIDE.md")
+        assert guide_path.exists(), \
+            "MIGRATION_GUIDE.md should be preserved for documentation"
