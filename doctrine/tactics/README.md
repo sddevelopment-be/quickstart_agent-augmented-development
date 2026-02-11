@@ -94,6 +94,14 @@ When context suggests a tactic might apply but no Directive mandates it:
 |--------|------|--------|-------------|------------|-------|
 | **CodeReview.Incremental** | [`code-review-incremental.tactic.md`](./code-review-incremental.tactic.md) | Review change sets for correctness, structural, and architectural risks without expanding scope | PR review, commit analysis, change assessment | [Directive 021](../directives/021_locality_of_change.md) (Locality of Change) | Observations and questions, not prescriptive commands. Resist urge to redesign during review |
 
+### Refactoring
+
+| Tactic | File | Intent | Invoke When | Invoked By | Notes |
+|--------|------|--------|-------------|------------|-------|
+| **Refactoring.MoveMethod** | [`refactoring-move-method.tactic.md`](./refactoring-move-method.tactic.md) | Relocate a method from one class to another when the method exhibits "Feature Envy" (uses more features of another class than its own) | Method uses more features of target class, needs to improve cohesion, aligning behavior with data | [Directive 039](../directives/039_refactoring_techniques.md) (Refactoring Techniques), [Directive 021](../directives/021_locality_of_change.md) (Locality of Change) | Incremental approach: Copy → Delegate → Update → Remove. Emphasizes test-first safety and Information Expert principle |
+| **Refactoring.StranglerFig** | [`refactoring-strangler-fig.tactic.md`](./refactoring-strangler-fig.tactic.md) | Incrementally replace existing functionality by building new implementation alongside old and gradually rerouting behavior | Large-scale refactoring that cannot be done safely in one step, zero-downtime migration required | [Directive 039](../directives/039_refactoring_techniques.md) (Refactoring Techniques), [Directive 017](../directives/017_test_driven_development.md) (TDD) | Architectural pattern for safe system evolution. Coexistence → Rerouting → Removal. Uses feature flags or routing layers |
+| **Refactoring.ExtractFirstOrderConcept** | [`refactoring-extract-first-order-concept.tactic.md`](./refactoring-extract-first-order-concept.tactic.md) | Extract implicit or duplicated logic into an explicit first-order concept with clear responsibility | Logic duplicated in 3+ places (Rule of Three), implicit patterns need to be made explicit | [Directive 039](../directives/039_refactoring_techniques.md) (Refactoring Techniques), [Directive 017](../directives/017_test_driven_development.md) (TDD) | Creates named abstractions. Identifies responsibility → Extracts → Updates callers → Verifies tests |
+
 ---
 
 ## Tactic Selection Guidance
@@ -122,6 +130,11 @@ When context suggests a tactic might apply but no Directive mandates it:
 **Reviewing changes:**
 - `code-review-incremental.tactic.md` (scope-preserving review)
 
+**Refactoring code:**
+- `refactoring-move-method.tactic.md` (relocate methods with Feature Envy)
+- `refactoring-extract-first-order-concept.tactic.md` (eliminate duplication, make patterns explicit)
+- `refactoring-strangler-fig.tactic.md` (large-scale incremental replacement)
+
 ---
 
 ## Cross-References
@@ -138,6 +151,11 @@ When context suggests a tactic might apply but no Directive mandates it:
 ### Experimentation Pair
 - `safe-to-fail-experiment-design.tactic.md` ↔ `stopping-conditions.tactic.md` (experiments need exit criteria)
 
+### Refactoring Triad
+- `refactoring-move-method.tactic.md` ↔ `refactoring-extract-first-order-concept.tactic.md` (both improve class structure)
+- `refactoring-strangler-fig.tactic.md` → may use `refactoring-move-method.tactic.md` within new implementation
+- All three reference [Directive 017](../directives/017_test_driven_development.md) for test-first safety
+
 ---
 
 ## Maintenance
@@ -148,6 +166,6 @@ When context suggests a tactic might apply but no Directive mandates it:
 
 ## Version
 
-**README Version:** 1.0.0  
-**Last Updated:** 2026-02-07  
-**Tactics Count:** 10
+**README Version:** 1.1.0  
+**Last Updated:** 2026-02-11  
+**Tactics Count:** 13

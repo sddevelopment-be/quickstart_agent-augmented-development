@@ -31,6 +31,7 @@ tools: [ "read", "write", "search", "edit", "MultiEdit", "Bash", "Grep", "Docker
 | 016  | [Acceptance Test Driven Development](directives/016_acceptance_test_driven_development.md) | Ensure solution fitness by defining acceptance criteria as executable tests   | 
 | 017  | [Test Driven Development](directives/017_test_driven_development.md)                       | Write tests before writing production code. Apply Red, Green, Refactor cycle. | 
 | 028  | [Bug Fixing Techniques](directives/028_bugfixing_techniques.md)                            | Apply test-first bug fixing with verifiable failure reproduction              |
+| 039  | [Refactoring Techniques](directives/039_refactoring_techniques.md)                         | Apply safe, incremental refactoring patterns to improve code structure         |
 | 021  | [Locality Of Change](directives/021_locality_of_change.md)                                 | Knowing when to implement a solution to a problem, and when not to.           |
 | 036  | [Boy Scout Rule](directives/036_boy_scout_rule.md)                                         | Pre-task spot check and cleanup: leave code better than you found it (mandatory) |
 

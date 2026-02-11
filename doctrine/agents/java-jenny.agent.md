@@ -34,6 +34,7 @@ tools: [ "read", "write", "search", "edit", "MultiEdit", "Bash", "Grep", "Java",
 | 018  | [Traceable Decisions](directives/018_traceable_decisions.md)                   | Document architectural decisions in code                            |
 | 021  | [Locality Of Change](directives/021_locality_of_change.md)                     | Measure problem severity before implementing solutions              |
 | 028  | [Bug Fixing Techniques](directives/028_bugfixing_techniques.md)                | Test-first bug fixing: write failing test, fix code, verify         |
+| 039  | [Refactoring Techniques](directives/039_refactoring_techniques.md)             | Apply safe, incremental refactoring patterns to improve code structure |
 | 036  | [Boy Scout Rule](directives/036_boy_scout_rule.md)                             | Pre-task spot check and cleanup: leave code better than found (mandatory) |
 
 Load as needed: `/require-directive <code>`.
