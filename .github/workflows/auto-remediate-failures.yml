@@ -1,0 +1,201 @@
+name: Auto-Remediate Workflow Failures
+
+on:
+  workflow_run:
+    workflows: 
+      - "Doctrine Dependency Validation"
+      - "Work Directory Validation"
+      - "PR Quality Gate"
+    types:
+      - completed
+    branches:
+      - 'copilot/**'
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  actions: read
+
+jobs:
+  trigger-remediation:
+    name: Trigger Copilot Remediation
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+          
+      - name: Download error artifacts
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+        continue-on-error: true
+        
+      - name: Extract failure context
+        id: context
+        run: |
+          echo "Extracting failure context from workflow run..."
+          
+          WORKFLOW_NAME="${{ github.event.workflow_run.name }}"
+          FAILURE_URL="${{ github.event.workflow_run.html_url }}"
+          PR_NUMBER="${{ github.event.workflow_run.pull_requests[0].number }}"
+          BRANCH="${{ github.event.workflow_run.head_branch }}"
+          
+          echo "workflow_name=$WORKFLOW_NAME" >> $GITHUB_OUTPUT
+          echo "failure_url=$FAILURE_URL" >> $GITHUB_OUTPUT
+          echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
+          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+          
+          # Determine specialist agent based on workflow
+          case "$WORKFLOW_NAME" in
+            *"Dependency"*)
+              SPECIALIST="curator"
+              TASK="Fix doctrine dependency violations"
+              ;;
+            *"Quality"*|*"Test"*)
+              SPECIALIST="code-reviewer-cindy"
+              TASK="Address code quality issues"
+              ;;
+            *"Work Directory"*)
+              SPECIALIST="project-planner"
+              TASK="Fix work directory structure issues"
+              ;;
+            *)
+              SPECIALIST="general-purpose"
+              TASK="Investigate and fix workflow failures"
+              ;;
+          esac
+          
+          echo "specialist=$SPECIALIST" >> $GITHUB_OUTPUT
+          echo "task=$TASK" >> $GITHUB_OUTPUT
+          
+      - name: Create remediation issue
+        id: create_issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const workflowName = '${{ steps.context.outputs.workflow_name }}';
+            const failureUrl = '${{ steps.context.outputs.failure_url }}';
+            const prNumber = '${{ steps.context.outputs.pr_number }}';
+            const branch = '${{ steps.context.outputs.branch }}';
+            const specialist = '${{ steps.context.outputs.specialist }}';
+            const task = '${{ steps.context.outputs.task }}';
+            
+            // Check if error summary artifact exists
+            let errorDetails = '';
+            try {
+              const fs = require('fs');
+              const errorFiles = fs.readdirSync('.').filter(f => f.startsWith('errors_') && f.endsWith('.json'));
+              if (errorFiles.length > 0) {
+                const errorData = JSON.parse(fs.readFileSync(errorFiles[0], 'utf8'));
+                errorDetails = `\n\n## Error Summary\n\n`;
+                errorDetails += `**Total Errors:** ${errorData.summary.total_errors}\n`;
+                errorDetails += `**Critical:** ${errorData.summary.critical}\n`;
+                errorDetails += `**High:** ${errorData.summary.high}\n\n`;
+                errorDetails += `See [error report artifact](${failureUrl}) for full details.\n`;
+              }
+            } catch (e) {
+              console.log('No error summary artifact found');
+            }
+            
+            const issueBody = `## 🤖 Automatic Remediation Request
+            
+            **Workflow Failed:** ${workflowName}
+            **Branch:** ${branch}
+            **PR:** ${prNumber ? `#${prNumber}` : 'N/A'}
+            **Failure Details:** [View logs](${failureUrl})
+            
+            ${errorDetails}
+            
+            ## Recommended Action
+            
+            @copilot Please investigate and fix the workflow failures.
+            
+            **Suggested Delegation:** ${specialist}
+            **Task:** ${task}
+            
+            ### Instructions for Copilot:
+            
+            1. Review the workflow failure logs: ${failureUrl}
+            2. Download error artifacts if available
+            3. Delegate to **${specialist}** agent: "${task}"
+            4. Apply fixes following Boy Scout Rule (Directive 036)
+            5. Run validations to verify fixes
+            6. Update this issue with results
+            
+            ### Quick Commands:
+            
+            \`\`\`bash
+            # Download error details
+            gh run view ${{ github.event.workflow_run.id }} --log-failed
+            
+            # Download artifacts
+            gh run download ${{ github.event.workflow_run.id }}
+            \`\`\`
+            
+            ---
+            
+            **Auto-generated by:** \`.github/workflows/auto-remediate-failures.yml\`
+            **Triggered by:** Workflow failure on ${branch}
+            `;
+            
+            const issue = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🔴 Auto-Fix: ${workflowName} failed on ${branch}`,
+              body: issueBody,
+              labels: ['automated-remediation', 'workflow-failure', 'copilot-task']
+            });
+            
+            console.log(`Created issue #${issue.data.number}`);
+            return issue.data.number;
+            
+      - name: Comment on PR
+        if: ${{ steps.context.outputs.pr_number != '' }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = '${{ steps.context.outputs.pr_number }}';
+            const issueNumber = ${{ steps.create_issue.outputs.result }};
+            const workflowName = '${{ steps.context.outputs.workflow_name }}';
+            const specialist = '${{ steps.context.outputs.specialist }}';
+            
+            if (!prNumber) {
+              console.log('No PR number available');
+              return;
+            }
+            
+            const comment = `## 🤖 Automatic Remediation Triggered
+            
+            The **${workflowName}** workflow failed. I've created issue #${issueNumber} for automatic remediation.
+            
+            **Recommended Specialist:** ${specialist}
+            
+            @copilot will investigate and attempt to fix the issues automatically.
+            
+            ---
+            
+            *View [automated remediation issue](#${issueNumber}) for details and progress.*
+            `;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body: comment
+            });
+            
+      - name: Summary
+        run: |
+          echo "### ✅ Auto-Remediation Triggered" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Workflow:** ${{ steps.context.outputs.workflow_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Specialist:** ${{ steps.context.outputs.specialist }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Task:** ${{ steps.context.outputs.task }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Issue created for Copilot to investigate and fix." >> $GITHUB_STEP_SUMMARY

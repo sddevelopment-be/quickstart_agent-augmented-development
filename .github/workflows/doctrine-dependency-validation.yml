@@ -24,8 +24,17 @@ jobs:
         id: validation
         run: |
           cd work/curator
-          bash validate-dependencies.sh
+          bash validate-dependencies.sh 2>&1 | tee validation-output.txt
         continue-on-error: false
+        
+      - name: Generate error summary on failure
+        if: failure()
+        uses: ./.github/actions/error-summary
+        with:
+          workflow-name: ${{ github.workflow }}
+          job-name: ${{ github.job }}
+          validator-name: "doctrine-dependency"
+          input-file: "work/curator/validation-output.txt"
         
       - name: Report results
         if: failure()
