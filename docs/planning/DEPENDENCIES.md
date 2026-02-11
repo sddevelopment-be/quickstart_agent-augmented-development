@@ -1,8 +1,57 @@
 # Task Dependencies Map
 
-**Last Updated:** 2026-02-08  
-**Context:** Post-PR #135 refactor dependency analysis  
+**Last Updated:** 2026-02-11  
+**Context:** Post-conceptual alignment stabilization  
 **Purpose:** Track what needs to happen before what
+
+**Recent Additions (2026-02-11):**
+- ✅ Added ADR-046 → ADR-045 dependency (domain refactoring before domain model)
+- ✅ Added SPEC-TERM-001 phasing dependencies
+- ✅ Added DDR-001/002 as prerequisites for agent profile updates
+- ✅ Added M5.1 batch dependencies
+
+---
+
+## 🆕 Critical Path Analysis - M5.1 (Conceptual Alignment Foundation)
+
+### Path 1: Domain Model Implementation - CRITICAL
+
+```
+M5 Milestone 1: Domain Foundation
+├─ ADR-046: Domain Module Refactoring ⭐⭐⭐⭐⭐ CRITICAL (must go first)
+│   ├─ Task 5.1.1: Create domain directory structure (1-2h)
+│   ├─ Task 5.1.2: Move files to bounded contexts (2-3h)
+│   ├─ Task 5.1.3: Update import statements (3-4h) ⚠️ HIGH TOUCH COUNT
+│   └─ Task 5.1.4: Test & documentation (2-3h)
+│   └─ **Total:** 8-12 hours
+│
+├─ ADR-045: Doctrine Concept Domain Model ⭐⭐⭐⭐ HIGH (after ADR-046)
+│   ├─ Task 5.1.5: Create doctrine domain models (4h)
+│   ├─ Task 5.1.6: Implement parsers (4h)
+│   ├─ Task 5.1.7: Agent profile parser (2h)
+│   ├─ Task 5.1.8: Validators & tests (2-3h)
+│   └─ Task 5.1.9: Dashboard & exporter integration (2-4h)
+│   └─ **Total:** 10-15 hours
+│   └─ **BLOCKS:** Dashboard doctrine display, vendor distribution
+│
+└─ **M5.1 Total:** 18-27 hours (sequential, cannot parallelize)
+
+**Status:** Tasks not yet created (Planning Petra action item)  
+**Next:** Planning Petra creates task files, backend-dev executes
+```
+
+### Dependency Relationship
+
+```
+ADR-046 (Domain Refactoring)
+    ↓ BLOCKS
+ADR-045 (Domain Model)
+    ↓ ENABLES
+├─ Dashboard doctrine display (SPEC-DASH-008)
+├─ Vendor distribution (SPEC-DIST-001)
+├─ SPEC-TERM-001 implementation (needs bounded contexts)
+└─ Future domain work
+```
 
 ---
 
@@ -29,7 +78,65 @@
 
 ---
 
-### Path 2: Multi-Format Distribution (MFD) - BLOCKED
+### Path 2: SPEC-TERM-001 Terminology Alignment - HIGH PRIORITY
+
+```
+Phase 1: Foundation (Can Parallel with M5.1)
+├─ FEAT-TERM-001-01: Directive Updates (4h) ⭐⭐⭐⭐ HIGH
+│   └─ Update directives for naming enforcement and workflow compliance
+│   └─ **Prerequisites:** None (can start immediately)
+│   └─ **Enables:** Future PR enforcement
+│
+├─ FEAT-TERM-001-02: Top 5 Generic Class Refactors (31h) ⭐⭐⭐⭐ HIGH
+│   ├─ ModelConfigurationManager → ModelRouter (8h)
+│   ├─ TemplateManager → TemplateRenderer (6h)
+│   ├─ TaskAssignmentHandler → TaskAssignmentService (8h)
+│   ├─ OrchestrationConfigLoader → Domain name (5h)
+│   └─ AgentSpecRegistry → Domain name (4h)
+│   └─ **Prerequisites:** ADR-046 helpful but not required
+│   └─ **Impact:** 65% → 75% linguistic health score
+│
+└─ **Phase 1 Total:** 35 hours (can parallel with M5.1)
+
+Phase 2: Standardization (After Phase 1)
+├─ FEAT-TERM-001-03: Terminology Standardization (6h)
+│   └─ Resolve State/Status, Load/read, Persist/write conflicts
+│   └─ **Prerequisites:** Phase 1 complete, glossary established
+│
+└─ FEAT-TERM-001-04: Task Context Boundary (40h)
+    └─ Implement ADR for bounded context separation
+    └─ **Prerequisites:** ADR-045/046 complete (needs domain structure)
+    └─ **BLOCKED BY:** M5.1 completion
+
+Phase 3: Completion (Opportunistic)
+├─ FEAT-TERM-001-05: CQRS Research (8h)
+├─ FEAT-TERM-001-06: Remaining 14 Refactors (52h) - Boy Scout Rule
+└─ FEAT-TERM-001-07: Glossary Automation (ongoing, 30min/week)
+
+**Total Effort:** ~120 hours across 3 phases  
+**Critical Path:** Phase 1 (35h) can start immediately  
+**Recommended:** Execute Phase 1 during M5.1 (parallel work streams)
+```
+
+### DDR-001/002 Prerequisites
+
+```
+DDR-001: Primer Execution Matrix
+└─ Prerequisites for:
+    ├─ Agent profile updates (primer modes documented)
+    ├─ Orchestration workflow refinements
+    └─ Test-first execution patterns
+
+DDR-002: Framework Guardian Role  
+└─ Prerequisites for:
+    ├─ Guardian agent profile updates
+    ├─ Distribution / release enablement features
+    └─ Framework integrity automation
+```
+
+---
+
+### Path 3: Dashboard Initiative (M4 Batch 4.3) - IN PROGRESS
 
 ```
 Milestone 1: Schema Complete
@@ -430,5 +537,163 @@ graph TD
 ---
 
 _Dependency map maintained by: Planning Petra_  
-_Last updated: 2026-02-08T1250_  
-_Next update: After major milestone completion or dependency changes_
+_Last updated: 2026-02-11_  
+_Next update: After M5.1 completion or M4.3 completion_
+
+---
+
+## 🆕 Updated Dependency Graph (2026-02-11)
+
+### Strategic Dependencies
+
+```mermaid
+graph TD
+    %% M5.1 Conceptual Alignment Foundation
+    ADR046[ADR-046: Domain Refactoring] -->|BLOCKS| ADR045[ADR-045: Domain Model]
+    ADR045 -->|ENABLES| DASH_DOCTRINE[Dashboard Doctrine Display]
+    ADR045 -->|ENABLES| VENDOR_DIST[Vendor Distribution]
+    ADR045 -->|ENABLES| TERM_BOUNDARY[SPEC-TERM-001 Phase 2]
+    
+    %% SPEC-TERM-001 Phases
+    TERM_P1[SPEC-TERM-001 Phase 1] -.->|PARALLEL OK| ADR046
+    TERM_P1 -->|ENABLES| TERM_P2[SPEC-TERM-001 Phase 2]
+    ADR045 -->|REQUIRED FOR| TERM_P2
+    
+    %% Dashboard Continuation
+    M4_3[M4.3 Initiative Tracking] -->|ENABLES| M5_3_DOCSITE[M5.3 Docsite Integration]
+    M4_3 -->|ENABLES| M5_3_REPO[M5.3 Repo Initialization]
+    ADR045 -->|ENHANCES| M5_3_REPO
+    M5_3_REPO -->|ENABLES| M5_3_CONFIG[M5.3 Configuration Management]
+    
+    %% DDR Prerequisites
+    DDR001[DDR-001: Primer Matrix] -.->|PREREQUISITE| AGENT_UPDATES[Agent Profile Updates]
+    DDR002[DDR-002: Guardian Role] -.->|PREREQUISITE| GUARDIAN_FEATURES[Guardian Automation]
+    
+    %% MFD Path (existing)
+    MFD_PARSER[MFD Parser 1.2] --> MFD_SCHEMA_CONV[MFD Schema Conventions 1.3]
+    MFD_SCHEMA_CONV --> MFD_5SCHEMAS[MFD 5 Schemas 1.4]
+    MFD_PARSER --> MFD_GENERATOR[MFD OpenCode Generator 2.1]
+```
+
+### Critical Observations
+
+1. **ADR-046 is the critical blocker** - Must complete before ADR-045 (domain model needs bounded contexts)
+2. **SPEC-TERM-001 Phase 1 can parallel** - Directive updates and top 5 refactors independent of domain work
+3. **M5.1 blocks SPEC-TERM-001 Phase 2** - Task context boundary needs domain structure (ADR-045)
+4. **Dashboard continuation deferred** - M4.3 continues, M5.3 (docsite/repo/config) waits for M5.1
+5. **DDR-001/002 are informational** - Prerequisites for understanding, not hard blockers
+
+---
+
+## 📊 Updated Blocked Tasks Summary (2026-02-11)
+
+### Hard Blockers (Cannot Proceed)
+
+#### M5.1 - Conceptual Alignment Foundation
+1. **ADR-045 Implementation** ← Waiting on ADR-046 (domain refactoring must complete first)
+   - 5 tasks, 10-15 hours
+   - Backend Dev owner
+   - Tasks not yet created
+
+#### SPEC-TERM-001 - Terminology Alignment
+2. **FEAT-TERM-001-04 (Task Context Boundary)** ← Waiting on ADR-045 (needs domain model)
+   - 40 hours
+   - Requires ADR for bounded context separation
+   - Phase 2 work, not immediate priority
+
+#### Dashboard (Existing)
+3. **Initiative Tracking Frontend** ← Waiting on Backend API (python-pedro, 6-8h remaining)
+   - Frontend Freddy, 5-7h
+   - API contract needed
+
+#### MFD (Existing - from previous update)
+4. **MFD Schema Conventions (1.3)** ← Waiting on Parser (1.2)
+5. **MFD 5 Schemas (1.4)** ← Waiting on Schema Conventions (1.3)
+6. **MFD OpenCode Generator (2.1)** ← Waiting on Parser (1.2)
+
+#### ADR-023 (Existing)
+7. **ADR-023 Validator** ← Waiting on Framework Design
+8. **ADR-023 Context Loader** ← Waiting on Framework Design
+9. **ADR-023 CI Workflow** ← Waiting on Validator
+
+#### LLM Service (Existing)
+10. **All LLM Service Tasks** ← Waiting on Architecture Review
+
+### Soft Blockers (Needs Specification or Approval)
+
+1. **M5.1 Task Execution** ← Human In Charge approval needed (Planning Petra creates tasks)
+2. **SPEC-TERM-001 Implementation** ← Spec review approval (Architect, Backend Dev, Code Reviewer)
+3. **Model Selection Template** ← Analyst Annie spec needed (existing)
+
+### Tasks Ready to Execute (No Blockers)
+
+#### M5.1 (After Task Creation)
+1. **ADR-046 Implementation** (8-12h) - Can start immediately after tasks created
+2. **SPEC-TERM-001 Phase 1** (35h) - Can parallel with ADR-046
+
+#### M4.3 (In Progress)
+3. **Initiative Tracking Backend** (6-8h) - Python Pedro, in progress
+
+---
+
+## 🎯 Unblocking Actions (Updated 2026-02-11)
+
+### Immediate (This Session - Planning Petra)
+
+1. ✅ **Update FEATURES_OVERVIEW.md** - Add ADR-045/046, SPEC-TERM-001
+2. ✅ **Update NEXT_BATCH.md** - Define M5.1 batch
+3. ✅ **Update DEPENDENCIES.md** - Add M5.1 and SPEC-TERM-001 dependencies
+4. 🔄 **Update AGENT_TASKS.md** - Assign M5.1 and SPEC-TERM-001 tasks (next)
+5. 🔄 **Create M5.1 task files** - ADR-046 (4 tasks) and ADR-045 (5 tasks)
+
+### High Priority (Next 1-2 Days)
+
+1. **Human In Charge:** Approve M5.1 batch execution (18-27h, CRITICAL)
+2. **Backend-dev:** Execute ADR-046 refactoring (8-12h) after task creation
+3. **Python-pedro:** Complete M4.3 initiative tracking backend (6-8h)
+4. **Architect:** Review M5.1 task breakdown (1-2h)
+
+### Medium Priority (Next Week)
+
+1. **Backend-dev:** Execute ADR-045 domain model (10-15h) after ADR-046
+2. **Analyst Annie:** Create conceptual alignment plan (2-3h)
+3. **Curator:** Resolve src-consolidation conflict (30min)
+4. **Stakeholders:** Review SPEC-TERM-001 spec (Architect, Backend Dev, Code Reviewer)
+
+---
+
+## 📈 Dependency Metrics (Updated)
+
+**Total Dependencies Tracked:** 45+ tasks with explicit dependencies (+10 from last update)  
+**Blocked Tasks:** 10 hard blockers, 3 soft blockers (+2 from M5.1 addition)  
+**Ready Tasks:** 18 tasks with all prerequisites met (+3 from M5.1)  
+**Path Updates Needed:** 18 tasks (unchanged)
+
+**Longest Dependency Chain:** 7 levels (ADR-046 → ADR-045 → SPEC-TERM-001 Phase 2 → ...)  
+**Critical Path Duration:** 18-27 hours (M5.1), then 40h (SPEC-TERM-001 Phase 2)  
+**Parallel Work Capacity:** 4-5 independent streams (M4.3, M5.1, SPEC-TERM-001 Phase 1, MFD, CI/CD)
+
+---
+
+## ⚠️ Updated Risk Assessment
+
+### NEW: High Risk Dependencies
+
+1. **M5.1 ADR-046 Import Updates** (NEW) ← Touches ~50 files, high merge conflict risk
+   - **Mitigation:** Execute during low-activity window, coordinate with team, automated script
+   
+2. **M5.1 Sequential Dependency** (NEW) ← ADR-046 must complete before ADR-045 (18-27h serial)
+   - **Mitigation:** Cannot parallelize, schedule accordingly
+   
+3. **SPEC-TERM-001 Scope Creep** (NEW) ← 120 hours total, risk of expansion
+   - **Mitigation:** Enforce Phase 1 scope (35h), defer Phase 2/3
+
+### Existing High Risk Dependencies
+
+4. **LLM Service Architecture Review** (MISSING) ← Blocks 6 tasks, no ETA
+   - **Mitigation:** Schedule architect review ASAP, 2h effort
+
+5. **Parser Implementation** ← Blocks entire MFD critical path
+   - **Mitigation:** Prioritize path updates, assign backend-dev immediately
+
+---

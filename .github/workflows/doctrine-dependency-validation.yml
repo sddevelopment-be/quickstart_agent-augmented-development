@@ -1,0 +1,50 @@
+name: Doctrine Dependency Validation
+
+on:
+  pull_request:
+    branches: [ main, develop, 'copilot/**' ]
+    paths:
+      - 'doctrine/**'
+      - 'work/curator/validate-dependencies.sh'
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'doctrine/**'
+
+jobs:
+  validate-dependencies:
+    name: Check Doctrine Dependency Direction
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Run dependency validation
+        id: validation
+        run: |
+          cd work/curator
+          bash validate-dependencies.sh
+        continue-on-error: false
+        
+      - name: Report results
+        if: failure()
+        run: |
+          echo "❌ Doctrine dependency violations detected!"
+          echo "Framework artifacts in doctrine/ must not reference repository-specific ADRs."
+          echo ""
+          echo "Allowed: ADRs → doctrine (local can reference framework)"
+          echo "Violation: doctrine → ADRs (framework cannot reference local)"
+          echo ""
+          echo "Review work/curator/validate-dependencies.sh output above for details."
+          echo ""
+          echo "Doctrine Decision Records (DDRs) should be used for framework concepts:"
+          echo "- Use DDR-NNN for universal patterns (primer execution, agent roles)"
+          echo "- Use ADR-NNN for repository tooling (distribution, CI, local architecture)"
+          exit 1
+          
+      - name: Success message
+        if: success()
+        run: |
+          echo "✅ No doctrine dependency violations detected"
+          echo "All framework artifacts properly reference DDRs or use generic patterns"

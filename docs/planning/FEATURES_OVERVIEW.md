@@ -2,11 +2,118 @@
 packaged: false
 audiences: [process_architect, agentic-framework-core-team]
 note: High-level feature framing for Planning Petra.
+last_updated: 2026-02-11
 ---
 
-# High-Level Feature Overview — 2025-12-01
+# High-Level Feature Overview — 2026-02-11 (Updated)
 
-The latest ADRs (ADR-019 through ADR-021) expand runtime responsibilities across distribution, routing, and trunk discipline. The open tasks inside `work/collaboration/` signal where the plan still lacks feature coverage. Themes and features below translate those signals into actionable planning anchors.
+**Recent Updates (2026-02-11):**
+- ✅ **ADR-045** (Doctrine Concept Domain Model) - Accepted
+- ✅ **ADR-046** (Domain Module Refactoring) - Accepted
+- ✅ **DDR-001** (Primer Execution Matrix) - Established
+- ✅ **DDR-002** (Framework Guardian Role) - Established
+- ✅ **SPEC-TERM-001** (Terminology Alignment) - Draft, ready for review
+- ✅ **Conceptual Alignment Initiative** - Proposed
+- ✅ **Dependency Violation Fixes** - Completed (2026-02-10)
+- ✅ **Generator Implementations** - Agent/Rules/ClaudeMD generators complete
+
+**Strategic Context:**
+This document tracks features emerging from architectural decisions (ADRs), doctrine decisions (DDRs), and strategic initiatives. The latest work focuses on **conceptual alignment** - establishing domain boundaries, terminology clarity, and runtime introspection of doctrine artifacts.
+
+The open tasks inside `work/collaboration/` signal where the plan still lacks feature coverage. Themes and features below translate those signals into actionable planning anchors.
+
+---
+
+## 🆕 NEW: Conceptual Alignment Features (2026-02-11)
+
+### Feature: Doctrine Concept Domain Model (ADR-045)
+
+- **Value Proposition:** Create Python dataclasses representing doctrine artifacts (Directive, Approach, Tactic, AgentProfile, etc.) enabling programmatic introspection, type-safe access, and automated compliance validation.
+- **Project Fit:** Enables SPEC-DIST-001 (vendor tool distribution), SPEC-DASH-008 (dashboard doctrine display), and language-first architecture operationalization. Foundation for runtime doctrine queries.
+- **Relative Importance:** `CRITICAL` for Language-First Architecture maturation; `HIGH` for Dashboard UI and Distribution initiatives.
+- **Status:** ✅ ADR-045 Accepted (2026-02-11), ❌ Implementation tasks not yet created
+- **Linked Work & Dependencies:**
+  - **Prerequisites:** ADR-046 (domain module refactoring) should complete first
+  - **Blocked By:** No tasks created yet
+  - **Estimated Effort:** 16-24 hours (dataclasses, parsers, validators, integration)
+  - **Implementation Phases:**
+    1. Create `src/domain/doctrine/models.py` with dataclasses (4h)
+    2. Implement parsers for directive/approach/tactic markdown (6h)
+    3. Implement agent profile parser (4h)
+    4. Create validators and tests (4h)
+    5. Integrate with dashboard and exporters (2-6h)
+- **Related Specs:** SPEC-DIST-001, SPEC-DASH-008
+- **Related Decisions:** ADR-045, ADR-046, DDR-001
+
+### Feature: Domain Module Refactoring (ADR-046)
+
+- **Value Proposition:** Refactor `src/common/` → `src/domain/` with bounded context modules (collaboration, doctrine, specifications) reducing conceptual drift and making linguistic boundaries explicit in code structure.
+- **Project Fit:** Operationalizes language-first architecture approach, addresses task polysemy identified in conceptual alignment assessment, prepares codebase for domain model implementation (ADR-045).
+- **Relative Importance:** `CRITICAL` for Conceptual Alignment; blocks ADR-045 implementation.
+- **Status:** ✅ ADR-046 Accepted (2026-02-11), ❌ Implementation tasks not yet created
+- **Linked Work & Dependencies:**
+  - **Prerequisites:** None (can start immediately)
+  - **Blocks:** ADR-045 implementation (domain model needs bounded context structure)
+  - **Estimated Effort:** 8-12 hours (create structure, move files, update imports, tests, docs)
+  - **Implementation Phases:**
+    1. Create `src/domain/` directory structure with bounded contexts (1h)
+    2. Move files from `src/common/` to appropriate modules (2h)
+    3. Update all import statements across codebase (3h)
+    4. Update and run test suite (2h)
+    5. Update documentation and architecture diagrams (2h)
+- **Migration Impact:** ~50 files with import updates, coordination required during active development
+- **Related Decisions:** ADR-046, ADR-042 (Shared Task Domain Model)
+
+### Feature: Terminology Alignment and Code Refactoring (SPEC-TERM-001)
+
+- **Value Proposition:** Systematically eliminate generic class names (Manager/Handler/Processor), standardize terminology (State/Status, Load/read, Persist/write), and implement bounded context boundaries reducing 15-20% maintenance overhead and accelerating onboarding from 2 weeks to 1 week.
+- **Project Fit:** Implements language-first architecture approach from doctrine, addresses "task polysemy" (189 occurrences across 3 contexts), prevents future linguistic drift through directive enforcement.
+- **Relative Importance:** `HIGH` for Language-First Architecture maturation; `HIGH` for Team Velocity and Onboarding.
+- **Status:** ✅ SPEC-TERM-001 Draft (ready for review), ❌ No implementation tasks created
+- **Epic:** Language-First Architecture Maturation
+- **Total Estimated Effort:** ~120 hours across 7 features
+- **Linked Work & Dependencies:**
+  - **7 Features Defined:**
+    - FEAT-TERM-001-01: Directive Updates (4h) - Can start immediately
+    - FEAT-TERM-001-02: Top 5 Generic Class Refactors (31h) - High ROI quick wins
+    - FEAT-TERM-001-03: Terminology Standardization (6h)
+    - FEAT-TERM-001-04: Task Context Boundary Implementation (40h) - Requires ADR
+    - FEAT-TERM-001-05: CQRS Research (8h)
+    - FEAT-TERM-001-06: Remaining 14 Generic Refactors (52h) - Opportunistic
+    - FEAT-TERM-001-07: Glossary Automation (30 min/week) - Continuous
+  - **Phasing Strategy:** Phase 1 (directives + top 5 refactors) = 35h, can parallel with other work
+  - **Critical Classes to Refactor:**
+    - `ModelConfigurationManager` → `ModelRouter`
+    - `TemplateManager` → `TemplateRenderer`
+    - `TaskAssignmentHandler` → `TaskAssignmentService`
+    - `OrchestrationConfigLoader` → Domain-specific name needed
+    - `AgentSpecRegistry` → Domain-specific name needed
+- **Related Specs:** Conceptual Alignment Initiative
+- **Related Decisions:** ADR-042, ADR-045, ADR-046
+- **ROI:** Prevents ~40 hours/quarter of debugging and refactoring costs
+
+### Feature: Conceptual Alignment Initiative (Living Glossary)
+
+- **Value Proposition:** Establish unified glossary (50-70 terms) combining framework + DDD terminology with Contextive IDE integration and visual concept mapping, creating single source of truth for ubiquitous language.
+- **Project Fit:** Complements SPEC-TERM-001 by providing terminology reference, integrates ubiquitous language experiment research with doctrine framework, enables PR-level terminology validation.
+- **Relative Importance:** `MEDIUM-HIGH` for Language-First Architecture; `MEDIUM` for Developer Experience.
+- **Status:** ✅ Initiative Proposed, ❌ No planning doc created yet
+- **Owner:** Analyst Annie
+- **Estimated Effort:** 3 weeks (18-24 hours)
+- **Linked Work & Dependencies:**
+  - **Phase 1 (Week 1):** Glossary expansion (40+ DDD terms), Contextive integration
+  - **Phase 2 (Week 2):** Contextive setup guide, stakeholder validation
+  - **Phase 3 (Week 3):** Concept map generation, usage guide, spec audit
+  - **Prerequisites:** None (can start immediately)
+  - **Related Materials:** `docs/architecture/experiments/ubiquitous-language/`
+- **Success Criteria:**
+  - 50-70 core terms in `doctrine/GLOSSARY.md`
+  - Contextive glossaries organized by bounded context
+  - >80% of specifications reference glossary terms
+- **Related Specs:** SPEC-TERM-001
+- **Related Approaches:** `doctrine/approaches/living-glossary-practice.md`
+
+---
 
 ## Open Task Themes
 
@@ -78,3 +185,36 @@ Work Items (from oldest open tasks):
 ---
 
 **Next Steps:** Feature definitions are mirrored inside `ops/planning/agent-scripts/issue-definitions/` so GitHub issues can be generated via `ops/planning/create-issues-from-definitions.sh`.
+
+---
+
+## 📊 Feature Status Summary (2026-02-11)
+
+### Completed This Branch
+- ✅ **Dependency Violation Fixes** (2026-02-10) - DDR-NNN format updates
+- ✅ **Agent Generator Simplification** (2026-02-10) - Backend Dev
+- ✅ **Rules Generator** (2026-02-10) - Backend Dev
+- ✅ **Claude.md Generator** (2026-02-10) - Backend Dev
+- ✅ **Manager Mike Orchestration Enhancement** - Profile updates
+- ✅ **Dashboard Enhancements** (Partial) - Markdown rendering, priority editing, orphan task modal
+
+### In Progress
+- 🔄 **M4 Batch 4.3 - Dashboard Initiative Tracking** (Python Pedro, Frontend Freddy)
+- 🔄 **Multi-Format Distribution** (Backend Dev) - Parser implementation needed
+
+### Planned (Tasks to be Created)
+- 📋 **ADR-046 Implementation** (Domain Module Refactoring) - CRITICAL, 8-12h
+- 📋 **ADR-045 Implementation** (Doctrine Domain Model) - CRITICAL, 16-24h
+- 📋 **SPEC-TERM-001 Phase 1** (Terminology Alignment) - HIGH, 35h
+- 📋 **Conceptual Alignment Initiative** (Living Glossary) - MEDIUM-HIGH, 18-24h
+
+### Backlog
+- ⏳ **Distribution & Release Enablement** - Packaging pipeline, Guardian automation
+- ⏳ **Multi-Tier Platform Enablement** - Router configs, local workers, CI guards
+- ⏳ **Toolchain Governance & Lifecycle** - Version policies, best practices, telemetry
+
+---
+
+_Document maintained by: Planning Petra_  
+_Last reviewed: 2026-02-11_  
+_Next review: After ADR-046 implementation or M4 4.3 completion_

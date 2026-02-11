@@ -1,18 +1,210 @@
 # Agent Task Assignments
 
-**Last Updated:** 2026-02-08T1415  
-**Planning Cycle:** Post-PR #135 Refactor Review  
-**Active Batch:** M4 Batch 4.3b - Dashboard Initiative Tracking
+**Last Updated:** 2026-02-11  
+**Planning Cycle:** Post-Conceptual Alignment Stabilization  
+**Active Batch:** M5 Batch 5.1 - Conceptual Alignment Foundation (NEXT) / M4 Batch 4.3 (IN PROGRESS)
 
-**Recent Updates (2026-02-08T1402):**
-- ✅ Path migration completed: 17 task files updated with new directory structure
-- ✅ Cold storage created: 6 tasks archived (2 complete, 4 POC3 outdated)
-- ✅ All 44 remaining tasks now reference current paths (100% up-to-date)
-- 📦 Backup created: `work/collaboration/backups/2026-02-08T140211/`
+**Recent Updates (2026-02-11):**
+- ✅ Added M5.1 batch - ADR-046/045 implementation (18-27h, CRITICAL)
+- ✅ Added SPEC-TERM-001 Phase 1 tasks (35h, HIGH priority, can parallel)
+- ✅ Added Analyst Annie assignments (spec review, conceptual alignment plan)
+- ✅ Updated strategic priorities per conceptual alignment branch work
+
+**Strategic Context:**
+- **CRITICAL:** M5.1 (Domain Refactoring + Domain Model) establishes foundation for language-first architecture
+- **HIGH:** SPEC-TERM-001 Phase 1 (Terminology Alignment) can execute in parallel with M5.1
+- **IN PROGRESS:** M4.3 (Dashboard Initiative Tracking) continues
 
 ---
 
-## Current Focus: Dashboard Initiative (M4 Batch 4.3)
+## 🆕 M5.1 Batch: Conceptual Alignment Foundation (NEXT - CRITICAL)
+
+**Strategic Priority:** ⭐⭐⭐⭐⭐ CRITICAL  
+**Total Effort:** 18-27 hours  
+**Goal:** Implement ADR-046/045 domain model architecture  
+**Status:** Tasks to be created this session (Planning Petra)
+
+### Backend Benny - Domain Refactoring & Implementation
+**Priority:** ⭐⭐⭐⭐⭐ CRITICAL PATH (M5.1)
+
+#### M5.1 Tasks (To Be Created)
+
+**ADR-046: Domain Module Refactoring** (8-12 hours, MUST GO FIRST)
+
+1. **2026-02-11T[TBD]-adr046-task1-domain-structure** - Create Domain Directory (1-2h)
+   - Create `src/domain/` with bounded context modules
+   - Subdirectories: collaboration/, doctrine/, specifications/, common/
+   - **Owner:** Backend Dev
+   - **Deliverables:** Directory structure, __init__.py files
+   - **Status:** TO BE CREATED
+
+2. **2026-02-11T[TBD]-adr046-task2-move-files** - Move Files to Bounded Contexts (2-3h)
+   - Move agent_loader.py → src/domain/doctrine/agent.py
+   - Move task_schema.py → src/domain/collaboration/task.py
+   - Move types.py (split by context)
+   - **Owner:** Backend Dev
+   - **Dependencies:** Task 1 complete
+   - **Status:** TO BE CREATED
+
+3. **2026-02-11T[TBD]-adr046-task3-update-imports** - Update Import Statements (3-4h)
+   - Scan codebase for `from src.common` imports (~50 files)
+   - Update to `from src.domain.{context}` imports
+   - Run linters, coordinate with team
+   - **Owner:** Backend Dev
+   - **Dependencies:** Task 2 complete
+   - **Risk:** HIGH (merge conflicts possible)
+   - **Status:** TO BE CREATED
+
+4. **2026-02-11T[TBD]-adr046-task4-test-docs** - Test & Documentation (2-3h)
+   - Run full test suite, fix import errors
+   - Update architecture diagrams
+   - Create migration guide
+   - Remove old `src/common/` directory
+   - **Owner:** Backend Dev
+   - **Dependencies:** Task 3 complete
+   - **Status:** TO BE CREATED
+
+**ADR-045: Doctrine Concept Domain Model** (10-15 hours, AFTER ADR-046)
+
+5. **2026-02-11T[TBD]-adr045-task1-models** - Create Doctrine Domain Models (4h)
+   - File: `src/domain/doctrine/models.py`
+   - Dataclasses: Directive, Approach, Tactic, AgentProfile, StyleGuide, Template
+   - Enums: DirectiveStatus, EnforcementTier, AgentRole
+   - **Owner:** Backend Dev
+   - **Dependencies:** ADR-046 complete (needs src/domain/ structure)
+   - **Status:** TO BE CREATED
+
+6. **2026-02-11T[TBD]-adr045-task2-parsers** - Implement Parsers (4h)
+   - File: `src/domain/doctrine/parsers.py`
+   - Parse directive/approach/tactic markdown + frontmatter
+   - Handle malformed files gracefully
+   - **Owner:** Backend Dev
+   - **Dependencies:** Task 5 complete
+   - **Status:** TO BE CREATED
+
+7. **2026-02-11T[TBD]-adr045-task3-agent-parser** - Agent Profile Parser (2h)
+   - File: `src/domain/doctrine/agent_parser.py`
+   - Parse `.agent.md` files
+   - Extract capabilities, directives, specialization
+   - **Owner:** Backend Dev
+   - **Dependencies:** Task 5 complete
+   - **Status:** TO BE CREATED
+
+8. **2026-02-11T[TBD]-adr045-task4-validators** - Validators & Tests (2-3h)
+   - File: `src/domain/doctrine/validators.py`
+   - Validate cross-references, uniqueness
+   - Unit tests for parsers (pytest)
+   - Integration tests with real doctrine files
+   - **Owner:** Backend Dev
+   - **Dependencies:** Tasks 6, 7 complete
+   - **Status:** TO BE CREATED
+
+9. **2026-02-11T[TBD]-adr045-task5-integration** - Dashboard & Exporter Integration (2-4h)
+   - Update dashboard API to use domain model
+   - Update exporters (OpenCode, Claude-Code)
+   - Smoke test end-to-end
+   - **Owner:** Backend Dev
+   - **Dependencies:** Task 8 complete
+   - **Status:** TO BE CREATED
+
+**M5.1 Total:** 9 tasks, 18-27 hours, CRITICAL PATH
+
+---
+
+## 🆕 SPEC-TERM-001 Phase 1: Terminology Alignment (HIGH - Can Parallel)
+
+**Priority:** ⭐⭐⭐⭐ HIGH  
+**Total Effort:** 35 hours (Phase 1 only)  
+**Goal:** Directive updates + Top 5 generic class refactors  
+**Status:** Tasks to be created this session (Planning Petra)
+
+### Code Reviewer Cindy - Directive Enforcement
+**Priority:** ⭐⭐⭐⭐ HIGH (SPEC-TERM-001 Phase 1)
+
+#### SPEC-TERM-001 Tasks (To Be Created)
+
+1. **2026-02-11T[TBD]-term001-feat01-directives** - Update Directives for Naming Enforcement (4h)
+   - Update `.github/agents/directives/` for workflow and naming enforcement
+   - Document "Use collaboration scripts ONLY" requirement
+   - Document "Avoid generic naming in domain code" guideline
+   - Create PR comment templates for violations
+   - **Owner:** Code Reviewer Cindy
+   - **Dependencies:** None (can start immediately)
+   - **Status:** TO BE CREATED
+
+### Backend Benny - Generic Class Refactoring
+**Priority:** ⭐⭐⭐⭐ HIGH (SPEC-TERM-001 Phase 1)
+
+#### SPEC-TERM-001 Tasks (To Be Created)
+
+2. **2026-02-11T[TBD]-term001-feat02a-model-router** - Refactor ModelConfigurationManager (8h)
+   - Rename `ModelConfigurationManager` → `ModelRouter`
+   - Update all references, imports, tests
+   - Backward compatibility shim if needed
+   - **Owner:** Backend Dev
+   - **Dependencies:** ADR-046 helpful but not required
+   - **Status:** TO BE CREATED
+
+3. **2026-02-11T[TBD]-term001-feat02b-template-renderer** - Refactor TemplateManager (6h)
+   - Rename `TemplateManager` → `TemplateRenderer`
+   - Update all references, imports, tests
+   - **Owner:** Backend Dev
+   - **Dependencies:** Task 2 complete (prevent conflicts)
+   - **Status:** TO BE CREATED
+
+4. **2026-02-11T[TBD]-term001-feat02c-task-service** - Refactor TaskAssignmentHandler (8h)
+   - Rename `TaskAssignmentHandler` → `TaskAssignmentService`
+   - Update all references, imports, tests
+   - **Owner:** Backend Dev
+   - **Dependencies:** Task 3 complete
+   - **Status:** TO BE CREATED
+
+5. **2026-02-11T[TBD]-term001-feat02d-config-loader** - Refactor OrchestrationConfigLoader (5h)
+   - Rename to domain-specific name (TBD during implementation)
+   - Update all references, imports, tests
+   - **Owner:** Backend Dev
+   - **Dependencies:** Task 4 complete
+   - **Status:** TO BE CREATED
+
+6. **2026-02-11T[TBD]-term001-feat02e-agent-registry** - Refactor AgentSpecRegistry (4h)
+   - Rename to domain-specific name (TBD during implementation)
+   - Update all references, imports, tests
+   - **Owner:** Backend Dev
+   - **Dependencies:** Task 5 complete
+   - **Status:** TO BE CREATED
+
+**SPEC-TERM-001 Phase 1 Total:** 6 tasks, 35 hours, can parallel with M5.1
+
+---
+
+## 🆕 Analyst Annie - Specification & Planning
+
+**Priority:** ⭐⭐⭐ MEDIUM (Review & Planning)
+
+#### Active Tasks (To Be Created)
+
+1. **2026-02-11T[TBD]-annie-spec-term-review** - Review SPEC-TERM-001 with Stakeholders (2h)
+   - Coordinate review with Architect Alphonso, Backend Benny, Code Reviewer Cindy
+   - Address feedback, finalize acceptance criteria
+   - Mark spec as "Approved" after stakeholder sign-off
+   - **Owner:** Analyst Annie
+   - **Dependencies:** None (spec draft complete)
+   - **Status:** TO BE CREATED
+
+2. **2026-02-11T[TBD]-annie-conceptual-alignment-plan** - Create Conceptual Alignment Plan (2-3h)
+   - File: `docs/planning/conceptual-alignment-plan.md`
+   - Phase tasks for glossary expansion (40+ DDD terms)
+   - Contextive IDE integration plan
+   - Concept mapping and visualization plan
+   - **Owner:** Analyst Annie
+   - **Dependencies:** None (can start immediately)
+   - **Status:** TO BE CREATED
+
+**Analyst Annie Total:** 2 tasks, 4-5 hours
+
+---
+
+## Current Focus: Dashboard Initiative (M4 Batch 4.3 - IN PROGRESS)
 
 ### Python Pedro - Backend Development
 **Priority:** ⭐⭐⭐⭐ CRITICAL (Dashboard Initiative)
@@ -329,41 +521,152 @@
 
 ---
 
-## Agent Workload Distribution
+## Agent Workload Distribution (Updated 2026-02-11)
 
-| Agent | Active Tasks | Total Effort (Active) | Priority Level |
-|-------|--------------|----------------------|----------------|
-| python-pedro | 6 | 11-15h (immediate), 90-120h (backlog) | CRITICAL |
-| backend-dev | 10 | 16h (critical), 12-16h (high) | HIGH |
-| frontend | 3 | 5-7h (after backend), 9-12h (backlog) | HIGH |
-| architect | 5 | 9-11h (high), 4-6h (medium) | HIGH |
-| build-automation | 10 | 4-6h (immediate), 8-12h (high) | HIGH |
-| writer-editor | 4 | 3-5h | MEDIUM |
-| curator | 2 | 4-6h | MEDIUM |
-| scribe | 2 | 4-6h (after unblocked) | MEDIUM |
-| manager | 2 | 3-5h | MEDIUM |
-| diagrammer | 3 | 4-8h | LOW |
-| synthesizer | 1 | 1-2h | LOW |
+| Agent | M5.1 Tasks | SPEC-TERM-001 | M4.3 (Current) | Backlog | Total (Immediate) | Priority Level |
+|-------|------------|---------------|----------------|---------|-------------------|----------------|
+| backend-dev | 9 tasks (18-27h) | 5 tasks (31h) | - | 6 tasks (16h+) | 49-58h | ⭐⭐⭐⭐⭐ CRITICAL |
+| code-reviewer-cindy | - | 1 task (4h) | - | - | 4h | ⭐⭐⭐⭐ HIGH |
+| analyst-annie | - | 1 task (2h) | - | 1 task (2-3h) | 4-5h | ⭐⭐⭐ MEDIUM |
+| python-pedro | - | - | 1 task (6-8h) | 6 tasks (90-120h) | 6-8h | ⭐⭐⭐⭐ HIGH |
+| frontend | - | - | 1 task (5-7h) | 2 tasks (9-12h) | 5-7h | ⭐⭐⭐ MEDIUM |
+| architect | - | - | - | 5 tasks (9-11h) | Review only | ⭐⭐⭐ HIGH |
+| curator | - | - | - | 2 tasks (4-6h) | 30min | ⭐⭐ MEDIUM |
+| build-automation | - | - | - | 10 tasks (12-18h) | - | ⭐⭐⭐ HIGH |
+
+**Key Observations:**
+- **Backend Dev: CRITICAL OVERLOAD** - 49-58h immediate work (M5.1 + SPEC-TERM-001 Phase 1)
+- **Python Pedro: M4.3 Focus** - 6-8h immediate (initiative tracking), 90-120h backlog
+- **Analyst Annie: NEW ASSIGNMENTS** - 4-5h immediate (spec review + planning)
+- **Code Reviewer: NEW ASSIGNMENT** - 4h immediate (directive updates)
+- **Architect: REVIEW ROLE** - Light immediate load, review/validation focus
+
+**Recommendation:**
+1. **Backend Dev:** Prioritize M5.1 (18-27h) over SPEC-TERM-001 (31h can parallel later)
+2. **Python Pedro:** Continue M4.3, M5.1 doesn't block dashboard work
+3. **Code Reviewer:** Start SPEC-TERM-001 directive updates immediately (4h, can parallel)
 
 ---
 
-## Recommendations for Human
+## ⭐ Recommendations for Human In Charge (Updated 2026-02-11)
 
-### This Week
-1. **Approve:** Continue M4 Batch 4.3b (Initiative Tracking) - python-pedro + frontend
-2. **Review:** Prompt Optimization Framework scope (architect-alphonso)
-3. **Decision:** LLM Service architecture post-refactor (architect review needed)
+### Immediate Decisions Required
 
-### Path Migration
-- **Planning Petra:** Create path migration script for 18 tasks with `ops/` references
-- **All Agents:** Review assigned tasks for artifact path accuracy
+1. **Approve M5.1 Batch Execution?**
+   - **What:** ADR-046 (Domain Refactoring, 8-12h) + ADR-045 (Domain Model, 10-15h)
+   - **Why:** CRITICAL foundation for language-first architecture, blocks future domain work
+   - **Impact:** 18-27 hours backend-dev work, high touch count (~50 files), merge conflict risk
+   - **Recommendation:** ✅ APPROVE - Execute after M4.3 completion or parallel if low-conflict
 
-### Unblocking Actions
-- **Analyst Annie:** Spec for Model Selection Template (blocks scribe)
-- **Analyst Annie:** Define benchmarks for Parallel Installation (blocks build-automation)
+2. **Approve SPEC-TERM-001 Phase 1 Execution?**
+   - **What:** Directive updates (4h) + Top 5 generic class refactors (31h)
+   - **Why:** HIGH ROI (65% → 75% linguistic health score), can parallel with M5.1
+   - **Impact:** 35 hours (code-reviewer-cindy 4h + backend-dev 31h)
+   - **Recommendation:** ✅ APPROVE Phase 1 only (defer Phase 2/3 until M5.1 complete)
+
+3. **Review SPEC-TERM-001 Specification?**
+   - **Status:** Draft, ready for stakeholder review
+   - **Reviewers Needed:** Architect Alphonso, Backend Benny, Code Reviewer Cindy
+   - **Effort:** 1-2h per reviewer
+   - **Recommendation:** Assign Analyst Annie to coordinate review (task created)
+
+### This Week (Immediate Actions)
+
+1. **Backend Dev:**
+   - ✅ **Execute:** ADR-046 refactoring (8-12h) - CRITICAL, must go first
+   - ⏳ **Then:** ADR-045 domain model (10-15h) - After ADR-046 complete
+   - ⏸️ **Defer:** SPEC-TERM-001 refactors (31h) - Until M5.1 complete or parallel if capacity
+
+2. **Code Reviewer Cindy:**
+   - ✅ **Execute:** SPEC-TERM-001 directive updates (4h) - Can start immediately, parallels M5.1
+
+3. **Python Pedro:**
+   - ✅ **Continue:** M4.3 initiative tracking backend (6-8h) - In progress, don't block
+
+4. **Analyst Annie:**
+   - ✅ **Execute:** SPEC-TERM-001 stakeholder review coordination (2h)
+   - ✅ **Execute:** Conceptual alignment plan creation (2-3h)
+
+5. **Planning Petra (This Agent):**
+   - ✅ **Create:** M5.1 task files (9 tasks for ADR-046/045)
+   - ✅ **Create:** SPEC-TERM-001 Phase 1 task files (6 tasks)
+   - ✅ **Create:** Analyst Annie task files (2 tasks)
+   - ✅ **Update:** Planning artifacts (FEATURES_OVERVIEW, NEXT_BATCH, DEPENDENCIES) - DONE
+
+### Next Week (After M5.1 or Parallel)
+
+1. **Frontend:**
+   - **Execute:** M4.3 initiative tracking frontend (5-7h) - After python-pedro backend complete
+
+2. **Architect Alphonso:**
+   - **Review:** M5.1 implementation (ADR-046/045 validation, 1-2h)
+   - **Review:** SPEC-TERM-001 specification (stakeholder review, 1-2h)
+
+3. **Curator Claire:**
+   - **Execute:** Resolve src-consolidation plan conflict (30min) - Archive or update
+
+### Batch Sequencing Decision
+
+**Option A: Sequential (Lower Risk)**
+```
+1. Complete M4.3 (Initiative Tracking) - 11-15h
+2. Execute M5.1 (Domain Refactoring + Model) - 18-27h
+3. Execute SPEC-TERM-001 Phase 1 (Terminology) - 35h
+Total: 64-77h sequential
+```
+
+**Option B: Parallel (Higher Velocity, Higher Risk)**
+```
+Stream 1: M4.3 (python-pedro + frontend) - 11-15h
+Stream 2: M5.1 ADR-046 (backend-dev) - 8-12h
+Stream 3: SPEC-TERM-001 directives (code-reviewer-cindy) - 4h
+Then: M5.1 ADR-045 (backend-dev) - 10-15h
+Then: SPEC-TERM-001 refactors (backend-dev) - 31h
+Total: 64-77h with parallelism (faster wall-clock time)
+```
+
+**Recommendation:** **Option B (Parallel)** - M4.3, M5.1, and SPEC-TERM-001 directives can run independently. Backend-dev starts M5.1 ADR-046 after task creation, code-reviewer starts directives immediately.
+
+### Resource Constraint Notes
+
+- **Backend Dev Overload:** 49-58h immediate work (M5.1 + SPEC-TERM-001 Phase 1)
+  - **Mitigation:** Parallelize where possible, defer Phase 2/3 of SPEC-TERM-001
+  - **Alternative:** Defer SPEC-TERM-001 entirely until M5.1 complete (reduces to 18-27h)
+
+---
+
+## 📋 Task Creation Checklist (Planning Petra)
+
+### M5.1 - ADR-046/045 Implementation
+
+- [ ] Create `work/collaboration/assigned/backend-dev/2026-02-11T[TIME]-adr046-task1-domain-structure.yaml`
+- [ ] Create `work/collaboration/assigned/backend-dev/2026-02-11T[TIME]-adr046-task2-move-files.yaml`
+- [ ] Create `work/collaboration/assigned/backend-dev/2026-02-11T[TIME]-adr046-task3-update-imports.yaml`
+- [ ] Create `work/collaboration/assigned/backend-dev/2026-02-11T[TIME]-adr046-task4-test-docs.yaml`
+- [ ] Create `work/collaboration/assigned/backend-dev/2026-02-11T[TIME]-adr045-task1-models.yaml`
+- [ ] Create `work/collaboration/assigned/backend-dev/2026-02-11T[TIME]-adr045-task2-parsers.yaml`
+- [ ] Create `work/collaboration/assigned/backend-dev/2026-02-11T[TIME]-adr045-task3-agent-parser.yaml`
+- [ ] Create `work/collaboration/assigned/backend-dev/2026-02-11T[TIME]-adr045-task4-validators.yaml`
+- [ ] Create `work/collaboration/assigned/backend-dev/2026-02-11T[TIME]-adr045-task5-integration.yaml`
+
+### SPEC-TERM-001 Phase 1
+
+- [ ] Create `work/collaboration/assigned/code-reviewer-cindy/2026-02-11T[TIME]-term001-feat01-directives.yaml`
+- [ ] Create `work/collaboration/assigned/backend-dev/2026-02-11T[TIME]-term001-feat02a-model-router.yaml`
+- [ ] Create `work/collaboration/assigned/backend-dev/2026-02-11T[TIME]-term001-feat02b-template-renderer.yaml`
+- [ ] Create `work/collaboration/assigned/backend-dev/2026-02-11T[TIME]-term001-feat02c-task-service.yaml`
+- [ ] Create `work/collaboration/assigned/backend-dev/2026-02-11T[TIME]-term001-feat02d-config-loader.yaml`
+- [ ] Create `work/collaboration/assigned/backend-dev/2026-02-11T[TIME]-term001-feat02e-agent-registry.yaml`
+
+### Analyst Annie
+
+- [ ] Create `work/collaboration/assigned/analyst-annie/2026-02-11T[TIME]-spec-term-review.yaml`
+- [ ] Create `work/collaboration/assigned/analyst-annie/2026-02-11T[TIME]-conceptual-alignment-plan.yaml`
+
+**Total:** 17 task files to create
 
 ---
 
 _Document maintained by: Planning Petra_  
-_Last reviewed: 2026-02-08T1250_  
-_Next review: After M4 Batch 4.3b completion_
+_Last reviewed: 2026-02-11_  
+_Next review: After M5.1 task creation or Human In Charge approval_
