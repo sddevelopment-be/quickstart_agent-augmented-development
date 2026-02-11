@@ -1,9 +1,13 @@
 # ADR-042: Shared Task Domain Model
 
-**Status:** Accepted  
+**Status:** ✅ Implemented (superseded by ADR-046 for location)  
 **Date:** 2026-02-09  
+**Implemented:** 2026-02-11  
+**Superseded by:** ADR-046 (location moved from `src/common/` to `src/domain/collaboration/`)  
 **Deciders:** Architect Alphonso  
-**Related:** ADR-043 (Status Enumeration), Python Pedro Analysis (2026-02-09)
+**Related:** ADR-043 (Status Enumeration), ADR-046 (Domain Refactoring), Python Pedro Analysis (2026-02-09)
+
+> **Note:** This ADR proposed `src/common/task_schema.py`. The file was subsequently moved to `src/domain/collaboration/task_schema.py` per ADR-046 to improve domain organization.
 
 ---
 

@@ -32,7 +32,7 @@ repo_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(repo_root / "src"))
 
 # ruff: noqa: E402 - Module level import after sys.path modification (required)
-from common.types import TaskMode, TaskPriority, TaskStatus
+from domain.collaboration.types import TaskMode, TaskPriority, TaskStatus
 
 # Use TaskStatus, TaskMode, TaskPriority enums as single source of truth (ADR-043)
 ALLOWED_STATUSES = {status.value for status in TaskStatus}
