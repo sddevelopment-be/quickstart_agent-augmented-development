@@ -16,8 +16,8 @@ import os
 import secrets
 from pathlib import Path
 
-# Import task query functions
-from src.framework.orchestration.task_query import (
+# Import task query functions from domain layer (ADR-046)
+from src.domain.collaboration.task_query import (
     load_open_tasks,
     find_task_files,
 )
