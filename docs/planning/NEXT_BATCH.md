@@ -21,6 +21,31 @@
 
 ---
 
+## 🆕 Planning Update (2026-02-12): Refactoring Tactics Initiative
+
+**Context:** New initiative captured as `SPEC-REFACTOR-001` from `work/tasks/learning_refactoring_plan.md`.
+
+**Batch Proposal:** M5 Batch 5.2 - Refactoring Tactics Foundation  
+**Priority:** HIGH  
+**Estimated Effort:** 18-26 hours  
+**Goal:** Produce first doctrine-ready refactoring tactic set with directive integration and validation.
+
+### Planned Work Items
+
+1. `2026-02-12T0910-researcher-refactoring-techniques-matrix` (Researcher, 6h)
+2. `2026-02-12T0911-curator-refactoring-tactics-authoring` (Curator, 6h)
+3. `2026-02-12T0912-curator-refactoring-pattern-references` (Curator, 4h)
+4. `2026-02-12T0913-curator-refactoring-directive-integration` (Curator, 4h)
+5. `2026-02-12T0914-code-reviewer-refactoring-tactics-validation` (Code Reviewer Cindy, 2h)
+
+### Sequencing
+
+- 0910 unlocks 0911 and 0912.
+- 0913 depends on completion of 0911 and 0912.
+- 0914 depends on 0913 and closes the batch.
+
+---
+
 ## 🎯 M4 Batch 4.3 Status (Dashboard - IN PROGRESS)
 
 ### Features Delivered

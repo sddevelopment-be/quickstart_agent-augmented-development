@@ -1,0 +1,43 @@
+---
+id: "2026-02-12T0912-curator-refactoring-pattern-references"
+title: "SPEC-REFACTOR-001 Task 3: Add Refactoring-to-Pattern Reference Files"
+assignee: curator
+batch: "SPEC-REFACTOR-001"
+priority: normal
+status: new
+created: "2026-02-12T09:12:00Z"
+specification: "specifications/initiatives/refactoring-techniques/initiative.md"
+related_decisions:
+  - "doctrine/decisions/DDR-003-local-doctrine-overrides-boundary.md"
+dependencies:
+  - type: prerequisite
+    description: "Requires evidence matrix from 2026-02-12T0910-researcher-refactoring-techniques-matrix"
+blocks:
+  - "2026-02-12T0913-curator-refactoring-directive-integration"
+estimated_hours: 4
+tags:
+  - spec-refactor-001
+  - curator
+  - references
+  - refactor-to-pattern
+---
+
+# Task: Add Refactoring-to-Pattern Reference Files
+
+## Context
+
+The initiative includes pattern-level context to support tactic selection and escalation from low-level refactors to architectural motifs.
+
+## Objective
+
+Create concise doctrine references under `doctrine/docs/references/` that map selected patterns to refactoring triggers and constraints.
+
+## Acceptance Criteria
+
+- [ ] Add at least one new reference file under `doctrine/docs/references/`.
+- [ ] Include mapping from candidate refactorings to pattern-level target states.
+- [ ] Keep content localized to doctrine standards and style.
+
+## Deliverables
+
+- `doctrine/docs/references/*refactoring*`

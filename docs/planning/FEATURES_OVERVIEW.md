@@ -26,6 +26,19 @@ The open tasks inside `work/collaboration/` signal where the plan still lacks fe
 
 ## 🆕 NEW: Conceptual Alignment Features (2026-02-11)
 
+### Feature: Refactoring Techniques and Pattern-Informed Tactics (SPEC-REFACTOR-001)
+
+- **Value Proposition:** Convert preferred refactoring and refactor-to-pattern approaches into reusable doctrine tactics so generated code quality is more consistent, explicit, and maintainable.
+- **Project Fit:** Extends doctrine execution quality through procedural tactics, complements Directive 036 (Boy Scout Rule), and provides concrete execution patterns linked from refactoring directives.
+- **Relative Importance:** `HIGH` for maintainability and framework consistency; `MEDIUM-HIGH` for agent onboarding and review predictability.
+- **Status:** ✅ Initiative specification created (`specifications/initiatives/refactoring-techniques/initiative.md`), ✅ planning tasks created, 🔄 awaiting assignment/execution.
+- **Linked Work & Dependencies:**
+  - Research matrix by Researcher Ralph from canonical sources in `work/tasks/learning_refactoring_plan.md`
+  - Tactic authoring and directive/index integration by Curator Claire
+  - Validation pass by Code Reviewer Cindy
+- **Related Specs:** `specifications/initiatives/refactoring-techniques/initiative.md`
+- **Related Decisions:** DDR-001, DDR-003, DDR-010
+
 ### Feature: Doctrine Concept Domain Model (ADR-045)
 
 - **Value Proposition:** Create Python dataclasses representing doctrine artifacts (Directive, Approach, Tactic, AgentProfile, etc.) enabling programmatic introspection, type-safe access, and automated compliance validation.
