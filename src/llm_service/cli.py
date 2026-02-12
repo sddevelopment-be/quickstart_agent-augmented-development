@@ -529,8 +529,8 @@ def tool_add(ctx, tool_name, binary, models, command_template):
 
     console.print(
         Panel(
-            f"[bold]Example configuration:[/bold]\n\n"
-            f"```yaml\n"
+            "[bold]Example configuration:[/bold]\n\n"
+            "```yaml\n"
             f"{tool_name}:\n"
             f'  binary: "{binary}"\n'
             f'  command_template: "{template}"\n'

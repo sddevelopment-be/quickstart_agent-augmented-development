@@ -329,18 +329,18 @@ class AgentBase(ABC):
         for artifact in self.artifacts_created:
             content += f"- `{artifact}` - Created/modified by {self.agent_name}\n"
 
-        content += f"""
+        content += """
 ## Outcomes
 
-{outcomes}
+""" + outcomes + """
 
 ## Lessons Learned
 
-{lessons_learned}
+""" + lessons_learned + """
 
 ## Metadata
 
-- **Duration:** {duration_str}
+- **Duration:** """ + duration_str + """
 - **Token Count:**
   - Input tokens: (estimated from context)
   - Output tokens: (estimated from artifacts)

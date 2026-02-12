@@ -134,7 +134,7 @@ class TaskStatus(str, Enum):
             else:
                 raise ValueError(
                     f"Invalid transition from {current.value.upper()} to {target.value.upper()}. "
-                    f"Valid transitions: none (terminal state)"
+                    "Valid transitions: none (terminal state)"
                 )
 
 
