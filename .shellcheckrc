@@ -1,0 +1,37 @@
+# ShellCheck Configuration
+# Project: Agent-Augmented Development Framework
+# Purpose: Configure static analysis for 22 shell scripts in the project
+# Reference: Directive 001 (CLI & Shell Tooling)
+
+# Enable all optional checks - catches style issues, potential bugs, and unsafe patterns
+enable=all
+
+# ENFORCED: SC2250 - Variable bracing is mandatory (${VAR} not $VAR)
+# This is not optional and must be followed in all scripts
+# See: doctrine/docs/styleguides/shell-scripts.md
+
+# Disable checks that are intentionally excluded for this project:
+# SC1091: "Not following sourced file" - Project uses dynamic sourcing patterns
+# SC2086: "Double quote to prevent globbing and word splitting" - Project allows controlled expansion
+# SC2181: "Check exit code directly with success/failure of last command" - Common pattern
+disable=SC1091,SC2086,SC2181
+
+# Output format: gcc - compatible with CI/CD systems and IDE integration
+format=gcc
+
+# Severity level: warning - includes error, warning, info, and style messages
+severity=warning
+
+# Shell dialect: bash (primary)
+# Note: Individual scripts can override with: # shellcheck shell=bash
+shell=bash
+
+# Include sourced files in analysis
+external-sources=true
+
+# Color output disabled for CI/CD systems
+color=never
+
+# Show notice-level messages
+show-notices=true
+

@@ -1,0 +1,132 @@
+name: Shell Linting
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - '**.sh'
+      - '.shellcheckrc'
+      - '.github/workflows/shell-lint.yml'
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - '**.sh'
+      - '.shellcheckrc'
+  workflow_dispatch:
+
+jobs:
+  shellcheck:
+    name: ShellCheck Linting
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install ShellCheck
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y shellcheck
+
+      - name: Verify ShellCheck installation
+        run: shellcheck --version
+
+      - name: Run ShellCheck with configuration
+        id: shellcheck
+        continue-on-error: true
+        run: |
+          echo "🔍 Running ShellCheck on all shell scripts..."
+          # Find all shell scripts, excluding node_modules and .git
+          shell_scripts=$(find . -name '*.sh' -type f | grep -v node_modules | grep -v '.git' | sort)
+          
+          if [ -z "$shell_scripts" ]; then
+            echo "⚠️  No shell scripts found"
+            exit 0
+          fi
+          
+          echo "📝 Found shell scripts:"
+          echo "$shell_scripts" | nl
+          echo ""
+          
+          # Run ShellCheck with gcc format for better CI integration
+          # Note: ShellCheck automatically finds .shellcheckrc in project root
+          shellcheck --format=gcc $shell_scripts
+          exit_code=$?
+          
+          if [ "$exit_code" -eq 0 ]; then
+            echo "✅ All shell scripts passed linting"
+          else
+            echo "⚠️  ShellCheck found issues (exit code: $exit_code)"
+          fi
+          
+          exit "$exit_code"
+
+      - name: Generate ShellCheck report (JSON)
+        if: always()
+        continue-on-error: true
+        run: |
+          shell_scripts=$(find . -name '*.sh' -type f | grep -v node_modules | grep -v '.git')
+          if [ -n "$shell_scripts" ]; then
+            shellcheck --format=json $shell_scripts > shellcheck-report.json 2>&1 || true
+            echo "📊 ShellCheck report generated: shellcheck-report.json"
+          fi
+
+      - name: Upload ShellCheck report as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: shellcheck-report
+          path: shellcheck-report.json
+          if-no-files-found: ignore
+          retention-days: 30
+
+      - name: Comment PR with ShellCheck results
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            // Try to read the report
+            let issues = [];
+            try {
+              if (fs.existsSync('shellcheck-report.json')) {
+                issues = JSON.parse(fs.readFileSync('shellcheck-report.json', 'utf8'));
+              }
+            } catch (e) {
+              console.log('No report file or invalid JSON');
+            }
+            
+            const summary = issues.length === 0 
+              ? '✅ All shell scripts passed ShellCheck linting'
+              : `⚠️ ShellCheck found ${issues.length} issue(s)`;
+            
+            const comment = `## 🔍 Shell Linting Results\n\n${summary}\n\n` +
+              (issues.length > 0 
+                ? `<details><summary>View issues (${issues.length})</summary>\n\n` +
+                  '```\n' +
+                  issues.slice(0, 50).map(i => 
+                    `${i.file}:${i.line}:${i.column}: [${i.code}] ${i.message}`
+                  ).join('\n') +
+                  (issues.length > 50 ? `\n... and ${issues.length - 50} more issues\n` : '') +
+                  '```\n\n</details>'
+                : '') +
+              '\n\nRun `npm run lint:shell` locally to check issues.';
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+

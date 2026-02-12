@@ -15,6 +15,7 @@ tools: [ "read", "write", "search", "edit", "MultiEdit", "Bash", "Grep", "github
 - **Operational Guidelines:** guidelines/operational_guidelines.md
 - **Command Aliases:** shorthands/README.md
 - **System Bootstrap and Rehydration:** guidelines/bootstrap.md and guidelines/rehydrate.md
+- **Shell Script Standards:** [doctrine/docs/styleguides/shell-scripts.md](/doctrine/docs/styleguides/shell-scripts.md) (ShellCheck compliance, best practices)
 - **Localized Agentic Protocol:** AGENTS.md (repository root).
 
 ## Directive References (Externalized)

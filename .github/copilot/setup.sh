@@ -34,25 +34,29 @@ NC='\033[0m' # No Color
 # Logging functions
 log_info() {
     echo -e "${BLUE}[INFO]${NC} $1"
+    return 0
 }
 
 log_success() {
     echo -e "${GREEN}[SUCCESS]${NC} $1"
+    return 0
 }
 
 log_warning() {
     echo -e "${YELLOW}[WARNING]${NC} $1"
+    return 0
 }
 
 log_error() {
     echo -e "${RED}[ERROR]${NC} $1"
+    return 0
 }
 
 # Detect OS
 detect_os() {
-    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    if [[ "${OSTYPE}" == "linux-gnu"* ]]; then
         echo "linux"
-    elif [[ "$OSTYPE" == "darwin"* ]]; then
+    elif [[ "${OSTYPE}" == "darwin"* ]]; then
         echo "macos"
     else
         echo "unknown"
@@ -66,7 +70,7 @@ command_exists() {
 
 # Version comparison helper
 version_ge() {
-    [ "$(printf '%s\n' "$1" "$2" | sort -V | head -n1)" = "$2" ]
+    [[ "$(printf '%s\n' "$1" "$2" | sort -V | head -n1)" = "$2" ]]
 }
 
 # Verify SHA256 checksum of downloaded file
@@ -77,22 +81,22 @@ verify_checksum() {
     local expected_checksum="$2"
     local tool_name="$3"
     
-    if [ ! -f "$file_path" ]; then
-        log_error "File not found for checksum verification: $file_path"
+    if [[ ! -f "${file_path}" ]]; then
+        log_error "File not found for checksum verification: ${file_path}"
         return 1
     fi
     
-    log_info "Verifying SHA256 checksum for $tool_name..."
+    log_info "Verifying SHA256 checksum for ${tool_name}..."
     local actual_checksum
-    actual_checksum=$(sha256sum "$file_path" | awk '{print $1}')
+    actual_checksum=$(sha256sum "${file_path}" | awk '{print $1}')
     
-    if [ "$actual_checksum" = "$expected_checksum" ]; then
-        log_success "Checksum verification passed for $tool_name"
+    if [[ "${actual_checksum}" = "${expected_checksum}" ]]; then
+        log_success "Checksum verification passed for ${tool_name}"
         return 0
     else
-        log_error "Checksum verification FAILED for $tool_name"
-        log_error "Expected: $expected_checksum"
-        log_error "Actual:   $actual_checksum"
+        log_error "Checksum verification FAILED for ${tool_name}"
+        log_error "Expected: ${expected_checksum}"
+        log_error "Actual:   ${actual_checksum}"
         log_error "This may indicate a compromised download or version mismatch."
         log_error "DO NOT install this binary. Please investigate."
         return 1
@@ -105,23 +109,23 @@ install_tool() {
     local install_cmd="$2"
     local version_check="${3:-}"
     
-    if command_exists "$tool_name"; then
-        if [ -n "$version_check" ]; then
+    if command_exists "${tool_name}"; then
+        if [[ -n "${version_check}" ]]; then
             local current_version
-            current_version=$($version_check 2>/dev/null || echo "unknown")
-            log_success "$tool_name already installed: $current_version"
+            current_version=$(${version_check} 2>/dev/null || echo "unknown")
+            log_success "${tool_name} already installed: ${current_version}"
         else
-            log_success "$tool_name already installed"
+            log_success "${tool_name} already installed"
         fi
         return 0
     fi
     
-    log_info "Installing $tool_name..."
-    if eval "$install_cmd"; then
-        log_success "$tool_name installed successfully"
+    log_info "Installing ${tool_name}..."
+    if eval "${install_cmd}"; then
+        log_success "${tool_name} installed successfully"
         return 0
     else
-        log_error "Failed to install $tool_name"
+        log_error "Failed to install ${tool_name}"
         return 1
     fi
 }
@@ -133,17 +137,17 @@ main() {
     
     local os
     os=$(detect_os)
-    log_info "Detected OS: $os"
+    log_info "Detected OS: ${os}"
     
-    if [ "$os" = "unknown" ]; then
-        log_error "Unsupported operating system: $OSTYPE"
+    if [[ ${os} == unknown ]]; then
+        log_error "Unsupported operating system: ${OSTYPE}"
         exit 1
     fi
     
     local failed_tools=()
     
     # Update package manager (once)
-    if [ "$os" = "linux" ]; then
+    if [[ "${os}" = "linux" ]]; then
         log_info "Updating apt package list..."
         if ! sudo apt-get update -qq; then
             log_warning "apt-get update failed, continuing anyway..."
@@ -151,7 +155,7 @@ main() {
     fi
     
     # Install ripgrep (rg) - fast code search
-    if [ "$os" = "linux" ]; then
+    if [[ "${os}" = "linux" ]]; then
         if ! install_tool "rg" "sudo apt-get install -y ripgrep" "rg --version | head -n1"; then
             failed_tools+=("ripgrep")
         fi
@@ -162,7 +166,7 @@ main() {
     fi
     
     # Install fd - fast file finder
-    if [ "$os" = "linux" ]; then
+    if [[ "${os}" = "linux" ]]; then
         if ! install_tool "fd" "sudo apt-get install -y fd-find && sudo ln -sf \$(which fdfind) /usr/local/bin/fd 2>/dev/null || true" "fd --version"; then
             failed_tools+=("fd")
         fi
@@ -173,7 +177,7 @@ main() {
     fi
     
     # Install jq - JSON processor
-    if [ "$os" = "linux" ]; then
+    if [[ "${os}" = "linux" ]]; then
         if ! install_tool "jq" "sudo apt-get install -y jq" "jq --version"; then
             failed_tools+=("jq")
         fi
@@ -186,25 +190,25 @@ main() {
     # Install yq - YAML processor (using mikefarah/yq via binary download for consistency)
     if ! command_exists "yq"; then
         log_info "Installing yq ${YQ_VERSION}..."
-        if [ "$os" = "linux" ]; then
+        if [[ "${os}" = "linux" ]]; then
             local yq_url="https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64"
             local yq_tmp="/tmp/yq_download"
             
             # Download binary
-            if ! curl -sL "$yq_url" -o "$yq_tmp"; then
-                log_error "Failed to download yq from $yq_url"
+            if ! curl -sL "${yq_url}" -o "${yq_tmp}"; then
+                log_error "Failed to download yq from ${yq_url}"
                 failed_tools+=("yq")
             # Verify checksum
-            elif ! verify_checksum "$yq_tmp" "$YQ_LINUX_AMD64_SHA256" "yq"; then
+            elif ! verify_checksum "${yq_tmp}" "${YQ_LINUX_AMD64_SHA256}" "yq"; then
                 log_error "Checksum verification failed for yq - aborting installation"
-                rm -f "$yq_tmp"
+                rm -f "${yq_tmp}"
                 failed_tools+=("yq")
             # Install if verification passes
-            elif sudo install "$yq_tmp" /usr/local/bin/yq && rm -f "$yq_tmp"; then
+            elif sudo install "${yq_tmp}" /usr/local/bin/yq && rm -f "${yq_tmp}"; then
                 log_success "yq installed successfully with verified checksum"
             else
                 log_error "Failed to install yq"
-                rm -f "$yq_tmp"
+                rm -f "${yq_tmp}"
                 failed_tools+=("yq")
             fi
         else
@@ -217,7 +221,7 @@ main() {
     fi
     
     # Install fzf - fuzzy finder
-    if [ "$os" = "linux" ]; then
+    if [[ "${os}" = "linux" ]]; then
         if ! install_tool "fzf" "sudo apt-get install -y fzf" "fzf --version"; then
             failed_tools+=("fzf")
         fi
@@ -230,30 +234,30 @@ main() {
     # Install ast-grep - structural code search (via direct binary download with checksum verification)
     if ! command_exists "ast-grep"; then
         log_info "Installing ast-grep ${AST_GREP_VERSION}..."
-        if [ "$os" = "linux" ]; then
+        if [[ "${os}" = "linux" ]]; then
             local sg_url="https://github.com/ast-grep/ast-grep/releases/download/${AST_GREP_VERSION}/sg-x86_64-unknown-linux-gnu.zip"
             local sg_zip="/tmp/ast-grep.zip"
             local sg_tmp_dir="/tmp/ast-grep-extract"
             
             # Download binary archive
-            if ! curl -sL "$sg_url" -o "$sg_zip"; then
-                log_error "Failed to download ast-grep from $sg_url"
+            if ! curl -sL "${sg_url}" -o "${sg_zip}"; then
+                log_error "Failed to download ast-grep from ${sg_url}"
                 failed_tools+=("ast-grep")
             # Verify checksum
-            elif ! verify_checksum "$sg_zip" "$AST_GREP_LINUX_X86_64_SHA256" "ast-grep"; then
+            elif ! verify_checksum "${sg_zip}" "${AST_GREP_LINUX_X86_64_SHA256}" "ast-grep"; then
                 log_error "Checksum verification failed for ast-grep - aborting installation"
-                rm -f "$sg_zip"
+                rm -f "${sg_zip}"
                 failed_tools+=("ast-grep")
             # Extract and install if verification passes (binary is named 'sg', create ast-grep symlink)
-            elif mkdir -p "$sg_tmp_dir" && \
-                 unzip -q "$sg_zip" -d "$sg_tmp_dir" && \
-                 sudo install "$sg_tmp_dir/sg" /usr/local/bin/sg && \
+            elif mkdir -p "${sg_tmp_dir}" && \
+                 unzip -q "${sg_zip}" -d "${sg_tmp_dir}" && \
+                 sudo install "${sg_tmp_dir}/sg" /usr/local/bin/sg && \
                  sudo ln -sf /usr/local/bin/sg /usr/local/bin/ast-grep; then
                 log_success "ast-grep installed successfully with verified checksum"
-                rm -rf "$sg_zip" "$sg_tmp_dir"
+                rm -rf "${sg_zip}" "${sg_tmp_dir}"
             else
                 log_error "Failed to install ast-grep"
-                rm -rf "$sg_zip" "$sg_tmp_dir"
+                rm -rf "${sg_zip}" "${sg_tmp_dir}"
                 failed_tools+=("ast-grep")
             fi
         else
@@ -282,9 +286,9 @@ main() {
     local verification_failed=false
     
     for tool in rg fd jq yq fzf ast-grep; do
-        if command_exists "$tool"; then
+        if command_exists "${tool}"; then
             local version
-            case "$tool" in
+            case "${tool}" in
                 rg) version=$(rg --version | head -n1) ;;
                 fd) version=$(fd --version) ;;
                 jq) version=$(jq --version) ;;
@@ -292,17 +296,17 @@ main() {
                 fzf) version=$(fzf --version) ;;
                 ast-grep) version=$(ast-grep --version) ;;
             esac
-            echo -e "  ${GREEN}✓${NC} $tool: $version"
+            echo -e "  ${GREEN}✓${NC} ${tool}: ${version}"
         else
-            echo -e "  ${RED}✗${NC} $tool: NOT FOUND"
+            echo -e "  ${RED}✗${NC} ${tool}: NOT FOUND"
             verification_failed=true
         fi
     done
     
     echo ""
-    if [ "$verification_failed" = true ] || [ ${#failed_tools[@]} -gt 0 ]; then
+    if [[ "${verification_failed}" = true ]] || [[ ${#failed_tools[@]} -gt 0 ]]; then
         log_warning "Some tools failed to install or are not available"
-        if [ ${#failed_tools[@]} -gt 0 ]; then
+        if [[ ${#failed_tools[@]} -gt 0 ]]; then
             log_warning "Failed tools: ${failed_tools[*]}"
         fi
         exit 1

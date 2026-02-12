@@ -43,7 +43,10 @@
     "spell:manuscript": "cspell lint 'manuscript/**/*.md' --no-progress --show-suggestions",
     "spell:docs": "cspell lint 'docs/**/*.md' --no-progress --show-suggestions",
     "lint:markua": "remark manuscript --ext md --frail --ignore-path .remarkignore",
-    "lint:text": "npm run spell && npm run lint:markua"
+    "lint:text": "npm run spell && npm run lint:markua",
+    "lint:shell": "shellcheck $(find . -name '*.sh' -type f | grep -v node_modules | grep -v '.git')",
+    "lint:shell:report": "shellcheck --format=json $(find . -name '*.sh' -type f | grep -v node_modules | grep -v '.git') > shellcheck-report.json 2>&1 || true",
+    "lint": "npm run lint:text && npm run lint:shell"
   },
   "keywords": [],
   "author": "",
