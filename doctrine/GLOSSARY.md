@@ -145,9 +145,17 @@ Documentation in agent profiles of common handoff patterns observed in practice 
 
 Coordination artifact maintained by Manager Mike documenting which agent did what, when, and current workflow state
 
-**Context:** Artifacts - Orchestration  
-**Source:** manager.agent.md  
+**Context:** Artifacts - Orchestration
+**Source:** manager.agent.md
 **Related:** Manager Mike, WORKFLOW_LOG, HANDOFFS, Agent Assignment
+
+### Agent Specialization Hierarchy
+
+Parent-child relationship where specialized agents refine their parent's scope to narrower contexts. Orchestrator prefers specialists when context matches, falls back to parent when specialist unavailable or overloaded.
+
+**Context:** Agent Collaboration - Orchestration
+**Source:** DDR-011, agent-specialization-hierarchy.md
+**Related:** Specialization Context, Routing Priority, SELECT_APPROPRIATE_AGENT, Parent Agent, Child Agent
 
 ### Agentic Enablement
 
@@ -417,9 +425,17 @@ Connections between claims: Supporting, Contradicting, Prerequisite, or Alternat
 
 Technique for clustering terminology by analyzing which terms appear together in the same files or contexts
 
-**Context:** Linguistic analysis  
-**Source:** code-documentation-analysis.tactic.md  
+**Context:** Linguistic analysis
+**Source:** code-documentation-analysis.tactic.md
 **Related:** Semantic Clustering, Terminology Extraction
+
+### Child Agent
+
+Agent that inherits parent's collaboration contract but operates in narrower specialization context (language, framework, domain, writing style). Declared via `specializes_from` metadata in agent profile frontmatter.
+
+**Context:** Agent Specialization Hierarchy
+**Source:** DDR-011
+**Related:** Parent Agent, Specialization Context, Agent Specialization Hierarchy
 
 ### Code Reviewer Cindy
 
@@ -1488,9 +1504,17 @@ A design principle emphasizing that changes should be measured against actual pr
 
 Coordination specialist agent who routes tasks to appropriate agents, maintains workflow status maps, and prevents conflicting edits through file-based orchestration
 
-**Context:** Agent Roles - Orchestration  
-**Source:** manager.agent.md  
+**Context:** Agent Roles - Orchestration
+**Source:** manager.agent.md
 **Related:** Coordinator, Task Router, Workflow Status, Hand-off Tracking, AGENT_STATUS
+
+### Parent Agent
+
+Generalist agent whose collaboration contract and capabilities are inherited and refined by specialist child agents. Serves as fallback when no specialist matches task context or specialists are overloaded.
+
+**Context:** Agent Specialization Hierarchy
+**Source:** DDR-011
+**Related:** Child Agent, Specialization Boundary, Agent Specialization Hierarchy
 
 ### Manifest
 
@@ -1888,9 +1912,17 @@ ATDD workflow state where acceptance tests have been written but fail, proving t
 
 TDD cycle where tests are written first and fail (RED), minimal code makes them pass (GREEN), then code is improved while keeping tests green (REFACTOR)
 
-**Context:** Development Practices - TDD  
-**Source:** python-pedro.agent.md, backend-dev.agent.md, java-jenny.agent.md  
+**Context:** Development Practices - TDD
+**Source:** python-pedro.agent.md, backend-dev.agent.md, java-jenny.agent.md
 **Related:** TDD, Test-First Development, Directive 017
+
+### Reassignment Pass
+
+Manager Mike process that reviews existing task assignments and updates them to use more specific specialist agents when available. Used for backward compatibility and after new specialists are introduced.
+
+**Context:** Agent Collaboration - Orchestration Migration
+**Source:** DDR-011
+**Related:** SELECT_APPROPRIATE_AGENT, Agent Specialization Hierarchy
 
 ### Register Variation Awareness
 
@@ -1984,9 +2016,17 @@ Five-phase process (Research & Claim Extraction, Prioritization, Experiment Desi
 
 Incremental process of shifting calls from old to new implementation one call site or module at a time
 
-**Context:** Strangler fig execution  
-**Source:** refactoring-strangler-fig.tactic.md  
+**Context:** Strangler fig execution
+**Source:** refactoring-strangler-fig.tactic.md
 **Related:** Strangler Fig Pattern, Coexistence Period
+
+### Routing Priority
+
+Numeric specificity score (0-100) for specialist agents. Higher priority agents preferred when multiple match context. Parent agents default to 50, specialists typically 60-90, local specialists receive +20 boost.
+
+**Context:** Agent Collaboration - Orchestration
+**Source:** DDR-011
+**Related:** Agent Specialization Hierarchy, SELECT_APPROPRIATE_AGENT, Specialization Context
 
 ### Researcher Ralph
 
@@ -2120,9 +2160,17 @@ Automated verification that YAML task files comply with defined structure before
 
 Documentation and transcription specialist agent who maintains traceable, neutral documentation integrity through structured summaries and meeting notes
 
-**Context:** Agent Roles - Documentation  
-**Source:** scribe.agent.md  
+**Context:** Agent Roles - Documentation
+**Source:** scribe.agent.md
 **Related:** Documentation Specialist, Meeting Notes, Structured Summary, Neutral Tone, Timestamp
+
+### SELECT_APPROPRIATE_AGENT
+
+Orchestration tactic that determines most appropriate agent for a task considering specialization hierarchy, context matching, workload, and complexity. Invoked by Manager Mike during task assignment, handoff processing, and reassignment passes.
+
+**Context:** Agent Collaboration - Orchestration
+**Source:** DDR-011, SELECT_APPROPRIATE_AGENT.tactic.md
+**Related:** Agent Specialization Hierarchy, Routing Priority, Reassignment Pass
 
 ### Self-Observation Checkpoint
 
@@ -2264,9 +2312,17 @@ Path variable in doctrine configuration pointing to specification files director
 
 Explicit limits on agent capabilities defining what each agent will and won't do to prevent scope creep and role confusion
 
-**Context:** Agent Collaboration - Role Definition  
-**Source:** All agent profiles  
+**Context:** Agent Collaboration - Role Definition
+**Source:** All agent profiles
 **Related:** Collaboration Contract, Hand-off Protocol, Escalation
+
+### Specialization Context
+
+Declarative conditions in agent profile defining when specialist preferred over parent: language, frameworks, file patterns, domain keywords, writing style, complexity preference.
+
+**Context:** Agent Collaboration - Routing
+**Source:** DDR-011
+**Related:** Agent Specialization Hierarchy, Child Agent, Routing Priority
 
 ### Specification Lifecycle
 
