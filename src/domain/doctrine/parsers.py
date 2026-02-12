@@ -51,7 +51,75 @@ from .exceptions import (
     ParseError,
     ValidationError,
 )
-from .models import Agent, Approach, Directive, Tactic, HandoffPattern, PrimerEntry
+from .models import Agent, Approach, Directive, HandoffPattern, PrimerEntry, Tactic
+
+# ============================================================================
+# Common Parsing Utilities
+# ============================================================================
+
+
+def _extract_markdown_section(content: str, heading: str, respect_heading_level: bool = False) -> str:
+    """
+    Extract section content under a markdown heading.
+
+    This is a shared utility to avoid code duplication across parsers.
+
+    Args:
+        content: Markdown content
+        heading: Heading to search for (e.g., "## Description", "### Primary")
+        respect_heading_level: If True, use heading-level-aware extraction
+            (e.g., ### stops at ## or ###, ## stops at ##)
+
+    Returns:
+        Section content (empty string if not found)
+
+    Examples:
+        >>> content = "## Foo\\nbar\\n## Baz"
+        >>> _extract_markdown_section(content, "## Foo")
+        'bar'
+    """
+    escaped_heading = re.escape(heading)
+
+    if respect_heading_level:
+        # Level-aware extraction
+        if heading.startswith("###"):
+            # Level 3 heading - stop at ## or ### (but not ####)
+            pattern = rf"{escaped_heading}\s*\n(.*?)(?=\n##(?!#)|\n###(?!#)|\Z)"
+        elif heading.startswith("##"):
+            # Level 2 heading - stop at next ## (but not ### or ####)
+            pattern = rf"{escaped_heading}\s*\n(.*?)(?=\n##(?!#)|\Z)"
+        else:
+            # Default fallback
+            pattern = rf"{escaped_heading}\s*\n(.*?)(?=\n##|\Z)"
+    else:
+        # Simple extraction - stop at next ## heading
+        pattern = rf"{escaped_heading}\s*\n(.*?)(?=\n##|\Z)"
+
+    match = re.search(pattern, content, re.DOTALL | re.MULTILINE)
+
+    if match:
+        return match.group(1).strip()
+
+    return ""
+
+
+def _calculate_file_hash(file_path: Path) -> str:
+    """
+    Calculate SHA-256 hash of file content for change detection.
+
+    Args:
+        file_path: Path to file
+
+    Returns:
+        Hex string of SHA-256 hash
+    """
+    content = file_path.read_bytes()
+    return hashlib.sha256(content).hexdigest()
+
+
+# ============================================================================
+# Parser Classes
+# ============================================================================
 
 
 class DirectiveParser:
@@ -221,18 +289,7 @@ class DirectiveParser:
         Returns:
             Section content (empty string if not found)
         """
-        # Escape special regex characters in heading
-        escaped_heading = re.escape(heading)
-
-        # Find section from heading to next heading of same or higher level
-        pattern = rf"{escaped_heading}\s*\n(.*?)(?=\n##|\Z)"
-        match = re.search(pattern, content, re.DOTALL | re.MULTILINE)
-
-        if match:
-            section_content = match.group(1).strip()
-            return section_content
-
-        return ""
+        return _extract_markdown_section(content, heading, respect_heading_level=False)
 
     def _extract_examples(self, content: str) -> list[str]:
         """
@@ -401,27 +458,12 @@ class AgentParser:
         return agent_id.replace("-", " ").title()
 
     def _extract_section(self, content: str, heading: str) -> str:
-        """Extract section content under a heading."""
-        escaped_heading = re.escape(heading)
-        # Extract section until next same-level or higher-level heading
-        # For ### heading, continue until ## or ###
-        # For ## heading, continue until next ##
-        if heading.startswith("###"):
-            # Level 3 heading - stop at ## or ### (but not ####)
-            pattern = rf"{escaped_heading}\s*\n(.*?)(?=\n##(?!#)|\n###(?!#)|\Z)"
-        elif heading.startswith("##"):
-            # Level 2 heading - stop at next ##  (but not ### or ####)
-            pattern = rf"{escaped_heading}\s*\n(.*?)(?=\n##(?!#)|\Z)"
-        else:
-            # Default fallback
-            pattern = rf"{escaped_heading}\s*\n(.*?)(?=\n##|\Z)"
-            
-        match = re.search(pattern, content, re.DOTALL | re.MULTILINE)
+        """
+        Extract section content under a heading.
 
-        if match:
-            return match.group(1).strip()
-
-        return ""
+        Uses heading-level-aware extraction for agent profiles.
+        """
+        return _extract_markdown_section(content, heading, respect_heading_level=True)
 
     def _extract_capabilities(self, content: str) -> frozenset[str]:
         """Extract agent capabilities from ## Capabilities section."""
@@ -758,7 +800,9 @@ class AgentParser:
         """
         # Check preferences first
         if "default_mode" in preferences:
-            return preferences["default_mode"]
+            mode = preferences["default_mode"]
+            if isinstance(mode, str):
+                return mode
 
         # Check Mode Defaults table for "Default mode" comment
         section = self._extract_section(content, "## 5. Mode Defaults")
@@ -896,14 +940,7 @@ class TacticParser:
 
     def _extract_section(self, content: str, heading: str) -> str:
         """Extract section content under a heading."""
-        escaped_heading = re.escape(heading)
-        pattern = rf"{escaped_heading}\s*\n(.*?)(?=\n##|\Z)"
-        match = re.search(pattern, content, re.DOTALL | re.MULTILINE)
-
-        if match:
-            return match.group(1).strip()
-
-        return ""
+        return _extract_markdown_section(content, heading, respect_heading_level=False)
 
     def _extract_steps(self, content: str) -> list[str]:
         """Extract execution steps from ## Execution Steps section."""
@@ -1049,14 +1086,7 @@ class ApproachParser:
 
     def _extract_section(self, content: str, heading: str) -> str:
         """Extract section content under a heading."""
-        escaped_heading = re.escape(heading)
-        pattern = rf"{escaped_heading}\s*\n(.*?)(?=\n##|\Z)"
-        match = re.search(pattern, content, re.DOTALL | re.MULTILINE)
-
-        if match:
-            return match.group(1).strip()
-
-        return ""
+        return _extract_markdown_section(content, heading, respect_heading_level=False)
 
     def _extract_list_items(self, content: str, heading: str) -> tuple[str, ...]:
         """Extract list items from a section as tuple."""
