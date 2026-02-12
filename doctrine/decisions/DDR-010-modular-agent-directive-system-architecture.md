@@ -1,4 +1,4 @@
-# DDR-003: Modular Agent Directive System Architecture
+# DDR-010: Modular Agent Directive System Architecture
 
 **Status:** Active  
 **Date:** 2026-02-11  

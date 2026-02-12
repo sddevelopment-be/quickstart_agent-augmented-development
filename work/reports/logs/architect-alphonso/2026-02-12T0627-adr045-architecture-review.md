@@ -19,7 +19,7 @@ Conducted comprehensive architectural review of Python Pedro's ADR-045 implement
 **Related ADRs:**
 - ADR-045: Doctrine Concept Domain Model (6 models, 4 parsers, 3 validators)
 - ADR-046: Domain Module Refactoring (bounded context structure)
-- DDR-003: Modular Agent Directive System Architecture
+- DDR-010: Modular Agent Directive System Architecture
 
 **Implementation Summary:**
 - 2,510 lines of production code across 7 modules
@@ -553,7 +553,7 @@ Applied **multi-layered architectural assessment** following Directive 022 (Audi
 
 - **ADR-045:** Doctrine Concept Domain Model
 - **ADR-046:** Domain Module Refactoring
-- **DDR-003:** Modular Agent Directive System Architecture
+- **DDR-010:** Modular Agent Directive System Architecture
 - **Checkpoint Report:** `work/reports/checkpoints/2026-02-11-adr046-completion-checkpoint.md`
 - **Pedro's Work Logs:**
   - `work/reports/logs/python-pedro/2026-02-11T2224-adr045-task1-doctrine-models.md`

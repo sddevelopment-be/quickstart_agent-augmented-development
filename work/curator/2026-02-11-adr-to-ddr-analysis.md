@@ -13,7 +13,7 @@ Analysis of 23 ADRs referenced in doctrine violations to identify which contain 
 - **16 ADRs should remain as ADRs** (repository-specific decisions)
 - **2 ADRs already converted** (DDR-001, DDR-002)
 
-**Recommended DDRs:** DDR-003 through DDR-009 (7 new DDRs)
+**Recommended DDRs:** DDR-004 through DDR-010 (7 new DDRs)
 
 ---
 
@@ -39,7 +39,7 @@ Analysis of 23 ADRs referenced in doctrine violations to identify which contain 
 
 ### FRAMEWORK DECISIONS → Recommended for DDR Elevation
 
-#### 1. ADR-001: Modular Agent Directive System → **DDR-003**
+#### 1. ADR-001: Modular Agent Directive System → **DDR-010**
 
 **Current Status:** `docs/architecture/adrs/ADR-001-modular-agent-directive-system.md`
 
@@ -414,7 +414,7 @@ Analysis of 23 ADRs referenced in doctrine violations to identify which contain 
 
 **Priority 1 - Core Framework Architecture (Must do first):**
 
-1. **DDR-003: Modular Agent Directive System Architecture**
+1. **DDR-010: Modular Agent Directive System Architecture**
    - Source: ADR-001
    - Rationale: Foundation of framework structure
    - Effort: 3-4 hours (significant generalization needed)
@@ -623,7 +623,7 @@ Before finalizing each DDR, verify:
 - Mitigation: Keep original ADRs with deprecation notices for historical reference
 
 **Risk: Time investment (15-20 hours)**
-- Mitigation: Prioritize core framework DDRs (DDR-003, DDR-004) first; others can follow
+- Mitigation: Prioritize core framework DDRs (DDR-004, DDR-010) first; others can follow
 
 **Risk: Confusion during transition period**
 - Mitigation: Add clear deprecation notices with forwarding links
@@ -639,7 +639,7 @@ Before finalizing each DDR, verify:
 
 2. **Should we version DDRs differently than ADRs?**
    - DDRs affect all framework adopters
-   - Proposal: Use semantic versioning (DDR-003 v1.0.0)
+   - Proposal: Use semantic versioning (DDR-010 v1.0.0)
    - Decision: Defer to separate versioning discussion
 
 3. **How do we handle DDRs that supersede each other?**
@@ -654,7 +654,7 @@ Before finalizing each DDR, verify:
 **Immediate (This Sprint):**
 1. ✅ Complete this analysis document
 2. Review with Architect and Framework Guardian
-3. Prioritize DDR-003 and DDR-004 (foundation)
+3. Prioritize DDR-004 and DDR-010 (foundation)
 4. Create first 2 DDRs and validate transformation approach
 
 **Short-Term (Next 2 Sprints):**
@@ -675,7 +675,7 @@ Before finalizing each DDR, verify:
 
 | ADR | Title | Classification | DDR | Priority | Effort |
 |-----|-------|----------------|-----|----------|--------|
-| ADR-001 | Modular Agent Directive System | FRAMEWORK ✅ | DDR-003 | P1 | 3-4h |
+| ADR-001 | Modular Agent Directive System | FRAMEWORK ✅ | DDR-010 | P1 | 3-4h |
 | ADR-002 | OpenCode Portability | REPOSITORY ❌ | - | - | - |
 | ADR-003 | Task Lifecycle Management | FRAMEWORK ✅ | DDR-005 | P2 | 2-3h |
 | ADR-004 | Work Directory Structure | FRAMEWORK ✅ | DDR-006 | P2 | 2h |
@@ -716,7 +716,7 @@ Before finalizing each DDR, verify:
 - ADR-009 (Metrics Standard): 60% framework / 40% repository - current form is too prescriptive, but could become framework *guidance* later
 - ADR-023 (Prompt Optimization): 70% repository / 30% framework - too repo-specific currently, but underlying patterns could be framework guidance
 
-**Recommendation:** Proceed with high-confidence decisions first (DDR-003 through DDR-007), then review borderline cases after transformation validates the approach.
+**Recommendation:** Proceed with high-confidence decisions first (DDR-004 through DDR-007 and DDR-010), then review borderline cases after transformation validates the approach.
 
 ---
 

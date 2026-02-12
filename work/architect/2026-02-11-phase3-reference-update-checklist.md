@@ -10,7 +10,7 @@
 
 | Old Reference | New Reference | Description |
 |--------------|---------------|-------------|
-| `../../docs/architecture/adrs/ADR-001-*` | `./decisions/DDR-003-*` | Modular directive system |
+| `../../docs/architecture/adrs/ADR-001-*` | `./decisions/DDR-010-*` | Modular directive system |
 | `../../docs/architecture/adrs/ADR-003-*` | `./decisions/DDR-005-*` | Task lifecycle |
 | `../../docs/architecture/adrs/ADR-004-*` | `./decisions/DDR-006-*` | Work directory structure |
 | `../../docs/architecture/adrs/ADR-005-*` | `./decisions/DDR-007-*` | Coordinator pattern |
@@ -30,7 +30,7 @@
 
 - [ ] `doctrine/agents/architect.md`
   - Expected references: ADR-001, ADR-017
-  - Update to: DDR-003, DDR-009
+  - Update to: DDR-010, DDR-009
 
 - [ ] `doctrine/agents/coordinator.md`
   - Expected references: ADR-003, ADR-004, ADR-005, ADR-008
@@ -38,17 +38,17 @@
 
 - [ ] `doctrine/agents/curator.md`
   - Expected references: ADR-001
-  - Update to: DDR-003
+  - Update to: DDR-010
 
 **Medium Priority (Single ADR references):**
 
 - [ ] `doctrine/agents/developer.md`
   - Expected references: ADR-001
-  - Update to: DDR-003
+  - Update to: DDR-010
 
 - [ ] `doctrine/agents/lexical.md`
   - Expected references: ADR-001
-  - Update to: DDR-003
+  - Update to: DDR-010
 
 - [ ] `doctrine/agents/planning.md`
   - Expected references: ADR-017
@@ -56,15 +56,15 @@
 
 - [ ] `doctrine/agents/structural.md`
   - Expected references: ADR-001
-  - Update to: DDR-003
+  - Update to: DDR-010
 
 - [ ] `doctrine/agents/synthesizer.md`
   - Expected references: ADR-001
-  - Update to: DDR-003
+  - Update to: DDR-010
 
 - [ ] `doctrine/agents/writer-editor.md`
   - Expected references: ADR-001
-  - Update to: DDR-003
+  - Update to: DDR-010
 
 ---
 
@@ -72,7 +72,7 @@
 
 - [ ] `doctrine/core_specification.md`
   - Expected references: ADR-001, ADR-003, ADR-005
-  - Update to: DDR-003, DDR-005, DDR-007
+  - Update to: DDR-010, DDR-005, DDR-007
 
 ---
 
@@ -80,11 +80,11 @@
 
 - [ ] `doctrine/directives/002_context_notes.md`
   - Expected references: ADR-001
-  - Update to: DDR-003
+  - Update to: DDR-010
 
 - [ ] `doctrine/directives/004_documentation_context_files.md`
   - Expected references: ADR-001
-  - Update to: DDR-003
+  - Update to: DDR-010
 
 - [ ] `doctrine/directives/018_documentation_level_framework.md`
   - Expected references: ADR-017
@@ -96,15 +96,15 @@
 
 - [ ] `doctrine/guidelines/bootstrap.md`
   - Expected references: ADR-001, ADR-003
-  - Update to: DDR-003, DDR-005
+  - Update to: DDR-010, DDR-005
 
 - [ ] `doctrine/guidelines/general_guidelines.md`
   - Expected references: ADR-001
-  - Update to: DDR-003
+  - Update to: DDR-010
 
 - [ ] `doctrine/guidelines/operational_guidelines.md`
   - Expected references: ADR-001, ADR-003, ADR-004, ADR-005
-  - Update to: DDR-003, DDR-005, DDR-006, DDR-007
+  - Update to: DDR-010, DDR-005, DDR-006, DDR-007
 
 ---
 
@@ -134,7 +134,7 @@ Add deprecation notice to each elevated ADR:
   ```markdown
   > **⚠️ ELEVATED TO DOCTRINE**
   > This ADR has been elevated to framework-level guidance.
-  > See: [DDR-003: Modular Agent Directive System Architecture](../../../doctrine/decisions/DDR-003-modular-agent-directive-system-architecture.md)
+  > See: [DDR-010: Modular Agent Directive System Architecture](../../../doctrine/decisions/DDR-010-modular-agent-directive-system-architecture.md)
   > 
   > This repository-specific implementation reference is maintained for historical context.
   ```
@@ -218,7 +218,7 @@ After completing updates:
    ```bash
    # Example (verify before executing):
    find doctrine/ -name "*.md" -exec sed -i \
-     's|../../docs/architecture/adrs/ADR-001-modular-agent-directive-system.md|./decisions/DDR-003-modular-agent-directive-system-architecture.md|g' {} \;
+     's|../../docs/architecture/adrs/ADR-001-modular-agent-directive-system.md|./decisions/DDR-010-modular-agent-directive-system-architecture.md|g' {} \;
    ```
 
 2. Manually verify high-priority files (coordinator, architect, core_specification)
@@ -259,7 +259,7 @@ After completing updates:
 - Deprecation: `../../../doctrine/decisions/DDR-XXX-*.md` (relative from ADR)
 
 **Number Mapping (be careful!):**
-- ADR-001 → DDR-003
+- ADR-001 → DDR-010
 - ADR-003 → DDR-005
 - ADR-004 → DDR-006
 - ADR-005 → DDR-007

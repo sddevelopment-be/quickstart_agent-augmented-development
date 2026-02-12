@@ -629,7 +629,7 @@ The ADR-045 implementation demonstrates:
    Architecture compliant with:
    - ADR-045 (Doctrine Concept Domain Model) ✅
    - ADR-046 (Domain Module Refactoring) ✅
-   - DDR-003 (Modular Agent Directive System) ✅
+   - DDR-010 (Modular Agent Directive System) ✅
    
    Signed: Architect Alphonso
    Date: 2026-02-12T06:27:00Z
