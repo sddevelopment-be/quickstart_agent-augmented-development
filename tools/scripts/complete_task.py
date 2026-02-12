@@ -4,13 +4,16 @@ Complete Task Script
 
 Marks a task as done and moves it from assigned/{agent}/ to done/{agent}/.
 Validates that a result block exists before completion (unless --force is used).
+Optionally accepts --summary and --artefacts to build the result block inline.
 
 Usage:
     python complete_task.py TASK_ID [--work-dir PATH] [--force]
+    python complete_task.py TASK_ID --summary "Description" --artefacts file1.py file2.py
 
 Example:
     python complete_task.py 2026-02-09T2033-python-pedro-test-task
     python complete_task.py 2026-02-09T2033-python-pedro-test-task --force
+    python complete_task.py 2026-02-09T2033-python-pedro-test-task -s "Implemented feature" -a src/main.py tests/test_main.py
 
 Related ADRs:
     - ADR-042: Shared Task Domain Model
@@ -36,7 +39,13 @@ from src.domain.collaboration.types import TaskStatus
 from src.framework.orchestration.task_utils import find_task_file, get_utc_timestamp
 
 
-def complete_task(task_id: str, work_dir: Path, force: bool = False) -> None:
+def complete_task(
+    task_id: str,
+    work_dir: Path,
+    force: bool = False,
+    summary: str | None = None,
+    artefacts: list[str] | None = None,
+) -> None:
     """
     Complete a task by marking it done and moving to done directory.
 
@@ -44,6 +53,8 @@ def complete_task(task_id: str, work_dir: Path, force: bool = False) -> None:
         task_id: Task identifier
         work_dir: Work collaboration directory
         force: Skip result validation if True
+        summary: Result summary (builds result block if provided)
+        artefacts: List of artefact file paths (used with summary)
 
     Raises:
         FileNotFoundError: If task file not found
@@ -62,11 +73,18 @@ def complete_task(task_id: str, work_dir: Path, force: bool = False) -> None:
     if not agent:
         raise ValueError("Task missing 'agent' field")
 
+    # Build result block from CLI args if --summary provided
+    if summary:
+        task["result"] = {
+            "summary": summary,
+            "artefacts": artefacts or [],
+        }
+
     # Validate result block exists (unless force)
     if not force and "result" not in task:
         raise ValueError(
             "Task must have a 'result' block before completion. "
-            "Add task result or use --force to skip validation."
+            "Add task result, use --summary/-s, or use --force to skip validation."
         )
 
     # Validate state transition using centralized state machine
@@ -107,8 +125,10 @@ def main() -> int:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  %(prog)s 2026-02-09T2033-python-pedro-test-task
-  %(prog)s 2026-02-09T2033-python-pedro-test-task --force
+  %(prog)s TASK_ID
+  %(prog)s TASK_ID --force
+  %(prog)s TASK_ID --summary "Implemented feature X" --artefacts src/foo.py tests/test_foo.py
+  %(prog)s TASK_ID -s "Fixed bug" -a src/fix.py
         """,
     )
 
@@ -122,6 +142,20 @@ Examples:
         type=Path,
         default=REPO_ROOT / "work" / "collaboration",
         help="Work collaboration directory (default: work/collaboration)",
+    )
+
+    parser.add_argument(
+        "--summary",
+        "-s",
+        help="Result summary (creates result block automatically)",
+    )
+
+    parser.add_argument(
+        "--artefacts",
+        "-a",
+        nargs="*",
+        default=None,
+        help="List of artefact file paths (used with --summary)",
     )
 
     parser.add_argument(
@@ -139,7 +173,13 @@ Examples:
 
     # Complete task
     try:
-        complete_task(args.task_id, args.work_dir, force=args.force)
+        complete_task(
+            args.task_id,
+            args.work_dir,
+            force=args.force,
+            summary=args.summary,
+            artefacts=args.artefacts,
+        )
         return 0
     except FileNotFoundError as e:
         print(f"Error: {e}", file=sys.stderr)

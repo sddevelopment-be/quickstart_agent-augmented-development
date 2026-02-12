@@ -362,13 +362,14 @@ class TestStartTask:
 class TestCompleteTask:
     """
     Acceptance tests for complete_task.py script.
-    
+
     Acceptance Criteria:
     - AC1: Update task status to 'done'
     - AC2: Move task from assigned/agent/ to done/agent/
     - AC3: Add completed_at timestamp
     - AC4: Validate result block exists
     - AC5: Use TaskStatus enum for validation
+    - AC6: Accept --summary and --artefacts to build result inline
     """
     
     def test_complete_task_with_result(self, temp_work_dir: Path):
@@ -485,6 +486,135 @@ class TestCompleteTask:
         # Verify task moved
         new_path = temp_work_dir / "done" / "python-pedro" / f"{task_id}.yaml"
         assert new_path.exists()
+
+    def test_complete_with_summary_and_artefacts(self, temp_work_dir: Path):
+        """AC6: Complete task with --summary and --artefacts flags."""
+        task_id = "2026-02-10T0800-test-inline-result"
+        task_data = {
+            "id": task_id,
+            "agent": "python-pedro",
+            "status": "in_progress",
+            "started_at": "2026-02-10T08:00:00Z",
+            # No result block in file
+        }
+
+        original_path = (
+            temp_work_dir / "assigned" / "python-pedro" / f"{task_id}.yaml"
+        )
+        with open(original_path, "w", encoding="utf-8") as f:
+            yaml.dump(task_data, f, sort_keys=False)
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(COMPLETE_SCRIPT),
+                task_id,
+                "--work-dir",
+                str(temp_work_dir),
+                "--summary",
+                "Implemented feature X with full test coverage",
+                "--artefacts",
+                "src/feature_x.py",
+                "tests/test_feature_x.py",
+            ],
+            capture_output=True,
+            text=True,
+        )
+
+        assert result.returncode == 0, f"Script failed: {result.stderr}"
+
+        # Verify task moved to done
+        new_path = temp_work_dir / "done" / "python-pedro" / f"{task_id}.yaml"
+        assert new_path.exists()
+
+        # Verify result block was created from CLI args
+        completed_task = read_task(new_path)
+        assert completed_task["status"] == "done"
+        assert completed_task["result"]["summary"] == "Implemented feature X with full test coverage"
+        assert completed_task["result"]["artefacts"] == [
+            "src/feature_x.py",
+            "tests/test_feature_x.py",
+        ]
+
+    def test_complete_with_summary_only(self, temp_work_dir: Path):
+        """AC6: Complete task with --summary but no --artefacts."""
+        task_id = "2026-02-10T0801-test-summary-only"
+        task_data = {
+            "id": task_id,
+            "agent": "python-pedro",
+            "status": "in_progress",
+            "started_at": "2026-02-10T08:01:00Z",
+        }
+
+        original_path = (
+            temp_work_dir / "assigned" / "python-pedro" / f"{task_id}.yaml"
+        )
+        with open(original_path, "w", encoding="utf-8") as f:
+            yaml.dump(task_data, f, sort_keys=False)
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(COMPLETE_SCRIPT),
+                task_id,
+                "--work-dir",
+                str(temp_work_dir),
+                "-s",
+                "Quick fix applied",
+            ],
+            capture_output=True,
+            text=True,
+        )
+
+        assert result.returncode == 0, f"Script failed: {result.stderr}"
+
+        new_path = temp_work_dir / "done" / "python-pedro" / f"{task_id}.yaml"
+        completed_task = read_task(new_path)
+        assert completed_task["result"]["summary"] == "Quick fix applied"
+        assert completed_task["result"]["artefacts"] == []
+
+    def test_summary_overrides_existing_result(self, temp_work_dir: Path):
+        """AC6: --summary overrides pre-existing result block in file."""
+        task_id = "2026-02-10T0802-test-summary-override"
+        task_data = {
+            "id": task_id,
+            "agent": "python-pedro",
+            "status": "in_progress",
+            "started_at": "2026-02-10T08:02:00Z",
+            "result": {
+                "summary": "Old summary",
+                "artefacts": ["old_file.py"],
+            },
+        }
+
+        original_path = (
+            temp_work_dir / "assigned" / "python-pedro" / f"{task_id}.yaml"
+        )
+        with open(original_path, "w", encoding="utf-8") as f:
+            yaml.dump(task_data, f, sort_keys=False)
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(COMPLETE_SCRIPT),
+                task_id,
+                "--work-dir",
+                str(temp_work_dir),
+                "-s",
+                "Updated summary",
+                "-a",
+                "new_file.py",
+            ],
+            capture_output=True,
+            text=True,
+        )
+
+        assert result.returncode == 0
+
+        new_path = temp_work_dir / "done" / "python-pedro" / f"{task_id}.yaml"
+        completed_task = read_task(new_path)
+        assert completed_task["result"]["summary"] == "Updated summary"
+        assert completed_task["result"]["artefacts"] == ["new_file.py"]
 
 
 # ============================================================================
