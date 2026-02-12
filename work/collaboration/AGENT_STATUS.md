@@ -1,6 +1,6 @@
 # Agent Status Dashboard
 
-_Last updated: 2026-02-12 (Manager Mike - SPEC-REFACTOR-001 Initial Batch Closed)_
+_Last updated: 2026-02-12 (Manager Mike - SPEC-REFACTOR-001 Batch 2 Closed)_
 
 ## Current Batch Status
 
@@ -8,7 +8,7 @@ _Last updated: 2026-02-12 (Manager Mike - SPEC-REFACTOR-001 Initial Batch Closed
 - **ADR-046 (Domain Module Refactoring):** ✅ COMPLETE - 100% done, production-ready
 - **M4.3 (Dashboard Initiative Tracking):** ⏳ PENDING - Awaiting Task 5 completion, ready to resume
 - **SPEC-TERM-001 Phase 1 (Terminology Alignment):** 📋 PLANNED - 6 tasks defined, awaiting approval
-- **SPEC-REFACTOR-001 (Refactoring Tactics Foundation):** ✅ INITIAL BATCH COMPLETE - Tasks 0910-0914 + follow-up 1052 done
+- **SPEC-REFACTOR-001 (Refactoring Tactics Foundation):** ✅ BATCHES 1-2 COMPLETE - Tasks 0910-0914, 1052, 1105-1107, 1115 done
 
 ## Planning Status
 
@@ -66,7 +66,7 @@ _Last updated: 2026-02-12 (Manager Mike - SPEC-REFACTOR-001 Initial Batch Closed
 - **Status**: Completed cycle, awaiting reassignment
 - **Assigned**: 1 task (legacy)
 - **In Progress**: 0 tasks
-- **Last Completed**: SPEC-REFACTOR-001 Task 0914 validation
+- **Last Completed**: SPEC-REFACTOR-001 Batch 2 Task 1107 validation
 - **Estimated Hours**: 6h
 
 ## curator
@@ -74,7 +74,7 @@ _Last updated: 2026-02-12 (Manager Mike - SPEC-REFACTOR-001 Initial Batch Closed
 - **Status**: Completed cycle, awaiting reassignment
 - **Assigned**: 1 task (legacy)
 - **In Progress**: 0 tasks
-- **Last Completed**: SPEC-REFACTOR-001 Tasks 0911/0912/0913
+- **Last Completed**: SPEC-REFACTOR-001 Batch 2 Task 1106 + follow-up 1115
 - **Last seen**: 2026-02-09 21:13:10
 
 ## diagrammer
@@ -108,7 +108,7 @@ _Last updated: 2026-02-12 (Manager Mike - SPEC-REFACTOR-001 Initial Batch Closed
 - **Status**: Coordinating active batches
 - **Assigned**: 0 tasks
 - **In Progress**: 0 tasks
-- **Last Activity**: SPEC-REFACTOR-001 closure cycle (2026-02-12)
+- **Last Activity**: SPEC-REFACTOR-001 Batch 2 closure cycle (2026-02-12)
 
 ## planning
 
@@ -144,7 +144,7 @@ _Last updated: 2026-02-12 (Manager Mike - SPEC-REFACTOR-001 Initial Batch Closed
 - **Status**: Completed cycle, awaiting reassignment
 - **Assigned**: 0 tasks
 - **In Progress**: 0 tasks
-- **Last Completed**: SPEC-REFACTOR-001 Task 0910 evidence matrix
+- **Last Completed**: SPEC-REFACTOR-001 Batch 2 Task 1105 reference expansion
 
 ## scribe
 
