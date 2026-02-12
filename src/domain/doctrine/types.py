@@ -26,9 +26,9 @@ else:
         def load_agent_identities() -> list[str] | None:
             """
             Fallback implementation for loading agent identities.
-            
+
             Returns None when the agent_loader module is not available.
-            
+
             Returns:
                 None (fallback implementation)
             """
