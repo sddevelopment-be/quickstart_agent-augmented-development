@@ -101,6 +101,9 @@ When context suggests a tactic might apply but no Directive mandates it:
 | **Refactoring.MoveMethod** | [`refactoring-move-method.tactic.md`](./refactoring-move-method.tactic.md) | Relocate a method from one class to another when the method exhibits "Feature Envy" (uses more features of another class than its own) | Method uses more features of target class, needs to improve cohesion, aligning behavior with data | [Directive 039](../directives/039_refactoring_techniques.md) (Refactoring Techniques), [Directive 021](../directives/021_locality_of_change.md) (Locality of Change) | Incremental approach: Copy → Delegate → Update → Remove. Emphasizes test-first safety and Information Expert principle |
 | **Refactoring.StranglerFig** | [`refactoring-strangler-fig.tactic.md`](./refactoring-strangler-fig.tactic.md) | Incrementally replace existing functionality by building new implementation alongside old and gradually rerouting behavior | Large-scale refactoring that cannot be done safely in one step, zero-downtime migration required | [Directive 039](../directives/039_refactoring_techniques.md) (Refactoring Techniques), [Directive 017](../directives/017_test_driven_development.md) (TDD) | Architectural pattern for safe system evolution. Coexistence → Rerouting → Removal. Uses feature flags or routing layers |
 | **Refactoring.ExtractFirstOrderConcept** | [`refactoring-extract-first-order-concept.tactic.md`](./refactoring-extract-first-order-concept.tactic.md) | Extract implicit or duplicated logic into an explicit first-order concept with clear responsibility | Logic duplicated in 3+ places (Rule of Three), implicit patterns need to be made explicit | [Directive 039](../directives/039_refactoring_techniques.md) (Refactoring Techniques), [Directive 017](../directives/017_test_driven_development.md) (TDD) | Creates named abstractions. Identifies responsibility → Extracts → Updates callers → Verifies tests |
+| **Refactoring.GuardClausesBeforePolymorphism** | [`refactoring-guard-clauses-before-polymorphism.tactic.md`](./refactoring-guard-clauses-before-polymorphism.tactic.md) | Flatten nested conditionals into explicit guard clauses before introducing polymorphism | Branch pyramids hide variant boundaries and block safe extraction | [Directive 039](../directives/039_refactoring_techniques.md) (Refactoring Techniques), [Directive 017](../directives/017_test_driven_development.md) (TDD) | Creates an ordered, testable branch surface so polymorphic extraction can happen with lower risk |
+| **Refactoring.ExtractClassByResponsibilitySplit** | [`refactoring-extract-class-by-responsibility-split.tactic.md`](./refactoring-extract-class-by-responsibility-split.tactic.md) | Split a large mixed-responsibility class into cohesive class boundaries | Class changes for multiple reasons, behavior clusters are separable | [Directive 039](../directives/039_refactoring_techniques.md) (Refactoring Techniques), [Directive 021](../directives/021_locality_of_change.md) (Locality of Change) | Moves one responsibility cluster at a time with delegation to preserve behavior during migration |
+| **Refactoring.ReplaceMagicNumberWithSymbolicConstant** | [`refactoring-replace-magic-number-with-symbolic-constant.tactic.md`](./refactoring-replace-magic-number-with-symbolic-constant.tactic.md) | Replace opaque numeric literals with semantic constants | Business thresholds/policy values are encoded as unnamed literals | [Directive 039](../directives/039_refactoring_techniques.md) (Refactoring Techniques), [Directive 017](../directives/017_test_driven_development.md) (TDD) | Improves readability and change safety while preserving behavior via test-backed replacement |
 
 ---
 
@@ -134,6 +137,9 @@ When context suggests a tactic might apply but no Directive mandates it:
 - `refactoring-move-method.tactic.md` (relocate methods with Feature Envy)
 - `refactoring-extract-first-order-concept.tactic.md` (eliminate duplication, make patterns explicit)
 - `refactoring-strangler-fig.tactic.md` (large-scale incremental replacement)
+- `refactoring-guard-clauses-before-polymorphism.tactic.md` (flatten branch pyramids before polymorphic extraction)
+- `refactoring-extract-class-by-responsibility-split.tactic.md` (split mixed classes by cohesive responsibility)
+- `refactoring-replace-magic-number-with-symbolic-constant.tactic.md` (replace numeric literals with semantic constants)
 
 ---
 
@@ -151,10 +157,13 @@ When context suggests a tactic might apply but no Directive mandates it:
 ### Experimentation Pair
 - `safe-to-fail-experiment-design.tactic.md` ↔ `stopping-conditions.tactic.md` (experiments need exit criteria)
 
-### Refactoring Triad
+### Refactoring Set
 - `refactoring-move-method.tactic.md` ↔ `refactoring-extract-first-order-concept.tactic.md` (both improve class structure)
 - `refactoring-strangler-fig.tactic.md` → may use `refactoring-move-method.tactic.md` within new implementation
-- All three reference [Directive 017](../directives/017_test_driven_development.md) for test-first safety
+- `refactoring-guard-clauses-before-polymorphism.tactic.md` → precedes polymorphism-oriented extraction tactics
+- `refactoring-extract-class-by-responsibility-split.tactic.md` ↔ complements `refactoring-move-method.tactic.md`
+- `refactoring-replace-magic-number-with-symbolic-constant.tactic.md` → clarifies domain policy before rule extraction
+- All refactoring tactics reference [Directive 017](../directives/017_test_driven_development.md) for test-first safety
 
 ---
 
@@ -166,6 +175,6 @@ When context suggests a tactic might apply but no Directive mandates it:
 
 ## Version
 
-**README Version:** 1.1.0  
-**Last Updated:** 2026-02-11  
-**Tactics Count:** 13
+**README Version:** 1.2.0  
+**Last Updated:** 2026-02-12  
+**Tactics Count:** 16
