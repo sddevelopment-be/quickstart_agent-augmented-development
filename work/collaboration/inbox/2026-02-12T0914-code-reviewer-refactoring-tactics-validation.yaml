@@ -1,0 +1,43 @@
+---
+id: "2026-02-12T0914-code-reviewer-refactoring-tactics-validation"
+title: "SPEC-REFACTOR-001 Task 5: Validate Refactoring Tactics Integration"
+assignee: code-reviewer-cindy
+batch: "SPEC-REFACTOR-001"
+priority: normal
+status: new
+created: "2026-02-12T09:14:00Z"
+specification: "specifications/initiatives/refactoring-techniques/initiative.md"
+related_decisions:
+  - "doctrine/decisions/DDR-001-primer-execution-matrix.md"
+  - "doctrine/decisions/DDR-003-local-doctrine-overrides-boundary.md"
+dependencies:
+  - type: prerequisite
+    description: "Requires 2026-02-12T0913-curator-refactoring-directive-integration"
+blocks: []
+estimated_hours: 2
+tags:
+  - spec-refactor-001
+  - code-review
+  - validation
+---
+
+# Task: Validate Refactoring Tactics Integration
+
+## Context
+
+A final review pass is required before execution to ensure tactic quality and doctrine compliance.
+
+## Objective
+
+Review new tactics and directive integration for consistency, policy adherence, and actionable procedural clarity.
+
+## Acceptance Criteria
+
+- [ ] Confirm references are valid and localized.
+- [ ] Confirm directives constrain behavior and tactics carry procedures.
+- [ ] Confirm no conflicts with General/Operational guidelines.
+- [ ] Produce concise findings and required fixes.
+
+## Deliverables
+
+- Review notes in work log and/or task result block

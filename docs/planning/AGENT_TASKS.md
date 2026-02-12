@@ -17,6 +17,43 @@
 
 ---
 
+## 🆕 SPEC-REFACTOR-001: Refactoring Tactics Foundation (NEW)
+
+**Priority:** HIGH  
+**Total Effort:** 18-26 hours  
+**Goal:** Create a research-backed doctrine tactic baseline for preferred refactoring techniques and pattern transitions.
+
+### Researcher Ralph
+
+1. **2026-02-12T0910-researcher-refactoring-techniques-matrix** - Build source-backed technique matrix (6h)
+   - Capture applicability, failure modes, and selection criteria
+   - Store outputs in `work/research/`
+   - **Dependencies:** None
+
+### Curator Claire
+
+2. **2026-02-12T0911-curator-refactoring-tactics-authoring** - Author initial tactic set (6h)
+   - Create tactic files in `doctrine/tactics/` from selected high-fit techniques
+   - Use `doctrine/templates/tactic.md`
+   - **Dependencies:** 0910
+
+3. **2026-02-12T0912-curator-refactoring-pattern-references** - Add pattern-oriented references (4h)
+   - Add `doctrine/docs/references/` files to support tactic strategy context
+   - **Dependencies:** 0910
+
+4. **2026-02-12T0913-curator-refactoring-directive-integration** - Integrate directive/index links (4h)
+   - Link refactoring directives to tactics
+   - Update `doctrine/tactics/README.md` for discoverability
+   - **Dependencies:** 0911, 0912
+
+### Code Reviewer Cindy
+
+5. **2026-02-12T0914-code-reviewer-refactoring-tactics-validation** - Validate consistency and policy fit (2h)
+   - Check references, stack precedence compliance, and actionable execution quality
+   - **Dependencies:** 0913
+
+---
+
 ## 🆕 M5.1 Batch: Conceptual Alignment Foundation (NEXT - CRITICAL)
 
 **Strategic Priority:** ⭐⭐⭐⭐⭐ CRITICAL  

@@ -1,0 +1,47 @@
+---
+id: "2026-02-12T0913-curator-refactoring-directive-integration"
+title: "SPEC-REFACTOR-001 Task 4: Integrate Refactoring Tactics into Directives and Index"
+assignee: curator
+batch: "SPEC-REFACTOR-001"
+priority: HIGH
+status: new
+created: "2026-02-12T09:13:00Z"
+specification: "specifications/initiatives/refactoring-techniques/initiative.md"
+related_decisions:
+  - "doctrine/decisions/DDR-010-modular-agent-directive-system-architecture.md"
+dependencies:
+  - type: prerequisite
+    description: "Requires 2026-02-12T0911-curator-refactoring-tactics-authoring"
+  - type: prerequisite
+    description: "Requires 2026-02-12T0912-curator-refactoring-pattern-references"
+blocks:
+  - "2026-02-12T0914-code-reviewer-refactoring-tactics-validation"
+estimated_hours: 4
+tags:
+  - spec-refactor-001
+  - curator
+  - directives
+  - tactics-readme
+---
+
+# Task: Integrate Refactoring Tactics into Directives and Index
+
+## Context
+
+New tactics must be discoverable and invoked from directives rather than embedded procedurally in directive prose.
+
+## Objective
+
+Update refactoring-related directives and `doctrine/tactics/README.md` to integrate newly created tactics.
+
+## Acceptance Criteria
+
+- [ ] Relevant directive(s) reference new tactics explicitly.
+- [ ] `doctrine/tactics/README.md` includes new entries.
+- [ ] Cross-links resolve and respect doctrine dependency/boundary rules.
+- [ ] No override conflict with General/Operational guidelines.
+
+## Deliverables
+
+- Updated directive file(s)
+- Updated `doctrine/tactics/README.md`
