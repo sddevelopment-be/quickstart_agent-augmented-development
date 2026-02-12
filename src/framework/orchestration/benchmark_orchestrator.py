@@ -20,6 +20,7 @@ import json
 import shutil
 import statistics
 import sys
+import tempfile
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -41,7 +42,25 @@ from agent_orchestrator import (
 
 BENCHMARK_DIR = WORK_DIR / "benchmarks"
 RESULTS_DIR = BENCHMARK_DIR / "results"
-TEST_WORK_DIR = Path("/tmp/benchmark_work")
+
+# Module-level variable to store the secure temp directory
+_test_work_dir: Path | None = None
+
+
+def get_test_work_dir() -> Path:
+    """Get or create secure temporary directory for benchmark work.
+
+    Returns:
+        Path: Secure temporary directory for benchmarks
+
+    Note:
+        The directory persists across benchmark runs in the same session
+        and is cleaned up explicitly via cleanup_benchmark_environment().
+    """
+    global _test_work_dir
+    if _test_work_dir is None:
+        _test_work_dir = Path(tempfile.mkdtemp(prefix="benchmark_work_"))
+    return _test_work_dir
 
 
 class BenchmarkResults:
@@ -126,19 +145,27 @@ def create_synthetic_task(
 def setup_benchmark_environment(
     num_inbox: int, num_assigned: int, num_done: int
 ) -> dict[str, int]:
-    """Create synthetic task files for benchmarking."""
-    # Safety check: ensure we're only deleting in /tmp
-    if not str(TEST_WORK_DIR).startswith("/tmp/"):
-        raise ValueError(f"TEST_WORK_DIR must be in /tmp for safety: {TEST_WORK_DIR}")
+    """Create synthetic task files for benchmarking.
 
-    if TEST_WORK_DIR.exists():
-        shutil.rmtree(TEST_WORK_DIR)
+    Args:
+        num_inbox: Number of tasks to create in inbox
+        num_assigned: Number of tasks to create in assigned
+        num_done: Number of tasks to create in done
+
+    Returns:
+        dict[str, int]: Count of tasks created in each directory
+    """
+    test_work_dir = get_test_work_dir()
+
+    # Clean up existing directory if present
+    if test_work_dir.exists():
+        shutil.rmtree(test_work_dir)
 
     # Mirror the work directory structure
-    inbox_dir = TEST_WORK_DIR / "inbox"
-    assigned_dir = TEST_WORK_DIR / "assigned"
-    done_dir = TEST_WORK_DIR / "done"
-    collab_dir = TEST_WORK_DIR / "collaboration"
+    inbox_dir = test_work_dir / "inbox"
+    assigned_dir = test_work_dir / "assigned"
+    done_dir = test_work_dir / "done"
+    collab_dir = test_work_dir / "collaboration"
 
     for directory in [inbox_dir, assigned_dir, done_dir, collab_dir]:
         directory.mkdir(parents=True, exist_ok=True)
@@ -203,6 +230,8 @@ def run_orchestrator_cycle() -> dict[str, Any]:
     # as parameters to orchestrator functions for better testability.
     import agent_orchestrator
 
+    test_work_dir = get_test_work_dir()
+
     original_dirs = {
         "INBOX_DIR": agent_orchestrator.INBOX_DIR,
         "ASSIGNED_DIR": agent_orchestrator.ASSIGNED_DIR,
@@ -213,11 +242,11 @@ def run_orchestrator_cycle() -> dict[str, Any]:
 
     try:
         # Point to test environment
-        agent_orchestrator.INBOX_DIR = TEST_WORK_DIR / "inbox"
-        agent_orchestrator.ASSIGNED_DIR = TEST_WORK_DIR / "assigned"
-        agent_orchestrator.DONE_DIR = TEST_WORK_DIR / "done"
-        agent_orchestrator.COLLAB_DIR = TEST_WORK_DIR / "collaboration"
-        agent_orchestrator.ARCHIVE_DIR = TEST_WORK_DIR / "archive"
+        agent_orchestrator.INBOX_DIR = test_work_dir / "inbox"
+        agent_orchestrator.ASSIGNED_DIR = test_work_dir / "assigned"
+        agent_orchestrator.DONE_DIR = test_work_dir / "done"
+        agent_orchestrator.COLLAB_DIR = test_work_dir / "collaboration"
+        agent_orchestrator.ARCHIVE_DIR = test_work_dir / "archive"
 
         # Time each operation
         start_total = time.perf_counter()
@@ -264,9 +293,10 @@ def run_orchestrator_cycle() -> dict[str, Any]:
 def validate_task_performance(num_tasks: int) -> dict[str, float]:
     """Measure validation performance using inline validation."""
     validation_times: list[float] = []
+    test_work_dir = get_test_work_dir()
 
     # Validate inbox tasks
-    inbox_dir = TEST_WORK_DIR / "inbox"
+    inbox_dir = test_work_dir / "inbox"
     task_files = list(inbox_dir.glob("*.yaml"))[:num_tasks]
 
     for task_file in task_files:
@@ -664,9 +694,14 @@ def main() -> int:
 
     # Cleanup test artifacts
     print("\n🧹 Cleaning up test artifacts...")
-    if TEST_WORK_DIR.exists():
-        shutil.rmtree(TEST_WORK_DIR)
-        print(f"✅ Removed temporary test directory: {TEST_WORK_DIR}")
+    test_work_dir = get_test_work_dir()
+    if test_work_dir.exists():
+        shutil.rmtree(test_work_dir)
+        print(f"✅ Removed temporary test directory: {test_work_dir}")
+    
+    # Reset the global variable so next run gets a new directory
+    global _test_work_dir
+    _test_work_dir = None
 
     # Return exit code based on NFR compliance
     if all(nfr["pass"] for nfr in compliance.values()):
