@@ -4,7 +4,7 @@ title: "SPEC-REFACTOR-001 Task 3: Add Refactoring-to-Pattern Reference Files"
 assignee: curator
 batch: "SPEC-REFACTOR-001"
 priority: normal
-status: new
+status: assigned
 created: "2026-02-12T09:12:00Z"
 specification: "specifications/initiatives/refactoring-techniques/initiative.md"
 related_decisions:
