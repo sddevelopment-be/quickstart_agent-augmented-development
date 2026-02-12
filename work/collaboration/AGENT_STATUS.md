@@ -8,7 +8,7 @@ _Last updated: 2026-02-12 (Manager Mike - SPEC-REFACTOR-001 Kickoff)_
 - **ADR-046 (Domain Module Refactoring):** ✅ COMPLETE - 100% done, production-ready
 - **M4.3 (Dashboard Initiative Tracking):** ⏳ PENDING - Awaiting Task 5 completion, ready to resume
 - **SPEC-TERM-001 Phase 1 (Terminology Alignment):** 📋 PLANNED - 6 tasks defined, awaiting approval
-- **SPEC-REFACTOR-001 (Refactoring Tactics Foundation):** 🔄 KICKOFF COMPLETE - 5 tasks assigned (researcher=1, curator=3, code-reviewer-cindy=1)
+- **SPEC-REFACTOR-001 (Refactoring Tactics Foundation):** 🔄 ACTIVE - Task 0910 in_progress; downstream tasks queued
 
 ## Planning Status
 
@@ -141,9 +141,9 @@ _Last updated: 2026-02-12 (Manager Mike - SPEC-REFACTOR-001 Kickoff)_
 
 ## researcher
 
-- **Status**: Ready
+- **Status**: In Progress
 - **Assigned**: 1 task
-- **In Progress**: 0 tasks
+- **In Progress**: 1 task
 - **Next**: SPEC-REFACTOR-001 Task 1 evidence matrix
 
 ## scribe

@@ -1,45 +1,19 @@
----
 id: "2026-02-12T0911-curator-refactoring-tactics-authoring"
+agent: "curator"
+status: "assigned"
 title: "SPEC-REFACTOR-001 Task 2: Author Initial Refactoring Tactics"
-assignee: curator
-batch: "SPEC-REFACTOR-001"
-priority: HIGH
-status: assigned
-created: "2026-02-12T09:11:00Z"
-specification: "specifications/initiatives/refactoring-techniques/initiative.md"
-related_decisions:
-  - "doctrine/decisions/DDR-001-primer-execution-matrix.md"
-  - "doctrine/decisions/DDR-010-modular-agent-directive-system-architecture.md"
-dependencies:
-  - type: prerequisite
-    description: "Requires evidence matrix from 2026-02-12T0910-researcher-refactoring-techniques-matrix"
-blocks:
-  - "2026-02-12T0913-curator-refactoring-directive-integration"
-estimated_hours: 6
-tags:
-  - spec-refactor-001
-  - curator
-  - tactics
-  - doctrine
----
-
-# Task: Author Initial Refactoring Tactics
-
-## Context
-
-Use the researcher matrix to select first-wave techniques and encode them as doctrine tactics.
-
-## Objective
-
-Create deterministic, policy-aligned tactic files in `doctrine/tactics/` using `doctrine/templates/tactic.md`.
-
-## Acceptance Criteria
-
-- [ ] At least 3 new or updated refactoring tactic files created.
-- [ ] Each tactic includes intent, preconditions, execution steps, exit criteria, and failure modes.
-- [ ] References remain localized and doctrine-stack compliant.
-- [ ] Existing related tactic (`refactoring-strangler-fig`) stays coherent with additions.
-
-## Deliverables
-
-- `doctrine/tactics/*refactoring*.md` (new/updated)
+mode: "/analysis-mode"
+priority: "high"
+artefacts:
+  - "doctrine/tactics/refactoring-*.tactic.md"
+context:
+  repo: "quickstart_agent-augmented-development"
+  branch: "feature/code_skill_improvements"
+  notes:
+    - "Create at least three refactoring tactics using doctrine/templates/tactic.md."
+    - "Use researcher evidence matrix as source for first-wave selection."
+    - "Keep directive/policy text out of tactics; procedural steps only."
+  dependencies:
+    - "2026-02-12T0910-researcher-refactoring-techniques-matrix"
+created_at: "2026-02-12T09:11:00Z"
+created_by: "planning-petra"
