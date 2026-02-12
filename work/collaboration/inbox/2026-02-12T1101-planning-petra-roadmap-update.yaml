@@ -1,0 +1,118 @@
+id: 2026-02-12T1101-planning-petra-roadmap-update
+agent: planning-petra
+status: new
+priority: high
+title: Agent Specialization Hierarchy - Roadmap Integration
+artefacts:
+  - work/planning/roadmap/ROADMAP.md
+  - work/planning/PLAN_OVERVIEW.md
+  - work/planning/NEXT_BATCH.md
+context:
+  background: |
+    Agent Specialization Hierarchy approved for implementation.
+    Need to integrate into repository roadmap with phased approach.
+
+    Total implementation effort: 54-68 hours across 6 phases
+
+    Reference documents:
+    - Architecture Design: docs/architecture/design/agent-specialization-hierarchy.md
+    - DDR-011: doctrine/decisions/DDR-011-agent-specialization-hierarchy.md
+    - Specification: specifications/features/agent-specialization-hierarchy.md (from Annie)
+
+  milestone: 'Agent Orchestration Enhancement'
+  strategic_value: |
+    Foundation for intelligent multi-agent routing.
+    Enables 10+ future specialist agents (React, Vue, Payment Processing, etc.).
+    Improves developer experience for repository adopters.
+
+requirements:
+  roadmap_integration:
+    - Add "Agent Specialization Hierarchy" initiative to roadmap
+    - Break down into 6 phases (per architecture design)
+    - Estimate effort per phase (6-16h per phase)
+    - Identify dependencies between phases
+    - Propose timeline (sequential vs partial parallel)
+
+  phase_breakdown:
+    phase_1:
+      title: "Core Decision & Glossary"
+      effort: "6-8 hours"
+      deliverables:
+        - DDR-011 (already completed)
+        - GLOSSARY.md updates (new terminology)
+      dependencies: []
+
+    phase_2:
+      title: "SELECT_APPROPRIATE_AGENT Tactic"
+      effort: "10-12 hours"
+      deliverables:
+        - doctrine/tactics/SELECT_APPROPRIATE_AGENT.tactic.md
+        - Python reference implementation (tools/orchestration/agent_selector.py)
+      dependencies: ["Phase 1"]
+
+    phase_3:
+      title: "Agent Profile Schema Enhancement"
+      effort: "8-10 hours"
+      deliverables:
+        - Updated agent profile template
+        - Python Pedro, Java Jenny, Backend Benny profile updates
+        - Validation script (tools/validators/validate-agent-hierarchy.py)
+      dependencies: ["Phase 1"]
+
+    phase_4:
+      title: "Manager Mike Enhancement"
+      effort: "10-12 hours"
+      deliverables:
+        - Updated Manager Mike profile
+        - Handoff protocol enhancement implementation
+        - Reassignment pass implementation
+      dependencies: ["Phase 2", "Phase 3"]
+
+    phase_5:
+      title: "Validation & Testing"
+      effort: "12-16 hours"
+      deliverables:
+        - Unit tests (routing algorithm)
+        - Integration tests (end-to-end flows)
+        - Test scenarios (12+ test cases)
+      dependencies: ["Phase 2", "Phase 3", "Phase 4"]
+
+    phase_6:
+      title: "Documentation & Migration"
+      effort: "8-10 hours"
+      deliverables:
+        - Migration guide
+        - Repository adopter guide
+        - Decision tree diagram
+      dependencies: ["Phase 5"]
+
+  capacity_planning:
+    - Identify available specialist agents (Python Pedro, Backend Benny, DevOps Danny, etc.)
+    - Estimate concurrent capacity (avoid specialist overload during implementation)
+    - Propose batch groupings (which phases can run in parallel)
+
+  risk_assessment:
+    - Identify implementation risks (circular deps, routing bugs, migration disruption)
+    - Propose mitigation strategies
+    - Define rollback plan if issues emerge
+
+acceptance_criteria:
+  - ROADMAP.md updated with Agent Specialization Hierarchy initiative
+  - All 6 phases documented with effort estimates and dependencies
+  - PLAN_OVERVIEW.md reflects new initiative
+  - NEXT_BATCH.md proposes starting phase (Phase 1 likely already done)
+  - Timeline proposed (sequential vs overlapping phases)
+  - Capacity plan identifies agent assignments per phase
+  - Risk assessment included with mitigation strategies
+  - Handoff to Manager Mike for task creation
+
+dependencies:
+  - DDR-011 (completed)
+  - Architecture design (completed)
+  - Functional specification (from Analyst Annie)
+
+created_at: '2026-02-12T11:01:00Z'
+created_by: architect-alphonso
+estimated_hours: 4
+handoff_from: analyst-annie
+next_agent: manager-mike

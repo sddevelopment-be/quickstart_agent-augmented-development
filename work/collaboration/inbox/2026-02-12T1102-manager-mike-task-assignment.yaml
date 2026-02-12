@@ -1,0 +1,82 @@
+id: 2026-02-12T1102-manager-mike-task-assignment
+agent: manager-mike
+status: new
+priority: high
+title: Agent Specialization Hierarchy - Orchestrate Implementation
+artefacts:
+  - work/collaboration/inbox/*.yaml (individual phase tasks)
+  - work/coordination/AGENT_STATUS.md
+  - work/coordination/WORKFLOW_LOG.md
+context:
+  background: |
+    Agent Specialization Hierarchy ready for implementation.
+    Roadmap updated with 6 phases (54-68 hours total).
+
+    Need to create individual tasks for each phase and assign to appropriate agents.
+
+    Reference documents:
+    - Architecture Design: docs/architecture/design/agent-specialization-hierarchy.md
+    - DDR-011: doctrine/decisions/DDR-011-agent-specialization-hierarchy.md
+    - Specification: specifications/features/agent-specialization-hierarchy.md
+    - Roadmap: work/planning/roadmap/ROADMAP.md (from Petra)
+
+  milestone: 'Agent Orchestration Enhancement'
+  strategic_value: |
+    Coordinate multi-agent implementation effort.
+    Track progress across 6 phases.
+    Ensure quality gates between phases.
+
+requirements:
+  task_creation:
+    - Create tasks for each deliverable in 6 phases
+    - Assign tasks to appropriate specialist agents:
+        * Phase 1 (Glossary): curator-claire
+        * Phase 2 (Tactic): architect-alphonso, python-pedro (implementation)
+        * Phase 3 (Schema): curator-claire, python-pedro
+        * Phase 4 (Manager Mike): python-pedro, backend-benny
+        * Phase 5 (Testing): python-pedro, backend-benny
+        * Phase 6 (Documentation): scribe-sally, curator-claire
+
+  orchestration_planning:
+    - Determine phase sequencing (sequential vs parallel)
+    - Identify handoff points between agents
+    - Define quality gates (validation checkpoints)
+    - Plan phase review meetings (human approval before next phase)
+
+  status_tracking:
+    - Update AGENT_STATUS.md with initiative start
+    - Create workflow log entries for kickoff
+    - Set up monitoring for task completion
+    - Define success metrics for each phase
+
+  coordination:
+    - Notify assigned agents of new tasks
+    - Track dependencies between tasks
+    - Manage handoffs between phases
+    - Escalate blockers to human stakeholder
+
+acceptance_criteria:
+  - Tasks created for all 6 phases (15-20 individual tasks estimated)
+  - Each task includes:
+      * Clear acceptance criteria
+      * Assigned agent (specialist appropriate for work)
+      * Dependencies (blocked by previous tasks)
+      * Estimated effort
+      * Priority (critical path vs parallel work)
+  - AGENT_STATUS.md updated with initiative kickoff
+  - WORKFLOW_LOG.md entry created for orchestration start
+  - Phase 1 tasks ready to start immediately
+  - Phase 2-6 tasks in inbox, blocked on Phase 1 completion
+  - Quality gates defined (validation before next phase)
+  - Human review points identified (after Phase 2, 4, 5)
+
+dependencies:
+  - DDR-011 (completed)
+  - Architecture design (completed)
+  - Functional specification (from Analyst Annie)
+  - Roadmap update (from Planning Petra)
+
+created_at: '2026-02-12T11:02:00Z'
+created_by: architect-alphonso
+estimated_hours: 3
+handoff_from: planning-petra
