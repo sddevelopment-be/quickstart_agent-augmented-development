@@ -1,6 +1,6 @@
 # DDR-011: Agent Specialization Hierarchy
 
-**Status:** Proposed
+**Status:** Accepted
 **Date:** 2026-02-12
 **Author:** Architect Alphonso
 **Supersedes:** N/A
@@ -13,6 +13,7 @@
 Multi-agent orchestration systems assign tasks to agents based on explicit metadata or simple matching. When multiple agents could handle a task, current systems lack a principled way to select the most appropriate specialist.
 
 **Problem Observed:**
+
 - Python/Java tasks assigned to generic Backend Benny instead of Python Pedro / Java Jenny
 - No workload awareness—specialists become overloaded
 - No complexity consideration—narrow specialists given tasks requiring broader context
@@ -20,17 +21,19 @@ Multi-agent orchestration systems assign tasks to agents based on explicit metad
 - Manual handoff overhead—agents must know all downstream specialists
 
 **Example Failure:**
+
 ```yaml
 # Task: Implement FastAPI endpoint
 task:
   agent: backend-benny  # Generic assignment
-  files: ["src/api/users.py"]
+  files: [ "src/api/users.py" ]
 
 # Should route to python-pedro (language + framework match)
 ```
 
 **Root Cause:**
 Lack of formalized specialization hierarchy where:
+
 - Specialists inherit from parent agents
 - Context-based routing selects most appropriate agent
 - Workload and complexity inform selection
@@ -45,53 +48,53 @@ Lack of formalized specialization hierarchy where:
 ### Core Concepts
 
 1. **Parent-Child Relationships**
-   - Specialist agents declare parent via `specializes_from` metadata
-   - Specialists inherit parent's collaboration contract
-   - Specialists operate in narrower context (language, framework, domain, style)
+    - Specialist agents declare parent via `specializes_from` metadata
+    - Specialists inherit parent's collaboration contract
+    - Specialists operate in narrower context (language, framework, domain, style)
 
 2. **Specialization Context**
-   - Declarative conditions defining when specialist preferred:
-     - `language`: Programming languages (python, java, etc.)
-     - `frameworks`: Frameworks/libraries (flask, spring, etc.)
-     - `file_patterns`: Glob patterns for file matching
-     - `domain_keywords`: Domain/task keywords
-     - `writing_style`: For writing-focused agents
-     - `complexity_preference`: Preferred task complexity levels
+    - Declarative conditions defining when specialist preferred:
+        - `language`: Programming languages (python, java, etc.)
+        - `frameworks`: Frameworks/libraries (flask, spring, etc.)
+        - `file_patterns`: Glob patterns for file matching
+        - `domain_keywords`: Domain/task keywords
+        - `writing_style`: For writing-focused agents
+        - `complexity_preference`: Preferred task complexity levels
 
 3. **Routing Priority**
-   - Numeric specificity score (0-100)
-   - Parents default to 50
-   - Specialists typically 60-90
-   - Local specialists (+20 boost)
+    - Numeric specificity score (0-100)
+    - Parents default to 50
+    - Specialists typically 60-90
+    - Local specialists (+20 boost)
 
 4. **SELECT_APPROPRIATE_AGENT Tactic**
-   - Invoked by Manager Mike during:
-     - Initial task assignment
-     - Handoff processing
-     - Reassignment pass
-   - Algorithm:
-     1. Extract task context (language, files, domain, complexity)
-     2. Discover candidates (doctrine + .doctrine-config)
-     3. Calculate match scores (language 40%, framework 20%, files 20%, keywords 10%, exact 10%)
-     4. Adjust for agent workload (penalty if overloaded)
-     5. Adjust for task complexity (specialists prefer low/medium, parents prefer high)
-     6. Resolve ties (language match > score > priority > free choice)
-     7. Return selection + rationale
+    - Invoked by Manager Mike during:
+        - Initial task assignment
+        - Handoff processing
+        - Reassignment pass
+    - Algorithm:
+        1. Extract task context (language, files, domain, complexity)
+        2. Discover candidates (doctrine + .doctrine-config)
+        3. Calculate match scores (language 40%, framework 20%, files 20%, keywords 10%, exact 10%)
+        4. Adjust for agent workload (penalty if overloaded)
+        5. Adjust for task complexity (specialists prefer low/medium, parents prefer high)
+        6. Resolve ties (language match > score > priority > free choice)
+        7. Return selection + rationale
 
 5. **Handoff Enhancement**
-   - Handoff to parent agent triggers specialist check
-   - SELECT_APPROPRIATE_AGENT invoked to find more specific agent
-   - Example: `next_agent: backend-benny` → routes to Python Pedro if Python context
+    - Handoff to parent agent triggers specialist check
+    - SELECT_APPROPRIATE_AGENT invoked to find more specific agent
+    - Example: `next_agent: backend-benny` → routes to Python Pedro if Python context
 
 6. **Reassignment Pass**
-   - Manager Mike periodic review of task assignments
-   - Upgrades generic assignments to specialists when available
-   - Safety: Don't reassign in_progress or pinned tasks
+    - Manager Mike periodic review of task assignments
+    - Upgrades generic assignments to specialists when available
+    - Safety: Don't reassign in_progress or pinned tasks
 
 7. **Local Specialization Override**
-   - Repositories define custom specialists in `.doctrine-config/custom-agents/`
-   - Local specialists receive +20 routing priority boost
-   - Auto-discovered by SELECT_APPROPRIATE_AGENT
+    - Repositories define custom specialists in `.doctrine-config/custom-agents/`
+    - Local specialists receive +20 routing priority boost
+    - Auto-discovered by SELECT_APPROPRIATE_AGENT
 
 ### Hierarchy Examples
 
@@ -106,7 +109,7 @@ Frontend Specialist (Frontend Freddy) [parent, priority=50]
   └── Vue Specialist [future child]
 
 Writer-Editor (Editor Eddy) [parent, priority=50]
-  ├── User Guide Specialist (Ursula) [local child, priority=85]
+  ├── User Guide Specialist (Ursula) [example local child, priority=85]
   └── API Docs Specialist [future child]
 ```
 
@@ -117,16 +120,19 @@ Writer-Editor (Editor Eddy) [parent, priority=50]
 ### Why Explicit Hierarchy?
 
 **Clarity & Discoverability:**
+
 - Parent-child relationships visible in profiles
 - Tooling can validate and visualize hierarchy
 - Humans understand specialization scope
 
 **Intelligent Routing:**
+
 - Context-based selection more accurate than keyword matching
 - Workload awareness prevents specialist overload
 - Complexity matching balances specialist vs generalist strengths
 
 **Flexibility & Extensibility:**
+
 - Generalizes beyond language (domain, style, framework)
 - Supports local customization (`.doctrine-config` specialists)
 - Backward compatible (parents remain valid fallback)
@@ -143,6 +149,7 @@ Writer-Editor (Editor Eddy) [parent, priority=50]
 **Alternative Rejected:** Task creators specify specialist explicitly
 
 **Problems:**
+
 - Shifts burden to task creators (must know all specialists)
 - Doesn't solve "Manager Mike favors generic agents" problem
 - No automatic discovery of new specialists
@@ -150,6 +157,7 @@ Writer-Editor (Editor Eddy) [parent, priority=50]
 **Chosen Approach:** SELECT_APPROPRIATE_AGENT tactic
 
 **Benefits:**
+
 - Automatic specialist discovery
 - Consistent routing logic
 - Transparent decision rationale
@@ -160,6 +168,7 @@ Writer-Editor (Editor Eddy) [parent, priority=50]
 **Problem:** Specialists become bottlenecks when overloaded
 
 **Solution:** Workload penalty in routing algorithm
+
 - 0-2 active tasks: No penalty
 - 3-4 active tasks: 15% penalty
 - 5+ active tasks: 30% penalty
@@ -171,6 +180,7 @@ Writer-Editor (Editor Eddy) [parent, priority=50]
 **Insight:** Complex tasks may require broader context that specialists lack
 
 **Adjustment:**
+
 - Low complexity: Specialist +10% boost
 - Medium complexity: Neutral
 - High complexity: Parent +10%, Specialist -10%
@@ -182,11 +192,13 @@ Writer-Editor (Editor Eddy) [parent, priority=50]
 **Use Case:** Gradual migration of existing tasks to specialists
 
 **Triggers:**
+
 - New specialist introduced
 - Specialist workload decreases
 - Manual invocation
 
 **Safety:**
+
 - Only reassign `new` / `assigned` tasks (not `in_progress`)
 - Respect pinned tasks (`task.pinned: true`)
 - Generate audit report
@@ -196,11 +208,13 @@ Writer-Editor (Editor Eddy) [parent, priority=50]
 **Use Case:** Repository-specific specialists
 
 **Examples:**
+
 - User Guide Ursula for product documentation style
 - Payment Processing Paul for financial domain
 - React 18 Rachel for specific framework version
 
 **Mechanism:**
+
 - Define in `.doctrine-config/custom-agents/`
 - Receive +20 priority boost
 - Auto-discovered by SELECT_APPROPRIATE_AGENT
@@ -230,44 +244,50 @@ Writer-Editor (Editor Eddy) [parent, priority=50]
 
 ### Risks & Mitigations
 
-| Risk | Mitigation |
-|------|------------|
-| **Circular dependencies** | Validation script detects cycles, profile linter |
-| **Complex routing bugs** | Comprehensive test suite, detailed logging |
-| **Performance degradation** | Algorithm optimization, caching, profiling |
-| **Migration disruption** | Gradual rollout, backward compatibility, reassignment pass |
-| **Specialist overload** | Workload monitoring, automatic fallback to parent |
+| Risk                        | Mitigation                                                 |
+|-----------------------------|------------------------------------------------------------|
+| **Circular dependencies**   | Validation script detects cycles, profile linter           |
+| **Complex routing bugs**    | Comprehensive test suite, detailed logging                 |
+| **Performance degradation** | Algorithm optimization, caching, profiling                 |
+| **Migration disruption**    | Gradual rollout, backward compatibility, reassignment pass |
+| **Specialist overload**     | Workload monitoring, automatic fallback to parent          |
 
 ---
 
 ## Implementation
 
 ### Phase 1: Core Decision & Glossary (6-8h)
+
 - ✅ Create DDR-011 (this document)
 - Update `doctrine/GLOSSARY.md` with new terminology
 - Document domain model in architecture design
 
 ### Phase 2: SELECT_APPROPRIATE_AGENT Tactic (10-12h)
+
 - Create `doctrine/tactics/SELECT_APPROPRIATE_AGENT.tactic.md`
 - Implement routing algorithm (Python reference implementation)
 - Add logging and telemetry
 
 ### Phase 3: Agent Profile Schema (8-10h)
+
 - Update `doctrine/templates/agent-profile-template.md`
 - Update Python Pedro, Java Jenny, Backend Benny profiles
 - Create `tools/validators/validate-agent-hierarchy.py`
 
 ### Phase 4: Manager Mike Enhancement (10-12h)
+
 - Update `doctrine/agents/manager.agent.md`
 - Implement handoff protocol enhancement
 - Implement reassignment pass
 
 ### Phase 5: Validation & Testing (12-16h)
+
 - Write hierarchy validation script
 - Create test scenarios (unit, integration, end-to-end)
 - Validate with real task examples
 
 ### Phase 6: Documentation & Migration (8-10h)
+
 - Migration guide for existing repositories
 - Repository adopter guide (how to add custom specialists)
 - Decision tree: "When to use which agent"
@@ -277,11 +297,12 @@ Writer-Editor (Editor Eddy) [parent, priority=50]
 ### Agent Profile Schema
 
 **Template Enhancement:**
+
 ```yaml
 ---
 name: agent-slug
 description: Brief description
-tools: [...]
+tools: [ ... ]
 
 # Specialization Hierarchy (Optional)
 specializes_from: parent-agent-slug    # Parent in hierarchy
@@ -290,20 +311,21 @@ max_concurrent_tasks: 5                # Workload threshold
 
 # Specialization Context (Optional - for specialists only)
 specialization_context:
-  language: [python, java]             # Programming languages
-  frameworks: [flask, spring, pytest]  # Frameworks/libraries
-  file_patterns:                       # Glob patterns
+  language: [ python, java ]             # Programming languages
+  frameworks: [ flask, spring, pytest ]  # Frameworks/libraries
+  file_patterns: # Glob patterns
     - "**/*.py"
     - "**/pyproject.toml"
-  domain_keywords:                     # Domain/task keywords
+  domain_keywords: # Domain/task keywords
     - api
     - backend
-  writing_style: [technical, academic] # For writing-focused agents
-  complexity_preference: [low, medium] # Preferred task complexity
+  writing_style: [ technical, academic ] # For writing-focused agents
+  complexity_preference: [ low, medium ] # Preferred task complexity
 ---
 ```
 
 **Example: Python Pedro**
+
 ```yaml
 ---
 name: python-pedro
@@ -311,29 +333,31 @@ specializes_from: backend-benny
 routing_priority: 80
 max_concurrent_tasks: 5
 specialization_context:
-  language: [python]
-  frameworks: [flask, fastapi, pytest, pydantic]
-  file_patterns: ["**/*.py", "**/pyproject.toml"]
-  domain_keywords: [python, pytest, flask]
-  complexity_preference: [low, medium, high]
+  language: [ python ]
+  frameworks: [ flask, fastapi, pytest, pydantic ]
+  file_patterns: [ "**/*.py", "**/pyproject.toml" ]
+  domain_keywords: [ python, pytest, flask ]
+  complexity_preference: [ low, medium, high ]
 ---
 ```
 
 **Example: Backend Benny (Parent)**
+
 ```yaml
 ---
 name: backend-benny
 routing_priority: 50  # Default parent priority
 max_concurrent_tasks: 8  # Higher capacity as fallback
 specialization_context:
-  domain_keywords: [backend, api, service, database]
-  complexity_preference: [medium, high]
+  domain_keywords: [ backend, api, service, database ]
+  complexity_preference: [ medium, high ]
 ---
 ```
 
 ### Validation
 
 **Hierarchy Validation Script:**
+
 ```python
 # tools/validators/validate-agent-hierarchy.py
 
@@ -372,11 +396,13 @@ def validate_hierarchy(agents):
 **Approach:** Manager Mike infers best agent from task metadata + agent capabilities (no explicit hierarchy)
 
 **Pros:**
+
 - No schema changes
 - Flexible—new specialists auto-discovered
 - Agents don't need to know their "parent"
 
 **Cons:**
+
 - ❌ Routing logic becomes complex heuristic
 - ❌ Non-deterministic agent selection
 - ❌ Hard to debug when wrong agent chosen
@@ -389,11 +415,13 @@ def validate_hierarchy(agents):
 **Approach:** Tasks declare required specialist type; fallback to generalist if unavailable
 
 **Pros:**
+
 - Task creator controls routing
 - Simple coordinator logic (read field, route)
 - Works with existing task schema
 
 **Cons:**
+
 - ❌ Shifts burden to task creators (must know specialist landscape)
 - ❌ Doesn't solve "Manager Mike favors backend-dev" problem
 - ❌ No automatic specialist discovery
@@ -405,11 +433,13 @@ def validate_hierarchy(agents):
 **Approach:** All agents at same level, no parent-child relationships
 
 **Pros:**
+
 - Simple—no hierarchy to maintain
 - No circular dependency risk
 - Agents fully independent
 
 **Cons:**
+
 - ❌ No fallback mechanism when specialist unavailable
 - ❌ No workload balancing via parent agents
 - ❌ Duplicate capabilities across specialists (e.g., all need general backend skills)
@@ -437,7 +467,8 @@ Parent-child relationship where specialized agents refine their parent's scope t
 Generalist agent whose collaboration contract and capabilities are inherited and refined by specialist child agents. Serves as fallback when no specialist matches task context or specialists are overloaded.
 
 **Child Agent / Specialist Agent:**
-Agent that inherits parent's collaboration contract but operates in narrower specialization context. Declared via `specializes_from` metadata in agent profile frontmatter.
+Agent that inherits parent's collaboration contract but operates in narrower specialization context. Declared via
+`specializes_from` metadata in agent profile frontmatter.
 
 **Specialization Context:**
 Declarative conditions defining when specialist preferred over parent: language, frameworks, file patterns, domain keywords, writing style.
