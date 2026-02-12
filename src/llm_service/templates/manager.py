@@ -198,7 +198,7 @@ class TemplateManager:
         except TemplateNotFound:
             raise ValueError(
                 f"Template '{template_name}' not found in {self.template_dir}"
-            )
+            ) from None
 
         # Step 3: Expand environment variables (${VAR} syntax)
         # Note: We keep ${VAR} as-is in the file for runtime expansion
@@ -235,4 +235,4 @@ class TemplateManager:
             yaml.safe_load(rendered)
             return True
         except yaml.YAMLError as e:
-            raise ValueError(f"Template '{template_name}' generates invalid YAML: {e}")
+            raise ValueError(f"Template '{template_name}' generates invalid YAML: {e}") from e

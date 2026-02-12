@@ -37,4 +37,4 @@ AVAILABLE_TEMPLATES = {
     },
 }
 
-from .manager import TemplateManager
+from .manager import TemplateManager  # noqa: E402
