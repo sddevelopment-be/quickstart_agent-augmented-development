@@ -24,12 +24,12 @@ class TaskValidationError(Exception):
     pass
 
 
-def is_iso8601_utc(timestamp: str) -> bool:
+def is_iso8601_utc(timestamp: Any) -> bool:
     """
     Check if timestamp is valid ISO8601 with Z (UTC) suffix.
 
     Args:
-        timestamp: Timestamp string to validate
+        timestamp: Value to validate as ISO8601 timestamp (accepts any type for robustness)
 
     Returns:
         True if valid ISO8601 with Z suffix, False otherwise
@@ -38,6 +38,8 @@ def is_iso8601_utc(timestamp: str) -> bool:
         >>> is_iso8601_utc("2025-11-30T12:00:00Z")
         True
         >>> is_iso8601_utc("2025-11-30 12:00:00")
+        False
+        >>> is_iso8601_utc(None)
         False
     """
     if not isinstance(timestamp, str):
