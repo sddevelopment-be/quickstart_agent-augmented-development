@@ -149,6 +149,7 @@ class TemplateManager:
         """
 
         def replace_env_var(match):
+            """Replace matched environment variable with its value or empty string."""
             var_name = match.group(1)
             # Get from environment, empty string if not defined
             return os.environ.get(var_name, "")

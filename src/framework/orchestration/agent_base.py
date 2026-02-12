@@ -527,6 +527,7 @@ def timing_decorator(func):
     """Decorator to capture timing metrics for methods."""
 
     def wrapper(*args, **kwargs):
+        """Inner wrapper function that executes the decorated function."""
         start = time.time()
         result = func(*args, **kwargs)
         duration = time.time() - start
