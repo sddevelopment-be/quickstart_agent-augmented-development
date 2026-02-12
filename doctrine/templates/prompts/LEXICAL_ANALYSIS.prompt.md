@@ -24,7 +24,7 @@ Perform lexical analysis + minimal diff proposal.
 
 ## Task:
 
-1. Load style baseline from \<ANCHOR> or `docs/specific_guidelines.md`.
+1. Load style baseline from \<ANCHOR> or `${LOCAL_DOCTRINE_ROOT}/specific_guidelines.md`.
 2. Generate `work/LEX/LEX_REPORT.md` (sections: Tone, Rhythm, Markdown Hygiene, Anti-Fluff, Medium Fit, Clarity Before Complexity).
 3. Produce `work/LEX/LEX_DELTAS.md` with diff groups per violated rule; obey \<STRICTNESS>.
 4. If \<SNIPPETS> = yes: include before/after blocks for non-trivial changes.

@@ -128,7 +128,7 @@ Files:
 
 - `.github/agents/general_guidelines.md`
 - `docs/VISION.md`
-- `docs/specific_guidelines.md`
+- `.doctrine-config/specific_guidelines.md`
 
 Assessment:
 

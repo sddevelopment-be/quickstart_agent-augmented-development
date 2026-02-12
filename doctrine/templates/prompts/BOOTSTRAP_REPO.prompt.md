@@ -31,7 +31,7 @@ Perform repository bootstrap & scaffolding.
 1. Validate clarity of \<VISION> and boundary firmness in \<SCOPE>.
 2. Generate/update:
    - `docs/VISION.md` (structured vision doc)
-   - `docs/specific_guidelines.md` (constraints + conventions)
+   - `${LOCAL_DOCTRINE_ROOT}/specific_guidelines.md` (constraints + conventions)
    - `work/bootstrap/REPO_MAP.md` (directory roles)
    - `work/bootstrap/SURFACES.md` (interaction & integration surfaces)
    - `work/bootstrap/WORKFLOWS.md` (agent workflow examples)
