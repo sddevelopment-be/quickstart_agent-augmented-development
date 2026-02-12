@@ -402,7 +402,7 @@ class TestCachedReadPerformance:
 
         # Log performance metrics
         print(
-            f"\nCached Read Performance:\n"
+            "\nCached Read Performance:\n"
             f"  Average: {avg_ms:.2f}ms\n"
             f"  P50: {p50_ms:.2f}ms\n"
             f"  P95: {p95_ms:.2f}ms\n"
@@ -970,7 +970,7 @@ class TestModalLoadPerformance:
 
         # Log performance metrics
         print(
-            f"\nModal Load Performance (50 specs):\n"
+            "\nModal Load Performance (50 specs):\n"
             f"  Average: {avg_time_ms:.0f}ms\n"
             f"  P50: {p50_time_ms:.0f}ms\n"
             f"  P95: {p95_time_ms:.0f}ms ✓ (required <500ms)\n"

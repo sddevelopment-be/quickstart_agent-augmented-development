@@ -72,7 +72,7 @@ class TestTelemetryAPI:
                 conn.execute(
                     """
                     INSERT INTO invocations (
-                        invocation_id, timestamp, tool_name, model_name, 
+                        invocation_id, timestamp, tool_name, model_name,
                         total_tokens, cost_usd, status
                     ) VALUES (?, ?, ?, ?, ?, ?, ?)
                 """,
@@ -106,7 +106,7 @@ class TestTelemetryAPI:
                 conn.execute(
                     """
                     INSERT INTO invocations (
-                        invocation_id, timestamp, tool_name, model_name, 
+                        invocation_id, timestamp, tool_name, model_name,
                         total_tokens, cost_usd, status
                     ) VALUES (?, ?, ?, ?, ?, ?, ?)
                 """,
@@ -138,7 +138,7 @@ class TestTelemetryAPI:
             with sqlite3.connect(db_path) as conn:
                 conn.execute("""
                     INSERT INTO invocations (invocation_id, tool_name, model_name, total_tokens, cost_usd, status)
-                    VALUES 
+                    VALUES
                         ('inv-1', 'claude-code', 'claude-3.5-sonnet', 1000, 0.05, 'success'),
                         ('inv-2', 'claude-code', 'claude-3.5-sonnet', 2000, 0.10, 'success'),
                         ('inv-3', 'openai', 'gpt-4', 1500, 0.08, 'success')
@@ -176,7 +176,7 @@ class TestTelemetryAPI:
                 conn.execute(
                     """
                     INSERT INTO invocations (invocation_id, timestamp, tool_name, model_name, total_tokens, cost_usd, status)
-                    VALUES 
+                    VALUES
                         ('inv-today', ?, 'claude-code', 'claude-3.5-sonnet', 1000, 0.05, 'success'),
                         ('inv-yesterday', ?, 'claude-code', 'claude-3.5-sonnet', 2000, 0.10, 'success')
                 """,
