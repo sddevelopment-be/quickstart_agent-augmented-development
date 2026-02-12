@@ -396,7 +396,7 @@ class AgentBase(ABC):
 
     # Lifecycle hooks (optional overrides)
 
-    def init_task(self, task: dict[str, Any]) -> None:
+    def init_task(self, task: dict[str, Any]) -> None:  # noqa: B027
         """
         Initialize task-specific state before execution.
 
@@ -404,7 +404,7 @@ class AgentBase(ABC):
         """
         pass
 
-    def finalize_task(self, success: bool) -> None:
+    def finalize_task(self, success: bool) -> None:  # noqa: B027
         """
         Clean up after task execution.
 

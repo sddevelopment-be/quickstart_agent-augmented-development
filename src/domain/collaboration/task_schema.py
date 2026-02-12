@@ -65,7 +65,7 @@ def read_task(path: Path) -> dict[str, Any]:
         task = yaml.safe_load(content)
 
     except FileNotFoundError:
-        raise TaskIOError(f"Task file not found: {path}")
+        raise TaskIOError(f"Task file not found: {path}") from None
     except yaml.YAMLError as e:
         # Check if it's the multi-document error
         error_msg = str(e)
@@ -73,10 +73,10 @@ def read_task(path: Path) -> dict[str, Any]:
             raise TaskIOError(
                 f"Invalid YAML in {path}: expected a single document in the stream\n"
                 "  Hint: Check for multiple '---' separators in the file"
-            )
-        raise TaskIOError(f"Invalid YAML in {path}: {e}")
+            ) from e
+        raise TaskIOError(f"Invalid YAML in {path}: {e}") from e
     except Exception as e:
-        raise TaskIOError(f"Failed to read task {path}: {e}")
+        raise TaskIOError(f"Failed to read task {path}: {e}") from e
 
     if not isinstance(task, dict):
         raise TaskValidationError(f"Task must be a dictionary, got {type(task)}")
@@ -133,7 +133,7 @@ def write_task(path: Path, task: dict[str, Any]) -> None:
         with open(path, "w", encoding="utf-8") as f:
             yaml.dump(task, f, sort_keys=False, default_flow_style=False)
     except Exception as e:
-        raise TaskIOError(f"Failed to write task to {path}: {e}")
+        raise TaskIOError(f"Failed to write task to {path}: {e}") from e
 
 
 def load_task_safe(path: Path) -> dict[str, Any] | None:
