@@ -105,7 +105,7 @@ class TestStatsFileWatcherIntegration:
                 conn.execute(
                     """
                     INSERT INTO invocations (
-                        invocation_id, tool_name, model_name, 
+                        invocation_id, tool_name, model_name,
                         total_tokens, cost_usd, status
                     ) VALUES (?, ?, ?, ?, ?, ?)
                 """,

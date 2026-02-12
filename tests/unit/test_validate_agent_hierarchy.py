@@ -76,7 +76,7 @@ def create_agent_file(directory: Path, name: str, profile: dict[str, Any]) -> Pa
     content = (
         f"---\n{frontmatter_yaml}---\n\n"
         f"# Agent Profile: {name}\n\n"
-        f"## 2. Purpose\n\nTest agent for validation.\n"
+        "## 2. Purpose\n\nTest agent for validation.\n"
     )
 
     file_path.write_text(content, encoding="utf-8")

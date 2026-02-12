@@ -66,10 +66,10 @@ def test_end_to_end_successful_invocation(logger):
         # Check invocation logged
         cursor = conn.execute(
             """
-            SELECT invocation_id, agent_name, tool_name, model_name, 
-                   prompt_tokens, completion_tokens, total_tokens, 
+            SELECT invocation_id, agent_name, tool_name, model_name,
+                   prompt_tokens, completion_tokens, total_tokens,
                    cost_usd, status
-            FROM invocations 
+            FROM invocations
             WHERE invocation_id = ?
         """,
             (invocation_id,),
@@ -139,7 +139,7 @@ def test_end_to_end_error_invocation(logger):
         cursor = conn.execute(
             """
             SELECT status, error_message, cost_usd
-            FROM invocations 
+            FROM invocations
             WHERE invocation_id = ?
         """,
             (invocation_id,),
@@ -267,7 +267,7 @@ def test_end_to_end_privacy_level_metadata(logger):
         cursor = conn.execute(
             """
             SELECT privacy_level, prompt_tokens, completion_tokens, cost_usd
-            FROM invocations 
+            FROM invocations
             WHERE invocation_id = ?
         """,
             ("privacy-metadata-e2e",),
@@ -425,7 +425,7 @@ def test_end_to_end_error_rate_calculation(logger):
     # Calculate error rate
     with sqlite3.connect(logger.db_path) as conn:
         cursor = conn.execute("""
-            SELECT 
+            SELECT
                 COUNT(*) as total,
                 SUM(CASE WHEN status = 'error' THEN 1 ELSE 0 END) as errors
             FROM invocations
@@ -468,7 +468,7 @@ def test_end_to_end_latency_tracking(logger):
     # Query latency statistics
     with sqlite3.connect(logger.db_path) as conn:
         cursor = conn.execute("""
-            SELECT 
+            SELECT
                 MIN(latency_ms) as min_latency,
                 MAX(latency_ms) as max_latency,
                 AVG(latency_ms) as avg_latency

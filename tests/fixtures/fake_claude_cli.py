@@ -99,11 +99,11 @@ def generate_response(prompt: str, model: str) -> str:
         return """def example_function(x, y):
     '''
     Example function that adds two numbers.
-    
+
     Args:
         x: First number
         y: Second number
-    
+
     Returns:
         Sum of x and y
     '''

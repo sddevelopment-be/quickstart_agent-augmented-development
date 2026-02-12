@@ -194,7 +194,7 @@ def test_daily_cost_aggregation_single_invocation(logger):
     # Check aggregation
     with sqlite3.connect(logger.db_path) as conn:
         cursor = conn.execute("""
-            SELECT invocations, total_tokens, total_cost_usd 
+            SELECT invocations, total_tokens, total_cost_usd
             FROM daily_costs
             WHERE agent_name = 'test-agent'
             AND tool_name = 'claude-code'
@@ -230,7 +230,7 @@ def test_daily_cost_aggregation_multiple_invocations(logger):
     # Check aggregation
     with sqlite3.connect(logger.db_path) as conn:
         cursor = conn.execute("""
-            SELECT invocations, total_tokens, total_cost_usd 
+            SELECT invocations, total_tokens, total_cost_usd
             FROM daily_costs
             WHERE agent_name = 'test-agent'
         """)
