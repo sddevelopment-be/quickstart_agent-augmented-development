@@ -6,7 +6,7 @@ before implementation exists. Expected to fail initially (RED phase).
 """
 
 import sqlite3
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import pytest
 
@@ -186,7 +186,7 @@ def test_daily_cost_aggregation_single_invocation(logger):
         cost_usd=0.015,
         latency_ms=1500,
         status="success",
-        timestamp=datetime.utcnow(),
+        timestamp=datetime.now(timezone.utc),
     )
 
     logger.log_invocation(record)
@@ -223,7 +223,7 @@ def test_daily_cost_aggregation_multiple_invocations(logger):
             cost_usd=0.015,
             latency_ms=1500,
             status="success",
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
         )
         logger.log_invocation(record)
 
@@ -278,7 +278,7 @@ def test_daily_cost_aggregation_different_agents(logger):
 
 def test_daily_cost_aggregation_different_days(logger):
     """Test daily costs are separated by date."""
-    today = datetime.utcnow()
+    today = datetime.now(timezone.utc)
     yesterday = today - timedelta(days=1)
 
     # Log invocations on different days
@@ -437,9 +437,9 @@ def test_timestamp_default(logger):
         # No timestamp provided
     )
 
-    before_log = datetime.utcnow()
+    before_log = datetime.now(timezone.utc)
     logger.log_invocation(record)
-    after_log = datetime.utcnow()
+    after_log = datetime.now(timezone.utc)
 
     # Verify timestamp is within expected range
     with sqlite3.connect(logger.db_path) as conn:

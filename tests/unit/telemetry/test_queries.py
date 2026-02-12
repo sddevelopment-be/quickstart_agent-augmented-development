@@ -2,7 +2,7 @@
 Tests for TelemetryLogger query methods.
 """
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import pytest
 
@@ -21,7 +21,7 @@ def logger_with_data(temp_db):
     logger = TelemetryLogger(temp_db)
 
     # Add sample invocations
-    today = datetime.utcnow().date()
+    today = datetime.now(timezone.utc).date()
     yesterday = today - timedelta(days=1)
 
     sample_data = [
@@ -124,7 +124,7 @@ def test_get_daily_costs_with_agent_filter(logger_with_data):
 
 def test_get_daily_costs_with_date_range(logger_with_data):
     """Test filtering daily costs by date range."""
-    today = datetime.utcnow().date()
+    today = datetime.now(timezone.utc).date()
     costs = logger_with_data.get_daily_costs(start_date=today, end_date=today)
 
     assert len(costs) > 0
@@ -174,7 +174,7 @@ def test_get_invocations_with_limit(logger_with_data):
 
 def test_get_invocations_with_date_filter(logger_with_data):
     """Test filtering invocations by date."""
-    today = datetime.utcnow().date()
+    today = datetime.now(timezone.utc).date()
     invocations = logger_with_data.get_invocations(start_date=today, end_date=today)
 
     assert len(invocations) == 3  # 3 invocations today
