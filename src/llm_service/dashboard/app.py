@@ -193,12 +193,12 @@ def register_routes(app: Flask) -> None:
         GET /api/tasks - Current task state (inbox/assigned/done)
     """
 
-    @app.route("/")
+    @app.route("/", methods=["GET"])
     def index():
         """Serve dashboard UI."""
         return app.send_static_file("index.html")
 
-    @app.route("/health")
+    @app.route("/health", methods=["GET"])
     def health():
         """Health check endpoint for monitoring."""
         return jsonify(
@@ -209,7 +209,7 @@ def register_routes(app: Flask) -> None:
             }
         )
 
-    @app.route("/api/stats")
+    @app.route("/api/stats", methods=["GET"])
     def stats():
         """
         Return current dashboard statistics.
@@ -261,7 +261,7 @@ def register_routes(app: Flask) -> None:
             }
         )
 
-    @app.route("/api/tasks")
+    @app.route("/api/tasks", methods=["GET"])
     def tasks():
         """
         Return current task state across all workflow directories.
@@ -299,7 +299,7 @@ def register_routes(app: Flask) -> None:
             }
         )
 
-    @app.route("/api/tasks/finished")
+    @app.route("/api/tasks/finished", methods=["GET"])
     def tasks_finished():
         """
         Return only finished tasks (DONE and ERROR status).
@@ -313,7 +313,7 @@ def register_routes(app: Flask) -> None:
         )
         return jsonify(finished_tasks)
 
-    @app.route("/api/portfolio")
+    @app.route("/api/portfolio", methods=["GET"])
     def portfolio():
         """
         Return portfolio view with initiatives, features, and tasks.
@@ -481,7 +481,7 @@ def register_routes(app: Flask) -> None:
             }
         )
 
-    @app.route("/api/agents/portfolio")
+    @app.route("/api/agents/portfolio", methods=["GET"])
     def agent_portfolio():
         """
         Return agent portfolio data with capabilities and compliance.
