@@ -4,6 +4,26 @@ This log records system-wide orchestration events.
 
 ## Log Entries
 
+**2026-02-12 10:44 (Curator Claire - Tasks 0911/0912/0913 Completion)**
+- **Execution output:**
+  - Completed `0911` with three first-wave tactics:
+    - `refactoring-guard-clauses-before-polymorphism.tactic.md`
+    - `refactoring-extract-class-by-responsibility-split.tactic.md`
+    - `refactoring-replace-magic-number-with-symbolic-constant.tactic.md`
+  - Completed `0912` with doctrine-local references:
+    - `refactoring-trigger-to-pattern-map.md`
+    - `refactoring-first-wave-selection.md`
+  - Completed `0913` integrating additions into:
+    - `doctrine/directives/039_refactoring_techniques.md`
+    - `doctrine/tactics/README.md`
+- **Evaluation decision:**
+  - Accepted first-wave additions with curation adjustments:
+    - kept tactics strictly procedural,
+    - staged architecture-level patterns as follow-up,
+    - enforced doctrine-local reference boundaries.
+- **Next trigger condition:**
+  - Reviewer executes `0914` validation pass.
+
 **2026-02-12 10:37 (Researcher Ralph - Task 0910 Completion)**
 - **Execution output:**
   - Completed task `2026-02-12T0910-researcher-refactoring-techniques-matrix`.

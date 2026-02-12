@@ -3,8 +3,8 @@
 **Status:** Active
 **Applies To:** All development agents (Backend-Dev Benny, Frontend-Dev, Python Pedro, Java Jenny, etc.)
 **Priority:** MEDIUM-HIGH - Recommended for code quality improvements
-**Version:** 1.0.0
-**Last Updated:** 2026-02-11
+**Version:** 1.1.0
+**Last Updated:** 2026-02-12
 
 ---
 
@@ -44,6 +44,24 @@ Standardize refactoring practices across all development agents to ensure:
 **Intent:** Make implicit patterns explicit by extracting named abstractions
 **Safety:** Identify responsibility → Extract → Update callers → Verify tests
 **Details:** `doctrine/tactics/refactoring-extract-first-order-concept.tactic.md`
+
+### 4. Guard Clauses Before Polymorphism
+**When:** Nested conditional trees block safe variant extraction
+**Intent:** Flatten branch flow into explicit early-return checks before polymorphic design
+**Safety:** Preserve branch precedence with stepwise guard conversion and test checks
+**Details:** `doctrine/tactics/refactoring-guard-clauses-before-polymorphism.tactic.md`
+
+### 5. Extract Class by Responsibility Split
+**When:** A class changes for multiple reasons and contains separable behavior clusters
+**Intent:** Isolate cohesive responsibilities into explicit class boundaries
+**Safety:** Move one responsibility cluster at a time with delegation and test checks
+**Details:** `doctrine/tactics/refactoring-extract-class-by-responsibility-split.tactic.md`
+
+### 6. Replace Magic Number with Symbolic Constant
+**When:** Numeric literals encode business semantics without names
+**Intent:** Make policy/threshold meaning explicit and safer to change
+**Safety:** Replace incrementally with behavior-preserving tests
+**Details:** `doctrine/tactics/refactoring-replace-magic-number-with-symbolic-constant.tactic.md`
 
 ---
 
@@ -404,6 +422,14 @@ You've successfully refactored when:
 - `tactics/refactoring-move-method.tactic.md` - Relocate methods to appropriate classes
 - `tactics/refactoring-strangler-fig.tactic.md` - Incremental replacement pattern
 - `tactics/refactoring-extract-first-order-concept.tactic.md` - Make implicit concepts explicit
+- `tactics/refactoring-guard-clauses-before-polymorphism.tactic.md` - Flatten branch pyramids prior to polymorphic extraction
+- `tactics/refactoring-extract-class-by-responsibility-split.tactic.md` - Separate mixed concerns into cohesive class boundaries
+- `tactics/refactoring-replace-magic-number-with-symbolic-constant.tactic.md` - Replace opaque numeric literals with semantic constants
+
+### Doctrine References
+
+- `docs/references/refactoring-trigger-to-pattern-map.md` - Trigger-to-pattern trajectory lookup
+- `docs/references/refactoring-first-wave-selection.md` - Staged P1/P2/P3 rollout guidance
 
 ### External References
 

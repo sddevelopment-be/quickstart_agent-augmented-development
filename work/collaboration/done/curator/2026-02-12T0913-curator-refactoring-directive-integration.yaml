@@ -1,0 +1,36 @@
+id: 2026-02-12T0913-curator-refactoring-directive-integration
+agent: curator
+status: done
+title: 'SPEC-REFACTOR-001 Task 4: Integrate Refactoring Tactics into Directives and
+  Index'
+mode: /analysis-mode
+priority: high
+artefacts:
+- doctrine/directives/*refactor*.md
+- doctrine/tactics/README.md
+context:
+  repo: quickstart_agent-augmented-development
+  branch: feature/code_skill_improvements
+  notes:
+  - Link new tactics from refactoring directives.
+  - Update tactics index for discoverability.
+  - Maintain doctrine precedence and boundary rules.
+  dependencies:
+  - 2026-02-12T0911-curator-refactoring-tactics-authoring
+  - 2026-02-12T0912-curator-refactoring-pattern-references
+created_at: '2026-02-12T09:13:00Z'
+created_by: planning-petra
+started_at: '2026-02-12T10:43:21Z'
+result:
+  summary: Integrated first-wave refactoring additions into Directive 039 and tactics
+    discovery index, including doctrine-local reference links and updated refactoring
+    set coverage.
+  artifacts:
+  - doctrine/directives/039_refactoring_techniques.md
+  - doctrine/tactics/README.md
+  next_agent: code-reviewer-cindy
+  next_task_title: Validate refactoring tactic quality and integration consistency
+  next_artefacts:
+  - doctrine/tactics/refactoring-*.tactic.md
+  - doctrine/directives/039_refactoring_techniques.md
+completed_at: '2026-02-12T10:44:15Z'

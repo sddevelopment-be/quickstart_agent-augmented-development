@@ -1,6 +1,6 @@
 # Agent Status Dashboard
 
-_Last updated: 2026-02-12 (Researcher Ralph - SPEC-REFACTOR-001 Task 0910 Completion)_
+_Last updated: 2026-02-12 (Curator Claire - SPEC-REFACTOR-001 Tasks 0911-0913 Completed)_
 
 ## Current Batch Status
 
@@ -8,7 +8,7 @@ _Last updated: 2026-02-12 (Researcher Ralph - SPEC-REFACTOR-001 Task 0910 Comple
 - **ADR-046 (Domain Module Refactoring):** ✅ COMPLETE - 100% done, production-ready
 - **M4.3 (Dashboard Initiative Tracking):** ⏳ PENDING - Awaiting Task 5 completion, ready to resume
 - **SPEC-TERM-001 Phase 1 (Terminology Alignment):** 📋 PLANNED - 6 tasks defined, awaiting approval
-- **SPEC-REFACTOR-001 (Refactoring Tactics Foundation):** 🔄 ACTIVE - Task 0910 complete; curator tasks 0911/0912 ready
+- **SPEC-REFACTOR-001 (Refactoring Tactics Foundation):** 🔄 ACTIVE - Tasks 0910-0913 complete; reviewer task 0914 ready
 
 ## Planning Status
 
@@ -66,15 +66,15 @@ _Last updated: 2026-02-12 (Researcher Ralph - SPEC-REFACTOR-001 Task 0910 Comple
 - **Status**: Ready
 - **Assigned**: 2 tasks (1 legacy + 1 SPEC-REFACTOR-001)
 - **In Progress**: 0 tasks
-- **Batch**: SPEC-TERM-001 Directive Updates + SPEC-REFACTOR-001 Validation
+- **Batch**: SPEC-TERM-001 Directive Updates + SPEC-REFACTOR-001 Validation (0914 unblocked)
 - **Estimated Hours**: 6h
 
 ## curator
 
-- **Status**: Ready
-- **Assigned**: 4 tasks (1 legacy + 3 SPEC-REFACTOR-001)
+- **Status**: Completed cycle, awaiting reassignment
+- **Assigned**: 1 task (legacy)
 - **In Progress**: 0 tasks
-- **Next**: SPEC-REFACTOR-001 Task 2/3/4 sequence
+- **Last Completed**: SPEC-REFACTOR-001 Tasks 0911/0912/0913
 - **Last seen**: 2026-02-09 21:13:10
 
 ## diagrammer
