@@ -396,6 +396,6 @@ echo "✅ Framework installation valid"
 ## Related
 
 - **Doctrine:** DDR-002 (Framework Guardian Role) - guardian validates framework integrity
-- **Doctrine:** DDR-003 (Modular Directive System) - framework structure being distributed
+- **Doctrine:** DDR-010 (Modular Directive System) - framework structure being distributed
 - **Approach:** Framework portability approach (framework principles)
 - **Implementation:** See repository-specific ADRs for build and release automation

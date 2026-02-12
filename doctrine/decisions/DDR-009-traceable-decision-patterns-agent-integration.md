@@ -365,7 +365,7 @@ Add decision traceability section:
 
 context:
   decisions_referenced:
-    - DDR-003: Modular directive system applies to agent structure
+    - DDR-010: Modular directive system applies to agent structure
     - ADR-015: Local repository follows trunk-based development
   decisions_made:
     - "Chose YAML over JSON for task schema (readability)"
@@ -403,6 +403,6 @@ metrics:
 ## Related
 
 - **Doctrine:** DDR-001 (Primer Execution Matrix) - reflection mode for decision synthesis
-- **Doctrine:** DDR-003 (Modular Directive System) - decision markers extend directive system
+- **Doctrine:** DDR-010 (Modular Directive System) - decision markers extend directive system
 - **Approach:** Decision capture and traceability approach (framework principles)
 - **Implementation:** See repository-specific ADRs for validation tooling and metrics
