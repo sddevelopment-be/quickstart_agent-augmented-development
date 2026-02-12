@@ -703,7 +703,7 @@ decision_factors:
 **Symptom:** Specialist references non-existent parent in `specializes_from`.
 
 **Remediation:**
-- Run agent hierarchy validation script: `python tools/scripts/validate-agent-hierarchy.py`
+- Run agent hierarchy validation script: `python tests/validate_agent_hierarchy.py`
 - Fix `specializes_from` reference or create missing parent profile
 - Validation should run in CI/CD to prevent invalid profiles
 

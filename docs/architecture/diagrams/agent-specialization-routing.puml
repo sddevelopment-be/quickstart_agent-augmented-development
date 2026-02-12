@@ -1,0 +1,89 @@
+@startuml Agent Specialization Routing Decision Tree
+!theme plain
+skinparam shadowing false
+skinparam defaultFontSize 11
+skinparam ActivityDiamondFontSize 10
+title Agent Specialization Routing (DDR-011)\nSELECT_APPROPRIATE_AGENT Decision Flow
+
+start
+
+:Receive task for assignment;
+
+if (Task pinned to agent?) then (yes)
+  :Assign to pinned agent;
+  stop
+else (no)
+endif
+
+:Extract task context\n(language, frameworks, files, keywords, complexity);
+
+partition "Discover Candidates" {
+  :Load framework agents\n(doctrine/agents/*.agent.md);
+  :Load local agents\n(.doctrine-config/custom-agents/);
+  note right
+    Local agents get
+    +20 priority boost
+  end note
+  :Filter by context match\n(language, framework, file pattern, keyword);
+  :Include parent agents as fallbacks;
+}
+
+if (Any candidates found?) then (no)
+  :Route to Manager Mike\n(no context to match);
+  stop
+else (yes)
+endif
+
+partition "Score & Rank" {
+  :Calculate match scores;
+  note right
+    Language: 40%
+    Framework: 20%
+    File patterns: 20%
+    Keywords: 10%
+    Exact match: 10%
+  end note
+
+  :Adjust for workload;
+  note right
+    0-2 tasks: 0% penalty
+    3-4 tasks: 15% penalty
+    5+ tasks: 30% penalty
+  end note
+
+  :Adjust for complexity;
+  note right
+    Low: specialist +10%
+    Medium: neutral
+    High: parent +10%
+  end note
+}
+
+if (Single top scorer?) then (yes)
+  :Select top scorer;
+else (no)
+  if (Language match tiebreaker?) then (yes)
+    :Select language-matching agent;
+  else (no)
+    if (Priority tiebreaker?) then (yes)
+      :Select highest routing_priority;
+    else (no)
+      :Manager Mike free choice\n(with logged rationale);
+    endif
+  endif
+endif
+
+:Validate selection\n(agent exists, not over capacity);
+:Log routing decision;
+:Assign task to selected agent;
+
+stop
+
+legend right
+  **Hierarchy Example**
+  Backend Benny (parent, priority=50)
+  |_ Python Pedro (child, priority=80)
+  |_ Java Jenny (child, priority=80)
+end legend
+
+@enduml
