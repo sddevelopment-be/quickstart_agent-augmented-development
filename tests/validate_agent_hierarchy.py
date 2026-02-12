@@ -293,8 +293,8 @@ def main() -> int:
     if args.repo_root:
         repo_root = args.repo_root.resolve()
     else:
-        # Script is at tools/validators/validate-agent-hierarchy.py
-        repo_root = Path(__file__).resolve().parent.parent.parent
+        # Script is at tests/validate_agent_hierarchy.py
+        repo_root = Path(__file__).resolve().parent.parent
 
     print("Agent Hierarchy Validation")
     print("==========================")
