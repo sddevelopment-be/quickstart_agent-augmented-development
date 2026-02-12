@@ -66,10 +66,10 @@ Examples
 
 from src.domain.doctrine.models import (
     Agent,
-    Directive,
-    Tactic,
     Approach,
+    Directive,
     StyleGuide,
+    Tactic,
     Template,
 )
 
