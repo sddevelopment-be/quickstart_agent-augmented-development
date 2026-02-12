@@ -3,9 +3,14 @@ title: Frontend - Initiatives Page Finished Work Toggle
 agent: frontend-freddy
 status: done
 priority: medium
-created_at: 2026-02-10 11:04:44+00:00
+created_at: "2026-02-10T11:04:44Z"
+completed_at: "2026-02-10T11:45:00Z"
 estimated_effort_hours: 1.5
 mode: /programming
+artefacts:
+- src/llm_service/dashboard/static/index.html
+- src/llm_service/dashboard/static/dashboard.js
+- tests/unit/frontend/test_initiatives_toggle.js
 description: 'Apply same "hide finished work" pattern to Initiatives & Milestones
   page
 
@@ -36,41 +41,9 @@ functions_to_add:
 dependencies:
 - 2026-02-10T1106-frontend-freddy-toggle-logic
 specification: .copilot/session-state/609c38ab-7216-4fdd-84c6-5c07537b8965/plan.md
-result: "## Implementation Complete \u2705\n\n### Summary\nSuccessfully applied the\
-  \ \"hide finished work\" pattern to the Initiatives & Milestones page, mirroring\
-  \ the dashboard toggle implementation. All acceptance criteria met and tested.\n\
-  \n### Files Modified\n1. **src/llm_service/dashboard/static/index.html** (lines\
-  \ 180-185)\n   - Added toggle button before portfolio-container with proper accessibility\
-  \ attributes\n   - Uses existing .toggle-finished-btn CSS class for consistency\n\
-  \n2. **src/llm_service/dashboard/static/dashboard.js**\n   - Line 18: Added state\
-  \ variable showCompletedInitiatives = false\n   - Line 40: Added initialization\
-  \ call to initializeCompletedInitiativesToggle()\n   - Lines 1398-1442: Implemented\
-  \ toggleCompletedInitiatives() function\n   - Lines 1448-1464: Implemented filterPortfolioDisplay()\
-  \ function\n   - Lines 1469-1481: Implemented initializeCompletedInitiativesToggle()\
-  \ function\n   - Line 916: Updated renderPortfolio() to apply filter after rendering\n\
-  \n### Files Created\n1. **tests/unit/frontend/test_initiatives_toggle.js**\n   -\
-  \ 10 comprehensive test cases covering all acceptance criteria\n   - Tests for default\
-  \ behavior, toggle functionality, accessibility, and edge cases\n\n### Key Features\n\
-  - Default Behavior: Completed (implemented) and deprecated initiatives hidden by\
-  \ default\n- Toggle Button: Located above portfolio with \"Show Finished Initiatives\"\
-  \ text\n- Visual Feedback: Icon changes between chevron-down (collapsed) and chevron-up\
-  \ (expanded)\n- Text Updates: Button text toggles between \"Show\" and \"Hide\"\n\
-  - Filtering Logic: Only hides initiatives with status 'implemented' or 'deprecated'\n\
-  - Active Initiatives: Always visible regardless of toggle state\n- Accessibility:\
-  \ Proper aria-expanded, aria-controls, and aria-label attributes\n\n### Acceptance\
-  \ Criteria Validation\nAll 8 acceptance criteria met and verified:\n1. Completed\
-  \ initiatives hidden by default - VERIFIED\n2. Deprecated initiatives hidden by\
-  \ default - VERIFIED\n3. Toggle button present above portfolio - VERIFIED\n4. Button\
-  \ toggles visibility - VERIFIED\n5. Text changes between \"Show\" and \"Hide\" -\
-  \ VERIFIED\n6. Icon changes between arrows - VERIFIED\n7. Active initiatives always\
-  \ visible - VERIFIED\n8. Filter applies after portfolio loading - VERIFIED\n\n###\
-  \ Code Quality\n- JavaScript syntax validated\n- HTML markup valid\n- CSS classes\
-  \ exist in stylesheet\n- Naming conventions consistent with codebase\n- Follows\
-  \ existing code patterns\n- Comprehensive comments and documentation\n- WCAG 2.1\
-  \ AA accessibility standards\n- No breaking changes to existing functionality\n\n\
-  ### Work Log\nCreated comprehensive work log at:\nwork/reports/logs/frontend-freddy/2026-02-10T1107-initiatives-toggle.md\n\
-  \nContains: task understanding, implementation details, architecture decisions,\
-  \ and acceptance criteria validation.\n\n### Testing\nCreated 10 unit tests in tests/unit/frontend/test_initiatives_toggle.js\n\
-  - Test coverage: 100% of acceptance criteria\n- Tests validate default behavior,\
-  \ toggle mechanics, accessibility, and edge cases\n"
-completed_at: '2026-02-10T11:45:00Z'
+result:
+  summary: "Successfully applied the \"hide finished work\" pattern to the Initiatives & Milestones page, mirroring the dashboard toggle implementation. All acceptance criteria met and tested."
+  artefacts:
+  - src/llm_service/dashboard/static/index.html
+  - src/llm_service/dashboard/static/dashboard.js
+  - tests/unit/frontend/test_initiatives_toggle.js

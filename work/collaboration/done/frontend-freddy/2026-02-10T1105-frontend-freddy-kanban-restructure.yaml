@@ -3,8 +3,12 @@ title: Frontend - Kanban Board HTML/CSS Restructure
 agent: frontend-freddy
 status: done
 priority: high
-created_at: 2026-02-10T11:04:44Z
-completed_at: 2026-02-10T12:10:00Z
+created_at: "2026-02-10T11:04:44Z"
+completed_at: "2026-02-10T12:10:00Z"
+artefacts:
+- src/llm_service/dashboard/static/index.html
+- src/llm_service/dashboard/static/dashboard.css
+- src/llm_service/dashboard/static/dashboard.js
 estimated_effort_hours: 3
 actual_effort_hours: 1.0
 mode: /programming

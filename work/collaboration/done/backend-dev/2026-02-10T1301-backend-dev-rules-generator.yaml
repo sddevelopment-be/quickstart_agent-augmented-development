@@ -1,4 +1,4 @@
-id: dist002-task-1.2-rules-generator
+id: 2026-02-10T1301-backend-dev-rules-generator
 agent: backend-dev
 status: done
 priority: high
@@ -37,7 +37,7 @@ result:
   summary: generateRulesFile() implemented with TDD. 15 unit tests pass. Strips frontmatter,
     version metadata, blockquotes, HRs, H1 titles. Preserves bullets, section headings,
     numbered lists. Enforces 80-line limit. RULES_MAPPING config exported.
-  artefacts_created:
+  artefacts:
   - tools/exporters/claude-code-generator.js (extended)
   - tests/unit/exporters/generate-rules-file.test.js
   tests_passed: 15

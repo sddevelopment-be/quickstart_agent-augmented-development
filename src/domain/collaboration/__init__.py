@@ -45,4 +45,30 @@ Examples
 >>> # task = Task(id="T001", status=TaskStatus.ASSIGNED)
 """
 
-__all__ = []  # Will be populated in Task 2 when files are moved
+from .task_schema import (
+    TaskIOError,
+    TaskSchemaError,
+    TaskValidationError,
+    load_task_safe,
+    read_task,
+    write_task,
+)
+from .task_validator import validate_task
+from .types import TaskMode, TaskPriority, TaskStatus
+
+__all__ = [
+    # Task schema I/O
+    "read_task",
+    "write_task",
+    "load_task_safe",
+    # Task validation
+    "validate_task",
+    # Types and enums
+    "TaskStatus",
+    "TaskMode",
+    "TaskPriority",
+    # Exceptions
+    "TaskSchemaError",
+    "TaskIOError",
+    "TaskValidationError",
+]

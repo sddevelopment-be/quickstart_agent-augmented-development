@@ -3,9 +3,11 @@ title: Frontend - Toggle Logic & Task Rendering
 agent: frontend-freddy
 status: inbox
 priority: high
-created_at: 2026-02-10T11:04:44Z
+created_at: "2026-02-10T11:04:44Z"
 estimated_effort_hours: 3
 mode: /programming
+artefacts:
+- src/llm_service/dashboard/static/dashboard.js
 
 description: |
   Implement JavaScript logic for toggling finished work visibility and update

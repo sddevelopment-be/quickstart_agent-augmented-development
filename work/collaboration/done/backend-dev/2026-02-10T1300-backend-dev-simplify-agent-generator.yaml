@@ -1,4 +1,4 @@
-id: dist002-task-1.1-simplify-agent
+id: 2026-02-10T1300-backend-dev-simplify-agent-generator
 agent: backend-dev
 status: done
 priority: critical
@@ -35,7 +35,7 @@ result:
   summary: simplifyAgent() implemented with full TDD cycle. 28 unit tests pass. Output
     15 lines per agent (vs 40-line limit). Tool mapping, model inference, content
     stripping all verified.
-  artefacts_created:
+  artefacts:
   - tools/exporters/claude-code-generator.js
   - tests/unit/exporters/claude-code-generator.test.js
   tests_passed: 28

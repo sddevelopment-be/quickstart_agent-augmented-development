@@ -1,4 +1,4 @@
-id: dist002-task-2.1-deploy-integration
+id: 2026-02-10T1303-devops-danny-deploy-integration
 agent: build-automation
 status: done
 priority: high
@@ -42,7 +42,7 @@ result:
     deployClaudeRules(), simplified deployClaudeAgents(). New flags --rules, --claude-md,
     --prompts-legacy. package.json updated. Idempotency verified. All 21 agents +
     5 rules + CLAUDE.md deploy successfully.
-  artefacts_modified:
+  artefacts:
   - tools/scripts/deploy-skills.js
   - package.json
   tests_passed: 0
