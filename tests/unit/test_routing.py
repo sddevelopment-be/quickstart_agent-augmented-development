@@ -2,83 +2,86 @@
 Unit tests for routing engine.
 """
 
-import pytest
-import yaml
-from pathlib import Path
 from unittest.mock import patch
 
-from src.llm_service.routing import RoutingEngine, RoutingDecision, RoutingError
+import pytest
+import yaml
+
 from src.llm_service.config.loader import load_configuration
 from src.llm_service.config.schemas import (
-    AgentsSchema, AgentConfig,
-    ToolsSchema, ToolConfig,
-    ModelsSchema, ModelConfig,
-    PoliciesSchema, PolicyConfig,
+    AgentConfig,
+    AgentsSchema,
+    ModelConfig,
+    ModelsSchema,
+    PoliciesSchema,
+    PolicyConfig,
+    ToolConfig,
+    ToolsSchema,
 )
+from src.llm_service.routing import RoutingDecision, RoutingEngine, RoutingError
 
 
 @pytest.fixture
 def basic_config(tmp_path):
     """Create basic test configuration."""
     agents_data = {
-        'agents': {
-            'test-agent': {
-                'preferred_tool': 'test-tool',
-                'preferred_model': 'expensive-model',
-                'fallback_chain': ['backup-tool:expensive-model', 'test-tool:cheap-model'],
-                'task_types': {
-                    'simple': 'cheap-model',
-                    'complex': 'expensive-model',
-                }
+        "agents": {
+            "test-agent": {
+                "preferred_tool": "test-tool",
+                "preferred_model": "expensive-model",
+                "fallback_chain": [
+                    "backup-tool:expensive-model",
+                    "test-tool:cheap-model",
+                ],
+                "task_types": {
+                    "simple": "cheap-model",
+                    "complex": "expensive-model",
+                },
             }
         }
     }
     tools_data = {
-        'tools': {
-            'test-tool': {
-                'binary': 'test',
-                'command_template': '{binary} {prompt_file} {model}',
-                'models': ['expensive-model', 'cheap-model']
+        "tools": {
+            "test-tool": {
+                "binary": "test",
+                "command_template": "{binary} {prompt_file} {model}",
+                "models": ["expensive-model", "cheap-model"],
             },
-            'backup-tool': {
-                'binary': 'backup',
-                'command_template': '{binary} {prompt_file} {model}',
-                'models': ['expensive-model']
-            }
+            "backup-tool": {
+                "binary": "backup",
+                "command_template": "{binary} {prompt_file} {model}",
+                "models": ["expensive-model"],
+            },
         }
     }
     models_data = {
-        'models': {
-            'expensive-model': {
-                'provider': 'test',
-                'cost_per_1k_tokens': {'input': 0.03, 'output': 0.06},
-                'context_window': 8000
+        "models": {
+            "expensive-model": {
+                "provider": "test",
+                "cost_per_1k_tokens": {"input": 0.03, "output": 0.06},
+                "context_window": 8000,
             },
-            'cheap-model': {
-                'provider': 'test',
-                'cost_per_1k_tokens': {'input': 0.001, 'output': 0.002},
-                'context_window': 4000
-            }
+            "cheap-model": {
+                "provider": "test",
+                "cost_per_1k_tokens": {"input": 0.001, "output": 0.002},
+                "context_window": 4000,
+            },
         }
     }
     policies_data = {
-        'policies': {
-            'default': {
-                'daily_budget_usd': 10.0
-            }
+        "policies": {"default": {"daily_budget_usd": 10.0}},
+        "cost_optimization": {
+            "simple_task_threshold_tokens": 1500,
+            "simple_task_models": ["cheap-model"],
+            "complex_task_models": ["expensive-model"],
         },
-        'cost_optimization': {
-            'simple_task_threshold_tokens': 1500,
-            'simple_task_models': ['cheap-model'],
-            'complex_task_models': ['expensive-model']
-        }
     }
-    
+
     (tmp_path / "agents.yaml").write_text(yaml.dump(agents_data))
     (tmp_path / "tools.yaml").write_text(yaml.dump(tools_data))
     (tmp_path / "models.yaml").write_text(yaml.dump(models_data))
     (tmp_path / "policies.yaml").write_text(yaml.dump(policies_data))
-    
+
     return load_configuration(str(tmp_path))
 
 
@@ -86,327 +89,344 @@ def test_routing_engine_basic_routing(basic_config):
     """Test basic routing with agent preferences."""
     with patch("shutil.which", return_value="/usr/bin/mock"):
         engine = RoutingEngine(
-            basic_config['agents'],
-            basic_config['tools'],
-            basic_config['models'],
-            basic_config['policies'],
+            basic_config["agents"],
+            basic_config["tools"],
+            basic_config["models"],
+            basic_config["policies"],
         )
-    
-    decision = engine.route('test-agent')
-    
-    assert decision.tool_name == 'test-tool'
-    assert decision.model_name == 'expensive-model'
+
+    decision = engine.route("test-agent")
+
+    assert decision.tool_name == "test-tool"
+    assert decision.model_name == "expensive-model"
     assert not decision.fallback_used
-    assert 'preferred configuration' in decision.reason
+    assert "preferred configuration" in decision.reason
 
 
 def test_routing_engine_task_type_override(basic_config):
     """Test task type override for model selection."""
     with patch("shutil.which", return_value="/usr/bin/mock"):
-            engine = RoutingEngine(
-        basic_config['agents'],
-        basic_config['tools'],
-        basic_config['models'],
-        basic_config['policies'],
-    )
-    
-    decision = engine.route('test-agent', task_type='simple')
-    
-    assert decision.tool_name == 'test-tool'
-    assert decision.model_name == 'cheap-model'
-    assert 'Task type' in decision.reason
+        engine = RoutingEngine(
+            basic_config["agents"],
+            basic_config["tools"],
+            basic_config["models"],
+            basic_config["policies"],
+        )
+
+    decision = engine.route("test-agent", task_type="simple")
+
+    assert decision.tool_name == "test-tool"
+    assert decision.model_name == "cheap-model"
+    assert "Task type" in decision.reason
 
 
 def test_routing_engine_cost_optimization(basic_config):
     """Test cost optimization for small prompts."""
     with patch("shutil.which", return_value="/usr/bin/mock"):
-            engine = RoutingEngine(
-        basic_config['agents'],
-        basic_config['tools'],
-        basic_config['models'],
-        basic_config['policies'],
-    )
-    
+        engine = RoutingEngine(
+            basic_config["agents"],
+            basic_config["tools"],
+            basic_config["models"],
+            basic_config["policies"],
+        )
+
     # Small prompt should trigger cost optimization
-    decision = engine.route('test-agent', prompt_size_tokens=1000)
-    
-    assert decision.model_name == 'cheap-model'
-    assert 'cost optimization' in decision.reason
+    decision = engine.route("test-agent", prompt_size_tokens=1000)
+
+    assert decision.model_name == "cheap-model"
+    assert "cost optimization" in decision.reason
 
 
 def test_routing_engine_no_cost_optimization_large_prompt(basic_config):
     """Test that large prompts don't trigger cost optimization."""
     with patch("shutil.which", return_value="/usr/bin/mock"):
-            engine = RoutingEngine(
-        basic_config['agents'],
-        basic_config['tools'],
-        basic_config['models'],
-        basic_config['policies'],
-    )
-    
+        engine = RoutingEngine(
+            basic_config["agents"],
+            basic_config["tools"],
+            basic_config["models"],
+            basic_config["policies"],
+        )
+
     # Large prompt should not trigger optimization
-    decision = engine.route('test-agent', prompt_size_tokens=5000)
-    
-    assert decision.model_name == 'expensive-model'
-    assert 'cost optimization' not in decision.reason
+    decision = engine.route("test-agent", prompt_size_tokens=5000)
+
+    assert decision.model_name == "expensive-model"
+    assert "cost optimization" not in decision.reason
 
 
 def test_routing_engine_agent_not_found(basic_config):
     """Test error when agent doesn't exist."""
     with patch("shutil.which", return_value="/usr/bin/mock"):
-            engine = RoutingEngine(
-        basic_config['agents'],
-        basic_config['tools'],
-        basic_config['models'],
-        basic_config['policies'],
-    )
-    
+        engine = RoutingEngine(
+            basic_config["agents"],
+            basic_config["tools"],
+            basic_config["models"],
+            basic_config["policies"],
+        )
+
     with pytest.raises(RoutingError, match="not found"):
-        engine.route('nonexistent-agent')
+        engine.route("nonexistent-agent")
 
 
 def test_routing_engine_get_model_cost(basic_config):
     """Test getting model cost information."""
     with patch("shutil.which", return_value="/usr/bin/mock"):
-            engine = RoutingEngine(
-        basic_config['agents'],
-        basic_config['tools'],
-        basic_config['models'],
-        basic_config['policies'],
-    )
-    
-    cost = engine.get_model_cost('expensive-model')
-    assert cost['input'] == 0.03
-    assert cost['output'] == 0.06
-    
-    cost = engine.get_model_cost('cheap-model')
-    assert cost['input'] == 0.001
-    assert cost['output'] == 0.002
+        engine = RoutingEngine(
+            basic_config["agents"],
+            basic_config["tools"],
+            basic_config["models"],
+            basic_config["policies"],
+        )
+
+    cost = engine.get_model_cost("expensive-model")
+    assert cost["input"] == 0.03
+    assert cost["output"] == 0.06
+
+    cost = engine.get_model_cost("cheap-model")
+    assert cost["input"] == 0.001
+    assert cost["output"] == 0.002
 
 
 def test_routing_engine_list_agent_capabilities(basic_config):
     """Test listing agent capabilities."""
     with patch("shutil.which", return_value="/usr/bin/mock"):
-            engine = RoutingEngine(
-        basic_config['agents'],
-        basic_config['tools'],
-        basic_config['models'],
-        basic_config['policies'],
-    )
-    
-    caps = engine.list_agent_capabilities('test-agent')
-    
-    assert caps['agent_name'] == 'test-agent'
-    assert caps['preferred_tool'] == 'test-tool'
-    assert caps['preferred_model'] == 'expensive-model'
-    assert len(caps['fallback_chain']) == 2
-    assert 'simple' in caps['task_types']
+        engine = RoutingEngine(
+            basic_config["agents"],
+            basic_config["tools"],
+            basic_config["models"],
+            basic_config["policies"],
+        )
+
+    caps = engine.list_agent_capabilities("test-agent")
+
+    assert caps["agent_name"] == "test-agent"
+    assert caps["preferred_tool"] == "test-tool"
+    assert caps["preferred_model"] == "expensive-model"
+    assert len(caps["fallback_chain"]) == 2
+    assert "simple" in caps["task_types"]
 
 
 def test_routing_decision_dataclass():
     """Test RoutingDecision dataclass."""
     decision = RoutingDecision(
-        tool_name='test-tool',
-        model_name='test-model',
-        reason='test reason',
+        tool_name="test-tool",
+        model_name="test-model",
+        reason="test reason",
         fallback_used=True,
-        original_tool='original-tool',
-        original_model='original-model',
+        original_tool="original-tool",
+        original_model="original-model",
     )
-    
-    assert decision.tool_name == 'test-tool'
-    assert decision.model_name == 'test-model'
-    assert decision.reason == 'test reason'
+
+    assert decision.tool_name == "test-tool"
+    assert decision.model_name == "test-model"
+    assert decision.reason == "test reason"
     assert decision.fallback_used is True
-    assert decision.original_tool == 'original-tool'
-    assert decision.original_model == 'original-model'
+    assert decision.original_tool == "original-tool"
+    assert decision.original_model == "original-model"
 
 
 def test_routing_engine_fallback_on_unavailable_tool():
     """Test fallback chain when primary tool doesn't exist."""
     # Directly create schemas to bypass validation (testing routing logic, not config validation)
-    agents = AgentsSchema(agents={
-        'test-agent': AgentConfig(
-            preferred_tool='nonexistent-tool',
-            preferred_model='model1',
-            fallback_chain=['backup-tool:model1', 'test-tool:model2']
-        )
-    })
-    tools = ToolsSchema(tools={
-        'backup-tool': ToolConfig(
-            binary='backup',
-            command_template='{binary} {prompt_file} {model}',
-            models=['model1']
-        ),
-        'test-tool': ToolConfig(
-            binary='test',
-            command_template='{binary} {prompt_file} {model}',
-            models=['model2']
-        )
-    })
-    models = ModelsSchema(models={
-        'model1': ModelConfig(
-            provider='test',
-            cost_per_1k_tokens={'input': 0.01, 'output': 0.03},
-            context_window=8000
-        ),
-        'model2': ModelConfig(
-            provider='test',
-            cost_per_1k_tokens={'input': 0.02, 'output': 0.04},
-            context_window=8000
-        )
-    })
-    policies = PoliciesSchema(policies={
-        'default': PolicyConfig(daily_budget_usd=10.0)
-    })
-    
+    agents = AgentsSchema(
+        agents={
+            "test-agent": AgentConfig(
+                preferred_tool="nonexistent-tool",
+                preferred_model="model1",
+                fallback_chain=["backup-tool:model1", "test-tool:model2"],
+            )
+        }
+    )
+    tools = ToolsSchema(
+        tools={
+            "backup-tool": ToolConfig(
+                binary="backup",
+                command_template="{binary} {prompt_file} {model}",
+                models=["model1"],
+            ),
+            "test-tool": ToolConfig(
+                binary="test",
+                command_template="{binary} {prompt_file} {model}",
+                models=["model2"],
+            ),
+        }
+    )
+    models = ModelsSchema(
+        models={
+            "model1": ModelConfig(
+                provider="test",
+                cost_per_1k_tokens={"input": 0.01, "output": 0.03},
+                context_window=8000,
+            ),
+            "model2": ModelConfig(
+                provider="test",
+                cost_per_1k_tokens={"input": 0.02, "output": 0.04},
+                context_window=8000,
+            ),
+        }
+    )
+    policies = PoliciesSchema(policies={"default": PolicyConfig(daily_budget_usd=10.0)})
+
     with patch("shutil.which", return_value="/usr/bin/mock"):
         engine = RoutingEngine(agents, tools, models, policies)
-        
-    decision = engine.route('test-agent')
-    
+
+    decision = engine.route("test-agent")
+
     assert decision.fallback_used is True
-    assert decision.tool_name == 'backup-tool'
-    assert decision.model_name == 'model1'
-    assert decision.original_tool == 'nonexistent-tool'
-    assert 'fallback' in decision.reason.lower()
+    assert decision.tool_name == "backup-tool"
+    assert decision.model_name == "model1"
+    assert decision.original_tool == "nonexistent-tool"
+    assert "fallback" in decision.reason.lower()
 
 
 def test_routing_engine_fallback_exhausted():
     """Test error when all fallback options are exhausted."""
     # Directly create schemas to bypass validation
-    agents = AgentsSchema(agents={
-        'test-agent': AgentConfig(
-            preferred_tool='nonexistent-tool',
-            preferred_model='model1',
-            fallback_chain=['also-nonexistent:model1']
-        )
-    })
+    agents = AgentsSchema(
+        agents={
+            "test-agent": AgentConfig(
+                preferred_tool="nonexistent-tool",
+                preferred_model="model1",
+                fallback_chain=["also-nonexistent:model1"],
+            )
+        }
+    )
     tools = ToolsSchema(tools={})
-    models = ModelsSchema(models={
-        'model1': ModelConfig(
-            provider='test',
-            cost_per_1k_tokens={'input': 0.01, 'output': 0.03},
-            context_window=8000
-        )
-    })
-    policies = PoliciesSchema(policies={
-        'default': PolicyConfig(daily_budget_usd=10.0)
-    })
-    
+    models = ModelsSchema(
+        models={
+            "model1": ModelConfig(
+                provider="test",
+                cost_per_1k_tokens={"input": 0.01, "output": 0.03},
+                context_window=8000,
+            )
+        }
+    )
+    policies = PoliciesSchema(policies={"default": PolicyConfig(daily_budget_usd=10.0)})
+
     with patch("shutil.which", return_value="/usr/bin/mock"):
         engine = RoutingEngine(agents, tools, models, policies)
-        
+
     with pytest.raises(RoutingError, match="no valid fallback available"):
-        engine.route('test-agent')
+        engine.route("test-agent")
 
 
 def test_routing_engine_tool_switching_for_model_compatibility():
     """Test automatic tool switching when preferred tool doesn't support selected model."""
     # Directly create schemas to bypass validation
-    agents = AgentsSchema(agents={
-        'test-agent': AgentConfig(
-            preferred_tool='tool1',
-            preferred_model='model-special',
-            fallback_chain=[]
-        )
-    })
-    tools = ToolsSchema(tools={
-        'tool1': ToolConfig(
-            binary='tool1',
-            command_template='{binary} {prompt_file} {model}',
-            models=['model-common']  # Doesn't support model-special
-        ),
-        'tool2': ToolConfig(
-            binary='tool2',
-            command_template='{binary} {prompt_file} {model}',
-            models=['model-special']  # Supports model-special
-        )
-    })
-    models = ModelsSchema(models={
-        'model-common': ModelConfig(
-            provider='test',
-            cost_per_1k_tokens={'input': 0.01, 'output': 0.03},
-            context_window=8000
-        ),
-        'model-special': ModelConfig(
-            provider='test',
-            cost_per_1k_tokens={'input': 0.02, 'output': 0.04},
-            context_window=8000
-        )
-    })
-    policies = PoliciesSchema(policies={
-        'default': PolicyConfig(daily_budget_usd=10.0)
-    })
-    
+    agents = AgentsSchema(
+        agents={
+            "test-agent": AgentConfig(
+                preferred_tool="tool1",
+                preferred_model="model-special",
+                fallback_chain=[],
+            )
+        }
+    )
+    tools = ToolsSchema(
+        tools={
+            "tool1": ToolConfig(
+                binary="tool1",
+                command_template="{binary} {prompt_file} {model}",
+                models=["model-common"],  # Doesn't support model-special
+            ),
+            "tool2": ToolConfig(
+                binary="tool2",
+                command_template="{binary} {prompt_file} {model}",
+                models=["model-special"],  # Supports model-special
+            ),
+        }
+    )
+    models = ModelsSchema(
+        models={
+            "model-common": ModelConfig(
+                provider="test",
+                cost_per_1k_tokens={"input": 0.01, "output": 0.03},
+                context_window=8000,
+            ),
+            "model-special": ModelConfig(
+                provider="test",
+                cost_per_1k_tokens={"input": 0.02, "output": 0.04},
+                context_window=8000,
+            ),
+        }
+    )
+    policies = PoliciesSchema(policies={"default": PolicyConfig(daily_budget_usd=10.0)})
+
     with patch("shutil.which", return_value="/usr/bin/mock"):
         engine = RoutingEngine(agents, tools, models, policies)
-        
-    decision = engine.route('test-agent')
-    
-    assert decision.tool_name == 'tool2'
-    assert decision.model_name == 'model-special'
-    assert 'tool switched' in decision.reason.lower() or 'compatibility' in decision.reason.lower()
+
+    decision = engine.route("test-agent")
+
+    assert decision.tool_name == "tool2"
+    assert decision.model_name == "model-special"
+    assert (
+        "tool switched" in decision.reason.lower()
+        or "compatibility" in decision.reason.lower()
+    )
 
 
 def test_routing_engine_model_not_found_error():
     """Test error when selected model doesn't exist."""
     # Directly create schemas to bypass validation
-    agents = AgentsSchema(agents={
-        'test-agent': AgentConfig(
-            preferred_tool='test-tool',
-            preferred_model='nonexistent-model',
-            fallback_chain=[]
-        )
-    })
-    tools = ToolsSchema(tools={
-        'test-tool': ToolConfig(
-            binary='test',
-            command_template='{binary} {prompt_file} {model}',
-            models=['existing-model']
-        )
-    })
-    models = ModelsSchema(models={
-        'existing-model': ModelConfig(
-            provider='test',
-            cost_per_1k_tokens={'input': 0.01, 'output': 0.03},
-            context_window=8000
-        )
-    })
-    policies = PoliciesSchema(policies={
-        'default': PolicyConfig(daily_budget_usd=10.0)
-    })
-    
+    agents = AgentsSchema(
+        agents={
+            "test-agent": AgentConfig(
+                preferred_tool="test-tool",
+                preferred_model="nonexistent-model",
+                fallback_chain=[],
+            )
+        }
+    )
+    tools = ToolsSchema(
+        tools={
+            "test-tool": ToolConfig(
+                binary="test",
+                command_template="{binary} {prompt_file} {model}",
+                models=["existing-model"],
+            )
+        }
+    )
+    models = ModelsSchema(
+        models={
+            "existing-model": ModelConfig(
+                provider="test",
+                cost_per_1k_tokens={"input": 0.01, "output": 0.03},
+                context_window=8000,
+            )
+        }
+    )
+    policies = PoliciesSchema(policies={"default": PolicyConfig(daily_budget_usd=10.0)})
+
     with patch("shutil.which", return_value="/usr/bin/mock"):
         engine = RoutingEngine(agents, tools, models, policies)
-        
+
     with pytest.raises(RoutingError, match="Model.*not found"):
-        engine.route('test-agent')
+        engine.route("test-agent")
 
 
 def test_routing_engine_get_model_cost_not_found(basic_config):
     """Test error when getting cost for nonexistent model."""
     with patch("shutil.which", return_value="/usr/bin/mock"):
-            engine = RoutingEngine(
-        basic_config['agents'],
-        basic_config['tools'],
-        basic_config['models'],
-        basic_config['policies'],
-    )
-    
+        engine = RoutingEngine(
+            basic_config["agents"],
+            basic_config["tools"],
+            basic_config["models"],
+            basic_config["policies"],
+        )
+
     with pytest.raises(RoutingError, match="not found"):
-        engine.get_model_cost('nonexistent-model')
+        engine.get_model_cost("nonexistent-model")
 
 
 def test_routing_engine_list_agent_capabilities_not_found(basic_config):
     """Test error when listing capabilities for nonexistent agent."""
     with patch("shutil.which", return_value="/usr/bin/mock"):
-            engine = RoutingEngine(
-        basic_config['agents'],
-        basic_config['tools'],
-        basic_config['models'],
-        basic_config['policies'],
-    )
-    
+        engine = RoutingEngine(
+            basic_config["agents"],
+            basic_config["tools"],
+            basic_config["models"],
+            basic_config["policies"],
+        )
+
     with pytest.raises(RoutingError, match="not found"):
-        engine.list_agent_capabilities('nonexistent-agent')
+        engine.list_agent_capabilities("nonexistent-agent")

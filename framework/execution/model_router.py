@@ -4,7 +4,7 @@ Implements router-first strategy per ADR-021 with fallback chains
 and cost-aware selection.
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from framework.execution.model_config import ModelConfig
 
@@ -16,7 +16,7 @@ class ModelRouter:
     and cost-aware selection.
     """
 
-    def __init__(self, config_path: Optional[str] = None) -> None:
+    def __init__(self, config_path: str | None = None) -> None:
         """Initialize model router.
 
         Args:
@@ -24,8 +24,8 @@ class ModelRouter:
                 Defaults to src/framework/config/model_router.yaml.
         """
         self.config_path = config_path or "src/framework/config/model_router.yaml"
-        self._models: Dict[str, ModelConfig] = {}
-        self._fallback_chains: Dict[str, List[str]] = {}
+        self._models: dict[str, ModelConfig] = {}
+        self._fallback_chains: dict[str, list[str]] = {}
 
     def load_config(self) -> None:
         """Load router configuration from YAML.
@@ -42,7 +42,7 @@ class ModelRouter:
     def select_model(
         self,
         task_type: str,
-        constraints: Optional[Dict[str, Any]] = None,
+        constraints: dict[str, Any] | None = None,
     ) -> ModelConfig:
         """Select optimal model for task based on requirements.
 
@@ -73,7 +73,7 @@ class ModelRouter:
 
         raise NotImplementedError("Model selection not yet implemented")
 
-    def get_fallback_chain(self, model_id: str) -> List[str]:
+    def get_fallback_chain(self, model_id: str) -> list[str]:
         """Get fallback model chain for given model.
 
         Args:

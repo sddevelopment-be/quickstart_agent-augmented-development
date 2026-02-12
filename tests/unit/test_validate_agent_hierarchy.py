@@ -28,7 +28,6 @@ from validate_agent_hierarchy import (
     validate_schema,
 )
 
-
 # --- Fixtures ---
 
 
@@ -64,9 +63,7 @@ def tmp_custom_agents_dir(tmp_path: Path) -> Path:
     return custom_dir
 
 
-def create_agent_file(
-    directory: Path, name: str, profile: dict[str, Any]
-) -> Path:
+def create_agent_file(directory: Path, name: str, profile: dict[str, Any]) -> Path:
     """Helper to create agent markdown file with YAML frontmatter."""
     import yaml
 
@@ -124,7 +121,9 @@ class TestLoadAgentProfile:
         """
         # Arrange
         agent_file = tmp_path / "invalid.agent.md"
-        agent_file.write_text("# Agent without frontmatter\n\nContent here.", encoding="utf-8")
+        agent_file.write_text(
+            "# Agent without frontmatter\n\nContent here.", encoding="utf-8"
+        )
 
         # Assumption
         assert agent_file.exists()
@@ -143,7 +142,9 @@ class TestLoadAgentProfile:
         """
         # Arrange
         agent_file = tmp_path / "incomplete.agent.md"
-        agent_file.write_text("---\nname: incomplete\n\nNo closing marker.", encoding="utf-8")
+        agent_file.write_text(
+            "---\nname: incomplete\n\nNo closing marker.", encoding="utf-8"
+        )
 
         # Assumption
         assert agent_file.exists()
@@ -233,9 +234,7 @@ class TestDiscoverAgents:
         THEN custom agent should override framework agent
         """
         # Arrange
-        create_agent_file(
-            tmp_doctrine_dir, "shared-agent", {"name": "shared-agent"}
-        )
+        create_agent_file(tmp_doctrine_dir, "shared-agent", {"name": "shared-agent"})
         create_agent_file(
             tmp_custom_agents_dir, "shared-agent", {"name": "shared-agent"}
         )
@@ -432,7 +431,10 @@ class TestPriorityConflicts:
         }
 
         # Assumption
-        assert agents["agent-a"]["routing_priority"] == agents["agent-b"]["routing_priority"]
+        assert (
+            agents["agent-a"]["routing_priority"]
+            == agents["agent-b"]["routing_priority"]
+        )
 
         # Act
         errors = detect_priority_conflicts(agents)
@@ -462,7 +464,10 @@ class TestPriorityConflicts:
         }
 
         # Assumption
-        assert agents["agent-a"]["routing_priority"] != agents["agent-b"]["routing_priority"]
+        assert (
+            agents["agent-a"]["routing_priority"]
+            != agents["agent-b"]["routing_priority"]
+        )
 
         # Act
         errors = detect_priority_conflicts(agents)
@@ -491,7 +496,10 @@ class TestPriorityConflicts:
         }
 
         # Assumption
-        assert agents["agent-a"]["specialization_context"] != agents["agent-b"]["specialization_context"]
+        assert (
+            agents["agent-a"]["specialization_context"]
+            != agents["agent-b"]["specialization_context"]
+        )
 
         # Act
         errors = detect_priority_conflicts(agents)
@@ -685,7 +693,9 @@ class TestSchemaValidation:
         }
 
         # Assumption
-        assert not isinstance(agents["agent"]["specialization_context"]["language"], list)
+        assert not isinstance(
+            agents["agent"]["specialization_context"]["language"], list
+        )
 
         # Act
         errors = validate_schema(agents)
@@ -796,7 +806,9 @@ class TestSpecialistRouting:
         test_file = "test_script.py"
 
         # Assert
-        assert any(test_file.endswith(pattern.lstrip("*")) for pattern in pedro_patterns)
+        assert any(
+            test_file.endswith(pattern.lstrip("*")) for pattern in pedro_patterns
+        )
 
     def test_generalist_fallback(self) -> None:
         """

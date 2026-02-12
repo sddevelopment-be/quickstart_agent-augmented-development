@@ -215,9 +215,9 @@ class TestOrchestrator:
         work_dir.mkdir()
 
         # Assumption Check
-        assert not missing_agents_dir.exists(), (
-            "Test precondition failed: agents_dir should NOT exist"
-        )
+        assert (
+            not missing_agents_dir.exists()
+        ), "Test precondition failed: agents_dir should NOT exist"
 
         # Act & Assert
         with pytest.raises(FileNotFoundError) as exc_info:
@@ -235,9 +235,9 @@ class TestOrchestrator:
         missing_work_dir = tmp_path / "missing_work"
 
         # Assumption Check
-        assert not missing_work_dir.exists(), (
-            "Test precondition failed: work_dir should NOT exist"
-        )
+        assert (
+            not missing_work_dir.exists()
+        ), "Test precondition failed: work_dir should NOT exist"
 
         # Act & Assert
         with pytest.raises(FileNotFoundError) as exc_info:
@@ -257,9 +257,9 @@ class TestOrchestrator:
         task = Task(id="test", title="Test", status=TaskStatus.INBOX)
 
         # Assumption Check
-        assert task.status == TaskStatus.INBOX, (
-            "Test precondition failed: task should be in INBOX"
-        )
+        assert (
+            task.status == TaskStatus.INBOX
+        ), "Test precondition failed: task should be in INBOX"
 
         # Act
         orchestrator.transition_task(task, TaskStatus.ASSIGNED)
@@ -281,9 +281,9 @@ class TestOrchestrator:
         task = Task(id="test", title="Test", status=TaskStatus.INBOX)
 
         # Assumption Check
-        assert task.status == TaskStatus.INBOX, (
-            "Test precondition failed: task should be in INBOX"
-        )
+        assert (
+            task.status == TaskStatus.INBOX
+        ), "Test precondition failed: task should be in INBOX"
 
         # Act & Assert
         with pytest.raises(ValueError) as exc_info:
@@ -291,9 +291,7 @@ class TestOrchestrator:
 
         assert "invalid transition" in str(exc_info.value).lower()
 
-    def test_assign_task_no_profiles_loaded_raises_error(
-        self, tmp_path: Path
-    ) -> None:
+    def test_assign_task_no_profiles_loaded_raises_error(self, tmp_path: Path) -> None:
         """Test assign_task raises RuntimeError when no profiles loaded."""
         # Arrange
         agents_dir = tmp_path / "agents"
@@ -305,9 +303,9 @@ class TestOrchestrator:
         task = Task(id="test", title="Test", status=TaskStatus.INBOX)
 
         # Assumption Check
-        assert not orchestrator._profiles, (
-            "Test precondition failed: no profiles should be loaded"
-        )
+        assert (
+            not orchestrator._profiles
+        ), "Test precondition failed: no profiles should be loaded"
 
         # Act & Assert
         with pytest.raises(RuntimeError) as exc_info:

@@ -6,9 +6,9 @@ Tests proper hierarchy: Initiative → Specification → Feature → Task
 Related: ADR-037 Dashboard Initiative Tracking
 """
 
-import pytest
-from pathlib import Path
 from collections import defaultdict
+
+import pytest
 
 
 def test_initiative_grouping_structure():
@@ -25,7 +25,7 @@ def test_initiative_grouping_structure():
             "features": [],
         },
         {
-            "id": "SPEC-002", 
+            "id": "SPEC-002",
             "title": "Priority Editing",
             "initiative": "Dashboard Enhancements",
             "status": "implemented",
@@ -43,13 +43,13 @@ def test_initiative_grouping_structure():
             "features": [],
         },
     ]
-    
+
     # ACT
     initiatives_grouped = defaultdict(list)
     for spec in specs:
         initiative_name = spec.get("initiative") or "Uncategorized"
         initiatives_grouped[initiative_name].append(spec)
-    
+
     # ASSERT
     assert len(initiatives_grouped) == 2
     assert len(initiatives_grouped["Dashboard Enhancements"]) == 2
@@ -72,18 +72,18 @@ def test_initiative_progress_calculation():
             ]
         },
     ]
-    
+
     # ACT - Collect all features from all specs
     all_features = []
     for spec in specs:
         all_features.extend(spec["features"])
-    
+
     # Calculate average progress
     if all_features:
         avg_progress = sum(f["progress"] for f in all_features) / len(all_features)
     else:
         avg_progress = 0
-    
+
     # ASSERT
     assert len(all_features) == 3
     expected_progress = (100 + 50 + 100) / 3
@@ -98,20 +98,20 @@ def test_initiative_status_priority_inheritance():
         {"status": "in_progress", "priority": "HIGH"},
         {"status": "implemented", "priority": "MEDIUM"},
     ]
-    
+
     # ACT
     status_priority = {"draft": 1, "in_progress": 2, "implemented": 3, "complete": 3}
     initiative_status = max(
         (spec.get("status", "draft") for spec in specs),
-        key=lambda s: status_priority.get(s, 0)
+        key=lambda s: status_priority.get(s, 0),
     )
-    
+
     priority_order = {"CRITICAL": 4, "HIGH": 3, "MEDIUM": 2, "LOW": 1}
     initiative_priority = max(
         (spec.get("priority", "MEDIUM") for spec in specs),
-        key=lambda p: priority_order.get(p, 2)
+        key=lambda p: priority_order.get(p, 2),
     )
-    
+
     # ASSERT
     assert initiative_status == "implemented"
     assert initiative_priority == "HIGH"
@@ -125,13 +125,13 @@ def test_uncategorized_specs_handling():
         {"id": "SPEC-002"},  # No initiative field
         {"id": "SPEC-003", "initiative": None},  # Explicit None
     ]
-    
+
     # ACT
     initiatives_grouped = defaultdict(list)
     for spec in specs:
         initiative_name = spec.get("initiative") or "Uncategorized"
         initiatives_grouped[initiative_name].append(spec)
-    
+
     # ASSERT
     assert "My Initiative" in initiatives_grouped
     assert "Uncategorized" in initiatives_grouped
@@ -152,7 +152,7 @@ def test_initiative_response_structure():
             "features": [],
         }
     ]
-    
+
     # ACT
     initiative = {
         "id": initiative_name.lower().replace(" ", "-"),
@@ -163,7 +163,7 @@ def test_initiative_response_structure():
         "specifications": specs,
         "spec_count": len(specs),
     }
-    
+
     # ASSERT
     assert initiative["id"] == "dashboard-enhancements"
     assert initiative["title"] == "Dashboard Enhancements"

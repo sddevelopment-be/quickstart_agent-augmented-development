@@ -5,9 +5,9 @@ Tests the ToolAdapter ABC contract, ToolResponse dataclass,
 and base adapter utilities following TDD approach (Directive 017).
 """
 
+from typing import Any
+
 import pytest
-from abc import ABC
-from typing import Dict, Any, Optional
 
 
 class TestToolResponse:
@@ -75,6 +75,7 @@ class TestToolResponse:
     def test_tool_response_is_dataclass(self):
         """Test that ToolResponse is a proper dataclass."""
         from dataclasses import is_dataclass
+
         from src.llm_service.adapters.base import ToolResponse
 
         assert is_dataclass(ToolResponse)
@@ -98,7 +99,7 @@ class TestToolAdapter:
         class IncompleteAdapter(ToolAdapter):
             """Adapter missing execute method."""
 
-            def validate_config(self, config: Dict[str, Any]) -> bool:
+            def validate_config(self, config: dict[str, Any]) -> bool:
                 return True
 
             def get_tool_name(self) -> str:
@@ -115,9 +116,7 @@ class TestToolAdapter:
         class IncompleteAdapter(ToolAdapter):
             """Adapter missing validate_config method."""
 
-            def execute(
-                self, prompt: str, model: str, **kwargs
-            ) -> ToolResponse:
+            def execute(self, prompt: str, model: str, **kwargs) -> ToolResponse:
                 return ToolResponse(
                     status="success", output="test", tool_name="incomplete"
                 )
@@ -136,14 +135,12 @@ class TestToolAdapter:
         class IncompleteAdapter(ToolAdapter):
             """Adapter missing get_tool_name method."""
 
-            def execute(
-                self, prompt: str, model: str, **kwargs
-            ) -> ToolResponse:
+            def execute(self, prompt: str, model: str, **kwargs) -> ToolResponse:
                 return ToolResponse(
                     status="success", output="test", tool_name="incomplete"
                 )
 
-            def validate_config(self, config: Dict[str, Any]) -> bool:
+            def validate_config(self, config: dict[str, Any]) -> bool:
                 return True
 
         # Should raise TypeError for missing abstract method
@@ -157,16 +154,14 @@ class TestToolAdapter:
         class ConcreteAdapter(ToolAdapter):
             """Complete adapter implementation for testing."""
 
-            def execute(
-                self, prompt: str, model: str, **kwargs
-            ) -> ToolResponse:
+            def execute(self, prompt: str, model: str, **kwargs) -> ToolResponse:
                 return ToolResponse(
                     status="success",
                     output=f"Executed with {model}",
                     tool_name=self.get_tool_name(),
                 )
 
-            def validate_config(self, config: Dict[str, Any]) -> bool:
+            def validate_config(self, config: dict[str, Any]) -> bool:
                 return "binary" in config
 
             def get_tool_name(self) -> str:
@@ -185,9 +180,7 @@ class TestToolAdapter:
         from src.llm_service.adapters.base import ToolAdapter, ToolResponse
 
         class TestAdapter(ToolAdapter):
-            def execute(
-                self, prompt: str, model: str, **kwargs
-            ) -> ToolResponse:
+            def execute(self, prompt: str, model: str, **kwargs) -> ToolResponse:
                 return ToolResponse(
                     status="success",
                     output="Test output",
@@ -195,7 +188,7 @@ class TestToolAdapter:
                     metadata={"prompt_length": len(prompt)},
                 )
 
-            def validate_config(self, config: Dict[str, Any]) -> bool:
+            def validate_config(self, config: dict[str, Any]) -> bool:
                 return True
 
             def get_tool_name(self) -> str:
@@ -214,14 +207,10 @@ class TestToolAdapter:
         from src.llm_service.adapters.base import ToolAdapter, ToolResponse
 
         class TestAdapter(ToolAdapter):
-            def execute(
-                self, prompt: str, model: str, **kwargs
-            ) -> ToolResponse:
-                return ToolResponse(
-                    status="success", output="test", tool_name="test"
-                )
+            def execute(self, prompt: str, model: str, **kwargs) -> ToolResponse:
+                return ToolResponse(status="success", output="test", tool_name="test")
 
-            def validate_config(self, config: Dict[str, Any]) -> bool:
+            def validate_config(self, config: dict[str, Any]) -> bool:
                 return True
 
             def get_tool_name(self) -> str:
@@ -244,37 +233,40 @@ class TestToolAdapterTypeHints:
 
     def test_execute_method_signature(self):
         """Test execute() method has correct type hints."""
-        from src.llm_service.adapters.base import ToolAdapter, ToolResponse
         import inspect
 
+        from src.llm_service.adapters.base import ToolAdapter, ToolResponse
+
         sig = inspect.signature(ToolAdapter.execute)
-        
+
         # Check parameter annotations
         assert sig.parameters["prompt"].annotation == str
         assert sig.parameters["model"].annotation == str
-        
+
         # Check return annotation
         assert sig.return_annotation == ToolResponse
 
     def test_validate_config_method_signature(self):
         """Test validate_config() method has correct type hints."""
-        from src.llm_service.adapters.base import ToolAdapter
         import inspect
 
+        from src.llm_service.adapters.base import ToolAdapter
+
         sig = inspect.signature(ToolAdapter.validate_config)
-        
+
         # Check parameter annotations
-        assert sig.parameters["config"].annotation == Dict[str, Any]
-        
+        assert sig.parameters["config"].annotation == dict[str, Any]
+
         # Check return annotation
         assert sig.return_annotation == bool
 
     def test_get_tool_name_method_signature(self):
         """Test get_tool_name() method has correct type hints."""
-        from src.llm_service.adapters.base import ToolAdapter
         import inspect
 
+        from src.llm_service.adapters.base import ToolAdapter
+
         sig = inspect.signature(ToolAdapter.get_tool_name)
-        
+
         # Check return annotation
         assert sig.return_annotation == str

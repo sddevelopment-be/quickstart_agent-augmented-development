@@ -7,12 +7,13 @@ initiative, feature, and metadata information for the portfolio view.
 Implements ADR-037: Dashboard Initiative Tracking.
 """
 
+import logging
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
-import re
+
 import yaml
-import logging
 
 # Import status enums (ADR-043)
 from src.domain.specifications.types import FeatureStatus
@@ -131,7 +132,7 @@ class SpecificationParser:
         """
         # Match frontmatter: must start with ---, end with ---
         # Use DOTALL flag to match across newlines
-        match = re.match(r'^---\n(.*?)\n---', content, re.DOTALL)
+        match = re.match(r"^---\n(.*?)\n---", content, re.DOTALL)
 
         if not match:
             return None
@@ -196,7 +197,7 @@ class SpecificationParser:
 
             # Read content (only first portion for efficiency)
             # Frontmatter is typically <1KB, so read first 5KB max
-            with open(path, encoding='utf-8') as f:
+            with open(path, encoding="utf-8") as f:
                 content = f.read(5000)  # Limit to avoid reading huge files
 
             # Check if file is empty
@@ -218,7 +219,9 @@ class SpecificationParser:
 
             # Validate required fields
             if not self.validate_metadata(data):
-                logger.warning(f"Invalid frontmatter (missing required fields): {spec_path}")
+                logger.warning(
+                    f"Invalid frontmatter (missing required fields): {spec_path}"
+                )
                 return None
 
             # Calculate relative path from base directory
@@ -229,7 +232,9 @@ class SpecificationParser:
                 relative_path = str(abs_path.relative_to(abs_base))
             except ValueError:
                 # Path is not relative to base_dir (outside base)
-                logger.warning(f"Path {path} is outside base_dir {self.base_dir}, using filename only")
+                logger.warning(
+                    f"Path {path} is outside base_dir {self.base_dir}, using filename only"
+                )
                 relative_path = path.name
 
             # Parse features if present
@@ -241,7 +246,7 @@ class SpecificationParser:
                             feature = Feature(
                                 id=feat_data.get("id", ""),
                                 title=feat_data.get("title", ""),
-                                status=feat_data.get("status")
+                                status=feat_data.get("status"),
                             )
                             features.append(feature)
                         except ValueError as e:
@@ -263,7 +268,7 @@ class SpecificationParser:
                 updated=data.get("updated", ""),
                 author=data.get("author", ""),
                 epic=data.get("epic"),
-                target_personas=data.get("target_personas", [])
+                target_personas=data.get("target_personas", []),
             )
 
             return metadata

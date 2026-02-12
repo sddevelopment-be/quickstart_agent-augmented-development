@@ -70,8 +70,16 @@ class TaskStatus(str, Enum):
         _transitions: dict[TaskStatus, set[TaskStatus]] = {
             TaskStatus.NEW: {TaskStatus.INBOX, TaskStatus.ASSIGNED, TaskStatus.ERROR},
             TaskStatus.INBOX: {TaskStatus.ASSIGNED, TaskStatus.ERROR},
-            TaskStatus.ASSIGNED: {TaskStatus.IN_PROGRESS, TaskStatus.BLOCKED, TaskStatus.ERROR},
-            TaskStatus.IN_PROGRESS: {TaskStatus.DONE, TaskStatus.BLOCKED, TaskStatus.ERROR},
+            TaskStatus.ASSIGNED: {
+                TaskStatus.IN_PROGRESS,
+                TaskStatus.BLOCKED,
+                TaskStatus.ERROR,
+            },
+            TaskStatus.IN_PROGRESS: {
+                TaskStatus.DONE,
+                TaskStatus.BLOCKED,
+                TaskStatus.ERROR,
+            },
             TaskStatus.BLOCKED: {TaskStatus.IN_PROGRESS, TaskStatus.ERROR},
             TaskStatus.DONE: set(),  # Terminal state
             TaskStatus.ERROR: set(),  # Terminal state

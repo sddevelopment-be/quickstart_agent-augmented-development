@@ -4,12 +4,11 @@ Telemetry API for Dashboard - Query cost/metrics from SQLite.
 Provides read-only access to telemetry database for dashboard visualization.
 """
 
+import logging
+import sqlite3
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
-from datetime import datetime, timezone, timedelta
-import sqlite3
-import logging
-
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +45,7 @@ class TelemetryAPI:
 
     def _init_empty_db(self) -> None:
         """Initialize empty database with schema."""
-        schema_path = Path(__file__).parent.parent / 'telemetry' / 'schema.sql'
+        schema_path = Path(__file__).parent.parent / "telemetry" / "schema.sql"
 
         if schema_path.exists():
             with open(schema_path) as f:
@@ -80,11 +79,14 @@ class TelemetryAPI:
         today = datetime.now(timezone.utc).date()
 
         with sqlite3.connect(self.db_path) as conn:
-            cursor = conn.execute("""
+            cursor = conn.execute(
+                """
                 SELECT COALESCE(SUM(cost_usd), 0.0)
                 FROM invocations
                 WHERE DATE(timestamp) = ?
-            """, (today.isoformat(),))
+            """,
+                (today.isoformat(),),
+            )
             return cursor.fetchone()[0]
 
     def get_monthly_cost(self) -> float:
@@ -98,11 +100,14 @@ class TelemetryAPI:
         month_start = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
 
         with sqlite3.connect(self.db_path) as conn:
-            cursor = conn.execute("""
+            cursor = conn.execute(
+                """
                 SELECT COALESCE(SUM(cost_usd), 0.0)
                 FROM invocations
                 WHERE timestamp >= ?
-            """, (month_start.isoformat(),))
+            """,
+                (month_start.isoformat(),),
+            )
             return cursor.fetchone()[0]
 
     def get_model_usage_stats(self) -> list[dict[str, Any]]:
@@ -141,7 +146,8 @@ class TelemetryAPI:
 
         with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
-            cursor = conn.execute("""
+            cursor = conn.execute(
+                """
                 SELECT
                     DATE(timestamp) as date,
                     SUM(cost_usd) as cost_usd
@@ -149,7 +155,9 @@ class TelemetryAPI:
                 WHERE timestamp >= ?
                 GROUP BY DATE(timestamp)
                 ORDER BY date ASC
-            """, (cutoff.isoformat(),))
+            """,
+                (cutoff.isoformat(),),
+            )
 
             return [dict(row) for row in cursor.fetchall()]
 
@@ -167,7 +175,8 @@ class TelemetryAPI:
 
         with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
-            cursor = conn.execute("""
+            cursor = conn.execute(
+                """
                 SELECT
                     invocation_id,
                     timestamp,
@@ -182,7 +191,9 @@ class TelemetryAPI:
                 WHERE timestamp >= ?
                 ORDER BY timestamp DESC
                 LIMIT 10
-            """, (cutoff.isoformat(),))
+            """,
+                (cutoff.isoformat(),),
+            )
 
             return [dict(row) for row in cursor.fetchall()]
 
@@ -194,15 +205,15 @@ class TelemetryAPI:
             Dictionary with all dashboard metrics
         """
         return {
-            'costs': {
-                'total': self.get_total_cost(),
-                'today': self.get_today_cost(),
-                'month': self.get_monthly_cost()
+            "costs": {
+                "total": self.get_total_cost(),
+                "today": self.get_today_cost(),
+                "month": self.get_monthly_cost(),
             },
-            'models': self.get_model_usage_stats(),
-            'trends': self.get_cost_trend(days=30),
-            'active_operations': self.get_active_operations(),
-            'timestamp': datetime.now(timezone.utc).isoformat()
+            "models": self.get_model_usage_stats(),
+            "trends": self.get_cost_trend(days=30),
+            "active_operations": self.get_active_operations(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def emit_cost_update(self) -> None:
@@ -217,7 +228,7 @@ class TelemetryAPI:
 
         data = self.to_dashboard_dict()
 
-        self.socketio.emit('cost.update', data, namespace='/dashboard')
+        self.socketio.emit("cost.update", data, namespace="/dashboard")
         logger.debug("Cost update emitted to dashboard clients")
 
     def emit_telemetry_update(self, invocation_data: dict[str, Any]) -> None:
@@ -230,15 +241,18 @@ class TelemetryAPI:
         if not self.socketio:
             return
 
-        self.socketio.emit('telemetry.update', {
-            'invocation': invocation_data,
-            'timestamp': datetime.now(timezone.utc).isoformat()
-        }, namespace='/dashboard')
+        self.socketio.emit(
+            "telemetry.update",
+            {
+                "invocation": invocation_data,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            },
+            namespace="/dashboard",
+        )
 
 
 def create_telemetry_api(
-    db_path: str | Path = 'telemetry.db',
-    socketio: Any | None = None
+    db_path: str | Path = "telemetry.db", socketio: Any | None = None
 ) -> TelemetryAPI:
     """
     Convenience function to create TelemetryAPI instance.

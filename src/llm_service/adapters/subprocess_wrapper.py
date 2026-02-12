@@ -12,10 +12,10 @@ Security Design:
     - Command passed as list, not string
     - No shell expansion or metacharacter interpretation
     - Environment variable control
-    
+
 Examples:
     >>> from src.llm_service.adapters.subprocess_wrapper import SubprocessWrapper
-    >>> 
+    >>>
     >>> wrapper = SubprocessWrapper(timeout=30)
     >>> result = wrapper.execute(["ls", "-la"])
     >>> print(f"Exit code: {result.exit_code}")
@@ -24,8 +24,7 @@ Examples:
 
 import subprocess
 import time
-from dataclasses import dataclass, field
-from typing import List, Optional, Dict, Any
+from dataclasses import dataclass
 
 
 class CommandNotFoundError(Exception):
@@ -50,10 +49,10 @@ class SubprocessExecutionError(Exception):
 class ExecutionResult:
     """
     Result of subprocess execution.
-    
+
     This dataclass provides complete information about subprocess execution
     including output, errors, timing, and exit status.
-    
+
     Attributes:
         exit_code: Process exit code (0 for success, non-zero for error)
         stdout: Standard output from process (decoded as UTF-8)
@@ -61,7 +60,7 @@ class ExecutionResult:
         duration_seconds: Execution duration in seconds
         command: Original command that was executed (copy of input)
         timed_out: Whether process exceeded timeout and was terminated
-    
+
     Examples:
         >>> result = ExecutionResult(
         ...     exit_code=0,
@@ -77,48 +76,48 @@ class ExecutionResult:
     stdout: str
     stderr: str
     duration_seconds: float
-    command: List[str]
+    command: list[str]
     timed_out: bool = False
 
 
 class SubprocessWrapper:
     """
     Safe subprocess execution wrapper for tool adapters.
-    
+
     Executes external CLI tools with:
     - Configurable timeout enforcement
     - Separate stdout/stderr capture
     - Platform compatibility
     - Security (shell=False)
     - Error handling
-    
+
     Security Features:
         - Always uses shell=False (no shell interpretation)
         - Command passed as list (prevents injection)
         - No shell metacharacter interpretation
         - Controlled environment variables
-    
+
     Attributes:
         timeout: Default timeout in seconds (None = no timeout)
-    
+
     Examples:
         >>> # Basic usage
         >>> wrapper = SubprocessWrapper(timeout=30)
         >>> result = wrapper.execute(["echo", "hello"])
         >>> print(result.stdout)
         'hello'
-        
+
         >>> # With custom timeout
         >>> result = wrapper.execute(["long-command"], timeout=60)
-        
+
         >>> # With environment variables
         >>> result = wrapper.execute(["cmd"], env={"VAR": "value"})
     """
 
-    def __init__(self, timeout: Optional[float] = None):
+    def __init__(self, timeout: float | None = None):
         """
         Initialize subprocess wrapper.
-        
+
         Args:
             timeout: Default timeout in seconds for command execution.
                     None means no timeout. Can be overridden per execution.
@@ -127,31 +126,31 @@ class SubprocessWrapper:
 
     def execute(
         self,
-        command: List[str],
-        timeout: Optional[float] = None,
-        env: Optional[Dict[str, str]] = None,
+        command: list[str],
+        timeout: float | None = None,
+        env: dict[str, str] | None = None,
     ) -> ExecutionResult:
         """
         Execute command with subprocess.
-        
+
         Executes command with:
         - Timeout enforcement (terminates if exceeded)
         - Separate stdout/stderr capture
         - shell=False for security
         - Error handling
-        
+
         Args:
             command: Command as list of strings (e.g., ["ls", "-la"])
             timeout: Optional timeout override (uses default if not provided)
             env: Optional environment variables dictionary
-        
+
         Returns:
             ExecutionResult with execution details
-        
+
         Raises:
             InvalidCommandError: Command format is invalid
             CommandNotFoundError: Command binary not found
-        
+
         Examples:
             >>> wrapper = SubprocessWrapper()
             >>> result = wrapper.execute(["echo", "test"])
@@ -212,9 +211,7 @@ class SubprocessWrapper:
 
         except FileNotFoundError as e:
             # Command binary not found
-            raise CommandNotFoundError(
-                f"Command not found: {command[0]}"
-            ) from e
+            raise CommandNotFoundError(f"Command not found: {command[0]}") from e
 
         except Exception as e:
             # Other execution errors
@@ -239,12 +236,12 @@ class SubprocessWrapper:
     def _decode_output(self, output_bytes: bytes) -> str:
         """
         Decode subprocess output bytes to string.
-        
+
         Tries UTF-8 first, falls back to latin-1 for binary data.
-        
+
         Args:
             output_bytes: Raw bytes from subprocess
-        
+
         Returns:
             Decoded string
         """

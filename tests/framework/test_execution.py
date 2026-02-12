@@ -140,9 +140,9 @@ class TestModelRouter:
         router = ModelRouter()
 
         # Assumption Check
-        assert not router._models, (
-            "Test precondition failed: router should have no models loaded"
-        )
+        assert (
+            not router._models
+        ), "Test precondition failed: router should have no models loaded"
 
         # Act & Assert
         with pytest.raises(RuntimeError) as exc_info:
@@ -157,9 +157,9 @@ class TestModelRouter:
         unknown_model = "unknown-model-id"
 
         # Assumption Check
-        assert unknown_model not in router._models, (
-            "Test precondition failed: model should NOT exist"
-        )
+        assert (
+            unknown_model not in router._models
+        ), "Test precondition failed: model should NOT exist"
 
         # Act & Assert
         with pytest.raises(ValueError) as exc_info:
@@ -182,12 +182,12 @@ class TestModelRouter:
         router._models["test-model"] = config
 
         # Assumption Check
-        assert "test-model" in router._models, (
-            "Test precondition failed: model should exist"
-        )
-        assert "test-model" not in router._fallback_chains, (
-            "Test precondition failed: no fallback chain should exist"
-        )
+        assert (
+            "test-model" in router._models
+        ), "Test precondition failed: model should exist"
+        assert (
+            "test-model" not in router._fallback_chains
+        ), "Test precondition failed: no fallback chain should exist"
 
         # Act
         result = router.get_fallback_chain("test-model")

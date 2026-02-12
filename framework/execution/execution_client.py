@@ -1,6 +1,6 @@
 """Base execution client interface."""
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from framework.execution.model_provider import ModelProvider
 
@@ -12,7 +12,7 @@ class ExecutionClient:
     Subclasses implement provider-specific logic.
     """
 
-    def __init__(self, provider: ModelProvider, api_key: Optional[str] = None) -> None:
+    def __init__(self, provider: ModelProvider, api_key: str | None = None) -> None:
         """Initialize execution client.
 
         Args:
@@ -26,9 +26,9 @@ class ExecutionClient:
         self,
         model_id: str,
         prompt: str,
-        tools: Optional[List[Dict[str, Any]]] = None,
+        tools: list[dict[str, Any]] | None = None,
         **kwargs: Any,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Invoke model with prompt and optional tools.
 
         Args:

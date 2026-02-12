@@ -19,12 +19,13 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
-from src.domain.collaboration.types import TaskStatus
 from task_utils import (
     log_event,
     read_task,
     write_task,
 )
+
+from src.domain.collaboration.types import TaskStatus
 
 # Configuration
 WORK_DIR = Path("work")

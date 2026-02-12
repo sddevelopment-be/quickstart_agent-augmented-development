@@ -22,13 +22,12 @@ Directives Applied
 - Directive 017: TDD - Unit tests written first, RED-GREEN-REFACTOR
 """
 
-import pytest
 from pathlib import Path
 
-from src.domain.doctrine.parsers import AgentParser
-from src.domain.doctrine.models import Agent, HandoffPattern, PrimerEntry
-from src.domain.doctrine.exceptions import ParseError
+import pytest
 
+from src.domain.doctrine.models import HandoffPattern, PrimerEntry
+from src.domain.doctrine.parsers import AgentParser
 
 # ============================================================================
 # Test Fixtures
@@ -241,9 +240,7 @@ class TestAgentParserCapabilities:
         assert "Type-safe" in agent.capability_descriptions["success"]
         assert "90%" in agent.capability_descriptions["success"]
 
-    def test_parse_capabilities_handles_missing_section(
-        self, agent_file_minimal: Path
-    ):
+    def test_parse_capabilities_handles_missing_section(self, agent_file_minimal: Path):
         """Parser should handle missing capabilities section gracefully."""
         parser = AgentParser()
         agent = parser.parse(agent_file_minimal)
@@ -276,8 +273,7 @@ class TestAgentParserHandoffPatterns:
         assert len(to_patterns) >= 1
 
         backend_pattern = next(
-            (p for p in to_patterns if "backend-benny" in p.target_agent.lower()),
-            None
+            (p for p in to_patterns if "backend-benny" in p.target_agent.lower()), None
         )
         assert backend_pattern is not None
         assert "Service integration" in backend_pattern.context
@@ -293,11 +289,12 @@ class TestAgentParserHandoffPatterns:
         assert len(from_patterns) >= 1
 
         architect_pattern = next(
-            (p for p in from_patterns if "architect" in p.source_agent.lower()),
-            None
+            (p for p in from_patterns if "architect" in p.source_agent.lower()), None
         )
         assert architect_pattern is not None
-        assert "ADRs" in architect_pattern.context or "design" in architect_pattern.context
+        assert (
+            "ADRs" in architect_pattern.context or "design" in architect_pattern.context
+        )
 
     def test_parse_handoff_patterns_extracts_works_with(
         self, agent_file_with_capabilities: Path
@@ -313,7 +310,7 @@ class TestAgentParserHandoffPatterns:
 
         curator_pattern = next(
             (p for p in works_with_patterns if "curator" in p.target_agent.lower()),
-            None
+            None,
         )
         assert curator_pattern is not None
 
@@ -386,18 +383,14 @@ class TestAgentParserConstraints:
         assert "test_framework" in agent.preferences
         assert agent.preferences["test_framework"] == "pytest"
 
-    def test_parse_constraints_handles_missing_section(
-        self, agent_file_minimal: Path
-    ):
+    def test_parse_constraints_handles_missing_section(self, agent_file_minimal: Path):
         """Parser should handle missing constraints section."""
         parser = AgentParser()
         agent = parser.parse(agent_file_minimal)
 
         assert agent.constraints == frozenset()
 
-    def test_parse_preferences_handles_missing_section(
-        self, agent_file_minimal: Path
-    ):
+    def test_parse_preferences_handles_missing_section(self, agent_file_minimal: Path):
         """Parser should handle missing preferences section."""
         parser = AgentParser()
         agent = parser.parse(agent_file_minimal)
@@ -448,7 +441,7 @@ class TestAgentParserPrimerMatrix:
 
         feature_entry = next(
             (e for e in agent.primer_matrix if e.task_type == "feature_development"),
-            None
+            None,
         )
         assert feature_entry is not None
         assert "ATDD" in feature_entry.required_primers
@@ -493,9 +486,7 @@ class TestAgentParserDefaultMode:
         assert hasattr(agent, "default_mode")
         assert agent.default_mode == "analysis-mode"
 
-    def test_parse_default_mode_uses_fallback(
-        self, agent_file_minimal: Path
-    ):
+    def test_parse_default_mode_uses_fallback(self, agent_file_minimal: Path):
         """Parser should use 'analysis-mode' as default when not specified."""
         parser = AgentParser()
         agent = parser.parse(agent_file_minimal)
@@ -526,9 +517,7 @@ class TestAgentParserIntegration:
         assert agent.primer_matrix != ()
         assert agent.default_mode != ""
 
-    def test_parse_minimal_profile_uses_defaults(
-        self, agent_file_minimal: Path
-    ):
+    def test_parse_minimal_profile_uses_defaults(self, agent_file_minimal: Path):
         """Parser should handle minimal profile with default values."""
         parser = AgentParser()
         agent = parser.parse(agent_file_minimal)

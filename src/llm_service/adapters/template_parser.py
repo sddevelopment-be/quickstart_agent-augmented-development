@@ -10,7 +10,7 @@ placeholder substitution. Security features include:
 Design Rationale:
     Templates use {{placeholder}} syntax (consistent with Jinja2/Mustache)
     Security review identified injection risks - mitigations implemented
-    
+
 Examples:
     >>> parser = TemplateParser()
     >>> template = "{{binary}} --model {{model}}"
@@ -22,7 +22,7 @@ Examples:
 
 import re
 import shlex
-from typing import Dict, Any, List, Optional
+from typing import Any
 
 
 class TemplateSyntaxError(Exception):
@@ -40,27 +40,27 @@ class TemplatePlaceholderError(Exception):
 class TemplateParser:
     """
     Parse command templates with placeholder substitution and security.
-    
+
     Supports {{placeholder}} syntax with:
     - Missing placeholder detection
     - Whitelist validation (optional)
     - Shell metacharacter escaping
     - Command injection prevention
-    
+
     Attributes:
         allowed_placeholders: Optional whitelist of allowed placeholder names
-    
+
     Security Features:
         - Validates placeholders against whitelist (if provided)
         - No shell expansion (for use with subprocess shell=False)
         - Proper argument splitting via shlex
         - Detects malformed templates
-    
+
     Examples:
         >>> # Basic usage
         >>> parser = TemplateParser()
         >>> result = parser.parse("{{cmd}} --arg {{value}}", {"cmd": "ls", "value": "-la"})
-        
+
         >>> # With whitelist
         >>> parser = TemplateParser(allowed_placeholders=["binary", "model"])
         >>> result = parser.parse("{{binary}} --model {{model}}", {...})
@@ -72,10 +72,10 @@ class TemplateParser:
     # Shell metacharacters that could be dangerous
     DANGEROUS_CHARS = set(";|&$`<>()\\\"'")
 
-    def __init__(self, allowed_placeholders: Optional[List[str]] = None):
+    def __init__(self, allowed_placeholders: list[str] | None = None):
         """
         Initialize template parser.
-        
+
         Args:
             allowed_placeholders: Optional list of allowed placeholder names.
                                 If provided, only these placeholders are allowed.
@@ -84,25 +84,25 @@ class TemplateParser:
             set(allowed_placeholders) if allowed_placeholders else None
         )
 
-    def parse(self, template: str, context: Dict[str, Any]) -> List[str]:
+    def parse(self, template: str, context: dict[str, Any]) -> list[str]:
         """
         Parse template with placeholder substitution.
-        
+
         Substitutes {{placeholder}} syntax with values from context dictionary.
         Returns list of command arguments suitable for subprocess.run() with
         shell=False.
-        
+
         Args:
             template: Template string with {{placeholder}} syntax
             context: Dictionary mapping placeholder names to values
-        
+
         Returns:
             List of command arguments (for subprocess)
-        
+
         Raises:
             TemplateSyntaxError: Invalid template syntax
             TemplatePlaceholderError: Missing or disallowed placeholder
-        
+
         Examples:
             >>> parser.parse("{{cmd}} --flag", {"cmd": "ls"})
             ['ls', '--flag']
@@ -126,7 +126,10 @@ class TemplateParser:
             placeholder = placeholder.strip()
 
             # Check whitelist if enabled
-            if self.allowed_placeholders and placeholder not in self.allowed_placeholders:
+            if (
+                self.allowed_placeholders
+                and placeholder not in self.allowed_placeholders
+            ):
                 raise TemplatePlaceholderError(
                     f"Placeholder '{placeholder}' not in whitelist. "
                     f"Allowed: {sorted(self.allowed_placeholders)}"
@@ -156,23 +159,21 @@ class TemplateParser:
         try:
             command_args = shlex.split(result)
         except ValueError as e:
-            raise TemplateSyntaxError(
-                f"Failed to parse template result: {str(e)}"
-            )
+            raise TemplateSyntaxError(f"Failed to parse template result: {str(e)}")
 
         return command_args
 
     def _validate_syntax(self, template: str) -> None:
         """
         Validate template syntax.
-        
+
         Checks for:
         - Mismatched braces
         - Malformed placeholders
-        
+
         Args:
             template: Template string to validate
-        
+
         Raises:
             TemplateSyntaxError: If template syntax is invalid
         """
@@ -187,8 +188,8 @@ class TemplateParser:
             )
 
         # Check for single braces that might indicate errors, and report their positions
-        single_open_positions: List[int] = []
-        single_close_positions: List[int] = []
+        single_open_positions: list[int] = []
+        single_close_positions: list[int] = []
 
         i = 0
         length = len(template)
@@ -209,13 +210,9 @@ class TemplateParser:
         if single_open_positions or single_close_positions:
             details = []
             if single_open_positions:
-                details.append(
-                    f"opening '{{' at position {single_open_positions[0]}"
-                )
+                details.append(f"opening '{{' at position {single_open_positions[0]}")
             if single_close_positions:
-                details.append(
-                    f"closing '}}' at position {single_close_positions[0]}"
-                )
+                details.append(f"closing '}}' at position {single_close_positions[0]}")
 
             detail_str = "; ".join(details)
             raise TemplateSyntaxError(
@@ -226,20 +223,20 @@ class TemplateParser:
     def _sanitize_value(self, value: str) -> str:
         """
         Sanitize placeholder value for security and shell parsing.
-        
+
         Note: Since we use subprocess with shell=False, most injection attacks
         are already prevented. However, we need to escape quotes for shlex.split()
         to handle the template string correctly.
-        
+
         Args:
             value: Placeholder value to sanitize
-        
+
         Returns:
             Sanitized value
         """
         # Remove null bytes (can cause issues in some contexts)
         value = value.replace("\x00", "")
-        
+
         # Escape double quotes for shlex.split() processing
         # This allows prompts with quotes to be handled correctly
         value = value.replace('"', '\\"')

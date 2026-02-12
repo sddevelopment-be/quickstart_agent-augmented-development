@@ -7,7 +7,7 @@ Purpose: Detect and warn about long-lived feature branches.
 
 Usage:
     python ops/orchestration/branch_age_checker.py [BRANCH_NAME]
-    
+
 Options:
     BRANCH_NAME          Branch to check (default: current branch)
     --all                Check all branches except main
@@ -23,7 +23,6 @@ import json
 import subprocess
 import sys
 from datetime import datetime, timezone
-from pathlib import Path
 
 
 class BranchAgeChecker:
@@ -182,9 +181,7 @@ class BranchAgeChecker:
 
         if result["status"] == "error":
             lines.append(f"❌ ERROR: Branch is {age_str} old")
-            lines.append(
-                f"   Threshold: {result['error_threshold']}h (maximum)"
-            )
+            lines.append(f"   Threshold: {result['error_threshold']}h (maximum)")
             lines.append("")
             lines.append("Action Required:")
             lines.append("  - Merge to trunk immediately, OR")
@@ -194,15 +191,11 @@ class BranchAgeChecker:
 
         elif result["status"] == "warning":
             lines.append(f"⚠️  WARNING: Branch is {age_str} old")
-            lines.append(
-                f"   Threshold: {result['warning_threshold']}h (warning)"
-            )
+            lines.append(f"   Threshold: {result['warning_threshold']}h (warning)")
             lines.append("")
             lines.append("Recommendation:")
             lines.append("  - Plan to merge within next few hours")
-            lines.append(
-                f"  - Must merge before {result['error_threshold']}h"
-            )
+            lines.append(f"  - Must merge before {result['error_threshold']}h")
 
         else:
             lines.append(f"✅ OK: Branch is {age_str} old")
@@ -243,27 +236,19 @@ class BranchAgeChecker:
         if errors:
             lines.append(f"❌ {len(errors)} branch(es) exceed maximum age:")
             for result in sorted(errors, key=lambda r: r["age_hours"], reverse=True):
-                lines.append(
-                    f"   {result['branch']:40} {result['age_hours']:>6.1f}h"
-                )
+                lines.append(f"   {result['branch']:40} {result['age_hours']:>6.1f}h")
             lines.append("")
 
         if warnings:
             lines.append(f"⚠️  {len(warnings)} branch(es) exceed warning threshold:")
-            for result in sorted(
-                warnings, key=lambda r: r["age_hours"], reverse=True
-            ):
-                lines.append(
-                    f"   {result['branch']:40} {result['age_hours']:>6.1f}h"
-                )
+            for result in sorted(warnings, key=lambda r: r["age_hours"], reverse=True):
+                lines.append(f"   {result['branch']:40} {result['age_hours']:>6.1f}h")
             lines.append("")
 
         if ok:
             lines.append(f"✅ {len(ok)} branch(es) within acceptable age:")
             for result in sorted(ok, key=lambda r: r["age_hours"], reverse=True):
-                lines.append(
-                    f"   {result['branch']:40} {result['age_hours']:>6.1f}h"
-                )
+                lines.append(f"   {result['branch']:40} {result['age_hours']:>6.1f}h")
             lines.append("")
 
         if errors:

@@ -89,7 +89,9 @@ def discover_agents(repo_root: Path) -> dict[str, dict[str, Any]]:
 
         agents: dict[str, dict[str, Any]] = {}
         for agent in domain_agents.values():
-            source = "local" if ".doctrine-config" in str(agent.source_file) else "framework"
+            source = (
+                "local" if ".doctrine-config" in str(agent.source_file) else "framework"
+            )
             agents[agent.id] = _agent_to_dict(agent, source)
 
         return agents
@@ -173,7 +175,14 @@ def validate_schema(agents: dict[str, dict[str, Any]]) -> list[str]:
                 )
 
             # Type validation for known keys
-            for key in ["language", "frameworks", "file_patterns", "domain_keywords", "writing_style", "complexity_preference"]:
+            for key in [
+                "language",
+                "frameworks",
+                "file_patterns",
+                "domain_keywords",
+                "writing_style",
+                "complexity_preference",
+            ]:
                 if key in context and not isinstance(context[key], list):
                     errors.append(
                         f"{name}: specialization_context.{key} must be a list"
@@ -188,7 +197,7 @@ def detect_circular_dependencies(agents: dict[str, dict[str, Any]]) -> list[str]
 
     def has_cycle(name: str, visited: set[str], stack: list[str]) -> bool:
         if name in stack:
-            cycle = " → ".join(stack[stack.index(name):] + [name])
+            cycle = " → ".join(stack[stack.index(name) :] + [name])
             errors.append(f"Circular dependency detected: {cycle}")
             return True
 
@@ -278,7 +287,9 @@ def detect_priority_conflicts(agents: dict[str, dict[str, Any]]) -> list[str]:
     return errors
 
 
-def find_hierarchy_relationships(agents: dict[str, dict[str, Any]]) -> list[tuple[str, str]]:
+def find_hierarchy_relationships(
+    agents: dict[str, dict[str, Any]],
+) -> list[tuple[str, str]]:
     """Find all parent-child relationships in hierarchy."""
     relationships: list[tuple[str, str]] = []
 
@@ -343,7 +354,9 @@ def main() -> int:
     framework_count = sum(1 for a in agents.values() if a.get("_source") == "framework")
     local_count = sum(1 for a in agents.values() if a.get("_source") == "local")
 
-    print(f"Loaded: {len(agents)} agents ({framework_count} framework + {local_count} local)")
+    print(
+        f"Loaded: {len(agents)} agents ({framework_count} framework + {local_count} local)"
+    )
 
     # Find hierarchy relationships
     relationships = find_hierarchy_relationships(agents)
@@ -384,19 +397,24 @@ def main() -> int:
 
     # Check for agents without specialization_context (generalists)
     generalists = [
-        name for name, profile in agents.items()
+        name
+        for name, profile in agents.items()
         if not profile.get("specialization_context")
     ]
 
     if generalists:
-        print(f"  [WARN] {len(generalists)} agents have no specialization_context (generalist agents)")
+        print(
+            f"  [WARN] {len(generalists)} agents have no specialization_context (generalist agents)"
+        )
         warnings += 1
         if args.verbose:
             for name in sorted(generalists):
                 print(f"    - {name}")
 
     # Summary
-    print(f"\nResult: {'PASSED' if success else 'FAILED'} ({passed} checks passed, {failed} failed, {warnings} warnings)")
+    print(
+        f"\nResult: {'PASSED' if success else 'FAILED'} ({passed} checks passed, {failed} failed, {warnings} warnings)"
+    )
 
     return 0 if success else 1
 

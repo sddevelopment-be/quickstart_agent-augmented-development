@@ -86,15 +86,10 @@ def create_spec_file(spec_directory: Path):
         spec_path = spec_directory / filename
 
         # Generate feature list
-        features_yaml = "\n".join(
-            [
-                f"""  - id: {spec_id}-FEAT-{i:03d}
+        features_yaml = "\n".join([f"""  - id: {spec_id}-FEAT-{i:03d}
     title: Feature {i}
     status: draft
-    priority: MEDIUM"""
-                for i in range(num_features)
-            ]
-        )
+    priority: MEDIUM""" for i in range(num_features)])
 
         content = f"""---
 id: {spec_id}
@@ -249,7 +244,9 @@ class TestInitialLoadPerformance:
         elapsed = time.perf_counter() - start_time
 
         # Verify all specs loaded
-        assert len(cache.cache) == 50, f"Expected 50 cached specs, got {len(cache.cache)}"
+        assert (
+            len(cache.cache) == 50
+        ), f"Expected 50 cached specs, got {len(cache.cache)}"
 
         # Verify performance requirement
         assert elapsed < 2.0, f"Initial load took {elapsed:.3f}s, required <2.0s"
@@ -400,9 +397,7 @@ class TestCachedReadPerformance:
         p99_ms = p99_time * 1000
 
         # Verify performance requirements
-        assert (
-            avg_ms < 50.0
-        ), f"Average cached read: {avg_ms:.2f}ms, required <50ms"
+        assert avg_ms < 50.0, f"Average cached read: {avg_ms:.2f}ms, required <50ms"
         assert p95_ms < 50.0, f"P95 cached read: {p95_ms:.2f}ms, required <50ms"
 
         # Log performance metrics
@@ -707,9 +702,7 @@ class TestMemoryEfficiency:
             cache_size_mb < 10.0
         ), f"Cache uses {cache_size_mb:.2f}MB for 100 specs, expected <10MB"
 
-    def test_cache_clear_releases_memory(
-        self, spec_directory: Path, create_50_specs
-    ):
+    def test_cache_clear_releases_memory(self, spec_directory: Path, create_50_specs):
         """
         Test that cache.clear() releases memory.
 
@@ -922,9 +915,7 @@ class TestModalLoadPerformance:
     Tests NFR-P1: Modal load <500ms (P95) including spec cache reads.
     """
 
-    def test_nfr_p1_modal_load_simulation(
-        self, spec_directory: Path, create_50_specs
-    ):
+    def test_nfr_p1_modal_load_simulation(self, spec_directory: Path, create_50_specs):
         """
         NFR-P1: Modal load must complete in <500ms (P95).
 
@@ -1016,9 +1007,7 @@ class TestPerformanceRegressionBaseline:
 
     def test_baseline_cached_read(self, spec_directory: Path, create_spec_file):
         """Baseline: Cached read performance."""
-        spec_path = create_spec_file(
-            "baseline.md", "SPEC-BASE", "Baseline", "Test"
-        )
+        spec_path = create_spec_file("baseline.md", "SPEC-BASE", "Baseline", "Test")
 
         cache = SpecificationCache(str(spec_directory))
         cache.get_spec(str(spec_path))

@@ -4,13 +4,12 @@ Integration tests for telemetry end-to-end functionality.
 Tests the complete flow from routing engine through telemetry logging.
 """
 
-import pytest
-from pathlib import Path
 import sqlite3
-from datetime import datetime
 import time
 
-from llm_service.telemetry.logger import TelemetryLogger, InvocationRecord
+import pytest
+
+from llm_service.telemetry.logger import InvocationRecord, TelemetryLogger
 
 
 @pytest.fixture
@@ -28,7 +27,7 @@ def logger(temp_db):
 def test_end_to_end_successful_invocation(logger):
     """
     Test complete flow of a successful invocation being logged.
-    
+
     Simulates what routing engine would do:
     1. Start timing
     2. Execute (simulated)
@@ -39,13 +38,13 @@ def test_end_to_end_successful_invocation(logger):
     # Simulate routing engine flow
     start_time = time.time()
     invocation_id = "e2e-success-001"
-    
+
     # Simulate successful execution
     time.sleep(0.01)  # Minimal delay
-    
+
     # Calculate metrics
     latency_ms = int((time.time() - start_time) * 1000)
-    
+
     # Log invocation
     record = InvocationRecord(
         invocation_id=invocation_id,
@@ -57,27 +56,30 @@ def test_end_to_end_successful_invocation(logger):
         total_tokens=500,
         cost_usd=0.025,
         latency_ms=latency_ms,
-        status="success"
+        status="success",
     )
-    
+
     logger.log_invocation(record)
-    
+
     # Verify complete flow
     with sqlite3.connect(logger.db_path) as conn:
         # Check invocation logged
-        cursor = conn.execute("""
+        cursor = conn.execute(
+            """
             SELECT invocation_id, agent_name, tool_name, model_name, 
                    prompt_tokens, completion_tokens, total_tokens, 
                    cost_usd, status
             FROM invocations 
             WHERE invocation_id = ?
-        """, (invocation_id,))
-        
+        """,
+            (invocation_id,),
+        )
+
         inv_row = cursor.fetchone()
         assert inv_row is not None
         assert inv_row[1] == "backend-dev"
         assert inv_row[8] == "success"
-        
+
         # Check daily aggregation
         cursor = conn.execute("""
             SELECT invocations, total_tokens, total_cost_usd
@@ -86,7 +88,7 @@ def test_end_to_end_successful_invocation(logger):
             AND tool_name = 'claude-code'
             AND model_name = 'claude-3.5-sonnet'
         """)
-        
+
         daily_row = cursor.fetchone()
         assert daily_row is not None
         assert daily_row[0] == 1  # 1 invocation
@@ -97,7 +99,7 @@ def test_end_to_end_successful_invocation(logger):
 def test_end_to_end_error_invocation(logger):
     """
     Test complete flow of an error invocation being logged.
-    
+
     Simulates routing engine error handling:
     1. Start timing
     2. Execute (fails)
@@ -107,14 +109,14 @@ def test_end_to_end_error_invocation(logger):
     """
     start_time = time.time()
     invocation_id = "e2e-error-001"
-    
+
     # Simulate execution failure
     time.sleep(0.005)
     error_message = "API rate limit exceeded"
-    
+
     # Calculate metrics
     latency_ms = int((time.time() - start_time) * 1000)
-    
+
     # Log error invocation
     record = InvocationRecord(
         invocation_id=invocation_id,
@@ -127,19 +129,22 @@ def test_end_to_end_error_invocation(logger):
         cost_usd=0.0,
         latency_ms=latency_ms,
         status="error",
-        error_message=error_message
+        error_message=error_message,
     )
-    
+
     logger.log_invocation(record)
-    
+
     # Verify error tracking
     with sqlite3.connect(logger.db_path) as conn:
-        cursor = conn.execute("""
+        cursor = conn.execute(
+            """
             SELECT status, error_message, cost_usd
             FROM invocations 
             WHERE invocation_id = ?
-        """, (invocation_id,))
-        
+        """,
+            (invocation_id,),
+        )
+
         row = cursor.fetchone()
         assert row is not None
         assert row[0] == "error"
@@ -150,7 +155,7 @@ def test_end_to_end_error_invocation(logger):
 def test_end_to_end_multiple_agents_concurrent(logger):
     """
     Test multiple agents making concurrent invocations.
-    
+
     Simulates production scenario with multiple agents active:
     - Different agents
     - Different tools
@@ -164,7 +169,7 @@ def test_end_to_end_multiple_agents_concurrent(logger):
             "tool_name": "claude-code",
             "model_name": "claude-3.5-sonnet",
             "tokens": 500,
-            "cost": 0.025
+            "cost": 0.025,
         },
         {
             "invocation_id": "concurrent-002",
@@ -172,7 +177,7 @@ def test_end_to_end_multiple_agents_concurrent(logger):
             "tool_name": "cursor",
             "model_name": "gpt-4-turbo",
             "tokens": 800,
-            "cost": 0.040
+            "cost": 0.040,
         },
         {
             "invocation_id": "concurrent-003",
@@ -180,7 +185,7 @@ def test_end_to_end_multiple_agents_concurrent(logger):
             "tool_name": "claude-code",
             "model_name": "claude-opus-20240229",
             "tokens": 1200,
-            "cost": 0.060
+            "cost": 0.060,
         },
         {
             "invocation_id": "concurrent-004",
@@ -188,10 +193,10 @@ def test_end_to_end_multiple_agents_concurrent(logger):
             "tool_name": "claude-code",
             "model_name": "claude-3.5-sonnet",
             "tokens": 400,
-            "cost": 0.020
-        }
+            "cost": 0.020,
+        },
     ]
-    
+
     # Log all invocations
     for inv in invocations:
         record = InvocationRecord(
@@ -204,17 +209,17 @@ def test_end_to_end_multiple_agents_concurrent(logger):
             total_tokens=inv["tokens"],
             cost_usd=inv["cost"],
             latency_ms=1000,
-            status="success"
+            status="success",
         )
         logger.log_invocation(record)
-    
+
     # Verify all tracked
     with sqlite3.connect(logger.db_path) as conn:
         # Check total invocations
         cursor = conn.execute("SELECT COUNT(*) FROM invocations")
         total_count = cursor.fetchone()[0]
         assert total_count == 4
-        
+
         # Check backend-dev has 2 invocations (concurrent-001 and concurrent-004)
         cursor = conn.execute("""
             SELECT invocations, total_tokens, total_cost_usd
@@ -225,7 +230,7 @@ def test_end_to_end_multiple_agents_concurrent(logger):
         assert backend_row[0] == 2  # 2 invocations
         assert backend_row[1] == 900  # 500 + 400 tokens
         assert abs(backend_row[2] - 0.045) < 0.001  # 0.025 + 0.020 USD
-        
+
         # Check each agent has separate aggregation
         cursor = conn.execute("SELECT COUNT(DISTINCT agent_name) FROM daily_costs")
         agent_count = cursor.fetchone()[0]
@@ -235,7 +240,7 @@ def test_end_to_end_multiple_agents_concurrent(logger):
 def test_end_to_end_privacy_level_metadata(logger):
     """
     Test privacy level 'metadata' mode.
-    
+
     In metadata mode:
     - Invocation details logged
     - Cost and token metrics tracked
@@ -252,19 +257,22 @@ def test_end_to_end_privacy_level_metadata(logger):
         cost_usd=0.030,
         latency_ms=1500,
         status="success",
-        privacy_level="metadata"
+        privacy_level="metadata",
     )
-    
+
     logger.log_invocation(record)
-    
+
     # Verify metadata logged
     with sqlite3.connect(logger.db_path) as conn:
-        cursor = conn.execute("""
+        cursor = conn.execute(
+            """
             SELECT privacy_level, prompt_tokens, completion_tokens, cost_usd
             FROM invocations 
             WHERE invocation_id = ?
-        """, ("privacy-metadata-e2e",))
-        
+        """,
+            ("privacy-metadata-e2e",),
+        )
+
         row = cursor.fetchone()
         assert row[0] == "metadata"
         assert row[1] == 200  # Tokens logged
@@ -275,7 +283,7 @@ def test_end_to_end_privacy_level_metadata(logger):
 def test_end_to_end_cost_tracking_over_time(logger):
     """
     Test cost tracking across multiple invocations over time.
-    
+
     Simulates a day's worth of invocations and verifies:
     - Individual invocations tracked
     - Daily aggregates updated correctly
@@ -284,15 +292,15 @@ def test_end_to_end_cost_tracking_over_time(logger):
     agent_name = "backend-dev"
     tool_name = "claude-code"
     model_name = "claude-3.5-sonnet"
-    
+
     # Simulate 10 invocations throughout the day
     total_expected_cost = 0.0
     total_expected_tokens = 0
-    
+
     for i in range(10):
         tokens = (i + 1) * 100  # Varying token counts
         cost = tokens * 0.00005  # $0.00005 per token (simplified)
-        
+
         record = InvocationRecord(
             invocation_id=f"cost-tracking-{i:03d}",
             agent_name=agent_name,
@@ -303,23 +311,26 @@ def test_end_to_end_cost_tracking_over_time(logger):
             total_tokens=tokens,
             cost_usd=cost,
             latency_ms=1000 + (i * 100),
-            status="success"
+            status="success",
         )
         logger.log_invocation(record)
-        
+
         total_expected_cost += cost
         total_expected_tokens += tokens
-    
+
     # Verify accumulation
     with sqlite3.connect(logger.db_path) as conn:
-        cursor = conn.execute("""
+        cursor = conn.execute(
+            """
             SELECT invocations, total_tokens, total_cost_usd
             FROM daily_costs
             WHERE agent_name = ?
             AND tool_name = ?
             AND model_name = ?
-        """, (agent_name, tool_name, model_name))
-        
+        """,
+            (agent_name, tool_name, model_name),
+        )
+
         row = cursor.fetchone()
         assert row[0] == 10  # 10 invocations
         assert row[1] == total_expected_tokens
@@ -329,7 +340,7 @@ def test_end_to_end_cost_tracking_over_time(logger):
 def test_end_to_end_database_persistence(logger, temp_db):
     """
     Test database persistence across logger instances.
-    
+
     Verifies:
     - Data survives logger destruction
     - New logger instance can read existing data
@@ -346,13 +357,13 @@ def test_end_to_end_database_persistence(logger, temp_db):
         total_tokens=300,
         cost_usd=0.015,
         latency_ms=1500,
-        status="success"
+        status="success",
     )
     logger.log_invocation(record1)
-    
+
     # Create new logger instance
     logger2 = TelemetryLogger(temp_db)
-    
+
     # Log with second logger instance
     record2 = InvocationRecord(
         invocation_id="persistence-002",
@@ -364,16 +375,16 @@ def test_end_to_end_database_persistence(logger, temp_db):
         total_tokens=400,
         cost_usd=0.020,
         latency_ms=1600,
-        status="success"
+        status="success",
     )
     logger2.log_invocation(record2)
-    
+
     # Verify both records exist
     with sqlite3.connect(temp_db) as conn:
         cursor = conn.execute("SELECT COUNT(*) FROM invocations")
         count = cursor.fetchone()[0]
         assert count == 2
-        
+
         # Verify daily aggregation includes both
         cursor = conn.execute("""
             SELECT invocations, total_tokens, total_cost_usd
@@ -389,13 +400,13 @@ def test_end_to_end_database_persistence(logger, temp_db):
 def test_end_to_end_error_rate_calculation(logger):
     """
     Test ability to calculate error rates from logged data.
-    
+
     Simulates mix of successes and failures, then queries for error rate.
     """
     # Log mix of success and error invocations
     for i in range(8):
         status = "success" if i % 3 != 0 else "error"  # ~33% error rate
-        
+
         record = InvocationRecord(
             invocation_id=f"error-rate-{i:03d}",
             agent_name="test-agent",
@@ -407,10 +418,10 @@ def test_end_to_end_error_rate_calculation(logger):
             cost_usd=0.015 if status == "success" else 0.0,
             latency_ms=1500,
             status=status,
-            error_message="Simulated error" if status == "error" else None
+            error_message="Simulated error" if status == "error" else None,
         )
         logger.log_invocation(record)
-    
+
     # Calculate error rate
     with sqlite3.connect(logger.db_path) as conn:
         cursor = conn.execute("""
@@ -420,11 +431,11 @@ def test_end_to_end_error_rate_calculation(logger):
             FROM invocations
             WHERE agent_name = 'test-agent'
         """)
-        
+
         row = cursor.fetchone()
         total = row[0]
         errors = row[1]
-        
+
         assert total == 8
         assert errors == 3  # Indices 0, 3, 6 (every 3rd)
         error_rate = errors / total
@@ -434,11 +445,11 @@ def test_end_to_end_error_rate_calculation(logger):
 def test_end_to_end_latency_tracking(logger):
     """
     Test latency tracking and statistical queries.
-    
+
     Verifies ability to track and analyze performance metrics.
     """
     latencies = [100, 500, 1200, 800, 1500, 300, 2000, 600]
-    
+
     for i, latency in enumerate(latencies):
         record = InvocationRecord(
             invocation_id=f"latency-{i:03d}",
@@ -450,10 +461,10 @@ def test_end_to_end_latency_tracking(logger):
             total_tokens=300,
             cost_usd=0.015,
             latency_ms=latency,
-            status="success"
+            status="success",
         )
         logger.log_invocation(record)
-    
+
     # Query latency statistics
     with sqlite3.connect(logger.db_path) as conn:
         cursor = conn.execute("""
@@ -464,12 +475,12 @@ def test_end_to_end_latency_tracking(logger):
             FROM invocations
             WHERE agent_name = 'test-agent'
         """)
-        
+
         row = cursor.fetchone()
         min_latency = row[0]
         max_latency = row[1]
         avg_latency = row[2]
-        
+
         assert min_latency == 100
         assert max_latency == 2000
         assert 800 < avg_latency < 900  # Average should be ~875

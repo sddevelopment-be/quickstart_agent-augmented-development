@@ -14,7 +14,6 @@ References:
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
 
 
 class TaskStatus(Enum):
@@ -42,9 +41,9 @@ class AgentProfile:
 
     name: str
     specialization: str
-    directives: List[str]
+    directives: list[str]
     mode_default: str = "analysis"
-    capabilities: List[str] = None
+    capabilities: list[str] = None
 
     def __post_init__(self) -> None:
         """Validate profile after initialization."""
@@ -74,11 +73,11 @@ class Task:
     id: str
     title: str
     status: TaskStatus
-    agent: Optional[str] = None
+    agent: str | None = None
     priority: str = "normal"
     description: str = ""
-    acceptance_criteria: List[str] = None
-    dependencies: List[str] = None
+    acceptance_criteria: list[str] = None
+    dependencies: list[str] = None
 
     def __post_init__(self) -> None:
         """Validate task after initialization."""
@@ -124,8 +123,8 @@ class Orchestrator:
 
         self.agents_dir = agents_dir
         self.work_dir = work_dir
-        self._profiles: Dict[str, AgentProfile] = {}
-        self._directives: Dict[str, str] = {}
+        self._profiles: dict[str, AgentProfile] = {}
+        self._directives: dict[str, str] = {}
 
     def load_agent_profiles(self) -> None:
         """Load agent profiles from .github/agents/*.agent.md files.
@@ -138,7 +137,7 @@ class Orchestrator:
         # TODO: Store in _profiles dict
         pass
 
-    def load_directives(self, directive_codes: List[str]) -> None:
+    def load_directives(self, directive_codes: list[str]) -> None:
         """Load specified directives from .github/agents/directives/.
 
         Args:

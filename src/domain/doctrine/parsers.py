@@ -58,7 +58,9 @@ from .models import Agent, Approach, Directive, HandoffPattern, PrimerEntry, Tac
 # ============================================================================
 
 
-def _extract_markdown_section(content: str, heading: str, respect_heading_level: bool = False) -> str:
+def _extract_markdown_section(
+    content: str, heading: str, respect_heading_level: bool = False
+) -> str:
     """
     Extract section content under a markdown heading.
 
@@ -420,9 +422,7 @@ class AgentParser:
         routing_priority = metadata.get("routing_priority")
         max_concurrent_tasks = metadata.get("max_concurrent_tasks")
         raw_context = metadata.get("specialization_context", {})
-        specialization_context = (
-            raw_context if isinstance(raw_context, dict) else {}
-        )
+        specialization_context = raw_context if isinstance(raw_context, dict) else {}
 
         # Enhanced features (ADR-045 Task 3)
         capability_descriptions = self._parse_capability_descriptions(markdown_content)
@@ -796,9 +796,7 @@ class AgentParser:
 
         return entries
 
-    def _parse_default_mode(
-        self, content: str, preferences: dict[str, Any]
-    ) -> str:
+    def _parse_default_mode(self, content: str, preferences: dict[str, Any]) -> str:
         """
         Parse default reasoning mode.
 
@@ -904,9 +902,7 @@ class TacticParser:
 
         steps = self._extract_steps(markdown_content)
         prerequisites = self._extract_list_items(markdown_content, "## Preconditions")
-        outcomes = self._extract_list_items(
-            markdown_content, "## Expected Outcomes"
-        )
+        outcomes = self._extract_list_items(markdown_content, "## Expected Outcomes")
 
         # Extract metadata with defaults
         version = metadata.get("version", "1.0")
@@ -965,9 +961,7 @@ class TacticParser:
         steps = []
 
         # Extract numbered steps (1., 2., etc.)
-        numbered_steps = re.findall(
-            r"^\d+\.\s+\*\*(.+?)\*\*", section, re.MULTILINE
-        )
+        numbered_steps = re.findall(r"^\d+\.\s+\*\*(.+?)\*\*", section, re.MULTILINE)
         if numbered_steps:
             steps.extend(numbered_steps)
         else:

@@ -12,7 +12,7 @@ Supports:
 
 Examples:
     >>> from src.llm_service.adapters.output_normalizer import OutputNormalizer
-    >>> 
+    >>>
     >>> normalizer = OutputNormalizer()
     >>> result = normalizer.normalize('{"response": "text", "tokens": 100}', format="json")
     >>> print(result.response_text)
@@ -22,25 +22,26 @@ Examples:
 """
 
 import json
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Dict, Any, List, Optional, Callable
+from typing import Any
 
 
 @dataclass
 class NormalizedResponse:
     """
     Standardized response from output normalization.
-    
+
     This dataclass provides consistent structure for tool outputs regardless
     of the original format (JSON, text, mixed).
-    
+
     Attributes:
         response_text: Extracted LLM response text (primary output)
         metadata: Extracted metadata (tokens, cost, model, etc.)
         errors: List of error messages found in output
         warnings: List of warning messages found in output
         raw_output: Original unprocessed output
-    
+
     Examples:
         >>> response = NormalizedResponse(
         ...     response_text="Generated text",
@@ -52,30 +53,30 @@ class NormalizedResponse:
     """
 
     response_text: str
-    metadata: Dict[str, Any] = field(default_factory=dict)
-    errors: List[str] = field(default_factory=list)
-    warnings: List[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
+    errors: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
     raw_output: str = ""
 
 
 class OutputNormalizer:
     """
     Normalize tool outputs to consistent format.
-    
+
     Handles different output formats from various tools:
     - JSON structured (claude-code, openai, etc.)
     - Plain text (simple CLI tools)
     - Mixed format (text with metadata trailer)
-    
+
     Extensible via custom format handlers for tool-specific formats.
-    
+
     Features:
         - Auto-detect format (JSON vs text)
         - Extract response text from various JSON structures
         - Parse metadata (tokens, cost, model)
         - Identify errors and warnings
         - Plugin architecture for custom handlers
-    
+
     Examples:
         >>> normalizer = OutputNormalizer()
         >>> result = normalizer.normalize(tool_output)
@@ -99,43 +100,43 @@ class OutputNormalizer:
 
     def __init__(self):
         """Initialize output normalizer with custom format handlers."""
-        self._format_handlers: Dict[str, Callable[[str], NormalizedResponse]] = {}
+        self._format_handlers: dict[str, Callable[[str], NormalizedResponse]] = {}
 
     def register_format_handler(
         self, format_name: str, handler: Callable[[str], NormalizedResponse]
     ):
         """
         Register custom format handler for tool-specific formats.
-        
+
         Args:
             format_name: Name of the format (e.g., "claude-code")
             handler: Function that takes output string and returns NormalizedResponse
-        
+
         Examples:
             >>> def my_handler(output: str) -> NormalizedResponse:
             ...     # Custom parsing logic
             ...     return NormalizedResponse(response_text=output, metadata={})
-            >>> 
+            >>>
             >>> normalizer.register_format_handler("custom", my_handler)
         """
         self._format_handlers[format_name] = handler
 
     def normalize(
-        self, output: str, format: Optional[str] = None
+        self, output: str, format: str | None = None
     ) -> NormalizedResponse:
         """
         Normalize tool output to standard format.
-        
+
         Auto-detects format if not specified. Extracts response text,
         metadata, errors, and warnings.
-        
+
         Args:
             output: Raw output string from tool
             format: Optional format hint ("json", "text", or custom format)
-        
+
         Returns:
             NormalizedResponse with standardized fields
-        
+
         Examples:
             >>> result = normalizer.normalize('{"response": "text"}')
             >>> print(result.response_text)
@@ -158,10 +159,10 @@ class OutputNormalizer:
     def _detect_format(self, output: str) -> str:
         """
         Auto-detect output format.
-        
+
         Args:
             output: Raw output string
-        
+
         Returns:
             Detected format ("json" or "text")
         """
@@ -178,10 +179,10 @@ class OutputNormalizer:
     def _normalize_json(self, output: str) -> NormalizedResponse:
         """
         Normalize JSON formatted output.
-        
+
         Args:
             output: JSON string
-        
+
         Returns:
             NormalizedResponse with extracted fields
         """
@@ -227,10 +228,10 @@ class OutputNormalizer:
     def _normalize_text(self, output: str) -> NormalizedResponse:
         """
         Normalize plain text output.
-        
+
         Args:
             output: Plain text string
-        
+
         Returns:
             NormalizedResponse with text as response_text
         """
@@ -242,15 +243,15 @@ class OutputNormalizer:
             raw_output=output,
         )
 
-    def _extract_response_text(self, data: Dict[str, Any]) -> str:
+    def _extract_response_text(self, data: dict[str, Any]) -> str:
         """
         Extract response text from JSON data structure.
-        
+
         Tries multiple common keys in priority order.
-        
+
         Args:
             data: Parsed JSON dictionary
-        
+
         Returns:
             Extracted response text or empty string
         """
@@ -272,15 +273,15 @@ class OutputNormalizer:
         # If no recognized key, return empty
         return ""
 
-    def _extract_metadata(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _extract_metadata(self, data: dict[str, Any]) -> dict[str, Any]:
         """
         Extract metadata from JSON data structure.
-        
+
         Looks for common metadata fields (tokens, cost, model, etc.).
-        
+
         Args:
             data: Parsed JSON dictionary
-        
+
         Returns:
             Dictionary of extracted metadata
         """
@@ -328,7 +329,8 @@ class OutputNormalizer:
         for key, value in data.items():
             if (
                 key not in self.RESPONSE_KEYS
-                and key not in ["usage", "cost", "error", "errors", "warning", "warnings"]
+                and key
+                not in ["usage", "cost", "error", "errors", "warning", "warnings"]
                 and not key.startswith("_")
                 and isinstance(value, (str, int, float, bool))
             ):

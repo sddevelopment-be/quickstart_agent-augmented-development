@@ -5,7 +5,6 @@ agent coordination, and directive loading per AGENTS.md specification.
 """
 
 from pathlib import Path
-from typing import Dict, List
 
 from framework.core.agent_profile import AgentProfile
 from framework.core.task import Task
@@ -36,8 +35,8 @@ class Orchestrator:
 
         self.agents_dir = agents_dir
         self.work_dir = work_dir
-        self._profiles: Dict[str, AgentProfile] = {}
-        self._directives: Dict[str, str] = {}
+        self._profiles: dict[str, AgentProfile] = {}
+        self._directives: dict[str, str] = {}
 
     def load_agent_profiles(self) -> None:
         """Load agent profiles from .github/agents/*.agent.md files.
@@ -50,7 +49,7 @@ class Orchestrator:
         # TODO: Store in _profiles dict
         pass
 
-    def load_directives(self, directive_codes: List[str]) -> None:
+    def load_directives(self, directive_codes: list[str]) -> None:
         """Load specified directives from .github/agents/directives/.
 
         Args:

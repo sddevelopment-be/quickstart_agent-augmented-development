@@ -5,8 +5,8 @@ Tests template parsing with placeholder substitution and security
 mitigations following TDD approach (Directive 017).
 """
 
+
 import pytest
-from typing import Dict, Any
 
 
 class TestTemplateParser:
@@ -25,7 +25,13 @@ class TestTemplateParser:
         }
 
         result = parser.parse(template, context)
-        assert result == ["/usr/bin/cli", "--model", "claude-3-opus", "--prompt", "test_prompt"]
+        assert result == [
+            "/usr/bin/cli",
+            "--model",
+            "claude-3-opus",
+            "--prompt",
+            "test_prompt",
+        ]
 
     def test_template_with_extra_context_keys(self):
         """Test that extra context keys are ignored."""
@@ -146,9 +152,7 @@ class TestTemplateParserSecurity:
         )
 
         # Parser with whitelist
-        parser = TemplateParser(
-            allowed_placeholders=["binary", "model", "prompt"]
-        )
+        parser = TemplateParser(allowed_placeholders=["binary", "model", "prompt"])
         template = "{{binary}} --model {{model}} --unknown {{dangerous}}"
         context = {
             "binary": "/usr/bin/cli",

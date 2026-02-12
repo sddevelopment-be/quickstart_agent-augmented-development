@@ -17,8 +17,6 @@ Acceptance Criteria:
 """
 
 import json
-import tempfile
-from pathlib import Path
 
 import pytest
 
@@ -29,7 +27,7 @@ import pytest
 class TestDirectivesManifestAcceptance:
     """
     Acceptance tests for directives manifest maintenance.
-    
+
     These tests verify end-to-end behavior of the maintenance script.
     """
 
@@ -38,7 +36,7 @@ class TestDirectivesManifestAcceptance:
         """Create a temporary directives directory with sample files."""
         directives_dir = tmp_path / "directives"
         directives_dir.mkdir()
-        
+
         # Create sample directive files
         (directives_dir / "001_cli_shell_tooling.md").write_text(
             "# 001 CLI and Shell Tooling\nContent here"
@@ -49,7 +47,7 @@ class TestDirectivesManifestAcceptance:
         (directives_dir / "003_repository_quick_reference.md").write_text(
             "# 003 Repository Quick Reference\nContent here"
         )
-        
+
         return directives_dir
 
     @pytest.fixture
@@ -70,7 +68,7 @@ class TestDirectivesManifestAcceptance:
                     "requiredInAgents": False,
                     "safetyCritical": True,
                     "directive_version": "1.0.0",
-                    "status": "active"
+                    "status": "active",
                 },
                 {
                     "code": "002",
@@ -82,7 +80,7 @@ class TestDirectivesManifestAcceptance:
                     "requiredInAgents": False,
                     "safetyCritical": True,
                     "directive_version": "1.0.0",
-                    "status": "active"
+                    "status": "active",
                 },
                 {
                     "code": "003",
@@ -94,11 +92,11 @@ class TestDirectivesManifestAcceptance:
                     "requiredInAgents": False,
                     "safetyCritical": True,
                     "directive_version": "1.0.0",
-                    "status": "active"
-                }
-            ]
+                    "status": "active",
+                },
+            ],
         }
-        
+
         manifest_file = tmp_path / "directives" / "manifest.json"
         manifest_file.write_text(json.dumps(manifest_data, indent=2))
         return manifest_file
@@ -121,7 +119,7 @@ class TestDirectivesManifestAcceptance:
                     "requiredInAgents": False,
                     "safetyCritical": True,
                     "directive_version": "1.0.0",
-                    "status": "active"
+                    "status": "active",
                 },
                 # Missing 002
                 {
@@ -134,11 +132,11 @@ class TestDirectivesManifestAcceptance:
                     "requiredInAgents": False,
                     "safetyCritical": True,
                     "directive_version": "1.0.0",
-                    "status": "active"
-                }
-            ]
+                    "status": "active",
+                },
+            ],
         }
-        
+
         manifest_file = temp_directives_dir / "manifest.json"
         manifest_file.write_text(json.dumps(manifest_data, indent=2))
         return manifest_file
@@ -148,11 +146,13 @@ class TestDirectivesManifestAcceptance:
         """Create a manifest with entry for non-existent file."""
         directives_dir = tmp_path / "directives"
         directives_dir.mkdir()
-        
+
         # Only create 001 and 003, not 002
         (directives_dir / "001_cli_shell_tooling.md").write_text("# 001\nContent")
-        (directives_dir / "003_repository_quick_reference.md").write_text("# 003\nContent")
-        
+        (directives_dir / "003_repository_quick_reference.md").write_text(
+            "# 003\nContent"
+        )
+
         manifest_data = {
             "version": "1.0.0",
             "generated_at": "2025-11-28T12:45:00Z",
@@ -168,7 +168,7 @@ class TestDirectivesManifestAcceptance:
                     "requiredInAgents": False,
                     "safetyCritical": True,
                     "directive_version": "1.0.0",
-                    "status": "active"
+                    "status": "active",
                 },
                 {
                     "code": "002",
@@ -180,7 +180,7 @@ class TestDirectivesManifestAcceptance:
                     "requiredInAgents": False,
                     "safetyCritical": True,
                     "directive_version": "1.0.0",
-                    "status": "active"
+                    "status": "active",
                 },
                 {
                     "code": "003",
@@ -192,11 +192,11 @@ class TestDirectivesManifestAcceptance:
                     "requiredInAgents": False,
                     "safetyCritical": True,
                     "directive_version": "1.0.0",
-                    "status": "active"
-                }
-            ]
+                    "status": "active",
+                },
+            ],
         }
-        
+
         manifest_file = directives_dir / "manifest.json"
         manifest_file.write_text(json.dumps(manifest_data, indent=2))
         return manifest_file
@@ -206,9 +206,9 @@ class TestDirectivesManifestAcceptance:
         """Create a manifest with metadata that doesn't match filenames."""
         directives_dir = tmp_path / "directives"
         directives_dir.mkdir()
-        
+
         (directives_dir / "001_cli_shell_tooling.md").write_text("# 001\nContent")
-        
+
         manifest_data = {
             "version": "1.0.0",
             "generated_at": "2025-11-28T12:45:00Z",
@@ -224,11 +224,11 @@ class TestDirectivesManifestAcceptance:
                     "requiredInAgents": False,
                     "safetyCritical": True,
                     "directive_version": "1.0.0",
-                    "status": "active"
+                    "status": "active",
                 }
-            ]
+            ],
         }
-        
+
         manifest_file = directives_dir / "manifest.json"
         manifest_file.write_text(json.dumps(manifest_data, indent=2))
         return manifest_file
@@ -236,7 +236,7 @@ class TestDirectivesManifestAcceptance:
     def test_validates_valid_manifest(self, temp_directives_dir, valid_manifest):
         """
         AC1: Script validates a correct manifest without errors.
-        
+
         Given a directives directory with files 001, 002, 003
         And a manifest.json with matching entries
         When the validation runs
@@ -246,10 +246,10 @@ class TestDirectivesManifestAcceptance:
         from tools.scripts.maintenance.update_directives_manifest import (
             DirectivesManifestValidator,
         )
-        
+
         validator = DirectivesManifestValidator(temp_directives_dir)
         result = validator.validate()
-        
+
         assert result.is_valid
         assert len(result.missing_files) == 0
         assert len(result.orphaned_entries) == 0
@@ -260,7 +260,7 @@ class TestDirectivesManifestAcceptance:
     ):
         """
         AC2: Script detects files without manifest entries.
-        
+
         Given a directives directory with files 001, 002, 003
         And a manifest.json missing entry for 002
         When the validation runs
@@ -270,20 +270,18 @@ class TestDirectivesManifestAcceptance:
         from tools.scripts.maintenance.update_directives_manifest import (
             DirectivesManifestValidator,
         )
-        
+
         validator = DirectivesManifestValidator(temp_directives_dir)
         result = validator.validate()
-        
+
         assert not result.is_valid
         assert len(result.missing_files) == 1
         assert "002_context_notes.md" in result.missing_files
 
-    def test_detects_orphaned_manifest_entries(
-        self, manifest_with_orphaned_entry
-    ):
+    def test_detects_orphaned_manifest_entries(self, manifest_with_orphaned_entry):
         """
         AC3: Script detects manifest entries for non-existent files.
-        
+
         Given a directives directory with files 001, 003 (no 002)
         And a manifest.json with entry for 002
         When the validation runs
@@ -293,11 +291,11 @@ class TestDirectivesManifestAcceptance:
         from tools.scripts.maintenance.update_directives_manifest import (
             DirectivesManifestValidator,
         )
-        
+
         directives_dir = manifest_with_orphaned_entry.parent
         validator = DirectivesManifestValidator(directives_dir)
         result = validator.validate()
-        
+
         assert not result.is_valid
         assert len(result.orphaned_entries) == 1
         assert result.orphaned_entries[0]["file"] == "002_context_notes.md"
@@ -307,7 +305,7 @@ class TestDirectivesManifestAcceptance:
     ):
         """
         AC4: Script detects metadata mismatches.
-        
+
         Given a directive file 001_cli_shell_tooling.md
         And a manifest entry with code "002"
         When the validation runs
@@ -317,11 +315,11 @@ class TestDirectivesManifestAcceptance:
         from tools.scripts.maintenance.update_directives_manifest import (
             DirectivesManifestValidator,
         )
-        
+
         directives_dir = manifest_with_inconsistent_metadata.parent
         validator = DirectivesManifestValidator(directives_dir)
         result = validator.validate()
-        
+
         assert not result.is_valid
         assert len(result.metadata_mismatches) == 1
 
@@ -330,7 +328,7 @@ class TestDirectivesManifestAcceptance:
     ):
         """
         AC5: Script in dry-run mode reports issues without making changes.
-        
+
         Given a manifest with discrepancies
         When run in --dry-run mode
         Then discrepancies should be reported
@@ -339,16 +337,16 @@ class TestDirectivesManifestAcceptance:
         from tools.scripts.maintenance.update_directives_manifest import (
             DirectivesManifestValidator,
         )
-        
+
         # Get original manifest content
         original_content = manifest_with_missing_entry.read_text()
-        
+
         validator = DirectivesManifestValidator(temp_directives_dir)
         result = validator.validate()
-        
+
         # Verify issues were detected
         assert not result.is_valid
-        
+
         # Verify manifest was not modified
         assert manifest_with_missing_entry.read_text() == original_content
 
@@ -357,7 +355,7 @@ class TestDirectivesManifestAcceptance:
     ):
         """
         AC6: Script in --fix mode auto-updates manifest.
-        
+
         Given a manifest missing an entry for directive 002
         When run in --fix mode
         Then manifest should be updated with the missing entry
@@ -366,10 +364,10 @@ class TestDirectivesManifestAcceptance:
         from tools.scripts.maintenance.update_directives_manifest import (
             DirectivesManifestValidator,
         )
-        
+
         validator = DirectivesManifestValidator(temp_directives_dir)
         validator.fix()
-        
+
         # Validate again - should now be valid
         result = validator.validate()
         assert result.is_valid
@@ -377,7 +375,7 @@ class TestDirectivesManifestAcceptance:
     def test_script_exit_codes(self, temp_directives_dir, valid_manifest):
         """
         AC7: Script returns proper exit codes for CI usage.
-        
+
         Given various manifest states
         When the script runs
         Then exit code 0 for valid manifest
@@ -385,7 +383,7 @@ class TestDirectivesManifestAcceptance:
         """
         import subprocess
         import sys
-        
+
         # Test valid manifest (exit 0)
         result = subprocess.run(
             [
@@ -397,7 +395,7 @@ class TestDirectivesManifestAcceptance:
             ],
             capture_output=True,
         )
-        
+
         assert result.returncode == 0
 
     def test_comprehensive_error_messages(
@@ -405,7 +403,7 @@ class TestDirectivesManifestAcceptance:
     ):
         """
         AC8: Script provides clear, actionable error messages.
-        
+
         Given a manifest with discrepancies
         When validation runs
         Then error messages should include:
@@ -416,12 +414,12 @@ class TestDirectivesManifestAcceptance:
         from tools.scripts.maintenance.update_directives_manifest import (
             DirectivesManifestValidator,
         )
-        
+
         validator = DirectivesManifestValidator(temp_directives_dir)
         result = validator.validate()
-        
+
         report = result.get_report()
-        
+
         # Verify report contains actionable information
         assert "002_context_notes.md" in report
         assert "missing" in report.lower()
@@ -429,25 +427,25 @@ class TestDirectivesManifestAcceptance:
     def test_handles_complex_filename_patterns(self, tmp_path):
         """
         AC9: Script correctly parses various directive filename patterns.
-        
+
         Given directive files with different naming patterns
         When the script scans the directory
         Then it should correctly extract code numbers and slugs
         """
         directives_dir = tmp_path / "directives"
         directives_dir.mkdir()
-        
+
         # Create directives with various patterns
         (directives_dir / "001_cli_shell_tooling.md").write_text("# 001")
         (directives_dir / "010_mode_protocol.md").write_text("# 010")
         (directives_dir / "025_framework_guardian.md").write_text("# 025")
-        
+
         from tools.scripts.maintenance.update_directives_manifest import (
             scan_directive_files,
         )
-        
+
         files = scan_directive_files(directives_dir)
-        
+
         assert len(files) == 3
         assert "001" in [f["code"] for f in files]
         assert "010" in [f["code"] for f in files]

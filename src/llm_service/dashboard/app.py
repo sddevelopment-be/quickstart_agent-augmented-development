@@ -7,25 +7,28 @@ Implements ADR-036: Dashboard Markdown Rendering with XSS protection.
 Implements ADR-035: Dashboard Task Priority Editing.
 """
 
-from flask import Flask, jsonify, request
-from flask_socketio import SocketIO, emit, Namespace
-from flask_cors import CORS
-from datetime import datetime, timezone
-from typing import Any
 import os
 import secrets
+from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any
+
+from flask import Flask, jsonify, request
+from flask_cors import CORS
+from flask_socketio import Namespace, SocketIO, emit
 
 # Import task query functions from domain layer (ADR-046)
 from src.domain.collaboration.task_query import (
-    load_open_tasks,
     find_task_files,
+    load_open_tasks,
 )
 from src.domain.collaboration.task_schema import load_task_safe
 from src.domain.collaboration.types import TaskStatus
 
 
-def load_tasks_with_filter(work_dir: Path, include_done: bool = False, terminal_only: bool = False) -> list[dict]:
+def load_tasks_with_filter(
+    work_dir: Path, include_done: bool = False, terminal_only: bool = False
+) -> list[dict]:
     """
     Load tasks with filtering options.
 
@@ -233,23 +236,21 @@ def register_routes(app: Flask) -> None:
             snapshot = watcher.get_task_snapshot()
 
             # Count inbox tasks
-            inbox_count = len(snapshot.get('inbox', []))
+            inbox_count = len(snapshot.get("inbox", []))
 
             # Count assigned tasks (nested by agent)
             assigned_count = sum(
-                len(tasks) for tasks in snapshot.get('assigned', {}).values()
+                len(tasks) for tasks in snapshot.get("assigned", {}).values()
             )
 
             # Count done tasks (nested by agent)
-            done_count = sum(
-                len(tasks) for tasks in snapshot.get('done', {}).values()
-            )
+            done_count = sum(len(tasks) for tasks in snapshot.get("done", {}).values())
 
             task_counts = {
                 "inbox": inbox_count,
                 "assigned": assigned_count,
                 "done": done_count,
-                "total": inbox_count + assigned_count + done_count
+                "total": inbox_count + assigned_count + done_count,
             }
 
         return jsonify(
@@ -272,7 +273,7 @@ def register_routes(app: Flask) -> None:
             JSON with tasks in nested format: {inbox: [], assigned: {agent: []}, done: {agent: []}}
         """
         # Get include_done parameter (default: true for backward compatibility)
-        include_done = request.args.get('include_done', 'true').lower() == 'true'
+        include_done = request.args.get("include_done", "true").lower() == "true"
 
         # Get task snapshot from file watcher (always returns nested format)
         watcher = app.config.get("FILE_WATCHER")
@@ -282,8 +283,8 @@ def register_routes(app: Flask) -> None:
             # If include_done=false, remove done and error tasks from snapshot
             if not include_done:
                 snapshot = snapshot.copy()
-                snapshot['done'] = {}
-                snapshot['error'] = {}
+                snapshot["done"] = {}
+                snapshot["error"] = {}
 
             return jsonify(snapshot)
 
@@ -307,7 +308,9 @@ def register_routes(app: Flask) -> None:
             JSON array with tasks that have terminal status (done/error)
         """
         work_dir = Path(app.config.get("WORK_DIR", "work/collaboration"))
-        finished_tasks = load_tasks_with_filter(work_dir, include_done=True, terminal_only=True)
+        finished_tasks = load_tasks_with_filter(
+            work_dir, include_done=True, terminal_only=True
+        )
         return jsonify(finished_tasks)
 
     @app.route("/api/portfolio")
@@ -341,9 +344,9 @@ def register_routes(app: Flask) -> None:
                 "orphans": [...]
             }
         """
+        from .progress_calculator import ProgressCalculator
         from .spec_parser import SpecificationParser
         from .task_linker import TaskLinker
-        from .progress_calculator import ProgressCalculator
 
         # Get directories from config
         spec_dir = app.config.get("SPEC_DIR", "specifications")
@@ -362,11 +365,13 @@ def register_routes(app: Flask) -> None:
 
         # Build specification objects with their tasks
         from collections import defaultdict
+
         spec_objects = []
 
         for spec_meta in specifications:
             # Get tasks for this specification
             from pathlib import Path
+
             spec_full_path = str(Path(spec_dir) / spec_meta.relative_path)
             spec_tasks = task_groups.get(spec_full_path, [])
 
@@ -385,20 +390,24 @@ def register_routes(app: Flask) -> None:
             # Calculate specification progress from tasks
             completed_tasks = sum(1 for t in spec_tasks if t.get("status") == "done")
             total_tasks = len(spec_tasks)
-            spec_progress = int(completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
+            spec_progress = (
+                int(completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
+            )
 
             # Build specification object
-            spec_objects.append({
-                "id": spec_meta.id,
-                "title": spec_meta.title,
-                "status": spec_meta.status,
-                "priority": spec_meta.priority,
-                "initiative": spec_meta.initiative,
-                "progress": spec_progress,
-                "task_count": len(tasks),
-                "tasks": tasks,
-                "specification_path": spec_meta.relative_path,
-            })
+            spec_objects.append(
+                {
+                    "id": spec_meta.id,
+                    "title": spec_meta.title,
+                    "status": spec_meta.status,
+                    "priority": spec_meta.priority,
+                    "initiative": spec_meta.initiative,
+                    "progress": spec_progress,
+                    "task_count": len(tasks),
+                    "tasks": tasks,
+                    "specification_path": spec_meta.relative_path,
+                }
+            )
 
         # Group specifications by initiative
         initiatives_grouped = defaultdict(list)
@@ -415,32 +424,41 @@ def register_routes(app: Flask) -> None:
                 len([t for t in spec["tasks"] if t.get("status") == "done"])
                 for spec in specs
             )
-            initiative_progress = int(completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
+            initiative_progress = (
+                int(completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
+            )
 
             # Determine initiative status (most advanced status)
-            status_priority = {"draft": 1, "in_progress": 2, "implemented": 3, "complete": 3}
+            status_priority = {
+                "draft": 1,
+                "in_progress": 2,
+                "implemented": 3,
+                "complete": 3,
+            }
             initiative_status = max(
                 (spec.get("status", "draft") for spec in specs),
-                key=lambda s: status_priority.get(s, 0)
+                key=lambda s: status_priority.get(s, 0),
             )
 
             # Determine initiative priority (highest priority)
             priority_order = {"CRITICAL": 4, "HIGH": 3, "MEDIUM": 2, "LOW": 1}
             initiative_priority = max(
                 (spec.get("priority", "MEDIUM") for spec in specs),
-                key=lambda p: priority_order.get(p, 2)
+                key=lambda p: priority_order.get(p, 2),
             )
 
-            initiatives.append({
-                "id": initiative_name.lower().replace(" ", "-"),
-                "title": initiative_name,
-                "status": initiative_status,
-                "priority": initiative_priority,
-                "progress": initiative_progress,
-                "specifications": specs,
-                "spec_count": len(specs),
-                "task_count": total_tasks,
-            })
+            initiatives.append(
+                {
+                    "id": initiative_name.lower().replace(" ", "-"),
+                    "title": initiative_name,
+                    "status": initiative_status,
+                    "priority": initiative_priority,
+                    "progress": initiative_progress,
+                    "specifications": specs,
+                    "spec_count": len(specs),
+                    "task_count": total_tasks,
+                }
+            )
 
         # Get orphan tasks (tasks without specification links)
         orphan_tasks = linker.get_orphan_tasks()
@@ -455,11 +473,13 @@ def register_routes(app: Flask) -> None:
             for t in orphan_tasks
         ]
 
-        return jsonify({
-            "initiatives": initiatives,
-            "orphans": orphans,
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-        })
+        return jsonify(
+            {
+                "initiatives": initiatives,
+                "orphans": orphans,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+        )
 
     @app.route("/api/agents/portfolio")
     def agent_portfolio():
@@ -533,8 +553,8 @@ def register_routes(app: Flask) -> None:
             Body: {"priority": "HIGH"}
         """
         from .task_priority_updater import (
-            TaskPriorityUpdater,
             ConcurrentModificationError,
+            TaskPriorityUpdater,
         )
 
         # Validate request body
@@ -646,10 +666,10 @@ def register_routes(app: Flask) -> None:
             }
         """
         from .task_assignment_handler import (
-            TaskAssignmentHandler,
-            InvalidSpecificationError,
-            TaskNotEditableError,
             ConcurrentModificationError,
+            InvalidSpecificationError,
+            TaskAssignmentHandler,
+            TaskNotEditableError,
         )
 
         # Validate request body

@@ -7,8 +7,8 @@ and matching them to specification paths.
 Implements ADR-037: Dashboard Initiative Tracking.
 """
 
-from pathlib import Path
 import logging
+from pathlib import Path
 
 # Import shared task loading function (ADR-042)
 from src.domain.collaboration.task_schema import load_task_safe
@@ -58,7 +58,7 @@ class TaskLinker:
 
         if task_data:
             # Add path to task data for reference (dashboard-specific)
-            task_data['_path'] = task_path
+            task_data["_path"] = task_path
 
         return task_data
 
@@ -101,7 +101,9 @@ class TaskLinker:
         """
         # Reject paths with parent directory traversal
         if ".." in spec_path:
-            logger.warning(f"Rejected specification path with '..' traversal: {spec_path}")
+            logger.warning(
+                f"Rejected specification path with '..' traversal: {spec_path}"
+            )
             return False
 
         # Reject absolute paths

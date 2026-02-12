@@ -1,6 +1,6 @@
 """Ollama client for local model execution."""
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from framework.execution.execution_client import ExecutionClient
 from framework.execution.model_provider import ModelProvider
@@ -26,9 +26,9 @@ class OllamaClient(ExecutionClient):
         self,
         model_id: str,
         prompt: str,
-        tools: Optional[List[Dict[str, Any]]] = None,
+        tools: list[dict[str, Any]] | None = None,
         **kwargs: Any,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Invoke local Ollama model.
 
         Args:
