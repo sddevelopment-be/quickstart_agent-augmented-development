@@ -1,0 +1,39 @@
+id: 2026-02-12T1106-curator-refactoring-reference-curation
+agent: curator
+status: done
+title: 'SPEC-REFACTOR-001 Batch 2 Task 2: Curate expanded references into doctrine
+  artifacts'
+mode: /analysis-mode
+priority: normal
+artefacts:
+- doctrine/docs/references/refactoring-*.md
+- doctrine/tactics/refactoring-*.tactic.md
+context:
+  repo: quickstart_agent-augmented-development
+  branch: feature/code_skill_improvements
+  notes:
+  - Use Batch 2 researcher expansion artifact as primary input.
+  - Decide what becomes references versus executable tactics.
+  - Keep tactics procedural and doctrine-local.
+  dependencies:
+  - 2026-02-12T1105-researcher-refactoring-reference-expansion
+created_at: '2026-02-12T11:06:00Z'
+created_by: manager-mike
+started_at: '2026-02-12T11:10:10Z'
+result:
+  summary: 'Curated Batch 2 research into doctrine artifacts: added three executable
+    refactoring tactics, two doctrine references, and updated directive/index links.'
+  artifacts:
+  - doctrine/tactics/refactoring-replace-temp-with-query.tactic.md
+  - doctrine/tactics/refactoring-move-field.tactic.md
+  - doctrine/tactics/refactoring-introduce-null-object.tactic.md
+  - doctrine/docs/references/refactoring-conditional-variants-to-strategy-state.md
+  - doctrine/docs/references/refactoring-architecture-pattern-escalation-guide.md
+  - doctrine/directives/039_refactoring_techniques.md
+  - doctrine/tactics/README.md
+  next_agent: code-reviewer-cindy
+  next_task_title: Validate Batch 2 refactoring additions and integration
+  next_artefacts:
+  - doctrine/tactics/refactoring-*.tactic.md
+  - doctrine/docs/references/refactoring-*.md
+completed_at: '2026-02-12T11:11:34Z'
