@@ -4,6 +4,20 @@ This log records system-wide orchestration events.
 
 ## Log Entries
 
+**2026-02-12 10:32 (Manager Mike - /iterate Checkpoint)**
+- **Checkpoint scope:** Validate SPEC-REFACTOR-001 execution progress and next trigger readiness.
+- **Observed state:**
+  - `0910` researcher task is `in_progress` with `started_at` set.
+  - Curator tasks `0911/0912/0913` remain `assigned` and dependency-gated.
+  - Reviewer task `0914` remains `assigned` and dependency-gated.
+  - Expected researcher artifact `work/research/2026-02-12-refactoring-techniques-matrix.md` is not yet present.
+- **Decision:**
+  - Keep cycle in execute-and-wait mode.
+  - Do not advance downstream tasks until researcher artifact is available.
+- **Operational note:**
+  - List tooling still emits parse warnings from non-initiative legacy task files; no edits applied to parallel initiative assets.
+- **Next trigger condition:** researcher publishes matrix artifact and/or completes task `0910`.
+
 **2026-02-12 10:31 (Manager Mike - SPEC-REFACTOR-001 Cycle Advance)**
 - **Execution progress:**
   - Started task `2026-02-12T0910-researcher-refactoring-techniques-matrix`.
