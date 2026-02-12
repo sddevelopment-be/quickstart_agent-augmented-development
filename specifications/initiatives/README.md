@@ -9,6 +9,7 @@ specifications/initiatives/
 ├── dashboard-enhancements/     # Real-Time Dashboard & Portfolio View
 ├── framework-distribution/     # Multi-Tool Distribution Architecture
 ├── quickstart-onboarding/      # Repository Initialization & Setup Wizard
+├── refactoring-techniques/     # Refactoring Tactics and Pattern References
 ├── src-consolidation/          # Code Consolidation & Shared Abstractions
 └── [cold-storage]/             # Superseded or deferred initiatives
 ```
@@ -60,6 +61,16 @@ Consolidate duplicated abstractions between `src/framework/` and `src/llm_servic
 
 **Key Specs:**
 - SPEC-CONSOLIDATION-001: Src/ Code Consolidation Initiative
+
+### Refactoring Techniques
+**Status:** Draft
+**Priority:** HIGH
+**Specifications:** 1 active
+
+Research-backed initiative to convert preferred refactoring methods and pattern transitions into reusable doctrine tactics and directive integrations.
+
+**Key Specs:**
+- SPEC-REFACTOR-001: Refactoring Techniques and Pattern-Informed Tactics Initiative
 
 ---
 
