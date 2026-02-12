@@ -247,7 +247,7 @@ class TaskAssignmentHandler:
             status = task_data.get("status", "unknown")
             raise TaskNotEditableError(
                 f"Cannot assign tasks with status '{status}'. "
-                f"Tasks that are currently being worked on (in_progress, done, failed) cannot be reassigned."
+                "Tasks that are currently being worked on (in_progress, done, failed) cannot be reassigned."
             )
 
         # Optimistic locking check
@@ -255,7 +255,7 @@ class TaskAssignmentHandler:
             current_modified = task_data.get("last_modified")
             if current_modified and str(current_modified) != str(last_modified):
                 raise ConcurrentModificationError(
-                    f"This task was modified by another user. "
+                    "This task was modified by another user. "
                     f"Current: {current_modified}, Provided: {last_modified}"
                 )
 

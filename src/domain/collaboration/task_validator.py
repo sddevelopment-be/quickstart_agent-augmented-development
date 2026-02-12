@@ -265,7 +265,7 @@ def validate_task(task: dict[str, Any], filename_stem: str | None = None) -> lis
             ):
                 suggestion = suggest_timestamp_fix(str(result["completed_at"]))
                 errors.append(
-                    f"result.completed_at must be ISO8601 with Z suffix when present\n"
+                    "result.completed_at must be ISO8601 with Z suffix when present\n"
                     f"  Current: {result['completed_at']}\n"
                     f"  Suggested: {suggestion}"
                 )
@@ -287,7 +287,7 @@ def validate_task(task: dict[str, Any], filename_stem: str | None = None) -> lis
             ):
                 suggestion = suggest_timestamp_fix(str(error_block["timestamp"]))
                 errors.append(
-                    f"error.timestamp must be ISO8601 with Z suffix when present\n"
+                    "error.timestamp must be ISO8601 with Z suffix when present\n"
                     f"  Current: {error_block['timestamp']}\n"
                     f"  Suggested: {suggestion}"
                 )

@@ -58,8 +58,8 @@ def read_task(path: Path) -> dict[str, Any]:
             # Multiple document separators detected
             raise TaskIOError(
                 f"Invalid YAML in {path}: expected a single document in the stream\n"
-                f"  Found multiple '---' separators (YAML multi-document format not supported)\n"
-                f"  Hint: Remove extra '---' lines or wrap content in 'description: |' block"
+                "  Found multiple '---' separators (YAML multi-document format not supported)\n"
+                "  Hint: Remove extra '---' lines or wrap content in 'description: |' block"
             )
 
         task = yaml.safe_load(content)
@@ -72,7 +72,7 @@ def read_task(path: Path) -> dict[str, Any]:
         if "expected a single document" in error_msg:
             raise TaskIOError(
                 f"Invalid YAML in {path}: expected a single document in the stream\n"
-                f"  Hint: Check for multiple '---' separators in the file"
+                "  Hint: Check for multiple '---' separators in the file"
             )
         raise TaskIOError(f"Invalid YAML in {path}: {e}")
     except Exception as e:
@@ -87,7 +87,7 @@ def read_task(path: Path) -> dict[str, Any]:
 
         warnings.warn(
             f"Auto-migrating old task format in {path}: 'task_id' → 'id'\n"
-            f"  Please update task file to use 'id' field directly",
+            "  Please update task file to use 'id' field directly",
             DeprecationWarning,
             stacklevel=2,
         )

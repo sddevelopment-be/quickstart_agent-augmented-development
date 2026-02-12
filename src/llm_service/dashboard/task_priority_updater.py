@@ -198,7 +198,7 @@ class TaskPriorityUpdater:
             current_modified = task_data.get("last_modified")
             if current_modified and str(current_modified) != str(last_modified):
                 raise ConcurrentModificationError(
-                    f"Task was modified by another user. "
+                    "Task was modified by another user. "
                     f"Current: {current_modified}, Provided: {last_modified}"
                 )
 

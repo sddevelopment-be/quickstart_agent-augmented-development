@@ -132,5 +132,5 @@ def validate_required_env_vars(env_required: list[str] | None) -> None:
     if missing:
         raise EnvVarNotFoundError(
             f"Required environment variables not set: {', '.join(missing)}. "
-            f"Please set these variables in your environment before running the tool."
+            "Please set these variables in your environment before running the tool."
         )
