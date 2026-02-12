@@ -46,7 +46,7 @@ Examples
 ...     capabilities=frozenset(["python", "tdd"]),
 ...     required_directives=frozenset(["017"]),
 ...     primers=frozenset(["TDD"]),
-...     source_file=Path(".github/agents/python-pedro.agent.md"),
+...     source_file=Path("doctrine/agents/python-pedro.agent.md"),
 ...     source_hash="abc123",
 ... )
 >>> directive = Directive(
