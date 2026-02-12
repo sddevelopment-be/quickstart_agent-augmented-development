@@ -96,7 +96,6 @@ class TestCrossReferenceValidator:
 
         validator = CrossReferenceValidator(directives, agents)
 
-        assert validator is not None
         assert len(validator.directives) == 1
         assert len(validator.agents) == 1
 
