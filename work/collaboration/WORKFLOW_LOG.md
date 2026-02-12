@@ -4,6 +4,20 @@ This log records system-wide orchestration events.
 
 ## Log Entries
 
+**2026-02-12 10:31 (Manager Mike - SPEC-REFACTOR-001 Cycle Advance)**
+- **Execution progress:**
+  - Started task `2026-02-12T0910-researcher-refactoring-techniques-matrix`.
+  - Status transitioned `assigned -> in_progress` via `tools/scripts/start_task.py`.
+- **Data quality fix completed:**
+  - Converted SPEC-REFACTOR task files 0910-0914 to single-document YAML schema compatible with orchestration scripts.
+- **Observed systemic blocker (parallel initiative, not edited):**
+  - Multiple existing assigned tasks outside SPEC-REFACTOR use multi-document YAML and emit parse failures in list tooling.
+  - This is tracked as a cross-initiative orchestration hygiene issue; no changes applied to Alphonso/team artifacts in this cycle.
+- **Next actions:**
+  - Wait for researcher output matrix handoff.
+  - On completion, trigger curator tasks 0911 + 0912.
+- **Orchestration status:** ✅ Cycle advanced, dependency chain active.
+
 **2026-02-12 10:16 (Manager Mike - SPEC-REFACTOR-001 Kickoff)**
 - **Kickoff scope:** Refactoring Techniques and Pattern-Informed Tactics initiative execution started.
 - **Queue validation:**
