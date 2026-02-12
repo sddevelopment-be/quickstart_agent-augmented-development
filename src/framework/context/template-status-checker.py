@@ -19,6 +19,24 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.domain.common.path_utils import get_work_dir
 
+# Constants for task status directories (avoid string duplication - S1192)
+STATUS_INBOX = "inbox"
+STATUS_NEW = "new"
+STATUS_ASSIGNED = "assigned"
+STATUS_IN_PROGRESS = "in_progress"
+STATUS_DONE = "done"
+STATUS_ARCHIVE = "archive"
+
+# All status stages in order
+ALL_STATUS_STAGES = [
+    STATUS_INBOX,
+    STATUS_NEW,
+    STATUS_ASSIGNED,
+    STATUS_IN_PROGRESS,
+    STATUS_DONE,
+    STATUS_ARCHIVE,
+]
+
 
 class TemplateStatusChecker:
     """Check status of iteration template tasks."""
@@ -88,37 +106,37 @@ class TemplateStatusChecker:
             Dictionary containing status information
         """
         status = {
-            "inbox": {
-                "count": self.count_tasks(self.collaboration_dir / "inbox"),
-                "agents": self.get_agent_breakdown(self.collaboration_dir / "inbox"),
+            STATUS_INBOX: {
+                "count": self.count_tasks(self.collaboration_dir / STATUS_INBOX),
+                "agents": self.get_agent_breakdown(self.collaboration_dir / STATUS_INBOX),
             },
-            "new": {
-                "count": self.count_tasks(self.collaboration_dir / "new"),
-                "agents": self.get_agent_breakdown(self.collaboration_dir / "new"),
+            STATUS_NEW: {
+                "count": self.count_tasks(self.collaboration_dir / STATUS_NEW),
+                "agents": self.get_agent_breakdown(self.collaboration_dir / STATUS_NEW),
             },
-            "assigned": {
-                "count": self.count_tasks(self.collaboration_dir / "assigned"),
-                "agents": self.get_agent_breakdown(self.collaboration_dir / "assigned"),
+            STATUS_ASSIGNED: {
+                "count": self.count_tasks(self.collaboration_dir / STATUS_ASSIGNED),
+                "agents": self.get_agent_breakdown(self.collaboration_dir / STATUS_ASSIGNED),
             },
-            "in_progress": {
-                "count": self.count_tasks(self.collaboration_dir / "in_progress"),
+            STATUS_IN_PROGRESS: {
+                "count": self.count_tasks(self.collaboration_dir / STATUS_IN_PROGRESS),
                 "agents": self.get_agent_breakdown(
-                    self.collaboration_dir / "in_progress"
+                    self.collaboration_dir / STATUS_IN_PROGRESS
                 ),
             },
-            "done": {
-                "count": self.count_tasks(self.collaboration_dir / "done"),
-                "agents": self.get_agent_breakdown(self.collaboration_dir / "done"),
+            STATUS_DONE: {
+                "count": self.count_tasks(self.collaboration_dir / STATUS_DONE),
+                "agents": self.get_agent_breakdown(self.collaboration_dir / STATUS_DONE),
             },
-            "archive": {
-                "count": self.count_tasks(self.collaboration_dir / "archive"),
+            STATUS_ARCHIVE: {
+                "count": self.count_tasks(self.collaboration_dir / STATUS_ARCHIVE),
             },
         }
 
         # Calculate totals
         status["total"] = sum(
             status[key]["count"]
-            for key in ["inbox", "new", "assigned", "in_progress", "done", "archive"]
+            for key in ALL_STATUS_STAGES
         )
 
         if validate:
@@ -137,10 +155,10 @@ class TemplateStatusChecker:
             Dictionary of validation results
         """
         return {
-            "inbox_empty": status["inbox"]["count"] == 0,
-            "no_stalled_tasks": status["in_progress"]["count"] < 5,
-            "tasks_completed": status["done"]["count"] > 0,
-            "archive_exists": status["archive"]["count"] >= 0,
+            "inbox_empty": status[STATUS_INBOX]["count"] == 0,
+            "no_stalled_tasks": status[STATUS_IN_PROGRESS]["count"] < 5,
+            "tasks_completed": status[STATUS_DONE]["count"] > 0,
+            "archive_exists": status[STATUS_ARCHIVE]["count"] >= 0,
         }
 
     def format_text(self, status: dict) -> str:
@@ -160,7 +178,7 @@ class TemplateStatusChecker:
         lines.append(f"Total Tasks: {status['total']}")
         lines.append("")
 
-        for stage in ["inbox", "new", "assigned", "in_progress", "done", "archive"]:
+        for stage in ALL_STATUS_STAGES:
             stage_data = status[stage]
             count = stage_data["count"]
             lines.append(f"{stage.replace('_', ' ').title()}: {count}")
