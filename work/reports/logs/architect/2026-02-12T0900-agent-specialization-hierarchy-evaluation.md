@@ -86,9 +86,19 @@ Analyzing proposal through multiple lenses:
 4. **Glossary Impact** - what new terminology needs definition?
 5. **Backwards Compatibility** - impact on existing tasks/workflows?
 
-### Step 3: Clarifying Questions (next)
+### Step 3: Clarifying Questions ✅
 
-### Step 4: Implementation Roadmap (next)
+**Responses received:**
+- Q1: Hybrid A/B - SELECT_APPROPRIATE_AGENT tactic + agent metadata for parent
+- Q2: Yes to upward delegation via normal handoff
+- Q3: Generalize (writing style, domain knowledge, etc.)
+- Q4: Language-based for programming; consider workload + complexity; Mike decides ties
+- Q5: Mike does "reassignment pass" for legacy tasks
+- Q6: Yes, handoffs trigger SELECT_APPROPRIATE_AGENT (including .doctrine-config specialists)
+
+### Step 4: Implementation Roadmap ✅
+
+Comprehensive implementation plan provided based on clarifications.
 
 ## Artifacts Created
 
@@ -96,11 +106,35 @@ Analyzing proposal through multiple lenses:
 
 ## Outcomes
 
-(To be completed after analysis)
+- ✅ Architectural evaluation completed
+- ✅ Clarifying questions answered by stakeholder
+- ✅ Detailed implementation roadmap provided
+- ✅ DDR structure drafted
+- ✅ Tactic structure defined (SELECT_APPROPRIATE_AGENT)
+- ✅ Impact on existing components identified
+- 📝 Next: Human to approve roadmap, create implementation tasks
 
 ## Lessons Learned
 
-(To be completed after analysis)
+**Pattern Recognition:**
+- Agent hierarchy is analogous to class inheritance in OOP
+- Context-based routing mirrors dependency injection container resolution
+- Priority system prevents ambiguity (similar to specificity in CSS)
+
+**Architecture Insights:**
+- Hybrid approaches (explicit + implicit) balance discoverability with flexibility
+- Local .doctrine-config specialists create powerful customization point
+- Reassignment pass pattern handles migration gracefully
+
+**Framework Evolution:**
+- This hierarchy concept extends naturally to all specialist types (not just language)
+- SELECT_APPROPRIATE_AGENT tactic becomes reusable across handoff scenarios
+- Workload + complexity factors prevent specialist overload
+
+**Risks Identified:**
+- Circular dependencies possible if hierarchy poorly configured (needs validation)
+- Complex routing logic requires thorough testing
+- Reassignment pass could be expensive on large task sets (needs optimization)
 
 ## Metadata
 
