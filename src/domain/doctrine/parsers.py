@@ -40,6 +40,7 @@ Examples
 import hashlib
 import re
 from pathlib import Path
+from typing import Any
 
 import frontmatter  # type: ignore
 import yaml
@@ -50,7 +51,7 @@ from .exceptions import (
     ParseError,
     ValidationError,
 )
-from .models import Agent, Approach, Directive, Tactic
+from .models import Agent, Approach, Directive, Tactic, HandoffPattern, PrimerEntry
 
 
 class DirectiveParser:
@@ -357,6 +358,14 @@ class AgentParser:
         tags_list = metadata.get("tags", [])
         tags = frozenset(tags_list) if isinstance(tags_list, list) else frozenset()
 
+        # Enhanced features (ADR-045 Task 3)
+        capability_descriptions = self._parse_capability_descriptions(markdown_content)
+        handoff_patterns = self._parse_handoff_patterns(markdown_content, agent_id)
+        constraints = self._parse_constraints(markdown_content)
+        preferences = self._parse_preferences(markdown_content)
+        primer_matrix = self._parse_primer_matrix(markdown_content)
+        default_mode = self._parse_default_mode(markdown_content, preferences)
+
         # Construct Agent domain object
         return Agent(
             id=agent_id,
@@ -370,6 +379,12 @@ class AgentParser:
             version=str(version),
             status=status,
             tags=tags,
+            capability_descriptions=capability_descriptions,
+            handoff_patterns=tuple(handoff_patterns),
+            constraints=constraints,
+            preferences=preferences,
+            primer_matrix=tuple(primer_matrix),
+            default_mode=default_mode,
         )
 
     def _extract_agent_name(self, content: str, agent_id: str) -> str:
@@ -388,7 +403,19 @@ class AgentParser:
     def _extract_section(self, content: str, heading: str) -> str:
         """Extract section content under a heading."""
         escaped_heading = re.escape(heading)
-        pattern = rf"{escaped_heading}\s*\n(.*?)(?=\n##|\Z)"
+        # Extract section until next same-level or higher-level heading
+        # For ### heading, continue until ## or ###
+        # For ## heading, continue until next ##
+        if heading.startswith("###"):
+            # Level 3 heading - stop at ## or ### (but not ####)
+            pattern = rf"{escaped_heading}\s*\n(.*?)(?=\n##(?!#)|\n###(?!#)|\Z)"
+        elif heading.startswith("##"):
+            # Level 2 heading - stop at next ##  (but not ### or ####)
+            pattern = rf"{escaped_heading}\s*\n(.*?)(?=\n##(?!#)|\Z)"
+        else:
+            # Default fallback
+            pattern = rf"{escaped_heading}\s*\n(.*?)(?=\n##|\Z)"
+            
         match = re.search(pattern, content, re.DOTALL | re.MULTILINE)
 
         if match:
@@ -447,6 +474,309 @@ class AgentParser:
                 primers.add(clean_item)
 
         return frozenset(primers)
+
+    def _parse_capability_descriptions(self, content: str) -> dict[str, str]:
+        """
+        Parse structured capability descriptions from ## Specialization section.
+
+        Extracts Primary focus, Secondary awareness, Avoid, and Success means
+        from bullet points in the specialization section.
+
+        Args:
+            content: Markdown content
+
+        Returns:
+            Dictionary with capability categories and descriptions
+        """
+        section = self._extract_section(content, "## 3. Specialization")
+        if not section:
+            section = self._extract_section(content, "## Specialization")
+        if not section:
+            return {}
+
+        capabilities = {}
+
+        # Extract patterns like "- **Primary focus:** description"
+        pattern = r"^[-*]\s+\*\*([^*:]+?):\*\*\s*(.+?)$"
+        matches = re.finditer(pattern, section, re.MULTILINE)
+
+        for match in matches:
+            category = match.group(1).strip().lower()
+            description = match.group(2).strip()
+
+            # Normalize category names
+            if "primary" in category:
+                capabilities["primary"] = description
+            elif "secondary" in category:
+                capabilities["secondary"] = description
+            elif "avoid" in category:
+                capabilities["avoid"] = description
+            elif "success" in category:
+                capabilities["success"] = description
+
+        return capabilities
+
+    def _parse_handoff_patterns(
+        self, content: str, agent_id: str
+    ) -> list[HandoffPattern]:
+        """
+        Parse handoff patterns from Collaboration Patterns section.
+
+        Extracts "Handoff To", "Handoff From", and "Works With" patterns.
+
+        Args:
+            content: Markdown content
+            agent_id: ID of current agent (for source_agent field)
+
+        Returns:
+            List of HandoffPattern objects
+        """
+        patterns: list[HandoffPattern] = []
+
+        # Find Collaboration Patterns section
+        section = self._extract_section(content, "### Collaboration Patterns")
+        if not section:
+            section = self._extract_section(content, "## Collaboration Patterns")
+        if not section:
+            return patterns
+
+        # Extract subsections
+        handoff_to_section = self._extract_subsection(section, "#### Handoff To")
+        handoff_from_section = self._extract_subsection(section, "#### Handoff From")
+        works_with_section = self._extract_subsection(section, "#### Works With")
+
+        # Parse "Handoff To" patterns
+        if handoff_to_section:
+            to_patterns = self._extract_handoff_items(handoff_to_section)
+            for target_agent, context in to_patterns:
+                patterns.append(
+                    HandoffPattern(
+                        source_agent=agent_id,
+                        target_agent=target_agent,
+                        direction="to",
+                        context=context,
+                    )
+                )
+
+        # Parse "Handoff From" patterns
+        if handoff_from_section:
+            from_patterns = self._extract_handoff_items(handoff_from_section)
+            for source, context in from_patterns:
+                patterns.append(
+                    HandoffPattern(
+                        source_agent=source,
+                        target_agent=agent_id,
+                        direction="from",
+                        context=context,
+                    )
+                )
+
+        # Parse "Works With" patterns
+        if works_with_section:
+            works_patterns = self._extract_handoff_items(works_with_section)
+            for other_agent, context in works_patterns:
+                patterns.append(
+                    HandoffPattern(
+                        source_agent=agent_id,
+                        target_agent=other_agent,
+                        direction="works_with",
+                        context=context,
+                    )
+                )
+
+        return patterns
+
+    def _extract_subsection(self, section: str, heading: str) -> str:
+        """Extract subsection content under a heading."""
+        escaped_heading = re.escape(heading)
+        pattern = rf"{escaped_heading}\s*\n(.*?)(?=\n####|\n###|\n##|\Z)"
+        match = re.search(pattern, section, re.DOTALL | re.MULTILINE)
+
+        if match:
+            return match.group(1).strip()
+
+        return ""
+
+    def _extract_handoff_items(self, section: str) -> list[tuple[str, str]]:
+        """
+        Extract handoff items from bullet list.
+
+        Returns list of (agent_name, context) tuples.
+        """
+        items = []
+
+        # Pattern: - **Agent-Name:** Context description
+        pattern = r"^[-*]\s+\*\*([^*:]+?):\*\*\s*(.+?)$"
+        matches = re.finditer(pattern, section, re.MULTILINE)
+
+        for match in matches:
+            agent_name = match.group(1).strip()
+            context = match.group(2).strip()
+
+            # Clean up agent name (remove parentheses, convert to lowercase with hyphens)
+            agent_name = re.sub(r"\s*\([^)]*\)", "", agent_name)
+            agent_name = agent_name.lower().replace(" ", "-")
+
+            items.append((agent_name, context))
+
+        return items
+
+    def _parse_constraints(self, content: str) -> frozenset[str]:
+        """
+        Parse constraints from ### Constraints section.
+
+        Args:
+            content: Markdown content
+
+        Returns:
+            Frozenset of constraint strings
+        """
+        section = self._extract_section(content, "### Constraints")
+        if not section:
+            return frozenset()
+
+        constraints = set()
+
+        # Extract bullet points
+        bullet_items = re.findall(r"^[-*]\s+(.+)$", section, re.MULTILINE)
+        for item in bullet_items:
+            clean_item = item.strip()
+            if clean_item and len(clean_item) > 0:
+                constraints.add(clean_item)
+
+        return frozenset(constraints)
+
+    def _parse_preferences(self, content: str) -> dict[str, Any]:
+        """
+        Parse preferences from ### Preferences section.
+
+        Args:
+            content: Markdown content
+
+        Returns:
+            Dictionary of preference key-value pairs
+        """
+        section = self._extract_section(content, "### Preferences")
+        if not section:
+            return {}
+
+        preferences = {}
+
+        # Pattern 1: - **Key:** value
+        pattern1 = r"^[-*]\s+\*\*([^*:]+?)\*\*:\s*(.+?)$"
+        matches1 = re.finditer(pattern1, section, re.MULTILINE)
+        for match in matches1:
+            key = match.group(1).strip().lower().replace(" ", "_")
+            value = match.group(2).strip()
+            preferences[key] = value
+
+        # Pattern 2: - Key: value (without bold)
+        pattern2 = r"^[-*]\s+([^:]+?):\s*(.+?)$"
+        matches2 = re.finditer(pattern2, section, re.MULTILINE)
+        for match in matches2:
+            key_raw = match.group(1).strip()
+            # Skip if already matched by pattern1
+            if key_raw.startswith("**"):
+                continue
+            key = key_raw.lower().replace(" ", "_")
+            value = match.group(2).strip()
+            preferences[key] = value
+
+        return preferences
+
+    def _parse_primer_matrix(self, content: str) -> list[PrimerEntry]:
+        """
+        Parse primer matrix from ## Primers section.
+
+        Extracts primer requirements for different task types.
+
+        Args:
+            content: Markdown content
+
+        Returns:
+            List of PrimerEntry objects
+        """
+        section = self._extract_section(content, "## 6. Primers")
+        if not section:
+            section = self._extract_section(content, "## Primers")
+        if not section:
+            return []
+
+        entries = []
+
+        # Look for "Primer Matrix:" subsection
+        matrix_section = section
+        if "Primer Matrix:" in section:
+            matrix_match = re.search(
+                r"Primer Matrix:\s*\n(.*?)(?=\n##|\Z)", section, re.DOTALL
+            )
+            if matrix_match:
+                matrix_section = matrix_match.group(1)
+
+        # Pattern: - **Task type:** Primer1 → Primer2 → ...
+        pattern = r"^[-*]\s+\*\*([^*:]+?):\*\*\s*(.+?)$"
+        matches = re.finditer(pattern, matrix_section, re.MULTILINE)
+
+        for match in matches:
+            task_type_raw = match.group(1).strip()
+            description = match.group(2).strip()
+
+            # Normalize task type
+            task_type = task_type_raw.lower().replace(" ", "_")
+
+            # Extract primers from description (look for all-caps words)
+            primers = set()
+            primer_pattern = r"\b([A-Z]{2,}(?:[A-Z]+)?)\b"
+            primer_matches = re.findall(primer_pattern, description)
+            primers.update(primer_matches)
+
+            if primers:
+                entries.append(
+                    PrimerEntry(
+                        task_type=task_type,
+                        required_primers=frozenset(primers),
+                        description=description,
+                    )
+                )
+
+        return entries
+
+    def _parse_default_mode(
+        self, content: str, preferences: dict[str, Any]
+    ) -> str:
+        """
+        Parse default reasoning mode.
+
+        Looks in preferences first, then in Mode Defaults table.
+
+        Args:
+            content: Markdown content
+            preferences: Parsed preferences dictionary
+
+        Returns:
+            Default mode string (defaults to "analysis-mode")
+        """
+        # Check preferences first
+        if "default_mode" in preferences:
+            return preferences["default_mode"]
+
+        # Check Mode Defaults table for "Default mode" comment
+        section = self._extract_section(content, "## 5. Mode Defaults")
+        if not section:
+            section = self._extract_section(content, "## Mode Defaults")
+        if section:
+            # Look for "Default mode" in Use Case column
+            pattern = r"\|\s*`/(\w+(?:-\w+)?)`\s*\|[^|]*\|[^|]*Default[^|]*\|"
+            match = re.search(pattern, section, re.IGNORECASE)
+            if match:
+                return match.group(1)
+
+            # Fallback: first mode in the table
+            first_mode_match = re.search(r"\|\s*`/(\w+(?:-\w+)?)`\s*\|", section)
+            if first_mode_match:
+                return first_mode_match.group(1)
+
+        return "analysis-mode"
 
 
 class TacticParser:

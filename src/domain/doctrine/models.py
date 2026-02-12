@@ -57,8 +57,90 @@ Examples
 """
 
 from dataclasses import dataclass, field
-from pathlib import Path
 from datetime import date
+from pathlib import Path
+from typing import Any
+
+
+@dataclass(frozen=True)
+class HandoffPattern:
+    """
+    Handoff pattern between agents.
+
+    Represents a collaboration pattern where one agent hands off work to another,
+    or works collaboratively with another agent.
+
+    Attributes
+    ----------
+    source_agent : str
+        The agent initiating the handoff or collaboration
+    target_agent : str
+        The agent receiving the handoff or collaborating
+    direction : str
+        Type of handoff: "to", "from", or "works_with"
+    context : str
+        Description of what is being handed off or collaboration context
+    example : str | None
+        Optional example of the handoff pattern
+
+    Examples
+    --------
+    >>> pattern = HandoffPattern(
+    ...     source_agent="python-pedro",
+    ...     target_agent="backend-benny",
+    ...     direction="to",
+    ...     context="Service integration and deployment",
+    ...     example="After implementation, hand to Backend Benny for deployment"
+    ... )
+    >>> assert pattern.direction == "to"
+    """
+
+    source_agent: str
+    target_agent: str
+    direction: str  # "to", "from", "works_with"
+    context: str
+    example: str | None = None
+
+    def __repr__(self) -> str:
+        """Return readable string representation."""
+        return f"HandoffPattern({self.source_agent} → {self.target_agent}: {self.context[:30]}...)"
+
+
+@dataclass(frozen=True)
+class PrimerEntry:
+    """
+    Execution primer requirement.
+
+    Represents a primer execution requirement for a specific task type,
+    following Directive 010 (Mode Protocol).
+
+    Attributes
+    ----------
+    task_type : str
+        Type of task (e.g., "feature_development", "bug_fix", "refactoring")
+    required_primers : frozenset[str]
+        Immutable set of required primers (e.g., {"ATDD", "TDD"})
+    description : str
+        Description of the primer workflow
+
+    Examples
+    --------
+    >>> entry = PrimerEntry(
+    ...     task_type="feature_development",
+    ...     required_primers=frozenset(["ATDD", "TDD"]),
+    ...     description="ATDD → TDD → Implementation"
+    ... )
+    >>> assert "ATDD" in entry.required_primers
+    """
+
+    task_type: str
+    required_primers: frozenset[str]
+    description: str
+
+    def __repr__(self) -> str:
+        """Return readable string representation."""
+        primers = ", ".join(sorted(self.required_primers))
+        return f"PrimerEntry({self.task_type}: {primers})"
 
 
 @dataclass(frozen=True)
@@ -123,6 +205,14 @@ class Agent:
     created_date: date | None = None
     status: str = "active"
     tags: frozenset[str] = field(default_factory=frozenset)
+
+    # Enhanced features (ADR-045 Task 3)
+    capability_descriptions: dict[str, str] = field(default_factory=dict)
+    handoff_patterns: tuple[HandoffPattern, ...] = field(default_factory=tuple)
+    constraints: frozenset[str] = field(default_factory=frozenset)
+    preferences: dict[str, Any] = field(default_factory=dict)
+    primer_matrix: tuple[PrimerEntry, ...] = field(default_factory=tuple)
+    default_mode: str = "analysis-mode"
 
     def __repr__(self) -> str:
         """Return readable string representation."""
@@ -464,4 +554,6 @@ __all__ = [
     "Approach",
     "StyleGuide",
     "Template",
+    "HandoffPattern",
+    "PrimerEntry",
 ]
