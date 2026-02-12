@@ -1,8 +1,63 @@
 # Task Dependencies Map
 
-**Last Updated**: 2026-01-31 (Iteration 2 Planning)  
+**Last Updated**: 2026-02-12 (ADR-045 Tasks 1-4 Completion Update)  
 **Updated By**: Planning Petra  
 **Purpose**: Explicit mapping of task dependencies, blocking relationships, and execution sequences
+
+---
+
+## Recent Completions (2026-02-12)
+
+### ✅ ADR-046: Domain Module Refactoring - 100% COMPLETE
+- All 4 tasks completed successfully
+- Production-ready, 942 tests passing
+- Git history preserved, imports updated
+- **Status:** CLOSED
+
+### ✅ ADR-045: Doctrine Concept Domain Model - 80% COMPLETE (4/5 tasks)
+- **Task 1:** ✅ Domain Models (27 tests, 98% coverage)
+- **Task 2:** ✅ Parsers (50 tests, 91% coverage)  
+- **Task 3:** ✅ Agent Parser Enhanced (27 tests, 90.48% coverage)
+- **Task 4:** ✅ Validators (91 tests, 100% coverage)
+- **Task 5:** ⏳ Dashboard Integration (PENDING - 2-4h estimated)
+- **Overall:** 195 tests passing, 92% coverage, 0 production errors
+- **Reviews:** All approved (Pedro ✅, Alphonso ✅, Annie ✅, Claire ✅)
+- **Status:** READY FOR TASK 5
+
+---
+
+---
+
+## M5.1 Batch Summary (Updated 2026-02-12)
+
+**Overall Status:** 80% Complete
+
+| Initiative | Status | Progress | Next Action |
+|-----------|--------|----------|-------------|
+| ADR-046 Refactoring | ✅ COMPLETE | 4/4 tasks (100%) | Closed |
+| ADR-045 Domain Model | 🔄 IN PROGRESS | 4/5 tasks (80%) | Task 5 (Dashboard) |
+| M4.3 Dashboard | ⏳ BLOCKED | Awaiting ADR-045 Task 5 | Resume after completion |
+
+**Dependency Chain:**
+```
+ADR-046 (COMPLETE) ✅
+  ↓ (enabled)
+ADR-045 Tasks 1-4 (COMPLETE) ✅
+  ↓ (enables)
+ADR-045 Task 5 (PENDING) ⏳ ← **CURRENT FOCUS**
+  ↓ (unblocks)
+M4.3 Dashboard Integration (READY) 📋
+```
+
+**Critical Path:**
+1. ✅ Domain structure refactored (ADR-046)
+2. ✅ Domain models created (ADR-045 Task 1)
+3. ✅ Parsers implemented (ADR-045 Task 2)
+4. ✅ Agent parser enhanced (ADR-045 Task 3)
+5. ✅ Validators complete (ADR-045 Task 4)
+6. ⏳ **Dashboard integration (ADR-045 Task 5)** ← Next
+7. 📋 Initiative tracking backend (M4.3)
+8. 📋 Initiative tracking frontend (M4.3)
 
 ---
 
