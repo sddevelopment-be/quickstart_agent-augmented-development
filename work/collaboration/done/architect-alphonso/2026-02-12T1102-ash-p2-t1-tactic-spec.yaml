@@ -1,46 +1,71 @@
-id: ASH-P2-T1-TACTIC-SPEC
+id: 2026-02-12T1102-ash-p2-t1-tactic-spec
 agent: architect-alphonso
-status: new
+status: done
 priority: high
 specification: specifications/initiatives/agent-specialization-hierarchy/agent-specialization-hierarchy.md
 title: 'Task 2: SELECT_APPROPRIATE_AGENT Tactic Specification'
-description: |
-  Create comprehensive tactic document at doctrine/tactics/SELECT_APPROPRIATE_AGENT.tactic.md that defines
+description: 'Create comprehensive tactic document at doctrine/tactics/SELECT_APPROPRIATE_AGENT.tactic.md
+  that defines
+
   the routing algorithm for context-based agent selection.
 
+
   Required sections:
+
   1. Purpose (what, when, why)
+
   2. Invocation conditions (initial assignment, handoff, reassignment)
+
   3. Inputs (task metadata, agent pool, workload state)
+
   4. Procedure (7-step algorithm with detailed pseudocode)
+
   5. Outputs (selected agent, scores, rationale)
+
   6. Examples (4+ scenarios)
+
   7. Decision tree (flowchart)
+
   8. Logging requirements
 
+
   Algorithm steps:
+
   - Extract task context (language, frameworks, domain, complexity)
+
   - Discover candidates (doctrine + .doctrine-config agents)
-  - Calculate match scores (language 40%, framework 20%, files 20%, keywords 10%, exact 10%)
+
+  - Calculate match scores (language 40%, framework 20%, files 20%, keywords 10%,
+  exact 10%)
+
   - Adjust for workload (0-2 tasks: 0%, 3-4: -15%, 5+: -30%)
+
   - Adjust for complexity (low: specialist +10%, high: parent +10%)
+
   - Resolve ties (score > language > priority > free choice)
+
   - Return selection + rationale
 
-  Must include examples: Python task routing, specialist overload fallback, local specialist discovery,
+
+  Must include examples: Python task routing, specialist overload fallback, local
+  specialist discovery,
+
   high complexity parent preference.
 
+  '
 artefacts:
 - doctrine/tactics/SELECT_APPROPRIATE_AGENT.tactic.md
-
 context:
-  background: Agent Specialization Hierarchy approved (DDR-011). Phase 2 requires detailed tactic specification before implementation. Routing algorithm is core to hierarchy value proposition.
+  background: Agent Specialization Hierarchy approved (DDR-011). Phase 2 requires
+    detailed tactic specification before implementation. Routing algorithm is core
+    to hierarchy value proposition.
   milestone: ASH Phase 2 - SELECT_APPROPRIATE_AGENT Tactic
-  strategic_value: Formalized routing algorithm enables consistent, transparent, and auditable agent selection decisions. Foundation for Manager Mike enhancement and reassignment pass.
+  strategic_value: Formalized routing algorithm enables consistent, transparent, and
+    auditable agent selection decisions. Foundation for Manager Mike enhancement and
+    reassignment pass.
   specification: specifications/initiatives/agent-specialization-hierarchy/agent-specialization-hierarchy.md
   architecture_design: docs/architecture/design/agent-specialization-hierarchy.md
   decision_record: doctrine/decisions/DDR-011-agent-specialization-hierarchy.md
-
 requirements:
 - Create doctrine/tactics/SELECT_APPROPRIATE_AGENT.tactic.md
 - All 8 required sections complete
@@ -50,7 +75,6 @@ requirements:
 - Logging requirements specification
 - Cross-references to DDR-011, architecture design, specification
 - Follows tactic template format (if exists) or establishes pattern
-
 acceptance_criteria:
 - Tactic document exists at specified path
 - All 8 sections present and complete
@@ -60,13 +84,19 @@ acceptance_criteria:
 - Logging requirements specify all required fields
 - Cross-references to DDR-011 and architecture design
 - Reviewed for completeness (self-review checklist in work log)
-
 dependencies:
 - ASH-P1-T1-GLOSSARY
-
 created_at: '2026-02-12T11:02:00Z'
 created_by: manager-mike
 estimated_hours: 4
 batch: ASH-BATCH-1
 initiative: Agent Specialization Hierarchy
 phase: Phase 2 - SELECT_APPROPRIATE_AGENT Tactic
+started_at: '2026-02-12T13:38:50Z'
+result:
+  summary: Created SELECT_APPROPRIATE_AGENT tactic at doctrine/tactics/SELECT_APPROPRIATE_AGENT.tactic.md.
+    Contains 7-step routing algorithm, scoring weights, workload/complexity adjustments,
+    4 routing examples, decision tree, and logging requirements.
+  artefacts:
+  - doctrine/tactics/SELECT_APPROPRIATE_AGENT.tactic.md
+completed_at: '2026-02-12T13:44:14Z'

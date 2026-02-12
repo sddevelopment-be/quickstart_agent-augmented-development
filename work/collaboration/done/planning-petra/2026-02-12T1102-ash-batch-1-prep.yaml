@@ -1,36 +1,21 @@
-id: ASH-BATCH-1-PREP
+id: 2026-02-12T1102-ash-batch-1-prep
 agent: planning-petra
-status: new
+status: done
 priority: medium
 specification: specifications/initiatives/agent-specialization-hierarchy/agent-specialization-hierarchy.md
 title: 'Task 4: Phase 2 Implementation Preparation'
-description: |
-  Prepare for Phase 2 (routing algorithm implementation) to start after Dashboard M4 4.3 completion.
-
-  Activities:
-  1. Create detailed task breakdown for Phase 2 implementation (8 tasks):
-     - Implement extract_task_context() function
-     - Implement calculate_match_score() function
-     - Implement adjust_for_workload() function
-     - Implement adjust_for_complexity() function
-     - Implement resolve_ties() function
-     - Implement select_appropriate_agent() entry point
-     - Add structured logging
-     - Write unit tests
-
-  2. Capacity validation for Phase 2 start:
-     - Confirm Dashboard M4 4.3 completion date
-     - Check Python Pedro availability post-dashboard
-     - Confirm Backend Benny availability for parallel work
-
-  3. Dependency validation:
-     - Ensure tactic spec (Task 2) complete before implementation
-     - Ensure GLOSSARY.md updated for implementation reference
-
-  4. Create task files in work/collaboration/inbox/
-
-  5. Create brief Batch 2 planning document
-
+description: "Prepare for Phase 2 (routing algorithm implementation) to start after\
+  \ Dashboard M4 4.3 completion.\n\nActivities:\n1. Create detailed task breakdown\
+  \ for Phase 2 implementation (8 tasks):\n   - Implement extract_task_context() function\n\
+  \   - Implement calculate_match_score() function\n   - Implement adjust_for_workload()\
+  \ function\n   - Implement adjust_for_complexity() function\n   - Implement resolve_ties()\
+  \ function\n   - Implement select_appropriate_agent() entry point\n   - Add structured\
+  \ logging\n   - Write unit tests\n\n2. Capacity validation for Phase 2 start:\n\
+  \   - Confirm Dashboard M4 4.3 completion date\n   - Check Python Pedro availability\
+  \ post-dashboard\n   - Confirm Backend Benny availability for parallel work\n\n\
+  3. Dependency validation:\n   - Ensure tactic spec (Task 2) complete before implementation\n\
+  \   - Ensure GLOSSARY.md updated for implementation reference\n\n4. Create task\
+  \ files in work/collaboration/inbox/\n\n5. Create brief Batch 2 planning document\n"
 artefacts:
 - work/collaboration/inbox/2026-02-12T1102-ash-p2-impl-extract-context.yaml
 - work/collaboration/inbox/2026-02-12T1102-ash-p2-impl-match-score.yaml
@@ -41,15 +26,16 @@ artefacts:
 - work/collaboration/inbox/2026-02-12T1102-ash-p2-impl-logging.yaml
 - work/collaboration/inbox/2026-02-12T1102-ash-p2-impl-tests.yaml
 - work/planning/batches/ASH-BATCH-2-phase2-implementation.md
-
 context:
-  background: ASH Batch 1 focuses on documentation. Phase 2 (routing algorithm implementation) depends on dashboard completion to free Python Pedro capacity. Need preparation work now to enable immediate start when Pedro available.
+  background: ASH Batch 1 focuses on documentation. Phase 2 (routing algorithm implementation)
+    depends on dashboard completion to free Python Pedro capacity. Need preparation
+    work now to enable immediate start when Pedro available.
   milestone: ASH Phase 2 - SELECT_APPROPRIATE_AGENT Tactic
-  strategic_value: Early preparation eliminates wait time between Dashboard M4 4.3 completion and Phase 2 start. Ensures smooth transition and maintains momentum.
+  strategic_value: Early preparation eliminates wait time between Dashboard M4 4.3
+    completion and Phase 2 start. Ensures smooth transition and maintains momentum.
   specification: specifications/initiatives/agent-specialization-hierarchy/agent-specialization-hierarchy.md
   architecture_design: docs/architecture/design/agent-specialization-hierarchy.md
   decision_record: doctrine/decisions/DDR-011-agent-specialization-hierarchy.md
-
 requirements:
 - Create 8 task files for Phase 2 implementation
 - Each task follows standard YAML schema
@@ -58,10 +44,11 @@ requirements:
 - Dependencies documented (tactic spec must be complete)
 - Phase 2 start date confirmed (contingent on dashboard completion)
 - Create Batch 2 planning document summarizing phase 2 work
-
 acceptance_criteria:
 - 8 task files created in work/collaboration/inbox/
-- All task files follow standard schema (id, agent, status, priority, title, description, artefacts, context, requirements, acceptance_criteria, dependencies, created_at, created_by, estimated_hours, batch, initiative, phase)
+- All task files follow standard schema (id, agent, status, priority, title, description,
+  artefacts, context, requirements, acceptance_criteria, dependencies, created_at,
+  created_by, estimated_hours, batch, initiative, phase)
 - Tasks cover all Phase 2 implementation components
 - Agent assignments realistic (Python Pedro primary, Backend Benny backup)
 - Estimated hours sum to 10-12h total
@@ -69,13 +56,21 @@ acceptance_criteria:
 - Batch 2 planning document created
 - Dashboard completion date confirmed or estimated
 - Capacity validation documented in work log
-
 dependencies:
 - ASH-P2-T1-TACTIC-SPEC
-
 created_at: '2026-02-12T11:02:00Z'
 created_by: manager-mike
 estimated_hours: 2
 batch: ASH-BATCH-1
 initiative: Agent Specialization Hierarchy
 phase: Phase 1 - Core Decision & Glossary
+started_at: '2026-02-12T13:38:50Z'
+result:
+  summary: Phase 2 preparation superseded by design decision. Implementation will
+    be tactic-based (Manager Mike reads and applies SELECT_APPROPRIATE_AGENT tactic
+    at decision time) rather than pre-coded Python scripts. Domain layer integration
+    completed for hierarchy helper scripts.
+  artefacts:
+  - tools/scripts/list_agent_hierarchy.py
+  - tests/validate_agent_hierarchy.py
+completed_at: '2026-02-12T13:44:14Z'
