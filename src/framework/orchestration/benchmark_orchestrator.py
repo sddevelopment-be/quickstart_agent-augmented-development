@@ -698,7 +698,7 @@ def main() -> int:
     if test_work_dir.exists():
         shutil.rmtree(test_work_dir)
         print(f"✅ Removed temporary test directory: {test_work_dir}")
-    
+
     # Reset the global variable so next run gets a new directory
     global _test_work_dir
     _test_work_dir = None
