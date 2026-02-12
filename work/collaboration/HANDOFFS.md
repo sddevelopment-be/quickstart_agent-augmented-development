@@ -1,4 +1,25 @@
 
+## 2026-02-12 10:16 - manager → researcher
+
+**Artefacts:** work/research/2026-02-12-refactoring-techniques-matrix.md
+**Task ID:** 2026-02-12T0910-researcher-refactoring-techniques-matrix
+**Status:** Assigned
+
+
+## 2026-02-12 10:16 - manager → curator
+
+**Artefacts:** doctrine/tactics/*refactoring*.md, doctrine/docs/references/*refactoring*, doctrine/tactics/README.md, directive links
+**Task IDs:** 2026-02-12T0911-curator-refactoring-tactics-authoring; 2026-02-12T0912-curator-refactoring-pattern-references; 2026-02-12T0913-curator-refactoring-directive-integration
+**Status:** Assigned
+
+
+## 2026-02-12 10:16 - manager → code-reviewer-cindy
+
+**Artefacts:** Review findings for refactoring tactic integration
+**Task ID:** 2026-02-12T0914-code-reviewer-refactoring-tactics-validation
+**Status:** Assigned (blocked until curator task 0913 complete)
+
+
 ## 2026-01-31 06:38 - synthesizer → writer-editor
 
 **Artefacts:** docs/architecture/synthesis/poc3-orchestration-metrics-synthesis.md
@@ -39,4 +60,3 @@
 **Artefacts:** docs/architecture/synthesis/poc3-orchestration-metrics-synthesis.md
 **Task ID:** 2026-01-31T0638-synthesizer-followup-2025-11-23T2100-diagrammer-poc3-diagram-updates
 **Status:** Created
-

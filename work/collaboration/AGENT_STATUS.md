@@ -1,6 +1,6 @@
 # Agent Status Dashboard
 
-_Last updated: 2026-02-12 (Planning Petra - ADR-045 Update)_
+_Last updated: 2026-02-12 (Manager Mike - SPEC-REFACTOR-001 Kickoff)_
 
 ## Current Batch Status
 
@@ -8,6 +8,7 @@ _Last updated: 2026-02-12 (Planning Petra - ADR-045 Update)_
 - **ADR-046 (Domain Module Refactoring):** ✅ COMPLETE - 100% done, production-ready
 - **M4.3 (Dashboard Initiative Tracking):** ⏳ PENDING - Awaiting Task 5 completion, ready to resume
 - **SPEC-TERM-001 Phase 1 (Terminology Alignment):** 📋 PLANNED - 6 tasks defined, awaiting approval
+- **SPEC-REFACTOR-001 (Refactoring Tactics Foundation):** 🔄 KICKOFF COMPLETE - 5 tasks assigned (researcher=1, curator=3, code-reviewer-cindy=1)
 
 ## Planning Status
 
@@ -62,18 +63,18 @@ _Last updated: 2026-02-12 (Planning Petra - ADR-045 Update)_
 
 ## code-reviewer-cindy
 
-- **Status**: Planned
-- **Assigned**: 1 task (to be created)
+- **Status**: Ready
+- **Assigned**: 2 tasks (1 legacy + 1 SPEC-REFACTOR-001)
 - **In Progress**: 0 tasks
-- **Batch**: SPEC-TERM-001 Directive Updates (4h, can parallel with M5.1)
-- **Estimated Hours**: 4h
+- **Batch**: SPEC-TERM-001 Directive Updates + SPEC-REFACTOR-001 Validation
+- **Estimated Hours**: 6h
 
 ## curator
 
-- **Status**: Idle
-- **Assigned**: 1 task
+- **Status**: Ready
+- **Assigned**: 4 tasks (1 legacy + 3 SPEC-REFACTOR-001)
 - **In Progress**: 0 tasks
-- **Next**: Primer/Alias/Directive alignment followup (1-2h, when capacity)
+- **Next**: SPEC-REFACTOR-001 Task 2/3/4 sequence
 - **Last seen**: 2026-02-09 21:13:10
 
 ## diagrammer
@@ -140,9 +141,10 @@ _Last updated: 2026-02-12 (Planning Petra - ADR-045 Update)_
 
 ## researcher
 
-- **Status**: Idle
-- **Assigned**: 0 tasks
+- **Status**: Ready
+- **Assigned**: 1 task
 - **In Progress**: 0 tasks
+- **Next**: SPEC-REFACTOR-001 Task 1 evidence matrix
 
 ## scribe
 
@@ -180,4 +182,3 @@ _Last updated: 2026-02-12 (Planning Petra - ADR-045 Update)_
 - **Status**: Idle
 - **Assigned**: 0 tasks
 - **In Progress**: 0 tasks
-
