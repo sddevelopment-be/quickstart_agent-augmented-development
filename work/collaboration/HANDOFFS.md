@@ -1,4 +1,32 @@
 
+## 2026-02-12 11:12 - curator → manager
+
+**Artefacts:** doctrine/tactics/README.md
+**Task ID:** 2026-02-12T1115-curator-tactics-count-sync-batch2
+**Status:** Completed (Batch 2 metadata sync fix)
+
+
+## 2026-02-12 11:12 - code-reviewer-cindy → manager
+
+**Artefacts:** work/reports/logs/code-reviewer-cindy/2026-02-12T1113-spec-refactor-batch2-validation.md
+**Task ID:** 2026-02-12T1107-code-reviewer-refactoring-batch2-validation
+**Status:** Completed (1 low-severity finding)
+
+
+## 2026-02-12 11:11 - curator → code-reviewer-cindy
+
+**Artefacts:** doctrine/tactics/refactoring-replace-temp-with-query.tactic.md, doctrine/tactics/refactoring-move-field.tactic.md, doctrine/tactics/refactoring-introduce-null-object.tactic.md, doctrine/docs/references/refactoring-conditional-variants-to-strategy-state.md, doctrine/docs/references/refactoring-architecture-pattern-escalation-guide.md
+**Task ID:** 2026-02-12T1107-code-reviewer-refactoring-batch2-validation
+**Status:** Ready (dependency 1106 completed)
+
+
+## 2026-02-12 11:09 - researcher → curator
+
+**Artefacts:** work/research/2026-02-12-refactoring-reference-expansion.md
+**Task ID:** 2026-02-12T1105-researcher-refactoring-reference-expansion
+**Status:** Completed (handoff ready for task 1106)
+
+
 ## 2026-02-12 10:48 - curator → manager
 
 **Artefacts:** doctrine/tactics/README.md
