@@ -1,11 +1,26 @@
 ---
 name: [agent-name]
-description: 
+description: [Brief description of agent purpose and capabilities]
+tools: ["read", "write", "edit", "Bash", "Grep"]
+
+# Specialization Hierarchy (Optional — see DDR-011)
+# Uncomment and fill in if this agent specializes a parent agent.
+# specializes_from: [parent-agent-slug]
+# routing_priority: 70              # 0-100; parents default 50, specialists 60-90
+# max_concurrent_tasks: 5           # Positive integer; workload threshold
+
+# Specialization Context (Optional — for specialists only)
+# Defines when this agent is preferred over its parent.
+# specialization_context:
+#   language: [python]              # Programming languages
+#   frameworks: [flask, pytest]     # Frameworks and libraries
+#   file_patterns: ["**/*.py"]      # Glob patterns for file matching
+#   domain_keywords: [api, testing] # Domain/task keywords
+#   writing_style: [technical]      # For writing-focused agents
+#   complexity_preference: [low, medium]  # Preferred task complexity
 ---
 
 # Agent Profile: [Agent Name]
-
-## 1. Context Sources
 
 ## 1. Context Sources
 

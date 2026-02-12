@@ -206,6 +206,12 @@ class Agent:
     status: str = "active"
     tags: frozenset[str] = field(default_factory=frozenset)
 
+    # Specialization Hierarchy (DDR-011)
+    specializes_from: str | None = None
+    routing_priority: int | None = None
+    max_concurrent_tasks: int | None = None
+    specialization_context: dict[str, list[str]] = field(default_factory=dict)
+
     # Enhanced features (ADR-045 Task 3)
     capability_descriptions: dict[str, str] = field(default_factory=dict)
     handoff_patterns: tuple[HandoffPattern, ...] = field(default_factory=tuple)

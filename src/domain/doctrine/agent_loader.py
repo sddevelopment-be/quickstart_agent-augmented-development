@@ -3,7 +3,12 @@ Agent profile loader - dynamically loads agent identities from doctrine/agents.
 
 This module provides functionality to load agent profiles from the doctrine
 directory, ensuring single source of truth and avoiding hardcoded drift.
+
+Supports both framework agents (doctrine/agents/) and local custom agents
+(.doctrine-config/custom-agents/) per DDR-011 (Agent Specialization Hierarchy).
 """
+
+from __future__ import annotations
 
 import logging
 import re
@@ -12,23 +17,37 @@ from pathlib import Path
 logger = logging.getLogger(__name__)
 
 
-class AgentProfileLoader:
-    """Loads agent profiles from doctrine/agents directory."""
+def _repo_root_from_module() -> Path:
+    """Auto-detect repository root from this module's location."""
+    # From src/domain/doctrine/agent_loader.py -> root/
+    return Path(__file__).resolve().parent.parent.parent.parent
 
-    def __init__(self, doctrine_path: Path | None = None):
+
+class AgentProfileLoader:
+    """Loads agent profiles from doctrine/agents and local custom-agents directories."""
+
+    def __init__(
+        self,
+        doctrine_path: Path | None = None,
+        repo_root: Path | None = None,
+    ):
         """
         Initialize agent profile loader.
 
         Args:
             doctrine_path: Path to doctrine directory. If None, auto-detects.
+            repo_root: Repository root for local agent discovery. If None, auto-detects.
         """
-        if doctrine_path is None:
-            # Auto-detect doctrine path relative to this file
-            # From src/domain/doctrine/agent_loader.py -> root/doctrine
-            doctrine_path = Path(__file__).parent.parent.parent.parent / "doctrine"
+        if repo_root is None:
+            repo_root = _repo_root_from_module()
 
+        if doctrine_path is None:
+            doctrine_path = repo_root / "doctrine"
+
+        self.repo_root = Path(repo_root)
         self.doctrine_path = Path(doctrine_path)
         self.agents_path = self.doctrine_path / "agents"
+        self.local_agents_path = self.repo_root / ".doctrine-config" / "custom-agents"
 
         if not self.agents_path.exists():
             logger.warning(f"Agents directory not found: {self.agents_path}")
@@ -64,6 +83,44 @@ class AgentProfileLoader:
 
         return sorted(agent_names)
 
+    def load_all_profiles(self, include_local: bool = True) -> dict[str, object]:
+        """
+        Load full Agent domain objects from framework and local directories.
+
+        Uses AgentParser from the domain layer. Local agents override framework
+        agents with the same name (per DDR-011).
+
+        Args:
+            include_local: Whether to include .doctrine-config/custom-agents/
+
+        Returns:
+            Dict mapping agent id to Agent domain object.
+        """
+        from .parsers import AgentParser
+
+        parser = AgentParser()
+        agents: dict[str, object] = {}
+
+        # Framework agents
+        if self.agents_path.exists():
+            for agent_file in self.agents_path.glob("*.agent.md"):
+                try:
+                    agent = parser.parse(agent_file)
+                    agents[agent.id] = agent
+                except Exception as e:
+                    logger.warning(f"Skipping {agent_file.name}: {e}")
+
+        # Local custom agents (override framework agents)
+        if include_local and self.local_agents_path.exists():
+            for agent_file in self.local_agents_path.glob("*.agent.md"):
+                try:
+                    agent = parser.parse(agent_file)
+                    agents[agent.id] = agent
+                except Exception as e:
+                    logger.warning(f"Skipping local {agent_file.name}: {e}")
+
+        return agents
+
     def _extract_agent_name(self, agent_file: Path) -> str | None:
         """
         Extract agent name from frontmatter in agent file.
@@ -75,17 +132,17 @@ class AgentProfileLoader:
             Agent name or None if not found
         """
         try:
-            content = agent_file.read_text(encoding='utf-8')
+            content = agent_file.read_text(encoding="utf-8")
 
             # Match YAML frontmatter between --- markers
-            frontmatter_match = re.match(r'^---\s*\n(.*?)\n---', content, re.DOTALL)
+            frontmatter_match = re.match(r"^---\s*\n(.*?)\n---", content, re.DOTALL)
             if not frontmatter_match:
                 return None
 
             frontmatter = frontmatter_match.group(1)
 
             # Extract name field
-            name_match = re.search(r'^name:\s*(.+)$', frontmatter, re.MULTILINE)
+            name_match = re.search(r"^name:\s*(.+)$", frontmatter, re.MULTILINE)
             if name_match:
                 return name_match.group(1).strip()
 

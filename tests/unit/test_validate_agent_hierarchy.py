@@ -70,9 +70,17 @@ def create_agent_file(
     """Helper to create agent markdown file with YAML frontmatter."""
     import yaml
 
+    # Ensure description is present (required by domain layer AgentParser)
+    if "description" not in profile:
+        profile = {**profile, "description": f"Test agent {name}"}
+
     file_path = directory / f"{name}.agent.md"
     frontmatter_yaml = yaml.dump(profile, default_flow_style=False)
-    content = f"---\n{frontmatter_yaml}---\n\n# Agent: {name}\n\nAgent description here.\n"
+    content = (
+        f"---\n{frontmatter_yaml}---\n\n"
+        f"# Agent Profile: {name}\n\n"
+        f"## 2. Purpose\n\nTest agent for validation.\n"
+    )
 
     file_path.write_text(content, encoding="utf-8")
     return file_path
@@ -226,10 +234,10 @@ class TestDiscoverAgents:
         """
         # Arrange
         create_agent_file(
-            tmp_doctrine_dir, "shared-agent", {"name": "shared-agent", "value": "framework"}
+            tmp_doctrine_dir, "shared-agent", {"name": "shared-agent"}
         )
         create_agent_file(
-            tmp_custom_agents_dir, "shared-agent", {"name": "shared-agent", "value": "custom"}
+            tmp_custom_agents_dir, "shared-agent", {"name": "shared-agent"}
         )
 
         # Assumption
@@ -241,7 +249,6 @@ class TestDiscoverAgents:
 
         # Assert
         assert len(agents) == 1
-        assert agents["shared-agent"]["value"] == "custom"
         assert agents["shared-agent"]["_source"] == "local"
 
     def test_discover_no_agents_directory(self, tmp_path: Path) -> None:

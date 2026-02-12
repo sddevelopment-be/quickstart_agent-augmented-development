@@ -415,6 +415,15 @@ class AgentParser:
         tags_list = metadata.get("tags", [])
         tags = frozenset(tags_list) if isinstance(tags_list, list) else frozenset()
 
+        # Specialization Hierarchy (DDR-011)
+        specializes_from = metadata.get("specializes_from")
+        routing_priority = metadata.get("routing_priority")
+        max_concurrent_tasks = metadata.get("max_concurrent_tasks")
+        raw_context = metadata.get("specialization_context", {})
+        specialization_context = (
+            raw_context if isinstance(raw_context, dict) else {}
+        )
+
         # Enhanced features (ADR-045 Task 3)
         capability_descriptions = self._parse_capability_descriptions(markdown_content)
         handoff_patterns = self._parse_handoff_patterns(markdown_content, agent_id)
@@ -436,6 +445,10 @@ class AgentParser:
             version=str(version),
             status=status,
             tags=tags,
+            specializes_from=specializes_from,
+            routing_priority=routing_priority,
+            max_concurrent_tasks=max_concurrent_tasks,
+            specialization_context=specialization_context,
             capability_descriptions=capability_descriptions,
             handoff_patterns=tuple(handoff_patterns),
             constraints=constraints,

@@ -2,6 +2,8 @@
 """
 Validate agent specialization hierarchy relationships and prevent configuration errors.
 
+Uses the domain layer (src/domain/doctrine/) for agent loading and parsing.
+
 Checks:
 - Circular dependencies (A specializes B, B specializes A)
 - Parent references exist
@@ -20,7 +22,15 @@ import sys
 from pathlib import Path
 from typing import Any
 
+# Add paths so domain layer is importable
+_repo_root = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(_repo_root))
+sys.path.insert(0, str(_repo_root / "src"))
+
 import yaml
+
+from domain.doctrine.agent_loader import AgentProfileLoader
+from domain.doctrine.models import Agent
 
 
 def load_agent_profile(path: Path) -> dict[str, Any] | None:
@@ -48,33 +58,61 @@ def load_agent_profile(path: Path) -> dict[str, Any] | None:
         return None
 
 
+def _agent_to_dict(agent: Agent, source: str) -> dict[str, Any]:
+    """Convert Agent domain object to validation-compatible dict."""
+    result: dict[str, Any] = {
+        "name": agent.id,
+        "_source": source,
+        "_path": str(agent.source_file),
+    }
+    if agent.specializes_from is not None:
+        result["specializes_from"] = agent.specializes_from
+    if agent.routing_priority is not None:
+        result["routing_priority"] = agent.routing_priority
+    if agent.max_concurrent_tasks is not None:
+        result["max_concurrent_tasks"] = agent.max_concurrent_tasks
+    if agent.specialization_context:
+        result["specialization_context"] = agent.specialization_context
+    return result
+
+
 def discover_agents(repo_root: Path) -> dict[str, dict[str, Any]]:
     """
     Discover all agent profiles from doctrine/agents/ and .doctrine-config/custom-agents/.
 
-    Returns dict mapping agent name to profile dict.
+    Uses the domain layer's AgentProfileLoader and AgentParser for parsing.
+    Returns dict mapping agent name to profile dict (for validation functions).
     """
+    try:
+        loader = AgentProfileLoader(repo_root=repo_root)
+        domain_agents = loader.load_all_profiles(include_local=True)
+
+        agents: dict[str, dict[str, Any]] = {}
+        for agent in domain_agents.values():
+            source = "local" if ".doctrine-config" in str(agent.source_file) else "framework"
+            agents[agent.id] = _agent_to_dict(agent, source)
+
+        return agents
+    except Exception:
+        # Fallback to direct YAML parsing if domain layer unavailable
+        return _discover_agents_fallback(repo_root)
+
+
+def _discover_agents_fallback(repo_root: Path) -> dict[str, dict[str, Any]]:
+    """Fallback agent discovery using direct YAML parsing."""
     agents: dict[str, dict[str, Any]] = {}
 
-    # Framework agents
-    framework_agents_dir = repo_root / "doctrine" / "agents"
-    if framework_agents_dir.exists():
-        for agent_file in framework_agents_dir.glob("*.agent.md"):
+    for source, directory in [
+        ("framework", repo_root / "doctrine" / "agents"),
+        ("local", repo_root / ".doctrine-config" / "custom-agents"),
+    ]:
+        if not directory.exists():
+            continue
+        for agent_file in directory.glob("*.agent.md"):
             profile = load_agent_profile(agent_file)
             if profile and "name" in profile:
-                profile["_source"] = "framework"
+                profile["_source"] = source
                 profile["_path"] = str(agent_file)
-                agents[profile["name"]] = profile
-
-    # Local custom agents
-    local_agents_dir = repo_root / ".doctrine-config" / "custom-agents"
-    if local_agents_dir.exists():
-        for agent_file in local_agents_dir.glob("*.agent.md"):
-            profile = load_agent_profile(agent_file)
-            if profile and "name" in profile:
-                profile["_source"] = "local"
-                profile["_path"] = str(agent_file)
-                # Local agents override framework agents
                 agents[profile["name"]] = profile
 
     return agents
@@ -299,7 +337,7 @@ def main() -> int:
     print("Agent Hierarchy Validation")
     print("==========================")
 
-    # Discover agents
+    # Discover agents (uses domain layer)
     agents = discover_agents(repo_root)
 
     framework_count = sum(1 for a in agents.values() if a.get("_source") == "framework")
