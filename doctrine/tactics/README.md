@@ -105,8 +105,11 @@ When context suggests a tactic might apply but no Directive mandates it:
 | **Refactoring.ExtractClassByResponsibilitySplit** | [`refactoring-extract-class-by-responsibility-split.tactic.md`](./refactoring-extract-class-by-responsibility-split.tactic.md) | Split a large mixed-responsibility class into cohesive class boundaries | Class changes for multiple reasons, behavior clusters are separable | [Directive 039](../directives/039_refactoring_techniques.md) (Refactoring Techniques), [Directive 021](../directives/021_locality_of_change.md) (Locality of Change) | Moves one responsibility cluster at a time with delegation to preserve behavior during migration |
 | **Refactoring.ReplaceMagicNumberWithSymbolicConstant** | [`refactoring-replace-magic-number-with-symbolic-constant.tactic.md`](./refactoring-replace-magic-number-with-symbolic-constant.tactic.md) | Replace opaque numeric literals with semantic constants | Business thresholds/policy values are encoded as unnamed literals | [Directive 039](../directives/039_refactoring_techniques.md) (Refactoring Techniques), [Directive 017](../directives/017_test_driven_development.md) (TDD) | Improves readability and change safety while preserving behavior via test-backed replacement |
 | **Refactoring.ReplaceTempWithQuery** | [`refactoring-replace-temp-with-query.tactic.md`](./refactoring-replace-temp-with-query.tactic.md) | Replace derived temporary variables with query methods | Derived expressions are duplicated or hidden behind temp assignments | [Directive 039](../directives/039_refactoring_techniques.md) (Refactoring Techniques), [Directive 017](../directives/017_test_driven_development.md) (TDD) | Improves intention visibility and reuse of derived logic while preserving behavior |
+| **Refactoring.InlineTemp** | [`refactoring-inline-temp.tactic.md`](./refactoring-inline-temp.tactic.md) | Inline temporary variables that only alias simple expressions | Temporary variable adds indirection without domain value | [Directive 039](../directives/039_refactoring_techniques.md) (Refactoring Techniques), [Directive 017](../directives/017_test_driven_development.md) (TDD) | Reduces noise and clarifies local control flow when expression remains readable |
 | **Refactoring.MoveField** | [`refactoring-move-field.tactic.md`](./refactoring-move-field.tactic.md) | Relocate field ownership to the class that uses/owns it most | Data placement drift causes coupling and ownership confusion | [Directive 039](../directives/039_refactoring_techniques.md) (Refactoring Techniques), [Directive 021](../directives/021_locality_of_change.md) (Locality of Change) | Aligns state with behavior through incremental migration and test checkpoints |
 | **Refactoring.IntroduceNullObject** | [`refactoring-introduce-null-object.tactic.md`](./refactoring-introduce-null-object.tactic.md) | Replace repetitive null-check branches with interface-compatible null behavior | Null checks dominate call-site flow and safe default behavior exists | [Directive 039](../directives/039_refactoring_techniques.md) (Refactoring Techniques), [Directive 017](../directives/017_test_driven_development.md) (TDD) | Reduces branch clutter while preserving explicit null semantics via dedicated implementation |
+| **Refactoring.ConditionalToStrategy** | [`refactoring-conditional-to-strategy.tactic.md`](./refactoring-conditional-to-strategy.tactic.md) | Replace algorithm-selection conditionals with Strategy dispatch | Repeated branch logic selects stable algorithm variants | [Directive 039](../directives/039_refactoring_techniques.md) (Refactoring Techniques), [Directive 017](../directives/017_test_driven_development.md) (TDD) | Extracts interchangeable behavior while keeping context orchestration-focused |
+| **Refactoring.RetryPatternHardening** | [`refactoring-retry-pattern.tactic.md`](./refactoring-retry-pattern.tactic.md) | Centralize and harden retry behavior for transient-failure operations | Ad-hoc retries are duplicated or inconsistent across integration boundaries | [Directive 039](../directives/039_refactoring_techniques.md) (Refactoring Techniques), [Directive 017](../directives/017_test_driven_development.md) (TDD) | Policy-driven retry with backoff/jitter and explicit exhaustion behavior |
 
 ---
 
@@ -144,8 +147,11 @@ When context suggests a tactic might apply but no Directive mandates it:
 - `refactoring-extract-class-by-responsibility-split.tactic.md` (split mixed classes by cohesive responsibility)
 - `refactoring-replace-magic-number-with-symbolic-constant.tactic.md` (replace numeric literals with semantic constants)
 - `refactoring-replace-temp-with-query.tactic.md` (replace derived temps with query methods)
+- `refactoring-inline-temp.tactic.md` (inline non-semantic temporary aliases)
 - `refactoring-move-field.tactic.md` (move data ownership to the right class)
 - `refactoring-introduce-null-object.tactic.md` (replace repetitive null branches with null object behavior)
+- `refactoring-conditional-to-strategy.tactic.md` (replace algorithm conditionals with strategy dispatch)
+- `refactoring-retry-pattern.tactic.md` (harden transient failure handling with centralized retry policy)
 
 ---
 
@@ -170,8 +176,11 @@ When context suggests a tactic might apply but no Directive mandates it:
 - `refactoring-extract-class-by-responsibility-split.tactic.md` ↔ complements `refactoring-move-method.tactic.md`
 - `refactoring-replace-magic-number-with-symbolic-constant.tactic.md` → clarifies domain policy before rule extraction
 - `refactoring-replace-temp-with-query.tactic.md` ↔ complements `refactoring-extract-first-order-concept.tactic.md`
+- `refactoring-inline-temp.tactic.md` ↔ often precedes `refactoring-replace-temp-with-query.tactic.md`
 - `refactoring-move-field.tactic.md` ↔ pairs with `refactoring-move-method.tactic.md` for cohesion repair
 - `refactoring-introduce-null-object.tactic.md` → commonly precedes Strategy/State escalation decisions
+- `refactoring-conditional-to-strategy.tactic.md` → may follow `refactoring-guard-clauses-before-polymorphism.tactic.md`
+- `refactoring-retry-pattern.tactic.md` ↔ complements architecture escalation guidance for reliability boundaries
 - All refactoring tactics reference [Directive 017](../directives/017_test_driven_development.md) for test-first safety
 
 ---
@@ -186,4 +195,4 @@ When context suggests a tactic might apply but no Directive mandates it:
 
 **README Version:** 1.2.0  
 **Last Updated:** 2026-02-12  
-**Tactic Files (.tactic.md):** 44
+**Tactic Files (.tactic.md):** 47
