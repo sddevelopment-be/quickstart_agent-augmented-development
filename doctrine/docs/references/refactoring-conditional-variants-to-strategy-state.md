@@ -21,4 +21,5 @@ Purpose: Guide when conditional-heavy logic should remain local, move to Strateg
 ## Integration Notes
 
 - Use this reference with `refactoring-guard-clauses-before-polymorphism.tactic.md`.
+- Use `refactoring-conditional-to-strategy.tactic.md` when Strategy is selected by this guide.
 - Keep Strategy/State adoption explicit in ADRs for non-trivial domains.

@@ -426,8 +426,11 @@ You've successfully refactored when:
 - `tactics/refactoring-extract-class-by-responsibility-split.tactic.md` - Separate mixed concerns into cohesive class boundaries
 - `tactics/refactoring-replace-magic-number-with-symbolic-constant.tactic.md` - Replace opaque numeric literals with semantic constants
 - `tactics/refactoring-replace-temp-with-query.tactic.md` - Replace derived temporary variables with query methods
+- `tactics/refactoring-inline-temp.tactic.md` - Inline non-semantic temporary aliases
 - `tactics/refactoring-move-field.tactic.md` - Relocate field ownership to correct data owner class
 - `tactics/refactoring-introduce-null-object.tactic.md` - Replace repetitive null branches with null object behavior
+- `tactics/refactoring-conditional-to-strategy.tactic.md` - Replace algorithm conditionals with strategy dispatch
+- `tactics/refactoring-retry-pattern.tactic.md` - Centralize retry behavior for transient-failure operations
 
 ### Doctrine References
 
@@ -435,6 +438,7 @@ You've successfully refactored when:
 - `docs/references/refactoring-first-wave-selection.md` - Staged P1/P2/P3 rollout guidance
 - `docs/references/refactoring-conditional-variants-to-strategy-state.md` - Conditional-variant escalation guidance
 - `docs/references/refactoring-architecture-pattern-escalation-guide.md` - Thresholds for architecture-pattern escalation
+- `docs/references/refactoring-hierarchy-field-placement-guide.md` - Pull-up/push-down field placement decision guide
 
 ### External References
 
