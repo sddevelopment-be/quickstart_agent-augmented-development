@@ -14,7 +14,7 @@ Test Strategy:
 import hashlib
 import shutil
 import tempfile
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 import pytest
@@ -72,7 +72,7 @@ class TestFrameworkInstallAcceptance:
 
         manifest_data = {
             "version": "1.0.0",
-            "generated_at": datetime.utcnow().isoformat() + "Z",
+            "generated_at": datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
             "files": [
                 {
                     "path": ".github/agents/sample.agent.md",
@@ -271,7 +271,7 @@ class TestFrameworkUpgradeAcceptance:
 
         manifest_data = {
             "version": "1.0.0",
-            "generated_at": datetime.utcnow().isoformat() + "Z",
+            "generated_at": datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
             "files": [
                 {
                     "path": ".github/agents/existing.agent.md",

@@ -28,7 +28,7 @@ import json
 import os
 import sys
 from dataclasses import dataclass, field, asdict
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Literal
 
@@ -132,7 +132,7 @@ class ErrorSummary:
     job: str
     run_id: str | None = None
     run_url: str | None = None
-    timestamp: str = field(default_factory=lambda: datetime.utcnow().isoformat() + "Z")
+    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'))
     
     errors: list[ValidationError] = field(default_factory=list)
     
@@ -272,7 +272,7 @@ class ErrorParser:
             severity=severity,
             message=message,
             validator=validator,
-            timestamp=datetime.utcnow().isoformat() + "Z",
+            timestamp=datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
             location=location,
             raw_output=line,
         )

@@ -15,7 +15,7 @@ Thread-safe for concurrent invocations.
 import sqlite3
 import threading
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 
@@ -130,7 +130,7 @@ class TelemetryLogger:
         with self._lock:
             with sqlite3.connect(self.db_path) as conn:
                 # Use record timestamp or current time
-                timestamp = record.timestamp or datetime.utcnow()
+                timestamp = record.timestamp or datetime.now(timezone.utc)
 
                 # Insert invocation
                 conn.execute(
