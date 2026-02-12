@@ -1,0 +1,33 @@
+id: 2026-02-12T1105-researcher-refactoring-reference-expansion
+agent: researcher
+status: done
+title: 'SPEC-REFACTOR-001 Batch 2 Task 1: Research remaining refactoring/pattern references'
+mode: /analysis-mode
+priority: high
+artefacts:
+- work/research/2026-02-12-refactoring-reference-expansion.md
+context:
+  repo: quickstart_agent-augmented-development
+  branch: feature/code_skill_improvements
+  notes:
+  - Fetch and synthesize remaining sources from work/tasks/learning_refactoring_plan.md
+    not covered in Batch 1.
+  - Prioritize techniques/patterns that can translate into doctrine tactics or references.
+  - Capture problem solved, when to apply, risks/failure modes, and target doctrine
+    artifact type.
+  dependencies:
+  - 2026-02-12T0910-researcher-refactoring-techniques-matrix
+created_at: '2026-02-12T11:05:00Z'
+created_by: manager-mike
+started_at: '2026-02-12T11:08:43Z'
+result:
+  summary: Researched remaining reference sources and produced a second-wave matrix
+    with prioritized tactic/reference candidates plus doctrine integration guidance.
+  artifacts:
+  - work/research/2026-02-12-refactoring-reference-expansion.md
+  next_agent: curator
+  next_task_title: Curate Batch 2 references and selected tactics into doctrine artifacts
+  next_artefacts:
+  - doctrine/docs/references/refactoring-*.md
+  - doctrine/tactics/refactoring-*.tactic.md
+completed_at: '2026-02-12T11:09:48Z'

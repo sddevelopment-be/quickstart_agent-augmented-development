@@ -104,6 +104,9 @@ When context suggests a tactic might apply but no Directive mandates it:
 | **Refactoring.GuardClausesBeforePolymorphism** | [`refactoring-guard-clauses-before-polymorphism.tactic.md`](./refactoring-guard-clauses-before-polymorphism.tactic.md) | Flatten nested conditionals into explicit guard clauses before introducing polymorphism | Branch pyramids hide variant boundaries and block safe extraction | [Directive 039](../directives/039_refactoring_techniques.md) (Refactoring Techniques), [Directive 017](../directives/017_test_driven_development.md) (TDD) | Creates an ordered, testable branch surface so polymorphic extraction can happen with lower risk |
 | **Refactoring.ExtractClassByResponsibilitySplit** | [`refactoring-extract-class-by-responsibility-split.tactic.md`](./refactoring-extract-class-by-responsibility-split.tactic.md) | Split a large mixed-responsibility class into cohesive class boundaries | Class changes for multiple reasons, behavior clusters are separable | [Directive 039](../directives/039_refactoring_techniques.md) (Refactoring Techniques), [Directive 021](../directives/021_locality_of_change.md) (Locality of Change) | Moves one responsibility cluster at a time with delegation to preserve behavior during migration |
 | **Refactoring.ReplaceMagicNumberWithSymbolicConstant** | [`refactoring-replace-magic-number-with-symbolic-constant.tactic.md`](./refactoring-replace-magic-number-with-symbolic-constant.tactic.md) | Replace opaque numeric literals with semantic constants | Business thresholds/policy values are encoded as unnamed literals | [Directive 039](../directives/039_refactoring_techniques.md) (Refactoring Techniques), [Directive 017](../directives/017_test_driven_development.md) (TDD) | Improves readability and change safety while preserving behavior via test-backed replacement |
+| **Refactoring.ReplaceTempWithQuery** | [`refactoring-replace-temp-with-query.tactic.md`](./refactoring-replace-temp-with-query.tactic.md) | Replace derived temporary variables with query methods | Derived expressions are duplicated or hidden behind temp assignments | [Directive 039](../directives/039_refactoring_techniques.md) (Refactoring Techniques), [Directive 017](../directives/017_test_driven_development.md) (TDD) | Improves intention visibility and reuse of derived logic while preserving behavior |
+| **Refactoring.MoveField** | [`refactoring-move-field.tactic.md`](./refactoring-move-field.tactic.md) | Relocate field ownership to the class that uses/owns it most | Data placement drift causes coupling and ownership confusion | [Directive 039](../directives/039_refactoring_techniques.md) (Refactoring Techniques), [Directive 021](../directives/021_locality_of_change.md) (Locality of Change) | Aligns state with behavior through incremental migration and test checkpoints |
+| **Refactoring.IntroduceNullObject** | [`refactoring-introduce-null-object.tactic.md`](./refactoring-introduce-null-object.tactic.md) | Replace repetitive null-check branches with interface-compatible null behavior | Null checks dominate call-site flow and safe default behavior exists | [Directive 039](../directives/039_refactoring_techniques.md) (Refactoring Techniques), [Directive 017](../directives/017_test_driven_development.md) (TDD) | Reduces branch clutter while preserving explicit null semantics via dedicated implementation |
 
 ---
 
@@ -140,6 +143,9 @@ When context suggests a tactic might apply but no Directive mandates it:
 - `refactoring-guard-clauses-before-polymorphism.tactic.md` (flatten branch pyramids before polymorphic extraction)
 - `refactoring-extract-class-by-responsibility-split.tactic.md` (split mixed classes by cohesive responsibility)
 - `refactoring-replace-magic-number-with-symbolic-constant.tactic.md` (replace numeric literals with semantic constants)
+- `refactoring-replace-temp-with-query.tactic.md` (replace derived temps with query methods)
+- `refactoring-move-field.tactic.md` (move data ownership to the right class)
+- `refactoring-introduce-null-object.tactic.md` (replace repetitive null branches with null object behavior)
 
 ---
 
@@ -163,6 +169,9 @@ When context suggests a tactic might apply but no Directive mandates it:
 - `refactoring-guard-clauses-before-polymorphism.tactic.md` → precedes polymorphism-oriented extraction tactics
 - `refactoring-extract-class-by-responsibility-split.tactic.md` ↔ complements `refactoring-move-method.tactic.md`
 - `refactoring-replace-magic-number-with-symbolic-constant.tactic.md` → clarifies domain policy before rule extraction
+- `refactoring-replace-temp-with-query.tactic.md` ↔ complements `refactoring-extract-first-order-concept.tactic.md`
+- `refactoring-move-field.tactic.md` ↔ pairs with `refactoring-move-method.tactic.md` for cohesion repair
+- `refactoring-introduce-null-object.tactic.md` → commonly precedes Strategy/State escalation decisions
 - All refactoring tactics reference [Directive 017](../directives/017_test_driven_development.md) for test-first safety
 
 ---
@@ -177,4 +186,4 @@ When context suggests a tactic might apply but no Directive mandates it:
 
 **README Version:** 1.2.0  
 **Last Updated:** 2026-02-12  
-**Tactic Files (.tactic.md):** 40
+**Tactic Files (.tactic.md):** 44
