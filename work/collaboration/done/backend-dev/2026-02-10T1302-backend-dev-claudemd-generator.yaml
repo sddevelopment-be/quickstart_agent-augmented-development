@@ -1,4 +1,4 @@
-id: dist002-task-1.3-claudemd-generator
+id: 2026-02-10T1302-backend-dev-claudemd-generator
 agent: backend-dev
 status: done
 priority: high
@@ -38,7 +38,7 @@ result:
     lines (vs 120-line limit). Extracts purpose from VISION.md, structure from directive
     003, conventions from python-conventions.md. Hardcoded commands section. Graceful
     degradation for all missing files.
-  artefacts_created:
+  artefacts:
   - tools/exporters/claude-code-generator.js (extended)
   - tests/unit/exporters/generate-claude-md.test.js
   tests_passed: 13

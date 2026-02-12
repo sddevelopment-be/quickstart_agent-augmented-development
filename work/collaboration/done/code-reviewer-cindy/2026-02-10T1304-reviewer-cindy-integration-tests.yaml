@@ -1,4 +1,4 @@
-id: dist002-task-2.3-integration-tests
+id: 2026-02-10T1304-reviewer-cindy-integration-tests
 agent: code-reviewer-cindy
 status: done
 priority: high
@@ -35,7 +35,7 @@ result:
     acceptance criteria. Tests run in <1 second. Covers: CLAUDE.md content/structure,
     5 rules files line limits and attribution, agent simplification, prompts deprecation,
     selective flags, idempotency.'
-  artefacts_created:
+  artefacts:
   - tests/integration/deploy-claude-code.test.js
   tests_passed: 39
   tests_failed: 0
