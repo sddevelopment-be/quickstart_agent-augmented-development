@@ -16,6 +16,9 @@ from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
+# Constants for file patterns (avoid string duplication - S1192)
+AGENT_FILE_PATTERN = "*.agent.md"
+
 
 def _repo_root_from_module() -> Path:
     """Auto-detect repository root from this module's location."""
@@ -65,7 +68,7 @@ class AgentProfileLoader:
         if not self.agents_path.exists():
             raise FileNotFoundError(f"Agents directory not found: {self.agents_path}")
 
-        agent_files = list(self.agents_path.glob("*.agent.md"))
+        agent_files = list(self.agents_path.glob(AGENT_FILE_PATTERN))
         if not agent_files:
             logger.warning(f"No agent files found in {self.agents_path}")
             return []
@@ -105,7 +108,7 @@ class AgentProfileLoader:
 
         # Framework agents
         if self.agents_path.exists():
-            for agent_file in self.agents_path.glob("*.agent.md"):
+            for agent_file in self.agents_path.glob(AGENT_FILE_PATTERN):
                 try:
                     agent = parser.parse(agent_file)
                     agents[agent.id] = agent
@@ -114,7 +117,7 @@ class AgentProfileLoader:
 
         # Local custom agents (override framework agents)
         if include_local and self.local_agents_path.exists():
-            for agent_file in self.local_agents_path.glob("*.agent.md"):
+            for agent_file in self.local_agents_path.glob(AGENT_FILE_PATTERN):
                 try:
                     agent = parser.parse(agent_file)
                     agents[agent.id] = agent
