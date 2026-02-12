@@ -4,8 +4,33 @@
 # YAML parsing (used by validation and orchestration scripts)
 PyYAML>=6.0
 
+# Advanced YAML handling with comment preservation (used by task updaters)
+ruamel.yaml>=0.17.0
+
 # Testing framework (used by E2E tests)
 pytest>=7.0
 
 # JSON schema validation (optional, used by OpenCode validator)
 jsonschema>=4.0
+
+# Data validation and settings management (used by domain models)
+pydantic>=2.0.0
+
+# Web framework for dashboard
+Flask>=2.3.0
+
+# Flask extensions for dashboard
+Flask-SocketIO>=5.3.0
+Flask-CORS>=4.0.0
+
+# WebSocket client/server support
+python-socketio>=5.10.0
+
+# File system monitoring for dashboard file watcher
+watchdog>=3.0.0
+
+# Terminal output formatting (used by CLI tools)
+rich>=13.0.0
+
+# Markdown frontmatter parsing (used by doctrine parsers)
+python-frontmatter>=1.0.0

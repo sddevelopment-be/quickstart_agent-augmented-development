@@ -7,11 +7,11 @@ Implements ADR-036: Dashboard Markdown Rendering with XSS protection.
 Implements ADR-035: Dashboard Task Priority Editing.
 """
 
-from flask import Flask, jsonify, make_response, request
+from flask import Flask, jsonify, request
 from flask_socketio import SocketIO, emit, Namespace
 from flask_cors import CORS
 from datetime import datetime, timezone
-from typing import Dict, Optional, Any
+from typing import Any
 import os
 import secrets
 from pathlib import Path
@@ -28,33 +28,33 @@ from src.domain.collaboration.types import TaskStatus
 def load_tasks_with_filter(work_dir: Path, include_done: bool = False, terminal_only: bool = False) -> list[dict]:
     """
     Load tasks with filtering options.
-    
+
     Args:
         work_dir: Work collaboration directory
         include_done: Include finished (done/error) tasks
         terminal_only: Return only terminal status tasks
-    
+
     Returns:
         List of task dictionaries matching filter criteria
     """
     if not include_done and not terminal_only:
         # Use optimized function for active tasks only
         return load_open_tasks(work_dir)
-    
+
     # Load all tasks including finished ones
     task_files = find_task_files(work_dir, include_done=True)
     filtered_tasks = []
-    
+
     for task_file in task_files:
         task = load_task_safe(task_file)
         if task is None:
             continue
-            
+
         # Check status filter
         status = task.get("status", "")
         try:
             task_status = TaskStatus(status)
-            
+
             if terminal_only:
                 # Only include terminal status tasks
                 if TaskStatus.is_terminal(task_status):
@@ -69,7 +69,7 @@ def load_tasks_with_filter(work_dir: Path, include_done: bool = False, terminal_
         except ValueError:
             # Invalid status, skip silently
             continue
-            
+
     return filtered_tasks
 
 
@@ -120,7 +120,7 @@ def add_security_headers(response):
     return response
 
 
-def create_app(config: Optional[Dict[str, Any]] = None) -> tuple[Flask, SocketIO]:
+def create_app(config: dict[str, Any] | None = None) -> tuple[Flask, SocketIO]:
     """
     Create and configure the Flask + SocketIO dashboard application.
 
@@ -228,23 +228,23 @@ def register_routes(app: Flask) -> None:
         # Get task counts from file watcher
         watcher = app.config.get("FILE_WATCHER")
         task_counts = {"inbox": 0, "assigned": 0, "done": 0, "total": 0}
-        
+
         if watcher:
             snapshot = watcher.get_task_snapshot()
-            
+
             # Count inbox tasks
             inbox_count = len(snapshot.get('inbox', []))
-            
+
             # Count assigned tasks (nested by agent)
             assigned_count = sum(
                 len(tasks) for tasks in snapshot.get('assigned', {}).values()
             )
-            
+
             # Count done tasks (nested by agent)
             done_count = sum(
                 len(tasks) for tasks in snapshot.get('done', {}).values()
             )
-            
+
             task_counts = {
                 "inbox": inbox_count,
                 "assigned": assigned_count,
@@ -264,27 +264,27 @@ def register_routes(app: Flask) -> None:
     def tasks():
         """
         Return current task state across all workflow directories.
-        
+
         Query Parameters:
             include_done (bool): Include finished (done/error) tasks. Default: true
-        
+
         Returns:
             JSON with tasks in nested format: {inbox: [], assigned: {agent: []}, done: {agent: []}}
         """
         # Get include_done parameter (default: true for backward compatibility)
         include_done = request.args.get('include_done', 'true').lower() == 'true'
-        
+
         # Get task snapshot from file watcher (always returns nested format)
         watcher = app.config.get("FILE_WATCHER")
         if watcher:
             snapshot = watcher.get_task_snapshot()
-            
+
             # If include_done=false, remove done and error tasks from snapshot
             if not include_done:
                 snapshot = snapshot.copy()
                 snapshot['done'] = {}
                 snapshot['error'] = {}
-            
+
             return jsonify(snapshot)
 
         # Fallback if watcher not initialized
@@ -302,7 +302,7 @@ def register_routes(app: Flask) -> None:
     def tasks_finished():
         """
         Return only finished tasks (DONE and ERROR status).
-        
+
         Returns:
             JSON array with tasks that have terminal status (done/error)
         """
@@ -314,9 +314,9 @@ def register_routes(app: Flask) -> None:
     def portfolio():
         """
         Return portfolio view with initiatives, features, and tasks.
-        
+
         Implements ADR-037: Dashboard Initiative Tracking.
-        
+
         Returns:
             JSON with initiative hierarchy and progress:
             {
@@ -344,32 +344,32 @@ def register_routes(app: Flask) -> None:
         from .spec_parser import SpecificationParser
         from .task_linker import TaskLinker
         from .progress_calculator import ProgressCalculator
-        
+
         # Get directories from config
         spec_dir = app.config.get("SPEC_DIR", "specifications")
         work_dir = app.config.get("WORK_DIR", "work/collaboration")
-        
+
         # Initialize components
         parser = SpecificationParser(spec_dir)
         linker = TaskLinker(work_dir, spec_dir=spec_dir)
-        calculator = ProgressCalculator()
-        
+        ProgressCalculator()
+
         # Parse all specifications
         specifications = parser.scan_specifications(spec_dir)
-        
+
         # Group tasks by specification
         task_groups = linker.group_by_specification()
-        
+
         # Build specification objects with their tasks
         from collections import defaultdict
         spec_objects = []
-        
+
         for spec_meta in specifications:
             # Get tasks for this specification
             from pathlib import Path
             spec_full_path = str(Path(spec_dir) / spec_meta.relative_path)
             spec_tasks = task_groups.get(spec_full_path, [])
-            
+
             # Build task list (tasks link to specifications, not features)
             tasks = [
                 {
@@ -381,12 +381,12 @@ def register_routes(app: Flask) -> None:
                 }
                 for t in spec_tasks
             ]
-            
+
             # Calculate specification progress from tasks
             completed_tasks = sum(1 for t in spec_tasks if t.get("status") == "done")
             total_tasks = len(spec_tasks)
-            spec_progress = int((completed_tasks / total_tasks * 100)) if total_tasks > 0 else 0
-            
+            spec_progress = int(completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
+
             # Build specification object
             spec_objects.append({
                 "id": spec_meta.id,
@@ -399,13 +399,13 @@ def register_routes(app: Flask) -> None:
                 "tasks": tasks,
                 "specification_path": spec_meta.relative_path,
             })
-        
+
         # Group specifications by initiative
         initiatives_grouped = defaultdict(list)
         for spec in spec_objects:
             initiative_name = spec.get("initiative") or "Uncategorized"
             initiatives_grouped[initiative_name].append(spec)
-        
+
         # Build initiative list
         initiatives = []
         for initiative_name, specs in sorted(initiatives_grouped.items()):
@@ -415,22 +415,22 @@ def register_routes(app: Flask) -> None:
                 len([t for t in spec["tasks"] if t.get("status") == "done"])
                 for spec in specs
             )
-            initiative_progress = int((completed_tasks / total_tasks * 100)) if total_tasks > 0 else 0
-            
+            initiative_progress = int(completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
+
             # Determine initiative status (most advanced status)
             status_priority = {"draft": 1, "in_progress": 2, "implemented": 3, "complete": 3}
             initiative_status = max(
                 (spec.get("status", "draft") for spec in specs),
                 key=lambda s: status_priority.get(s, 0)
             )
-            
+
             # Determine initiative priority (highest priority)
             priority_order = {"CRITICAL": 4, "HIGH": 3, "MEDIUM": 2, "LOW": 1}
             initiative_priority = max(
                 (spec.get("priority", "MEDIUM") for spec in specs),
                 key=lambda p: priority_order.get(p, 2)
             )
-            
+
             initiatives.append({
                 "id": initiative_name.lower().replace(" ", "-"),
                 "title": initiative_name,
@@ -441,7 +441,7 @@ def register_routes(app: Flask) -> None:
                 "spec_count": len(specs),
                 "task_count": total_tasks,
             })
-        
+
         # Get orphan tasks (tasks without specification links)
         orphan_tasks = linker.get_orphan_tasks()
         orphans = [
@@ -454,7 +454,7 @@ def register_routes(app: Flask) -> None:
             }
             for t in orphan_tasks
         ]
-        
+
         return jsonify({
             "initiatives": initiatives,
             "orphans": orphans,
@@ -465,9 +465,9 @@ def register_routes(app: Flask) -> None:
     def agent_portfolio():
         """
         Return agent portfolio data with capabilities and compliance.
-        
+
         Implements ADR-045 Task 5: Dashboard Integration (Portfolio View).
-        
+
         Returns:
             JSON with agent portfolio data:
             {
@@ -492,19 +492,19 @@ def register_routes(app: Flask) -> None:
             }
         """
         from .agent_portfolio import AgentPortfolioService
-        
+
         try:
             # Initialize service (uses default .github/agents directory)
             service = AgentPortfolioService()
-            
+
             # Get portfolio data
             portfolio = service.get_portfolio_data()
-            
+
             # Add timestamp
             portfolio["timestamp"] = datetime.now(timezone.utc).isoformat()
-            
+
             return jsonify(portfolio)
-            
+
         except Exception as e:
             app.logger.error(f"Error loading agent portfolio: {e}", exc_info=True)
             return jsonify({"error": "Failed to load agent portfolio"}), 500
@@ -616,28 +616,28 @@ def register_routes(app: Flask) -> None:
     def update_task_specification(task_id):
         """
         Assign orphan task to specification/feature.
-        
+
         Implements SPEC-DASH-008: Orphan Task Assignment.
-        
+
         Request Body:
             {
                 "specification": "specifications/llm-service/api-hardening.md",
                 "feature": "Rate Limiting",  # Optional
                 "last_modified": "2026-02-09T20:00:00Z"  # Optional (optimistic locking)
             }
-        
+
         Response 200:
             {
                 "success": true,
                 "task": { ... }
             }
-        
+
         Errors:
             400: Invalid specification path, task not editable, or file not found
             404: Task not found
             409: Concurrent edit conflict
             500: YAML write failure
-        
+
         Example:
             PATCH /api/tasks/2026-02-09T2000-task/specification
             Body: {
@@ -833,7 +833,7 @@ def run_dashboard(
     app.config["FILE_WATCHER"] = watcher
 
     print(f"🚀 Dashboard starting at http://{host}:{port}")
-    print(f"📡 WebSocket namespace: /dashboard")
+    print("📡 WebSocket namespace: /dashboard")
     print(f"💚 Health check: http://{host}:{port}/health")
     print(f"👀 Watching: {watch_dir}")
 

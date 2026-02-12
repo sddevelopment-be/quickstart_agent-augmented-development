@@ -22,7 +22,7 @@ if str(src_path) not in sys.path:
 from llm_service.dashboard import run_dashboard
 
 
-def main():
+def main() -> None:
     """Parse arguments and launch dashboard."""
     parser = argparse.ArgumentParser(
         description='Run LLM Service Dashboard for real-time monitoring'
@@ -48,9 +48,9 @@ def main():
         default='work/collaboration',
         help='Directory to watch for task files (default: work/collaboration)'
     )
-    
+
     args = parser.parse_args()
-    
+
     # Run dashboard
     run_dashboard(
         host=args.host,
