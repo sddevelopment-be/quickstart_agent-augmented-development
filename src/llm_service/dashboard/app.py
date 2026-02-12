@@ -461,6 +461,54 @@ def register_routes(app: Flask) -> None:
             "timestamp": datetime.now(timezone.utc).isoformat(),
         })
 
+    @app.route("/api/agents/portfolio")
+    def agent_portfolio():
+        """
+        Return agent portfolio data with capabilities and compliance.
+        
+        Implements ADR-045 Task 5: Dashboard Integration (Portfolio View).
+        
+        Returns:
+            JSON with agent portfolio data:
+            {
+                "agents": [
+                    {
+                        "id": "agent-id",
+                        "name": "Agent Name",
+                        "specialization": "Description",
+                        "capability_descriptions": {...},
+                        "directive_compliance": {
+                            "required_directives_count": 3,
+                            "compliance_percentage": 100.0
+                        },
+                        "source_file": "path/to/agent.md",
+                        "source_hash": "sha256..."
+                    }
+                ],
+                "metadata": {
+                    "total_agents": 15,
+                    "load_time_ms": 25.3
+                }
+            }
+        """
+        from .agent_portfolio import AgentPortfolioService
+        
+        try:
+            # Initialize service (uses default .github/agents directory)
+            service = AgentPortfolioService()
+            
+            # Get portfolio data
+            portfolio = service.get_portfolio_data()
+            
+            # Add timestamp
+            portfolio["timestamp"] = datetime.now(timezone.utc).isoformat()
+            
+            return jsonify(portfolio)
+            
+        except Exception as e:
+            app.logger.error(f"Error loading agent portfolio: {e}", exc_info=True)
+            return jsonify({"error": "Failed to load agent portfolio"}), 500
+
     @app.route("/api/tasks/<task_id>/priority", methods=["PATCH"])
     def update_task_priority(task_id: str):
         """
