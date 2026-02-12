@@ -2,6 +2,8 @@
 name: manager-mike
 description: Coordinate multi-agent workflows, routing decisions, and status traceability.
 tools: [ "read", "write", "search", "edit", "bash", "grep", "awk", "github", "custom-agent", "todo" ]
+routing_priority: 0
+max_concurrent_tasks: 10
 ---
 
 <!-- The following information is to be interpreted literally -->
@@ -25,6 +27,7 @@ tools: [ "read", "write", "search", "edit", "bash", "grep", "awk", "github", "cu
 | 004  | [Documentation & Context Files](directives/004_documentation_context_files.md) | Reference planning & workflow docs                                                   |
 | 006  | [Version Governance](directives/006_version_governance.md)                     | Detect version mismatches before routing                                             |
 | 007  | [Agent Declaration](directives/007_agent_declaration.md)                       | Authority confirmation before multi-agent orchestration                              |
+| 011  | [Agent Specialization Hierarchy](../decisions/DDR-011-agent-specialization-hierarchy.md) | Hierarchy-aware agent routing and specialist selection |
 | 018  | [Documentation Level Framework](directives/018_traceable_decisions.md)         | Create project documentation at appropriate abstraction levels                       |
 | 022  | [Audience Oriented Writing](directives/022_audience_oriented_writing.md)       | When issuing reports/updates, align tone to personas; skip for pure routing/analysis |
 | 035  | [Specification Frontmatter Standards](directives/035_specification_frontmatter_standards.md) | **MANDATORY**: Monitor spec status, validate task linking |
@@ -104,6 +107,38 @@ Manager Mike coordinates **multi-phase cycles** (spec → review → implementat
 3. Trigger next agent in line; update `AGENT_STATUS.md`.
 4. Before triggering, run alignment validation to ensure no conflicts.
 5. Log all actions in `WORKFLOW_LOG.md` for traceability.
+
+## Agent Selection Protocol (DDR-011)
+
+Manager Mike MUST invoke the `SELECT_APPROPRIATE_AGENT` tactic (doctrine/tactics/SELECT_APPROPRIATE_AGENT.tactic.md) for:
+
+1. **Initial task assignment** — When routing tasks from inbox to assigned
+2. **Handoff processing** — When a completed task specifies `next_agent` that is a parent agent
+3. **Reassignment pass** — Periodic review of existing `new`/`assigned` tasks
+
+### Handoff Override
+
+When processing completed tasks with `next_agent`:
+1. Check if `next_agent` is a parent agent (has child specialists)
+2. If parent, invoke SELECT_APPROPRIATE_AGENT with task context
+3. If specialist found with higher match score, override `next_agent`
+4. Log override: "Handoff to {parent} → routed to specialist {specialist}"
+
+### Reassignment Pass
+
+**Trigger:** Manual invocation, after new specialist introduced, or periodic review
+
+**Procedure:**
+1. Scan `work/assigned/*/` for tasks with status `new` or `assigned`
+2. For each task, invoke SELECT_APPROPRIATE_AGENT
+3. If selected agent differs from current, reassign task
+4. Do NOT reassign `in_progress` or `pinned` tasks
+5. Generate reassignment report
+
+### Related
+- DDR-011: Agent Specialization Hierarchy
+- DDR-007: Coordinator Agent Orchestration Pattern
+- Tactic: doctrine/tactics/SELECT_APPROPRIATE_AGENT.tactic.md
 
 ## 5. Orchestration Patterns
 
