@@ -15,7 +15,7 @@ How an agent should resume work from existing context.
 
 2. Skim:
     - `${DOC_ROOT}/VISION.md` (to refresh purpose)
-    - `${DOC_ROOT}/specific_guidelines.md` (for constraints)
+    - `${LOCAL_DOCTRINE_ROOT}/specific_guidelines.md` (for local constraints; expected default `.doctrine-config/specific_guidelines.md`)
     - Your own specialist file
 
 3. Summarise:

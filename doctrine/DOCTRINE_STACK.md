@@ -139,6 +139,7 @@ The layers form a stack with clear precedence and composition rules:
 2. Directives override Tactics and Templates
 3. Tactics and Templates operate at equal precedence (non-conflicting domains)
 4. Approaches provide rationale but don't override directives
+5. Repository-local doctrine overrides in `.doctrine-config/` are loaded only after the main `doctrine/` stack and may extend lower-priority layers, but MUST NOT override `guidelines/general_guidelines.md` or `guidelines/operational_guidelines.md`
 
 **Composition Pattern:**
 - **Directives** select which **Tactics** to run
@@ -152,6 +153,24 @@ The layers form a stack with clear precedence and composition rules:
 3. Directive: "Use incremental code review for PRs" (011_risk_escalation.md)
 4. Tactic: Execute `code-review.tactic.md` (step-by-step procedure)
 5. Template: Format review output per `review-summary.md` template
+
+### Repository-Local Extensions (`.doctrine-config`)
+
+The doctrine stack supports repository-local extension points that are processed after the core stack is loaded.
+
+Expected local entry point:
+- `.doctrine-config/specific_guidelines.md`
+
+Common optional local extensions:
+- `.doctrine-config/custom-agents/`
+- `.doctrine-config/approaches/`
+- `.doctrine-config/directives/` (or other local instruction files)
+- `.doctrine-config/tactics/`
+
+These local files are intended to customize repository behavior by extending, refining, or adding context-specific execution guidance.
+
+Hard constraint:
+- Local extensions are additive/adjustive and MUST NOT replace or weaken `guidelines/general_guidelines.md` and `guidelines/operational_guidelines.md`.
 
 ---
 
@@ -250,14 +269,15 @@ The doctrine stack layers map to AGENTS.md Section 2 (Context Stack Overview):
 | Project Specific Guidelines  | Directives           | Medium     |
 | Tactics Reference            | Tactics              | Medium-Low |
 | Command Aliases Reference    | (shortcuts)          | Low        |
+| Local Doctrine Overrides (`.doctrine-config`) | Post-load extensions | Low (bounded) |
 
-**See also:** [AGENTS.md Section 2](../../AGENTS.md#2-context-stack-overview) for initialization sequence.
+**See also:** `AGENTS.md` Section 2 for initialization sequence.
 
 ---
 
 ## Related Documentation
 
-- **[AGENTS.md](../../AGENTS.md)** — Agent Specification Document (ASD)
+- **`AGENTS.md`** — Agent Specification Document (ASD)
 - **[GLOSSARY.md](./GLOSSARY.md)** — Terminology reference (Doctrine Stack, Tactic definitions)
 - **[directives/004_documentation_context_files.md](./directives/004_documentation_context_files.md)** — Canonical file locations
 - **[tactics/README.md](./tactics/README.md)** — Tactics catalog and usage guide

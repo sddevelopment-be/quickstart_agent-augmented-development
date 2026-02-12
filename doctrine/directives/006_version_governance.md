@@ -14,14 +14,14 @@
 | Operational Reference | v1.2.0          | team leadership | `agents/guidelines/operational_guidelines.md` |
 | Command Aliases       | v1.1.0          | team leadership | `agents/aliases.md`                           |
 | Strategic Context     | v1.0.0          | team leadership | `docs/vision.md`                              |
-| Specific Guidelines   | v1.0.0          | team leadership | `docs/specific_guidelines.md`                 |
+| Specific Guidelines   | v1.0.0          | team leadership | `.doctrine-config/specific_guidelines.md`     |
 
 Rules:
 
 - Do NOT auto‑modify or overwrite versioned governance files.
 - Changes must be explicit and confirmed.
 - On detected version delta: pause, request confirmation, then re-run `/validate-alignment`.
+- Local doctrine overrides may extend lower-priority layers but MUST NOT override General or Operational Guidelines.
 
 **Related Terms:
 ** [Alignment](../GLOSSARY.md#alignment), [Validation](../GLOSSARY.md#validation), [Bootstrap](../GLOSSARY.md#bootstrap), [Rehydration](../GLOSSARY.md#rehydration)
-

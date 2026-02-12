@@ -28,7 +28,7 @@ Perform a structural + tonal + metadata curation pass.
 ## Task:
 
 1. Inventory files (respect \<EXCLUDE>).
-2. Derive style + structure norms from \<STYLE_DOCS> (fallback to `docs/specific_guidelines.md`).
+2. Derive style + structure norms from \<STYLE_DOCS> (fallback to `${LOCAL_DOCTRINE_ROOT}/specific_guidelines.md`).
 3. Produce discrepancy report (sections: Overview, Findings by Category, Recommended Minimal Corrections, Risk Flags, Next Actions).
 4. If \<AUTO_FIX> = yes: generate patch block proposals (no direct edits) in `work/curator/PROPOSED_DELTAS.md`.
 5. Summarize alignment metrics (consistency %, missing metadata count, broken links found).

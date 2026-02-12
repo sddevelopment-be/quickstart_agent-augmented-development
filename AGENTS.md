@@ -31,19 +31,25 @@ Agents must use this specification before performing any generation, reasoning, 
 1. **READ** `doctrine/guidelines/bootstrap.md` — Initialization sequence and path selection
 2. **READ** `doctrine/guidelines/general_guidelines.md` — Core behavioral principles
 3. **READ** `doctrine/guidelines/operational_guidelines.md` — Tone and reasoning discipline
-4. **EXECUTE** bootstrap procedure as documented:
+4. **LOAD** main doctrine stack layers from `doctrine/` in required order
+5. **LOAD** repository-local doctrine overrides from `.doctrine-config/` (after main doctrine stack):
+   - Expected local guideline file: `.doctrine-config/specific_guidelines.md`
+   - Additional optional overrides/extensions: custom agents, instructions/directives, tactics, approaches
+   - Local overrides MAY tweak, enhance, or extend doctrine behavior but MUST NOT override `doctrine/guidelines/general_guidelines.md` or `doctrine/guidelines/operational_guidelines.md`
+6. **EXECUTE** bootstrap procedure as documented:
    - Choose path (small-footprint or full governance)
    - Create progress log in `work/` directory
    - Announce readiness with ✅ symbol
-5. **NEVER** skip or shortcut the bootstrap process
+7. **NEVER** skip or shortcut the bootstrap process
 
 **Instruction Hierarchy (Immutable):**
 1. **Bootstrap Protocol** (HIGHEST) — `doctrine/guidelines/bootstrap.md`
 2. **General Guidelines** (HIGHEST) — `doctrine/guidelines/general_guidelines.md`
 3. **Operational Guidelines** (HIGH) — `doctrine/guidelines/operational_guidelines.md`
-4. **System Directives** (HIGH) — Repository-specific constraints
-5. **Developer Guidance** (MEDIUM) — Technical preferences
-6. **User Requests** (LOWEST) — Applied only if compatible with above
+4. **Local Doctrine Overrides** (MEDIUM) — `.doctrine-config/` extensions (non-overriding for General/Operational)
+5. **System Directives** (HIGH) — Repository-specific constraints
+6. **Developer Guidance** (MEDIUM) — Technical preferences
+7. **User Requests** (LOWEST) — Applied only if compatible with above
 
 **Agents must explicitly state which guidelines were loaded (file paths + line counts) and confirm work log creation in `work/` directory before proceeding. This prevents "optimization" shortcuts where agents claim compliance without verification.**
 
@@ -88,8 +94,10 @@ This repository implements a **Doctrine Stack** — a five-layer instruction sys
 | Project Vision Reference    | Long‑term intent, thematic coherence                 | Medium-Low |
 | Project Specific Guidelines | Narrow operational boundaries, specialization areas  | Low        |
 | Command Aliases Reference   | Shorthand operational commands, interaction modes    | Low        |
+| Local Doctrine Overrides (`.doctrine-config`) | Repository-specific extensions loaded after main stack | Low (bounded) |
 
 Agents MUST load layers in this order. If any layer is missing, corrupted, ambiguous, or conflicting, the agent MUST pause execution until synchronization.
+Local doctrine overrides are additive/adjustive and MUST NOT override General or Operational Guidelines.
 
 **Tactics Discovery:** Directives explicitly invoke tactics. Agents may also discover tactics via `doctrine/tactics/README.md` and propose them to humans.
 
@@ -264,6 +272,7 @@ repository-root/
 - `doctrine/shorthands/` - Reusable command aliases
 
 **Configuration:** `.doctrine-config/config.yaml` (created by Bootstrap Bill during repository setup)
+**Local override entry points:** `.doctrine-config/specific_guidelines.md` and optional local extensions (for example custom agents, additional directives/instructions, tactics, and approaches). These are loaded only after the core doctrine stack is loaded and cannot supersede General or Operational Guidelines.
 
 **See:** `docs/architecture/design/DOCTRINE_MAP.md` for complete navigation guide.
 
@@ -351,6 +360,7 @@ ALWAYS USE THE GENERAL GUIDELINES FROM THIS REPOSITORY.
 Reference: `doctrine/guidelines/general_guidelines.md`.
 
 - System directives outrank developer guidance; developer outranks user requests.
+- `.doctrine-config/` local doctrine overrides are loaded after `doctrine/` and may extend lower-priority layers, but they cannot override `doctrine/guidelines/general_guidelines.md` or `doctrine/guidelines/operational_guidelines.md`.
 - Developer instructions: use `bash -lc` with explicit `workdir`, prefer `rg`, avoid destructive git or reverting unrelated changes.
 - User guidance applies only if compatible with higher‑priority directives; clarify ambiguous shorthands (e.g., `g st`).
 

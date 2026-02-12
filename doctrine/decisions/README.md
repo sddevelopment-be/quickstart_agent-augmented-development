@@ -24,17 +24,18 @@ Framework-level decisions that define doctrine concepts, patterns, and governanc
 
 ## DDR Index
 
-| DDR | Title | Status | Date | Source |
-|-----|-------|--------|------|--------|
-| [DDR-001](DDR-001-primer-execution-matrix.md) | Primer Execution Matrix | Active | 2026-02-11 | ADR-011 |
-| [DDR-002](DDR-002-framework-guardian-role.md) | Framework Guardian Agent Role | Active | 2026-02-11 | ADR-014 |
-| [DDR-003](DDR-003-modular-agent-directive-system-architecture.md) | Modular Agent Directive System Architecture | Active | 2026-02-11 | ADR-001 |
-| [DDR-004](DDR-004-file-based-asynchronous-coordination-protocol.md) | File-Based Asynchronous Coordination Protocol | Active | 2026-02-11 | ADR-008 |
-| [DDR-005](DDR-005-task-lifecycle-state-management-protocol.md) | Task Lifecycle and State Management Protocol | Active | 2026-02-11 | ADR-003 |
-| [DDR-006](DDR-006-work-directory-structure-naming-conventions.md) | Work Directory Structure and Naming Conventions | Active | 2026-02-11 | ADR-004 |
-| [DDR-007](DDR-007-coordinator-agent-orchestration-pattern.md) | Coordinator Agent Orchestration Pattern | Active | 2026-02-11 | ADR-005 |
-| [DDR-008](DDR-008-framework-distribution-upgrade-mechanisms.md) | Framework Distribution and Upgrade Mechanisms | Active | 2026-02-11 | ADR-013 |
-| [DDR-009](DDR-009-traceable-decision-patterns-agent-integration.md) | Traceable Decision Patterns and Agent Integration | Active | 2026-02-11 | ADR-017 |
+| DDR                                                                 | Title                                                   | Status   | Date       |
+|---------------------------------------------------------------------|---------------------------------------------------------|----------|------------|
+| [DDR-001](DDR-001-primer-execution-matrix.md)                       | Primer Execution Matrix                                 | Accepted | 2026-02-11 |
+| [DDR-002](DDR-002-framework-guardian-role.md)                       | Framework Guardian Agent Role                           | Accepted | 2026-02-11 |
+| [DDR-003](DDR-003-local-doctrine-overrides-boundary.md)             | Local Doctrine Overrides and Stack Boundary Enforcement | Accepted | 2026-02-12 | 
+| [DDR-004](DDR-004-file-based-asynchronous-coordination-protocol.md) | File-Based Asynchronous Coordination Protocol           | Active   | 2026-02-11 |
+| [DDR-003](DDR-003-modular-agent-directive-system-architecture.md)   | Modular Agent Directive System Architecture             | Active   | 2026-02-11 |
+| [DDR-005](DDR-005-task-lifecycle-state-management-protocol.md)      | Task Lifecycle and State Management Protocol            | Active   | 2026-02-11 | 
+| [DDR-006](DDR-006-work-directory-structure-naming-conventions.md)   | Work Directory Structure and Naming Conventions         | Active   | 2026-02-11 | 
+| [DDR-007](DDR-007-coordinator-agent-orchestration-pattern.md)       | Coordinator Agent Orchestration Pattern                 | Active   | 2026-02-11 | 
+| [DDR-008](DDR-008-framework-distribution-upgrade-mechanisms.md)     | Framework Distribution and Upgrade Mechanisms           | Active   | 2026-02-11 | 
+| [DDR-009](DDR-009-traceable-decision-patterns-agent-integration.md) | Traceable Decision Patterns and Agent Integration       | Active   | 2026-02-11 | 
 
 ## Usage in Profiles and Directives
 
