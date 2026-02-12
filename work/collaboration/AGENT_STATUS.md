@@ -1,6 +1,6 @@
 # Agent Status Dashboard
 
-_Last updated: 2026-02-12 (Curator Claire - SPEC-REFACTOR-001 Tasks 0911-0913 Completed)_
+_Last updated: 2026-02-12 (Manager Mike - SPEC-REFACTOR-001 Initial Batch Closed)_
 
 ## Current Batch Status
 
@@ -8,7 +8,7 @@ _Last updated: 2026-02-12 (Curator Claire - SPEC-REFACTOR-001 Tasks 0911-0913 Co
 - **ADR-046 (Domain Module Refactoring):** ✅ COMPLETE - 100% done, production-ready
 - **M4.3 (Dashboard Initiative Tracking):** ⏳ PENDING - Awaiting Task 5 completion, ready to resume
 - **SPEC-TERM-001 Phase 1 (Terminology Alignment):** 📋 PLANNED - 6 tasks defined, awaiting approval
-- **SPEC-REFACTOR-001 (Refactoring Tactics Foundation):** 🔄 ACTIVE - Tasks 0910-0913 complete; reviewer task 0914 ready
+- **SPEC-REFACTOR-001 (Refactoring Tactics Foundation):** ✅ INITIAL BATCH COMPLETE - Tasks 0910-0914 + follow-up 1052 done
 
 ## Planning Status
 
@@ -63,10 +63,10 @@ _Last updated: 2026-02-12 (Curator Claire - SPEC-REFACTOR-001 Tasks 0911-0913 Co
 
 ## code-reviewer-cindy
 
-- **Status**: Ready
-- **Assigned**: 2 tasks (1 legacy + 1 SPEC-REFACTOR-001)
+- **Status**: Completed cycle, awaiting reassignment
+- **Assigned**: 1 task (legacy)
 - **In Progress**: 0 tasks
-- **Batch**: SPEC-TERM-001 Directive Updates + SPEC-REFACTOR-001 Validation (0914 unblocked)
+- **Last Completed**: SPEC-REFACTOR-001 Task 0914 validation
 - **Estimated Hours**: 6h
 
 ## curator
@@ -105,10 +105,10 @@ _Last updated: 2026-02-12 (Curator Claire - SPEC-REFACTOR-001 Tasks 0911-0913 Co
 
 ## manager
 
-- **Status**: Coordinating alignment (2026-02-11)
+- **Status**: Coordinating active batches
 - **Assigned**: 0 tasks
-- **In Progress**: Coordination cycle (status report, feedback to Petra, alignment checklist)
-- **Last Activity**: 2026-02-11
+- **In Progress**: 0 tasks
+- **Last Activity**: SPEC-REFACTOR-001 closure cycle (2026-02-12)
 
 ## planning
 

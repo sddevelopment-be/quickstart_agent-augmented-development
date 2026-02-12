@@ -1,4 +1,18 @@
 
+## 2026-02-12 10:48 - curator → manager
+
+**Artefacts:** doctrine/tactics/README.md
+**Task ID:** 2026-02-12T1052-curator-refactoring-readme-count-fix
+**Status:** Completed (low-severity reviewer finding resolved)
+
+
+## 2026-02-12 10:47 - code-reviewer-cindy → manager
+
+**Artefacts:** work/reports/logs/code-reviewer-cindy/2026-02-12T1050-spec-refactor-tactics-validation.md
+**Task ID:** 2026-02-12T0914-code-reviewer-refactoring-tactics-validation
+**Status:** Completed (1 low-severity finding)
+
+
 ## 2026-02-12 10:44 - curator → code-reviewer-cindy
 
 **Artefacts:** doctrine/tactics/refactoring-*.tactic.md, doctrine/directives/039_refactoring_techniques.md, doctrine/docs/references/refactoring-*.md

@@ -1,0 +1,29 @@
+id: 2026-02-12T1052-curator-refactoring-readme-count-fix
+agent: curator
+status: done
+title: 'SPEC-REFACTOR-001 Follow-up: Correct tactics README metadata count'
+mode: /analysis-mode
+priority: low
+artefacts:
+- doctrine/tactics/README.md
+context:
+  repo: quickstart_agent-augmented-development
+  branch: feature/code_skill_improvements
+  notes:
+  - Apply code-reviewer finding from task 0914.
+  - Set tactics count metadata to accurate value and keep wording unambiguous.
+  dependencies:
+  - 2026-02-12T0914-code-reviewer-refactoring-tactics-validation
+created_at: '2026-02-12T10:52:00Z'
+created_by: manager-mike
+started_at: '2026-02-12T10:48:29Z'
+result:
+  summary: Updated tactics README metadata to an accurate and unambiguous count based
+    on `.tactic.md` files.
+  artifacts:
+  - doctrine/tactics/README.md
+  next_agent: manager-mike
+  next_task_title: Close SPEC-REFACTOR-001 batch after low-severity fix
+  next_artefacts:
+  - work/collaboration/WORKFLOW_LOG.md
+completed_at: '2026-02-12T10:48:51Z'

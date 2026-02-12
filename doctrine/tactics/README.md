@@ -177,4 +177,4 @@ When context suggests a tactic might apply but no Directive mandates it:
 
 **README Version:** 1.2.0  
 **Last Updated:** 2026-02-12  
-**Tactics Count:** 16
+**Tactic Files (.tactic.md):** 40
