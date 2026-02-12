@@ -1,10 +1,18 @@
 # Agent Status Tracker
 
-**Last Updated:** 2026-02-11
+**Last Updated:** 2026-02-12
 
 ---
 
 ## Batch Status
+
+### ASH-BATCH-1: Agent Specialization Hierarchy Phase 1 (🚀 READY)
+- **Start Date:** 2026-02-12
+- **Status:** 🚀 READY TO START
+- **Tasks:** 4 (GLOSSARY: 1, Tactic: 1, Review: 1, Prep: 1)
+- **Lead Agents:** Curator Claire, Architect Alphonso, Planning Petra
+- **Timeline:** 2 weeks
+- **Strategic Value:** Foundation documentation for intelligent agent routing
 
 ### M5.1: Conceptual Alignment Implementation (🔄 EXECUTING)
 - **Start Date:** 2026-02-11
@@ -35,6 +43,9 @@
 
 | Agent | Task | Status | Start | Effort | Priority |
 |-------|------|--------|-------|--------|----------|
+| **curator-claire** | ASH-P1-T1: GLOSSARY.md Updates | 🚀 READY | - | 3h | ⭐⭐⭐⭐ HIGH |
+| **architect-alphonso** | ASH-P2-T1: Tactic Specification | 🚀 READY | - | 4h | ⭐⭐⭐⭐ HIGH |
+| **planning-petra** | ASH-BATCH-1-PREP: Phase 2 Prep | 🚀 READY | - | 2h | ⭐⭐⭐ MEDIUM |
 | **backend-dev** | ADR-046 Task 1: Domain structure | 🔄 ACTIVE | 2026-02-11 | 1-2h | ⭐⭐⭐⭐⭐ CRITICAL |
 | **python-pedro** | M4.3: Initiative Tracking Backend | 🔄 ACTIVE | 2026-02-04 | 6-8h | ⭐⭐⭐ MEDIUM |
 | **code-reviewer-cindy** | SPEC-TERM-001 Task 1: Directives | 📋 READY | - | 4h | ⭐⭐⭐⭐ HIGH |
@@ -43,6 +54,30 @@
 ---
 
 ## Agent Status
+
+### curator-claire
+- **Status:** 🚀 READY
+- **Current:** ASH-P1-T1 GLOSSARY.md updates (ready to start)
+- **Next:** Add 7 hierarchy terms to glossary
+- **Queue:** None (single task in batch)
+- **Workload:** 3h (ASH-BATCH-1)
+- **Capacity:** 20% utilized (1 active task) → Can handle 3h ASH work
+
+### architect-alphonso
+- **Status:** 🚀 READY
+- **Current:** ASH-P2-T1 Tactic spec (ready to start)
+- **Next:** Create SELECT_APPROPRIATE_AGENT tactic document
+- **Queue:** ASH-P1-T2 Architecture review (1h after tactic complete)
+- **Workload:** 5h total (4h tactic + 1h review) over 2 weeks
+- **Capacity:** 60% utilized (4 active tasks) → Can accommodate 5h over 2 weeks
+
+### planning-petra
+- **Status:** 🚀 READY
+- **Current:** ASH-BATCH-1-PREP Phase 2 preparation (ready to start)
+- **Next:** Create 8 task files for Phase 2 implementation
+- **Queue:** None (final task in batch)
+- **Workload:** 2h (ASH-BATCH-1)
+- **Capacity:** 40% utilized → Has capacity for 2h planning work
 
 ### backend-dev
 - **Status:** 🔄 ACTIVE
@@ -55,8 +90,9 @@
 ### python-pedro
 - **Status:** 🔄 ACTIVE
 - **Current:** M4.3 Initiative Tracking Backend (continuation)
-- **Next:** -
-- **Workload:** 6-8h remaining
+- **Next:** Phase 2 routing implementation (after dashboard complete)
+- **Workload:** 6-8h remaining (dashboard)
+- **Capacity:** 120% utilized (OVERLOADED) → NO NEW ASSIGNMENTS until M4.3 complete
 
 ### code-reviewer-cindy
 - **Status:** 📋 READY
@@ -74,7 +110,7 @@
 
 ### manager-mike
 - **Status:** 🔄 ACTIVE (coordination)
-- **Current:** M5.1 orchestration and daily monitoring
+- **Current:** M5.1 + ASH-BATCH-1 orchestration and daily monitoring
 - **Next:** Daily status updates, blocker resolution
 - **Responsibilities:** Checkpoint coordination, status tracking, escalation
 
