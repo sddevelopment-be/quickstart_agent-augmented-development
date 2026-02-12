@@ -307,7 +307,7 @@ class TelemetryLogger:
         """
         with sqlite3.connect(self.db_path) as conn:
             query = """
-                SELECT 
+                SELECT
                     COUNT(*) as total_invocations,
                     SUM(cost_usd) as total_cost_usd,
                     SUM(total_tokens) as total_tokens,

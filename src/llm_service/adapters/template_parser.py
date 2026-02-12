@@ -159,7 +159,7 @@ class TemplateParser:
         try:
             command_args = shlex.split(result)
         except ValueError as e:
-            raise TemplateSyntaxError(f"Failed to parse template result: {str(e)}")
+            raise TemplateSyntaxError(f"Failed to parse template result: {str(e)}") from e
 
         return command_args
 

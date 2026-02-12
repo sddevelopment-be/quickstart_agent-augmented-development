@@ -91,12 +91,12 @@ class ConfigurationLoader:
             with open(file_path, encoding="utf-8") as f:
                 data = yaml.safe_load(f)
                 if data is None:
-                    raise ConfigurationError(f"Empty configuration file: {file_path}")
+                    raise ConfigurationError(f"Empty configuration file: {file_path}") from None
                 return data
         except yaml.YAMLError as e:
-            raise ConfigurationError(f"Invalid YAML in {file_path}: {e}")
+            raise ConfigurationError(f"Invalid YAML in {file_path}: {e}") from e
         except OSError as e:
-            raise ConfigurationError(f"Cannot read file {file_path}: {e}")
+            raise ConfigurationError(f"Cannot read file {file_path}: {e}") from e
 
     def load_agents(self) -> AgentsSchema:
         """
@@ -120,7 +120,7 @@ class ConfigurationLoader:
         try:
             return AgentsSchema(**data)
         except ValidationError as e:
-            raise ConfigurationError(f"Invalid agents configuration: {e}")
+            raise ConfigurationError(f"Invalid agents configuration: {e}") from e
 
     def load_tools(self) -> ToolsSchema:
         """
@@ -144,7 +144,7 @@ class ConfigurationLoader:
         try:
             return ToolsSchema(**data)
         except ValidationError as e:
-            raise ConfigurationError(f"Invalid tools configuration: {e}")
+            raise ConfigurationError(f"Invalid tools configuration: {e}") from e
 
     def load_models(self) -> ModelsSchema:
         """
@@ -168,7 +168,7 @@ class ConfigurationLoader:
         try:
             return ModelsSchema(**data)
         except ValidationError as e:
-            raise ConfigurationError(f"Invalid models configuration: {e}")
+            raise ConfigurationError(f"Invalid models configuration: {e}") from e
 
     def load_policies(self) -> PoliciesSchema:
         """
@@ -192,7 +192,7 @@ class ConfigurationLoader:
         try:
             return PoliciesSchema(**data)
         except ValidationError as e:
-            raise ConfigurationError(f"Invalid policies configuration: {e}")
+            raise ConfigurationError(f"Invalid policies configuration: {e}") from e
 
     def load_all(self) -> dict[str, Any]:
         """
