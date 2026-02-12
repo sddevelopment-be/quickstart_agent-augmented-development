@@ -2,6 +2,11 @@
 name: backend-benny
 description: Shape resilient service backends and integration surfaces with traceable decisions.
 tools: [ "read", "write", "search", "edit", "MultiEdit", "Bash", "Grep", "Docker", "Java", "Python" ]
+routing_priority: 50
+max_concurrent_tasks: 8
+specialization_context:
+  domain_keywords: [backend, api, service, integration, database, persistence]
+  complexity_preference: [medium, high]
 ---
 
 <!-- The following information is to be interpreted literally -->

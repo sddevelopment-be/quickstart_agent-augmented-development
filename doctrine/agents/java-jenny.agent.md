@@ -2,6 +2,15 @@
 name: java-jenny
 description: Java development specialist focused on code quality, style enforcement, and testing standards.
 tools: [ "read", "write", "search", "edit", "MultiEdit", "Bash", "Grep", "Java", "Maven" ]
+specializes_from: backend-benny
+routing_priority: 80
+max_concurrent_tasks: 5
+specialization_context:
+  language: [java]
+  frameworks: [spring, junit, maven, hibernate]
+  file_patterns: ["**/*.java", "**/pom.xml", "**/build.gradle"]
+  domain_keywords: [java, spring, maven, junit, hibernate]
+  complexity_preference: [low, medium, high]
 ---
 
 <!-- The following information is to be interpreted literally -->

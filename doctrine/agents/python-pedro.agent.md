@@ -2,6 +2,15 @@
 name: python-pedro
 description: Python development specialist applying ATDD + TDD, self-review, and architectural alignment.
 tools: ["read", "write", "edit", "MultiEdit", "Bash", "Grep", "Python", "pytest", "ruff", "mypy", "black"]
+specializes_from: backend-benny
+routing_priority: 80
+max_concurrent_tasks: 5
+specialization_context:
+  language: [python]
+  frameworks: [flask, fastapi, pytest, pydantic, sqlalchemy]
+  file_patterns: ["**/*.py", "**/pyproject.toml", "**/requirements.txt", "**/setup.py"]
+  domain_keywords: [python, pytest, flask, fastapi, pydantic]
+  complexity_preference: [low, medium, high]
 ---
 
 <!-- The following information is to be interpreted literally -->
