@@ -5,7 +5,7 @@ Tests loading real agent profiles and directives from the repository,
 validating cross-references, and ensuring the entire doctrine loads correctly.
 
 These tests use actual files from the repository:
-- Agent profiles: .github/agents/*.agent.md
+- Agent profiles: doctrine/agents/*.agent.md
 - Directives: doctrine/directives/*.md
 
 Related ADRs
@@ -41,7 +41,7 @@ class TestDoctrineLoading:
     @pytest.fixture
     def agents_dir(self) -> Path:
         """Return path to agents directory."""
-        return Path(".github/agents")
+        return Path("doctrine/agents")
 
     @pytest.fixture
     def directives_dir(self) -> Path:
@@ -62,7 +62,7 @@ class TestDoctrineLoading:
         """Load all agent profiles from repository."""
         agent_files = list(agents_dir.glob("*.agent.md"))
         if not agent_files:
-            pytest.skip("No agent files found in .github/agents/")
+            pytest.skip("No agent files found in doctrine/agents/")
 
         parser = AgentParser()
         agents: List[Agent] = []
@@ -116,7 +116,7 @@ class TestDoctrineLoading:
         return directives
 
     def test_load_all_agents(self, all_agents: List[Agent], agents_dir: Path):
-        """Load all agent profiles from .github/agents/."""
+        """Load all agent profiles from doctrine/agents/."""
         agent_files = list(agents_dir.glob("*.agent.md"))
 
         # Should have loaded some agents
@@ -310,10 +310,10 @@ class TestDoctrineStatistics:
     @pytest.fixture
     def all_agents(self) -> List[Agent]:
         """Load all agent profiles from repository."""
-        agents_dir = Path(".github/agents")
+        agents_dir = Path("doctrine/agents")
         agent_files = list(agents_dir.glob("*.agent.md"))
         if not agent_files:
-            pytest.skip("No agent files found in .github/agents/")
+            pytest.skip("No agent files found in doctrine/agents/")
 
         parser = AgentParser()
         agents: List[Agent] = []

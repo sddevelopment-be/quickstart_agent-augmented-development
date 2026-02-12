@@ -33,7 +33,7 @@ Examples
 >>> assert directive.enforcement == "mandatory"
 
 >>> agent_parser = AgentParser()
->>> agent = agent_parser.parse(Path(".github/agents/python-pedro.agent.md"))
+>>> agent = agent_parser.parse(Path("doctrine/agents/python-pedro.agent.md"))
 >>> assert "python" in agent.capabilities
 """
 
@@ -274,7 +274,7 @@ class AgentParser:
     Examples
     --------
     >>> parser = AgentParser()
-    >>> agent = parser.parse(Path(".github/agents/python-pedro.agent.md"))
+    >>> agent = parser.parse(Path("doctrine/agents/python-pedro.agent.md"))
     >>> assert agent.id == "python-pedro"
     """
 

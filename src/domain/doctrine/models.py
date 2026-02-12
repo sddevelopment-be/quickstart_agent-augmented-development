@@ -33,7 +33,7 @@ Examples
 ...     capabilities=frozenset(["python", "tdd", "type-safety"]),
 ...     required_directives=frozenset(["001", "016", "017"]),
 ...     primers=frozenset(["ATDD", "TDD"]),
-...     source_file=Path(".github/agents/python-pedro.agent.md"),
+...     source_file=Path("doctrine/agents/python-pedro.agent.md"),
 ...     source_hash="abc123def456",
 ... )
 >>> assert agent.id == "python-pedro"
@@ -187,7 +187,7 @@ class Agent:
     ...     capabilities=frozenset(["api-design", "databases"]),
     ...     required_directives=frozenset(["001", "016"]),
     ...     primers=frozenset(["API-First"]),
-    ...     source_file=Path(".github/agents/backend-benny.agent.md"),
+    ...     source_file=Path("doctrine/agents/backend-benny.agent.md"),
     ...     source_hash="xyz789",
     ... )
     >>> assert "api-design" in agent.capabilities
