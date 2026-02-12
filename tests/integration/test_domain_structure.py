@@ -9,7 +9,6 @@ Related:
 """
 
 import importlib
-import sys
 from pathlib import Path
 
 import pytest
@@ -26,13 +25,8 @@ class TestDomainStructureExists:
 
     def test_bounded_context_directories_exist(self):
         """All four bounded context directories must exist."""
-        expected_contexts = [
-            "collaboration",
-            "doctrine", 
-            "specifications",
-            "common"
-        ]
-        
+        expected_contexts = ["collaboration", "doctrine", "specifications", "common"]
+
         for context in expected_contexts:
             context_path = Path(f"src/domain/{context}")
             assert context_path.exists(), f"src/domain/{context}/ must exist"
@@ -50,12 +44,13 @@ class TestDomainInitFiles:
 
     def test_domain_root_init_has_docstring(self):
         """Domain root __init__.py must have module docstring."""
-        with open("src/domain/__init__.py", "r") as f:
+        with open("src/domain/__init__.py") as f:
             content = f.read()
-        
+
         # Must have triple-quoted docstring
-        assert '"""' in content or "'''" in content, \
-            "src/domain/__init__.py must contain a module docstring"
+        assert (
+            '"""' in content or "'''" in content
+        ), "src/domain/__init__.py must contain a module docstring"
 
     def test_collaboration_init_exists(self):
         """Collaboration bounded context must have __init__.py."""
@@ -64,17 +59,19 @@ class TestDomainInitFiles:
 
     def test_collaboration_init_has_docstring(self):
         """Collaboration __init__.py must explain bounded context purpose."""
-        with open("src/domain/collaboration/__init__.py", "r") as f:
+        with open("src/domain/collaboration/__init__.py") as f:
             content = f.read()
-        
-        assert '"""' in content or "'''" in content, \
-            "collaboration/__init__.py must have docstring"
-        
+
+        assert (
+            '"""' in content or "'''" in content
+        ), "collaboration/__init__.py must have docstring"
+
         # Check for key concept keywords
         content_lower = content.lower()
-        assert any(keyword in content_lower for keyword in [
-            "agent", "task", "orchestration", "collaboration", "batch"
-        ]), "collaboration/__init__.py docstring must explain bounded context"
+        assert any(
+            keyword in content_lower
+            for keyword in ["agent", "task", "orchestration", "collaboration", "batch"]
+        ), "collaboration/__init__.py docstring must explain bounded context"
 
     def test_doctrine_init_exists(self):
         """Doctrine bounded context must have __init__.py."""
@@ -83,16 +80,18 @@ class TestDomainInitFiles:
 
     def test_doctrine_init_has_docstring(self):
         """Doctrine __init__.py must explain bounded context purpose."""
-        with open("src/domain/doctrine/__init__.py", "r") as f:
+        with open("src/domain/doctrine/__init__.py") as f:
             content = f.read()
-        
-        assert '"""' in content or "'''" in content, \
-            "doctrine/__init__.py must have docstring"
-        
+
+        assert (
+            '"""' in content or "'''" in content
+        ), "doctrine/__init__.py must have docstring"
+
         content_lower = content.lower()
-        assert any(keyword in content_lower for keyword in [
-            "directive", "approach", "tactic", "doctrine", "profile"
-        ]), "doctrine/__init__.py docstring must explain bounded context"
+        assert any(
+            keyword in content_lower
+            for keyword in ["directive", "approach", "tactic", "doctrine", "profile"]
+        ), "doctrine/__init__.py docstring must explain bounded context"
 
     def test_specifications_init_exists(self):
         """Specifications bounded context must have __init__.py."""
@@ -101,16 +100,18 @@ class TestDomainInitFiles:
 
     def test_specifications_init_has_docstring(self):
         """Specifications __init__.py must explain bounded context purpose."""
-        with open("src/domain/specifications/__init__.py", "r") as f:
+        with open("src/domain/specifications/__init__.py") as f:
             content = f.read()
-        
-        assert '"""' in content or "'''" in content, \
-            "specifications/__init__.py must have docstring"
-        
+
+        assert (
+            '"""' in content or "'''" in content
+        ), "specifications/__init__.py must have docstring"
+
         content_lower = content.lower()
-        assert any(keyword in content_lower for keyword in [
-            "specification", "feature", "initiative", "portfolio"
-        ]), "specifications/__init__.py docstring must explain bounded context"
+        assert any(
+            keyword in content_lower
+            for keyword in ["specification", "feature", "initiative", "portfolio"]
+        ), "specifications/__init__.py docstring must explain bounded context"
 
     def test_common_init_exists(self):
         """Common utilities bounded context must have __init__.py."""
@@ -119,16 +120,18 @@ class TestDomainInitFiles:
 
     def test_common_init_has_docstring(self):
         """Common __init__.py must explain bounded context purpose."""
-        with open("src/domain/common/__init__.py", "r") as f:
+        with open("src/domain/common/__init__.py") as f:
             content = f.read()
-        
-        assert '"""' in content or "'''" in content, \
-            "common/__init__.py must have docstring"
-        
+
+        assert (
+            '"""' in content or "'''" in content
+        ), "common/__init__.py must have docstring"
+
         content_lower = content.lower()
-        assert any(keyword in content_lower for keyword in [
-            "utility", "utilities", "generic", "shared", "validation"
-        ]), "common/__init__.py docstring must explain bounded context"
+        assert any(
+            keyword in content_lower
+            for keyword in ["utility", "utilities", "generic", "shared", "validation"]
+        ), "common/__init__.py docstring must explain bounded context"
 
 
 class TestDomainDocumentation:
@@ -142,27 +145,30 @@ class TestDomainDocumentation:
 
     def test_domain_readme_explains_bounded_contexts(self):
         """README must explain all four bounded contexts."""
-        with open("src/domain/README.md", "r") as f:
+        with open("src/domain/README.md") as f:
             content = f.read()
-        
+
         # Must mention all bounded contexts
-        assert "collaboration" in content.lower(), \
-            "README must explain collaboration bounded context"
-        assert "doctrine" in content.lower(), \
-            "README must explain doctrine bounded context"
-        assert "specifications" in content.lower(), \
-            "README must explain specifications bounded context"
-        assert "common" in content.lower(), \
-            "README must explain common utilities"
+        assert (
+            "collaboration" in content.lower()
+        ), "README must explain collaboration bounded context"
+        assert (
+            "doctrine" in content.lower()
+        ), "README must explain doctrine bounded context"
+        assert (
+            "specifications" in content.lower()
+        ), "README must explain specifications bounded context"
+        assert "common" in content.lower(), "README must explain common utilities"
 
     def test_domain_readme_references_adrs(self):
         """README must reference relevant ADRs."""
-        with open("src/domain/README.md", "r") as f:
+        with open("src/domain/README.md") as f:
             content = f.read()
-        
+
         # Must reference ADR-046
-        assert "ADR-046" in content or "ADR 046" in content, \
-            "README must reference ADR-046"
+        assert (
+            "ADR-046" in content or "ADR 046" in content
+        ), "README must reference ADR-046"
 
 
 class TestDomainImportability:
@@ -172,6 +178,7 @@ class TestDomainImportability:
         """Domain package must be importable."""
         try:
             import src.domain
+
             importlib.reload(src.domain)
         except Exception as e:
             pytest.fail(f"Failed to import src.domain: {e}")
@@ -180,6 +187,7 @@ class TestDomainImportability:
         """Collaboration bounded context must be importable."""
         try:
             import src.domain.collaboration
+
             importlib.reload(src.domain.collaboration)
         except Exception as e:
             pytest.fail(f"Failed to import src.domain.collaboration: {e}")
@@ -188,6 +196,7 @@ class TestDomainImportability:
         """Doctrine bounded context must be importable."""
         try:
             import src.domain.doctrine
+
             importlib.reload(src.domain.doctrine)
         except Exception as e:
             pytest.fail(f"Failed to import src.domain.doctrine: {e}")
@@ -196,6 +205,7 @@ class TestDomainImportability:
         """Specifications bounded context must be importable."""
         try:
             import src.domain.specifications
+
             importlib.reload(src.domain.specifications)
         except Exception as e:
             pytest.fail(f"Failed to import src.domain.specifications: {e}")
@@ -204,6 +214,7 @@ class TestDomainImportability:
         """Common utilities must be importable."""
         try:
             import src.domain.common
+
             importlib.reload(src.domain.common)
         except Exception as e:
             pytest.fail(f"Failed to import src.domain.common: {e}")
@@ -215,8 +226,9 @@ class TestMigrationCompleted:
     def test_src_common_directory_still_exists(self):
         """src/common/ directory exists but contains only migration docs."""
         common_path = Path("src/common")
-        assert common_path.exists(), \
-            "src/common/ directory should exist (contains MIGRATION_GUIDE.md)"
+        assert (
+            common_path.exists()
+        ), "src/common/ directory should exist (contains MIGRATION_GUIDE.md)"
         assert common_path.is_dir(), "src/common/ must be a directory"
 
     def test_deprecation_stubs_removed(self):
@@ -226,15 +238,17 @@ class TestMigrationCompleted:
             "src/common/agent_loader.py",
             "src/common/task_schema.py",
             "src/common/types.py",
-            "src/common/path_utils.py"
+            "src/common/path_utils.py",
         ]
-        
+
         for file_path in deprecated_files:
-            assert not Path(file_path).exists(), \
-                f"{file_path} should be removed after Task 4 cleanup"
-    
+            assert not Path(
+                file_path
+            ).exists(), f"{file_path} should be removed after Task 4 cleanup"
+
     def test_migration_guide_preserved(self):
         """MIGRATION_GUIDE.md should be preserved for historical reference."""
         guide_path = Path("src/common/MIGRATION_GUIDE.md")
-        assert guide_path.exists(), \
-            "MIGRATION_GUIDE.md should be preserved for documentation"
+        assert (
+            guide_path.exists()
+        ), "MIGRATION_GUIDE.md should be preserved for documentation"

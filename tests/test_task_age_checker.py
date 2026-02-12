@@ -144,9 +144,7 @@ def test_check_task_file_recent(temp_work_dir: Path) -> None:
     # Arrange
     checker = TaskAgeChecker(temp_work_dir, age_threshold_hours=24)
     inbox_dir = temp_work_dir / "collaboration" / "inbox"
-    task_file = create_task_with_age(
-        inbox_dir, "2025-11-30T1200-test-recent-task", 2.0
-    )
+    task_file = create_task_with_age(inbox_dir, "2025-11-30T1200-test-recent-task", 2.0)
 
     # Act
     result = checker.check_task_file(task_file)
@@ -279,9 +277,7 @@ def test_check_all_tasks_done_not_checked(temp_work_dir: Path) -> None:
     (done_dir / "test-agent").mkdir(parents=True)
 
     # Create old done task
-    create_task_with_age(
-        done_dir / "test-agent", "2025-11-30T1201-done-old", 100.0
-    )
+    create_task_with_age(done_dir / "test-agent", "2025-11-30T1201-done-old", 100.0)
 
     # Act
     stale_tasks = checker.check_all_tasks()

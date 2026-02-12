@@ -4,7 +4,6 @@ Represents task descriptor per file-based orchestration protocol.
 """
 
 from dataclasses import dataclass
-from typing import List, Optional
 
 from framework.core.task_status import TaskStatus
 
@@ -27,11 +26,11 @@ class Task:
     id: str
     title: str
     status: TaskStatus
-    agent: Optional[str] = None
+    agent: str | None = None
     priority: str = "normal"
     description: str = ""
-    acceptance_criteria: Optional[List[str]] = None
-    dependencies: Optional[List[str]] = None
+    acceptance_criteria: list[str] | None = None
+    dependencies: list[str] | None = None
 
     def __post_init__(self) -> None:
         """Validate task after initialization."""

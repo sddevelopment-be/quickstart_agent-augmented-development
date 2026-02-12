@@ -268,9 +268,7 @@ class TestEndToEndAssignmentFlow:
             task_response["specification"]
             == "specifications/initiatives/dashboard-enhancements/orphan-task-assignment.md"
         )
-        assert (
-            task_response["feature"] == "YAML File Update with Comment Preservation"
-        )
+        assert task_response["feature"] == "YAML File Update with Comment Preservation"
         assert "last_modified" in task_response
 
         # Verify YAML file was updated
@@ -437,7 +435,9 @@ class TestConcurrentEditConflictDetection:
         assert "error" in data
         assert "modified" in data["error"].lower()
 
-    def test_optimistic_locking_with_handler_directly(self, temp_repo, orphan_task, sample_specification):
+    def test_optimistic_locking_with_handler_directly(
+        self, temp_repo, orphan_task, sample_specification
+    ):
         """
         Test optimistic locking mechanism at handler level.
 
@@ -508,9 +508,7 @@ class TestYAMLCommentPreservation:
 
         # Create task with complex comments
         task_id = "2026-02-09T2120-comment-preservation-test"
-        task_file = (
-            temp_repo / "work" / "collaboration" / "inbox" / f"{task_id}.yaml"
-        )
+        task_file = temp_repo / "work" / "collaboration" / "inbox" / f"{task_id}.yaml"
 
         complex_yaml = """# ============================================================
 # Task: Comment Preservation Test
@@ -586,9 +584,7 @@ estimated_hours: 2  # Time estimate in hours
 
         # Create task with specific field order
         task_id = "2026-02-09T2125-field-order-test"
-        task_file = (
-            temp_repo / "work" / "collaboration" / "inbox" / f"{task_id}.yaml"
-        )
+        task_file = temp_repo / "work" / "collaboration" / "inbox" / f"{task_id}.yaml"
 
         yaml_content = """id: "2026-02-09T2125-field-order-test"
 title: "Field order preservation test"
@@ -635,7 +631,7 @@ description: "Test that field order is preserved"
         # Original fields should maintain order (new fields added at end)
         for _i, original_field in enumerate(lines_before):
             assert (
-                original_field in lines_after[:len(lines_before) + 3]
+                original_field in lines_after[: len(lines_before) + 3]
             ), f"Field '{original_field}' order changed"
 
 
@@ -699,7 +695,10 @@ class TestSecurityValidation:
         with open(task_file, encoding="utf-8") as f:
             task_data = yaml.load(f)
 
-        assert "specification" not in task_data or task_data.get("specification") != malicious_path
+        assert (
+            "specification" not in task_data
+            or task_data.get("specification") != malicious_path
+        )
 
     def test_path_validation_with_handler_directly(self, temp_repo):
         """
@@ -823,7 +822,9 @@ class TestEdgeCases:
             or "does not exist" in data["error"].lower()
         )
 
-    def test_malformed_yaml_task_file(self, app_client, temp_repo, sample_specification):
+    def test_malformed_yaml_task_file(
+        self, app_client, temp_repo, sample_specification
+    ):
         """
         Test handling of malformed YAML task files.
 
@@ -836,9 +837,7 @@ class TestEdgeCases:
 
         # Create task with malformed YAML
         task_id = "2026-02-09T2130-malformed-yaml"
-        task_file = (
-            temp_repo / "work" / "collaboration" / "inbox" / f"{task_id}.yaml"
-        )
+        task_file = temp_repo / "work" / "collaboration" / "inbox" / f"{task_id}.yaml"
 
         malformed_yaml = """id: "2026-02-09T2130-malformed-yaml"
 title: "Malformed YAML test
@@ -880,9 +879,7 @@ priority: [unclosed list
 
         # Create minimal task
         task_id = "2026-02-09T2135-minimal-task"
-        task_file = (
-            temp_repo / "work" / "collaboration" / "inbox" / f"{task_id}.yaml"
-        )
+        task_file = temp_repo / "work" / "collaboration" / "inbox" / f"{task_id}.yaml"
 
         yaml = YAML()
         minimal_task = {
@@ -964,7 +961,9 @@ This spec has no features array.
             with open(task_file, encoding="utf-8") as f:
                 updated = yaml.load(f)
 
-            assert updated["specification"] == "specifications/llm-service/minimal-spec.md"
+            assert (
+                updated["specification"] == "specifications/llm-service/minimal-spec.md"
+            )
 
     def test_assignment_with_unicode_characters(
         self, app_client, temp_repo, sample_specification
@@ -981,9 +980,7 @@ This spec has no features array.
 
         # Create task
         task_id = "2026-02-09T2140-unicode-test"
-        task_file = (
-            temp_repo / "work" / "collaboration" / "inbox" / f"{task_id}.yaml"
-        )
+        task_file = temp_repo / "work" / "collaboration" / "inbox" / f"{task_id}.yaml"
 
         yaml = YAML()
         task_data = {
@@ -1087,7 +1084,10 @@ title: Test Spec
         with open(task_file, encoding="utf-8") as f:
             parsed = yaml_parser.load(f)
 
-        assert parsed["specification"] == "specifications/initiatives/dashboard-enhancements/orphan-task-assignment.md"
+        assert (
+            parsed["specification"]
+            == "specifications/initiatives/dashboard-enhancements/orphan-task-assignment.md"
+        )
         assert parsed["feature"] == "Test Feature"
 
         # Content should differ from original (it was updated)
@@ -1193,7 +1193,9 @@ class TestPerformanceBaseline:
         assert response.status_code == 200
         assert elapsed < 0.3, f"Assignment took {elapsed*1000:.0f}ms, expected <300ms"
 
-    def test_batch_assignment_performance(self, app_client, temp_repo, sample_specification):
+    def test_batch_assignment_performance(
+        self, app_client, temp_repo, sample_specification
+    ):
         """
         Test performance of multiple sequential assignments.
 

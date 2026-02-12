@@ -13,7 +13,7 @@ References:
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 class ModelProvider(Enum):
@@ -71,7 +71,7 @@ class ModelRouter:
     and cost-aware selection.
     """
 
-    def __init__(self, config_path: Optional[str] = None) -> None:
+    def __init__(self, config_path: str | None = None) -> None:
         """Initialize model router.
 
         Args:
@@ -79,8 +79,8 @@ class ModelRouter:
                 Defaults to src/framework/config/model_router.yaml.
         """
         self.config_path = config_path or "src/framework/config/model_router.yaml"
-        self._models: Dict[str, ModelConfig] = {}
-        self._fallback_chains: Dict[str, List[str]] = {}
+        self._models: dict[str, ModelConfig] = {}
+        self._fallback_chains: dict[str, list[str]] = {}
 
     def load_config(self) -> None:
         """Load router configuration from YAML.
@@ -97,7 +97,7 @@ class ModelRouter:
     def select_model(
         self,
         task_type: str,
-        constraints: Optional[Dict[str, Any]] = None,
+        constraints: dict[str, Any] | None = None,
     ) -> ModelConfig:
         """Select optimal model for task based on requirements.
 
@@ -128,7 +128,7 @@ class ModelRouter:
 
         raise NotImplementedError("Model selection not yet implemented")
 
-    def get_fallback_chain(self, model_id: str) -> List[str]:
+    def get_fallback_chain(self, model_id: str) -> list[str]:
         """Get fallback model chain for given model.
 
         Args:
@@ -153,7 +153,7 @@ class ExecutionClient:
     Subclasses implement provider-specific logic.
     """
 
-    def __init__(self, provider: ModelProvider, api_key: Optional[str] = None) -> None:
+    def __init__(self, provider: ModelProvider, api_key: str | None = None) -> None:
         """Initialize execution client.
 
         Args:
@@ -167,9 +167,9 @@ class ExecutionClient:
         self,
         model_id: str,
         prompt: str,
-        tools: Optional[List[Dict[str, Any]]] = None,
+        tools: list[dict[str, Any]] | None = None,
         **kwargs: Any,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Invoke model with prompt and optional tools.
 
         Args:
@@ -207,9 +207,9 @@ class OllamaClient(ExecutionClient):
         self,
         model_id: str,
         prompt: str,
-        tools: Optional[List[Dict[str, Any]]] = None,
+        tools: list[dict[str, Any]] | None = None,
         **kwargs: Any,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Invoke local Ollama model.
 
         Args:

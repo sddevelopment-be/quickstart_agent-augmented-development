@@ -38,7 +38,7 @@ class SpecChangeHandler(FileSystemEventHandler):
     cache entries when files are modified or deleted.
     """
 
-    def __init__(self, cache: 'SpecificationCache'):
+    def __init__(self, cache: "SpecificationCache"):
         """
         Initialize handler with reference to parent cache.
 
@@ -63,7 +63,7 @@ class SpecChangeHandler(FileSystemEventHandler):
         file_path = Path(event.src_path)
 
         # Only process markdown files
-        if file_path.suffix.lower() == '.md':
+        if file_path.suffix.lower() == ".md":
             logger.debug(f"Detected modification: {file_path}")
             self.cache.invalidate(str(file_path))
 
@@ -81,7 +81,7 @@ class SpecChangeHandler(FileSystemEventHandler):
 
         file_path = Path(event.src_path)
 
-        if file_path.suffix.lower() == '.md':
+        if file_path.suffix.lower() == ".md":
             logger.debug(f"Detected deletion: {file_path}")
             self.cache.invalidate(str(file_path))
 
@@ -127,11 +127,12 @@ class SpecificationCache:
 
         # Import SpecificationParser (lazy to avoid circular dependencies)
         from llm_service.dashboard.spec_parser import SpecificationParser
+
         self.parser = SpecificationParser(str(self.base_dir))
 
         logger.info(f"SpecificationCache initialized with base_dir: {self.base_dir}")
 
-    def get_spec(self, spec_path: str) -> Optional['SpecificationMetadata']:
+    def get_spec(self, spec_path: str) -> Optional["SpecificationMetadata"]:
         """
         Get specification frontmatter (cached or parsed).
 
@@ -153,7 +154,7 @@ class SpecificationCache:
         logger.debug(f"Cache miss: {spec_path}")
         return self._parse_and_cache(spec_path)
 
-    def _parse_and_cache(self, spec_path: str) -> Optional['SpecificationMetadata']:
+    def _parse_and_cache(self, spec_path: str) -> Optional["SpecificationMetadata"]:
         """
         Parse specification and store in cache.
 
@@ -215,7 +216,7 @@ class SpecificationCache:
         elapsed = (datetime.now() - start_time).total_seconds()
         logger.info(f"Preloaded {count} specifications in {elapsed:.3f}s")
 
-    def get_all_specs(self) -> list['SpecificationMetadata']:
+    def get_all_specs(self) -> list["SpecificationMetadata"]:
         """
         Get list of all cached specifications.
 

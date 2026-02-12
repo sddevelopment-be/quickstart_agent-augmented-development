@@ -5,9 +5,7 @@ Tests output normalization for different tool formats (JSON, plain text)
 following TDD approach (Directive 017).
 """
 
-import pytest
 import json
-from typing import Dict, Any, Optional
 
 
 class TestNormalizedResponse:
@@ -35,6 +33,7 @@ class TestNormalizedResponse:
     def test_normalized_response_is_dataclass(self):
         """Test that NormalizedResponse is a proper dataclass."""
         from dataclasses import is_dataclass
+
         from src.llm_service.adapters.output_normalizer import NormalizedResponse
 
         assert is_dataclass(NormalizedResponse)
@@ -104,9 +103,7 @@ class TestOutputNormalizerMetadata:
         from src.llm_service.adapters.output_normalizer import OutputNormalizer
 
         normalizer = OutputNormalizer()
-        json_output = json.dumps(
-            {"response": "Text", "usage": {"total_tokens": 250}}
-        )
+        json_output = json.dumps({"response": "Text", "usage": {"total_tokens": 250}})
 
         result = normalizer.normalize(json_output, format="json")
 
@@ -117,9 +114,7 @@ class TestOutputNormalizerMetadata:
         from src.llm_service.adapters.output_normalizer import OutputNormalizer
 
         normalizer = OutputNormalizer()
-        json_output = json.dumps(
-            {"response": "Text", "cost": {"total_usd": 0.15}}
-        )
+        json_output = json.dumps({"response": "Text", "cost": {"total_usd": 0.15}})
 
         result = normalizer.normalize(json_output, format="json")
 
@@ -147,7 +142,11 @@ class TestOutputNormalizerMetadata:
             {
                 "response": "Generated text",
                 "model": "gpt-4",
-                "usage": {"prompt_tokens": 50, "completion_tokens": 100, "total_tokens": 150},
+                "usage": {
+                    "prompt_tokens": 50,
+                    "completion_tokens": 100,
+                    "total_tokens": 150,
+                },
                 "finish_reason": "stop",
             }
         )
@@ -191,9 +190,7 @@ class TestOutputNormalizerErrors:
         from src.llm_service.adapters.output_normalizer import OutputNormalizer
 
         normalizer = OutputNormalizer()
-        json_output = json.dumps(
-            {"response": "", "error": "API key invalid"}
-        )
+        json_output = json.dumps({"response": "", "error": "API key invalid"})
 
         result = normalizer.normalize(json_output, format="json")
 
@@ -223,9 +220,7 @@ class TestOutputNormalizerFormats:
         from src.llm_service.adapters.output_normalizer import OutputNormalizer
 
         normalizer = OutputNormalizer()
-        json_output = json.dumps(
-            {"data": {"response": {"text": "Nested text"}}}
-        )
+        json_output = json.dumps({"data": {"response": {"text": "Nested text"}}})
 
         result = normalizer.normalize(json_output, format="json")
 
@@ -262,8 +257,8 @@ class TestOutputNormalizerExtensibility:
     def test_register_custom_format_handler(self):
         """Test registering custom format handler for tool-specific formats."""
         from src.llm_service.adapters.output_normalizer import (
-            OutputNormalizer,
             NormalizedResponse,
+            OutputNormalizer,
         )
 
         def custom_handler(output: str) -> NormalizedResponse:
@@ -287,14 +282,16 @@ class TestOutputNormalizerExtensibility:
     def test_tool_specific_normalizer(self):
         """Test creating tool-specific normalizer subclass."""
         from src.llm_service.adapters.output_normalizer import (
-            OutputNormalizer,
             NormalizedResponse,
+            OutputNormalizer,
         )
 
         class ClaudeCodeNormalizer(OutputNormalizer):
             """Tool-specific normalizer for claude-code output."""
 
-            def normalize(self, output: str, format: Optional[str] = None) -> NormalizedResponse:
+            def normalize(
+                self, output: str, format: str | None = None
+            ) -> NormalizedResponse:
                 # Claude-code specific parsing
                 result = super().normalize(output, format)
                 result.metadata["tool"] = "claude-code"
@@ -336,9 +333,7 @@ class TestOutputNormalizerEdgeCases:
         from src.llm_service.adapters.output_normalizer import OutputNormalizer
 
         normalizer = OutputNormalizer()
-        json_output = json.dumps(
-            {"response": "Text", "metadata": None, "cost": None}
-        )
+        json_output = json.dumps({"response": "Text", "metadata": None, "cost": None})
 
         result = normalizer.normalize(json_output, format="json")
 

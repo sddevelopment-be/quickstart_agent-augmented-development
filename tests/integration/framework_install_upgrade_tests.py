@@ -12,12 +12,10 @@ Test Strategy:
 """
 
 import hashlib
-import os
 import shutil
-import subprocess
 import tempfile
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
 import pytest
 import yaml
@@ -26,7 +24,7 @@ import yaml
 class TestFrameworkInstallAcceptance:
     """
     Acceptance tests for framework_install.sh.
-    
+
     Acceptance Criteria:
     AC1: Clean install detects first-time setup (no .framework_meta.yml)
     AC2: Install copies new files only, never overwrites existing files
@@ -50,54 +48,55 @@ class TestFrameworkInstallAcceptance:
         """Create a mock release artifact structure."""
         release_dir = temp_workspace / "release"
         release_dir.mkdir()
-        
+
         # Create framework_core structure
         core_dir = release_dir / "framework_core"
         core_dir.mkdir()
-        
+
         # Add sample files
         agents_dir = core_dir / ".github" / "agents"
         agents_dir.mkdir(parents=True)
         (agents_dir / "sample.agent.md").write_text("# Sample Agent\n")
-        
+
         docs_dir = core_dir / "docs" / "templates"
         docs_dir.mkdir(parents=True)
         (docs_dir / "template.md").write_text("# Template\n")
-        
+
         # Create scripts directory
         scripts_dir = release_dir / "scripts"
         scripts_dir.mkdir()
-        
+
         # Create META directory with manifest
         meta_dir = release_dir / "META"
         meta_dir.mkdir()
-        
+
         manifest_data = {
-            'version': '1.0.0',
-            'generated_at': datetime.utcnow().isoformat() + 'Z',
-            'files': [
+            "version": "1.0.0",
+            "generated_at": datetime.utcnow().isoformat() + "Z",
+            "files": [
                 {
-                    'path': '.github/agents/sample.agent.md',
-                    'sha256': self._calculate_sha256(agents_dir / "sample.agent.md"),
-                    'mode': '644',
-                    'scope': 'core',
-                    'size': (agents_dir / "sample.agent.md").stat().st_size
+                    "path": ".github/agents/sample.agent.md",
+                    "sha256": self._calculate_sha256(agents_dir / "sample.agent.md"),
+                    "mode": "644",
+                    "scope": "core",
+                    "size": (agents_dir / "sample.agent.md").stat().st_size,
                 },
                 {
-                    'path': 'docs/templates/template.md',
-                    'sha256': self._calculate_sha256(docs_dir / "template.md"),
-                    'mode': '644',
-                    'scope': 'template',
-                    'size': (docs_dir / "template.md").stat().st_size
-                }
+                    "path": "docs/templates/template.md",
+                    "sha256": self._calculate_sha256(docs_dir / "template.md"),
+                    "mode": "644",
+                    "scope": "template",
+                    "size": (docs_dir / "template.md").stat().st_size,
+                },
             ],
-            'total_files': 2,
-            'total_size': (agents_dir / "sample.agent.md").stat().st_size + (docs_dir / "template.md").stat().st_size
+            "total_files": 2,
+            "total_size": (agents_dir / "sample.agent.md").stat().st_size
+            + (docs_dir / "template.md").stat().st_size,
         }
-        
-        with open(meta_dir / "MANIFEST.yml", 'w') as f:
+
+        with open(meta_dir / "MANIFEST.yml", "w") as f:
             yaml.dump(manifest_data, f, default_flow_style=False)
-        
+
         return release_dir
 
     @pytest.fixture
@@ -105,11 +104,11 @@ class TestFrameworkInstallAcceptance:
         """Create a mock target repository."""
         repo_dir = temp_workspace / "target_repo"
         repo_dir.mkdir()
-        
+
         # Create basic structure
         (repo_dir / ".github").mkdir()
         (repo_dir / "docs").mkdir()
-        
+
         return repo_dir
 
     def _calculate_sha256(self, file_path):
@@ -125,11 +124,13 @@ class TestFrameworkInstallAcceptance:
         # Verify no .framework_meta.yml exists
         meta_file = mock_target_repo / ".framework_meta.yml"
         assert not meta_file.exists()
-        
+
         # This will be verified by the actual install script
         # Placeholder for when script is implemented
 
-    def test_ac2_install_never_overwrites_existing(self, mock_release_artifact, mock_target_repo):
+    def test_ac2_install_never_overwrites_existing(
+        self, mock_release_artifact, mock_target_repo
+    ):
         """AC2: Install copies new files only, never overwrites existing files."""
         # Create a pre-existing file in target
         existing_file = mock_target_repo / ".github" / "agents"
@@ -137,16 +138,18 @@ class TestFrameworkInstallAcceptance:
         existing_agent = existing_file / "sample.agent.md"
         original_content = "# Existing Local Agent\nCustom content\n"
         existing_agent.write_text(original_content)
-        
+
         # Run install (will be implemented)
         # Expected: file should NOT be overwritten
         # Placeholder for actual test implementation
 
-    def test_ac3_install_creates_framework_meta(self, mock_release_artifact, mock_target_repo):
+    def test_ac3_install_creates_framework_meta(
+        self, mock_release_artifact, mock_target_repo
+    ):
         """AC3: Install creates .framework_meta.yml with required fields."""
         # Expected meta file structure
-        expected_fields = ['framework_version', 'installed_at', 'source_release']
-        
+        expected_fields = ["framework_version", "installed_at", "source_release"]
+
         # Placeholder for actual install execution and verification
 
     def test_ac4_install_reports_summary(self, mock_release_artifact, mock_target_repo):
@@ -163,23 +166,29 @@ class TestFrameworkInstallAcceptance:
         # Verify output shows what WOULD be done
         # Placeholder for actual test
 
-    def test_ac6_install_validates_artifact_structure(self, temp_workspace, mock_target_repo):
+    def test_ac6_install_validates_artifact_structure(
+        self, temp_workspace, mock_target_repo
+    ):
         """AC6: Install detects missing release artifact structure."""
         # Create incomplete artifact (missing META/)
         incomplete_release = temp_workspace / "incomplete"
         incomplete_release.mkdir()
         (incomplete_release / "framework_core").mkdir()
-        
+
         # Expected: install should fail with clear error
         # Placeholder for actual test
 
-    def test_ac7_install_preserves_permissions(self, mock_release_artifact, mock_target_repo):
+    def test_ac7_install_preserves_permissions(
+        self, mock_release_artifact, mock_target_repo
+    ):
         """AC7: Install preserves file permissions from source."""
         # Create file with specific permissions in release
         # Verify installed file has same permissions
         # Placeholder for actual test
 
-    def test_ac8_install_validates_checksums(self, mock_release_artifact, mock_target_repo):
+    def test_ac8_install_validates_checksums(
+        self, mock_release_artifact, mock_target_repo
+    ):
         """AC8: Install validates checksum integrity from manifest."""
         # Corrupt a file in release artifact
         # Expected: install should detect and report checksum mismatch
@@ -189,7 +198,7 @@ class TestFrameworkInstallAcceptance:
 class TestFrameworkUpgradeAcceptance:
     """
     Acceptance tests for framework_upgrade.sh.
-    
+
     Acceptance Criteria:
     AC9:  Upgrade detects existing installation via .framework_meta.yml
     AC10: Upgrade with --dry-run shows plan without making changes
@@ -215,26 +224,26 @@ class TestFrameworkUpgradeAcceptance:
         """Create a repo with existing framework installation."""
         repo_dir = temp_workspace / "installed_repo"
         repo_dir.mkdir()
-        
+
         # Create .framework_meta.yml
         meta_data = {
-            'framework_version': '0.9.0',
-            'installed_at': '2025-11-01T10:00:00Z',
-            'source_release': 'quickstart-framework-0.9.0.zip'
+            "framework_version": "0.9.0",
+            "installed_at": "2025-11-01T10:00:00Z",
+            "source_release": "quickstart-framework-0.9.0.zip",
         }
-        with open(repo_dir / ".framework_meta.yml", 'w') as f:
+        with open(repo_dir / ".framework_meta.yml", "w") as f:
             yaml.dump(meta_data, f)
-        
+
         # Add some framework files
         agents_dir = repo_dir / ".github" / "agents"
         agents_dir.mkdir(parents=True)
         (agents_dir / "existing.agent.md").write_text("# Old Version\n")
-        
+
         # Add local customizations
         local_dir = repo_dir / "local"
         local_dir.mkdir()
         (local_dir / "custom_agent.agent.md").write_text("# Custom\n")
-        
+
         return repo_dir
 
     @pytest.fixture
@@ -242,61 +251,66 @@ class TestFrameworkUpgradeAcceptance:
         """Create a new release artifact for upgrade."""
         release_dir = temp_workspace / "upgrade_release"
         release_dir.mkdir()
-        
+
         core_dir = release_dir / "framework_core"
         core_dir.mkdir()
-        
+
         # Updated existing file
         agents_dir = core_dir / ".github" / "agents"
         agents_dir.mkdir(parents=True)
-        (agents_dir / "existing.agent.md").write_text("# New Version\nUpdated content\n")
-        
+        (agents_dir / "existing.agent.md").write_text(
+            "# New Version\nUpdated content\n"
+        )
+
         # New file
         (agents_dir / "new.agent.md").write_text("# Brand New Agent\n")
-        
+
         # META with manifest
         meta_dir = release_dir / "META"
         meta_dir.mkdir()
-        
+
         manifest_data = {
-            'version': '1.0.0',
-            'generated_at': datetime.utcnow().isoformat() + 'Z',
-            'files': [
+            "version": "1.0.0",
+            "generated_at": datetime.utcnow().isoformat() + "Z",
+            "files": [
                 {
-                    'path': '.github/agents/existing.agent.md',
-                    'sha256': hashlib.sha256(b"# New Version\nUpdated content\n").hexdigest(),
-                    'mode': '644',
-                    'scope': 'core',
-                    'size': len("# New Version\nUpdated content\n")
+                    "path": ".github/agents/existing.agent.md",
+                    "sha256": hashlib.sha256(
+                        b"# New Version\nUpdated content\n"
+                    ).hexdigest(),
+                    "mode": "644",
+                    "scope": "core",
+                    "size": len("# New Version\nUpdated content\n"),
                 },
                 {
-                    'path': '.github/agents/new.agent.md',
-                    'sha256': hashlib.sha256(b"# Brand New Agent\n").hexdigest(),
-                    'mode': '644',
-                    'scope': 'core',
-                    'size': len("# Brand New Agent\n")
-                }
+                    "path": ".github/agents/new.agent.md",
+                    "sha256": hashlib.sha256(b"# Brand New Agent\n").hexdigest(),
+                    "mode": "644",
+                    "scope": "core",
+                    "size": len("# Brand New Agent\n"),
+                },
             ],
-            'total_files': 2,
-            'total_size': len("# New Version\nUpdated content\n") + len("# Brand New Agent\n")
+            "total_files": 2,
+            "total_size": len("# New Version\nUpdated content\n")
+            + len("# Brand New Agent\n"),
         }
-        
-        with open(meta_dir / "MANIFEST.yml", 'w') as f:
+
+        with open(meta_dir / "MANIFEST.yml", "w") as f:
             yaml.dump(manifest_data, f)
-        
+
         return release_dir
 
     def test_ac9_upgrade_detects_installation(self, installed_repo):
         """AC9: Upgrade detects existing installation."""
         meta_file = installed_repo / ".framework_meta.yml"
         assert meta_file.exists()
-        
+
         with open(meta_file) as f:
             meta = yaml.safe_load(f)
-        
-        assert 'framework_version' in meta
-        assert 'installed_at' in meta
-        assert 'source_release' in meta
+
+        assert "framework_version" in meta
+        assert "installed_at" in meta
+        assert "source_release" in meta
 
     def test_ac10_upgrade_dry_run_mode(self, installed_repo, upgrade_release):
         """AC10: Upgrade with --dry-run shows plan without changes."""
@@ -315,7 +329,9 @@ class TestFrameworkUpgradeAcceptance:
         # Expected: no action, status UNCHANGED
         pass
 
-    def test_ac13_upgrade_creates_framework_new_for_conflicts(self, installed_repo, upgrade_release):
+    def test_ac13_upgrade_creates_framework_new_for_conflicts(
+        self, installed_repo, upgrade_release
+    ):
         """AC13: Upgrade creates .framework-new for conflicts."""
         # existing.agent.md has different content
         # Expected: create existing.agent.md.framework-new
@@ -326,7 +342,7 @@ class TestFrameworkUpgradeAcceptance:
         """AC14: Upgrade never modifies local/ directory."""
         local_file = installed_repo / "local" / "custom_agent.agent.md"
         original_content = local_file.read_text()
-        
+
         # Run upgrade
         # Expected: local/ remains unchanged
         pass
@@ -361,7 +377,7 @@ class TestFrameworkUpgradeAcceptance:
 class TestConflictHandling:
     """
     Tests for conflict detection and handling logic.
-    
+
     These tests verify the checksum and timestamp-based conflict detection
     that determines when files need manual resolution.
     """
@@ -384,7 +400,7 @@ class TestConflictHandling:
 class TestHelperFunctions:
     """
     Unit tests for helper functions used by install/upgrade scripts.
-    
+
     Following Directive 017 (TDD): These tests cover individual functions
     and edge cases for reusable components.
     """
@@ -501,7 +517,7 @@ class TestErrorHandling:
 class TestCLIInterface:
     """
     Tests for command-line interface and flags.
-    
+
     Verifies CLI flags referenced in ADR-013/ADR-014.
     """
 
@@ -537,7 +553,7 @@ class TestCLIInterface:
 # Placeholder tests to be implemented as scripts are developed
 class TestFrameworkInstallScript:
     """Direct tests of framework_install.sh behavior."""
-    
+
     def test_script_exists(self):
         """Verify script file exists and is executable."""
         script_path = Path("ops/release/framework_install.sh")
@@ -551,7 +567,7 @@ class TestFrameworkInstallScript:
 
 class TestFrameworkUpgradeScript:
     """Direct tests of framework_upgrade.sh behavior."""
-    
+
     def test_script_exists(self):
         """Verify script file exists and is executable."""
         script_path = Path("ops/release/framework_upgrade.sh")

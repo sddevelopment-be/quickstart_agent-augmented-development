@@ -1,13 +1,12 @@
 """Factory function for creating framework clients."""
 
 from pathlib import Path
-from typing import Optional
 
 from framework.interface.framework_client import FrameworkClient
 
 
 def create_client(
-    config_path: Optional[Path] = None,
+    config_path: Path | None = None,
     mode: str = "analysis",
     auto_initialize: bool = True,
 ) -> FrameworkClient:

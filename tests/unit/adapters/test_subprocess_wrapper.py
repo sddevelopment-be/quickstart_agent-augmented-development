@@ -5,10 +5,8 @@ Tests subprocess execution with timeout handling, error capture,
 and platform compatibility following TDD approach (Directive 017).
 """
 
+
 import pytest
-import subprocess
-import time
-from typing import Optional
 
 
 class TestExecutionResult:
@@ -37,6 +35,7 @@ class TestExecutionResult:
     def test_execution_result_is_dataclass(self):
         """Test that ExecutionResult is a proper dataclass."""
         from dataclasses import is_dataclass
+
         from src.llm_service.adapters.subprocess_wrapper import ExecutionResult
 
         assert is_dataclass(ExecutionResult)
@@ -66,7 +65,9 @@ class TestSubprocessWrapper:
         result = wrapper.execute(["echo", "hello", "world"])
 
         assert result.exit_code == 0
-        assert "hello world" in result.stdout or ("hello" in result.stdout and "world" in result.stdout)
+        assert "hello world" in result.stdout or (
+            "hello" in result.stdout and "world" in result.stdout
+        )
 
     def test_execute_captures_stdout(self):
         """Test that stdout is captured correctly."""
@@ -136,7 +137,9 @@ class TestSubprocessWrapperTimeout:
         from src.llm_service.adapters.subprocess_wrapper import SubprocessWrapper
 
         wrapper = SubprocessWrapper(timeout=10)  # Default timeout
-        result = wrapper.execute(["sleep", "2"], timeout=1)  # Override with shorter timeout
+        result = wrapper.execute(
+            ["sleep", "2"], timeout=1
+        )  # Override with shorter timeout
 
         assert result.timed_out is True
 
@@ -147,8 +150,8 @@ class TestSubprocessWrapperErrors:
     def test_execute_command_not_found(self):
         """Test handling of command not found error."""
         from src.llm_service.adapters.subprocess_wrapper import (
-            SubprocessWrapper,
             CommandNotFoundError,
+            SubprocessWrapper,
         )
 
         wrapper = SubprocessWrapper()
@@ -158,8 +161,8 @@ class TestSubprocessWrapperErrors:
     def test_execute_empty_command_list(self):
         """Test that empty command raises error."""
         from src.llm_service.adapters.subprocess_wrapper import (
-            SubprocessWrapper,
             InvalidCommandError,
+            SubprocessWrapper,
         )
 
         wrapper = SubprocessWrapper()
@@ -169,8 +172,8 @@ class TestSubprocessWrapperErrors:
     def test_execute_with_invalid_command_type(self):
         """Test that non-list command raises error."""
         from src.llm_service.adapters.subprocess_wrapper import (
-            SubprocessWrapper,
             InvalidCommandError,
+            SubprocessWrapper,
         )
 
         wrapper = SubprocessWrapper()
@@ -224,8 +227,8 @@ class TestSubprocessWrapperPlatformCompatibility:
 
     def test_execute_on_current_platform(self):
         """Test basic execution works on current platform."""
+
         from src.llm_service.adapters.subprocess_wrapper import SubprocessWrapper
-        import sys
 
         wrapper = SubprocessWrapper()
         # Use Python which works on all platforms

@@ -35,7 +35,9 @@ class ProgressCalculator:
         TaskStatus.ERROR.value: 0.0,
     }
 
-    def __init__(self, status_weights: dict[str, float] | None = None, enable_cache: bool = False):
+    def __init__(
+        self, status_weights: dict[str, float] | None = None, enable_cache: bool = False
+    ):
         """
         Initialize progress calculator.
 
@@ -61,9 +63,7 @@ class ProgressCalculator:
         return self.status_weights.get(status.lower(), 0.0)
 
     def calculate_feature_progress(
-        self,
-        tasks: list[dict],
-        feature_id: str | None = None
+        self, tasks: list[dict], feature_id: str | None = None
     ) -> int:
         """
         Calculate completion percentage for a feature based on its tasks.
@@ -109,9 +109,7 @@ class ProgressCalculator:
         return progress_percent
 
     def calculate_initiative_progress(
-        self,
-        features: list[dict],
-        manual_override: int | None = None
+        self, features: list[dict], manual_override: int | None = None
     ) -> int:
         """
         Calculate initiative progress by averaging feature progress.
@@ -140,10 +138,7 @@ class ProgressCalculator:
         # Clamp to 0-100
         return max(0, min(100, progress_percent))
 
-    def calculate_initiative_progress_with_override(
-        self,
-        metadata: dict
-    ) -> int:
+    def calculate_initiative_progress_with_override(self, metadata: dict) -> int:
         """
         Calculate initiative progress with support for manual completion override.
 
@@ -169,10 +164,7 @@ class ProgressCalculator:
 
         return self.calculate_initiative_progress(features)
 
-    def calculate_weighted_initiative_progress(
-        self,
-        features: list[dict]
-    ) -> int:
+    def calculate_weighted_initiative_progress(self, features: list[dict]) -> int:
         """
         Calculate initiative progress with weighted features (future enhancement).
 
@@ -237,9 +229,7 @@ class ProgressCalculator:
         return summary
 
     def get_initiative_summary(
-        self,
-        features: list[dict],
-        all_tasks: list[dict]
+        self, features: list[dict], all_tasks: list[dict]
     ) -> dict:
         """
         Get comprehensive summary for an initiative.
@@ -254,8 +244,7 @@ class ProgressCalculator:
         total_features = len(features)
         completed_features = sum(1 for f in features if f.get("progress", 0) == 100)
         in_progress_features = sum(
-            1 for f in features
-            if 0 < f.get("progress", 0) < 100
+            1 for f in features if 0 < f.get("progress", 0) < 100
         )
 
         task_status_counts = {}
@@ -271,10 +260,12 @@ class ProgressCalculator:
                 "total": total_features,
                 "completed": completed_features,
                 "in_progress": in_progress_features,
-                "not_started": total_features - completed_features - in_progress_features,
+                "not_started": total_features
+                - completed_features
+                - in_progress_features,
             },
             "tasks": {
                 "total": len(all_tasks),
                 "by_status": task_status_counts,
-            }
+            },
         }

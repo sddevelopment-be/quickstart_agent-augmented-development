@@ -15,10 +15,11 @@ Test Coverage Requirements:
 - String representations
 """
 
-import pytest
-from pathlib import Path
-from datetime import date
 from dataclasses import FrozenInstanceError
+from datetime import date
+from pathlib import Path
+
+import pytest
 
 
 class TestAgentModel:
@@ -585,10 +586,10 @@ class TestModelTypeHints:
         """All model fields should have type hints for mypy compatibility."""
         from src.domain.doctrine.models import (
             Agent,
-            Directive,
-            Tactic,
             Approach,
+            Directive,
             StyleGuide,
+            Tactic,
             Template,
         )
 

@@ -77,7 +77,9 @@ class AgentProfileLoader:
                 if name:
                     agent_names.append(name)
                 else:
-                    logger.warning(f"Could not extract agent name from {agent_file.name}")
+                    logger.warning(
+                        f"Could not extract agent name from {agent_file.name}"
+                    )
             except Exception as e:
                 logger.error(f"Error reading {agent_file.name}: {e}")
 

@@ -60,9 +60,9 @@ class TestFrameworkClient:
         client = FrameworkClient(config_path=missing_config)
 
         # Assumption Check
-        assert not missing_config.exists(), (
-            "Test precondition failed: config should NOT exist"
-        )
+        assert (
+            not missing_config.exists()
+        ), "Test precondition failed: config should NOT exist"
 
         # Act & Assert
         with pytest.raises(FileNotFoundError) as exc_info:
@@ -86,9 +86,7 @@ class TestFrameworkClient:
         # Assert
         assert client._initialized
 
-    def test_execute_task_not_initialized_raises_error(
-        self, tmp_path: Path
-    ) -> None:
+    def test_execute_task_not_initialized_raises_error(self, tmp_path: Path) -> None:
         """Test execute_task raises RuntimeError when not initialized."""
         # Arrange
         client = FrameworkClient()
@@ -96,9 +94,9 @@ class TestFrameworkClient:
         task_path.touch()
 
         # Assumption Check
-        assert not client._initialized, (
-            "Test precondition failed: client should NOT be initialized"
-        )
+        assert (
+            not client._initialized
+        ), "Test precondition failed: client should NOT be initialized"
 
         # Act & Assert
         with pytest.raises(RuntimeError) as exc_info:
@@ -117,9 +115,9 @@ class TestFrameworkClient:
         missing_task = tmp_path / "missing.yaml"
 
         # Assumption Check
-        assert not missing_task.exists(), (
-            "Test precondition failed: task file should NOT exist"
-        )
+        assert (
+            not missing_task.exists()
+        ), "Test precondition failed: task file should NOT exist"
 
         # Act & Assert
         with pytest.raises(FileNotFoundError) as exc_info:
@@ -139,12 +137,10 @@ class TestFrameworkClient:
         client.initialize()
 
         # Assumption Check
-        assert client._initialized, (
-            "Test precondition failed: client should be initialized"
-        )
-        assert task_file.exists(), (
-            "Test precondition failed: task file should exist"
-        )
+        assert (
+            client._initialized
+        ), "Test precondition failed: client should be initialized"
+        assert task_file.exists(), "Test precondition failed: task file should exist"
 
         # Act
         result = client.execute_task(task_file)
@@ -160,9 +156,9 @@ class TestFrameworkClient:
         client = FrameworkClient()
 
         # Assumption Check
-        assert not client._initialized, (
-            "Test precondition failed: client should NOT be initialized"
-        )
+        assert (
+            not client._initialized
+        ), "Test precondition failed: client should NOT be initialized"
 
         # Act & Assert
         with pytest.raises(RuntimeError) as exc_info:
@@ -179,9 +175,9 @@ class TestFrameworkClient:
         client.initialize()
 
         # Assumption Check
-        assert client._initialized, (
-            "Test precondition failed: client should be initialized"
-        )
+        assert (
+            client._initialized
+        ), "Test precondition failed: client should be initialized"
 
         # Act
         result = client.list_available_models()

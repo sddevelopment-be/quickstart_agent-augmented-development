@@ -17,70 +17,70 @@ Examples:
     >>> expanded = expand_env_vars(env_vars)
     >>> print(expanded)
     {'API_KEY': 'actual-key-value', 'DEFAULT': 'fallback'}
-    
+
     >>> # Validate required variables
     >>> validate_required_env_vars(["ANTHROPIC_API_KEY", "SECRET_TOKEN"])
 """
 
 import os
 import re
-from typing import Dict, List, Optional
 
 
 class EnvVarNotFoundError(Exception):
     """Raised when required environment variable is not found."""
+
     pass
 
 
 # Regex to match ${VAR} or ${VAR:default}
-ENV_VAR_PATTERN = re.compile(r'\$\{([^}:]+)(?::([^}]*))?\}')
+ENV_VAR_PATTERN = re.compile(r"\$\{([^}:]+)(?::([^}]*))?\}")
 
 
-def expand_env_vars(env_vars: Optional[Dict[str, str]]) -> Dict[str, str]:
+def expand_env_vars(env_vars: dict[str, str] | None) -> dict[str, str]:
     """
     Expand environment variables in configuration.
-    
+
     Supports two formats:
     - ${VAR}: Expand from system environment (raises error if not found)
     - ${VAR:default}: Expand from system environment, use default if not found
     - Literal values: Passed through unchanged
-    
+
     Args:
         env_vars: Dictionary of environment variable definitions
-    
+
     Returns:
         Dictionary with expanded values
-    
+
     Raises:
         EnvVarNotFoundError: If ${VAR} references missing environment variable
-    
+
     Examples:
         >>> os.environ["API_KEY"] = "secret"
         >>> expand_env_vars({"KEY": "${API_KEY}"})
         {'KEY': 'secret'}
-        
+
         >>> expand_env_vars({"KEY": "${MISSING:default}"})
         {'KEY': 'default'}
-        
+
         >>> expand_env_vars({"KEY": "literal"})
         {'KEY': 'literal'}
     """
     if not env_vars:
         return {}
-    
+
     expanded = {}
-    
+
     for key, value in env_vars.items():
         # Check if value contains ${VAR} pattern
         match = ENV_VAR_PATTERN.search(value)
-        
+
         if match:
             var_name = match.group(1)
             default_value = match.group(2)  # None if no default specified
-            
+
             # Get value from system environment
             env_value = os.environ.get(var_name)
-            
+
             if env_value is not None:
                 # Replace ${VAR} or ${VAR:default} with actual value
                 expanded[key] = ENV_VAR_PATTERN.sub(env_value, value)
@@ -97,38 +97,38 @@ def expand_env_vars(env_vars: Optional[Dict[str, str]]) -> Dict[str, str]:
         else:
             # Literal value - pass through unchanged
             expanded[key] = value
-    
+
     return expanded
 
 
-def validate_required_env_vars(env_required: Optional[List[str]]) -> None:
+def validate_required_env_vars(env_required: list[str] | None) -> None:
     """
     Validate that required environment variables are set.
-    
+
     Checks system environment for presence of required variables.
     Raises error with clear message if any are missing.
-    
+
     Args:
         env_required: List of required environment variable names
-    
+
     Raises:
         EnvVarNotFoundError: If any required variable is not set
-    
+
     Examples:
         >>> os.environ["API_KEY"] = "value"
         >>> validate_required_env_vars(["API_KEY"])  # Passes
-        
+
         >>> validate_required_env_vars(["MISSING"])  # Raises EnvVarNotFoundError
     """
     if not env_required:
         return
-    
+
     missing = []
-    
+
     for var_name in env_required:
         if var_name not in os.environ:
             missing.append(var_name)
-    
+
     if missing:
         raise EnvVarNotFoundError(
             f"Required environment variables not set: {', '.join(missing)}. "

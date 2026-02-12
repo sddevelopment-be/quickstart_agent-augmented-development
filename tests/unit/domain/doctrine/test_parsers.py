@@ -22,24 +22,23 @@ Directives Applied
 - Directive 017: TDD - Unit tests written first, RED-GREEN-REFACTOR
 """
 
-import pytest
 from pathlib import Path
-from datetime import date
 
-from src.domain.doctrine.parsers import (
-    DirectiveParser,
-    AgentParser,
-    TacticParser,
-    ApproachParser,
-)
-from src.domain.doctrine.models import Directive, Agent, Tactic, Approach
+import pytest
+
 from src.domain.doctrine.exceptions import (
-    ParseError,
-    ValidationError,
     InvalidDirectiveId,
     MissingRequiredField,
+    ParseError,
+    ValidationError,
 )
-
+from src.domain.doctrine.models import Agent, Approach, Directive, Tactic
+from src.domain.doctrine.parsers import (
+    AgentParser,
+    ApproachParser,
+    DirectiveParser,
+    TacticParser,
+)
 
 # ============================================================================
 # Test Fixtures
@@ -175,7 +174,10 @@ class TestDirectiveParser:
         directive = parser.parse(valid_directive_file)
 
         assert len(directive.rationale) > 0
-        assert "reduce" in directive.rationale.lower() or "bug" in directive.rationale.lower()
+        assert (
+            "reduce" in directive.rationale.lower()
+            or "bug" in directive.rationale.lower()
+        )
 
     def test_parse_valid_directive_extracts_examples(self, valid_directive_file: Path):
         """Parser should extract examples from ## Examples section."""
@@ -241,9 +243,10 @@ class TestDirectiveParser:
         with pytest.raises(ParseError) as exc_info:
             parser.parse(nonexistent_file)
 
-        assert "not found" in str(exc_info.value).lower() or "does not exist" in str(
-            exc_info.value
-        ).lower()
+        assert (
+            "not found" in str(exc_info.value).lower()
+            or "does not exist" in str(exc_info.value).lower()
+        )
 
     def test_parse_invalid_yaml_raises_parse_error(
         self, invalid_yaml_syntax_file: Path
@@ -254,9 +257,10 @@ class TestDirectiveParser:
         with pytest.raises(ParseError) as exc_info:
             parser.parse(invalid_yaml_syntax_file)
 
-        assert "yaml" in str(exc_info.value).lower() or "syntax" in str(
-            exc_info.value
-        ).lower()
+        assert (
+            "yaml" in str(exc_info.value).lower()
+            or "syntax" in str(exc_info.value).lower()
+        )
 
     def test_parse_missing_frontmatter_uses_defaults(
         self, invalid_no_frontmatter_file: Path
@@ -277,7 +281,7 @@ class TestDirectiveParser:
     def test_parse_invalid_directive_id_raises_validation_error(self, tmp_path: Path):
         """Parser should raise ValidationError for invalid directive ID in filename."""
         parser = DirectiveParser()
-        
+
         # Create file with invalid directive ID
         invalid_file = tmp_path / "abc_invalid_id.md"
         invalid_file.write_text("""---
@@ -535,9 +539,7 @@ class TestApproachParser:
         assert isinstance(approach.principles, tuple)
         assert len(approach.principles) > 0
 
-    def test_parse_valid_approach_extracts_when_to_use(
-        self, valid_approach_file: Path
-    ):
+    def test_parse_valid_approach_extracts_when_to_use(self, valid_approach_file: Path):
         """Parser should extract 'when to use' scenarios."""
         parser = ApproachParser()
         approach = parser.parse(valid_approach_file)

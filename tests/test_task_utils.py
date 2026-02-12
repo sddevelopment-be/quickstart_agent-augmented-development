@@ -19,7 +19,11 @@ import pytest
 import yaml
 
 # Imports from src/ (path configured in conftest.py)
-from src.domain.collaboration.task_schema import TaskIOError, TaskValidationError, read_task
+from src.domain.collaboration.task_schema import (
+    TaskIOError,
+    TaskValidationError,
+    read_task,
+)
 from src.framework.orchestration.task_utils import (
     get_utc_timestamp,
     log_event,
@@ -344,7 +348,7 @@ def test_get_utc_timestamp_parseable() -> None:
 
 def test_get_utc_timestamp_current() -> None:
     """Test UTC timestamp represents current time.
-    
+
     Note: Timestamp has seconds precision only, so we allow 1-second tolerance.
     """
 
@@ -375,23 +379,23 @@ def test_get_utc_timestamp_unique() -> None:
 
 def test_get_utc_timestamp_seconds_precision() -> None:
     """Test UTC timestamp uses seconds precision (no microseconds).
-    
+
     This ensures consistency with existing task files and production data.
     Format: YYYY-MM-DDTHH:MM:SSZ (no decimal point for microseconds).
-    
+
     Related: ADR-042, Enhancement H1 timestamp format decision.
     """
     # Act
     timestamp = get_utc_timestamp()
-    
+
     # Assert - should NOT contain decimal point (no microseconds)
     assert "." not in timestamp, f"Timestamp should not have microseconds: {timestamp}"
-    
+
     # Verify exact format: YYYY-MM-DDTHH:MM:SSZ
     # Example: "2026-02-10T05:49:43Z"
     parts = timestamp.split("T")
     assert len(parts) == 2, "Timestamp should have date and time separated by T"
-    
+
     date_part, time_part = parts
     assert len(date_part) == 10, f"Date part should be YYYY-MM-DD: {date_part}"
     assert len(time_part) == 9, f"Time part should be HH:MM:SSZ: {time_part}"
@@ -576,27 +580,27 @@ def test_task_workflow_simulation(temp_task_dir: Path) -> None:
 
 def test_find_task_file_exists(tmp_path: Path) -> None:
     """Test finding an existing task file in assigned directory.
-    
+
     Related: Enhancement H1 consolidation of find_task_file utility.
     """
     # Import here to avoid import errors before implementation
     from src.framework.orchestration.task_utils import find_task_file
-    
+
     # Arrange
     work_dir = tmp_path / "work"
     assigned_dir = work_dir / "assigned" / "test-agent"
     assigned_dir.mkdir(parents=True)
-    
+
     task_id = "2026-02-10T1000-test-agent-sample-task"
     task_file = assigned_dir / f"{task_id}.yaml"
     task_file.write_text("id: test\nstatus: new\n")
-    
+
     # Assumption Check
     assert task_file.exists(), "Test precondition failed: task file should exist"
-    
+
     # Act
     result = find_task_file(task_id, work_dir)
-    
+
     # Assert
     assert result is not None, "Should find existing task file"
     assert result == task_file
@@ -606,21 +610,22 @@ def test_find_task_file_exists(tmp_path: Path) -> None:
 def test_find_task_file_not_found(tmp_path: Path) -> None:
     """Test find_task_file returns None when task doesn't exist."""
     from src.framework.orchestration.task_utils import find_task_file
-    
+
     # Arrange
     work_dir = tmp_path / "work"
     assigned_dir = work_dir / "assigned"
     assigned_dir.mkdir(parents=True)
-    
+
     task_id = "non-existent-task"
-    
+
     # Assumption Check
-    assert not (assigned_dir / f"{task_id}.yaml").exists(), \
-        "Test precondition failed: task should NOT exist"
-    
+    assert not (
+        assigned_dir / f"{task_id}.yaml"
+    ).exists(), "Test precondition failed: task should NOT exist"
+
     # Act
     result = find_task_file(task_id, work_dir)
-    
+
     # Assert
     assert result is None, "Should return None for non-existent task"
 
@@ -628,18 +633,19 @@ def test_find_task_file_not_found(tmp_path: Path) -> None:
 def test_find_task_file_missing_assigned_dir(tmp_path: Path) -> None:
     """Test find_task_file returns None when assigned directory doesn't exist."""
     from src.framework.orchestration.task_utils import find_task_file
-    
+
     # Arrange
     work_dir = tmp_path / "work"
     task_id = "test-task"
-    
+
     # Assumption Check
-    assert not (work_dir / "assigned").exists(), \
-        "Test precondition failed: assigned dir should NOT exist"
-    
+    assert not (
+        work_dir / "assigned"
+    ).exists(), "Test precondition failed: assigned dir should NOT exist"
+
     # Act
     result = find_task_file(task_id, work_dir)
-    
+
     # Assert
     assert result is None, "Should return None when assigned directory missing"
 
@@ -647,28 +653,28 @@ def test_find_task_file_missing_assigned_dir(tmp_path: Path) -> None:
 def test_find_task_file_nested_subdirectories(tmp_path: Path) -> None:
     """Test find_task_file searches recursively in agent subdirectories."""
     from src.framework.orchestration.task_utils import find_task_file
-    
+
     # Arrange
     work_dir = tmp_path / "work"
     assigned_dir = work_dir / "assigned"
-    
+
     # Create multiple agent directories
     agent1_dir = assigned_dir / "agent-1" / "subdir"
     agent2_dir = assigned_dir / "agent-2"
     agent1_dir.mkdir(parents=True)
     agent2_dir.mkdir(parents=True)
-    
+
     # Place task in nested subdirectory
     task_id = "2026-02-10T1100-agent-1-nested-task"
     task_file = agent1_dir / f"{task_id}.yaml"
     task_file.write_text("id: test\nstatus: new\n")
-    
+
     # Assumption Check
     assert task_file.exists(), "Test precondition failed: task file should exist"
-    
+
     # Act
     result = find_task_file(task_id, work_dir)
-    
+
     # Assert
     assert result is not None, "Should find task in nested subdirectory"
     assert result == task_file
@@ -678,30 +684,31 @@ def test_find_task_file_nested_subdirectories(tmp_path: Path) -> None:
 def test_find_task_file_first_match(tmp_path: Path) -> None:
     """Test find_task_file returns first match when duplicates exist."""
     from src.framework.orchestration.task_utils import find_task_file
-    
+
     # Arrange
     work_dir = tmp_path / "work"
     assigned_dir = work_dir / "assigned"
-    
+
     agent1_dir = assigned_dir / "agent-1"
     agent2_dir = assigned_dir / "agent-2"
     agent1_dir.mkdir(parents=True)
     agent2_dir.mkdir(parents=True)
-    
+
     # Create duplicate task files (edge case - shouldn't happen in practice)
     task_id = "duplicate-task"
     task1 = agent1_dir / f"{task_id}.yaml"
     task2 = agent2_dir / f"{task_id}.yaml"
     task1.write_text("id: task1\n")
     task2.write_text("id: task2\n")
-    
+
     # Assumption Check
-    assert task1.exists() and task2.exists(), \
-        "Test precondition failed: both task files should exist"
-    
+    assert (
+        task1.exists() and task2.exists()
+    ), "Test precondition failed: both task files should exist"
+
     # Act
     result = find_task_file(task_id, work_dir)
-    
+
     # Assert
     assert result is not None, "Should find at least one task file"
     # Should return first match (implementation uses rglob which returns first found)

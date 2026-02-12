@@ -39,7 +39,10 @@ class TestSpecificationCacheAcceptance:
     @pytest.fixture
     def create_spec_file(self, spec_dir: Path):
         """Factory fixture to create specification files."""
-        def _create_spec(filename: str, spec_id: str, title: str, initiative: str) -> Path:
+
+        def _create_spec(
+            filename: str, spec_id: str, title: str, initiative: str
+        ) -> Path:
             """Create a specification markdown file with frontmatter."""
             spec_path = spec_dir / filename
 
@@ -76,7 +79,7 @@ Specification content goes here.
                 f"spec-{i:03d}.md",
                 f"SPEC-TEST-{i:03d}",
                 f"Test Specification {i}",
-                f"Initiative-{i % 5}"
+                f"Initiative-{i % 5}",
             )
             specs.append(spec)
         return specs
@@ -115,7 +118,9 @@ Specification content goes here.
         assert elapsed < 2.0, f"Initial load took {elapsed:.3f}s, expected <2.0s"
 
         # Assert: Cache contains all 50 specs
-        assert len(cache.cache) == 50, f"Expected 50 cached specs, got {len(cache.cache)}"
+        assert (
+            len(cache.cache) == 50
+        ), f"Expected 50 cached specs, got {len(cache.cache)}"
 
     def test_ac1_cached_reads_under_50ms(self, spec_dir: Path, create_spec_file):
         """
@@ -133,7 +138,7 @@ Specification content goes here.
             "test-spec.md",
             "SPEC-PERF-001",
             "Performance Test Spec",
-            "Performance-Initiative"
+            "Performance-Initiative",
         )
 
         cache = SpecificationCache(str(spec_dir))
@@ -158,7 +163,9 @@ Specification content goes here.
         avg_time_ms = (total_time / iterations) * 1000
 
         # Assert: Average cached read time <50ms
-        assert avg_time_ms < 50.0, f"Average cached read took {avg_time_ms:.2f}ms, expected <50ms"
+        assert (
+            avg_time_ms < 50.0
+        ), f"Average cached read took {avg_time_ms:.2f}ms, expected <50ms"
 
     # ========================================================================
     # AC2: Invalidate Cache on File Change
@@ -169,7 +176,9 @@ Specification content goes here.
     # And the next read re-parses the frontmatter
     # ========================================================================
 
-    def test_ac2_invalidate_cache_on_file_modification(self, spec_dir: Path, create_spec_file):
+    def test_ac2_invalidate_cache_on_file_modification(
+        self, spec_dir: Path, create_spec_file
+    ):
         """
         AC2: Cache invalidation on file modification.
 
@@ -183,10 +192,7 @@ Specification content goes here.
 
         # Create initial spec
         spec_path = create_spec_file(
-            "test-spec.md",
-            "SPEC-CACHE-001",
-            "Original Title",
-            "Test-Initiative"
+            "test-spec.md", "SPEC-CACHE-001", "Original Title", "Test-Initiative"
         )
 
         # Initialize cache with file watcher
@@ -229,7 +235,9 @@ Updated content.
 
             # Assert: Invalidation happened within 100ms
             # Note: This includes file write + detection + invalidation
-            assert invalidation_time < 0.3, f"Invalidation took {invalidation_time*1000:.0f}ms"
+            assert (
+                invalidation_time < 0.3
+            ), f"Invalidation took {invalidation_time*1000:.0f}ms"
 
         finally:
             cache.stop_file_watcher()
@@ -246,10 +254,7 @@ Updated content.
         from src.llm_service.dashboard.spec_cache import SpecificationCache
 
         spec_path = create_spec_file(
-            "test-spec.md",
-            "SPEC-CACHE-002",
-            "Version 1",
-            "Initiative-A"
+            "test-spec.md", "SPEC-CACHE-002", "Version 1", "Initiative-A"
         )
 
         cache = SpecificationCache(str(spec_dir))
@@ -340,7 +345,9 @@ priority: HIGH
         finally:
             cache.stop_file_watcher()
 
-    def test_ac3_deleted_spec_not_in_initiative_list(self, spec_dir: Path, create_spec_file):
+    def test_ac3_deleted_spec_not_in_initiative_list(
+        self, spec_dir: Path, create_spec_file
+    ):
         """
         AC3: Deleted specification doesn't appear in initiative list.
 

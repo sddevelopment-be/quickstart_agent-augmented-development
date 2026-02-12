@@ -7,14 +7,14 @@ Emits WebSocket events when tasks are created, assigned, or completed.
 Critical: Dashboard is READ-ONLY - watches files, doesn't modify them.
 """
 
-from pathlib import Path
-from typing import Any
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler, FileSystemEvent
-import yaml
 import logging
 from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any
 
+import yaml
+from watchdog.events import FileSystemEvent, FileSystemEventHandler
+from watchdog.observers import Observer
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +29,7 @@ class TaskFileHandler(FileSystemEventHandler):
         - File modifications (status updates)
     """
 
-    def __init__(self, watcher: 'FileWatcher'):
+    def __init__(self, watcher: "FileWatcher"):
         """
         Initialize handler with reference to parent watcher.
 
@@ -71,7 +71,7 @@ class TaskFileHandler(FileSystemEventHandler):
     @staticmethod
     def _is_yaml_file(path: Path) -> bool:
         """Check if file is a YAML file."""
-        return path.suffix.lower() in ['.yaml', '.yml']
+        return path.suffix.lower() in [".yaml", ".yml"]
 
 
 class FileWatcher:
@@ -174,14 +174,14 @@ class FileWatcher:
         """
         path_str = str(file_path)
 
-        if '/inbox/' in path_str or '\\inbox\\' in path_str:
-            return 'new'
-        elif '/assigned/' in path_str or '\\assigned\\' in path_str:
-            return 'assigned'
-        elif '/done/' in path_str or '\\done\\' in path_str:
-            return 'done'
+        if "/inbox/" in path_str or "\\inbox\\" in path_str:
+            return "new"
+        elif "/assigned/" in path_str or "\\assigned\\" in path_str:
+            return "assigned"
+        elif "/done/" in path_str or "\\done\\" in path_str:
+            return "done"
         else:
-            return 'unknown'
+            return "unknown"
 
     def get_task_snapshot(self) -> dict[str, Any]:
         """
@@ -191,57 +191,57 @@ class FileWatcher:
             Dictionary with tasks grouped by status (inbox/assigned/done)
         """
         snapshot = {
-            'inbox': [],
-            'assigned': {},
-            'done': {},
-            'timestamp': datetime.now(timezone.utc).isoformat()
+            "inbox": [],
+            "assigned": {},
+            "done": {},
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Scan inbox
-        inbox_dir = self.watch_dir / 'inbox'
+        inbox_dir = self.watch_dir / "inbox"
         if inbox_dir.exists():
-            for yaml_file in inbox_dir.glob('*.yaml'):
+            for yaml_file in inbox_dir.glob("*.yaml"):
                 task = self.parse_task_file(yaml_file)
                 if task:
-                    snapshot['inbox'].append(task)
-            for yml_file in inbox_dir.glob('*.yml'):
+                    snapshot["inbox"].append(task)
+            for yml_file in inbox_dir.glob("*.yml"):
                 task = self.parse_task_file(yml_file)
                 if task:
-                    snapshot['inbox'].append(task)
+                    snapshot["inbox"].append(task)
 
         # Scan assigned (nested by agent)
-        assigned_dir = self.watch_dir / 'assigned'
+        assigned_dir = self.watch_dir / "assigned"
         if assigned_dir.exists():
             for agent_dir in assigned_dir.iterdir():
                 if agent_dir.is_dir():
                     agent_name = agent_dir.name
-                    snapshot['assigned'][agent_name] = []
+                    snapshot["assigned"][agent_name] = []
 
-                    for yaml_file in agent_dir.glob('*.yaml'):
+                    for yaml_file in agent_dir.glob("*.yaml"):
                         task = self.parse_task_file(yaml_file)
                         if task:
-                            snapshot['assigned'][agent_name].append(task)
-                    for yml_file in agent_dir.glob('*.yml'):
+                            snapshot["assigned"][agent_name].append(task)
+                    for yml_file in agent_dir.glob("*.yml"):
                         task = self.parse_task_file(yml_file)
                         if task:
-                            snapshot['assigned'][agent_name].append(task)
+                            snapshot["assigned"][agent_name].append(task)
 
         # Scan done (nested by agent)
-        done_dir = self.watch_dir / 'done'
+        done_dir = self.watch_dir / "done"
         if done_dir.exists():
             for agent_dir in done_dir.iterdir():
                 if agent_dir.is_dir():
                     agent_name = agent_dir.name
-                    snapshot['done'][agent_name] = []
+                    snapshot["done"][agent_name] = []
 
-                    for yaml_file in agent_dir.glob('*.yaml'):
+                    for yaml_file in agent_dir.glob("*.yaml"):
                         task = self.parse_task_file(yaml_file)
                         if task:
-                            snapshot['done'][agent_name].append(task)
-                    for yml_file in agent_dir.glob('*.yml'):
+                            snapshot["done"][agent_name].append(task)
+                    for yml_file in agent_dir.glob("*.yml"):
                         task = self.parse_task_file(yml_file)
                         if task:
-                            snapshot['done'][agent_name].append(task)
+                            snapshot["done"][agent_name].append(task)
 
         return snapshot
 
@@ -277,12 +277,16 @@ class FileWatcher:
         status = self.infer_status_from_path(file_path)
 
         if self.socketio:
-            self.socketio.emit('task.created', {
-                'task': task_data,
-                'status': status,
-                'file_path': str(file_path),
-                'timestamp': datetime.now(timezone.utc).isoformat()
-            }, namespace='/dashboard')
+            self.socketio.emit(
+                "task.created",
+                {
+                    "task": task_data,
+                    "status": status,
+                    "file_path": str(file_path),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                },
+                namespace="/dashboard",
+            )
 
         logger.info(f"Task created: {task_data.get('id', 'unknown')} in {status}")
 
@@ -300,24 +304,30 @@ class FileWatcher:
         new_status = self.infer_status_from_path(dest_path)
 
         # Determine event type based on status transition
-        if old_status == 'new' and new_status == 'assigned':
-            event_name = 'task.assigned'
-        elif new_status == 'done':
-            event_name = 'task.completed'
+        if old_status == "new" and new_status == "assigned":
+            event_name = "task.assigned"
+        elif new_status == "done":
+            event_name = "task.completed"
         else:
-            event_name = 'task.moved'
+            event_name = "task.moved"
 
         if self.socketio:
-            self.socketio.emit(event_name, {
-                'task': task_data,
-                'old_status': old_status,
-                'new_status': new_status,
-                'file_path': str(dest_path),
-                'timestamp': datetime.now(timezone.utc).isoformat()
-            }, namespace='/dashboard')
+            self.socketio.emit(
+                event_name,
+                {
+                    "task": task_data,
+                    "old_status": old_status,
+                    "new_status": new_status,
+                    "file_path": str(dest_path),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                },
+                namespace="/dashboard",
+            )
 
-        logger.info(f"Task {event_name}: {task_data.get('id', 'unknown')} "
-                   f"from {old_status} to {new_status}")
+        logger.info(
+            f"Task {event_name}: {task_data.get('id', 'unknown')} "
+            f"from {old_status} to {new_status}"
+        )
 
     def _handle_file_modified(self, file_path: Path) -> None:
         """Handle file modification event."""
@@ -332,17 +342,23 @@ class FileWatcher:
         status = self.infer_status_from_path(file_path)
 
         if self.socketio:
-            self.socketio.emit('task.updated', {
-                'task': task_data,
-                'status': status,
-                'file_path': str(file_path),
-                'timestamp': datetime.now(timezone.utc).isoformat()
-            }, namespace='/dashboard')
+            self.socketio.emit(
+                "task.updated",
+                {
+                    "task": task_data,
+                    "status": status,
+                    "file_path": str(file_path),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                },
+                namespace="/dashboard",
+            )
 
         logger.debug(f"Task updated: {task_data.get('id', 'unknown')}")
 
 
-def create_watcher(collaboration_dir: str | Path, socketio: Any | None = None) -> FileWatcher:
+def create_watcher(
+    collaboration_dir: str | Path, socketio: Any | None = None
+) -> FileWatcher:
     """
     Convenience function to create a FileWatcher instance.
 

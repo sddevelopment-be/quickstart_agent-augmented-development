@@ -73,6 +73,7 @@ Content here.
         import os
 
         from src.llm_service.dashboard.spec_cache import SpecificationCache
+
         os.chdir(tmp_path)
 
         cache = SpecificationCache("specifications")
@@ -111,7 +112,9 @@ Content here.
         assert len(cache.cache) == 1
         assert str(sample_spec_file) in cache.cache
 
-    def test_cache_hit_returns_cached_data(self, spec_dir: Path, sample_spec_file: Path):
+    def test_cache_hit_returns_cached_data(
+        self, spec_dir: Path, sample_spec_file: Path
+    ):
         """
         Test cache hit returns cached data without re-parsing.
 
@@ -208,7 +211,9 @@ status: draft
     # Manual Invalidation Tests
     # ========================================================================
 
-    def test_invalidate_removes_from_cache(self, spec_dir: Path, sample_spec_file: Path):
+    def test_invalidate_removes_from_cache(
+        self, spec_dir: Path, sample_spec_file: Path
+    ):
         """
         Test invalidate() removes spec from cache.
 
@@ -247,7 +252,9 @@ status: draft
         # Should not raise exception
         cache.invalidate("nonexistent-path")
 
-    def test_invalidate_triggers_reparse_on_next_get(self, spec_dir: Path, sample_spec_file: Path):
+    def test_invalidate_triggers_reparse_on_next_get(
+        self, spec_dir: Path, sample_spec_file: Path
+    ):
         """
         Test spec is re-parsed after invalidation.
 
@@ -384,8 +391,8 @@ priority: MEDIUM
         all_specs = cache.get_all_specs()
 
         assert len(all_specs) == 3
-        assert all(hasattr(spec, 'id') for spec in all_specs)
-        assert all(hasattr(spec, 'title') for spec in all_specs)
+        assert all(hasattr(spec, "id") for spec in all_specs)
+        assert all(hasattr(spec, "title") for spec in all_specs)
 
     # ========================================================================
     # File Watcher Tests
@@ -430,7 +437,9 @@ priority: MEDIUM
         # Observer should be stopped
         assert not cache.file_watcher.is_alive()
 
-    def test_file_watcher_detects_modification(self, spec_dir: Path, sample_spec_file: Path):
+    def test_file_watcher_detects_modification(
+        self, spec_dir: Path, sample_spec_file: Path
+    ):
         """
         Test file watcher detects file modifications and invalidates cache.
 
@@ -469,7 +478,9 @@ initiative: Test
         finally:
             cache.stop_file_watcher()
 
-    def test_file_watcher_detects_deletion(self, spec_dir: Path, sample_spec_file: Path):
+    def test_file_watcher_detects_deletion(
+        self, spec_dir: Path, sample_spec_file: Path
+    ):
         """
         Test file watcher detects file deletion and removes from cache.
 
@@ -547,6 +558,7 @@ initiative: Test
 
         # Remove read permissions
         import os
+
         os.chmod(restricted, 0o000)
 
         try:

@@ -11,7 +11,7 @@ References:
 """
 
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 class FrameworkClient:
@@ -28,7 +28,7 @@ class FrameworkClient:
 
     def __init__(
         self,
-        config_path: Optional[Path] = None,
+        config_path: Path | None = None,
         mode: str = "analysis",
     ) -> None:
         """Initialize framework client.
@@ -44,9 +44,7 @@ class FrameworkClient:
         """
         valid_modes = {"analysis", "creative", "meta"}
         if mode not in valid_modes:
-            raise ValueError(
-                f"Invalid mode '{mode}'. Must be one of: {valid_modes}"
-            )
+            raise ValueError(f"Invalid mode '{mode}'. Must be one of: {valid_modes}")
 
         self.config_path = config_path or Path(".github/agents/config.yaml")
         self.mode = mode
@@ -63,9 +61,7 @@ class FrameworkClient:
             RuntimeError: If initialization fails.
         """
         if not self.config_path.exists():
-            raise FileNotFoundError(
-                f"Configuration not found: {self.config_path}"
-            )
+            raise FileNotFoundError(f"Configuration not found: {self.config_path}")
 
         # TODO: Load configuration
         # TODO: Initialize core orchestrator
@@ -75,8 +71,8 @@ class FrameworkClient:
     def execute_task(
         self,
         task_path: Path,
-        agent_profile: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        agent_profile: str | None = None,
+    ) -> dict[str, Any]:
         """Execute a task from YAML descriptor.
 
         Args:
@@ -104,7 +100,7 @@ class FrameworkClient:
             "agent": agent_profile,
         }
 
-    def list_available_models(self) -> List[Dict[str, Any]]:
+    def list_available_models(self) -> list[dict[str, Any]]:
         """List available models from routing layer.
 
         Returns:
@@ -122,7 +118,7 @@ class FrameworkClient:
 
 
 def create_client(
-    config_path: Optional[Path] = None,
+    config_path: Path | None = None,
     mode: str = "analysis",
     auto_initialize: bool = True,
 ) -> FrameworkClient:

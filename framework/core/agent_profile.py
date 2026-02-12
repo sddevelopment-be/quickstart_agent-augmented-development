@@ -4,7 +4,6 @@ Represents agent metadata, specialization, and capabilities.
 """
 
 from dataclasses import dataclass
-from typing import List, Optional
 
 
 @dataclass
@@ -21,9 +20,9 @@ class AgentProfile:
 
     name: str
     specialization: str
-    directives: List[str]
+    directives: list[str]
     mode_default: str = "analysis"
-    capabilities: Optional[List[str]] = None
+    capabilities: list[str] | None = None
 
     def __post_init__(self) -> None:
         """Validate profile after initialization."""

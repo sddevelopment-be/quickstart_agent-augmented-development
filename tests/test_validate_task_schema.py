@@ -22,9 +22,10 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "tools" / "validators"))
 
 # Import from validate-task-schema.py by loading it as a module
 import importlib.util
+
 spec = importlib.util.spec_from_file_location(
     "validate_task_schema",
-    Path(__file__).parent.parent / "tools" / "validators" / "validate-task-schema.py"
+    Path(__file__).parent.parent / "tools" / "validators" / "validate-task-schema.py",
 )
 validate_task_schema = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(validate_task_schema)
@@ -168,9 +169,7 @@ def test_artefacts_not_created_missing_name(
 ) -> None:
     """Test that artefacts_not_created entries must have 'name' field."""
     # Arrange
-    valid_task["artefacts_not_created"] = [
-        {"rationale": "Missing name field"}
-    ]
+    valid_task["artefacts_not_created"] = [{"rationale": "Missing name field"}]
     task_file = temp_task_dir / f"{valid_task['id']}.yaml"
     with open(task_file, "w", encoding="utf-8") as f:
         yaml.dump(valid_task, f, default_flow_style=False, sort_keys=False)
@@ -188,9 +187,7 @@ def test_artefacts_not_created_missing_rationale(
 ) -> None:
     """Test that artefacts_not_created entries must have 'rationale' field."""
     # Arrange
-    valid_task["artefacts_not_created"] = [
-        {"name": "example.yaml"}
-    ]
+    valid_task["artefacts_not_created"] = [{"name": "example.yaml"}]
     task_file = temp_task_dir / f"{valid_task['id']}.yaml"
     with open(task_file, "w", encoding="utf-8") as f:
         yaml.dump(valid_task, f, default_flow_style=False, sort_keys=False)

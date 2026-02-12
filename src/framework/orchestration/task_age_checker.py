@@ -7,7 +7,7 @@ Purpose: Detect and warn about stale tasks in the orchestration system.
 
 Usage:
     python ops/orchestration/task_age_checker.py [--threshold HOURS]
-    
+
 Options:
     --threshold HOURS    Age threshold in hours (default: 24)
     --warn-only          Only show warnings, don't fail

@@ -5,12 +5,12 @@ Test-Driven Development: These tests define the expected behavior
 before implementation exists. Expected to fail initially (RED phase).
 """
 
-import pytest
-from pathlib import Path
 import sqlite3
 from datetime import datetime, timedelta
 
-from llm_service.telemetry.logger import TelemetryLogger, InvocationRecord
+import pytest
+
+from llm_service.telemetry.logger import InvocationRecord, TelemetryLogger
 
 
 @pytest.fixture
@@ -30,9 +30,9 @@ def test_schema_initialization(temp_db, logger):
     with sqlite3.connect(temp_db) as conn:
         cursor = conn.execute("SELECT name FROM sqlite_master WHERE type='table'")
         tables = {row[0] for row in cursor.fetchall()}
-    
-    assert 'invocations' in tables, "invocations table should exist"
-    assert 'daily_costs' in tables, "daily_costs table should exist"
+
+    assert "invocations" in tables, "invocations table should exist"
+    assert "daily_costs" in tables, "daily_costs table should exist"
 
 
 def test_invocations_table_structure(temp_db, logger):
@@ -40,13 +40,26 @@ def test_invocations_table_structure(temp_db, logger):
     with sqlite3.connect(temp_db) as conn:
         cursor = conn.execute("PRAGMA table_info(invocations)")
         columns = {row[1] for row in cursor.fetchall()}
-    
+
     required_columns = {
-        'id', 'invocation_id', 'timestamp', 'agent_name', 'tool_name',
-        'model_name', 'prompt_tokens', 'completion_tokens', 'total_tokens',
-        'cost_usd', 'latency_ms', 'status', 'error_message', 'privacy_level'
+        "id",
+        "invocation_id",
+        "timestamp",
+        "agent_name",
+        "tool_name",
+        "model_name",
+        "prompt_tokens",
+        "completion_tokens",
+        "total_tokens",
+        "cost_usd",
+        "latency_ms",
+        "status",
+        "error_message",
+        "privacy_level",
     }
-    assert required_columns.issubset(columns), f"Missing columns: {required_columns - columns}"
+    assert required_columns.issubset(
+        columns
+    ), f"Missing columns: {required_columns - columns}"
 
 
 def test_daily_costs_table_structure(temp_db, logger):
@@ -54,12 +67,19 @@ def test_daily_costs_table_structure(temp_db, logger):
     with sqlite3.connect(temp_db) as conn:
         cursor = conn.execute("PRAGMA table_info(daily_costs)")
         columns = {row[1] for row in cursor.fetchall()}
-    
+
     required_columns = {
-        'date', 'agent_name', 'tool_name', 'model_name',
-        'invocations', 'total_tokens', 'total_cost_usd'
+        "date",
+        "agent_name",
+        "tool_name",
+        "model_name",
+        "invocations",
+        "total_tokens",
+        "total_cost_usd",
     }
-    assert required_columns.issubset(columns), f"Missing columns: {required_columns - columns}"
+    assert required_columns.issubset(
+        columns
+    ), f"Missing columns: {required_columns - columns}"
 
 
 def test_indexes_created(temp_db, logger):
@@ -67,17 +87,19 @@ def test_indexes_created(temp_db, logger):
     with sqlite3.connect(temp_db) as conn:
         cursor = conn.execute("SELECT name FROM sqlite_master WHERE type='index'")
         indexes = {row[0] for row in cursor.fetchall()}
-    
+
     expected_indexes = {
-        'idx_invocations_timestamp',
-        'idx_invocations_agent',
-        'idx_invocations_tool',
-        'idx_invocations_model',
-        'idx_invocations_status',
-        'idx_daily_costs_date'
+        "idx_invocations_timestamp",
+        "idx_invocations_agent",
+        "idx_invocations_tool",
+        "idx_invocations_model",
+        "idx_invocations_status",
+        "idx_daily_costs_date",
     }
-    
-    assert expected_indexes.issubset(indexes), f"Missing indexes: {expected_indexes - indexes}"
+
+    assert expected_indexes.issubset(
+        indexes
+    ), f"Missing indexes: {expected_indexes - indexes}"
 
 
 def test_log_invocation_success(logger):
@@ -92,30 +114,32 @@ def test_log_invocation_success(logger):
         total_tokens=300,
         cost_usd=0.015,
         latency_ms=1500,
-        status="success"
+        status="success",
     )
-    
+
     logger.log_invocation(record)
-    
+
     # Verify logged
     with sqlite3.connect(logger.db_path) as conn:
-        cursor = conn.execute("SELECT * FROM invocations WHERE invocation_id = ?", ("test-123",))
+        cursor = conn.execute(
+            "SELECT * FROM invocations WHERE invocation_id = ?", ("test-123",)
+        )
         row = cursor.fetchone()
-    
+
     assert row is not None, "Invocation should be logged"
     # Get column names
     columns = [desc[0] for desc in cursor.description]
     row_dict = dict(zip(columns, row))
-    
-    assert row_dict['agent_name'] == "test-agent"
-    assert row_dict['tool_name'] == "claude-code"
-    assert row_dict['model_name'] == "claude-3.5-sonnet"
-    assert row_dict['prompt_tokens'] == 100
-    assert row_dict['completion_tokens'] == 200
-    assert row_dict['total_tokens'] == 300
-    assert abs(row_dict['cost_usd'] - 0.015) < 0.0001
-    assert row_dict['latency_ms'] == 1500
-    assert row_dict['status'] == "success"
+
+    assert row_dict["agent_name"] == "test-agent"
+    assert row_dict["tool_name"] == "claude-code"
+    assert row_dict["model_name"] == "claude-3.5-sonnet"
+    assert row_dict["prompt_tokens"] == 100
+    assert row_dict["completion_tokens"] == 200
+    assert row_dict["total_tokens"] == 300
+    assert abs(row_dict["cost_usd"] - 0.015) < 0.0001
+    assert row_dict["latency_ms"] == 1500
+    assert row_dict["status"] == "success"
 
 
 def test_log_invocation_with_error(logger):
@@ -131,19 +155,19 @@ def test_log_invocation_with_error(logger):
         cost_usd=0.0,
         latency_ms=500,
         status="error",
-        error_message="Connection timeout"
+        error_message="Connection timeout",
     )
-    
+
     logger.log_invocation(record)
-    
+
     # Verify error logged
     with sqlite3.connect(logger.db_path) as conn:
         cursor = conn.execute(
             "SELECT status, error_message FROM invocations WHERE invocation_id = ?",
-            ("error-123",)
+            ("error-123",),
         )
         row = cursor.fetchone()
-    
+
     assert row is not None
     assert row[0] == "error"
     assert "timeout" in row[1].lower()
@@ -162,11 +186,11 @@ def test_daily_cost_aggregation_single_invocation(logger):
         cost_usd=0.015,
         latency_ms=1500,
         status="success",
-        timestamp=datetime.utcnow()
+        timestamp=datetime.utcnow(),
     )
-    
+
     logger.log_invocation(record)
-    
+
     # Check aggregation
     with sqlite3.connect(logger.db_path) as conn:
         cursor = conn.execute("""
@@ -177,7 +201,7 @@ def test_daily_cost_aggregation_single_invocation(logger):
             AND model_name = 'claude-3.5-sonnet'
         """)
         row = cursor.fetchone()
-    
+
     assert row is not None
     assert row[0] == 1  # 1 invocation
     assert row[1] == 300  # 300 tokens
@@ -199,10 +223,10 @@ def test_daily_cost_aggregation_multiple_invocations(logger):
             cost_usd=0.015,
             latency_ms=1500,
             status="success",
-            timestamp=datetime.utcnow()
+            timestamp=datetime.utcnow(),
         )
         logger.log_invocation(record)
-    
+
     # Check aggregation
     with sqlite3.connect(logger.db_path) as conn:
         cursor = conn.execute("""
@@ -211,7 +235,7 @@ def test_daily_cost_aggregation_multiple_invocations(logger):
             WHERE agent_name = 'test-agent'
         """)
         row = cursor.fetchone()
-    
+
     assert row is not None
     assert row[0] == 3  # 3 invocations
     assert row[1] == 900  # 3 * 300 tokens
@@ -232,10 +256,10 @@ def test_daily_cost_aggregation_different_agents(logger):
             total_tokens=300,
             cost_usd=0.015,
             latency_ms=1500,
-            status="success"
+            status="success",
         )
         logger.log_invocation(record)
-    
+
     # Check each agent has separate aggregation
     with sqlite3.connect(logger.db_path) as conn:
         cursor = conn.execute("""
@@ -244,7 +268,7 @@ def test_daily_cost_aggregation_different_agents(logger):
             ORDER BY agent_name
         """)
         rows = cursor.fetchall()
-    
+
     assert len(rows) == 2
     assert rows[0][0] == "agent-a"
     assert rows[0][1] == 1
@@ -256,7 +280,7 @@ def test_daily_cost_aggregation_different_days(logger):
     """Test daily costs are separated by date."""
     today = datetime.utcnow()
     yesterday = today - timedelta(days=1)
-    
+
     # Log invocations on different days
     for day, timestamp in [("today", today), ("yesterday", yesterday)]:
         record = InvocationRecord(
@@ -270,15 +294,15 @@ def test_daily_cost_aggregation_different_days(logger):
             cost_usd=0.015,
             latency_ms=1500,
             status="success",
-            timestamp=timestamp
+            timestamp=timestamp,
         )
         logger.log_invocation(record)
-    
+
     # Check we have two separate day records
     with sqlite3.connect(logger.db_path) as conn:
         cursor = conn.execute("SELECT COUNT(DISTINCT date) FROM daily_costs")
         count = cursor.fetchone()[0]
-    
+
     assert count == 2, "Should have records for 2 different days"
 
 
@@ -295,19 +319,19 @@ def test_privacy_level_metadata(logger):
         cost_usd=0.015,
         latency_ms=1500,
         status="success",
-        privacy_level="metadata"
+        privacy_level="metadata",
     )
-    
+
     logger.log_invocation(record)
-    
+
     # Verify privacy level
     with sqlite3.connect(logger.db_path) as conn:
         cursor = conn.execute(
             "SELECT privacy_level FROM invocations WHERE invocation_id = ?",
-            ("privacy-metadata-test",)
+            ("privacy-metadata-test",),
         )
         row = cursor.fetchone()
-    
+
     assert row[0] == "metadata"
 
 
@@ -324,19 +348,19 @@ def test_privacy_level_full(logger):
         cost_usd=0.015,
         latency_ms=1500,
         status="success",
-        privacy_level="full"
+        privacy_level="full",
     )
-    
+
     logger.log_invocation(record)
-    
+
     # Verify privacy level
     with sqlite3.connect(logger.db_path) as conn:
         cursor = conn.execute(
             "SELECT privacy_level FROM invocations WHERE invocation_id = ?",
-            ("privacy-full-test",)
+            ("privacy-full-test",),
         )
         row = cursor.fetchone()
-    
+
     assert row[0] == "full"
 
 
@@ -352,20 +376,20 @@ def test_default_privacy_level(logger):
         total_tokens=300,
         cost_usd=0.015,
         latency_ms=1500,
-        status="success"
+        status="success",
         # No privacy_level specified - should default to 'metadata'
     )
-    
+
     logger.log_invocation(record)
-    
+
     # Verify privacy level defaults to metadata
     with sqlite3.connect(logger.db_path) as conn:
         cursor = conn.execute(
             "SELECT privacy_level FROM invocations WHERE invocation_id = ?",
-            ("privacy-default-test",)
+            ("privacy-default-test",),
         )
         row = cursor.fetchone()
-    
+
     assert row[0] == "metadata"
 
 
@@ -381,19 +405,19 @@ def test_optional_agent_name(logger):
         total_tokens=300,
         cost_usd=0.015,
         latency_ms=1500,
-        status="success"
+        status="success",
     )
-    
+
     logger.log_invocation(record)
-    
+
     # Verify logged with NULL agent
     with sqlite3.connect(logger.db_path) as conn:
         cursor = conn.execute(
             "SELECT agent_name FROM invocations WHERE invocation_id = ?",
-            ("no-agent-test",)
+            ("no-agent-test",),
         )
         row = cursor.fetchone()
-    
+
     assert row[0] is None
 
 
@@ -409,26 +433,28 @@ def test_timestamp_default(logger):
         total_tokens=300,
         cost_usd=0.015,
         latency_ms=1500,
-        status="success"
+        status="success",
         # No timestamp provided
     )
-    
+
     before_log = datetime.utcnow()
     logger.log_invocation(record)
     after_log = datetime.utcnow()
-    
+
     # Verify timestamp is within expected range
     with sqlite3.connect(logger.db_path) as conn:
         cursor = conn.execute(
             "SELECT timestamp FROM invocations WHERE invocation_id = ?",
-            ("timestamp-test",)
+            ("timestamp-test",),
         )
         row = cursor.fetchone()
-    
+
     assert row[0] is not None
     # Parse timestamp from database
-    logged_time = datetime.fromisoformat(row[0].replace('Z', '+00:00') if 'Z' in row[0] else row[0])
-    
+    logged_time = datetime.fromisoformat(
+        row[0].replace("Z", "+00:00") if "Z" in row[0] else row[0]
+    )
+
     # Should be between before and after log time
     assert before_log <= logged_time <= after_log + timedelta(seconds=1)
 
@@ -445,12 +471,12 @@ def test_unique_invocation_id_constraint(logger):
         total_tokens=300,
         cost_usd=0.015,
         latency_ms=1500,
-        status="success"
+        status="success",
     )
-    
+
     # First log should succeed
     logger.log_invocation(record)
-    
+
     # Second log with same ID should fail
     with pytest.raises(sqlite3.IntegrityError):
         logger.log_invocation(record)
@@ -472,17 +498,20 @@ def test_query_invocations_by_agent(logger):
                 total_tokens=300,
                 cost_usd=0.015,
                 latency_ms=1500,
-                status="success"
+                status="success",
             )
             logger.log_invocation(record)
-    
+
     # Query for specific agent
     with sqlite3.connect(logger.db_path) as conn:
-        cursor = conn.execute("""
+        cursor = conn.execute(
+            """
             SELECT COUNT(*) FROM invocations WHERE agent_name = ?
-        """, ("agent-b",))
+        """,
+            ("agent-b",),
+        )
         count = cursor.fetchone()[0]
-    
+
     assert count == 2
 
 
@@ -502,21 +531,27 @@ def test_query_invocations_by_status(logger):
             cost_usd=0.015,
             latency_ms=1500,
             status=status,
-            error_message="Error occurred" if status == "error" else None
+            error_message="Error occurred" if status == "error" else None,
         )
         logger.log_invocation(record)
-    
+
     # Query for errors
     with sqlite3.connect(logger.db_path) as conn:
-        cursor = conn.execute("""
+        cursor = conn.execute(
+            """
             SELECT COUNT(*) FROM invocations WHERE status = ?
-        """, ("error",))
+        """,
+            ("error",),
+        )
         error_count = cursor.fetchone()[0]
-        
-        cursor = conn.execute("""
+
+        cursor = conn.execute(
+            """
             SELECT COUNT(*) FROM invocations WHERE status = ?
-        """, ("success",))
+        """,
+            ("success",),
+        )
         success_count = cursor.fetchone()[0]
-    
+
     assert error_count == 2
     assert success_count == 3

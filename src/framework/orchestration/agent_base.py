@@ -21,8 +21,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from src.domain.collaboration.types import TaskStatus
 from task_utils import get_utc_timestamp, log_event, read_task, write_task
+
+from src.domain.collaboration.types import TaskStatus
 
 
 class AgentBase(ABC):
@@ -115,7 +116,7 @@ class AgentBase(ABC):
         Args:
             status: New status (TaskStatus enum or string: assigned, in_progress, done, error)
             additional_fields: Additional fields to add to task
-            
+
         Note:
             Accepts both string and TaskStatus enum for backward compatibility (ADR-043).
         """
@@ -126,7 +127,10 @@ class AgentBase(ABC):
         status_value = status.value if isinstance(status, TaskStatus) else status
         self.current_task["status"] = status_value
 
-        if status_value == TaskStatus.IN_PROGRESS.value and "started_at" not in self.current_task:
+        if (
+            status_value == TaskStatus.IN_PROGRESS.value
+            and "started_at" not in self.current_task
+        ):
             self.current_task["started_at"] = get_utc_timestamp()
 
         if additional_fields:
