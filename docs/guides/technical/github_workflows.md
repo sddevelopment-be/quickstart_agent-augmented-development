@@ -1,8 +1,8 @@
 # GitHub Workflows Guide
 
-**Version:** 1.0.0  
-**Last Updated:** 2025-11-29  
-**Purpose:** Automated CI/CD pipelines for quality assurance
+**Version:** 2.0.0  
+**Last Updated:** 2026-02-12  
+**Purpose:** Automated CI/CD pipelines for quality assurance  
 **Audience:** Maintainers reviewing or modifying GitHub Actions workflows (see `docs/audience/process_architect.md`).
 
 ---
@@ -11,162 +11,130 @@
 
 This repository uses GitHub Actions workflows to automatically test and validate code changes. The workflows ensure code quality, test coverage, and compliance with project standards.
 
----
-
-## Workflows
-
-### 1. Test Ops Changes (`test-ops-changes.yml`)
-
-**Trigger:** Runs on all branches when files in `ops/` directory change
-
-**Purpose:** Quick feedback loop for automation script changes
-
-**What it does:**
-- Runs unit tests for `task_utils.py` (24 tests)
-- Runs unit tests for `agent_orchestrator.py` (31 tests)
-- Runs E2E orchestration tests (11 tests)
-- Provides fast feedback (typically <5 minutes)
-
-**Triggers:**
-- Push to any branch with changes in:
-  - `ops/**`
-  - `validation/**`
-  - `requirements.txt`
-  - `requirements-dev.txt`
-- Pull requests with changes in the same paths
-
-**Typical workflow:**
-```
-Push changes to ops/ directory
-  ↓
-Workflow automatically runs
-  ↓
-Unit tests execute (55 tests)
-  ↓
-E2E tests execute (11 tests)
-  ↓
-Results reported in GitHub UI
-```
-
-**How to view:**
-1. Go to **Actions** tab in GitHub
-2. Click on "Test Ops Changes" workflow
-3. View latest run for your branch
+**Major Update (2026-02-12):** Workflows have been consolidated into a single canonical build validation pipeline. See [CONSOLIDATION.md](../../../.github/workflows/CONSOLIDATION.md) for migration details.
 
 ---
 
-### 2. PR Quality Gate (`pr-quality-gate.yml`)
+## Primary Build Workflow
 
-**Trigger:** Runs on pull requests to `main` branch
+### Build Validation (Consolidated) (`validation-enhanced.yml`)
 
-**Purpose:** Comprehensive quality validation before merging to mainline
+**Trigger:** Runs on all pull requests and pushes to `main` branch
+
+**Purpose:** Comprehensive quality validation and testing pipeline
 
 **What it does:**
 
-#### Stage 1: Code Quality
-- Black formatting check
-- Ruff linting check
-- Ensures code style compliance
+#### Stage 1: Code Quality (5 min timeout)
+- **Black formatting check:** Ensures Python code formatting standards
+- **Ruff linting check:** Detects code quality issues and style violations
+- **Outcome:** Blocks build if quality checks fail
 
-#### Stage 2: Unit Tests with Coverage
-- Runs all 55 unit tests
-- Generates coverage reports (XML, HTML)
-- Uploads coverage artifacts
+#### Stage 2: Unit & Integration Tests (10 min timeout)
+- Runs comprehensive test suite across all test directories
+- Generates multiple coverage formats (XML, JSON, HTML)
+- Parallel test execution with `pytest-xdist`
+- Uploads JUnit XML test results
+- Uploads coverage reports as artifacts (30-day retention)
+- **Outcome:** Blocks build if any tests fail
 
-#### Stage 3: E2E Tests
-- Runs all 11 E2E orchestration tests
-- Validates complete workflow scenarios
-- Tests integration between components
+#### Stage 3: Work Directory Validation (5 min timeout)
+- **Structure validation:** Validates work directory organization
+- **Schema validation:** Validates task YAML files against schemas
+- **Naming validation:** Ensures task naming conventions
+- **E2E tests:** Runs orchestration end-to-end tests (if available)
+- **Error reporting:** Generates structured error reports (JSON/markdown)
+- **PR comments:** Posts validation summary as PR comment
+- **Outcome:** Blocks build if validations fail
 
-#### Stage 4: Mutation Testing
-- Runs `mutmut` on orchestration code
-- Introduces controlled bugs
-- Validates test effectiveness
-- Generates mutation score
-
-#### Stage 5: SonarCloud (Placeholder)
-- Currently displays setup instructions
-- Ready for SonarCloud integration
-- Downloads coverage reports for analysis
-
-#### Stage 6: Quality Gate Summary
-- Aggregates all check results
-- Provides pass/fail decision
-- Blocks merge if critical checks fail
+#### Stage 4: SonarQube (independent)
+- Code quality scanning with SonarQube
+- Runs independently without blocking other jobs
 
 **Typical workflow:**
 ```
-Create PR to main
+Push to branch or create PR
   ↓
-Workflow automatically runs (parallel jobs)
+Code Quality ✅ (Black + Ruff)
   ↓
-Code Quality ✅
-Unit Tests ✅
-E2E Tests ✅
-Mutation Testing ✅
-SonarCloud ⚠️ (not configured)
+Unit & Integration Tests ✅ (All tests with coverage)
   ↓
-Quality Gate Summary
+Work Directory Validation ✅ (Structure + Schema + Naming + E2E)
   ↓
-✅ PR ready to merge
+SonarQube Analysis ✅ (Independent)
+  ↓
+✅ Build passes - PR ready to merge
 OR
-❌ PR blocked - fix issues
+❌ Build fails - fix issues and retry
 ```
 
 **How to view:**
-1. Open your pull request
-2. Scroll to "Checks" section
-3. Click "Details" for any failing check
-4. View step-by-step execution logs
+1. Open your pull request or go to **Actions** tab
+2. Click on "Build Validation (Consolidated)" workflow
+3. View job-by-job execution logs
+4. Download artifacts (coverage reports, error reports) from workflow run
 
----
-
-## Job Dependencies
-
-### test-ops-changes.yml
-
-```
-unit-tests (parallel)
-  └── acceptance-tests (E2E)
-```
-
-### pr-quality-gate.yml
-
+**Job Dependencies:**
 ```
 code-quality
-  ├── unit-tests ──┬──> mutation-testing
-  │               └──> sonarcloud
-  └── e2e-tests ───┴──> mutation-testing
-                       sonarcloud
-                       
-All → quality-gate-summary
+  └── unit-tests
+       └── validate
+            └── (PR comment with results)
+
+sonarqube (independent, no dependencies)
 ```
 
 ---
 
-## Required Secrets
+## Specialized Workflows
 
-### Current Setup
-No secrets required - workflows use default GitHub tokens
+### Workflow Validation (`workflow-validation.yml`)
+**Trigger:** Changes to `.github/workflows/` or `.github/actions/`  
+**Purpose:** YAML syntax and GitHub Actions best practices validation  
+**What it does:** yamllint + actionlint checks
 
-### Future (SonarCloud)
-- `SONAR_TOKEN`: SonarCloud authentication token
+### Copilot Setup (`copilot-setup.yml`)
+**Trigger:** Manual (workflow_dispatch)  
+**Purpose:** Install CLI tooling (rg, fd, ast-grep, jq, yq, fzf)
+
+### Diagram Rendering (`diagram-rendering.yml`)
+**Trigger:** Push with `.puml` file changes  
+**Purpose:** Generate PNG diagrams from PlantUML sources
+
+### Orchestration (`orchestration.yml`)
+**Trigger:** Cron schedule or manual  
+**Purpose:** Automated agent orchestration workflows
+
+### Update README (`update_readme.yml`)
+**Trigger:** Push to main  
+**Purpose:** Automated README updates
+
+### Doctrine-specific Workflows
+- `doctrine-dependency-validation.yml`: Validate doctrine dependencies
+- `doctrine-glossary-maintenance.yml`: Maintain glossary consistency
+- `glossary-update-pr.yml`: Automated glossary PR creation
+
+### Release (`release-packaging.yml`)
+**Trigger:** Manual or tag push  
+**Purpose:** Package and publish releases
+
+### Validate Prompts (`validate-prompts.yml`)
+**Trigger:** Changes to prompt files  
+**Purpose:** Validate prompt template schemas
 
 ---
 
 ## Artifacts
 
-### test-ops-changes.yml
-No artifacts (fast feedback only)
-
-### pr-quality-gate.yml
-- **Coverage reports:** `coverage-reports` (XML + HTML, 30 days)
-- **Mutation results:** `mutation-test-results` (logs + cache, 30 days)
+### validation-enhanced.yml Artifacts
+- **coverage-reports:** Coverage data in XML, JSON, and HTML formats (30-day retention)
+- **test-results:** JUnit XML test results (30-day retention)
+- **error-reports:** Structured validation error reports (via error-summary action)
 
 **How to download artifacts:**
-1. Go to workflow run
-2. Scroll to "Artifacts" section
-3. Click artifact name to download
+1. Go to workflow run in Actions tab
+2. Scroll to "Artifacts" section at bottom
+3. Click artifact name to download ZIP
 
 ---
 
@@ -174,17 +142,14 @@ No artifacts (fast feedback only)
 
 | Workflow | Job | Timeout |
 |----------|-----|---------|
-| test-ops-changes | unit-tests | 5 minutes |
-| test-ops-changes | acceptance-tests | 5 minutes |
-| pr-quality-gate | code-quality | 5 minutes |
-| pr-quality-gate | unit-tests | 5 minutes |
-| pr-quality-gate | e2e-tests | 5 minutes |
-| pr-quality-gate | mutation-testing | 30 minutes |
-| pr-quality-gate | sonarcloud | 10 minutes |
+| validation-enhanced | code-quality | 5 minutes |
+| validation-enhanced | unit-tests | 10 minutes |
+| validation-enhanced | validate | 5 minutes |
+| validation-enhanced | sonarqube | N/A |
 
 ---
 
-## Failure Scenarios
+## Failure Scenarios & Remediation
 
 ### Code Quality Failure
 
@@ -192,11 +157,11 @@ No artifacts (fast feedback only)
 
 **Fix:**
 ```bash
-# Format code
-black validation/ ops/scripts/
+# Format code with Black
+black src/ tests/ framework/
 
-# Fix linting issues
-ruff check validation/ ops/scripts/ --fix
+# Fix linting issues with Ruff
+ruff check src/ tests/ framework/ --fix
 
 # Commit and push
 git add .
@@ -231,20 +196,40 @@ python -m pytest validation/test_orchestration_e2e.py -v
 # Commit and push
 ```
 
-### Mutation Test Issues
+### Mutation Test Issues```
 
-**Symptom:** Many mutations survive
+### Test Failures
 
-**Action:** Not a blocker, but investigate
+**Symptom:** Unit or integration tests fail
+
+**Fix:**
 ```bash
-# Run locally
-mutmut run
-mutmut results
+# Run tests locally to reproduce
+python -m pytest tests/ -v --tb=short
 
-# See what mutations survived
-mutmut show <id>
+# Run specific failing test
+python -m pytest tests/path/to/test_file.py::test_function -vv
 
-# Write tests to catch them
+# Check test output for assertion details
+# Fix the code or update the test
+```
+
+### Validation Failures
+
+**Symptom:** Work directory structure, schema, or naming validation fails
+
+**Fix:**
+```bash
+# Structure validation
+bash tools/validators/validate-work-structure.sh
+
+# Schema validation
+python tools/validators/validate-task-schema.py work/path/to/file.yaml
+
+# Naming validation  
+bash tools/validators/validate-task-naming.sh
+
+# Fix issues identified in validation output
 ```
 
 ---
@@ -257,22 +242,26 @@ Before pushing, run the same checks locally:
 # Install dependencies
 pip install -r requirements-dev.txt
 
-# Code quality
-black validation/ ops/scripts/
-ruff check validation/ ops/scripts/ --fix
+# Code quality checks
+black src/ tests/ framework/
+ruff check src/ tests/ framework/ --fix
 
-# Unit tests
-python -m pytest validation/test_task_utils.py validation/test_agent_orchestrator.py -v
+# Run comprehensive test suite
+python -m pytest tests/ -v
 
-# E2E tests
-python -m pytest validation/test_orchestration_e2e.py -v
+# Run with coverage
+python -m pytest tests/ \
+  --cov=src \
+  --cov=framework \
+  --cov-report=term-missing:skip-covered \
+  --cov-report=html
 
-# Coverage (optional)
-python -m pytest validation/ --cov=ops/orchestration --cov-report=term-missing
+# View coverage report
+open htmlcov/index.html  # or xdg-open on Linux
 
-# Mutation testing (optional, takes time)
-mutmut run
-mutmut results
+# Validation checks
+bash tools/validators/validate-work-structure.sh
+bash tools/validators/validate-task-naming.sh
 ```
 
 ---
@@ -281,7 +270,7 @@ mutmut results
 
 ### Changing Python Version
 
-Edit workflow files:
+Edit `validation-enhanced.yml`:
 ```yaml
 - name: Setup Python environment
   uses: ./.github/actions/setup-python-env
@@ -291,73 +280,42 @@ Edit workflow files:
 
 ### Adding More Tests
 
-Workflows automatically detect test files matching `test_*.py` in `validation/`.
+Workflows automatically discover and run all test files matching `test_*.py` in the `tests/` directory tree.
 
 Just add your test file:
 ```bash
-validation/
+tests/
   ├── test_task_utils.py
-  ├── test_agent_orchestrator.py
-  ├── test_orchestration_e2e.py
-  └── test_your_new_module.py  # Automatically runs
+  ├── orchestration/
+  │   └── test_agent_orchestrator.py
+  ├── framework/
+  │   └── test_your_module.py  # Automatically discovered
+  └── integration/
+      └── test_integration.py    # Automatically discovered
 ```
 
 ### Adjusting Timeouts
 
-If workflows timeout, increase limits:
+If workflows timeout, increase limits in `validation-enhanced.yml`:
 ```yaml
 jobs:
-  your-job:
-    timeout-minutes: 10  # Increase this
+  unit-tests:
+    timeout-minutes: 15  # Increase from 10 if needed
 ```
 
 ---
 
-## SonarCloud Setup
+## SonarQube Setup
 
-To enable SonarCloud analysis:
+SonarQube analysis is configured in the `validation-enhanced.yml` workflow but requires a SonarQube server and authentication token.
 
-### 1. Sign Up
-- Go to https://sonarcloud.io/
-- Sign in with GitHub account
-- Select organization
+### Configuration
 
-### 2. Import Repository
-- Click "+" → "Analyze new project"
-- Select this repository
-- Complete setup wizard
+The workflow includes a `sonarqube` job that runs independently. To enable:
 
-### 3. Add Secret
-- Go to GitHub repository → Settings → Secrets
-- Add new secret: `SONAR_TOKEN`
-- Copy token from SonarCloud
-
-### 4. Create Configuration
-Create `sonar-project.properties`:
-```properties
-sonar.projectKey=sddevelopment-be_quickstart_agent-augmented-development
-sonar.organization=sddevelopment-be
-
-sonar.sources=ops/scripts/
-sonar.tests=validation/
-
-sonar.python.version=3.10
-sonar.python.coverage.reportPaths=coverage.xml
-
-sonar.exclusions=**/*_test.py,**/test_*.py
-sonar.test.inclusions=**/test_*.py
-```
-
-### 5. Uncomment Workflow Step
-In `pr-quality-gate.yml`, uncomment:
-```yaml
-- name: SonarCloud Scan
-  uses: SonarSource/sonarcloud-github-action@master
-  # ... (see workflow file)
-```
-
-### 6. Test
-Create a PR and verify SonarCloud runs successfully.
+1. Set up SonarQube server (or use SonarCloud)
+2. Add `SONAR_TOKEN` secret to GitHub repository settings
+3. Update `sonarqube` job in `validation-enhanced.yml` with your configuration
 
 ---
 
@@ -366,18 +324,18 @@ Create a PR and verify SonarCloud runs successfully.
 ### ✅ Do
 
 - Run tests locally before pushing
-- Keep workflows fast (current: <5 min for quick tests)
+- Keep workflows fast (target: <15 min total)
 - Review workflow failures before re-pushing
-- Update timeout limits if legitimate slowdown
-- Monitor mutation testing results
+- Monitor test coverage trends
+- Fix validation errors promptly
 
 ### ❌ Don't
 
 - Push without running local tests
-- Ignore mutation testing results
+- Ignore linting/formatting violations
 - Disable required checks to merge faster
-- Commit formatting violations
 - Merge PRs with failing quality gates
+- Skip work directory validation fixes
 
 ---
 
@@ -386,28 +344,28 @@ Create a PR and verify SonarCloud runs successfully.
 ### Success Metrics
 
 - **Test pass rate:** Should be 100%
-- **Workflow duration:** Should be <10 minutes
-- **Mutation score:** Target 95%+
-- **Coverage:** Target 95%+
+- **Workflow duration:** Should be <15 minutes total
+- **Coverage:** Target 85%+
+- **Build success rate:** Target 95%+
 
 ### Health Indicators
 
 ✅ **Healthy:**
 - All tests passing
-- Workflows complete in <10 minutes
+- Workflows complete in <15 minutes
 - No timeout issues
-- Mutation score >90%
+- Coverage stable or increasing
 
 ⚠️ **Needs Attention:**
 - Occasional test failures
-- Workflows taking 10-15 minutes
-- Mutation score 80-90%
+- Workflows taking 15-20 minutes
+- Coverage declining slightly
 
 ❌ **Critical:**
 - Frequent test failures
 - Workflows timing out
-- Mutation score <80%
-- Coverage dropping
+- Coverage dropping significantly
+- Validation errors accumulating
 
 ---
 
@@ -415,29 +373,40 @@ Create a PR and verify SonarCloud runs successfully.
 
 ### Workflow Won't Start
 
-**Cause:** Path filter doesn't match  
-**Solution:** Check that changed files match path patterns in workflow
+**Cause:** Workflow file syntax error or disabled workflow  
+**Solution:** Check workflow YAML syntax, ensure workflow is not disabled
 
 ### Tests Pass Locally, Fail in CI
 
 **Cause:** Environment differences  
 **Solution:** 
-- Check Python version match
-- Verify all dependencies installed
+- Check Python version match (should be 3.10)
+- Verify all dependencies in requirements.txt
 - Look for filesystem path assumptions
+- Check for timing-dependent tests
 
 ### Workflow Stuck/Slow
 
-**Cause:** Usually mutation testing  
+**Cause:** Tests taking longer than expected  
 **Solution:**
-- Check mutation test step logs
-- Consider increasing timeout
-- Run mutation tests weekly instead of every PR
+- Check test execution logs for slow tests
+- Consider increasing timeout limits
+- Optimize slow tests
+- Use `pytest-xdist` for parallel execution (already enabled)
 
 ### Can't Download Artifacts
 
-**Cause:** Artifact retention expired  
-**Solution:** Artifacts kept for 30 days; re-run workflow if needed
+**Cause:** Artifact retention expired (30 days)  
+**Solution:** Re-run workflow if needed, artifacts regenerate
+
+### Validation Errors in PR Comment
+
+**Cause:** Work directory structure/schema/naming issues  
+**Solution:**
+- Read error report in PR comment
+- Download error-reports artifact for details
+- Fix issues identified
+- Re-run validation
 
 ---
 
@@ -446,36 +415,38 @@ Create a PR and verify SonarCloud runs successfully.
 ### Regular Tasks
 
 **Weekly:**
-- Review mutation test results
-- Check for workflow timeouts
-- Monitor test execution time
+- Review failed workflow runs
+- Monitor test execution time trends
+- Check coverage reports
 
 **Monthly:**
-- Review and update Python dependencies
+- Update Python dependencies (requirements.txt)
 - Update GitHub Actions versions
-- Clean old workflow runs
+- Review and optimize slow tests
 
 **Quarterly:**
-- Review and optimize slow tests
-- Update documentation
 - Evaluate new testing tools
+- Review workflow efficiency
+- Update documentation
 
 ---
 
 ## Additional Resources
 
-- **Testing Guide:** `validation/TEST_COVERAGE.md`
-- **Mutation Testing:** `docs/HOW_TO_USE/mutation_testing.md`
+- **Workflow Consolidation:** `.github/workflows/CONSOLIDATION.md`
+- **Testing Guide:** `work/reports/metrics/TEST_COVERAGE.md`
 - **Python Conventions:** `docs/styleguides/python_conventions.md`
 - **GitHub Actions Docs:** https://docs.github.com/en/actions
+- **pytest Documentation:** https://docs.pytest.org/
 
 ---
 
 ## Version History
 
-| Version | Date       | Changes                          |
-|---------|------------|----------------------------------|
-| 1.0.0   | 2025-11-29 | Initial workflow documentation   |
+| Version | Date       | Changes                                              |
+|---------|------------|------------------------------------------------------|
+| 1.0.0   | 2025-11-29 | Initial workflow documentation                       |
+| 2.0.0   | 2026-02-12 | Consolidated workflows into validation-enhanced.yml  |
 
 ---
 

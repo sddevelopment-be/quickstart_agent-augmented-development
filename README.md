@@ -3,6 +3,8 @@
 _Version: 1.1.0_  
 _Last updated: 2026-02-08_
 
+[![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-dark.svg)](https://sonarcloud.io/summary/new_code?id=sddevelopment-be_quickstart_agent-augmented-development)
+
 This repository is a **quickstart template** for AI-augmented / agentic workflows built on a **doctrine stack**: a five-layer governance system that separates values, models, instructions, procedures, and structure for predictable, inspectable agent behavior.
 
 ## The Doctrine Stack

@@ -91,7 +91,7 @@ Core platform configuration and agentic instruction system.
     ├── orchestration.yml         # Automated agent orchestration
     ├── reusable-config-mapping.yml
     ├── update_readme.yml
-    └── validation.yml            # Task/schema validation
+    └── validation-enhanced.yml   # Consolidated build validation (code quality, tests, schema)
 ```
 
 #### Agent Framework Components
@@ -378,13 +378,13 @@ The repository supports multiple specialized agents coordinated via file-based o
 
 ### GitHub Actions Workflows
 
-| Workflow                | Purpose                                             | Trigger                 |
-|-------------------------|-----------------------------------------------------|-------------------------|
-| `copilot-setup.yml`     | Install CLI tooling (rg, fd, ast-grep, jq, yq, fzf) | On demand               |
-| `orchestration.yml`     | Automated agent orchestration                       | Cron / manual           |
-| `validation.yml`        | Validate task schemas and structure                 | Push / PR               |
-| `diagram-rendering.yml` | Generate PNG from PlantUML                          | Push with .puml changes |
-| `update_readme.yml`     | README updates                                      | Push to main            |
+| Workflow                   | Purpose                                                      | Trigger                 |
+|----------------------------|--------------------------------------------------------------|-------------------------|
+| `copilot-setup.yml`        | Install CLI tooling (rg, fd, ast-grep, jq, yq, fzf)          | On demand               |
+| `orchestration.yml`        | Automated agent orchestration                                | Cron / manual           |
+| `validation-enhanced.yml`  | Consolidated build validation (quality, tests, schemas)      | Push / PR               |
+| `diagram-rendering.yml`    | Generate PNG from PlantUML                                   | Push with .puml changes |
+| `update_readme.yml`        | README updates                                               | Push to main            |
 
 ### Task Lifecycle Workflow
 

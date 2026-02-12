@@ -1,10 +1,11 @@
-name: Work Directory Validation (Enhanced)
+name: Build Validation (Consolidated)
 
 on:
   pull_request:
     branches: [main]
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -12,15 +13,193 @@ permissions:
   pull-requests: write
 
 concurrency:
-  group: validation-enhanced-${{ github.ref }}
+  group: build-validation-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  code-quality:
+    name: Code Quality Checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python environment
+        uses: ./.github/actions/setup-python-env
+        with:
+          python-version: '3.10'
+          cache-key-prefix: 'pip-quality'
+
+      - name: Install quality tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install black ruff
+
+      - name: Check code formatting with Black
+        id: black
+        run: |
+          echo "Checking Python code formatting..."
+          if black --check src/ tests/ framework/ 2>&1 | tee black_output.txt; then
+            echo "✅ All Python files are properly formatted"
+            echo "black_passed=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Some files need formatting"
+            echo "black_passed=false" >> $GITHUB_OUTPUT
+            cat black_output.txt
+          fi
+        continue-on-error: true
+
+      - name: Lint with Ruff
+        id: ruff
+        run: |
+          echo "Linting Python code..."
+          if ruff check src/ tests/ framework/ 2>&1 | tee ruff_output.txt; then
+            echo "✅ No linting issues found"
+            echo "ruff_passed=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Linting issues detected"
+            echo "ruff_passed=false" >> $GITHUB_OUTPUT
+            cat ruff_output.txt
+          fi
+        continue-on-error: true
+
+      - name: Quality check summary
+        if: always()
+        run: |
+          echo "# Code Quality Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.black.outputs.black_passed }}" = "true" ]; then
+            echo "✅ **Black formatting:** Passed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Black formatting:** Failed - Run \`black src/ tests/ framework/\`" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ "${{ steps.ruff.outputs.ruff_passed }}" = "true" ]; then
+            echo "✅ **Ruff linting:** Passed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Ruff linting:** Failed - Run \`ruff check src/ tests/ framework/ --fix\`" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Fail if quality checks failed
+        if: steps.black.outputs.black_passed != 'true' || steps.ruff.outputs.ruff_passed != 'true'
+        run: |
+          echo "❌ Code quality checks failed"
+          exit 1
+
+  unit-tests:
+    name: Unit & Integration Tests with Coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: code-quality
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Python environment
+        uses: ./.github/actions/setup-python-env
+        with:
+          python-version: '3.10'
+          cache-key-prefix: 'pip-tests'
+
+      - name: Install test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements-dev.txt ]; then
+            pip install -r requirements-dev.txt
+          fi
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+          pip install pytest pytest-cov pytest-xdist PyYAML
+
+      - name: Run comprehensive test suite with coverage
+        id: tests
+        run: |
+          echo "Running comprehensive test suite with coverage..."
+          python -m pytest tests/ \
+            -v \
+            --tb=short \
+            --cov=src \
+            --cov=framework \
+            --cov-report=term-missing:skip-covered \
+            --cov-report=xml \
+            --cov-report=html \
+            --cov-report=json \
+            --junit-xml=test-results.xml \
+            -n auto \
+            || echo "tests_passed=false" >> $GITHUB_OUTPUT
+          
+          if [ $? -eq 0 ]; then
+            echo "✅ All tests passed"
+            echo "tests_passed=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Some tests failed"
+            echo "tests_passed=false" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+
+      - name: Upload coverage reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: |
+            coverage.xml
+            coverage.json
+            htmlcov/
+          retention-days: 30
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results.xml
+          retention-days: 30
+
+      - name: Generate test summary
+        if: always()
+        run: |
+          echo "# Test Coverage Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.tests.outputs.tests_passed }}" = "true" ]; then
+            echo "✅ **Tests:** All passed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Tests:** Some failed - Review logs for details" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Extract coverage percentage if available
+          if [ -f coverage.json ]; then
+            COVERAGE=$(python -c "import json; data=json.load(open('coverage.json')); print(f\"{data['totals']['percent_covered']:.1f}\")" 2>/dev/null || echo "N/A")
+            echo "**Coverage:** ${COVERAGE}%" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Artifacts:** Coverage reports and test results available for download" >> $GITHUB_STEP_SUMMARY
+
+      - name: Fail if tests failed
+        if: steps.tests.outputs.tests_passed != 'true'
+        run: |
+          echo "❌ Test suite failed"
+          exit 1
+
   validate:
     name: Validate Work Directory with Error Reporting
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    
+    needs: unit-tests
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -123,8 +302,8 @@ jobs:
           validator-name: "task-schema"
           input-file: ${{ steps.schema.outputs.output_file }}
           fail-on-errors: 'false'
-      
-      # Naming Validation
+
+      # Naming Convention Validation
       - name: Validate task naming conventions
         id: naming
         run: |
@@ -145,7 +324,7 @@ jobs:
             echo "naming_valid=false" >> $GITHUB_OUTPUT
           fi
         continue-on-error: true
-      
+
       - name: Generate naming error report
         if: always() && steps.naming.outputs.naming_valid == 'false'
         uses: ./.github/actions/error-summary
@@ -155,7 +334,7 @@ jobs:
           validator-name: "task-naming"
           input-file: ${{ steps.naming.outputs.output_file }}
           fail-on-errors: 'false'
-      
+
       # E2E Tests
       - name: Check for E2E tests
         id: check_e2e
@@ -187,17 +366,7 @@ jobs:
             echo "e2e_valid=false" >> $GITHUB_OUTPUT
           fi
         continue-on-error: true
-      
-      - name: Generate E2E error report
-        if: always() && steps.check_e2e.outputs.e2e_exists == 'true' && steps.e2e.outputs.e2e_valid == 'false'
-        uses: ./.github/actions/error-summary
-        with:
-          workflow-name: "Work Directory Validation"
-          job-name: "validate"
-          validator-name: "e2e-tests"
-          input-file: ${{ steps.e2e.outputs.output_file }}
-          fail-on-errors: 'false'
-      
+
       # Aggregate and Report
       - name: Generate unified validation summary
         id: summary
@@ -281,7 +450,7 @@ jobs:
             echo '```' >> $GITHUB_STEP_SUMMARY
             echo "validation_status=failure" >> $GITHUB_OUTPUT
           fi
-      
+
       - name: Comment on PR
         if: github.event_name == 'pull_request' && always()
         uses: actions/github-script@v7
@@ -359,3 +528,15 @@ jobs:
         run: |
           echo "❌ Validation failed - see structured error reports in artifacts"
           exit 1
+
+  sonarqube:
+    name: SonarQube
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v6
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
