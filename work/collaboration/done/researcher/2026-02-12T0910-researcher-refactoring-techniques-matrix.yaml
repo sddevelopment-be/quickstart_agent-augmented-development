@@ -1,6 +1,6 @@
 id: 2026-02-12T0910-researcher-refactoring-techniques-matrix
 agent: researcher
-status: in_progress
+status: done
 title: 'SPEC-REFACTOR-001 Task 1: Build Refactoring Techniques Evidence Matrix'
 mode: /analysis-mode
 priority: high
@@ -17,3 +17,15 @@ context:
 created_at: '2026-02-12T09:10:00Z'
 created_by: planning-petra
 started_at: '2026-02-12T10:30:10Z'
+result:
+  summary: Produced a source-backed refactoring techniques evidence matrix with priority
+    tiers (P1/P2/P3), risk/failure modes, and pattern trajectories to guide first-wave
+    doctrine tactic authoring.
+  artifacts:
+  - work/research/2026-02-12-refactoring-techniques-matrix.md
+  next_agent: curator
+  next_task_title: Author initial P1 refactoring tactics and integrate references
+  next_artefacts:
+  - doctrine/tactics/refactoring-*.tactic.md
+  - doctrine/docs/references/refactoring-*.md
+completed_at: '2026-02-12T10:37:30Z'
