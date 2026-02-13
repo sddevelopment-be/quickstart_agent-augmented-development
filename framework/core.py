@@ -14,6 +14,7 @@ References:
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
+from typing import Optional
 
 
 class TaskStatus(Enum):
@@ -43,7 +44,7 @@ class AgentProfile:
     specialization: str
     directives: list[str]
     mode_default: str = "analysis"
-    capabilities: list[str] = None
+    capabilities: Optional[list[str]] = None
 
     def __post_init__(self) -> None:
         """Validate profile after initialization."""
@@ -76,8 +77,8 @@ class Task:
     agent: str | None = None
     priority: str = "normal"
     description: str = ""
-    acceptance_criteria: list[str] = None
-    dependencies: list[str] = None
+    acceptance_criteria: Optional[list[str]] = None
+    dependencies: Optional[list[str]] = None
 
     def __post_init__(self) -> None:
         """Validate task after initialization."""

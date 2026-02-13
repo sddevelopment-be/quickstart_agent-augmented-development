@@ -292,6 +292,16 @@ class OutputNormalizer:
             # Merge nested metadata
             metadata.update(data["metadata"])
 
+        # Extract specific fields
+        self._extract_token_count(data, metadata)
+        self._extract_cost(data, metadata)
+        self._extract_model(data, metadata)
+        self._extract_other_metadata(data, metadata)
+
+        return metadata
+
+    def _extract_token_count(self, data: dict[str, Any], metadata: dict[str, Any]) -> None:
+        """Extract token count from data into metadata."""
         # Extract token count
         if "usage" in data and isinstance(data["usage"], dict):
             usage = data["usage"]
@@ -305,6 +315,8 @@ class OutputNormalizer:
                     metadata["tokens"] = data[key]
                     break
 
+    def _extract_cost(self, data: dict[str, Any], metadata: dict[str, Any]) -> None:
+        """Extract cost information from data into metadata."""
         # Extract cost
         if "cost" in data and isinstance(data["cost"], dict):
             cost = data["cost"]
@@ -319,21 +331,23 @@ class OutputNormalizer:
                     metadata["cost_usd"] = data[key]
                     break
 
+    def _extract_model(self, data: dict[str, Any], metadata: dict[str, Any]) -> None:
+        """Extract model information from data into metadata."""
         # Extract model
         for key in self.MODEL_KEYS:
             if key in data:
                 metadata["model"] = data[key]
                 break
 
+    def _extract_other_metadata(self, data: dict[str, Any], metadata: dict[str, Any]) -> None:
+        """Extract other top-level metadata fields."""
         # Copy other top-level metadata fields (excluding known response keys)
+        excluded_keys = {"usage", "cost", "error", "errors", "warning", "warnings"}
         for key, value in data.items():
             if (
                 key not in self.RESPONSE_KEYS
-                and key
-                not in ["usage", "cost", "error", "errors", "warning", "warnings"]
+                and key not in excluded_keys
                 and not key.startswith("_")
                 and isinstance(value, (str, int, float, bool))
             ):
                 metadata[key] = value
-
-        return metadata

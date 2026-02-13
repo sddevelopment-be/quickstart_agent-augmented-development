@@ -18,6 +18,9 @@ from watchdog.observers import Observer
 
 logger = logging.getLogger(__name__)
 
+# File pattern constants
+YAML_PATTERN = "*.yaml"
+
 
 class TaskFileHandler(FileSystemEventHandler):
     """
@@ -200,7 +203,7 @@ class FileWatcher:
         # Scan inbox
         inbox_dir = self.watch_dir / "inbox"
         if inbox_dir.exists():
-            for yaml_file in inbox_dir.glob("*.yaml"):
+            for yaml_file in inbox_dir.glob(YAML_PATTERN):
                 task = self.parse_task_file(yaml_file)
                 if task:
                     snapshot["inbox"].append(task)
@@ -217,7 +220,7 @@ class FileWatcher:
                     agent_name = agent_dir.name
                     snapshot["assigned"][agent_name] = []
 
-                    for yaml_file in agent_dir.glob("*.yaml"):
+                    for yaml_file in agent_dir.glob(YAML_PATTERN):
                         task = self.parse_task_file(yaml_file)
                         if task:
                             snapshot["assigned"][agent_name].append(task)
@@ -234,7 +237,7 @@ class FileWatcher:
                     agent_name = agent_dir.name
                     snapshot["done"][agent_name] = []
 
-                    for yaml_file in agent_dir.glob("*.yaml"):
+                    for yaml_file in agent_dir.glob(YAML_PATTERN):
                         task = self.parse_task_file(yaml_file)
                         if task:
                             snapshot["done"][agent_name].append(task)

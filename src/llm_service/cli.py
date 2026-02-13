@@ -18,6 +18,9 @@ from llm_service import __version__
 from llm_service.config.loader import ConfigurationError, load_configuration
 from llm_service.ui.console import console, print_error, print_success, print_warning
 
+# Style constants
+STYLE_BOLD_CYAN = "bold cyan"
+
 
 @click.group()
 @click.version_option(version=__version__, prog_name="llm-service")
@@ -98,7 +101,7 @@ def config_validate(ctx):
 
         # Create metrics table
         table = Table(
-            title="Configuration Summary", show_header=True, header_style="bold cyan"
+            title="Configuration Summary", show_header=True, header_style=STYLE_BOLD_CYAN
         )
         table.add_column("Component", style="cyan", width=12)
         table.add_column("Count", justify="right", style="magenta")
@@ -222,7 +225,7 @@ def config_init(ctx, template, output, force):
 
         # Show environment status
         table = Table(
-            title="Environment Status", show_header=True, header_style="bold cyan"
+            title="Environment Status", show_header=True, header_style=STYLE_BOLD_CYAN
         )
         table.add_column("Dependency", style="cyan", width=20)
         table.add_column("Status", style="magenta", width=15)
@@ -300,7 +303,7 @@ def config_templates():
     console.print()
 
     table = Table(
-        title="Configuration Templates", show_header=True, header_style="bold cyan"
+        title="Configuration Templates", show_header=True, header_style=STYLE_BOLD_CYAN
     )
     table.add_column("Template", style="cyan", width=18)
     table.add_column("Description", style="white", width=40)
@@ -462,7 +465,7 @@ def tool_list(ctx):
             sys.exit(0)
 
         # Create table
-        table = Table(title="Tools", show_header=True, header_style="bold cyan")
+        table = Table(title="Tools", show_header=True, header_style=STYLE_BOLD_CYAN)
         table.add_column("Tool", style="cyan", width=15)
         table.add_column("Models", style="magenta", width=40)
         table.add_column("Binary", style="white", width=25)
@@ -641,7 +644,7 @@ def exec_command(ctx, agent, prompt_file, task_type):
 
         # Create routing info table
         table = Table(
-            title="Routing Information", show_header=True, header_style="bold cyan"
+            title="Routing Information", show_header=True, header_style=STYLE_BOLD_CYAN
         )
         table.add_column("Property", style="cyan")
         table.add_column("Value", style="magenta")

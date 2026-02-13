@@ -289,12 +289,26 @@ class GenericYAMLAdapter(ToolAdapter):
             >>> assert adapter.validate_config(config) is True
         """
         # Check required fields
-        required_fields = ["binary", "command_template", "models"]
-        for field in required_fields:
-            if field not in config:
-                return False
+        if not self._validate_required_fields(config):
+            return False
 
         # Validate field types
+        if not self._validate_field_types(config):
+            return False
+
+        # Validate optional fields if present
+        if not self._validate_optional_fields(config):
+            return False
+
+        return True
+
+    def _validate_required_fields(self, config: dict[str, Any]) -> bool:
+        """Validate that all required fields are present."""
+        required_fields = ["binary", "command_template", "models"]
+        return all(field in config for field in required_fields)
+
+    def _validate_field_types(self, config: dict[str, Any]) -> bool:
+        """Validate types of required fields."""
         if not isinstance(config["binary"], str):
             return False
 
@@ -307,7 +321,10 @@ class GenericYAMLAdapter(ToolAdapter):
         if not all(isinstance(m, str) for m in config["models"]):
             return False
 
-        # Validate optional fields if present
+        return True
+
+    def _validate_optional_fields(self, config: dict[str, Any]) -> bool:
+        """Validate optional fields if present."""
         if "binary_path" in config and not isinstance(config["binary_path"], str):
             return False
 
