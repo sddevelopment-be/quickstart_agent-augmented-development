@@ -77,22 +77,22 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const body = `## 📚 Doctrine Terminology Changes Detected
-
-${{ steps.detect.outputs.change_summary }}
-
-**Next Steps:**
-1. Agent task will be created for terminology extraction
-2. Lexical Larry will extract terms from changed files
-3. Curator Claire will integrate terms into glossary
-4. Automated PR will be created with glossary updates
-
-**Changed files:**
-\`\`\`
-${{ steps.detect.outputs.changed_files }}
-\`\`\`
-
-This is an automated message from the Doctrine Glossary Maintenance workflow.`;
+            const body = `## Doctrine Terminology Changes Detected
+            
+            ${{ steps.detect.outputs.change_summary }}
+            
+            **Next Steps:**
+            1. Agent task will be created for terminology extraction
+            2. Lexical Larry will extract terms from changed files
+            3. Curator Claire will integrate terms into glossary
+            4. Automated PR will be created with glossary updates
+            
+            **Changed files:**
+            \`\`\`
+            ${{ steps.detect.outputs.changed_files }}
+            \`\`\`
+            
+            This is an automated message from the Doctrine Glossary Maintenance workflow.`;
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,
@@ -136,7 +136,6 @@ This is an automated message from the Doctrine Glossary Maintenance workflow.`;
           mkdir -p work/collaboration/inbox
           
           cat > "$task_file" << 'EOF'
----
 id: $task_id
 title: "Extract terminology from doctrine changes (PR #${{ github.event.pull_request.number }})"
 agent: lexical-larry
@@ -149,7 +148,7 @@ context:
   pr_number: ${{ github.event.pull_request.number }}
   pr_title: "${{ github.event.pull_request.title }}"
   changed_files:
-$changed_files_list
+    - placeholder
   change_summary: "${{ needs.detect-terminology-changes.outputs.change_summary }}"
 
 task_description: |
@@ -167,7 +166,7 @@ task_description: |
   - **Current Glossary:** doctrine/GLOSSARY.md (356 terms, version 2.0.0)
   
   ## Changed Files to Process
-$changed_files_list
+  - placeholder_files
   
   ## Task Instructions
   
@@ -232,13 +231,16 @@ tags:
   - terminology-extraction
   - automated-workflow
   - incremental-update
-  - pr-${{ github.event.pull_request.number }}
+  - "pr-${{ github.event.pull_request.number }}"
 EOF
           
           # Substitute variables in task file
           sed -i "s/\$task_id/$task_id/g" "$task_file"
           sed -i "s/\$(date -u +\"%Y-%m-%d %H:%M:%S UTC\")/$(date -u +"%Y-%m-%d %H:%M:%S UTC")/g" "$task_file"
-          sed -i "s/\$changed_files_list/$changed_files_list/g" "$task_file"
+          # Replace placeholder with actual changed files list
+          # Note: changed_files_list already includes proper YAML indentation
+          sed -i "s/    - placeholder/$changed_files_list/g" "$task_file"
+          sed -i "s/  - placeholder_files/$changed_files_list/g" "$task_file"
           
           echo "task_id=$task_id" >> $GITHUB_OUTPUT
           echo "task_file=$task_file" >> $GITHUB_OUTPUT
@@ -267,43 +269,43 @@ Changed files: ${{ needs.detect-terminology-changes.outputs.change_summary }}"
         uses: actions/github-script@v7
         with:
           script: |
-            const body = `## 📋 Agent Task Created
-
-**Task ID:** \`${{ steps.create_task.outputs.task_id }}\`  
-**Assigned to:** Lexical Larry  
-**Handoff to:** Curator Claire  
-**Location:** \`${{ steps.create_task.outputs.task_file }}\`
-
-**Next Steps:**
-1. Lexical Larry will extract terminology from changed files
-2. Curator Claire will integrate terms into GLOSSARY.md
-3. Automated PR will be created with glossary updates
-
-**Instructions for Human-in-Charge:**
-
-To trigger Lexical Larry and Curator Claire agentic sessions:
-
-\`\`\`bash
-# Option 1: Use GitHub Copilot Chat
-# In VS Code with GitHub Copilot, open the task file and say:
-# "Execute this task as Lexical Larry, then hand off to Curator Claire"
-
-# Option 2: Use Claude Code (if configured)
-# In VS Code with Claude Code extension:
-# "@lexical execute task ${{ steps.create_task.outputs.task_file }}"
-# Then: "@curator integrate glossary candidates from previous extraction"
-
-# Option 3: Manual execution (for testing)
-# Review the task file and execute steps manually, or wait for 
-# scheduled agent orchestration to pick up the task
-\`\`\`
-
-**Task will be processed by:**
-- Scheduled orchestration workflow (hourly check)
-- Manual agent invocation via Copilot/Claude
-- Direct human execution following task instructions
-
-This task ensures the glossary stays synchronized with doctrine changes.`;
+            const body = `## Agent Task Created
+            
+            **Task ID:** \`${{ steps.create_task.outputs.task_id }}\`  
+            **Assigned to:** Lexical Larry  
+            **Handoff to:** Curator Claire  
+            **Location:** \`${{ steps.create_task.outputs.task_file }}\`
+            
+            **Next Steps:**
+            1. Lexical Larry will extract terminology from changed files
+            2. Curator Claire will integrate terms into GLOSSARY.md
+            3. Automated PR will be created with glossary updates
+            
+            **Instructions for Human-in-Charge:**
+            
+            To trigger Lexical Larry and Curator Claire agentic sessions:
+            
+            \`\`\`bash
+            # Option 1: Use GitHub Copilot Chat
+            # In VS Code with GitHub Copilot, open the task file and say:
+            # "Execute this task as Lexical Larry, then hand off to Curator Claire"
+            
+            # Option 2: Use Claude Code (if configured)
+            # In VS Code with Claude Code extension:
+            # "@lexical execute task ${{ steps.create_task.outputs.task_file }}"
+            # Then: "@curator integrate glossary candidates from previous extraction"
+            
+            # Option 3: Manual execution (for testing)
+            # Review the task file and execute steps manually, or wait for 
+            # scheduled agent orchestration to pick up the task
+            \`\`\`
+            
+            **Task will be processed by:**
+            - Scheduled orchestration workflow (hourly check)
+            - Manual agent invocation via Copilot/Claude
+            - Direct human execution following task instructions
+            
+            This task ensures the glossary stays synchronized with doctrine changes.`;
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,
