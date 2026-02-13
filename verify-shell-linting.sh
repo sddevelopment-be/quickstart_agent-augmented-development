@@ -9,14 +9,14 @@ echo ""
 
 # Check configuration file
 echo "1️⃣  Configuration Files:"
-if [ -f .shellcheckrc ]; then
+if [[ -f .shellcheckrc ]]; then
     echo "   ✅ .shellcheckrc exists"
     echo "      Size: $(wc -c < .shellcheckrc) bytes"
 else
     echo "   ❌ .shellcheckrc NOT FOUND"
 fi
 
-if [ -f .github/workflows/shell-lint.yml ]; then
+if [[ -f .github/workflows/shell-lint.yml ]]; then
     echo "   ✅ .github/workflows/shell-lint.yml exists"
     echo "      Size: $(wc -c < .github/workflows/shell-lint.yml) bytes"
 else
@@ -33,10 +33,10 @@ docs=(
 )
 
 for doc in "${docs[@]}"; do
-    if [ -f "$doc" ]; then
-        echo "   ✅ $doc exists ($(wc -l < "$doc") lines)"
+    if [[ -f "${doc}" ]]; then
+        echo "   ✅ ${doc} exists ($(wc -l < "${doc}") lines)"
     else
-        echo "   ❌ $doc NOT FOUND"
+        echo "   ❌ ${doc} NOT FOUND"
     fi
 done
 

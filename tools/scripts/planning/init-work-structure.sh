@@ -4,14 +4,14 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-WORK_DIR="$ROOT_DIR/work"
-cd "$ROOT_DIR"
+WORK_DIR="${ROOT_DIR}/work"
+cd "${ROOT_DIR}"
 
 echo "Initializing work directory structure under ${WORK_DIR}..."
 
 lifecycle_dirs=(inbox done archive logs collaboration scripts schemas assigned notes)
 for dir in "${lifecycle_dirs[@]}"; do
-  mkdir -p "$WORK_DIR/$dir"
+  mkdir -p "${WORK_DIR}/${dir}"
 done
 
 agents=(
@@ -34,20 +34,20 @@ agents=(
 )
 
 for agent in "${agents[@]}"; do
-  mkdir -p "$WORK_DIR/assigned/$agent"
+  mkdir -p "${WORK_DIR}/assigned/${agent}"
 done
 
 # Add .gitkeep files so directories remain tracked when empty
-find "$WORK_DIR" -type d -not -path "*/.git" -exec sh -c 'test -f "$1/.gitkeep" || touch "$1/.gitkeep"' _ {} \;
+find "${WORK_DIR}" -type d -not -path "*/.git" -exec sh -c 'test -f "$1/.gitkeep" || touch "$1/.gitkeep"' _ {} \;
 
 ensure_file() {
   local path="$1"
   local content="$2"
-  if [[ ! -f "$path" ]]; then
-    printf "%s" "$content" > "$path"
-    echo "Created $path"
+  if [[ ! -f "${path}" ]]; then
+    printf "%s" "${content}" > "${path}"
+    echo "Created ${path}"
   else
-    echo "Preserved existing $path"
+    echo "Preserved existing ${path}"
   fi
 }
 
@@ -108,10 +108,10 @@ For full documentation, see docs/architecture/design/async_orchestration_technic
 CONTENT
 )
 
-ensure_file "$WORK_DIR/collaboration/AGENT_STATUS.md" "$AGENT_STATUS_CONTENT"
-ensure_file "$WORK_DIR/collaboration/HANDOFFS.md" "$HANDOFFS_CONTENT"
-ensure_file "$WORK_DIR/collaboration/WORKFLOW_LOG.md" "$WORKFLOW_LOG_CONTENT"
-ensure_file "$WORK_DIR/README.md" "$README_CONTENT"
+ensure_file "${WORK_DIR}/collaboration/AGENT_STATUS.md" "${AGENT_STATUS_CONTENT}"
+ensure_file "${WORK_DIR}/collaboration/HANDOFFS.md" "${HANDOFFS_CONTENT}"
+ensure_file "${WORK_DIR}/collaboration/WORKFLOW_LOG.md" "${WORKFLOW_LOG_CONTENT}"
+ensure_file "${WORK_DIR}/README.md" "${README_CONTENT}"
 
 echo "✅ Work directory structure initialized successfully"
 

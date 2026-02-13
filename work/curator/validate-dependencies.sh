@@ -13,7 +13,7 @@ DOCTRINE_DIR="${SCRIPT_DIR}/../../doctrine"
 echo "🔍 Doctrine Dependency Direction Validator"
 echo "=========================================="
 echo ""
-echo "Checking: $DOCTRINE_DIR"
+echo "Checking: ${DOCTRINE_DIR}"
 echo ""
 
 # Search for ADR-NNN references in doctrine/
@@ -25,7 +25,7 @@ echo ""
 # - CHANGELOG entries
 # - Directive 003 (Repository Quick Reference - legitimate exception)
 
-violations=$(grep -rn "ADR-[0-9]" "$DOCTRINE_DIR/" \
+violations=$(grep -rn "ADR-[0-9]" "${DOCTRINE_DIR}/" \
   | grep -v '${DOC_ROOT}' \
   | grep -v 'spec-kitty ADR' \
   | grep -v 'spec-kitty:.*ADR' \
@@ -36,12 +36,12 @@ violations=$(grep -rn "ADR-[0-9]" "$DOCTRINE_DIR/" \
   | grep -v 'docs/references/comparative_studies' \
   || true)
 
-if [ -n "$violations" ]; then
+if [[ -n "${violations}" ]]; then
   echo "❌ VIOLATIONS FOUND"
   echo ""
   echo "Framework artifacts in doctrine/ reference repository-specific ADRs:"
   echo ""
-  echo "$violations"
+  echo "${violations}"
   echo ""
   echo "═══════════════════════════════════════════════════════════════"
   echo "DEPENDENCY DIRECTION RULE VIOLATION"

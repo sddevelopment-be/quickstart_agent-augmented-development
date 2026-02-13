@@ -15,11 +15,11 @@
 set -euo pipefail
 
 SCRIPT_DIR=$(cd -- "$(dirname "$0")" && pwd)
-REPO_ROOT=$(cd -- "$SCRIPT_DIR/../.." && pwd)
+REPO_ROOT=$(cd -- "${SCRIPT_DIR}/../.." && pwd)
 
 # Default output paths
-OUTPUT_DIR="${GITHUB_WORKSPACE:-$REPO_ROOT}/output/error-reports"
-mkdir -p "$OUTPUT_DIR"
+OUTPUT_DIR="${GITHUB_WORKSPACE:-${REPO_ROOT}}/output/error-reports"
+mkdir -p "${OUTPUT_DIR}"
 
 TIMESTAMP=$(date -u +"%Y%m%d_%H%M%S")
 JSON_OUTPUT="${OUTPUT_DIR}/errors_${TIMESTAMP}.json"
@@ -74,7 +74,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-if [[ -z "$WORKFLOW" ]] || [[ -z "$JOB" ]]; then
+if [[ -z "${WORKFLOW}" ]] || [[ -z "${JOB}" ]]; then
   echo "Error: --workflow and --job are required" >&2
   echo "Usage: $0 --workflow NAME --job NAME [--validator NAME] [options]" >&2
   exit 1
@@ -83,23 +83,23 @@ fi
 # Build Python command
 PYTHON_CMD=(
   python3
-  "$SCRIPT_DIR/generate-error-summary.py"
-  --workflow "$WORKFLOW"
-  --job "$JOB"
-  --validator "$VALIDATOR"
-  --output-json "$JSON_OUTPUT"
-  --output-markdown "$MARKDOWN_OUTPUT"
+  "${SCRIPT_DIR}/generate-error-summary.py"
+  --workflow "${WORKFLOW}"
+  --job "${JOB}"
+  --validator "${VALIDATOR}"
+  --output-json "${JSON_OUTPUT}"
+  --output-markdown "${MARKDOWN_OUTPUT}"
 )
 
-if [[ -n "$INPUT_FILE" ]]; then
-  PYTHON_CMD+=(--input "$INPUT_FILE")
+if [[ -n "${INPUT_FILE}" ]]; then
+  PYTHON_CMD+=(--input "${INPUT_FILE}")
 fi
 
-if [[ "$EMIT_ANNOTATIONS" == "true" ]]; then
+if [[ "${EMIT_ANNOTATIONS}" == "true" ]]; then
   PYTHON_CMD+=(--emit-annotations)
 fi
 
-if [[ "$FAIL_ON_ERRORS" == "true" ]]; then
+if [[ "${FAIL_ON_ERRORS}" == "true" ]]; then
   PYTHON_CMD+=(--fail-on-errors)
 fi
 
@@ -111,12 +111,12 @@ exit_code=$?
 # Always report artifact locations for agent retrieval
 echo "" >&2
 echo "📦 Artifacts:" >&2
-echo "  JSON: $JSON_OUTPUT" >&2
-echo "  Markdown: $MARKDOWN_OUTPUT" >&2
+echo "  JSON: ${JSON_OUTPUT}" >&2
+echo "  Markdown: ${MARKDOWN_OUTPUT}" >&2
 
 # Add to GitHub Actions step summary if available
 if [[ -n "${GITHUB_STEP_SUMMARY:-}" ]]; then
-  cat "$MARKDOWN_OUTPUT" >> "$GITHUB_STEP_SUMMARY"
+  cat "${MARKDOWN_OUTPUT}" >> "${GITHUB_STEP_SUMMARY}"
 fi
 
-exit $exit_code
+exit ${exit_code}

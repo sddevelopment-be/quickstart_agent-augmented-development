@@ -39,7 +39,7 @@ API_URL="https://api.github.com/repos/${UPSTREAM_REPO}"
 SCRIPT_VERSION="1.0.0"
 
 # Color codes
-if [ -t 1 ]; then
+if [[ -t 1 ]]; then
     RED='\033[0;31m'
     GREEN='\033[0;32m'
     YELLOW='\033[1;33m'
@@ -135,7 +135,7 @@ check_requirements() {
         missing="${missing} curl/wget"
     fi
 
-    if [ -n "$missing" ]; then
+    if [[ -n "${missing}" ]]; then
         log_error "Missing required tools:${missing}"
         log_error "Please install them and try again."
         exit 1
@@ -149,21 +149,21 @@ fetch_url() {
     local auth_header=""
 
     # Add auth header if token is available
-    if [ -n "${GITHUB_TOKEN:-}" ]; then
+    if [[ -n "${GITHUB_TOKEN:-}" ]]; then
         auth_header="Authorization: token ${GITHUB_TOKEN}"
     fi
 
     if command -v curl >/dev/null 2>&1; then
-        if [ -n "$auth_header" ]; then
-            curl -fsSL -H "$auth_header" -o "$output" "$url"
+        if [[ -n "${auth_header}" ]]; then
+            curl -fsSL -H "${auth_header}" -o "${output}" "${url}"
         else
-            curl -fsSL -o "$output" "$url"
+            curl -fsSL -o "${output}" "${url}"
         fi
     elif command -v wget >/dev/null 2>&1; then
-        if [ -n "$auth_header" ]; then
-            wget -q --header="$auth_header" -O "$output" "$url"
+        if [[ -n "${auth_header}" ]]; then
+            wget -q --header="${auth_header}" -O "${output}" "${url}"
         else
-            wget -q -O "$output" "$url"
+            wget -q -O "${output}" "${url}"
         fi
     else
         log_error "Neither curl nor wget available"
@@ -177,13 +177,13 @@ fetch_api() {
     local tmp_file
     tmp_file=$(mktemp)
 
-    if ! fetch_url "${API_URL}${endpoint}" "$tmp_file" 2>/dev/null; then
-        rm -f "$tmp_file"
+    if ! fetch_url "${API_URL}${endpoint}" "${tmp_file}" 2>/dev/null; then
+        rm -f "${tmp_file}"
         return 1
     fi
 
-    cat "$tmp_file"
-    rm -f "$tmp_file"
+    cat "${tmp_file}"
+    rm -f "${tmp_file}"
 }
 
 # Get latest release version
@@ -196,7 +196,7 @@ get_latest_version() {
     }
 
     # Extract tag_name (simple grep-based parsing)
-    echo "$release_info" | grep -o '"tag_name"[[:space:]]*:[[:space:]]*"[^"]*"' | head -1 | sed 's/.*"tag_name"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/' | sed 's/^v//'
+    echo "${release_info}" | grep -o '"tag_name"[[:space:]]*:[[:space:]]*"[^"]*"' | head -1 | sed 's/.*"tag_name"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/' | sed 's/^v//'
 }
 
 # Get download URL for a version
@@ -212,14 +212,14 @@ get_download_url() {
 
     # Look for the framework zip asset
     local asset_url
-    asset_url=$(echo "$release_info" | grep -o '"browser_download_url"[[:space:]]*:[[:space:]]*"[^"]*quickstart-framework[^"]*\.zip"' | head -1 | sed 's/.*"browser_download_url"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/')
+    asset_url=$(echo "${release_info}" | grep -o '"browser_download_url"[[:space:]]*:[[:space:]]*"[^"]*quickstart-framework[^"]*\.zip"' | head -1 | sed 's/.*"browser_download_url"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/')
 
-    if [ -z "$asset_url" ]; then
+    if [[ -z "${asset_url}" ]]; then
         log_error "No framework artifact found in release ${version}"
         return 1
     fi
 
-    echo "$asset_url"
+    echo "${asset_url}"
 }
 
 # Download and extract release
@@ -229,18 +229,18 @@ download_release() {
 
     log_step "Fetching download URL for version ${version}..."
     local download_url
-    download_url=$(get_download_url "$version") || return 2
+    download_url=$(get_download_url "${version}") || return 2
 
     local artifact_name="quickstart-framework-${version}.zip"
     local artifact_path="${work_dir}/${artifact_name}"
 
     log_step "Downloading ${artifact_name}..."
-    if [ "$DRY_RUN" = "1" ]; then
+    if [[ "${DRY_RUN}" = "1" ]]; then
         log_info "[DRY RUN] Would download from: ${download_url}"
         return 0
     fi
 
-    if ! fetch_url "$download_url" "$artifact_path"; then
+    if ! fetch_url "${download_url}" "${artifact_path}"; then
         log_error "Failed to download release artifact"
         return 2
     fi
@@ -249,7 +249,7 @@ download_release() {
 
     # Extract
     log_step "Extracting artifact..."
-    if ! unzip -q "$artifact_path" -d "$work_dir"; then
+    if ! unzip -q "${artifact_path}" -d "${work_dir}"; then
         log_error "Failed to extract artifact"
         return 2
     fi
@@ -269,17 +269,17 @@ run_install() {
 
     local install_script="${release_dir}/scripts/framework_install.sh"
 
-    if [ ! -f "$install_script" ]; then
+    if [[ ! -f "${install_script}" ]]; then
         log_error "Installation script not found: ${install_script}"
         return 3
     fi
 
     local install_args=""
-    if [ "$DRY_RUN" = "1" ]; then
+    if [[ "${DRY_RUN}" = "1" ]]; then
         install_args="--dry-run"
     fi
 
-    if ! sh "$install_script" $install_args "$release_dir" "$target_dir"; then
+    if ! sh "${install_script}" ${install_args} "${release_dir}" "${target_dir}"; then
         log_error "Installation failed"
         return 3
     fi
@@ -296,17 +296,17 @@ run_upgrade() {
 
     local upgrade_script="${release_dir}/scripts/framework_upgrade.sh"
 
-    if [ ! -f "$upgrade_script" ]; then
+    if [[ ! -f "${upgrade_script}" ]]; then
         log_error "Upgrade script not found: ${upgrade_script}"
         return 3
     fi
 
     local upgrade_args=""
-    if [ "$DRY_RUN" = "1" ]; then
+    if [[ "${DRY_RUN}" = "1" ]]; then
         upgrade_args="--dry-run"
     fi
 
-    if ! sh "$upgrade_script" $upgrade_args "$release_dir" "$target_dir"; then
+    if ! sh "${upgrade_script}" ${upgrade_args} "${release_dir}" "${target_dir}"; then
         log_error "Upgrade failed"
         return 3
     fi
@@ -316,7 +316,7 @@ run_upgrade() {
 
 # Show Guardian reminder
 show_guardian_reminder() {
-    if [ "$SKIP_GUARDIAN" = "1" ]; then
+    if [[ "${SKIP_GUARDIAN}" = "1" ]]; then
         return
     fi
 
@@ -348,7 +348,7 @@ show_guardian_reminder() {
 # Main function
 main() {
     # Parse arguments
-    while [ $# -gt 0 ]; do
+    while [[ $# -gt 0 ]]; do
         case "$1" in
             --help|-h)
                 print_usage
@@ -356,7 +356,7 @@ main() {
                 ;;
             --version)
                 shift
-                if [ $# -eq 0 ]; then
+                if [[ $# -eq 0 ]]; then
                     log_error "--version requires an argument"
                     exit 1
                 fi
@@ -369,7 +369,7 @@ main() {
                 ;;
             --target)
                 shift
-                if [ $# -eq 0 ]; then
+                if [[ $# -eq 0 ]]; then
                     log_error "--target requires an argument"
                     exit 1
                 fi
@@ -400,7 +400,7 @@ main() {
     echo "  Source:  ${UPSTREAM_URL}"
     echo "  Target:  ${TARGET_DIR}"
     echo "  Mode:    ${MODE}"
-    if [ "$DRY_RUN" = "1" ]; then
+    if [[ "${DRY_RUN}" = "1" ]]; then
         echo "  Dry Run: YES"
     fi
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -410,22 +410,22 @@ main() {
     check_requirements
 
     # Resolve version
-    if [ "$VERSION" = "latest" ]; then
+    if [[ "${VERSION}" = "latest" ]]; then
         log_step "Resolving latest version..."
         VERSION=$(get_latest_version) || exit 2
         log_success "Latest version: ${VERSION}"
     fi
 
     # Validate target directory
-    if [ ! -d "$TARGET_DIR" ]; then
+    if [[ ! -d "${TARGET_DIR}" ]]; then
         log_error "Target directory does not exist: ${TARGET_DIR}"
         exit 1
     fi
 
-    TARGET_DIR=$(cd "$TARGET_DIR" && pwd)
+    TARGET_DIR=$(cd "${TARGET_DIR}" && pwd)
 
     # Check for existing installation if not upgrading
-    if [ "$MODE" = "install" ] && [ -f "${TARGET_DIR}/.framework_meta.yml" ]; then
+    if [[ "${MODE}" = "install" ]] && [[ -f "${TARGET_DIR}/.framework_meta.yml" ]]; then
         log_warning "Framework already installed in ${TARGET_DIR}"
         log_warning "Use --upgrade to upgrade existing installation"
         log_info "Current version: $(grep 'framework_version:' "${TARGET_DIR}/.framework_meta.yml" | sed 's/.*: *//')"
@@ -433,7 +433,7 @@ main() {
     fi
 
     # Check for missing installation if upgrading
-    if [ "$MODE" = "upgrade" ] && [ ! -f "${TARGET_DIR}/.framework_meta.yml" ]; then
+    if [[ "${MODE}" = "upgrade" ]] && [[ ! -f "${TARGET_DIR}/.framework_meta.yml" ]]; then
         log_warning "No existing framework installation found in ${TARGET_DIR}"
         log_warning "Use without --upgrade for fresh installation"
         exit 1
@@ -441,21 +441,21 @@ main() {
 
     # Create temp working directory
     WORK_DIR=$(mktemp -d)
-    trap 'rm -rf "$WORK_DIR"' EXIT
+    trap 'rm -rf "${WORK_DIR}"' EXIT
 
     # Download and extract
-    RELEASE_DIR=$(download_release "$VERSION" "$WORK_DIR") || exit $?
+    RELEASE_DIR=$(download_release "${VERSION}" "${WORK_DIR}") || exit $?
 
-    if [ "$DRY_RUN" = "1" ]; then
+    if [[ "${DRY_RUN}" = "1" ]]; then
         log_info "[DRY RUN] Would extract to: ${WORK_DIR}/quickstart-framework-${VERSION}"
         RELEASE_DIR="${WORK_DIR}/quickstart-framework-${VERSION}"
     fi
 
     # Run install or upgrade
-    if [ "$MODE" = "install" ]; then
-        run_install "$RELEASE_DIR" "$TARGET_DIR" || exit $?
+    if [[ "${MODE}" = "install" ]]; then
+        run_install "${RELEASE_DIR}" "${TARGET_DIR}" || exit $?
     else
-        run_upgrade "$RELEASE_DIR" "$TARGET_DIR" || exit $?
+        run_upgrade "${RELEASE_DIR}" "${TARGET_DIR}" || exit $?
     fi
 
     # Show Guardian reminder

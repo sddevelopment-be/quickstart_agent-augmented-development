@@ -5,7 +5,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck disable=SC1091
-source "$SCRIPT_DIR/github-issue-helpers.sh"
+source "${SCRIPT_DIR}/github-issue-helpers.sh"
 
 usage() {
   cat <<'USAGE'
@@ -56,11 +56,11 @@ while [[ $# -gt 0 ]]; do
       shift 2
       ;;
     --label)
-      LABELS="${LABELS:+$LABELS,}$2"
+      LABELS="${LABELS:+${LABELS},}$2"
       shift 2
       ;;
     --assignee)
-      ASSIGNEES="${ASSIGNEES:+$ASSIGNEES,}$2"
+      ASSIGNEES="${ASSIGNEES:+${ASSIGNEES},}$2"
       shift 2
       ;;
     --milestone)
@@ -82,19 +82,19 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-if [[ -z "$REPO" || -z "$TITLE" ]]; then
+if [[ -z "${REPO}" || -z "${TITLE}" ]]; then
   usage >&2
   exit 1
 fi
 
-if [[ -n "$BODY_FILE" && -n "$BODY" ]]; then
+if [[ -n "${BODY_FILE}" && -n "${BODY}" ]]; then
   _github_issue::log "--body and --body-file are mutually exclusive"
   exit 1
 fi
 
-if [[ -n "$BODY_FILE" ]]; then
-  BODY="$(_github_issue::body_from_file "$BODY_FILE")"
-elif [[ -z "$BODY" ]]; then
+if [[ -n "${BODY_FILE}" ]]; then
+  BODY="$(_github_issue::body_from_file "${BODY_FILE}")"
+elif [[ -z "${BODY}" ]]; then
   if [[ -t 0 ]]; then
     _github_issue::log "Either --body, --body-file, or STDIN input is required"
     exit 1
@@ -102,4 +102,4 @@ elif [[ -z "$BODY" ]]; then
   BODY="$(cat)"
 fi
 
-_github_issue::create "$REPO" "$TITLE" "$BODY" "$LABELS" "$ASSIGNEES" "$MILESTONE" "$DRAFT"
+_github_issue::create "${REPO}" "${TITLE}" "${BODY}" "${LABELS}" "${ASSIGNEES}" "${MILESTONE}" "${DRAFT}"
