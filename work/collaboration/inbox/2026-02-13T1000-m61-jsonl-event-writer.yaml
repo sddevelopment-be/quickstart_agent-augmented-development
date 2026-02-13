@@ -1,0 +1,59 @@
+id: 2026-02-13T1000-m61-jsonl-event-writer
+title: "M6.1 Task 1: JSONL Event Writer Module"
+agent: python-pedro
+batch: M6.1
+priority: high
+status: new
+created_at: "2026-02-13T10:00:00Z"
+created_by: manager-mike
+specification: specifications/initiatives/control-plane/SPEC-CTRL-001-local-agent-control-plane.md
+initiative: "Control Plane Architecture"
+estimated_effort_hours: 8
+
+description: |
+  Implement append-only JSONL event writer for lifecycle and execution telemetry.
+  This is the foundation for the Control Plane telemetry architecture (ADR-047).
+
+  ## Scope
+  - Event dataclass with schema: ts, run_id, task_id, phase, agent_role, tool,
+    mode, event, status, log_paths, summary
+  - EventWriter class: append to JSONL file with fsync guarantee
+  - Event types enum (task_started, task_completed, task_failed, execution_start,
+    execution_complete, cost_update)
+  - Integration point with existing SQLite telemetry (SQLite as derived index)
+  - Unit tests (minimum 80% coverage)
+
+  ## Key Files
+  - NEW: src/llm_service/telemetry/event_writer.py
+  - NEW: src/llm_service/telemetry/event_schema.py
+  - MODIFY: src/llm_service/telemetry/__init__.py
+  - NEW: tests/unit/llm_service/telemetry/test_event_writer.py
+
+  ## References
+  - ADR-047: CQRS Pattern (telemetry architecture section)
+  - Technical design: docs/architecture/design/local-agent-control-plane-architecture.md
+  - Existing telemetry: src/llm_service/telemetry/logger.py
+
+acceptance_criteria: |
+  - [ ] EventSchema dataclass with all fields from ADR-047 telemetry spec
+  - [ ] EventWriter.emit(event) appends JSON line + fsync
+  - [ ] EventWriter handles file rotation (optional, configurable max size)
+  - [ ] EventType enum covers lifecycle + execution events
+  - [ ] JSONL file is valid (one JSON object per line, parseable)
+  - [ ] Crash-safe: partial writes detectable (incomplete lines)
+  - [ ] Unit tests: schema validation, write/read roundtrip, concurrent writes
+  - [ ] 80%+ code coverage
+  - [ ] Compatible with existing telemetry/logger.py (no breaking changes)
+
+dependencies: []
+blocked_by: []
+
+blocks:
+  - 2026-02-13T1002-m61-query-service-facade
+
+tags:
+  - control-plane
+  - telemetry
+  - adr-047
+  - m6.1
+  - p1

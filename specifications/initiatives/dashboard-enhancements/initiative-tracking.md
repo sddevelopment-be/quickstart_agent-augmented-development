@@ -69,6 +69,8 @@ Initiative Tracking transforms the dashboard from a task-centric view to a strat
   - MUST calculate progress dynamically from task states (no manual progress tracking)
   - MUST support incremental adoption (works with 0 specs, improves as specs added)
 
+**Implementation Note (2026-02-13):** The backend components of this specification — spec parser (`spec_parser.py`), task linker (`task_linker.py`), progress calculator (`progress_calculator.py`), and portfolio API endpoint — are fully implemented. The M4.3 frontend (hierarchical portfolio UI in the dashboard) remains pending and is planned for the M6.1 batch. That batch will also include a Query Service refactoring per ADR-047 (CQRS pattern), which will extract dashboard query logic into a shared `QueryService` facade as part of SPEC-CTRL-001.
+
 **Related Documentation:**
 - Related ADRs:
   - [ADR-032: Real-Time Execution Dashboard](../../docs/architecture/adrs/ADR-032-real-time-execution-dashboard.md)

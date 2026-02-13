@@ -1,0 +1,111 @@
+@startuml control_plane_reference_architecture
+title Local Agent Control Plane — Reference Architecture (CQRS)
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+skinparam defaultFontName "Verdana"
+skinparam defaultFontSize 14
+skinparam wrapWidth 260
+
+' --- Legend colors ---
+' Core (committed scope)    = default C4 blue
+' Deferred / optional       = yellow (#FFF9C4 fill, #F9A825 border)
+
+AddElementTag("deferred", $fontColor="#6D4C00", $bgColor="#FFF9C4", $borderColor="#F9A825", $legendText="Deferred / Optional")
+AddRelTag("query", $textColor="#6A1B9A", $lineColor="#6A1B9A", $lineStyle="dashed", $legendText="Query (read path)")
+
+' =========================
+' ACTORS
+' =========================
+Person(human, "Human Operator", "Kicks off work, reviews results, governs checkpoints")
+
+' =========================
+' CONTROL PLANES
+' =========================
+System_Boundary(control, "Control Planes") {
+    Container(dashboard, "Localhost Dashboard", "Flask + SocketIO", "Real-time task state, cost metrics, artifact links. Read-only view of execution. (ADR-032)")
+    Container(tui, "Interactive Console", "CLI / TUI", "Kick off tasks, open logs, interactive exploration. (ADR-025)")
+}
+
+' =========================
+' SERVICE LAYER
+' =========================
+System_Boundary(service, "Service Layer") {
+    Container(cmd, "Coordination Service", "Python asyncio", "Accepts commands (start / cancel / retry), validates against governance, dispatches to distributor. Emits lifecycle events.")
+}
+
+' =========================
+' DISTRIBUTOR (STRATEGY)
+' =========================
+System_Boundary(distributor, "Distributor Layer (Strategy Pattern)") {
+    Container(dist_direct, "Direct Distributor", "In-process", "Straight-through dispatch to execution adapters. Default strategy. (ADR-020 Layer 2)")
+    Container(dist_queue, "Queue Distributor", "asyncio.Queue / Redis", "Buffered dispatch with backpressure and retry.", $tags="deferred")
+    Container(dist_kestra, "Workflow Distributor", "Kestra / Temporal", "Durable workflow orchestration for multi-step runs.", $tags="deferred")
+}
+
+' =========================
+' EXECUTION LAYER
+' =========================
+System_Boundary(execution, "Execution Layer (ADR-020 Layer 3)") {
+    Container(exe_cli, "CLI Execution Adapter", "subprocess / asyncio", "Wraps CLI tools (claude-code, codex, opencode). Extends ToolAdapter ABC. (ADR-029)")
+    Container(exe_sdk, "SDK Execution Adapter", "OpenAI / Anthropic SDK", "Direct API calls to LLM providers. Extends ToolAdapter ABC.", $tags="deferred")
+    Container(exe_other, "Other Tool Adapters", "GenericYAMLAdapter", "YAML-configured tool invocation for future tools. (ADR-025)")
+}
+
+' =========================
+' READ / QUERY SIDE
+' =========================
+System_Boundary(query_side, "Read / Query Side") {
+    Container(qry, "Query Service", "Python", "Read-model facade over telemetry, task state, and artifacts. Serves dashboard and TUI queries.")
+}
+
+' =========================
+' STORAGE
+' =========================
+System_Boundary(storage, "Storage Layer") {
+    ContainerDb(tel, "Telemetry Store", "JSONL (primary) + SQLite (index)", "Append-only event log. SQLite materialized view for fast queries.")
+    Container(art, "Artifacts & Logs", "Filesystem", "stdout/stderr captures, generated artifacts, raw logs. Organized per run/task.")
+    Container(tasks, "Task State", "YAML files in work/", "File-based orchestration. Source of truth for task lifecycle. (ADR-008)")
+}
+
+' =========================
+' COMMAND / WRITE FLOW
+' =========================
+Rel(human, dashboard, "Monitor, intervene")
+Rel(human, tui, "Kick off work, explore")
+Rel(dashboard, cmd, "Commands (start / cancel / retry)")
+Rel(tui, cmd, "Commands (kick off tasks)")
+
+Rel(cmd, dist_direct, "Dispatch (default)")
+Rel(cmd, dist_queue, "Dispatch (buffered)", $tags="deferred")
+Rel(cmd, dist_kestra, "Dispatch (workflow)", $tags="deferred")
+
+Rel(dist_direct, exe_cli, "Execute")
+Rel(dist_direct, exe_sdk, "Execute", $tags="deferred")
+Rel(dist_direct, exe_other, "Execute")
+Rel(dist_queue, exe_cli, "Execute", $tags="deferred")
+Rel(dist_kestra, exe_cli, "Execute", $tags="deferred")
+
+Rel(exe_cli, art, "Write stdout/stderr/artifacts")
+Rel(exe_sdk, art, "Write artifacts", $tags="deferred")
+Rel(exe_other, art, "Write artifacts")
+
+Rel(cmd, tel, "Write lifecycle events")
+Rel(cmd, tasks, "Update task state (YAML)")
+Rel(exe_cli, tel, "Write execution events")
+Rel(exe_sdk, tel, "Write execution events", $tags="deferred")
+Rel(exe_other, tel, "Write execution events")
+
+' =========================
+' QUERY / READ FLOW
+' =========================
+Rel(dashboard, qry, "Queries (status, history, cost)", $tags="query")
+Rel(tui, qry, "Queries (last state, artifacts)", $tags="query")
+
+Rel(qry, tel, "Read telemetry", $tags="query")
+Rel(qry, art, "Read artifact index", $tags="query")
+Rel(qry, tasks, "Read task state", $tags="query")
+
+SHOW_LEGEND()
+@enduml

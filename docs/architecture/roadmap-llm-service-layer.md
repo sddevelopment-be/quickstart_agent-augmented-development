@@ -1,15 +1,22 @@
 # Roadmap: LLM Service Layer
 
-**Project:** LLM Service Layer for Agent-Tool Orchestration  
-**Version:** 1.0.0  
-**Status:** In Planning  
-**Last Updated:** 2026-02-04
+**Project:** LLM Service Layer and Agent Control Plane
+**Version:** 2.0.0
+**Status:** Active — Control Plane phases added 2026-02-13
+**Last Updated:** 2026-02-13
 
 ---
 
 ## Vision
 
 Enable seamless agent-to-LLM interaction through a configuration-driven service layer that optimizes costs, provides unified interfaces, and supports extensible tool integration.
+
+This roadmap now covers two interrelated system layers that have evolved from the same foundation:
+
+- **Phases 0-4:** LLM Service Layer (agent-to-tool routing, cost optimization, distribution)
+- **Phases 5-7:** Agent Control Plane (CQRS event architecture, async execution, run container model)
+
+The Control Plane phases build on the LLM Service Layer's telemetry and routing infrastructure. They were approved following the Local Agent Control Plane Architecture design (`docs/architecture/design/local-agent-control-plane-architecture.md`) and are governed by ADR-047, ADR-048, and ADR-049.
 
 ---
 
@@ -133,10 +140,150 @@ Enable seamless agent-to-LLM interaction through a configuration-driven service 
 
 ---
 
+---
+
+### ✅ Milestone 5.1: Conceptual Alignment Foundation (COMPLETE)
+
+**Status:** COMPLETE (code done 2026-02-12, formal closure pending Manager Mike sign-off)
+**Completed:** 2026-02-12
+
+**Delivered:**
+- ADR-046: Domain Module Refactoring — 4/4 tasks, 942 tests, git history preserved
+- ADR-045: Doctrine Concept Domain Model — 5/5 tasks complete
+  - 6 immutable domain models, 4 markdown parsers, 3 validators
+  - 195 tests passing (92% coverage), 0 production errors
+  - Performance: 7ms (68x faster than 500ms target)
+  - Dashboard portfolio view integration (Task 5)
+- All reviews approved: Alphonso, Annie, Claire, Pedro
+
+**Formal Closure:** Manager Mike approval required to archive milestone task files. No code work is outstanding.
+
+---
+
+## Control Plane Phases (Approved 2026-02-13)
+
+These phases implement the Local Agent Control Plane architecture. They were approved following the architecture design review and are backed by ADR-047 (CQRS), ADR-048 (Run Container), and ADR-049 (Async Execution Engine).
+
+**Governing Documents:**
+- Architecture Design: `docs/architecture/design/local-agent-control-plane-architecture.md` (Approved)
+- ADR-047: `docs/architecture/adrs/ADR-047-cqrs-local-agent-control-plane.md` (Proposed)
+- ADR-048: `docs/architecture/adrs/ADR-048-run-container-concept.md` (Proposed)
+- ADR-049: `docs/architecture/adrs/ADR-049-async-execution-engine.md` (Proposed)
+
+**Human Gate:** ADR-047, ADR-048, and ADR-049 are currently Proposed. Architect Alphonso review at the CQRS boundary checkpoint (end of M6.1 P1b interface definition) is required before those ADRs are formally approved. Implementation can proceed for P1a; P1b gating point is the interface review.
+
+---
+
+### Phase 5: Control Plane Foundation — M6.1: Dashboard Query Architecture
+
+**Status:** Ready to Start
+**Milestone:** M6.1
+**Effort:** 5-7 days
+**Agents:** Python Pedro (backend), Frontend agent (UI)
+
+**Goal:** Establish the CQRS event boundary and deliver dashboard initiative tracking. This phase combines the Control Plane P1 work with M4.3 (Dashboard Initiative Tracking) because both modify dashboard data access internals. Combining them avoids touching the same files twice.
+
+**Key Deliverables:**
+- [ ] JSONL event writer for run telemetry (P1a) — append-only, ADR-047 schema
+- [ ] Query Service facade separating read from write path (P1b) — CQRS boundary enforced by interface
+- [ ] Initiative tracking backend API — reads via Query Service
+- [ ] Dashboard initiative list and status visualization (frontend)
+
+**Tasks:**
+
+| ID | Task | Agent | Effort | Dependency |
+|----|------|-------|--------|------------|
+| CP-P1a | JSONL event writer | Python Pedro | 1-2 days | None |
+| CP-P1b | Query Service facade extraction | Python Pedro | 2-3 days | CP-P1a |
+| M4.3-BE | Initiative tracking backend API | Python Pedro | 1-2 days | CP-P1b interface defined |
+| M4.3-FE | Frontend integration and visualization | Frontend agent | 2-3 days | M4.3-BE complete |
+
+**Existing Task Reference:** `work/collaboration/assigned/python-pedro/2026-02-06T1150-dashboard-initiative-tracking.yaml`
+
+**Dependencies:**
+- M5.1 code complete (met)
+- Control Plane architecture design approved (met)
+- ADR-047 formal approval: required before P1b ships to production (review checkpoint during P1b interface definition)
+
+**Decision Checkpoints:**
+1. JSONL schema review (Architect Alphonso) — before P1a implementation begins
+2. CQRS interface review (Architect Alphonso) — after P1b interface is drafted, before implementation
+3. M4.3 API contract review (Manager Mike) — after backend API spec is complete
+4. M6.1 batch completion review (Manager Mike, Alphonso) — all workstreams done, tests green
+
+**Human Gate:** CQRS boundary review (checkpoint 2) is a hard gate before P1b production implementation proceeds.
+
+---
+
+### Phase 6: Async Execution — M6.2
+
+**Status:** Planned (begins after M6.1 complete)
+**Effort:** Estimated 6-9 days
+**Agents:** Python Pedro (backend), Framework Guardian (CI/infra)
+
+**Goal:** Implement non-blocking async execution of agent runs, cancellation support, and the Direct Distributor pattern for tool dispatch.
+
+**Key Deliverables:**
+- [ ] Async execution engine (ADR-049) — non-blocking run submission and status polling
+- [ ] Cancellation protocol — clean shutdown of in-flight runs
+- [ ] Direct Distributor — tool dispatch without blocking the caller
+- [ ] Async run state machine — submitted → running → done/cancelled/failed
+- [ ] Integration tests for async lifecycle
+
+**Tasks:**
+
+| ID | Task | Agent | Effort | Dependency |
+|----|------|-------|--------|------------|
+| AE-01 | Async execution engine core | Python Pedro | 2-3 days | M6.1 complete |
+| AE-02 | Run state machine | Python Pedro | 1-2 days | AE-01 |
+| AE-03 | Cancellation protocol | Python Pedro | 1-2 days | AE-02 |
+| AE-04 | Direct Distributor | Python Pedro | 1-2 days | AE-01 |
+| AE-05 | CI async test harness | Framework Guardian | 1 day | AE-03 |
+
+**Dependencies:**
+- M6.1 complete (Query Service must exist for async runs to write events)
+- ADR-049 approval (currently Proposed — approval expected during M6.1 planning horizon)
+
+**Human Gate:** ADR-049 formal approval required before M6.2 begins.
+
+---
+
+### Phase 7: Run Container — M6.3
+
+**Status:** Planned (begins after M6.2 complete)
+**Effort:** Estimated 5-8 days
+**Agents:** Python Pedro (backend), Frontend agent (UI)
+
+**Goal:** Introduce the Run domain model (ADR-048), exposing run history and status in the dashboard and enabling per-run cost and performance tracking.
+
+**Key Deliverables:**
+- [ ] Run domain model and repository (ADR-048) — persistent run records
+- [ ] Run list and detail views in dashboard
+- [ ] Per-run cost and token telemetry surfaced in UI
+- [ ] Run-level filtering and search
+
+**Tasks:**
+
+| ID | Task | Agent | Effort | Dependency |
+|----|------|-------|--------|------------|
+| RC-01 | Run domain model and repository | Python Pedro | 2-3 days | M6.2 complete |
+| RC-02 | Run API endpoints | Python Pedro | 1-2 days | RC-01 |
+| RC-03 | Dashboard run list view | Frontend agent | 1-2 days | RC-02 |
+| RC-04 | Dashboard run detail view | Frontend agent | 1-2 days | RC-03 |
+
+**Dependencies:**
+- M6.2 complete (async engine produces run records that RC-01 persists)
+- ADR-048 formal approval (currently Proposed)
+
+**Human Gate:** ADR-048 formal approval required before M6.3 begins.
+
+---
+
 ## Future Phases (Post-MVP)
 
-### Phase 5: Advanced Features (Optional)
-**Status:** Not Planned  
+### Optional: Advanced Features
+
+**Status:** Not Planned
 **Potential Scope:**
 - [ ] Parallel tool invocation (concurrent multi-agent workflows)
 - [ ] Context management (automatic conversation history tracking)
@@ -150,33 +297,47 @@ Enable seamless agent-to-LLM interaction through a configuration-driven service 
 
 ## Task List Summary
 
+### LLM Service Layer (Phases 0-4)
+
 | ID | Task | Agent | Milestone | Status | Completed |
 |----|------|-------|-----------|--------|-----------|
-| 1 | Config schema definition | Backend-Dev | M1 | ✅ Complete | 2026-02-04 |
-| 2 | Config loader implementation | Backend-Dev | M1 | 🔄 Next | - |
-| 3 | CLI interface foundation | Backend-Dev | M1 | 📋 Planned | - |
-| 4 | Routing engine core | Backend-Dev | M1 | 📋 Planned | - |
-| 5 | Adapter base interface | Backend-Dev | M2 | 📋 Planned | - |
-| 6 | Claude-Code adapter | Backend-Dev | M2 | 📋 Planned | - |
-| 7 | Codex adapter | Backend-Dev | M2 | 📋 Planned | - |
-| 8 | Generic YAML adapter | Backend-Dev | M2 | 📋 Planned | - |
-| 9 | Telemetry infrastructure | Backend-Dev | M3 | 📋 Planned | - |
-| 10 | Policy engine | Backend-Dev | M3 | 📋 Planned | - |
-| 11 | Stats reporting | Backend-Dev | M3 | 📋 Planned | - |
-| 12 | Acceptance tests | Backend-Dev | M4 | 📋 Planned | - |
-| 13 | CI integration | Framework-Guardian | M4 | 📋 Planned | - |
-| 14 | User guide | Writer-Editor | M4 | 📋 Planned | - |
-| 15 | Persona workflows | Scribe | M4 | 📋 Planned | - |
-| 16 | Packaging | Build-Automation | M4 | 📋 Planned | - |
-| 17 | Installation scripts | Build-Automation | M4 | 📋 Planned | - |
+| 1 | Config schema definition | Backend-Dev | M1 | Complete | 2026-02-04 |
+| 2 | Config loader implementation | Backend-Dev | M1 | Next | - |
+| 3 | CLI interface foundation | Backend-Dev | M1 | Planned | - |
+| 4 | Routing engine core | Backend-Dev | M1 | Planned | - |
+| 5 | Adapter base interface | Backend-Dev | M2 | Planned | - |
+| 6 | Claude-Code adapter | Backend-Dev | M2 | Planned | - |
+| 7 | Codex adapter | Backend-Dev | M2 | Planned | - |
+| 8 | Generic YAML adapter | Backend-Dev | M2 | Planned | - |
+| 9 | Telemetry infrastructure | Backend-Dev | M3 | Planned | - |
+| 10 | Policy engine | Backend-Dev | M3 | Planned | - |
+| 11 | Stats reporting | Backend-Dev | M3 | Planned | - |
+| 12 | Acceptance tests | Backend-Dev | M4 | Planned | - |
+| 13 | CI integration | Framework-Guardian | M4 | Planned | - |
+| 14 | User guide | Writer-Editor | M4 | Planned | - |
+| 15 | Persona workflows | Scribe | M4 | Planned | - |
+| 16 | Packaging | Build-Automation | M4 | Planned | - |
+| 17 | Installation scripts | Build-Automation | M4 | Planned | - |
 
-**Total Tasks:** 17  
-**Completed:** 1 (6%)  
-**In Progress:** 0  
-**Remaining:** 16  
-**Estimated Duration:** 4 weeks (assuming 1-2 developers)  
-**Critical Path:** Tasks 1→2→3→4→5→6/7→9→10→12→16/17  
-**Actual Progress:** Milestone 1 - 25% complete (1 of 4 tasks)
+### Control Plane (Phases 5-7)
+
+| ID | Task | Agent | Milestone | Status |
+|----|------|-------|-----------|--------|
+| CP-P1a | JSONL event writer | Python Pedro | M6.1 | Ready to Start |
+| CP-P1b | Query Service facade | Python Pedro | M6.1 | Ready to Start (after P1a) |
+| M4.3-BE | Initiative tracking backend API | Python Pedro | M6.1 | Ready to Start (after P1b interface) |
+| M4.3-FE | Dashboard initiative UI | Frontend agent | M6.1 | Planned (after M4.3-BE) |
+| AE-01 | Async execution engine core | Python Pedro | M6.2 | Planned |
+| AE-02 | Run state machine | Python Pedro | M6.2 | Planned |
+| AE-03 | Cancellation protocol | Python Pedro | M6.2 | Planned |
+| AE-04 | Direct Distributor | Python Pedro | M6.2 | Planned |
+| AE-05 | CI async test harness | Framework Guardian | M6.2 | Planned |
+| RC-01 | Run domain model and repository | Python Pedro | M6.3 | Planned |
+| RC-02 | Run API endpoints | Python Pedro | M6.3 | Planned |
+| RC-03 | Dashboard run list view | Frontend agent | M6.3 | Planned |
+| RC-04 | Dashboard run detail view | Frontend agent | M6.3 | Planned |
+
+**Critical Path (Control Plane):** CP-P1a → CP-P1b → M4.3-BE → M4.3-FE → AE-01 → AE-02/AE-03 → RC-01 → RC-02 → RC-03/RC-04
 
 ---
 
@@ -235,13 +396,24 @@ Enable seamless agent-to-LLM interaction through a configuration-driven service 
 | 2026-02-04 | 1.0.0 | Initial roadmap creation with 4 milestones, 17 tasks | Planning Petra |
 | 2026-02-04 | 1.1.0 | Added ADR-025 reference for formal architectural decision | Architect Alphonso |
 | 2026-02-04 | 1.2.0 | Updated Milestone 1 progress: Task 1 complete, Python selected, 25% done | Planning Petra |
+| 2026-02-13 | 2.0.0 | Added Control Plane phases (5-7): M6.1 Dashboard Query Architecture, M6.2 Async Execution, M6.3 Run Container. Documented M5.1 as effectively complete. Linked ADR-047, ADR-048, ADR-049 and approved technical design. | Planning Petra |
 
 ---
 
 ## References
 
-- **ADR:** [ADR-025: LLM Service Layer for Agent-Tool Orchestration](adrs/ADR-025-llm-service-layer.md) (formal architectural decision record)
+### LLM Service Layer
+- **ADR-025:** `docs/architecture/adrs/ADR-025-llm-service-layer.md` — formal architectural decision record
 - **Architecture Prestudy:** `docs/architecture/design/llm-service-layer-prestudy.md`
 - **Implementation Plan:** `docs/planning/llm-service-layer-implementation-plan.md`
 - **Diagrams:** `docs/architecture/diagrams/llm-service-layer-*.puml`
+
+### Control Plane
+- **Architecture Design (Approved):** `docs/architecture/design/local-agent-control-plane-architecture.md`
+- **ADR-047 (CQRS Pattern):** `docs/architecture/adrs/ADR-047-cqrs-local-agent-control-plane.md`
+- **ADR-048 (Run Container):** `docs/architecture/adrs/ADR-048-run-container-concept.md`
+- **ADR-049 (Async Execution Engine):** `docs/architecture/adrs/ADR-049-async-execution-engine.md`
+
+### Batch Coordination
+- **Current Batch (M6.1):** `work/collaboration/NEXT_BATCH.md`
 - **Work Directory Orchestration:** `.github/agents/approaches/work-directory-orchestration.md`

@@ -1,0 +1,64 @@
+id: 2026-02-13T1003-m61-dashboard-initiative-frontend
+title: "M6.1 Task 3: Dashboard Initiative Tracking Frontend"
+agent: frontend
+batch: M6.1
+priority: medium
+status: new
+created_at: "2026-02-13T10:03:00Z"
+created_by: manager-mike
+specification: specifications/initiatives/dashboard-enhancements/initiative-tracking.md
+initiative: "Dashboard Enhancements"
+estimated_effort_hours: 8
+
+description: |
+  Implement the frontend portfolio view for initiative tracking on the dashboard.
+  Consumes data from the QueryService facade (Task 2) via /api/portfolio endpoint.
+
+  ## Scope
+  - Initiative cards with progress bars and completion percentages
+  - Expandable/collapsible feature list within each initiative
+  - Feature status badges (implemented, in_progress, planned, blocked)
+  - Task drill-down from feature cards
+  - Orphan tasks section (tasks without spec links)
+  - Real-time WebSocket updates when tasks complete
+  - Responsive design (desktop + tablet)
+
+  ## Key Files
+  - MODIFY: src/llm_service/dashboard/static/index.html (add portfolio section)
+  - MODIFY: src/llm_service/dashboard/static/dashboard.js (portfolio rendering)
+  - MODIFY: src/llm_service/dashboard/static/dashboard.css (portfolio styles)
+  - NEW: src/llm_service/dashboard/static/portfolio.js (portfolio component)
+
+  ## References
+  - SPEC-DASH-003: Initiative Tracking and Portfolio View (UI specs)
+  - ADR-032: Real-Time Dashboard
+  - ADR-036: Dashboard Markdown Rendering (XSS safety)
+
+acceptance_criteria: |
+  - [ ] Portfolio view visible above task Kanban board
+  - [ ] Initiative cards with progress bars
+  - [ ] Expand/collapse feature lists
+  - [ ] Feature status badges (color-coded)
+  - [ ] Task counts per feature
+  - [ ] Orphan tasks section
+  - [ ] Real-time updates via WebSocket (task.completed → progress recalc)
+  - [ ] Empty state when no specifications exist
+  - [ ] Responsive design (tested at 1024px and 768px widths)
+  - [ ] CSP-compliant (no inline scripts, per ADR-036)
+
+dependencies:
+  - type: prerequisite
+    task_id: 2026-02-13T1002-m61-query-service-facade
+    description: Backend QueryService must be complete to serve /api/portfolio
+
+blocked_by:
+  - 2026-02-13T1002-m61-query-service-facade
+
+blocks: []
+
+tags:
+  - dashboard
+  - frontend
+  - m4.3
+  - m6.1
+  - spec-dash-003

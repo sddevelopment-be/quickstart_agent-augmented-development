@@ -6,6 +6,7 @@ This directory contains **specifications grouped by initiative** — strategic t
 
 ```
 specifications/initiatives/
+├── control-plane/              # Local Agent Control Plane Architecture
 ├── dashboard-enhancements/     # Real-Time Dashboard & Portfolio View
 ├── framework-distribution/     # Multi-Tool Distribution Architecture
 ├── quickstart-onboarding/      # Repository Initialization & Setup Wizard
@@ -29,6 +30,18 @@ Portfolio view, real-time execution tracking, configuration management, orphan t
 - SPEC-DASH-007: Real-Time Execution Dashboard (CRITICAL)
 - SPEC-DASH-003: Initiative Tracking and Portfolio View (HIGH)
 - SPEC-DASH-001: Task Priority Editing (HIGH)
+
+### Control Plane Architecture
+**Status:** Draft
+**Priority:** HIGH
+**Specifications:** 1 active
+
+Layered, CQRS-informed execution and observability infrastructure for the local agent control plane. Introduces a durable JSONL event log, a unified Query Service facade, async execution with cancellation support, and a Run container grouping model.
+
+**Key Specs:**
+- SPEC-CTRL-001: Local Agent Control Plane (JSONL telemetry, Query Service, async execution, Run model)
+
+**Related ADRs:** ADR-047 (CQRS), ADR-048 (Run Container), ADR-049 (Async Execution)
 
 ### Framework Distribution
 **Status:** In Progress

@@ -1,0 +1,86 @@
+id: 2026-02-13T1002-m61-query-service-facade
+title: "M6.1 Task 2: Query Service Facade Extraction"
+agent: python-pedro
+batch: M6.1
+priority: high
+status: new
+created_at: "2026-02-13T10:02:00Z"
+created_by: manager-mike
+specification: specifications/initiatives/control-plane/SPEC-CTRL-001-local-agent-control-plane.md
+initiative: "Control Plane Architecture"
+estimated_effort_hours: 10
+
+description: |
+  Extract read-side query logic from dashboard route handlers into a unified
+  QueryService facade. This is the CQRS read-side foundation (ADR-047) and
+  is combined with M4.3 dashboard initiative tracking to avoid touching the
+  same files twice.
+
+  ## Scope
+
+  ### Query Service Extraction (P1b from ADR-047)
+  - Extract TaskQueryRepository: wraps src/domain/collaboration/task_query.py
+  - Extract TelemetryQuery: wraps src/llm_service/telemetry/logger.py
+  - Extract ArtifactIndex: resolves artifact paths from filesystem
+  - Create QueryService facade that aggregates all three
+  - Refactor dashboard/app.py route handlers to delegate to QueryService
+
+  ### M4.3 Integration (Dashboard Initiative Tracking backend)
+  - Wire existing spec_parser.py, task_linker.py, progress_calculator.py
+    through the QueryService facade (not directly in route handlers)
+  - Ensure /api/portfolio reads through QueryService
+  - Ensure /api/tasks reads through QueryService
+  - Ensure /api/stats reads through QueryService
+
+  ## Key Files
+  - NEW: src/llm_service/query_service.py (facade)
+  - MODIFY: src/llm_service/dashboard/app.py (thin routes → delegate to facade)
+  - EXISTING: src/llm_service/dashboard/spec_parser.py (integrate into facade)
+  - EXISTING: src/llm_service/dashboard/task_linker.py (integrate into facade)
+  - EXISTING: src/llm_service/dashboard/progress_calculator.py (integrate into facade)
+  - EXISTING: src/domain/collaboration/task_query.py (wrap in facade)
+  - EXISTING: src/llm_service/telemetry/logger.py (wrap in facade)
+  - NEW: tests/unit/llm_service/test_query_service.py
+
+  ## References
+  - ADR-047: CQRS Pattern (query side section)
+  - ADR-032: Real-Time Dashboard (preserved)
+  - SPEC-DASH-003: Initiative Tracking and Portfolio View
+  - Technical design: docs/architecture/design/local-agent-control-plane-architecture.md
+  - Implementation mapping: docs/architecture/design/control-plane-implementation-mapping.md
+
+acceptance_criteria: |
+  - [ ] QueryService class with methods: get_tasks(), get_stats(), get_portfolio(),
+        get_telemetry_summary(), get_artifact_paths()
+  - [ ] Dashboard route handlers are thin (< 10 lines each, delegate to QueryService)
+  - [ ] /api/tasks returns same response as before (backward compatible)
+  - [ ] /api/stats returns same response as before (backward compatible)
+  - [ ] /api/portfolio returns same response as before (backward compatible)
+  - [ ] QueryService is read-only (no state mutation)
+  - [ ] Unit tests for QueryService (mock repositories)
+  - [ ] Integration tests: QueryService reads real YAML + SQLite
+  - [ ] 80%+ code coverage on new code
+  - [ ] Existing dashboard tests still pass
+
+dependencies:
+  - type: synergy
+    task_id: 2026-02-13T1000-m61-jsonl-event-writer
+    description: QueryService should read from JSONL once available
+  - type: prerequisite
+    task_id: 2026-02-11T1100-adr045-task5-dashboard-integration
+    description: Agent portfolio service must be complete (it is)
+
+blocked_by:
+  - 2026-02-13T1000-m61-jsonl-event-writer
+
+blocks:
+  - 2026-02-13T1003-m61-dashboard-initiative-frontend
+
+tags:
+  - control-plane
+  - dashboard
+  - cqrs
+  - adr-047
+  - m4.3
+  - m6.1
+  - p1

@@ -1,8 +1,13 @@
 id: "2026-02-06T1150-dashboard-initiative-tracking"
-title: "Dashboard Initiative Tracking - Portfolio View (ADR-037)"
+title: "Dashboard Initiative Tracking - Portfolio View (ADR-037) [SUPERSEDED by M6.1]"
 agent: "python-pedro"
 status: "inbox"
-priority: "MEDIUM"
+priority: "LOW"
+superseded_by: "2026-02-13T1002-m61-query-service-facade"
+superseded_reason: |
+  Combined into M6.1 batch (2026-02-13). Backend scope merged with Control Plane
+  P1b (Query Service Facade extraction, ADR-047). Frontend scope moved to
+  2026-02-13T1003-m61-dashboard-initiative-frontend. See DEPENDENCIES.md.
 created: "2026-02-06T11:50:00Z"
 estimated_hours: 13
 specification: "specifications/llm-dashboard/initiative-tracking.md"

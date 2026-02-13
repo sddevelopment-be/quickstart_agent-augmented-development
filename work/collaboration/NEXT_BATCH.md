@@ -1,267 +1,198 @@
 # Next Batch: Current Execution Focus
 
-**Last Updated**: 2026-02-12 (ADR-045 Milestone Update)  
-**Updated By**: Planning Petra  
-**Status**: M5.1 Batch - 80% Complete, 1 Task Remaining
+**Last Updated**: 2026-02-13 (Control Plane Architecture Approved — M6.1 Batch Defined)
+**Updated By**: Planning Petra (standing in for Jenny)
+**Status**: M5.1 EFFECTIVELY COMPLETE — Next Batch is M6.1: Dashboard Query Architecture
 
 ---
 
 ## Executive Summary
 
-**Current Focus:** Complete M5.1 (Conceptual Alignment Foundation) milestone with ADR-045 Task 5 (Dashboard Integration).
+**M5.1 Status:** Code complete. ADR-045 Task 5 (Dashboard Integration) is done. Formal milestone closure is pending Manager Mike sign-off and archiving of task files. No blocking work remains.
 
-**Progress:**
-- ✅ ADR-046: Domain Module Refactoring (100% complete, 4/4 tasks)
-- 🔄 ADR-045: Doctrine Concept Domain Model (80% complete, 4/5 tasks)
-- ⏳ M4.3: Dashboard Initiative Tracking (blocked, awaiting ADR-045 completion)
+**Next Batch: M6.1 — Dashboard Query Architecture**
 
-**Key Achievements:**
+This batch combines two workstreams that both modify dashboard internals. Separating them would require touching the same files twice. Combining them into a single batch reduces integration risk and review overhead.
+
+**Workstreams in M6.1:**
+- M4.3: Dashboard Initiative Tracking (existing task, previously blocked by M5.1)
+- Control Plane P1b: Query Service facade extraction (new, from ADR-047 CQRS Pattern)
+- Control Plane P1a: JSONL event writer for telemetry (new, from ADR-047)
+
+**Estimated Effort:** 5-7 days total
+**Primary Agents:** Python Pedro (backend), Frontend agent (UI)
+
+---
+
+## M5.1 Closure: Status
+
+**Overall Status:** EFFECTIVELY COMPLETE (code done, formal closure pending)
+
+| Component | Status | Notes |
+|---|---|---|
+| ADR-046: Domain Module Refactoring | COMPLETE | 4/4 tasks, 942 tests passing |
+| ADR-045 Tasks 1-4 | COMPLETE | All approved by Alphonso, Annie, Claire |
+| ADR-045 Task 5: Dashboard Integration | CODE DONE | Pending formal milestone sign-off |
+| M5.1 Milestone Closure | PENDING | Manager Mike approval required |
+
+**Action Required (non-blocking for M6.1):** Manager Mike to formally close M5.1 milestone and archive task files. This is an administrative step; no code work is outstanding.
+
+**Achievements from M5.1:**
 - 195 tests passing (92% coverage)
 - 0 production errors in validation
-- All reviews approved (Pedro, Alphonso, Annie, Claire)
-- Performance exceeds targets by 68x (7ms vs 500ms)
+- Performance exceeds targets by 68x (7ms vs 500ms target)
 - Production-ready domain models, parsers, and validators
+- All reviews approved (Pedro, Alphonso, Annie, Claire)
 
 ---
 
-## Current Batch (M5.1): Task Status
+## Current Batch: M6.1 — Dashboard Query Architecture
 
-### ✅ COMPLETE: ADR-046 - Domain Module Refactoring
+### Rationale for Combining M4.3 and Control Plane P1
 
-**Status:** 100% COMPLETE  
-**Completion Date:** 2026-02-11  
-**Quality:** ⭐⭐⭐⭐⭐
+M4.3 (Dashboard Initiative Tracking) and Control Plane P1b (Query Service extraction) both modify dashboard data access internals. Executing them sequentially would require two rounds of touching the same files, increasing merge risk and requiring reviewers to context-switch twice. Combining them into a single coordinated batch avoids this.
 
-**Delivered:**
-- Task 1: Domain structure setup ✅
-- Task 2: File migration (git mv) ✅
-- Task 3: Import path updates ✅
-- Task 4: Validation & testing ✅
+Control Plane P1a (JSONL event writer) is included because it is a prerequisite for P1b and is self-contained on the backend.
 
-**Metrics:**
-- 942 tests passing (no regressions)
-- Git history preserved
-- Zero breaking changes
+**Technical References:**
+- Technical Design: `docs/architecture/design/local-agent-control-plane-architecture.md` (Approved)
+- ADR-047: CQRS Pattern — `docs/architecture/adrs/ADR-047-cqrs-local-agent-control-plane.md` (Proposed)
+- ADR-048: Run Container — `docs/architecture/adrs/ADR-048-run-container-concept.md` (Proposed)
+- ADR-049: Async Execution Engine — `docs/architecture/adrs/ADR-049-async-execution-engine.md` (Proposed)
+- Existing Task: `work/collaboration/assigned/python-pedro/2026-02-06T1150-dashboard-initiative-tracking.yaml`
 
 ---
 
-### 🔄 IN PROGRESS: ADR-045 - Doctrine Concept Domain Model
+### Workstream 1: Control Plane P1a — JSONL Event Writer
 
-**Status:** 80% COMPLETE (4/5 tasks)  
-**Expected Completion:** 2026-02-12 (today)  
-**Quality:** ⭐⭐⭐⭐⭐
+**Owner:** Python Pedro
+**Effort:** 1-2 days
+**Source:** ADR-047 (CQRS Pattern), Control Plane Architecture
+**Status:** Ready to start (no blockers)
 
-#### ✅ Task 1: Domain Models (COMPLETE)
-- **Deliverable:** 6 immutable domain models
-- **Tests:** 27 passing, 98% coverage
-- **Duration:** ~1 hour
-- **Status:** APPROVED by Alphonso ✅
-
-#### ✅ Task 2: Parsers (COMPLETE)
-- **Deliverable:** 4 markdown parsers (Directive, Agent, Tactic, Approach)
-- **Tests:** 50 passing, 91% coverage
-- **Duration:** ~2 hours
-- **Status:** APPROVED by Alphonso ✅
-
-#### ✅ Task 3: Enhanced Agent Parser (COMPLETE)
-- **Deliverable:** 8 enhanced parsing methods for agent features
-- **Tests:** 27 passing, 90.48% coverage
-- **Duration:** ~1.5 hours
-- **Status:** APPROVED by Alphonso ✅
-
-#### ✅ Task 4: Validators (COMPLETE)
-- **Deliverable:** 3 validators (CrossReference, Metadata, Integrity)
-- **Tests:** 91 passing, 100% coverage
-- **Duration:** ~2 hours
-- **Status:** APPROVED by Alphonso ✅, Annie ✅, Claire ✅
-
-#### ⏳ Task 5: Dashboard Integration (PENDING)
-- **Deliverable:** Portfolio view integration
-- **Estimated Effort:** 2-4 hours
-- **Prerequisites:** ✅ All met (Tasks 1-4 complete)
-- **Assigned To:** Python Pedro
-- **Status:** READY TO START
-- **Blocking:** M4.3 Dashboard Initiative Tracking
-
-**Task File:** `work/collaboration/assigned/python-pedro/2026-02-11T1100-adr045-task5-dashboard-integration.yaml`
-
-**Scope (Limited per specification):**
-- Display agents with capabilities in portfolio view
-- Show directive compliance status
-- Link to source files
-- Performance: Must integrate with existing dashboard (<100ms load)
-
-**Risk Assessment:** LOW
-- Solid foundation from Tasks 1-4
-- Limited scope (portfolio view only)
-- Clear acceptance criteria
-- Performance already validated (7ms load time)
-
----
-
-## Next Actions (Priority Order)
-
-### 🔴 IMMEDIATE: Complete ADR-045 Task 5
-
-**Task:** Dashboard Integration  
-**Agent:** Python Pedro  
-**Effort:** 2-4 hours  
-**Priority:** CRITICAL (unblocks M4.3)
+**Deliverables:**
+- JSONL append-only event writer for run telemetry
+- Writer integrated at tool invocation boundaries
+- Unit tests with >90% coverage
+- Work log per Directive 014
 
 **Acceptance Criteria:**
-1. Portfolio view displays agents with capabilities
-2. Directive compliance shown per agent
-3. Source file links functional
-4. Performance: <100ms page load
-5. Tests: ≥90% coverage maintained
-6. Work log created per Directive 014
+1. Events written in JSONL format with schema conforming to ADR-047
+2. Writer is append-only (no mutation of existing records)
+3. File rotation handled gracefully (no data loss on rotation boundary)
+4. Tests cover write, rotation, and error paths
 
-**Handoff Points:**
-- After completion: Architect Alphonso final review
-- Then: Manager Mike approves M5.1 milestone closure
-- Then: Unblock M4.3 Dashboard Initiative Tracking
+**Dependencies:** None (self-contained backend component)
 
 ---
 
-### 🟡 NEXT: Resume M4.3 Dashboard Initiative Tracking
+### Workstream 2: Control Plane P1b — Query Service Facade Extraction
 
-**Blocked By:** ADR-045 Task 5  
-**Ready When:** ADR-045 100% complete
+**Owner:** Python Pedro
+**Effort:** 2-3 days
+**Source:** ADR-047 (CQRS Pattern)
+**Status:** Depends on P1a (JSONL writer must exist to have something to query)
 
-**Tasks Waiting:**
-1. Initiative tracking backend API (Python Pedro, 6-8h)
-2. Frontend integration (Frontend agent, 5-7h)
-3. Status dashboard visualization (Frontend agent, 3-4h)
+**Deliverables:**
+- Query Service facade separating read path from write path
+- CQRS boundary enforced at the service layer (reads never touch write path)
+- Dashboard data access refactored to route through Query Service
+- Integration tests confirming read/write path separation
 
-**Expected Timeline:** Resume 2026-02-13 after ADR-045 closure
+**Acceptance Criteria:**
+1. All dashboard reads go through Query Service (no direct event log access from UI layer)
+2. CQRS boundary is enforced by interface, not convention
+3. Existing dashboard functionality is not regressed (all current tests pass)
+4. Query Service is independently testable in isolation
 
----
-
-## Milestone Progress: M5.1 Conceptual Alignment Foundation
-
-**Overall Progress:** 80% → 100% (upon Task 5 completion)
-
-### Completed Components ✅
-- ✅ Domain structure refactored (clean bounded context)
-- ✅ 6 immutable domain models created
-- ✅ 4 markdown parsers implemented
-- ✅ 3 validators with cross-reference checking
-- ✅ 195 tests passing (92% coverage)
-- ✅ Production validation (21 agents, 33 directives, 0 errors)
-- ✅ Performance benchmarks (68x faster than target)
-- ✅ All reviews approved
-
-### Remaining Component ⏳
-- ⏳ Dashboard integration (portfolio view)
-
-### Quality Gates ✅
-- ✅ Test coverage ≥90%: 92% achieved
-- ✅ All tests passing: 195/195 (100%)
-- ✅ Performance <100ms: 7ms achieved (14x better)
-- ✅ Code review approved: All reviewers ✅
-- ✅ Architectural review: Alphonso ✅
-- ✅ Compliance check: Annie ✅
-- ✅ Code quality review: Claire ✅
-- ⏳ Dashboard integration: Pending Task 5
+**Dependencies:** P1a complete (JSONL writer is the read source for the Query Service)
 
 ---
 
-## Dependencies & Blockers
+### Workstream 3: M4.3 — Dashboard Initiative Tracking
 
-### Unblocked ✅
-- ADR-045 Task 5: All prerequisites met, ready to execute
+**Owner:** Python Pedro (backend API), Frontend agent (UI)
+**Effort:** Backend 1-2 days, Frontend 2-3 days (parallelisable after backend API is done)
+**Source:** Existing task `2026-02-06T1150-dashboard-initiative-tracking`
+**Status:** Unblocked (M5.1 code complete)
 
-### Blocking ⏳
-- M4.3 Dashboard Initiative: Blocked by ADR-045 Task 5
+**Deliverables:**
+- Initiative tracking backend API (Python Pedro)
+- Frontend integration: initiative list and status display (Frontend agent)
+- Status dashboard visualization (Frontend agent)
 
-### No Dependencies 🟢
-- SPEC-TERM-001: Can proceed in parallel (different domain)
+**Acceptance Criteria:**
+1. Initiatives visible in dashboard with current status
+2. API follows Query Service pattern (reads via facade from P1b)
+3. Status visualization renders without errors on all supported viewport sizes
+4. Performance: <100ms page load for initiative list
+
+**Dependencies:**
+- M5.1 formal closure (administrative only, not a code dependency)
+- P1b Query Service facade (initiative tracking reads route through it)
+
+---
+
+## Sequencing Within M6.1
+
+```
+P1a (JSONL writer)        [Pedro, day 1-2]
+     |
+     v
+P1b (Query Service)       [Pedro, day 2-4]
+     |
+     +---> M4.3 backend   [Pedro, day 3-5]
+                |
+                v
+          M4.3 frontend   [Frontend agent, day 4-7]
+```
+
+P1a and the start of P1b can overlap. M4.3 backend work can begin once the Query Service interface is defined (implementation of P1b does not need to be complete, only the interface contract). Frontend work begins after the M4.3 backend API is available.
+
+---
+
+## Decision Checkpoints
+
+| Checkpoint | Trigger | Reviewers |
+|---|---|---|
+| P1a schema review | JSONL schema drafted | Architect Alphonso |
+| CQRS boundary review | P1b interface defined (before implementation) | Architect Alphonso |
+| M4.3 API contract review | Backend API spec complete | Manager Mike |
+| M6.1 batch completion | All workstreams done, tests green | Manager Mike, Alphonso |
 
 ---
 
 ## Risk Assessment
 
-### Low Risk 🟢
-- **ADR-045 Task 5:** Limited scope, solid foundation, 2-4h effort
-- **M5.1 Completion:** On track for 2026-02-12 completion
-
-### Mitigated Risks ✅
-- **Parser complexity:** 1,130 lines but well-tested (91% coverage)
-- **Performance:** Validated at 7ms (68x faster than target)
-- **Integration:** Clean bounded context, no circular dependencies
-- **Production readiness:** 0 errors in production validation
+| Risk | Probability | Impact | Mitigation |
+|---|---|---|---|
+| ADR-047 still Proposed (not Approved) | Medium | Medium | Proceed with P1a/P1b; architect review at CQRS boundary checkpoint gates further work |
+| M4.3 frontend scope expands | Medium | Low | M4.3 frontend is scoped to existing design; escalate any scope additions |
+| P1b touches same files as M4.3 backend | Low | Medium | Combined batch structure avoids this by design; Pedro to coordinate sequencing |
 
 ---
 
-## Success Metrics
+## Inbox Tasks Pending (Not in M6.1)
 
-### M5.1 Milestone Targets
-| Metric | Target | Actual | Status |
-|--------|--------|--------|--------|
-| **ADR-046 Tasks** | 4/4 | 4/4 ✅ | 100% |
-| **ADR-045 Tasks** | 5/5 | 4/5 🔄 | 80% |
-| **Test Coverage** | ≥90% | 92% | ✅ EXCEEDS |
-| **Tests Passing** | 100% | 195/195 | ✅ MEETS |
-| **Performance** | <100ms | 7ms | ✅ EXCEEDS 14x |
-| **Production Errors** | 0 | 0 | ✅ MEETS |
-| **Code Reviews** | All approved | 4/4 ✅ | ✅ MEETS |
+The following approved inbox tasks exist but are not scheduled in this batch. They should be addressed in M6.2 planning:
 
-### M5.1 Completion Forecast
-- **Current:** 80% (4/5 tasks)
-- **After Task 5:** 100% (5/5 tasks)
-- **Timeline:** 2026-02-12 (today) + 2-4 hours
-- **Confidence:** HIGH (95%+)
-
----
-
-## Timeline
-
-**Completed:**
-- 2026-02-11: ADR-046 completed (4 tasks)
-- 2026-02-11: ADR-045 Task 1 (Domain Models)
-- 2026-02-11: ADR-045 Task 2 (Parsers)
-- 2026-02-12: ADR-045 Task 3 (Agent Parser)
-- 2026-02-12: ADR-045 Task 4 (Validators)
-- 2026-02-12: All reviews completed and approved
-
-**Current:**
-- 2026-02-12: ADR-045 Task 5 (Dashboard Integration) - IN PROGRESS
-
-**Upcoming:**
-- 2026-02-12: M5.1 milestone completion
-- 2026-02-13: M4.3 Dashboard Initiative resume
-- 2026-02-13+: SPEC-TERM-001 execution (parallel track)
-
----
-
-## Batch Retrospective Notes
-
-### What Went Well ✅
-1. **Exceptional TDD discipline:** RED-GREEN-REFACTOR applied rigorously
-2. **Strong architecture:** Clean bounded context, no circular dependencies
-3. **Comprehensive testing:** 92% coverage, 195 tests, 0 production errors
-4. **Excellent performance:** 68x faster than targets
-5. **Efficient reviews:** All approvals in single day
-6. **Clear documentation:** 6 work logs, comprehensive review reports
-
-### What Could Improve 🔄
-1. **Parser complexity:** 1,130 lines (consider refactoring in future ADR)
-2. **Test coverage gaps:** Some defensive code paths untested (low risk)
-3. **Dashboard integration delay:** Task 5 could have been done earlier
-
-### Key Learnings 📚
-1. **Domain-first approach works:** Building solid domain models enabled fast, reliable implementation
-2. **Test coverage pays off:** 195 tests gave confidence for production deployment
-3. **Performance testing upfront:** Established baselines early, avoided surprises
-4. **Review coordination:** Multi-reviewer approval efficient with clear checkpoints
+- `2026-02-12T1101`: Planning Petra — roadmap integration for Agent Specialization Hierarchy
+- `2026-02-12T1102`: Manager Mike — task assignment for Agent Specialization Hierarchy
 
 ---
 
 ## Change Log
 
+**2026-02-13 (Planning Petra):**
+- Declared M5.1 effectively complete (code done, formal closure pending)
+- Defined M6.1: Dashboard Query Architecture (combined M4.3 + Control Plane P1a + P1b)
+- Documented rationale for combining workstreams
+- Added sequencing diagram and decision checkpoints
+- Linked approved technical design and proposed ADRs
+
 **2026-02-12 (Planning Petra):**
 - Updated M5.1 progress: 80% complete (4/5 tasks)
-- Marked ADR-045 Tasks 1-4 as COMPLETE ✅
+- Marked ADR-045 Tasks 1-4 as COMPLETE
 - Updated dependencies: Task 5 ready, M4.3 blocked
 - Added success metrics and timeline
 - Documented retrospective insights
@@ -274,9 +205,11 @@
 ---
 
 **Related Documents:**
+- Technical Design: `docs/architecture/design/local-agent-control-plane-architecture.md`
+- ADR-047 (CQRS): `docs/architecture/adrs/ADR-047-cqrs-local-agent-control-plane.md`
+- ADR-048 (Run Container): `docs/architecture/adrs/ADR-048-run-container-concept.md`
+- ADR-049 (Async Engine): `docs/architecture/adrs/ADR-049-async-execution-engine.md`
 - Milestone Checkpoint: `work/coordination/adr045-tasks-1-4-checkpoint.md`
 - Architecture Review: `work/reports/architecture/2026-02-12-adr045-final-review.md`
-- Compliance Report: `work/reports/compliance/2026-02-12-adr045-specification-compliance.md`
 - Dependencies: `work/collaboration/DEPENDENCIES.md`
 - Agent Status: `work/collaboration/AGENT_STATUS.md`
-- Agent Tasks: `work/collaboration/AGENT_TASKS.md`

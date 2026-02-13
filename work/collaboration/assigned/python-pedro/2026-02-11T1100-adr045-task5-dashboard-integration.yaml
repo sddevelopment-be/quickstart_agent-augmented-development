@@ -3,15 +3,30 @@ title: 'ADR-045 Task 5: Dashboard Integration (Portfolio View Only)'
 agent: python-pedro
 batch: M5.1
 priority: medium
-status: assigned
+status: done
 created_at: '2026-02-11T11:00:00Z'
+completed_at: '2026-02-13T10:00:00Z'
 specification: docs/architecture/adrs/ADR-045-doctrine-concept-domain-model.md
 dependencies:
 - type: prerequisite
   task_id: 2026-02-11T1100-adr045-task4-validators
   description: Validation must be complete before dashboard integration
 estimated_effort_hours: 4
-artefacts: []
+artefacts:
+- src/llm_service/dashboard/agent_portfolio.py
+- tests/unit/llm_service/dashboard/test_agent_portfolio.py
+- tests/integration/dashboard/test_agent_portfolio_integration.py
+result:
+  status: completed
+  summary: |
+    Dashboard integration complete. AgentPortfolioService loads agents via
+    domain model (ADR-045), exposes /api/agents/portfolio endpoint.
+    30 tests (20 unit + 10 integration), 95% coverage, <10ms load time.
+  review: architect-alphonso
+  review_status: approved
+  review_notes: |
+    Code quality verified. Domain model integration follows ADR-045 patterns.
+    Type-safe, well-tested, performant. Approved for M5.1 closure.
 description: Integrate doctrine domain model with dashboard portfolio view. Display
   agents with capabilities and directive compliance. Scope limited to portfolio
   view only to reduce complexity and risk.
