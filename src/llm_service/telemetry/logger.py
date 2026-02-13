@@ -114,7 +114,7 @@ class TelemetryLogger:
         with open(schema_path) as f:
             schema = f.read()
 
-        with sqlite3.connect(self.db_path) as conn:
+        with sqlite3.connect(self.db_path, detect_types=0) as conn:
             conn.executescript(schema)
 
     def log_invocation(self, record: InvocationRecord):
@@ -128,11 +128,11 @@ class TelemetryLogger:
             sqlite3.IntegrityError: If invocation_id already exists
         """
         with self._lock:
-            with sqlite3.connect(self.db_path) as conn:
+            with sqlite3.connect(self.db_path, detect_types=0) as conn:
                 # Use record timestamp or current time
                 timestamp = record.timestamp or datetime.now(timezone.utc)
 
-                # Insert invocation
+                # Insert invocation (convert datetime to ISO format string)
                 conn.execute(
                     """
                     INSERT INTO invocations (
@@ -143,7 +143,7 @@ class TelemetryLogger:
                 """,
                     (
                         record.invocation_id,
-                        timestamp,
+                        timestamp.isoformat(),
                         record.agent_name,
                         record.tool_name,
                         record.model_name,
@@ -175,6 +175,7 @@ class TelemetryLogger:
         date = timestamp.date()
 
         # Use INSERT OR REPLACE pattern for SQLite (UPSERT)
+        # Convert date to ISO format string to avoid deprecated adapter
         conn.execute(
             """
             INSERT INTO daily_costs (
@@ -187,7 +188,7 @@ class TelemetryLogger:
                 total_cost_usd = total_cost_usd + ?
         """,
             (
-                date,
+                date.isoformat(),
                 record.agent_name,
                 record.tool_name,
                 record.model_name,
@@ -203,14 +204,14 @@ class TelemetryLogger:
         Query daily cost aggregates.
 
         Args:
-            start_date: Optional start date filter
-            end_date: Optional end date filter
+            start_date: Optional start date filter (date object or ISO string)
+            end_date: Optional end date filter (date object or ISO string)
             agent_name: Optional agent name filter
 
         Returns:
             List of daily cost records as dictionaries
         """
-        with sqlite3.connect(self.db_path) as conn:
+        with sqlite3.connect(self.db_path, detect_types=0) as conn:
             conn.row_factory = sqlite3.Row
 
             query = "SELECT * FROM daily_costs WHERE 1=1"
@@ -218,11 +219,19 @@ class TelemetryLogger:
 
             if start_date:
                 query += " AND date >= ?"
-                params.append(start_date)
+                # Convert date object to ISO string to avoid deprecated adapter
+                params.append(
+                    start_date.isoformat()
+                    if hasattr(start_date, "isoformat")
+                    else start_date
+                )
 
             if end_date:
                 query += " AND date <= ?"
-                params.append(end_date)
+                # Convert date object to ISO string to avoid deprecated adapter
+                params.append(
+                    end_date.isoformat() if hasattr(end_date, "isoformat") else end_date
+                )
 
             if agent_name:
                 query += " AND agent_name = ?"
@@ -246,8 +255,8 @@ class TelemetryLogger:
         Query individual invocations.
 
         Args:
-            start_date: Optional start date filter
-            end_date: Optional end date filter
+            start_date: Optional start date filter (date object or ISO string)
+            end_date: Optional end date filter (date object or ISO string)
             agent_name: Optional agent name filter
             tool_name: Optional tool name filter
             status: Optional status filter
@@ -256,7 +265,7 @@ class TelemetryLogger:
         Returns:
             List of invocation records as dictionaries
         """
-        with sqlite3.connect(self.db_path) as conn:
+        with sqlite3.connect(self.db_path, detect_types=0) as conn:
             conn.row_factory = sqlite3.Row
 
             query = "SELECT * FROM invocations WHERE 1=1"
@@ -264,11 +273,19 @@ class TelemetryLogger:
 
             if start_date:
                 query += " AND DATE(timestamp) >= ?"
-                params.append(start_date)
+                # Convert date object to ISO string to avoid deprecated adapter
+                params.append(
+                    start_date.isoformat()
+                    if hasattr(start_date, "isoformat")
+                    else start_date
+                )
 
             if end_date:
                 query += " AND DATE(timestamp) <= ?"
-                params.append(end_date)
+                # Convert date object to ISO string to avoid deprecated adapter
+                params.append(
+                    end_date.isoformat() if hasattr(end_date, "isoformat") else end_date
+                )
 
             if agent_name:
                 query += " AND agent_name = ?"
@@ -305,7 +322,7 @@ class TelemetryLogger:
             - avg_latency_ms
             - error_count
         """
-        with sqlite3.connect(self.db_path) as conn:
+        with sqlite3.connect(self.db_path, detect_types=0) as conn:
             query = """
                 SELECT
                     COUNT(*) as total_invocations,

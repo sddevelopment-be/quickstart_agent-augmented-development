@@ -313,6 +313,55 @@ def register_routes(app: Flask) -> None:
         )
         return jsonify(finished_tasks)
 
+    def _build_task_list(spec_tasks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        """Build task list from specification tasks."""
+        return [
+            {
+                "id": t.get("id"),
+                "title": t.get("title"),
+                "status": t.get("status"),
+                "priority": t.get("priority"),
+                "agent": t.get("agent"),
+            }
+            for t in spec_tasks
+        ]
+
+    def _calculate_spec_progress(spec_tasks: list[dict[str, Any]]) -> int:
+        """Calculate specification progress from tasks."""
+        completed_tasks = sum(1 for t in spec_tasks if t.get("status") == "done")
+        total_tasks = len(spec_tasks)
+        return int(completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
+
+    def _determine_initiative_status(specs: list[dict[str, Any]]) -> str:
+        """Determine initiative status (most advanced status)."""
+        status_priority = {
+            "draft": 1,
+            "in_progress": 2,
+            "implemented": 3,
+            "complete": 3,
+        }
+        return max(
+            (spec.get("status", "draft") for spec in specs),
+            key=lambda s, priority=status_priority: priority.get(s, 0),
+        )
+
+    def _determine_initiative_priority(specs: list[dict[str, Any]]) -> str:
+        """Determine initiative priority (highest priority)."""
+        priority_order = {"CRITICAL": 4, "HIGH": 3, "MEDIUM": 2, "LOW": 1}
+        return max(
+            (spec.get("priority", "MEDIUM") for spec in specs),
+            key=lambda p, order=priority_order: order.get(p, 2),
+        )
+
+    def _calculate_initiative_progress(specs: list[dict[str, Any]]) -> int:
+        """Calculate initiative progress from all specifications."""
+        total_tasks = sum(spec["task_count"] for spec in specs)
+        completed_tasks = sum(
+            len([t for t in spec["tasks"] if t.get("status") == "done"])
+            for spec in specs
+        )
+        return int(completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
+
     @app.route("/api/portfolio", methods=["GET"])
     def portfolio():
         """
@@ -376,23 +425,10 @@ def register_routes(app: Flask) -> None:
             spec_tasks = task_groups.get(spec_full_path, [])
 
             # Build task list (tasks link to specifications, not features)
-            tasks = [
-                {
-                    "id": t.get("id"),
-                    "title": t.get("title"),
-                    "status": t.get("status"),
-                    "priority": t.get("priority"),
-                    "agent": t.get("agent"),
-                }
-                for t in spec_tasks
-            ]
+            tasks = _build_task_list(spec_tasks)
 
             # Calculate specification progress from tasks
-            completed_tasks = sum(1 for t in spec_tasks if t.get("status") == "done")
-            total_tasks = len(spec_tasks)
-            spec_progress = (
-                int(completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
-            )
+            spec_progress = _calculate_spec_progress(spec_tasks)
 
             # Build specification object
             spec_objects.append(
@@ -419,33 +455,16 @@ def register_routes(app: Flask) -> None:
         initiatives = []
         for initiative_name, specs in sorted(initiatives_grouped.items()):
             # Calculate initiative progress from all specifications
-            total_tasks = sum(spec["task_count"] for spec in specs)
-            completed_tasks = sum(
-                len([t for t in spec["tasks"] if t.get("status") == "done"])
-                for spec in specs
-            )
-            initiative_progress = (
-                int(completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
-            )
+            initiative_progress = _calculate_initiative_progress(specs)
 
             # Determine initiative status (most advanced status)
-            status_priority = {
-                "draft": 1,
-                "in_progress": 2,
-                "implemented": 3,
-                "complete": 3,
-            }
-            initiative_status = max(
-                (spec.get("status", "draft") for spec in specs),
-                key=lambda s: status_priority.get(s, 0),
-            )
+            initiative_status = _determine_initiative_status(specs)
 
             # Determine initiative priority (highest priority)
-            priority_order = {"CRITICAL": 4, "HIGH": 3, "MEDIUM": 2, "LOW": 1}
-            initiative_priority = max(
-                (spec.get("priority", "MEDIUM") for spec in specs),
-                key=lambda p: priority_order.get(p, 2),
-            )
+            initiative_priority = _determine_initiative_priority(specs)
+
+            # Calculate task count
+            total_tasks = sum(spec["task_count"] for spec in specs)
 
             initiatives.append(
                 {
