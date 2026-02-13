@@ -34,7 +34,7 @@ set -u  # Error on undefined variables
 SCRIPT_VERSION="1.0.0"
 
 # Color codes for output (if terminal supports it)
-if [ -t 1 ]; then
+if [[ -t 1 ]]; then
     RED='\033[0;31m'
     GREEN='\033[0;32m'
     YELLOW='\033[1;33m'
@@ -115,7 +115,7 @@ log_error() {
 }
 
 log_verbose() {
-    if [ "$VERBOSE" = "1" ]; then
+    if [[ "${VERBOSE}" = "1" ]]; then
         echo "  $*"
     fi
 }
@@ -125,9 +125,9 @@ calculate_sha256() {
     local file="$1"
     
     if command -v sha256sum >/dev/null 2>&1; then
-        sha256sum "$file" | awk '{print $1}'
+        sha256sum "${file}" | awk '{print $1}'
     elif command -v shasum >/dev/null 2>&1; then
-        shasum -a 256 "$file" | awk '{print $1}'
+        shasum -a 256 "${file}" | awk '{print $1}'
     else
         log_error "Neither sha256sum nor shasum found. Cannot verify checksums."
         exit 3
@@ -144,20 +144,20 @@ validate_release_structure() {
     local required_files="META/MANIFEST.yml"
     local missing=""
     
-    for dir in $required_dirs; do
-        if [ ! -d "$release_dir/$dir" ]; then
+    for dir in ${required_dirs}; do
+        if [[ ! -d "${release_dir}/${dir}" ]]; then
             missing="${missing} ${dir}/"
         fi
     done
     
-    for file in $required_files; do
-        if [ ! -f "$release_dir/$file" ]; then
+    for file in ${required_files}; do
+        if [[ ! -f "${release_dir}/${file}" ]]; then
             missing="${missing} ${file}"
         fi
     done
     
-    if [ -n "$missing" ]; then
-        log_error "Invalid release artifact structure. Missing:$missing"
+    if [[ -n "${missing}" ]]; then
+        log_error "Invalid release artifact structure. Missing:${missing}"
         log_error "Expected structure:"
         log_error "  framework_core/  - Core framework files"
         log_error "  scripts/         - Installation scripts"
@@ -174,8 +174,8 @@ validate_release_structure() {
 check_existing_installation() {
     local target_dir="$1"
     
-    if [ -f "$target_dir/.framework_meta.yml" ]; then
-        log_warning "Framework appears to be already installed in $target_dir"
+    if [[ -f "${target_dir}/.framework_meta.yml" ]]; then
+        log_warning "Framework appears to be already installed in ${target_dir}"
         log_warning "Found existing .framework_meta.yml"
         log_warning "To upgrade an existing installation, use framework_upgrade.sh instead"
         return 1
@@ -188,13 +188,13 @@ check_existing_installation() {
 parse_manifest() {
     local manifest_file="$1"
     
-    if [ ! -f "$manifest_file" ]; then
-        log_error "Manifest file not found: $manifest_file"
+    if [[ ! -f "${manifest_file}" ]]; then
+        log_error "Manifest file not found: ${manifest_file}"
         return 2
     fi
     
     # Check for valid YAML (basic validation)
-    if ! grep -q "^version:" "$manifest_file"; then
+    if ! grep -q "^version:" "${manifest_file}"; then
         log_error "Invalid manifest format: missing version field"
         return 2
     fi
@@ -209,45 +209,45 @@ install_file() {
     local expected_checksum="$3"
     
     # Check if destination already exists
-    if [ -f "$dest_file" ]; then
-        log_verbose "SKIP: $dest_file (already exists)"
+    if [[ -f "${dest_file}" ]]; then
+        log_verbose "SKIP: ${dest_file} (already exists)"
         SKIPPED_COUNT=$((SKIPPED_COUNT + 1))
         return 0
     fi
     
     # Validate checksum if provided
-    if [ -n "$expected_checksum" ] && [ "$expected_checksum" != "null" ]; then
+    if [[ -n "${expected_checksum}" ]] && [[ "${expected_checksum}" != "null" ]]; then
         local actual_checksum
-        actual_checksum=$(calculate_sha256 "$src_file")
+        actual_checksum=$(calculate_sha256 "${src_file}")
         
-        if [ "$actual_checksum" != "$expected_checksum" ]; then
-            log_warning "Checksum mismatch for $src_file"
-            log_verbose "  Expected: $expected_checksum"
-            log_verbose "  Actual:   $actual_checksum"
+        if [[ "${actual_checksum}" != "${expected_checksum}" ]]; then
+            log_warning "Checksum mismatch for ${src_file}"
+            log_verbose "  Expected: ${expected_checksum}"
+            log_verbose "  Actual:   ${actual_checksum}"
             ERROR_COUNT=$((ERROR_COUNT + 1))
             return 1
         fi
     fi
     
-    if [ "$DRY_RUN" = "1" ]; then
-        log_verbose "WOULD INSTALL: $dest_file"
+    if [[ "${DRY_RUN}" = "1" ]]; then
+        log_verbose "WOULD INSTALL: ${dest_file}"
         NEW_COUNT=$((NEW_COUNT + 1))
         return 0
     fi
     
     # Create parent directory if needed
-    dest_dir=$(dirname "$dest_file")
-    if [ ! -d "$dest_dir" ]; then
-        mkdir -p "$dest_dir"
+    dest_dir=$(dirname "${dest_file}")
+    if [[ ! -d "${dest_dir}" ]]; then
+        mkdir -p "${dest_dir}"
     fi
     
     # Copy file preserving permissions
-    if cp -p "$src_file" "$dest_file"; then
-        log_verbose "NEW: $dest_file"
+    if cp -p "${src_file}" "${dest_file}"; then
+        log_verbose "NEW: ${dest_file}"
         NEW_COUNT=$((NEW_COUNT + 1))
         return 0
     else
-        log_error "Failed to copy $src_file to $dest_file"
+        log_error "Failed to copy ${src_file} to ${dest_file}"
         ERROR_COUNT=$((ERROR_COUNT + 1))
         return 1
     fi
@@ -257,57 +257,57 @@ install_file() {
 install_framework_files() {
     local release_dir="$1"
     local target_dir="$2"
-    local manifest_file="$release_dir/META/MANIFEST.yml"
+    local manifest_file="${release_dir}/META/MANIFEST.yml"
     
     log_info "Installing framework files..."
     
     # Find all files in framework_core
-    local core_dir="$release_dir/framework_core"
+    local core_dir="${release_dir}/framework_core"
     local temp_counts=$(mktemp)
-    echo "0 0 0" > "$temp_counts"
+    echo "0 0 0" > "${temp_counts}"
     
     # Use find to iterate over all files (POSIX-compliant)
-    find "$core_dir" -type f | while IFS= read -r src_file; do
+    find "${core_dir}" -type f | while IFS= read -r src_file; do
         # Calculate relative path
-        rel_path="${src_file#$core_dir/}"
-        dest_file="$target_dir/$rel_path"
+        rel_path="${src_file#${core_dir}/}"
+        dest_file="${target_dir}/${rel_path}"
         
         # Read current counts
-        read new_count skip_count err_count < "$temp_counts"
+        read new_count skip_count err_count < "${temp_counts}"
         
         # Check if destination already exists
-        if [ -f "$dest_file" ]; then
-            log_verbose "SKIP: $dest_file (already exists)"
+        if [[ -f "${dest_file}" ]]; then
+            log_verbose "SKIP: ${dest_file} (already exists)"
             skip_count=$((skip_count + 1))
         else
-            if [ "$DRY_RUN" = "1" ]; then
-                log_verbose "WOULD INSTALL: $dest_file"
+            if [[ "${DRY_RUN}" = "1" ]]; then
+                log_verbose "WOULD INSTALL: ${dest_file}"
                 new_count=$((new_count + 1))
             else
                 # Create parent directory if needed
-                dest_dir=$(dirname "$dest_file")
-                if [ ! -d "$dest_dir" ]; then
-                    mkdir -p "$dest_dir"
+                dest_dir=$(dirname "${dest_file}")
+                if [[ ! -d "${dest_dir}" ]]; then
+                    mkdir -p "${dest_dir}"
                 fi
                 
                 # Copy file preserving permissions
-                if cp -p "$src_file" "$dest_file"; then
-                    log_verbose "NEW: $dest_file"
+                if cp -p "${src_file}" "${dest_file}"; then
+                    log_verbose "NEW: ${dest_file}"
                     new_count=$((new_count + 1))
                 else
-                    log_error "Failed to copy $src_file to $dest_file"
+                    log_error "Failed to copy ${src_file} to ${dest_file}"
                     err_count=$((err_count + 1))
                 fi
             fi
         fi
         
         # Write updated counts
-        echo "$new_count $skip_count $err_count" > "$temp_counts"
+        echo "${new_count} ${skip_count} ${err_count}" > "${temp_counts}"
     done
     
     # Read final counts
-    read NEW_COUNT SKIPPED_COUNT ERROR_COUNT < "$temp_counts"
-    rm -f "$temp_counts"
+    read NEW_COUNT SKIPPED_COUNT ERROR_COUNT < "${temp_counts}"
+    rm -f "${temp_counts}"
     
     log_success "Framework files processed"
 }
@@ -318,16 +318,16 @@ create_framework_meta() {
     local version="$2"
     local source_release="$3"
     
-    if [ "$DRY_RUN" = "1" ]; then
+    if [[ "${DRY_RUN}" = "1" ]]; then
         log_info "Would create .framework_meta.yml"
         return 0
     fi
     
-    local meta_file="$target_dir/.framework_meta.yml"
+    local meta_file="${target_dir}/.framework_meta.yml"
     local timestamp
     timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
     
-    cat > "$meta_file" << EOF
+    cat > "${meta_file}" << EOF
 # Framework Installation Metadata
 # Generated by framework_install.sh v${SCRIPT_VERSION}
 # Do not edit manually
@@ -338,7 +338,7 @@ source_release: ${source_release}
 installer_version: ${SCRIPT_VERSION}
 EOF
     
-    log_success "Created $meta_file"
+    log_success "Created ${meta_file}"
 }
 
 # Extract version from manifest
@@ -346,7 +346,7 @@ get_version_from_manifest() {
     local manifest_file="$1"
     
     # Simple grep-based extraction (works for simple YAML)
-    grep "^version:" "$manifest_file" | head -1 | sed 's/^version: *//' | tr -d "\"'"
+    grep "^version:" "${manifest_file}" | head -1 | sed 's/^version: *//' | tr -d "\"'"
 }
 
 # Print installation summary
@@ -356,7 +356,7 @@ print_summary() {
     echo "Framework Installation Summary"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     
-    if [ "$DRY_RUN" = "1" ]; then
+    if [[ "${DRY_RUN}" = "1" ]]; then
         echo "Mode: DRY RUN (no changes made)"
     else
         echo "Mode: LIVE"
@@ -364,18 +364,18 @@ print_summary() {
     
     echo ""
     echo "Results:"
-    echo "  ${GREEN}NEW:${NC}      $NEW_COUNT files"
-    echo "  ${YELLOW}SKIPPED:${NC}  $SKIPPED_COUNT files (already exist)"
+    echo "  ${GREEN}NEW:${NC}      ${NEW_COUNT} files"
+    echo "  ${YELLOW}SKIPPED:${NC}  ${SKIPPED_COUNT} files (already exist)"
     
-    if [ "$ERROR_COUNT" -gt 0 ]; then
-        echo "  ${RED}ERRORS:${NC}   $ERROR_COUNT"
+    if [[ "${ERROR_COUNT}" -gt 0 ]]; then
+        echo "  ${RED}ERRORS:${NC}   ${ERROR_COUNT}"
     fi
     
     echo ""
     
-    if [ "$DRY_RUN" = "1" ]; then
+    if [[ "${DRY_RUN}" = "1" ]]; then
         echo "To perform actual installation, run without --dry-run flag"
-    elif [ "$ERROR_COUNT" -eq 0 ]; then
+    elif [[ "${ERROR_COUNT}" -eq 0 ]]; then
         echo "${GREEN}✓${NC} Installation completed successfully!"
         echo ""
         echo "Next steps:"
@@ -397,14 +397,14 @@ main() {
     RELEASE_DIR=""
     TARGET_DIR=""
     
-    while [ $# -gt 0 ]; do
+    while [[ $# -gt 0 ]]; do
         case "$1" in
             --help|-h)
                 print_usage
                 exit 0
                 ;;
             --version)
-                echo "framework_install.sh version $SCRIPT_VERSION"
+                echo "framework_install.sh version ${SCRIPT_VERSION}"
                 exit 0
                 ;;
             --dry-run)
@@ -421,9 +421,9 @@ main() {
                 exit 1
                 ;;
             *)
-                if [ -z "$RELEASE_DIR" ]; then
+                if [[ -z "${RELEASE_DIR}" ]]; then
                     RELEASE_DIR="$1"
-                elif [ -z "$TARGET_DIR" ]; then
+                elif [[ -z "${TARGET_DIR}" ]]; then
                     TARGET_DIR="$1"
                 else
                     log_error "Too many arguments"
@@ -436,24 +436,24 @@ main() {
     done
     
     # Validate arguments
-    if [ -z "$RELEASE_DIR" ] || [ -z "$TARGET_DIR" ]; then
+    if [[ -z "${RELEASE_DIR}" ]] || [[ -z "${TARGET_DIR}" ]]; then
         log_error "Missing required arguments"
         print_usage
         exit 1
     fi
     
     # Convert to absolute paths
-    RELEASE_DIR=$(cd "$RELEASE_DIR" && pwd)
-    TARGET_DIR=$(cd "$TARGET_DIR" && pwd)
+    RELEASE_DIR=$(cd "${RELEASE_DIR}" && pwd)
+    TARGET_DIR=$(cd "${TARGET_DIR}" && pwd)
     
     # Validate directories exist
-    if [ ! -d "$RELEASE_DIR" ]; then
-        log_error "Release directory not found: $RELEASE_DIR"
+    if [[ ! -d "${RELEASE_DIR}" ]]; then
+        log_error "Release directory not found: ${RELEASE_DIR}"
         exit 1
     fi
     
-    if [ ! -d "$TARGET_DIR" ]; then
-        log_error "Target directory not found: $TARGET_DIR"
+    if [[ ! -d "${TARGET_DIR}" ]]; then
+        log_error "Target directory not found: ${TARGET_DIR}"
         exit 1
     fi
     
@@ -462,43 +462,43 @@ main() {
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo "Framework Installation"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo "Release:  $RELEASE_DIR"
-    echo "Target:   $TARGET_DIR"
-    if [ "$DRY_RUN" = "1" ]; then
+    echo "Release:  ${RELEASE_DIR}"
+    echo "Target:   ${TARGET_DIR}"
+    if [[ "${DRY_RUN}" = "1" ]]; then
         echo "Mode:     DRY RUN"
     fi
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo ""
     
     # Validate release structure
-    validate_release_structure "$RELEASE_DIR" || exit 2
+    validate_release_structure "${RELEASE_DIR}" || exit 2
     
     # Check for existing installation
-    if ! check_existing_installation "$TARGET_DIR"; then
+    if ! check_existing_installation "${TARGET_DIR}"; then
         log_error "Installation aborted"
         exit 1
     fi
     
     # Parse manifest
-    manifest_file="$RELEASE_DIR/META/MANIFEST.yml"
-    parse_manifest "$manifest_file" || exit 2
+    manifest_file="${RELEASE_DIR}/META/MANIFEST.yml"
+    parse_manifest "${manifest_file}" || exit 2
     
     # Get version from manifest
-    version=$(get_version_from_manifest "$manifest_file")
-    log_info "Installing framework version: $version"
+    version=$(get_version_from_manifest "${manifest_file}")
+    log_info "Installing framework version: ${version}"
     
     # Install framework files
-    install_framework_files "$RELEASE_DIR" "$TARGET_DIR"
+    install_framework_files "${RELEASE_DIR}" "${TARGET_DIR}"
     
     # Create framework metadata
-    source_release=$(basename "$RELEASE_DIR")
-    create_framework_meta "$TARGET_DIR" "$version" "$source_release"
+    source_release=$(basename "${RELEASE_DIR}")
+    create_framework_meta "${TARGET_DIR}" "${version}" "${source_release}"
     
     # Print summary
     print_summary
     
     # Exit with appropriate code
-    if [ "$ERROR_COUNT" -gt 0 ]; then
+    if [[ "${ERROR_COUNT}" -gt 0 ]]; then
         exit 3
     else
         exit 0

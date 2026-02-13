@@ -22,8 +22,8 @@ _github_issue::trim() {
   local value="${1-}"
   # shellcheck disable=SC2001
   # Remove leading/trailing whitespace, then remove all single and double quotes
-  value="$(printf '%s' "$value" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e 's/["'\'']//g')"
-  printf '%s' "$value"
+  value="$(printf '%s' "${value}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e 's/["'\'']//g')"
+  printf '%s' "${value}"
 }
 
 # Read issue body from a file path.
@@ -31,15 +31,15 @@ _github_issue::trim() {
 #   $1 - Path to file containing the body
 _github_issue::body_from_file() {
   local file_path="${1-}"
-  if [[ -z "$file_path" ]]; then
+  if [[ -z "${file_path}" ]]; then
     _github_issue::log "body_from_file: path is required"
     return 1
   fi
-  if [[ ! -f "$file_path" ]]; then
-    _github_issue::log "body_from_file: no such file: $file_path"
+  if [[ ! -f "${file_path}" ]]; then
+    _github_issue::log "body_from_file: no such file: ${file_path}"
     return 1
   fi
-  cat "$file_path"
+  cat "${file_path}"
 }
 
 # Return the file contents if present, otherwise fallback to provided text.
@@ -49,10 +49,10 @@ _github_issue::body_from_file() {
 _github_issue::body_from_source() {
   local fallback="${1-}"
   local file_path="${2-}"
-  if [[ -n "$file_path" && -f "$file_path" ]]; then
-    cat "$file_path"
+  if [[ -n "${file_path}" && -f "${file_path}" ]]; then
+    cat "${file_path}"
   else
-    printf '%s' "$fallback"
+    printf '%s' "${fallback}"
   fi
 }
 
@@ -82,75 +82,75 @@ _github_issue::create() {
   _github_issue::require_cli
 
   local -a cmd
-  cmd=("gh" "issue" "create" "--repo" "$repo" "--title" "$title" "--body" "$body")
+  cmd=("gh" "issue" "create" "--repo" "${repo}" "--title" "${title}" "--body" "${body}")
 
-  if [[ -n "$labels" ]]; then
-    IFS=',' read -ra _labels <<< "$labels"
+  if [[ -n "${labels}" ]]; then
+    IFS=',' read -ra _labels <<< "${labels}"
 
     local -a requested_labels=()
     for raw_label in "${_labels[@]}"; do
-      local trimmed="$(_github_issue::trim "$raw_label")"
-      [[ -n "$trimmed" ]] && requested_labels+=("$trimmed")
+      local trimmed="$(_github_issue::trim "${raw_label}")"
+      [[ -n "${trimmed}" ]] && requested_labels+=("${trimmed}")
     done
 
     if ((${#requested_labels[@]})); then
       local -a repo_labels=()
-      if mapfile -t repo_labels < <(gh label list --repo "$repo" --limit 400 --json name --jq '.[].name' 2>/dev/null); then
+      if mapfile -t repo_labels < <(gh label list --repo "${repo}" --limit 400 --json name --jq '.[].name' 2>/dev/null); then
         declare -A repo_label_map=()
         for repo_label in "${repo_labels[@]}"; do
           local key
-          key="$(printf '%s' "$repo_label" | tr '[:upper:]' '[:lower:]')"
-          repo_label_map["$key"]=1
+          key="$(printf '%s' "${repo_label}" | tr '[:upper:]' '[:lower:]')"
+          repo_label_map["${key}"]=1
         done
 
         local -a missing_labels=()
         for label in "${requested_labels[@]}"; do
           local lookup
-          lookup="$(printf '%s' "$label" | tr '[:upper:]' '[:lower:]')"
-          if [[ -n "${repo_label_map[$lookup]:-}" ]]; then
-            cmd+=("--label" "$label")
+          lookup="$(printf '%s' "${label}" | tr '[:upper:]' '[:lower:]')"
+          if [[ -n "${repo_label_map[${lookup}]:-}" ]]; then
+            cmd+=("--label" "${label}")
           else
-            missing_labels+=("$label")
+            missing_labels+=("${label}")
           fi
         done
 
         if ((${#missing_labels[@]})); then
-          _github_issue::log "warning: labels missing in $repo -> ${missing_labels[*]}"
+          _github_issue::log "warning: labels missing in ${repo} -> ${missing_labels[*]}"
           _github_issue::log "warning: sync repository labels (e.g., run the upcoming gh label sync helper) before re-running."
         fi
       else
-        _github_issue::log "warning: unable to verify labels for $repo (gh label list failed); continuing without validation."
+        _github_issue::log "warning: unable to verify labels for ${repo} (gh label list failed); continuing without validation."
         for label in "${requested_labels[@]}"; do
-          cmd+=("--label" "$label")
+          cmd+=("--label" "${label}")
         done
       fi
     fi
   fi
 
-  if [[ -n "$assignees" ]]; then
-    IFS=',' read -ra _assignees <<< "$assignees"
+  if [[ -n "${assignees}" ]]; then
+    IFS=',' read -ra _assignees <<< "${assignees}"
     for user in "${_assignees[@]}"; do
-      user=$(_github_issue::trim $user)
+      user=$(_github_issue::trim ${user})
       # Only add assignee if non-empty after trimming
-      if [[ -n "$user" ]]; then
-#        _github_issue::log "TRIMMED ASSIGNEE: '$user'"
-        cmd+=("--assignee" "$user")
+      if [[ -n "${user}" ]]; then
+#        _github_issue::log "TRIMMED ASSIGNEE: '${user}'"
+        cmd+=("--assignee" "${user}")
       fi
     done
   fi
 
-  if [[ -n "$milestone" ]]; then
-    milestone="$(_github_issue::trim "$milestone")"
-    if [[ -n "$milestone" ]]; then
-      cmd+=("--milestone" "$milestone")
+  if [[ -n "${milestone}" ]]; then
+    milestone="$(_github_issue::trim "${milestone}")"
+    if [[ -n "${milestone}" ]]; then
+      cmd+=("--milestone" "${milestone}")
     fi
   fi
 
-  if [[ "$draft" == "true" ]]; then
+  if [[ "${draft}" == "true" ]]; then
     cmd+=("--draft")
   fi
 
-  _github_issue::log "Creating issue '$title' in $repo"
+  _github_issue::log "Creating issue '${title}' in ${repo}"
 #  _github_issue::log "COMMAND: ${cmd[*]}"
   "${cmd[@]}"
 }

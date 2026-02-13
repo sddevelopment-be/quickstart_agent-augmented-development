@@ -46,7 +46,7 @@ OUTPUT_FORMAT="text"
 
 # Parse arguments
 for arg in "$@"; do
-  case $arg in
+  case ${arg} in
     --validate)
       VALIDATE_MODE=true
       shift
@@ -60,7 +60,7 @@ for arg in "$@"; do
       exit 0
       ;;
     *)
-      echo "Unknown option: $arg"
+      echo "Unknown option: ${arg}"
       echo "Use --help for usage information"
       exit 1
       ;;
@@ -72,13 +72,13 @@ count_tasks() {
   local dir=$1
   local pattern="${2:-*.yaml}"
   
-  if [[ "$pattern" == "*.yaml" ]]; then
-    count=$(ls "$dir"/$pattern 2>/dev/null | wc -l)
+  if [[ "${pattern}" == "*.yaml" ]]; then
+    count=$(ls "${dir}"/${pattern} 2>/dev/null | wc -l)
   else
-    count=$(find "$dir" -name "$pattern" 2>/dev/null | wc -l)
+    count=$(find "${dir}" -name "${pattern}" 2>/dev/null | wc -l)
   fi
   
-  echo "$count"
+  echo "${count}"
 }
 
 # Function: Get task breakdown by agent
@@ -86,13 +86,13 @@ get_agent_breakdown() {
   local base_dir=$1
   local agents=()
   
-  if [[ -d "$base_dir" ]]; then
-    for agent_dir in "$base_dir"/*/; do
-      if [[ -d "$agent_dir" ]]; then
-        agent_name=$(basename "$agent_dir")
-        task_count=$(count_tasks "$agent_dir" "*.yaml")
-        if [[ $task_count -gt 0 ]]; then
-          agents+=("$agent_name:$task_count")
+  if [[ -d "${base_dir}" ]]; then
+    for agent_dir in "${base_dir}"/*/; do
+      if [[ -d "${agent_dir}" ]]; then
+        agent_name=$(basename "${agent_dir}")
+        task_count=$(count_tasks "${agent_dir}" "*.yaml")
+        if [[ ${task_count} -gt 0 ]]; then
+          agents+=("${agent_name}:${task_count}")
         fi
       fi
     done
@@ -109,7 +109,7 @@ check_work_logs() {
   # Count logs from last 7 days
   log_count=$(find work/logs -name "*.md" -mtime -7 2>/dev/null | wc -l)
   
-  if [[ $done_count -gt 0 && $log_count -ge $done_count ]]; then
+  if [[ ${done_count} -gt 0 && ${log_count} -ge ${done_count} ]]; then
     echo "true"
   else
     echo "false"
@@ -120,16 +120,16 @@ check_work_logs() {
 check_agent_status() {
   local status_file="work/collaboration/AGENT_STATUS.md"
   
-  if [[ ! -f "$status_file" ]]; then
+  if [[ ! -f "${status_file}" ]]; then
     echo "missing"
     return
   fi
   
   # Check if modified in last 24 hours
   local age_hours
-  age_hours=$(( ($(date +%s) - $(stat -c %Y "$status_file" 2>/dev/null || stat -f %m "$status_file" 2>/dev/null)) / 3600 ))
+  age_hours=$(( ($(date +%s) - $(stat -c %Y "${status_file}" 2>/dev/null || stat -f %m "${status_file}" 2>/dev/null)) / 3600 ))
   
-  if [[ $age_hours -lt 24 ]]; then
+  if [[ ${age_hours} -lt 24 ]]; then
     echo "current"
   else
     echo "stale"
@@ -150,7 +150,7 @@ validate_criteria() {
   echo ""
   
   # Criterion 1: At least 1 task completed
-  if [[ $done_count -gt 0 ]]; then
+  if [[ ${done_count} -gt 0 ]]; then
     echo -e "${GREEN}✓${NC} At least 1 task completed"
     criteria_met=$((criteria_met + 1))
   else
@@ -158,8 +158,8 @@ validate_criteria() {
   fi
   
   # Criterion 2: Work logs created
-  local logs_valid=$(check_work_logs "$done_count")
-  if [[ "$logs_valid" == "true" ]]; then
+  local logs_valid=$(check_work_logs "${done_count}")
+  if [[ "${logs_valid}" == "true" ]]; then
     echo -e "${GREEN}✓${NC} Work logs created per Directive 014"
     criteria_met=$((criteria_met + 1))
   else
@@ -168,10 +168,10 @@ validate_criteria() {
   
   # Criterion 3: AGENT_STATUS.md updated
   local status_state=$(check_agent_status)
-  if [[ "$status_state" == "current" ]]; then
+  if [[ "${status_state}" == "current" ]]; then
     echo -e "${GREEN}✓${NC} AGENT_STATUS.md updated recently"
     criteria_met=$((criteria_met + 1))
-  elif [[ "$status_state" == "stale" ]]; then
+  elif [[ "${status_state}" == "stale" ]]; then
     echo -e "${YELLOW}⚠${NC} AGENT_STATUS.md may be stale (>24h)"
   else
     echo -e "${RED}✗${NC} AGENT_STATUS.md missing"
@@ -185,7 +185,7 @@ validate_criteria() {
   echo -e "${BLUE}?${NC} Artifacts committed (check git status)"
   
   echo ""
-  echo "Automated checks: $criteria_met/$criteria_total passed"
+  echo "Automated checks: ${criteria_met}/${criteria_total} passed"
   echo ""
 }
 
@@ -199,54 +199,54 @@ main() {
   # Get agent breakdowns
   assigned_agents=($(get_agent_breakdown "work/assigned"))
   
-  if [[ "$OUTPUT_FORMAT" == "json" ]]; then
+  if [[ "${OUTPUT_FORMAT}" == "json" ]]; then
     # JSON output
     cat <<EOF
 {
-  "inbox_tasks": $inbox_count,
-  "assigned_tasks": $assigned_count,
-  "done_tasks": $done_count,
+  "inbox_tasks": ${inbox_count},
+  "assigned_tasks": ${assigned_count},
+  "done_tasks": ${done_count},
   "assigned_by_agent": {
 EOF
     
     first=true
     for agent_info in "${assigned_agents[@]}"; do
-      IFS=':' read -r agent count <<< "$agent_info"
-      if [[ "$first" == true ]]; then
+      IFS=':' read -r agent count <<< "${agent_info}"
+      if [[ "${first}" == true ]]; then
         first=false
       else
         echo ","
       fi
-      echo -n "    \"$agent\": $count"
+      echo -n "    \"${agent}\": ${count}"
     done
     
     echo ""
     echo "  },"
     echo "  \"agent_status\": \"$(check_agent_status)\","
-    echo "  \"work_logs_valid\": $(check_work_logs "$done_count")"
+    echo "  \"work_logs_valid\": $(check_work_logs "${done_count}")"
     echo "}"
   else
     # Text output
     echo ""
     echo "=== Orchestration Queue Status ==="
     echo ""
-    echo "Inbox:    $inbox_count tasks"
-    echo "Assigned: $assigned_count tasks"
-    echo "Done:     $done_count tasks"
+    echo "Inbox:    ${inbox_count} tasks"
+    echo "Assigned: ${assigned_count} tasks"
+    echo "Done:     ${done_count} tasks"
     echo ""
     
     if [[ ${#assigned_agents[@]} -gt 0 ]]; then
       echo "Assigned tasks by agent:"
       for agent_info in "${assigned_agents[@]}"; do
-        IFS=':' read -r agent count <<< "$agent_info"
-        echo "  - $agent: $count"
+        IFS=':' read -r agent count <<< "${agent_info}"
+        echo "  - ${agent}: ${count}"
       done
       echo ""
     fi
     
     # Validation mode
-    if [[ "$VALIDATE_MODE" == true ]]; then
-      validate_criteria "$inbox_count" "$assigned_count" "$done_count"
+    if [[ "${VALIDATE_MODE}" == true ]]; then
+      validate_criteria "${inbox_count}" "${assigned_count}" "${done_count}"
     fi
   fi
 }

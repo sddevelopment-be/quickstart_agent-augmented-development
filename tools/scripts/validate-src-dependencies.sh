@@ -5,7 +5,7 @@
 set -eo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 
 # Colors for output
 RED='\033[0;31m'
@@ -27,7 +27,7 @@ echo ""
 
 # Check 1: No imports from tools/
 echo "📋 Check 1: No imports from tools/"
-if grep -rE "^[[:space:]]*(from tools|import tools|require\(['\"]tools)" "$REPO_ROOT/src/" --include="*.py" --include="*.js" 2>/dev/null; then
+if grep -rE "^[[:space:]]*(from tools|import tools|require\(['\"]tools)" "${REPO_ROOT}/src/" --include="*.py" --include="*.js" 2>/dev/null; then
     echo -e "${RED}❌ FAIL: Found imports from tools/ in src/${NC}"
     ISSUES_FOUND=$((ISSUES_FOUND + 1))
 else
@@ -37,7 +37,7 @@ echo ""
 
 # Check 2: No imports from tests/
 echo "📋 Check 2: No imports from tests/"
-if grep -rE "^[[:space:]]*(from tests|import tests|require\(['\"]tests)" "$REPO_ROOT/src/" --include="*.py" --include="*.js" 2>/dev/null; then
+if grep -rE "^[[:space:]]*(from tests|import tests|require\(['\"]tests)" "${REPO_ROOT}/src/" --include="*.py" --include="*.js" 2>/dev/null; then
     echo -e "${RED}❌ FAIL: Found imports from tests/ in src/${NC}"
     ISSUES_FOUND=$((ISSUES_FOUND + 1))
 else
@@ -47,7 +47,7 @@ echo ""
 
 # Check 3: No imports from fixtures/
 echo "📋 Check 3: No imports from fixtures/"
-if grep -rE "^[[:space:]]*(from fixtures|import fixtures|require\(['\"]fixtures)" "$REPO_ROOT/src/" --include="*.py" --include="*.js" 2>/dev/null; then
+if grep -rE "^[[:space:]]*(from fixtures|import fixtures|require\(['\"]fixtures)" "${REPO_ROOT}/src/" --include="*.py" --include="*.js" 2>/dev/null; then
     echo -e "${RED}❌ FAIL: Found imports from fixtures/ in src/${NC}"
     ISSUES_FOUND=$((ISSUES_FOUND + 1))
 else
@@ -57,7 +57,7 @@ echo ""
 
 # Check 4: No hardcoded paths to tools/, tests/, fixtures/
 echo "📋 Check 4: No hardcoded paths to forbidden directories"
-if grep -r "tools/\|tests/\|fixtures/" "$REPO_ROOT/src/" --include="*.py" --include="*.js" \
+if grep -r "tools/\|tests/\|fixtures/" "${REPO_ROOT}/src/" --include="*.py" --include="*.js" \
     | grep -v "# " \
     | grep -v "//" \
     | grep -v "pyproject.toml" 2>/dev/null; then
@@ -73,11 +73,11 @@ echo ""
 echo "📋 Check 5: Verify allowed dependencies"
 echo "   Checking for doctrine/ references..."
 set +e
-DOCTRINE_COUNT=$(grep -r "doctrine/" "$REPO_ROOT/src/" --include="*.py" --include="*.js" 2>/dev/null | wc -l)
+DOCTRINE_COUNT=$(grep -r "doctrine/" "${REPO_ROOT}/src/" --include="*.py" --include="*.js" 2>/dev/null | wc -l)
 set -e
 DOCTRINE_REFS=${DOCTRINE_COUNT:-0}
-if [ "$DOCTRINE_REFS" -gt 0 ]; then
-    echo -e "${GREEN}✅ Found $DOCTRINE_REFS references to doctrine/ (allowed)${NC}"
+if [[ "${DOCTRINE_REFS}" -gt 0 ]]; then
+    echo -e "${GREEN}✅ Found ${DOCTRINE_REFS} references to doctrine/ (allowed)${NC}"
 else
     echo -e "${YELLOW}⚠️  No references to doctrine/ found (production code may not use framework directives)${NC}"
 fi
@@ -87,17 +87,17 @@ echo ""
 echo "📋 Check 6: Verify src/ is properly consumed"
 echo "   Checking if tools/ imports from src/..."
 set +e
-TOOLS_COUNT=$(grep -r "from src\|import src" "$REPO_ROOT/tools/" --include="*.py" --include="*.js" 2>/dev/null | wc -l)
+TOOLS_COUNT=$(grep -r "from src\|import src" "${REPO_ROOT}/tools/" --include="*.py" --include="*.js" 2>/dev/null | wc -l)
 set -e
 TOOLS_TO_SRC=${TOOLS_COUNT:-0}
-echo "   Found $TOOLS_TO_SRC imports from src/ in tools/ (expected)"
+echo "   Found ${TOOLS_TO_SRC} imports from src/ in tools/ (expected)"
 
 echo "   Checking if tests/ imports from src/..."
 set +e
-TESTS_COUNT=$(grep -r "from src\|import src" "$REPO_ROOT/tests/" --include="*.py" --include="*.js" 2>/dev/null | wc -l)
+TESTS_COUNT=$(grep -r "from src\|import src" "${REPO_ROOT}/tests/" --include="*.py" --include="*.js" 2>/dev/null | wc -l)
 set -e
 TESTS_TO_SRC=${TESTS_COUNT:-0}
-echo "   Found $TESTS_TO_SRC imports from src/ in tests/ (expected)"
+echo "   Found ${TESTS_TO_SRC} imports from src/ in tests/ (expected)"
 echo -e "${GREEN}✅ PASS: Dependency direction correct (tools/tests → src)${NC}"
 echo ""
 
@@ -106,7 +106,7 @@ echo "========================================"
 echo "  Validation Summary"
 echo "========================================"
 echo ""
-if [ $ISSUES_FOUND -eq 0 ]; then
+if [[ ${ISSUES_FOUND} -eq 0 ]]; then
     echo -e "${GREEN}✅ SUCCESS: src/ has zero outgoing dependencies${NC}"
     echo ""
     echo "Dependencies validated:"
@@ -115,16 +115,16 @@ if [ $ISSUES_FOUND -eq 0 ]; then
     echo "  - src/ → tests/ ❌ (none found)"
     echo "  - src/ → fixtures/ ❌ (none found)"
     echo ""
-    echo "  - tools/ → src/ ✅ ($TOOLS_TO_SRC imports)"
-    echo "  - tests/ → src/ ✅ ($TESTS_TO_SRC imports)"
+    echo "  - tools/ → src/ ✅ (${TOOLS_TO_SRC} imports)"
+    echo "  - tests/ → src/ ✅ (${TESTS_TO_SRC} imports)"
     echo ""
-    if [ $WARNINGS_FOUND -gt 0 ]; then
-        echo -e "${YELLOW}⚠️  $WARNINGS_FOUND warnings found (review recommended)${NC}"
+    if [[ ${WARNINGS_FOUND} -gt 0 ]]; then
+        echo -e "${YELLOW}⚠️  ${WARNINGS_FOUND} warnings found (review recommended)${NC}"
         exit 0
     fi
     exit 0
 else
-    echo -e "${RED}❌ FAILURE: $ISSUES_FOUND critical issues found${NC}"
+    echo -e "${RED}❌ FAILURE: ${ISSUES_FOUND} critical issues found${NC}"
     echo ""
     echo "Production code in src/ MUST NOT depend on:"
     echo "  - tools/ (development utilities)"

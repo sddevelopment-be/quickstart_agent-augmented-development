@@ -12,7 +12,7 @@
 
 set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-DIR="$SCRIPT_DIR/directives"
+DIR="${SCRIPT_DIR}/directives"
 
 usage() {
   cat <<'USAGE' >&2
@@ -31,23 +31,23 @@ fi
 
 if [[ "$1" == "--list" ]]; then
   printf "Available directives (code : filename)\n"
-  find "$DIR" -maxdepth 1 -type f -name '*_*' -printf "%f\n" | sort | while read -r f; do
+  find "${DIR}" -maxdepth 1 -type f -name '*_*' -printf "%f\n" | sort | while read -r f; do
     code=${f%%_*}
-    printf "  %s : %s\n" "$code" "$f"
+    printf "  %s : %s\n" "${code}" "${f}"
   done
   exit 0
 fi
 
 for code in "$@"; do
-  file="$DIR/${code}_"*
-  match=( $file )
+  file="${DIR}/${code}_"*
+  match=( ${file} )
   if [[ ${#match[@]} -eq 0 ]]; then
-    echo "[WARN] No directive found for code $code" >&2
+    echo "[WARN] No directive found for code ${code}" >&2
     continue
   fi
   # Expect single match
-  echo "\n<!-- Directive $code Begin -->"
+  echo "\n<!-- Directive ${code} Begin -->"
   cat "${match[0]}"
-  echo "\n<!-- Directive $code End -->"
+  echo "\n<!-- Directive ${code} End -->"
 done
 

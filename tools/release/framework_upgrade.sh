@@ -37,7 +37,7 @@ set -u  # Error on undefined variables
 SCRIPT_VERSION="1.0.0"
 
 # Color codes for output
-if [ -t 1 ]; then
+if [[ -t 1 ]]; then
     RED='\033[0;31m'
     GREEN='\033[0;32m'
     YELLOW='\033[1;33m'
@@ -148,7 +148,7 @@ log_conflict() {
 }
 
 log_verbose() {
-    if [ "$VERBOSE" = "1" ]; then
+    if [[ "${VERBOSE}" = "1" ]]; then
         echo "  $*"
     fi
 }
@@ -158,9 +158,9 @@ calculate_sha256() {
     local file="$1"
     
     if command -v sha256sum >/dev/null 2>&1; then
-        sha256sum "$file" | awk '{print $1}'
+        sha256sum "${file}" | awk '{print $1}'
     elif command -v shasum >/dev/null 2>&1; then
-        shasum -a 256 "$file" | awk '{print $1}'
+        shasum -a 256 "${file}" | awk '{print $1}'
     else
         log_error "Neither sha256sum nor shasum found. Cannot verify checksums."
         exit 3
@@ -173,9 +173,9 @@ validate_release_structure() {
     
     log_info "Validating release artifact structure..."
     
-    if [ ! -d "$release_dir/framework_core" ] || \
-       [ ! -d "$release_dir/META" ] || \
-       [ ! -f "$release_dir/META/MANIFEST.yml" ]; then
+    if [[ ! -d "${release_dir}/framework_core" ]] || \
+       [[ ! -d "${release_dir}/META" ]] || \
+       [[ ! -f "${release_dir}/META/MANIFEST.yml" ]]; then
         log_error "Invalid release artifact structure"
         return 2
     fi
@@ -188,8 +188,8 @@ validate_release_structure() {
 check_existing_installation() {
     local target_dir="$1"
     
-    if [ ! -f "$target_dir/.framework_meta.yml" ]; then
-        log_error "No existing framework installation found in $target_dir"
+    if [[ ! -f "${target_dir}/.framework_meta.yml" ]]; then
+        log_error "No existing framework installation found in ${target_dir}"
         log_error "Missing .framework_meta.yml file"
         log_error "For clean installation, use framework_install.sh instead"
         return 2
@@ -202,10 +202,10 @@ check_existing_installation() {
 # Get current framework version
 get_current_version() {
     local target_dir="$1"
-    local meta_file="$target_dir/.framework_meta.yml"
+    local meta_file="${target_dir}/.framework_meta.yml"
     
-    if [ -f "$meta_file" ]; then
-        grep "^framework_version:" "$meta_file" | head -1 | sed 's/^framework_version: *//' | tr -d "\"'"
+    if [[ -f "${meta_file}" ]]; then
+        grep "^framework_version:" "${meta_file}" | head -1 | sed 's/^framework_version: *//' | tr -d "\"'"
     else
         echo "unknown"
     fi
@@ -215,14 +215,14 @@ get_current_version() {
 get_version_from_manifest() {
     local manifest_file="$1"
     
-    grep "^version:" "$manifest_file" | head -1 | sed 's/^version: *//' | tr -d "\"'"
+    grep "^version:" "${manifest_file}" | head -1 | sed 's/^version: *//' | tr -d "\"'"
 }
 
 # Check if path is in protected local directory
 is_local_path() {
     local path="$1"
     
-    case "$path" in
+    case "${path}" in
         local/*|./local/*)
             return 0
             ;;
@@ -236,11 +236,11 @@ is_local_path() {
 create_backup() {
     local file="$1"
     
-    if [ "$NO_BACKUP" = "1" ]; then
+    if [[ "${NO_BACKUP}" = "1" ]]; then
         return 0
     fi
     
-    if [ ! -f "$file" ]; then
+    if [[ ! -f "${file}" ]]; then
         return 0
     fi
     
@@ -248,16 +248,16 @@ create_backup() {
     timestamp=$(date -u +"%Y%m%d_%H%M%S")
     local backup_file="${file}.bak.${timestamp}"
     
-    if [ "$DRY_RUN" = "1" ]; then
-        log_verbose "Would create backup: $backup_file"
+    if [[ "${DRY_RUN}" = "1" ]]; then
+        log_verbose "Would create backup: ${backup_file}"
         return 0
     fi
     
-    if cp -p "$file" "$backup_file"; then
-        log_verbose "Backup created: $backup_file"
+    if cp -p "${file}" "${backup_file}"; then
+        log_verbose "Backup created: ${backup_file}"
         return 0
     else
-        log_warning "Failed to create backup: $backup_file"
+        log_warning "Failed to create backup: ${backup_file}"
         return 1
     fi
 }
@@ -270,41 +270,41 @@ process_file() {
     local temp_counts="$4"
     
     # Read current counts
-    read new_c unch_c conf_c err_c local_c < "$temp_counts"
+    read new_c unch_c conf_c err_c local_c < "${temp_counts}"
     
     # Check if in local/ directory (protected)
-    if is_local_path "$rel_path"; then
-        log_verbose "PROTECTED: $rel_path (in local/ directory)"
+    if is_local_path "${rel_path}"; then
+        log_verbose "PROTECTED: ${rel_path} (in local/ directory)"
         local_c=$((local_c + 1))
-        echo "PROTECTED|$rel_path|local directory never modified" >> "$REPORT_FILE"
-        echo "$new_c $unch_c $conf_c $err_c $local_c" > "$temp_counts"
+        echo "PROTECTED|${rel_path}|local directory never modified" >> "${REPORT_FILE}"
+        echo "${new_c} ${unch_c} ${conf_c} ${err_c} ${local_c}" > "${temp_counts}"
         return 0
     fi
     
     # File doesn't exist in target - NEW
-    if [ ! -f "$dest_file" ]; then
-        if [ "$DRY_RUN" = "1" ]; then
-            log_verbose "NEW: $rel_path (would be copied)"
+    if [[ ! -f "${dest_file}" ]]; then
+        if [[ "${DRY_RUN}" = "1" ]]; then
+            log_verbose "NEW: ${rel_path} (would be copied)"
         else
             # Create parent directory if needed
-            dest_dir=$(dirname "$dest_file")
-            if [ ! -d "$dest_dir" ]; then
-                mkdir -p "$dest_dir"
+            dest_dir=$(dirname "${dest_file}")
+            if [[ ! -d "${dest_dir}" ]]; then
+                mkdir -p "${dest_dir}"
             fi
             
-            if cp -p "$src_file" "$dest_file"; then
-                log_verbose "NEW: $rel_path"
+            if cp -p "${src_file}" "${dest_file}"; then
+                log_verbose "NEW: ${rel_path}"
             else
-                log_error "Failed to copy: $rel_path"
+                log_error "Failed to copy: ${rel_path}"
                 err_c=$((err_c + 1))
-                echo "ERROR|$rel_path|copy failed" >> "$REPORT_FILE"
-                echo "$new_c $unch_c $conf_c $err_c $local_c" > "$temp_counts"
+                echo "ERROR|${rel_path}|copy failed" >> "${REPORT_FILE}"
+                echo "${new_c} ${unch_c} ${conf_c} ${err_c} ${local_c}" > "${temp_counts}"
                 return 1
             fi
         fi
         new_c=$((new_c + 1))
-        echo "NEW|$rel_path|copied from release" >> "$REPORT_FILE"
-        echo "$new_c $unch_c $conf_c $err_c $local_c" > "$temp_counts"
+        echo "NEW|${rel_path}|copied from release" >> "${REPORT_FILE}"
+        echo "${new_c} ${unch_c} ${conf_c} ${err_c} ${local_c}" > "${temp_counts}"
         return 0
     fi
     
@@ -312,39 +312,39 @@ process_file() {
     local src_checksum
     local dest_checksum
     
-    src_checksum=$(calculate_sha256 "$src_file")
-    dest_checksum=$(calculate_sha256 "$dest_file")
+    src_checksum=$(calculate_sha256 "${src_file}")
+    dest_checksum=$(calculate_sha256 "${dest_file}")
     
-    if [ "$src_checksum" = "$dest_checksum" ]; then
+    if [[ "${src_checksum}" = "${dest_checksum}" ]]; then
         # Identical - UNCHANGED
-        log_verbose "UNCHANGED: $rel_path"
+        log_verbose "UNCHANGED: ${rel_path}"
         unch_c=$((unch_c + 1))
-        echo "UNCHANGED|$rel_path|identical to release" >> "$REPORT_FILE"
-        echo "$new_c $unch_c $conf_c $err_c $local_c" > "$temp_counts"
+        echo "UNCHANGED|${rel_path}|identical to release" >> "${REPORT_FILE}"
+        echo "${new_c} ${unch_c} ${conf_c} ${err_c} ${local_c}" > "${temp_counts}"
         return 0
     else
         # Different - CONFLICT
-        if [ "$DRY_RUN" = "1" ]; then
-            log_verbose "CONFLICT: $rel_path (would create .framework-new)"
+        if [[ "${DRY_RUN}" = "1" ]]; then
+            log_verbose "CONFLICT: ${rel_path} (would create .framework-new)"
         else
             # Create backup of existing file
-            create_backup "$dest_file"
+            create_backup "${dest_file}"
             
             # Create .framework-new file with new version
             local new_file="${dest_file}.framework-new"
-            if cp -p "$src_file" "$new_file"; then
-                log_conflict "CONFLICT: $rel_path (created .framework-new)"
+            if cp -p "${src_file}" "${new_file}"; then
+                log_conflict "CONFLICT: ${rel_path} (created .framework-new)"
             else
-                log_error "Failed to create .framework-new for: $rel_path"
+                log_error "Failed to create .framework-new for: ${rel_path}"
                 err_c=$((err_c + 1))
-                echo "ERROR|$rel_path|failed to create .framework-new" >> "$REPORT_FILE"
-                echo "$new_c $unch_c $conf_c $err_c $local_c" > "$temp_counts"
+                echo "ERROR|${rel_path}|failed to create .framework-new" >> "${REPORT_FILE}"
+                echo "${new_c} ${unch_c} ${conf_c} ${err_c} ${local_c}" > "${temp_counts}"
                 return 1
             fi
         fi
         conf_c=$((conf_c + 1))
-        echo "CONFLICT|$rel_path|differs from release - manual merge needed" >> "$REPORT_FILE"
-        echo "$new_c $unch_c $conf_c $err_c $local_c" > "$temp_counts"
+        echo "CONFLICT|${rel_path}|differs from release - manual merge needed" >> "${REPORT_FILE}"
+        echo "${new_c} ${unch_c} ${conf_c} ${err_c} ${local_c}" > "${temp_counts}"
         return 0
     fi
 }
@@ -356,22 +356,22 @@ upgrade_framework_files() {
     
     log_info "Processing framework files..."
     
-    local core_dir="$release_dir/framework_core"
+    local core_dir="${release_dir}/framework_core"
     local temp_counts=$(mktemp)
-    echo "0 0 0 0 0" > "$temp_counts"
+    echo "0 0 0 0 0" > "${temp_counts}"
     
     # Process all files in framework_core (POSIX-compliant)
-    find "$core_dir" -type f | while IFS= read -r src_file; do
+    find "${core_dir}" -type f | while IFS= read -r src_file; do
         # Calculate relative path
-        rel_path="${src_file#$core_dir/}"
-        dest_file="$target_dir/$rel_path"
+        rel_path="${src_file#${core_dir}/}"
+        dest_file="${target_dir}/${rel_path}"
         
-        process_file "$src_file" "$dest_file" "$rel_path" "$temp_counts"
+        process_file "${src_file}" "${dest_file}" "${rel_path}" "${temp_counts}"
     done
     
     # Read final counts
-    read NEW_COUNT UNCHANGED_COUNT CONFLICT_COUNT ERROR_COUNT SKIPPED_LOCAL_COUNT < "$temp_counts"
-    rm -f "$temp_counts"
+    read NEW_COUNT UNCHANGED_COUNT CONFLICT_COUNT ERROR_COUNT SKIPPED_LOCAL_COUNT < "${temp_counts}"
+    rm -f "${temp_counts}"
     
     log_success "Framework files processed"
 }
@@ -383,21 +383,21 @@ update_framework_meta() {
     local source_release="$3"
     local old_version="$4"
     
-    if [ "$DRY_RUN" = "1" ]; then
-        log_info "Would update .framework_meta.yml ($old_version -> $version)"
+    if [[ "${DRY_RUN}" = "1" ]]; then
+        log_info "Would update .framework_meta.yml (${old_version} -> ${version})"
         return 0
     fi
     
-    local meta_file="$target_dir/.framework_meta.yml"
+    local meta_file="${target_dir}/.framework_meta.yml"
     local timestamp
     timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
     
     # Backup old meta file
-    if [ -f "$meta_file" ]; then
-        cp "$meta_file" "${meta_file}.backup"
+    if [[ -f "${meta_file}" ]]; then
+        cp "${meta_file}" "${meta_file}.backup"
     fi
     
-    cat > "$meta_file" << EOF
+    cat > "${meta_file}" << EOF
 # Framework Installation Metadata
 # Updated by framework_upgrade.sh v${SCRIPT_VERSION}
 # Previous version: ${old_version}
@@ -410,7 +410,7 @@ upgraded_from: ${old_version}
 upgrade_date: ${timestamp}
 EOF
     
-    log_success "Updated .framework_meta.yml ($old_version -> $version)"
+    log_success "Updated .framework_meta.yml (${old_version} -> ${version})"
 }
 
 # Generate upgrade report
@@ -419,15 +419,15 @@ generate_upgrade_report() {
     local old_version="$2"
     local new_version="$3"
     
-    local report_path="$target_dir/upgrade-report.txt"
+    local report_path="${target_dir}/upgrade-report.txt"
     local timestamp
     timestamp=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
     
-    if [ "$DRY_RUN" = "1" ]; then
-        report_path="$target_dir/upgrade-report-dryrun.txt"
+    if [[ "${DRY_RUN}" = "1" ]]; then
+        report_path="${target_dir}/upgrade-report-dryrun.txt"
     fi
     
-    cat > "$report_path" << EOF
+    cat > "${report_path}" << EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Framework Upgrade Report
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -438,7 +438,7 @@ Script Version: ${SCRIPT_VERSION}
 Upgrade Details:
   From Version: ${old_version}
   To Version:   ${new_version}
-  Mode:         $([ "$DRY_RUN" = "1" ] && echo "DRY RUN" || echo "LIVE")
+  Mode:         $([[ "${DRY_RUN}" = "1" ]] && echo "DRY RUN" || echo "LIVE")
 
 Summary:
   NEW:       ${NEW_COUNT} files (copied from release)
@@ -454,16 +454,16 @@ File Details:
 EOF
     
     # Append detailed file list
-    if [ -f "$REPORT_FILE" ]; then
+    if [[ -f "${REPORT_FILE}" ]]; then
         while IFS='|' read -r status path description; do
-            printf "%-12s %s\n" "[$status]" "$path" >> "$report_path"
-            if [ "$VERBOSE" = "1" ]; then
-                printf "             %s\n" "$description" >> "$report_path"
+            printf "%-12s %s\n" "[${status}]" "${path}" >> "${report_path}"
+            if [[ "${VERBOSE}" = "1" ]]; then
+                printf "             %s\n" "${description}" >> "${report_path}"
             fi
-        done < "$REPORT_FILE"
+        done < "${REPORT_FILE}"
     fi
     
-    cat >> "$report_path" << EOF
+    cat >> "${report_path}" << EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Next Steps:
@@ -471,9 +471,9 @@ Next Steps:
 
 EOF
     
-    if [ "$CONFLICT_COUNT" -gt 0 ]; then
-        cat >> "$report_path" << EOF
-⚡ CONFLICTS DETECTED ($CONFLICT_COUNT files)
+    if [[ "${CONFLICT_COUNT}" -gt 0 ]]; then
+        cat >> "${report_path}" << EOF
+⚡ CONFLICTS DETECTED (${CONFLICT_COUNT} files)
 
 For each conflict, a .framework-new file has been created with the
 new version. The original file remains unchanged.
@@ -493,9 +493,9 @@ Find conflicts:
 EOF
     fi
     
-    if [ "$NEW_COUNT" -gt 0 ]; then
-        cat >> "$report_path" << EOF
-✓ NEW FILES ADDED ($NEW_COUNT files)
+    if [[ "${NEW_COUNT}" -gt 0 ]]; then
+        cat >> "${report_path}" << EOF
+✓ NEW FILES ADDED (${NEW_COUNT} files)
 
 These files were added to your repository from the new release.
 Review them to understand new features and capabilities.
@@ -503,8 +503,8 @@ Review them to understand new features and capabilities.
 EOF
     fi
     
-    if [ "$DRY_RUN" = "1" ]; then
-        cat >> "$report_path" << EOF
+    if [[ "${DRY_RUN}" = "1" ]]; then
+        cat >> "${report_path}" << EOF
 ℹ DRY RUN MODE
 
 No changes were made to your repository.
@@ -512,7 +512,7 @@ Run without --dry-run to perform the actual upgrade.
 
 EOF
     else
-        cat >> "$report_path" << EOF
+        cat >> "${report_path}" << EOF
 ✓ UPGRADE COMPLETE
 
 The framework has been upgraded successfully.
@@ -521,7 +521,7 @@ Review conflicts and consult documentation for next steps.
 EOF
     fi
     
-    cat >> "$report_path" << EOF
+    cat >> "${report_path}" << EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 For more information:
@@ -532,10 +532,10 @@ For more information:
 
 EOF
     
-    if [ "$DRY_RUN" = "1" ]; then
-        log_info "Dry run report saved: $report_path"
+    if [[ "${DRY_RUN}" = "1" ]]; then
+        log_info "Dry run report saved: ${report_path}"
     else
-        log_success "Upgrade report saved: $report_path"
+        log_success "Upgrade report saved: ${report_path}"
     fi
 }
 
@@ -546,7 +546,7 @@ print_summary() {
     echo "Framework Upgrade Summary"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     
-    if [ "$DRY_RUN" = "1" ]; then
+    if [[ "${DRY_RUN}" = "1" ]]; then
         echo "Mode: DRY RUN (no changes made)"
     else
         echo "Mode: LIVE"
@@ -554,32 +554,32 @@ print_summary() {
     
     echo ""
     echo "Results:"
-    echo "  ${GREEN}NEW:${NC}        $NEW_COUNT files"
-    echo "  ${BLUE}UNCHANGED:${NC}  $UNCHANGED_COUNT files"
-    echo "  ${MAGENTA}CONFLICT:${NC}   $CONFLICT_COUNT files"
-    echo "  ${YELLOW}PROTECTED:${NC}  $SKIPPED_LOCAL_COUNT files"
+    echo "  ${GREEN}NEW:${NC}        ${NEW_COUNT} files"
+    echo "  ${BLUE}UNCHANGED:${NC}  ${UNCHANGED_COUNT} files"
+    echo "  ${MAGENTA}CONFLICT:${NC}   ${CONFLICT_COUNT} files"
+    echo "  ${YELLOW}PROTECTED:${NC}  ${SKIPPED_LOCAL_COUNT} files"
     
-    if [ "$ERROR_COUNT" -gt 0 ]; then
-        echo "  ${RED}ERRORS:${NC}     $ERROR_COUNT"
+    if [[ "${ERROR_COUNT}" -gt 0 ]]; then
+        echo "  ${RED}ERRORS:${NC}     ${ERROR_COUNT}"
     fi
     
     echo ""
     
-    if [ "$CONFLICT_COUNT" -gt 0 ]; then
-        echo "${MAGENTA}⚡${NC} Manual conflict resolution required for $CONFLICT_COUNT files"
+    if [[ "${CONFLICT_COUNT}" -gt 0 ]]; then
+        echo "${MAGENTA}⚡${NC} Manual conflict resolution required for ${CONFLICT_COUNT} files"
         echo "   Review .framework-new files and merge changes manually"
         echo "   See upgrade-report.txt for details"
         echo ""
     fi
     
-    if [ "$DRY_RUN" = "1" ]; then
+    if [[ "${DRY_RUN}" = "1" ]]; then
         echo "To perform actual upgrade, run without --dry-run flag"
-    elif [ "$ERROR_COUNT" -eq 0 ]; then
+    elif [[ "${ERROR_COUNT}" -eq 0 ]]; then
         echo "${GREEN}✓${NC} Upgrade completed successfully!"
         echo ""
         echo "Next steps:"
         echo "  1. Review upgrade-report.txt for detailed results"
-        if [ "$CONFLICT_COUNT" -gt 0 ]; then
+        if [[ "${CONFLICT_COUNT}" -gt 0 ]]; then
             echo "  2. Resolve conflicts in .framework-new files"
             echo "  3. Use Framework Guardian agent for merge assistance"
         fi
@@ -599,14 +599,14 @@ main() {
     RELEASE_DIR=""
     TARGET_DIR=""
     
-    while [ $# -gt 0 ]; do
+    while [[ $# -gt 0 ]]; do
         case "$1" in
             --help|-h)
                 print_usage
                 exit 0
                 ;;
             --version)
-                echo "framework_upgrade.sh version $SCRIPT_VERSION"
+                echo "framework_upgrade.sh version ${SCRIPT_VERSION}"
                 exit 0
                 ;;
             --dry-run)
@@ -632,9 +632,9 @@ main() {
                 exit 1
                 ;;
             *)
-                if [ -z "$RELEASE_DIR" ]; then
+                if [[ -z "${RELEASE_DIR}" ]]; then
                     RELEASE_DIR="$1"
-                elif [ -z "$TARGET_DIR" ]; then
+                elif [[ -z "${TARGET_DIR}" ]]; then
                     TARGET_DIR="$1"
                 else
                     log_error "Too many arguments"
@@ -647,24 +647,24 @@ main() {
     done
     
     # Validate arguments
-    if [ -z "$RELEASE_DIR" ] || [ -z "$TARGET_DIR" ]; then
+    if [[ -z "${RELEASE_DIR}" ]] || [[ -z "${TARGET_DIR}" ]]; then
         log_error "Missing required arguments"
         print_usage
         exit 1
     fi
     
     # Convert to absolute paths
-    RELEASE_DIR=$(cd "$RELEASE_DIR" && pwd)
-    TARGET_DIR=$(cd "$TARGET_DIR" && pwd)
+    RELEASE_DIR=$(cd "${RELEASE_DIR}" && pwd)
+    TARGET_DIR=$(cd "${TARGET_DIR}" && pwd)
     
     # Validate directories exist
-    if [ ! -d "$RELEASE_DIR" ]; then
-        log_error "Release directory not found: $RELEASE_DIR"
+    if [[ ! -d "${RELEASE_DIR}" ]]; then
+        log_error "Release directory not found: ${RELEASE_DIR}"
         exit 1
     fi
     
-    if [ ! -d "$TARGET_DIR" ]; then
-        log_error "Target directory not found: $TARGET_DIR"
+    if [[ ! -d "${TARGET_DIR}" ]]; then
+        log_error "Target directory not found: ${TARGET_DIR}"
         exit 1
     fi
     
@@ -676,60 +676,60 @@ main() {
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo "Framework Upgrade"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo "Release:  $RELEASE_DIR"
-    echo "Target:   $TARGET_DIR"
-    if [ "$DRY_RUN" = "1" ]; then
+    echo "Release:  ${RELEASE_DIR}"
+    echo "Target:   ${TARGET_DIR}"
+    if [[ "${DRY_RUN}" = "1" ]]; then
         echo "Mode:     DRY RUN"
     fi
-    if [ "$PLAN_MODE" = "1" ]; then
+    if [[ "${PLAN_MODE}" = "1" ]]; then
         echo "Output:   PLAN (for Framework Guardian)"
     fi
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo ""
     
     # Validate release structure
-    validate_release_structure "$RELEASE_DIR" || exit 2
+    validate_release_structure "${RELEASE_DIR}" || exit 2
     
     # Check for existing installation
-    check_existing_installation "$TARGET_DIR" || exit 2
+    check_existing_installation "${TARGET_DIR}" || exit 2
     
     # Get versions
-    old_version=$(get_current_version "$TARGET_DIR")
-    new_version=$(get_version_from_manifest "$RELEASE_DIR/META/MANIFEST.yml")
+    old_version=$(get_current_version "${TARGET_DIR}")
+    new_version=$(get_version_from_manifest "${RELEASE_DIR}/META/MANIFEST.yml")
     
-    log_info "Current version: $old_version"
-    log_info "New version:     $new_version"
+    log_info "Current version: ${old_version}"
+    log_info "New version:     ${new_version}"
     
-    if [ "$old_version" = "$new_version" ]; then
-        log_warning "Target already at version $new_version"
+    if [[ "${old_version}" = "${new_version}" ]]; then
+        log_warning "Target already at version ${new_version}"
         log_warning "Proceeding with upgrade (will detect changes)"
     fi
     
     # Upgrade framework files
-    upgrade_framework_files "$RELEASE_DIR" "$TARGET_DIR"
+    upgrade_framework_files "${RELEASE_DIR}" "${TARGET_DIR}"
     
     # Update framework metadata
-    if [ "$CONFLICT_COUNT" -eq 0 ] && [ "$ERROR_COUNT" -eq 0 ]; then
-        source_release=$(basename "$RELEASE_DIR")
-        update_framework_meta "$TARGET_DIR" "$new_version" "$source_release" "$old_version"
+    if [[ "${CONFLICT_COUNT}" -eq 0 ]] && [[ "${ERROR_COUNT}" -eq 0 ]]; then
+        source_release=$(basename "${RELEASE_DIR}")
+        update_framework_meta "${TARGET_DIR}" "${new_version}" "${source_release}" "${old_version}"
     else
-        if [ "$DRY_RUN" != "1" ]; then
+        if [[ "${DRY_RUN}" != "1" ]]; then
             log_warning "Skipping .framework_meta.yml update due to conflicts/errors"
             log_warning "Resolve conflicts and run upgrade again to complete"
         fi
     fi
     
     # Generate upgrade report
-    generate_upgrade_report "$TARGET_DIR" "$old_version" "$new_version"
+    generate_upgrade_report "${TARGET_DIR}" "${old_version}" "${new_version}"
     
     # Print summary
     print_summary
     
     # Cleanup
-    rm -f "$REPORT_FILE"
+    rm -f "${REPORT_FILE}"
     
     # Exit with appropriate code
-    if [ "$ERROR_COUNT" -gt 0 ]; then
+    if [[ "${ERROR_COUNT}" -gt 0 ]]; then
         exit 3
     else
         exit 0

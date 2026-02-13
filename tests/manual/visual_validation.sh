@@ -15,8 +15,8 @@ echo ""
 
 # Setup
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
-CONFIG_DIR="$ROOT_DIR/config"
+ROOT_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
+CONFIG_DIR="${ROOT_DIR}/config"
 
 echo ""
 echo "===================================================================="
@@ -24,7 +24,7 @@ echo "Test 1: Normal TTY Mode (with rich formatting)"
 echo "===================================================================="
 echo ""
 
-python -m llm_service.cli --config-dir "$CONFIG_DIR" config validate || true
+python -m llm_service.cli --config-dir "${CONFIG_DIR}" config validate || true
 
 echo ""
 echo "===================================================================="
@@ -40,7 +40,7 @@ echo "Test 3: Non-TTY Mode (piped output - should be plain text)"
 echo "===================================================================="
 echo ""
 
-python -m llm_service.cli --config-dir "$CONFIG_DIR" config validate | cat || true
+python -m llm_service.cli --config-dir "${CONFIG_DIR}" config validate | cat || true
 
 echo ""
 echo "===================================================================="
@@ -48,7 +48,7 @@ echo "Test 4: --no-color Flag (should disable colors)"
 echo "===================================================================="
 echo ""
 
-python -m llm_service.cli --config-dir "$CONFIG_DIR" --no-color config validate || true
+python -m llm_service.cli --config-dir "${CONFIG_DIR}" --no-color config validate || true
 
 echo ""
 echo "===================================================================="
