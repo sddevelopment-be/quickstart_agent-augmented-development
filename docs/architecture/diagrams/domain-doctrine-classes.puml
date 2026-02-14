@@ -1,0 +1,140 @@
+@startuml domain_doctrine_classes
+title Doctrine Bounded Context — Class Diagram
+
+skinparam defaultFontName "Verdana"
+skinparam defaultFontSize 14
+skinparam wrapWidth 260
+
+skinparam class {
+    BackgroundColor #E1F5FF
+    BorderColor #1565C0
+    FontColor Black
+}
+
+package "Domain Models" {
+    class Agent <<frozen>> {
+        +id: str
+        +name: str
+        +specialization: str
+        +capabilities: frozenset[str]
+        +required_directives: frozenset[str]
+        +handoff_patterns: tuple[HandoffPattern]
+        +primer_matrix: tuple[PrimerEntry]
+        +source_file: Path
+        +source_hash: str
+    }
+
+    class Directive <<frozen>> {
+        +id: str
+        +number: int
+        +title: str
+        +category: str
+        +enforcement: str
+        +source_file: Path
+        +source_hash: str
+    }
+
+    class Tactic <<frozen>> {
+        +id: str
+        +title: str
+        +steps: tuple[str]
+        +prerequisites: frozenset[str]
+        +outcomes: frozenset[str]
+        +source_file: Path
+        +source_hash: str
+    }
+
+    class Approach <<frozen>> {
+        +id: str
+        +title: str
+        +purpose: str
+        +principles: tuple[str]
+        +related_directives: frozenset[str]
+        +source_file: Path
+        +source_hash: str
+    }
+
+    class StyleGuide <<frozen>> {
+        +id: str
+        +title: str
+        +scope: str
+        +rules: tuple[str]
+        +enforcement: str
+    }
+
+    class Template <<frozen>> {
+        +id: str
+        +title: str
+        +category: str
+        +required_sections: tuple[str]
+        +optional_sections: tuple[str]
+    }
+
+    class HandoffPattern <<frozen>> {
+        +source_agent: str
+        +target_agent: str
+        +direction: str
+        +context: str
+    }
+
+    class PrimerEntry <<frozen>> {
+        +task_type: str
+        +required_primers: frozenset[str]
+        +description: str
+    }
+}
+
+package "Parsers" {
+    class DirectiveParser {
+        +parse(file_path): Directive
+    }
+
+    class AgentParser {
+        +parse(file_path): Agent
+    }
+
+    class TacticParser {
+        +parse(file_path): Tactic
+    }
+
+    class ApproachParser {
+        +parse(file_path): Approach
+    }
+}
+
+package "Validators" {
+    class ValidationResult <<dataclass>> {
+        +valid: bool
+        +errors: list[str]
+        +warnings: list[str]
+    }
+
+    class CrossReferenceValidator {
+        +validate_all(): ValidationResult
+    }
+
+    class MetadataValidator {
+        +validate_agent(): ValidationResult
+    }
+
+    class IntegrityChecker {
+        +check_duplicate_ids(): ValidationResult
+        +check_circular_dependencies(): ValidationResult
+    }
+}
+
+Agent *-- HandoffPattern
+Agent *-- PrimerEntry
+Agent ..> Directive : "references via required_directives"
+Approach ..> Directive : "references via related_directives"
+
+DirectiveParser ..> Directive : creates
+AgentParser ..> Agent : creates
+TacticParser ..> Tactic : creates
+ApproachParser ..> Approach : creates
+
+CrossReferenceValidator --> ValidationResult : returns
+MetadataValidator --> ValidationResult : returns
+IntegrityChecker --> ValidationResult : returns
+
+@enduml

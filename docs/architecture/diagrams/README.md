@@ -123,6 +123,73 @@ This directory contains PlantUML diagrams that visualize the asynchronous multi-
 - Understanding phase dependencies
 - Tracking progress against timeline
 
+### domain-core-c4-container.puml
+
+**Purpose:** C4 Level 2 container diagram showing the four bounded contexts within the domain/core architectural layer.
+
+**Containers:**
+- Collaboration: Task lifecycle, repository pattern, query operations
+- Doctrine: Immutable governance models, parsers, validators
+- Specifications: Feature status tracking (emerging context)
+- Common: Shared utilities with no domain semantics
+
+**Use Cases:**
+- Understanding domain layer architecture
+- Visualizing bounded context boundaries and dependencies
+- Onboarding new contributors to the domain module
+
+### domain-collaboration-classes.puml
+
+**Purpose:** Simplified UML class diagram for the Collaboration bounded context.
+
+**Key Classes:**
+- TaskStatus: State machine enum with transition validation (7 states)
+- TaskMode, TaskPriority: Operating mode and priority enums
+- TaskRepository: Repository pattern for task data access
+- TaskQueryResult: Chainable query result container
+
+**Use Cases:**
+- Understanding task domain model structure
+- Reviewing collaboration context API surface
+- Planning extensions to the task model
+
+### domain-doctrine-classes.puml
+
+**Purpose:** Simplified UML class diagram for the Doctrine bounded context.
+
+**Key Classes:**
+- Agent, Directive, Tactic, Approach, StyleGuide, Template: Frozen domain models
+- HandoffPattern, PrimerEntry: Value objects composed into Agent
+- DirectiveParser, AgentParser, TacticParser, ApproachParser: Markdown parsers
+- CrossReferenceValidator, MetadataValidator, IntegrityChecker: Validators
+
+**Use Cases:**
+- Understanding doctrine domain model relationships
+- Reviewing parser and validator architecture
+- Planning new doctrine artifact types
+
+### domain-specifications-classes.puml
+
+**Purpose:** Simplified UML class diagram for the Specifications bounded context.
+
+**Key Classes:**
+- FeatureStatus: Feature lifecycle enum (DRAFT through DEPRECATED)
+
+**Use Cases:**
+- Understanding the emerging specifications context
+- Planning future specification domain models
+
+### domain-common-classes.puml
+
+**Purpose:** Simplified UML class diagram for Common utilities.
+
+**Key Elements:**
+- path_utils module: Repository-aware path resolution functions
+
+**Use Cases:**
+- Understanding shared infrastructure available to all contexts
+- Verifying no domain logic has leaked into common
+
 ## Rendering Diagrams
 
 ### Online
@@ -197,4 +264,4 @@ This generates PNG/SVG files alongside the .puml sources.
 ---
 
 _Maintained by: Architect agents_  
-_Last updated: 2025-11-20_
+_Last updated: 2026-02-14_
