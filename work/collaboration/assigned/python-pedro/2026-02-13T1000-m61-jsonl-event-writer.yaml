@@ -3,7 +3,8 @@ title: "M6.1 Task 1: JSONL Event Writer Module"
 agent: python-pedro
 batch: M6.1
 priority: high
-status: new
+status: done
+completed_at: "2026-02-14T10:00:00Z"
 created_at: "2026-02-13T10:00:00Z"
 created_by: manager-mike
 specification: specifications/initiatives/control-plane/SPEC-CTRL-001-local-agent-control-plane.md
