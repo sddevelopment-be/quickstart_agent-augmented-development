@@ -892,7 +892,7 @@ package.json → node tools/exporters/cursor-exporter.js
 
 **Related Files:**
 - Phase 1: `.cursorrules`, `.cursor/QUICK_REFERENCE.md`
-- Template: `docs/templates/specifications/feature-spec-template.md`
+- Template: `doctrine/templates/specifications/feature-spec-template.md`
 - Parent Spec: `specifications/initiatives/framework-distribution/SPEC-DIST-001-multi-tool-distribution.md`
 - Related Spec: `specifications/initiatives/framework-distribution/SPEC-DIST-002-claude-code-optimization.md`
 - Exporters: `tools/exporters/copilot-generator.js`, `tools/exporters/opencode-generator.js`

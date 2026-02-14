@@ -103,7 +103,7 @@ Do I need to document a requirement?
 
 ## Specification Template
 
-Use the template at `docs/templates/specifications/feature-spec-template.md`.
+Use the template at `doctrine/templates/specifications/feature-spec-template.md`.
 
 **Key components:**
 1. **User Story or Acceptance Criterion** - Context in persona language
@@ -265,7 +265,7 @@ Work logs trace back to specifications:
 
 2. **Copy the template:**
    ```bash
-   cp docs/templates/specifications/feature-spec-template.md \
+   cp doctrine/templates/specifications/feature-spec-template.md \
       specifications/initiatives/my-initiative/my-feature.md
    ```
 
@@ -380,9 +380,7 @@ Before marking a specification as "Approved", ensure:
 - [Audience Personas](../docs/audience/README.md)
 
 **Templates:**
-- [Feature Specification Template](../docs/templates/specifications/feature-spec-template.md)
-- [API Specification Template](../docs/templates/specifications/api-spec-template.md)
-- [Workflow Specification Template](../docs/templates/specifications/workflow-spec-template.md)
+- [Feature Specification Template](../doctrine/templates/specifications/feature-spec-template.md)
 
 **External References:**
 - [spec-kitty Repository](https://github.com/Priivacy-ai/spec-kitty) - Inspiration for SDD approach
