@@ -3,20 +3,97 @@ packaged: false
 audience: process_architect, core_team, developer
 ---
 
-# Agent Reports
+# Work Reports
 
-This directory consolidates all agent output files, logs, and metrics for easy review.
+Temporal work products, assessments, and analysis artifacts organized by type.
 
-## Structure
+## Organizational Principles
 
-```
-reports/
-  logs/           # Agent execution logs and work logs
-  synthesizer/    # Synthesizer aggregation reports
-  benchmarks/     # Performance benchmarks and results
-  metrics/        # Token usage and iteration metrics
-  POC3-EXECUTIVE-SUMMARY.md  # POC3 validation executive summary
-```
+1. **Temporal Nature:** Reports in work/ are time-bound and may be archived
+2. **Active Work:** Represents current or recent work cycles
+3. **Reference Material:** Stable patterns/guides belong in docs/, not work/
+4. **Archive Pattern:** Completed work moves to archive/ subdirectories
+
+## Directory Structure
+
+### `/analysis/`
+In-depth analysis of code, architecture, and processes. Time-bound investigations.
+
+### `/assessments/`
+Quality assessments, strategic reviews, and evaluations.
+
+### `/architecture/`
+Architecture decision records, design reviews, and structural analysis.
+
+### `/benchmarks/`
+Performance benchmarks and results.
+
+### `/checkpoints/`
+Phase checkpoints and milestone validation records.
+
+### `/compliance/`
+Compliance checks, standards validation, and regulatory assessments.
+
+### `/curation/`
+Documentation curation, consistency audits, and structural reviews.
+
+### `/dashboards/`
+Dashboard reports and metrics visualizations.
+
+### `/exec_summaries/`
+Executive summaries of major initiatives, features, and architectural decisions.
+
+### `/executive-summaries/`
+*(Note: Consider consolidating with /exec_summaries/)*
+
+### `/implementation/`
+Implementation plans, status reports, and feature-specific documentation.
+
+### `/logs/`
+Agent execution logs and work logs, organized by agent name.
+
+### `/metrics/`
+Token usage and iteration metrics.
+
+### `/orchestration/`
+Multi-agent orchestration reports and coordination summaries.
+
+### `/planning/`
+Sprint planning, roadmaps, and strategic planning documents.
+
+### `/pr-summaries/`
+Pull request summaries and merge documentation.
+
+### `/ralph-checks/`
+Ralph Wiggum Loop prevention checks and validation reports.
+
+### `/refactoring/`
+Refactoring plans, progress tracking, and outcome assessments.
+
+### `/reflections/`
+Agent reflections, learning notes, and process observations.
+
+### `/research/`
+Research findings, explorations, and technical investigations.
+
+### `/retrospectives/`
+Sprint retrospectives, process reviews, and lessons learned.
+
+### `/reviews/`
+Code reviews, architecture reviews, and quality assessments from various agents.
+
+### `/synthesis/`
+Cross-cutting synthesis reports that integrate multiple sources or perspectives.
+
+### `/synthesis/archive/`
+Completed synthesis reports that are no longer active.
+
+### `/validation/` and `/validations/`
+Validation reports, test results, and quality verification documents.
+*(Note: Consider consolidating into single /validations/ directory)*
+
+### `/_archive/`
+Archived reports from previous cycles that are no longer actively referenced.
 
 ## Featured Reports
 
