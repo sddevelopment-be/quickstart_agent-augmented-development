@@ -310,7 +310,7 @@ repository-root/
 
 **See:** `specifications/README.md` for detailed guidance and templates.
 
-**Template:** `docs/templates/specifications/feature-spec-template.md`
+**Template:** `doctrine/templates/specifications/feature-spec-template.md`
 
 ---
 

@@ -743,7 +743,7 @@ CREATE TABLE daily_costs (
 **Tags:** `#feature-spec` `#llm-dashboard` `#real-time-monitoring` `#websocket` `#m4-user-experience` `#retrospective`
 
 **Related Files:**
-- Template: `docs/templates/specifications/feature-spec-template.md`
+- Template: `doctrine/templates/specifications/feature-spec-template.md`
 - Persona: Software Engineer, Agentic Framework Core Team, Cost-Conscious Developer
 - ADR: `docs/architecture/adrs/ADR-032-real-time-execution-dashboard.md`
 - Technical Design: `docs/architecture/design/dashboard-interface-technical-design.md`

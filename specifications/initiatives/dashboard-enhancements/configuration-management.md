@@ -89,7 +89,7 @@ Dashboard configuration management interface with:
 **Related Documentation:**
 - Related ADRs: ADR-025 (LLM Service Layer), ADR-032 (Dashboard)
 - Configuration Schema: llm-service/config-schema.json
-- Agent Profile Template: docs/templates/agents/agent-profile-template.md
+- Agent Profile Template: doctrine/templates/automation/NEW_SPECIALIST.agent.md
 
 ---
 
@@ -749,7 +749,7 @@ interface ConfigEditRequest {
 
 - **Related ADRs:** ADR-025 (LLM Service Layer), ADR-032 (Dashboard)
 - **Configuration Schema:** llm-service/config-schema.json
-- **Agent Profile Template:** docs/templates/agents/agent-profile-template.md
+- **Agent Profile Template:** doctrine/templates/automation/NEW_SPECIALIST.agent.md
 - **Framework Config:** framework/agent_config.json
 
 ---

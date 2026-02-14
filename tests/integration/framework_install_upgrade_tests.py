@@ -82,7 +82,7 @@ class TestFrameworkInstallAcceptance:
                     "size": (agents_dir / "sample.agent.md").stat().st_size,
                 },
                 {
-                    "path": "docs/templates/template.md",
+                    "path": "doctrine/templates/template.md",
                     "sha256": self._calculate_sha256(docs_dir / "template.md"),
                     "mode": "644",
                     "scope": "template",

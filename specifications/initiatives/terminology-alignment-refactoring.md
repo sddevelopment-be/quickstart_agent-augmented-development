@@ -1107,7 +1107,7 @@ Track significant changes to this specification:
 **Tags:** `#initiative-spec` `#terminology` `#refactoring` `#language-first-architecture` `#bounded-context` `#ddd`
 
 **Related Files:**
-- Template: `docs/templates/specifications/feature-spec-template.md`
+- Template: `doctrine/templates/specifications/feature-spec-template.md`
 - Assessment: `work/conceptual-alignment-assessment-synthesis.md`
 - ADR: `docs/architecture/adrs/_drafts/ADR-XXX-task-context-boundary-definition.md`
 - ADR: `docs/architecture/adrs/ADR-042-shared-task-domain-model.md`

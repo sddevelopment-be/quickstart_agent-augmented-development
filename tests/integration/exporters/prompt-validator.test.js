@@ -84,7 +84,7 @@ describe('PromptValidator Acceptance Tests', () => {
     
     it('validates prompt from actual template file', async () => {
       // Use the real task-execution template as reference
-      const templatePath = path.join(__dirname, '../../docs/templates/prompts/task-execution.yaml');
+      const templatePath = path.join(__dirname, '../../../doctrine/templates/prompts/task-execution.yaml');
       
       // For this test, we'll create a valid prompt based on the template
       const validPrompt = {

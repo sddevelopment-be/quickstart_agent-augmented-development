@@ -135,7 +135,7 @@
 # Load context
 Read: doctrine/agents/architect.agent.md
 Read: doctrine/directives/018_traceable_decisions.md
-Read: docs/templates/architecture/adr.md
+Read: doctrine/templates/architecture/adr.md
 
 # Create ADR
 Location: docs/architecture/adrs/ADR-NNN-title.md
