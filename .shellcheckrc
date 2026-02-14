@@ -14,7 +14,12 @@ enable=all
 # SC1091: "Not following sourced file" - Project uses dynamic sourcing patterns
 # SC2086: "Double quote to prevent globbing and word splitting" - Project allows controlled expansion
 # SC2181: "Check exit code directly with success/failure of last command" - Common pattern
-disable=SC1091,SC2086,SC2181
+# SC2317: "Command appears unreachable" - False positives for indirectly called functions
+# SC2310: "Function invoked in || condition" - Intentional pattern for error handling
+# SC2311: "set -e disabled in command substitution" - Acceptable for capturing command output
+# SC2312: "Command substitution in echo/test" - Acceptable for simple display/test operations
+# SC2016: "Expressions don't expand in single quotes" - Intentional for literal strings
+disable=SC1091,SC2086,SC2181,SC2317,SC2310,SC2311,SC2312,SC2016
 
 # Output format: gcc - compatible with CI/CD systems and IDE integration
 format=gcc

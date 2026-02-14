@@ -73,7 +73,7 @@ count_tasks() {
   local pattern="${2:-*.yaml}"
   
   if [[ "${pattern}" == "*.yaml" ]]; then
-    count=$(ls "${dir}"/${pattern} 2>/dev/null | wc -l)
+    count=$(find "${dir}" -maxdepth 1 -name "${pattern}" 2>/dev/null | wc -l)
   else
     count=$(find "${dir}" -name "${pattern}" 2>/dev/null | wc -l)
   fi
@@ -194,9 +194,9 @@ validate_criteria() {
 # Main execution
 main() {
   # Get task counts
-  inbox_count=$(ls work/inbox/*.yaml 2>/dev/null | wc -l)
+  inbox_count=$(find work/inbox -maxdepth 1 -name "*.yaml" 2>/dev/null | wc -l)
   assigned_count=$(find work/assigned -name "*.yaml" 2>/dev/null | wc -l)
-  done_count=$(ls work/done/*.yaml 2>/dev/null | wc -l)
+  done_count=$(find work/done -maxdepth 1 -name "*.yaml" 2>/dev/null | wc -l)
   
   # Get agent breakdowns
   # shellcheck disable=SC2207

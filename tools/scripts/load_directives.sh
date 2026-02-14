@@ -48,8 +48,8 @@ for code in "$@"; do
     continue
   fi
   # Expect single match
-  echo "\n<!-- Directive ${code} Begin -->"
+  printf "\n<!-- Directive %s Begin -->\n" "${code}"
   cat "${match[0]}"
-  echo "\n<!-- Directive ${code} End -->"
+  printf "\n<!-- Directive %s End -->\n" "${code}"
 done
 
