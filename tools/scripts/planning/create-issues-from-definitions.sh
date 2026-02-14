@@ -5,6 +5,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck disable=SC2034
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../../.." && pwd)"
 DEFINITIONS_DIR="${SCRIPT_DIR}/agent-scripts/issue-definitions"
 GITHUB_HELPER="${SCRIPT_DIR}/github-helpers/create-github-issue.sh"

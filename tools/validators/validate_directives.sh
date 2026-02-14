@@ -82,6 +82,7 @@ find "${AGENTS_DIR}" -maxdepth 1 -type f -name '*agent.md' -print0 | while IFS= 
     fail "Missing required clarifying line in ${profile}"
   fi
   pass "Clarifying line present in ${profile}"
+# shellcheck disable=SC2034
 DoneMarker="1"
   # continue
 :; done

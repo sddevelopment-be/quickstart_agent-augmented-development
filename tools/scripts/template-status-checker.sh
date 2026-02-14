@@ -158,7 +158,8 @@ validate_criteria() {
   fi
   
   # Criterion 2: Work logs created
-  local logs_valid=$(check_work_logs "${done_count}")
+  local logs_valid
+  logs_valid=$(check_work_logs "${done_count}")
   if [[ "${logs_valid}" == "true" ]]; then
     echo -e "${GREEN}✓${NC} Work logs created per Directive 014"
     criteria_met=$((criteria_met + 1))
@@ -167,7 +168,8 @@ validate_criteria() {
   fi
   
   # Criterion 3: AGENT_STATUS.md updated
-  local status_state=$(check_agent_status)
+  local status_state
+  status_state=$(check_agent_status)
   if [[ "${status_state}" == "current" ]]; then
     echo -e "${GREEN}✓${NC} AGENT_STATUS.md updated recently"
     criteria_met=$((criteria_met + 1))
@@ -197,6 +199,7 @@ main() {
   done_count=$(ls work/done/*.yaml 2>/dev/null | wc -l)
   
   # Get agent breakdowns
+  # shellcheck disable=SC2207
   assigned_agents=($(get_agent_breakdown "work/assigned"))
   
   if [[ "${OUTPUT_FORMAT}" == "json" ]]; then

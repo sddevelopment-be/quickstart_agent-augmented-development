@@ -357,7 +357,8 @@ upgrade_framework_files() {
     log_info "Processing framework files..."
     
     local core_dir="${release_dir}/framework_core"
-    local temp_counts=$(mktemp)
+    local temp_counts
+    temp_counts=$(mktemp)
     echo "0 0 0 0 0" > "${temp_counts}"
     
     # Process all files in framework_core (POSIX-compliant)

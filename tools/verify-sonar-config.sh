@@ -35,7 +35,8 @@ check_property() {
     local description=$2
     
     if grep -q "^${prop}=" sonar-project.properties; then
-        local value=$(grep "^${prop}=" sonar-project.properties | cut -d'=' -f2-)
+        local value
+        value=$(grep "^${prop}=" sonar-project.properties | cut -d'=' -f2-)
         echo -e "${GREEN}✓${NC} ${description}: ${value}"
     else
         echo -e "${RED}✗${NC} ${description} not configured"

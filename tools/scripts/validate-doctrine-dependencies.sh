@@ -114,6 +114,7 @@ echo ""
 
 # Check 5: Invalid variable usage
 echo -e "${BLUE}[5/8] Checking for invalid path variables...${NC}"
+# shellcheck disable=SC2034
 VALID_VARS=('WORKSPACE_ROOT' 'DOC_ROOT' 'SPEC_ROOT' 'OUTPUT_ROOT' 'LOCAL_DOCTRINE_ROOT')
 INVALID_VARS=$(grep -rn '\${[A-Z_]*}' "${DOCTRINE_DIR}" --include="*.md" --include="*.yaml" --include="*.yml" \
     | grep -v '\${WORKSPACE_ROOT}\|\${DOC_ROOT}\|\${SPEC_ROOT}\|\${OUTPUT_ROOT}\|\${LOCAL_DOCTRINE_ROOT}' \
