@@ -93,6 +93,7 @@
    - `metrics_collector.py` — Aggregation engine (per-agent, per-task, per-day rollups)
    - `query_interface.py` — Query API for dashboards and agents
    - `schema.py` — Event schema definitions (TaskStarted, TaskCompleted, LLMInvocation, etc.)
+   - `worklog_emitter.py` — EventBridge consumer that auto-generates Directive 014 work log entries from lane transitions and validation events
 
 2. **`ops/config/telemetry.yaml`** — Configuration template
    - Storage paths (JSONL log location, SQLite DB path)
@@ -185,6 +186,11 @@ work/kitty/phase-1-telemetry/
    - `config.yaml` — Doctrine configuration with path mappings
    - `repository-guidelines.md` — Project-specific governance rules
    - `hooks/` — Custom lifecycle hooks (optional)
+   - Constitution ↔ `.doctrine-config/` sync validator (ensures narrative and structured config don't contradict)
+
+**Design note — Unified event spine:** Governance lifecycle hooks share attachment points with the EventBridge (from Phase 1). Every governance validation is itself an event. The `GovernancePlugin.validate_pre_*()` result feeds into `EventBridge.emit_validation_event()`, and a `WorkLogEmitter` consumer (Phase 1) auto-generates Directive 014 entries. Adding new cross-cutting concerns (budget enforcement, audit trail) requires only registering a new EventBridge consumer — no additional orchestrator hook points.
+
+**Design note — Constitution convergence:** SK Constitution and Doctrine `.doctrine-config/` are near-identical concepts (project-scoped governance overlays) in different forms. Phase 2 should treat them as two views of the same governance state — Constitution as human-readable narrative, `.doctrine-config/` as machine-parseable config. A validation check ensures they don't contradict.
 
 4. **`ops/scripts/bootstrap-doctrine.py`** — Setup automation
    - Install/sync Doctrine stack (git subtree or clone)

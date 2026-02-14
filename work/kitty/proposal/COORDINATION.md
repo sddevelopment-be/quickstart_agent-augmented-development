@@ -195,6 +195,14 @@ Neither system solves these problems alone:
 - **Rationale:** Single source of truth (Constitution) prevents "two-masters" problem; Constitution is compiled output of layered governance with explicit precedence order.
 - **Implication:** Constitution includes precedence contract: `Constitution → Doctrine Guidelines → Doctrine Directives → Mission Guidance → Tactics/Templates`.
 - **Reference:** `work/kitty/analysis/2026-02-14-evaluation-doctrine-governance-extension.md` (Section: Recommended Shape, Phase 1)
+- **Refinement (2026-02-14):** Constitution and `.doctrine-config/` are near-identical concepts — both are project-scoped governance overlays. Treat them as two views of the same governance state (Constitution = human narrative, `.doctrine-config/` = machine config). Phase 2 must include a sync/validation mechanism.
+
+#### Decision #6: Unified Event Spine for Cross-Cutting Concerns
+- **Date:** 2026-02-14
+- **Context:** Governance hooks, telemetry, work logging, and cost tracking all attach to the same lifecycle points (lane transitions, phase boundaries).
+- **Rationale:** Rather than wiring each concern independently into the orchestrator, governance validations emit events through the EventBridge. A single event stream serves telemetry, work logging (Directive 014), cost tracking, and compliance metrics. New concerns require only a new consumer registration — zero additional hook points.
+- **Implication:** Phase 1 telemetry library includes `WorkLogEmitter` consumer; Phase 2 governance hooks emit `ValidationEvent` through EventBridge.
+- **Reference:** `work/kitty/proposal/ARCHITECTURE_SPEC.md` (Design Note: Lifecycle Hooks as Unified Event Sources)
 
 #### Decision #5: Pluggable Routing Provider Interface
 - **Date:** 2026-02-14

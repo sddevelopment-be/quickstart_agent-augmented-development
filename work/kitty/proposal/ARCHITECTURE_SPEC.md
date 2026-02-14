@@ -522,7 +522,7 @@ Lane transition (e.g., planned → doing)
 | Work Package (WP) | `Feature` | ✅ Direct | WP is independently deliverable; Feature is a capability unit |
 | Lane (`planned` → `done`) | Task lifecycle (`new` → `done`) | 🟡 Related | Different state names, same progression concept (see crosswalk below) |
 | Mission | No direct equivalent | ❌ Gap | Doctrine uses Approaches + Directives, not domain-scoped mission profiles |
-| Constitution | Guidelines (Layer 1) | 🟡 Conceptual | Constitution is a single document; Guidelines is a layered stack |
+| Constitution | `.doctrine-config/` (local overrides) | ✅ Near-identical | Both are project-scoped governance overlays; see convergence analysis below |
 | Worktree / Workspace | Run Container (ADR-048) | ✅ Direct | Both isolate work execution; worktrees are the implementation of Run Containers |
 | Agent config key | `AgentProfile` | ✅ Bridged | SK flat key maps to Doctrine rich profile via `doctrine_profiles` config |
 | Merge Preflight | Governance Validator | 🟡 Related | SK validates merge readiness; Doctrine validates behavioral compliance |
@@ -538,6 +538,33 @@ Lane transition (e.g., planned → doing)
 - `Batch` concept unused (SK WPs are already batch-like)
 - `Iteration`/`Cycle` remain Doctrine-specific (not forced into SK)
 - Add Mission → Approach/Directive crosswalk in Phase 2 adapter layer
+
+### Q3a: Constitution vs `.doctrine-config/` — Are these the same concept?
+
+**Finding:** Nearly identical in purpose, different in form.
+
+Both are project-scoped governance overlays that customize a framework's defaults for a specific repository. The overlap is significant enough to warrant convergence.
+
+| Dimension | SK Constitution | Doctrine `.doctrine-config/` |
+|---|---|---|
+| **Purpose** | Project-specific rules, standards, tribal knowledge | Project-specific framework overrides and conventions |
+| **Format** | Single Markdown narrative | Structured directory (YAML config + Markdown + extensions) |
+| **Generation** | Interactive CLI questionnaire (4-phase) | Agent-generated from template during bootstrap |
+| **Audience** | Primarily human readers | Machine + human (agents parse YAML, humans read Markdown) |
+| **Enforcement** | Social (code review compliance) | Automated (agents enforce `atdd_required`, `coverage_minimum`) |
+| **Scope overlap** | Testing standards, code quality, commit rules, architecture constraints | Testing standards, code quality, commit rules, naming conventions |
+| **Unique to Constitution** | Branch strategy, tribal knowledge, amendment process | — |
+| **Unique to `.doctrine-config/`** | — | Model routing, custom agents, hooks, styleguides, path variables |
+
+**Convergence opportunity:** In a unified architecture, the Constitution becomes the **narrative face** of `.doctrine-config/` — a human-readable rendering of the same project governance that `.doctrine-config/` encodes for machine consumption. The bootstrap process could:
+
+1. Generate `.doctrine-config/` YAML from Constitution questionnaire answers
+2. Generate Constitution Markdown from `.doctrine-config/` structured data
+3. Keep both in sync via a bidirectional renderer
+
+**Decision:** Treat Constitution and `.doctrine-config/` as **two views of the same governance state** — Constitution for humans, `.doctrine-config/` for agents. Phase 2 should include a synchronization mechanism or at minimum a validation check that they don't contradict each other.
+
+⚠️ This convergence insight reduces the "two-masters" risk further — rather than managing two separate governance documents, we manage one governance state with two renderings.
 
 ### Q4: Token budget impact?
 
