@@ -31,17 +31,17 @@ skinparam state {
 
 state "Phase 0\n**Analysis & Foundation**\n✅ COMPLETE" as P0 <<complete>>
 
-state "Phase 1\n**Telemetry Library**\n[M] ~1–1.5 months" as P1 <<critical>>
+state "Phase 1\n**Telemetry Library**\n[M]" as P1 <<critical>>
 
-state "Phase 2\n**Governance Plugin**\n[L] ~1.5–2 months" as P2 <<critical>>
+state "Phase 2\n**Governance Plugin**\n[L]" as P2 <<critical>>
 
-state "Phase 3\n**Model Routing**\n[L] ~1.5–2 months" as P3 <<critical>>
+state "Phase 3\n**Model Routing**\n[L]" as P3 <<critical>>
 
-state "Phase 4\n**Dashboard**\n[M] ~1–1.5 months" as P4 <<parallel>>
+state "Phase 4\n**Dashboard**\n[M]" as P4 <<parallel>>
 
-state "Phase 5\n**Error Reporting**\n[M] ~1–1.5 months" as P5 <<parallel>>
+state "Phase 5\n**Error Reporting**\n[M]" as P5 <<parallel>>
 
-state "Phase 6\n**Release &\nDocumentation**\n[S] ~0.5–1 month" as P6 <<finish>>
+state "Phase 6\n**Release &\nDocumentation**\n[S]" as P6 <<finish>>
 
 ' === Dependencies ===
 

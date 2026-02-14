@@ -130,3 +130,9 @@
 **Artefacts:** docs/architecture/synthesis/poc3-orchestration-metrics-synthesis.md
 **Task ID:** 2026-01-31T0638-synthesizer-followup-2025-11-23T2100-diagrammer-poc3-diagram-updates
 **Status:** Created
+
+## 2026-02-14 15:38 - manager-mike → stakeholder
+
+**Artefacts:** `work/kitty/glossary/README.md`, `work/kitty/glossary/domain-map.md`, `work/kitty/glossary/core-terminology.md`, `work/kitty/glossary/domains/`
+**Status:** Ready for review
+**Notes:** Delegation trace and specialist execution records available under `work/kitty/glossary/delegation/`.

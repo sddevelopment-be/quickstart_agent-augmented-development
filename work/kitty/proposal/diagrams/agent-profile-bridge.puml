@@ -46,9 +46,9 @@ lookup -down-> identity : enrich
 
 sk_exec -right-> routefn : execution\ncontext
 identity -right-> routefn : role\nintelligence
-routefn -right-> output : unified\ndecision
+routefn -up-> output : unified\ndecision
 
-note bottom of decision
+note left of decision
   **RoutingDecision contains:**
   • Agent key + model (from SK)
   • Role identity + directives (from Doctrine)

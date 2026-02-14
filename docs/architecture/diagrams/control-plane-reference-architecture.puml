@@ -1,4 +1,4 @@
-@startuml control_plane_reference_architecture
++@startuml control_plane_reference_architecture
 title Local Agent Control Plane — Reference Architecture (CQRS)
 
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4.puml
