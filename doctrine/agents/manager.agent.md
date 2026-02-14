@@ -175,7 +175,7 @@ When processing completed tasks with `next_agent`:
 **3. Create Executive Summaries**
 - **When:** Multi-agent initiative completes major phase
 - **Content:** Consolidate work logs, decisions, challenges, next steps
-- **Format:** Use `work/human-in-charge/executive_summaries/TEMPLATE.md`
+- **Format:** Use `doctrine/templates/coordination/hic-executive-summary.md`
 - **Audience:** Human-in-Charge reviewing progress
 
 **4. Route Agent Escalations**

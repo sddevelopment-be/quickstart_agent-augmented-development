@@ -151,6 +151,18 @@ work/human-in-charge/
 
 ## File Format Standards
 
+**Canonical Templates:** All templates are maintained in `doctrine/templates/coordination/`:
+- `hic-executive-summary.md` - Executive summary template
+- `hic-decision-request.md` - Decision request template
+- `hic-blocker.md` - Blocker template
+- `hic-problem.md` - Problem template
+
+**Usage:** Copy templates from `doctrine/templates/coordination/` to appropriate `work/human-in-charge/*/` subdirectory and fill sections.
+
+**Note:** The sections below show condensed template structures for reference. Use the full templates from `doctrine/templates/coordination/` for complete guidance.
+
+---
+
 ### Executive Summary Template
 
 **Filename:** `YYYY-MM-DD-[initiative-slug]-summary.md`
