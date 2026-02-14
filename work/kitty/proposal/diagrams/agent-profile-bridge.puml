@@ -1,0 +1,100 @@
+@startuml agent_profile_bridge
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+skinparam backgroundColor #FEFEFE
+skinparam defaultFontName "Verdana"
+skinparam defaultFontSize 13
+skinparam wrapWidth 240
+
+LAYOUT_LEFT_RIGHT()
+
+title Agent Profile Bridge — SK Config ↔ Doctrine Enrichment → Routing Decision
+
+!define SK_COLOR #FFF3E0
+!define AAD_COLOR #E3F2FD
+!define ROUTE_COLOR #F3E5F5
+!define OUTPUT_COLOR #E8F5E9
+
+' === Left side: Spec Kitty provides ===
+
+rectangle "**Spec Kitty Provides**" as sk_side SK_COLOR {
+  rectangle "Agent Config Key\n\"claude-sonnet\"\n\"gpt-4o\"" as agentkey SK_COLOR
+  rectangle "Tool Binding\nWhich LLM CLI/API\nto invoke for execution" as toolbind SK_COLOR
+  rectangle "Worktree Isolation\nEach agent works in\nits own git worktree" as worktree SK_COLOR
+  rectangle "Mission Context\nDomain-specific prompts\nand artifact templates" as mission SK_COLOR
+}
+
+' === Center: Doctrine enrichment ===
+
+rectangle "**AAD Provides** (Doctrine Agent Profiles)" as aad_side AAD_COLOR {
+  rectangle "AgentProfile Lookup\ndoctrine/agents/*.agent.md" as lookup AAD_COLOR
+  rectangle "Role Specialization\nArchitect, Backend Dev,\nPlanner, Reviewer" as roles AAD_COLOR
+  rectangle "Capability Declarations\nWhat agent can/cannot do\n(machine-readable)" as caps AAD_COLOR
+  rectangle "Handoff Patterns\nHow agents collaborate\nand transfer context" as handoffs AAD_COLOR
+  rectangle "Directive Awareness\nWhich governance rules\neach role must follow" as directives AAD_COLOR
+  rectangle "Reasoning Modes\nAnalysis · Creative · Meta\nwith annotated transitions" as modes AAD_COLOR
+}
+
+' === Right side: Unified routing ===
+
+rectangle "**RoutingProvider** (Layer 4)" as router ROUTE_COLOR {
+  rectangle "route_task(task_context)\n→ RoutingDecision" as routefn ROUTE_COLOR
+}
+
+rectangle "**RoutingDecision**\n(Unified Output)" as decision OUTPUT_COLOR {
+  rectangle "Agent Key + Model\nRole + Tool binding\nFallback chain" as output OUTPUT_COLOR
+}
+
+' === Flow: SK config key to lookup ===
+
+agentkey -right-> lookup : config key\nlookup
+
+' === Lookup fans out to rich identity ===
+
+lookup -down-> roles
+lookup -down-> caps
+lookup -down-> handoffs
+lookup -down-> directives
+lookup -down-> modes
+
+' === Both sides feed into RoutingProvider ===
+
+toolbind -right-> routefn : tool selection
+worktree -right-> routefn : workspace config
+mission -right-> routefn : domain context
+roles -right-> routefn : role identity
+caps -right-> routefn : capability filter
+handoffs -right-> routefn : collaboration\nrules
+directives -right-> routefn : governance\nconstraints
+modes -right-> routefn : reasoning\nconfig
+
+' === RoutingProvider produces decision ===
+
+routefn -right-> output : unified\ndecision
+
+note bottom of decision
+  **RoutingDecision contains:**
+  • Selected agent key + model
+  • Role identity (from Doctrine)
+  • Tool binding (from SK)
+  • Fallback chain (ordered alternatives)
+  • Applicable directives
+  • Workspace assignment
+end note
+
+note top of lookup
+  **Bridge pattern:** SK flat config keys
+  get enriched through Doctrine agent
+  profiles to produce rich identity
+  that informs routing decisions.
+end note
+
+legend right
+  |= Side |= Provides |= Example |
+  | <back:#FFF3E0>  Spec Kitty  </back> | Execution mechanics | Tool, worktree, mission |
+  | <back:#E3F2FD>  AAD/Doctrine  </back> | Role intelligence | Capabilities, handoffs, modes |
+  | <back:#F3E5F5>  RoutingProvider  </back> | Unification | Task → agent + model + tool |
+  | <back:#E8F5E9>  Decision  </back> | Output contract | Complete routing with fallbacks |
+endlegend
+
+@enduml

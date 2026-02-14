@@ -52,7 +52,8 @@ organized into five conceptual layers. Each layer has clear ownership and well-d
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-**Visual reference:** [`proposal/spec-kitty-doctrine-layered-target-architecture.puml`](./proposal/spec-kitty-doctrine-layered-target-architecture.puml)
+**Visual reference:** [`proposal/spec-kitty-doctrine-layered-target-architecture.puml`](./proposal/spec-kitty-doctrine-layered-target-architecture.puml)  
+**C4 diagram:** [`proposal/diagrams/unified-doctrine-stack.puml`](./proposal/diagrams/unified-doctrine-stack.puml)
 
 ---
 
@@ -287,3 +288,14 @@ For navigation across all analysis, proposal, and status documents, see [INDEX.m
 | [proposal/VISION.md](./proposal/VISION.md) | Long-term strategic vision |
 | [glossary/](./glossary/) | Terminology mapping across both frameworks |
 | [sddev_stack_reference/](./sddev_stack_reference/) | AAD architecture diagrams (PlantUML) |
+
+### Architecture Diagrams (PlantUML)
+
+| Diagram | Style | Source |
+|---------|-------|--------|
+| [`proposal/diagrams/unified-doctrine-stack.puml`](./proposal/diagrams/unified-doctrine-stack.puml) | C4 Container | 5-layer architecture stack |
+| [`proposal/diagrams/unified-event-spine.puml`](./proposal/diagrams/unified-event-spine.puml) | Sequence | Event Bridge fan-out pattern |
+| [`proposal/diagrams/phase-dependency-dag.puml`](./proposal/diagrams/phase-dependency-dag.puml) | State / DAG | Phase dependency graph with critical path |
+| [`proposal/diagrams/agent-profile-bridge.puml`](./proposal/diagrams/agent-profile-bridge.puml) | C4 Component | Agent config → rich identity → routing |
+| [`proposal/spec-kitty-doctrine-layered-target-architecture.puml`](./proposal/spec-kitty-doctrine-layered-target-architecture.puml) | Rectangle | Full target architecture (original) |
+| [`analysis/spec-kitty-doctrine-layered-integration.puml`](./analysis/spec-kitty-doctrine-layered-integration.puml) | C4 Container | Coverage analysis integration map |

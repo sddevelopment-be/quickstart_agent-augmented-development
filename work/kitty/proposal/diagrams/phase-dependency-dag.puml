@@ -1,0 +1,96 @@
+@startuml phase_dependency_dag
+skinparam backgroundColor #FEFEFE
+skinparam defaultFontName "Verdana"
+skinparam defaultFontSize 13
+skinparam wrapWidth 240
+
+title Phase Dependency DAG — Execution Roadmap
+
+!define COMPLETE_COLOR #C8E6C9
+!define CRITICAL_COLOR #FFCDD2
+!define PARALLEL_COLOR #E3F2FD
+!define FINISH_COLOR #FFF9C4
+
+' Use state diagram for DAG representation
+skinparam state {
+  BackgroundColor<<complete>> COMPLETE_COLOR
+  BorderColor<<complete>> #4CAF50
+  FontStyle<<complete>> bold
+
+  BackgroundColor<<critical>> CRITICAL_COLOR
+  BorderColor<<critical>> #E53935
+  FontStyle<<critical>> bold
+
+  BackgroundColor<<parallel>> PARALLEL_COLOR
+  BorderColor<<parallel>> #1976D2
+
+  BackgroundColor<<finish>> FINISH_COLOR
+  BorderColor<<finish>> #F9A825
+  FontStyle<<finish>> bold
+}
+
+state "Phase 0\n**Analysis & Foundation**\n✅ COMPLETE" as P0 <<complete>>
+
+state "Phase 1\n**Telemetry Library**\n[M] ~1–1.5 months" as P1 <<critical>>
+
+state "Phase 2\n**Governance Plugin**\n[L] ~1.5–2 months" as P2 <<critical>>
+
+state "Phase 3\n**Model Routing**\n[L] ~1.5–2 months" as P3 <<critical>>
+
+state "Phase 4\n**Dashboard**\n[M] ~1–1.5 months" as P4 <<parallel>>
+
+state "Phase 5\n**Error Reporting**\n[M] ~1–1.5 months" as P5 <<parallel>>
+
+state "Phase 6\n**Release &\nDocumentation**\n[S] ~0.5–1 month" as P6 <<finish>>
+
+' === Dependencies ===
+
+' Phase 0 feeds both Phase 1 and Phase 2 (can run in parallel)
+P0 -[#E53935,bold]down-> P1 : critical path
+P0 -[#1976D2,dashed]down-> P2 : parallel start
+
+' Phase 3 requires BOTH Phase 1 AND Phase 2
+P1 -[#E53935,bold]down-> P3 : telemetry\nrequired
+P2 -[#E53935,bold]down-> P3 : governance\nrequired
+
+' Phase 3 → Phase 6 (critical path end)
+P3 -[#E53935,bold]down-> P6 : critical path
+
+' Parallel branches
+P3 -[#1976D2]right-> P4 : routing data
+P1 -[#1976D2]right-> P5 : telemetry\nfor errors
+
+' Convergence to Phase 6
+P4 -[#F9A825]down-> P6 : dashboard\ncomplete
+P5 -[#F9A825]down-> P6 : error handling\ncomplete
+
+' === Notes ===
+
+note right of P0
+  **Status:** ✅ Complete
+  Architecture spec, execution
+  roadmap, gap analysis delivered.
+end note
+
+note left of P6
+  **Convergence point:**
+  All paths must complete
+  before final release.
+  Documentation can overlap
+  ~50% with Phase 4/5.
+end note
+
+legend right
+  |= Symbol |= Meaning |
+  | <back:#C8E6C9>  Green  </back> | Complete |
+  | <back:#FFCDD2>  Red  </back> | Critical path (~3.5–4.5 months) |
+  | <back:#E3F2FD>  Blue  </back> | Parallel work opportunity |
+  | <back:#FFF9C4>  Yellow  </back> | Release / convergence |
+
+  **Effort sizes:** [S] = Small, [M] = Medium, [L] = Large
+
+  **Critical path:** P0 → P1 + P2 (parallel) → P3 → P6
+  **Parallel:** P1 ∥ P2, P4 ∥ P5
+endlegend
+
+@enduml

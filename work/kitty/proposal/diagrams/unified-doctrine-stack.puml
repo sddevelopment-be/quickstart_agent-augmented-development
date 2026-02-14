@@ -1,0 +1,98 @@
+@startuml unified_doctrine_stack
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+skinparam backgroundColor #FEFEFE
+skinparam defaultFontName "Verdana"
+skinparam defaultFontSize 13
+skinparam wrapWidth 240
+
+LAYOUT_TOP_DOWN()
+
+title Unified Doctrine + Spec Kitty Stack — Five-Layer Architecture
+
+!define DOCTRINE_COLOR #E3F2FD
+!define SK_SPEC_COLOR #E8F5E9
+!define SK_ORCH_COLOR #FFF3E0
+!define SK_ROUTE_COLOR #F3E5F5
+!define SHARED_COLOR #ECEFF1
+
+' === Layer 1 — Governance ===
+
+rectangle "**Layer 1 — Governance** (Doctrine Extension)" as L1 DOCTRINE_COLOR {
+  rectangle "doctrine/\nGuidelines · Approaches\nDirectives · Tactics" as doctrine DOCTRINE_COLOR
+  rectangle "Constitution\nProject-local governance overlay\n(.doctrine-config/)" as constitution DOCTRINE_COLOR
+}
+
+note right of L1
+  **Precedence Hierarchy**
+  ──────────────────────
+  1. General Guidelines  (highest)
+  2. Operational Guidelines
+  3. Constitution (project-local)
+  4. Directives
+  5. Mission guidance
+  6. Tactics / Templates  (lowest)
+end note
+
+' === Layer 2 — Specification Domain ===
+
+rectangle "**Layer 2 — Specification Domain** (Spec Kitty Authority)" as L2 SK_SPEC_COLOR {
+  rectangle "kitty-specs/\nspec → plan → tasks →\nimplement → review → accept" as specflow SK_SPEC_COLOR
+  rectangle "Missions\nDomain-specific workflow profiles\n(software, research, …)" as missions SK_SPEC_COLOR
+}
+
+' === Layer 3 — Orchestration ===
+
+rectangle "**Layer 3 — Orchestration** (Spec Kitty, extension-enabled)" as L3 SK_ORCH_COLOR {
+  rectangle "WP Lifecycle\nWorktree isolation\nDependency scheduling" as wplife SK_ORCH_COLOR
+  rectangle "Event Bridge\nNormalized events from\nall lifecycle transitions" as evbridge SK_ORCH_COLOR
+}
+
+' === Layer 4 — Routing ===
+
+rectangle "**Layer 4 — Routing** (Spec Kitty, policy-informed)" as L4 SK_ROUTE_COLOR {
+  rectangle "RoutingProvider API\nAgent-to-model mapping\nFallback chains" as routeapi SK_ROUTE_COLOR
+  rectangle "DoctrinePolicyProvider\nRouting hints from\ndoctrine agent profiles" as docpolicy SK_ROUTE_COLOR
+}
+
+' === Layer 5 — Execution ===
+
+rectangle "**Layer 5 — Execution**" as L5 SHARED_COLOR {
+  rectangle "LLM Vendor Adapters\nCLI / SDK tool adapters" as llm SHARED_COLOR
+  rectangle "Telemetry Store\nCost tracking\nBudget enforcement" as telemetry SHARED_COLOR
+  rectangle "Artifact Capture\nWork log emission\nOutputs & metadata" as artifacts SHARED_COLOR
+}
+
+' === Vertical flow between layers ===
+
+L1 -[hidden]down- L2
+L2 -[hidden]down- L3
+L3 -[hidden]down- L4
+L4 -[hidden]down- L5
+
+' === Key relationships ===
+
+doctrine -down-> constitution : base + override merge
+constitution -down-> specflow : governance constraints
+specflow -down-> missions : shapes artifact contracts
+specflow -down-> wplife : creates executable WPs
+missions -down-> wplife : mission-aware context
+wplife -down-> evbridge : emits workflow events
+evbridge -down-> routeapi : event-driven routing
+routeapi -right-> docpolicy : optional enrichment
+docpolicy -up-> doctrine : reads policy hints
+routeapi -down-> llm : selected provider
+wplife -down-> telemetry : metrics capture
+llm -right-> artifacts : capture output
+evbridge -down-> artifacts : append events
+
+legend right
+  |= Color |= Owner |
+  | <back:DOCTRINE_COLOR>  Doctrine  </back> | Governance stack (reused) |
+  | <back:SK_SPEC_COLOR>  Green  </back> | Spec Kitty — Specification domain |
+  | <back:SK_ORCH_COLOR>  Orange  </back> | Spec Kitty — Orchestration |
+  | <back:SK_ROUTE_COLOR>  Purple  </back> | Spec Kitty — Routing |
+  | <back:SHARED_COLOR>  Grey  </back> | Shared execution infrastructure |
+endlegend
+
+@enduml

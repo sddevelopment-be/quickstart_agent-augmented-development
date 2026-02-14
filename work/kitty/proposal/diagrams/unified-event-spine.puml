@@ -1,0 +1,92 @@
+@startuml unified_event_spine
+skinparam backgroundColor #FEFEFE
+skinparam defaultFontName "Verdana"
+skinparam defaultFontSize 13
+skinparam wrapWidth 240
+
+title Unified Event Spine — Lane Transition Fan-Out Pattern
+
+!define SK_ORCH_COLOR #FFF3E0
+!define DOCTRINE_COLOR #E3F2FD
+!define SHARED_COLOR #ECEFF1
+!define TELEMETRY_COLOR #F3E5F5
+!define WORKLOG_COLOR #E8F5E9
+
+' Participants
+participant "Orchestrator\n(SK Core)" as orch SK_ORCH_COLOR
+participant "EventBridge" as eb SK_ORCH_COLOR
+participant "GovernancePlugin\n(Doctrine)" as gov DOCTRINE_COLOR
+participant "TelemetryStore" as tel TELEMETRY_COLOR
+participant "Dashboard" as dash TELEMETRY_COLOR
+participant "WorkLogEmitter\n(Directive 014)" as wlog WORKLOG_COLOR
+participant "BudgetEnforcer" as budget SHARED_COLOR
+
+== Lane Transition (e.g. planned → doing) ==
+
+orch -> eb ++ : emit_lane_transition(\n  wp_id, from="planned",\n  to="doing", metadata)
+note over eb
+  **Single hook point** in orchestrator.
+  All cross-cutting concerns are
+  EventBridge consumers.
+end note
+
+' Fan-out: parallel dispatch to all consumers
+eb -> tel : append(transition_event)
+tel --> tel : store cost/time/token metrics
+eb -> dash : notify(transition_event)
+dash --> dash : update live view
+eb -> gov ++ : validate_pre_doing(wp_context)
+
+alt Validation passes
+  gov --> gov : result = PASS
+else Validation warns
+  gov --> gov : result = WARN\n(non-blocking)
+else Validation blocks
+  gov --> gov : result = BLOCK\n(halt transition)
+end
+
+' Governance validation is itself an event
+gov -> eb : emit_validation_event(\n  result, rule_id, detail)
+note over eb #FFFDE7
+  **Key insight:** Every governance
+  validation is itself an event.
+  ValidationResult feeds back into
+  the same event stream.
+end note
+eb -> tel : append(validation_event)
+tel --> tel : compliance metrics
+eb -> dash : notify(validation_event)
+return validation_result
+
+eb -> wlog : record(transition_event)
+wlog --> wlog : generate Directive 014\nwork log entry
+
+' Optional: budget check as another consumer
+eb -> budget : check_budget(wp_context)
+budget --> budget : enforce cost limits
+
+return dispatch_complete
+
+== Adding New Cross-Cutting Concerns ==
+
+hnote over eb #E8F5E9
+  **Extensibility:** Adding a new concern
+  (e.g., audit trail, agent performance metrics)
+  requires only registering a new EventBridge
+  consumer — **no additional hook points**
+  in the orchestrator.
+end hnote
+
+legend right
+  |= Consumer |= Concern |
+  | TelemetryStore | Cost, time, token metrics |
+  | Dashboard | Live status visualization |
+  | GovernancePlugin | Compliance validation |
+  | WorkLogEmitter | Directive 014 work logs |
+  | BudgetEnforcer | Cost limit enforcement |
+
+  **Design principle:** Single set of hook points
+  in orchestrator. Fan-out via EventBridge.
+endlegend
+
+@enduml
