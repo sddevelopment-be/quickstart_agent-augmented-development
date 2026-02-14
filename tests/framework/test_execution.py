@@ -119,7 +119,7 @@ class TestModelRouter:
         router = ModelRouter()
 
         # Assert
-        assert router.config_path == "src/framework/config/model_router.yaml"
+        assert router.config_path == ".doctrine-config/model_router.yaml"
         assert router._models == {}
         assert router._fallback_chains == {}
 

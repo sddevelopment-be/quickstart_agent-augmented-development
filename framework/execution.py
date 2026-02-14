@@ -76,9 +76,9 @@ class ModelRouter:
 
         Args:
             config_path: Path to model router configuration YAML.
-                Defaults to src/framework/config/model_router.yaml.
+                Defaults to .doctrine-config/model_router.yaml.
         """
-        self.config_path = config_path or "src/framework/config/model_router.yaml"
+        self.config_path = config_path or ".doctrine-config/model_router.yaml"
         self._models: dict[str, ModelConfig] = {}
         self._fallback_chains: dict[str, list[str]] = {}
 
@@ -89,7 +89,7 @@ class ModelRouter:
             FileNotFoundError: If configuration file not found.
             ValueError: If configuration is invalid.
         """
-        # TODO: Load and parse src/framework/config/model_router.yaml
+        # TODO: Load and parse .doctrine-config/model_router.yaml
         # TODO: Validate model IDs and capabilities
         # TODO: Build fallback chains
         pass

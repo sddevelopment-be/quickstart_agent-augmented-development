@@ -51,6 +51,12 @@ tools:
     templates_source: "doctrine/templates"
     guidelines_source: "doctrine/guidelines"
 
+# Model routing configuration
+# See .doctrine-config/model_router.yaml for full model catalog
+# Template: doctrine/templates/project/model_router.template.yaml
+model_routing:
+  config_file: ".doctrine-config/model_router.yaml"
+
 overrides:
   # Commit behavior
   commit_signing: false               # Disable GPG for agent commits (avoids password prompts)

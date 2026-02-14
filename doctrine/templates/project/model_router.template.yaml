@@ -1,0 +1,196 @@
+# Model Router Configuration Template
+# Version: 1.0.0
+# Purpose: Dual-router configuration for deterministic model selection and fallback
+# across multiple LLM providers with direct API support.
+#
+# Usage:
+#   1. Copy this file to .doctrine-config/model_router.yaml
+#   2. Customize models, pricing, and role defaults for your project
+#   3. Remove models you don't use; add models your team needs
+#   4. Adjust pricing_ceilings and budgets to match your spending limits
+#
+# Schema Notes:
+# - Each model entry must include: router, identifier, context_window, pricing, default_role
+# - Router types: openrouter, opencode_ai, direct_api (extend as needed)
+# - Pricing is in USD per 1K tokens (input/output)
+# - Context window in tokens
+# - Default role: analysis, creative, coding, general
+#
+# Fallback Policy:
+# - Define router priority order for automatic failover
+# - Cost-aware: fallback to cheaper models within quality tier on pricing ceiling violations
+
+version: "1.0.0"
+updated_at: "YYYY-MM-DDTHH:MM:SSZ"  # Update when modifying
+
+# Global pricing ceilings (USD per 1K tokens)
+# Adjust these to match your organization's budget constraints
+pricing_ceilings:
+  openrouter:
+    max_input_price: 15.0
+    max_output_price: 75.0
+    daily_budget: 100.0
+  # Add additional routers as needed:
+  # opencode_ai:
+  #   max_input_price: 10.0
+  #   max_output_price: 50.0
+  #   daily_budget: 50.0
+  # direct_api:
+  #   max_input_price: 20.0
+  #   max_output_price: 100.0
+  #   daily_budget: 200.0
+
+# Fallback policy configuration
+fallback_policy:
+  priority_order:
+    - router: openrouter
+      priority: 1
+    # - router: opencode_ai
+    #   priority: 2
+    # - router: direct_api
+    #   priority: 3
+
+  triggers:
+    - rate_limit_exceeded
+    - service_unavailable
+    - model_not_available
+    - pricing_ceiling_violated
+    - context_window_exceeded
+
+  max_retries: 3
+  retry_delay_seconds: 5
+  exponential_backoff: true
+
+# Model catalog
+# Populate with models your team uses. Example entries shown below.
+# Copy and adapt entries for your provider and model choices.
+models:
+  # --- Example: High-capability model ---
+  # example-large-model:
+  #   router: openrouter
+  #   identifier: "provider/model-name"
+  #   aliases: ["short-name"]
+  #   context_window: 200000
+  #   pricing:
+  #     input_per_1k: 15.0
+  #     output_per_1k: 75.0
+  #   default_role: analysis
+  #   capabilities:
+  #     - tool_calls
+  #     - structured_output
+  #     - vision
+  #     - streaming
+  #     - long_context
+  #   description: "Description of model purpose"
+  #   fallback_to: "example-mid-model"
+
+  # --- Example: Mid-tier model ---
+  # example-mid-model:
+  #   router: openrouter
+  #   identifier: "provider/model-name"
+  #   aliases: ["short-name"]
+  #   context_window: 200000
+  #   pricing:
+  #     input_per_1k: 3.0
+  #     output_per_1k: 15.0
+  #   default_role: general
+  #   capabilities:
+  #     - tool_calls
+  #     - structured_output
+  #     - streaming
+  #   description: "Balanced model for general tasks"
+  #   fallback_to: "example-budget-model"
+
+  # --- Example: Budget model ---
+  # example-budget-model:
+  #   router: openrouter
+  #   identifier: "provider/model-name"
+  #   aliases: ["short-name"]
+  #   context_window: 128000
+  #   pricing:
+  #     input_per_1k: 0.25
+  #     output_per_1k: 1.25
+  #   default_role: general
+  #   capabilities:
+  #     - tool_calls
+  #     - streaming
+  #     - fast_response
+  #   description: "Fast, cost-effective model"
+  #   fallback_to: null  # Terminal fallback
+
+# Role-based default models
+# Maps agent roles to preferred models for automatic selection
+role_defaults:
+  analysis:
+    primary: ""       # Best model for complex reasoning
+    fallback: ""      # Secondary choice
+    budget_conscious: ""  # Cost-effective alternative
+
+  creative:
+    primary: ""
+    fallback: ""
+    budget_conscious: ""
+
+  coding:
+    primary: ""
+    fallback: ""
+    budget_conscious: ""
+
+  general:
+    primary: ""
+    fallback: ""
+    budget_conscious: ""
+
+# Context window requirements by task type
+context_requirements:
+  small: 8000       # Simple queries, code snippets
+  medium: 32000     # Standard documents, moderate code
+  large: 128000     # Large codebases, long documents
+  xlarge: 200000    # Architecture reviews, full repositories
+
+# Validation rules
+validation:
+  required_fields:
+    - router
+    - identifier
+    - context_window
+    - pricing
+    - default_role
+
+  allowed_routers:
+    - openrouter
+    - opencode_ai
+    - direct_api
+
+  allowed_roles:
+    - analysis
+    - creative
+    - coding
+    - general
+
+  allowed_capabilities:
+    - tool_calls
+    - structured_output
+    - vision
+    - streaming
+    - code_completion
+    - code_generation
+    - fill_in_middle
+    - long_context
+    - advanced_reasoning
+    - fast_response
+    - multilingual
+
+# Monitoring and metrics
+monitoring:
+  track_metrics:
+    - token_usage
+    - response_time
+    - success_rate
+    - fallback_frequency
+    - cost_per_request
+
+  alert_thresholds:
+    success_rate_min: 0.95
+    avg_response_time_max_seconds: 30
+    daily_cost_warning_percent: 80

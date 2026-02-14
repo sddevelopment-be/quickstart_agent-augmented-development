@@ -49,7 +49,7 @@ src/
 ✅ **Belongs in src/**
 - `src/framework/orchestration/agent_orchestrator.py` - Runtime agent dispatch
 - `src/framework/context/load_directives.py` - Loads directives at runtime
-- `src/framework/config/model_router.yaml` - Production LLM routing config
+- `.doctrine-config/model_router.yaml` - Production LLM routing config (template: `doctrine/templates/project/model_router.template.yaml`)
 - `src/framework/schemas/prompt-schema.json` - Validates prompts at runtime
 
 ❌ **Does NOT belong in src/**

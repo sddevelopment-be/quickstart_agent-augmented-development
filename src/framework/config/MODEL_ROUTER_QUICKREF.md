@@ -2,8 +2,10 @@
 
 ## Configuration Location
 ```
-ops/config/model_router.yaml
+.doctrine-config/model_router.yaml
 ```
+
+**Template:** `doctrine/templates/project/model_router.template.yaml`
 
 ## Validation Script
 ```bash
