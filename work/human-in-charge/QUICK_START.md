@@ -12,19 +12,22 @@ A comprehensive async coordination structure for agents to escalate decisions, b
 
 ```
 work/human-in-charge/
-├── README.md                    # Comprehensive usage guide (396 lines)
+├── README.md                    # Comprehensive usage guide
 ├── executive_summaries/         # High-level multi-agent milestone reviews
-│   ├── .gitkeep
-│   └── TEMPLATE.md
+│   └── .gitkeep
 ├── decision_requests/           # Architectural/policy decisions
-│   ├── .gitkeep
-│   └── TEMPLATE.md
+│   └── .gitkeep
 ├── blockers/                    # External blockers (credentials, reviews, access)
-│   ├── .gitkeep
-│   └── TEMPLATE.md
+│   └── .gitkeep
 └── problems/                    # Internal problems requiring judgment
-    ├── .gitkeep
-    └── TEMPLATE.md
+    └── .gitkeep
+
+Templates (canonical source):
+doctrine/templates/coordination/
+├── hic-executive-summary.md     # Executive summary template
+├── hic-decision-request.md      # Decision request template
+├── hic-blocker.md               # Blocker template
+└── hic-problem.md               # Problem template
 ```
 
 ---
@@ -41,12 +44,12 @@ work/human-in-charge/
 ### Quick Check Command
 
 ```bash
-# See what's new
-find work/human-in-charge/{blockers,decision_requests,problems} -name "*.md" -type f ! -name "TEMPLATE.md" -mtime -7
+# See what's new (excluding templates)
+find work/human-in-charge/{blockers,decision_requests,problems} -name "*.md" -type f -mtime -7
 
 # Or check by subdirectory priority
-ls -lt work/human-in-charge/blockers/*.md | grep -v TEMPLATE
-ls -lt work/human-in-charge/decision_requests/*.md | grep -v TEMPLATE
+ls -lt work/human-in-charge/blockers/*.md 2>/dev/null
+ls -lt work/human-in-charge/decision_requests/*.md 2>/dev/null
 ```
 
 ### Resolving Items
@@ -102,7 +105,7 @@ git commit -m "Resolved blocker: AWS credentials provided"
 
 ### Quick Links
 
-- **Templates:** `work/human-in-charge/*/TEMPLATE.md`
+- **Templates:** `doctrine/templates/coordination/`
 - **Manager Mike Profile:** `doctrine/agents/manager.agent.md` (HiC monitoring section added)
 - **AFK Mode:** `doctrine/shorthands/afk-mode.md` (updated with HiC references)
 

@@ -26,17 +26,19 @@ This directory enables **asynchronous agent-human coordination** for:
 work/human-in-charge/
 ├── README.md                    # This file
 ├── executive_summaries/         # High-level summaries requiring HiC review
-│   ├── .gitkeep
-│   └── TEMPLATE.md             # Template for executive summaries
+│   └── .gitkeep
 ├── decision_requests/           # Explicit decisions needed from HiC
-│   ├── .gitkeep
-│   └── TEMPLATE.md             # Template for decision requests
+│   └── .gitkeep
 ├── blockers/                    # External blockers awaiting human action
-│   ├── .gitkeep
-│   └── TEMPLATE.md             # Template for blocker reports
+│   └── .gitkeep
 └── problems/                    # Internal problems requiring human judgment
-    ├── .gitkeep
-    └── TEMPLATE.md             # Template for problem reports
+    └── .gitkeep
+
+Templates: doctrine/templates/coordination/
+├── hic-executive-summary.md     # Executive summary template
+├── hic-decision-request.md      # Decision request template
+├── hic-blocker.md               # Blocker template
+└── hic-problem.md               # Problem template
 ```
 
 ---
@@ -68,7 +70,7 @@ work/human-in-charge/
 - **Primary:** Manager Mike (consolidates multi-agent outputs)
 - **Secondary:** Any agent after completing complex initiative
 
-**Format:** See `executive_summaries/TEMPLATE.md`
+**Template:** `doctrine/templates/coordination/hic-executive-summary.md`
 
 **Example filename:** `2026-02-14-authentication-system-migration-summary.md`
 
@@ -88,7 +90,7 @@ work/human-in-charge/
 
 **Who creates:** Any agent encountering decision beyond authority
 
-**Format:** See `decision_requests/TEMPLATE.md`
+**Template:** `doctrine/templates/coordination/hic-decision-request.md`
 
 **Example filename:** `2026-02-14-database-choice-sessions.md`
 
@@ -114,7 +116,7 @@ work/human-in-charge/
 2. Update related task to `status: frozen`
 3. **Continue with other tasks** (don't wait idle)
 
-**Format:** See `blockers/TEMPLATE.md`
+**Template:** `doctrine/templates/coordination/hic-blocker.md`
 
 **Example filename:** `2026-02-14-aws-s3-credentials.md`
 
@@ -136,7 +138,7 @@ work/human-in-charge/
 
 **Who creates:** Any agent discovering problems requiring judgment
 
-**Format:** See `problems/TEMPLATE.md`
+**Template:** `doctrine/templates/coordination/hic-problem.md`
 
 **Example filename:** `2026-02-14-spec-contradiction-auth.md`
 
@@ -159,7 +161,7 @@ work/human-in-charge/
 
 ```bash
 # 1. Copy template
-cp work/human-in-charge/blockers/TEMPLATE.md work/human-in-charge/blockers/2026-02-14-aws-credentials.md
+cp doctrine/templates/coordination/hic-blocker.md work/human-in-charge/blockers/2026-02-14-aws-credentials.md
 
 # 2. Edit file with details (use your editor)
 
@@ -370,13 +372,16 @@ git commit -m "Archive resolved HiC items from January 2026"
 
 ## Templates
 
-Each subdirectory contains a `TEMPLATE.md` file:
-- `executive_summaries/TEMPLATE.md`
-- `decision_requests/TEMPLATE.md`
-- `blockers/TEMPLATE.md`
-- `problems/TEMPLATE.md`
+Each coordination template is stored in the canonical location:
 
-**To use:** Copy template, rename to `YYYY-MM-DD-[slug].md`, fill all sections.
+**Source:** `doctrine/templates/coordination/`
+
+- `hic-executive-summary.md` - For complex multi-agent initiative reviews
+- `hic-decision-request.md` - For architectural/policy decisions
+- `hic-blocker.md` - For external blockers (credentials, reviews, access)
+- `hic-problem.md` - For internal problems requiring judgment
+
+**To use:** Copy template from doctrine to work subdirectory, rename to `YYYY-MM-DD-[slug].md`, fill all sections.
 
 ---
 
