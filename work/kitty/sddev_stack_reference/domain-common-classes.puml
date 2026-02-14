@@ -1,0 +1,26 @@
+@startuml domain_common_classes
+title Common Utilities — Class Diagram
+
+skinparam defaultFontName "Verdana"
+skinparam defaultFontSize 14
+skinparam wrapWidth 260
+
+skinparam class {
+    BackgroundColor #F5F5F5
+    BorderColor #757575
+    FontColor Black
+}
+
+class path_utils <<module>> {
+    +get_repo_root(current_file: Path): Path
+    +get_work_dir(current_file: Path): Path
+    +get_agents_dir(current_file: Path): Path
+}
+
+note right of path_utils
+  Generic path resolution utilities.
+  No domain semantics -- only infrastructure.
+  All bounded contexts may depend on this module.
+end note
+
+@enduml

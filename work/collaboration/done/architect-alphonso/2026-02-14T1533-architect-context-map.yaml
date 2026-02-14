@@ -1,0 +1,12 @@
+id: 2026-02-14T1533-architect-context-map
+agent: architect-alphonso
+status: done
+priority: high
+title: Spec Kitty conceptual context map and boundary translation
+artefacts:
+  - work/kitty/glossary/delegation/reports/architect-context-map.md
+created_at: '2026-02-14T15:33:09Z'
+created_by: manager-mike
+result:
+  summary: Produced domain map with upstream/downstream relationships and translation seams.
+  completed_at: '2026-02-14T15:37:00Z'

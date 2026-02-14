@@ -1,0 +1,33 @@
+@startuml domain_specifications_classes
+title Specifications Bounded Context — Class Diagram
+
+skinparam defaultFontName "Verdana"
+skinparam defaultFontSize 14
+skinparam wrapWidth 260
+
+skinparam class {
+    BackgroundColor #E1F5FF
+    BorderColor #1565C0
+    FontColor Black
+}
+
+enum FeatureStatus <<str, Enum>> {
+    DRAFT
+    PLANNED
+    IN_PROGRESS
+    IMPLEMENTED
+    DEPRECATED
+    --
+    +is_active(): bool
+    +is_complete(): bool
+}
+
+note right of FeatureStatus
+  Lifecycle: DRAFT -> PLANNED -> IN_PROGRESS
+    -> IMPLEMENTED -> DEPRECATED.
+  Emerging context: additional models
+  (Specification, Feature, Initiative, Portfolio)
+  are planned but not yet implemented.
+end note
+
+@enduml

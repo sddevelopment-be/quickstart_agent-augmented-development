@@ -1,0 +1,63 @@
+@startuml doctrine-stack-c4
+skinparam backgroundColor #FEFEFE
+skinparam handwritten false
+skinparam monochrome false
+
+title Doctrine Stack: Five-Layer Agentic Governance Framework
+
+!define GUIDELINES_COLOR #E3F2FD
+!define APPROACHES_COLOR #F3E5F5
+!define DIRECTIVES_COLOR #FFF9C4
+!define TACTICS_COLOR #C8E6C9
+!define TEMPLATES_COLOR #FFCCBC
+
+rectangle "**Human in Charge**\n(Authority & Responsibility)" as human #FFE0B2
+rectangle "**AI Agent**\n(Autonomous Executor)" as agent #B3E5FC
+
+package "Doctrine Stack" {
+    rectangle "**Layer 1: Guidelines**\nValues, preferences, guardrails\n(Highest precedence)" as guidelines GUIDELINES_COLOR
+    rectangle "**Layer 2: Approaches**\nMental models, philosophies\n(Problem framing)" as approaches APPROACHES_COLOR
+    rectangle "**Layer 3: Directives**\nInstructions, constraints\n(What to do)" as directives DIRECTIVES_COLOR
+    rectangle "**Layer 4: Tactics**\nProcedural execution guides\n(How to execute)" as tactics TACTICS_COLOR
+    rectangle "**Layer 5: Templates**\nOutput structure contracts\n(What shape)" as templates TEMPLATES_COLOR
+}
+
+rectangle "**Work Coordination**\nAgent collaboration, logs" as work #E0E0E0
+rectangle "**Documentation**\nStrategic intent, ADRs" as docs #E0E0E0
+
+' Human interactions
+human -down-> guidelines : Defines\nvalues
+human -down-> directives : Selects\nconstraints
+human -down-> agent : Approves\ntactic invocation
+
+' Agent interactions
+agent -up-> guidelines : Loads at\ninitialization
+agent -up-> approaches : References for\nproblem framing
+agent -up-> directives : Follows\n(mandatory)
+agent -up-> tactics : Executes\n(procedural)
+agent -up-> templates : Uses for\noutput format
+
+' Stack flow (precedence)
+guidelines -down-> approaches : Informs
+approaches -down-> directives : Justifies
+directives -down-> tactics : Invokes\n(explicit mandate)
+tactics -down-> templates : References\nstructure
+
+' Work coordination
+agent -right-> work : Writes logs,\ncoordination
+agent -right-> docs : Proposes\nchanges
+human -down-> docs : Approves &\npromotes
+
+' Exploratory discovery (feedback)
+tactics .up.> agent : Proposes\n(exploratory)
+
+legend right
+  |= Symbol |= Meaning |
+  | → | Direct relationship |
+  | ⇢ | Exploratory/proposed |
+  
+  **Precedence:** Guidelines > Approaches > Directives > Tactics > Templates
+  **Authority:** Human retains approval over tactic invocations
+endlegend
+
+@enduml

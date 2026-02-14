@@ -1,0 +1,15 @@
+id: 2026-02-14T1533-curator-final-assembly
+agent: curator-claire
+status: done
+priority: high
+title: Assemble final per-domain glossary package
+artefacts:
+  - work/kitty/glossary/README.md
+  - work/kitty/glossary/domain-map.md
+  - work/kitty/glossary/core-terminology.md
+  - work/kitty/glossary/domains/
+created_at: '2026-02-14T15:33:09Z'
+created_by: manager-mike
+result:
+  summary: Final glossary package assembled from specialist outputs with domain-focused conceptual captures.
+  completed_at: '2026-02-14T15:38:00Z'

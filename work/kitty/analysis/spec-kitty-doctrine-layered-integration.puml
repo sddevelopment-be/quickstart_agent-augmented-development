@@ -1,0 +1,118 @@
+-@startuml spec_kitty_doctrine_layered_integration
+title Spec Kitty × Doctrine Framework — Layered Integration Map
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+skinparam defaultFontName "Verdana"
+skinparam defaultFontSize 13
+skinparam wrapWidth 220
+
+' =========================
+' COVERAGE TAGS
+' =========================
+AddElementTag("sk_layer",    $fontColor="#003366", $bgColor="#D6EAF8", $borderColor="#2E86C1",  $legendText="Spec Kitty layer")
+AddElementTag("covered",     $fontColor="#1B5E20", $bgColor="#D5F5E3", $borderColor="#27AE60",  $legendText="Covered by Spec Kitty (~35%)")
+AddElementTag("partial",     $fontColor="#7D4E00", $bgColor="#FEF9E7", $borderColor="#F39C12",  $legendText="Partially covered (~25%)")
+AddElementTag("gap",         $fontColor="#7B241C", $bgColor="#FDEDEC", $borderColor="#E74C3C",  $legendText="Not covered — gap")
+AddElementTag("ideological", $fontColor="#4A235A", $bgColor="#F5EEF8", $borderColor="#8E44AD",  $legendText="Spec Kitty ideological layer")
+
+AddRelTag("integrates",  $textColor="#1A5276", $lineColor="#2E86C1", $legendText="Integration / mapping")
+AddRelTag("partial_rel", $textColor="#7D4E00", $lineColor="#F39C12", $lineStyle="dashed", $legendText="Partial integration")
+AddRelTag("gap_rel",     $textColor="#922B21", $lineColor="#E74C3C", $lineStyle="dotted", $legendText="Gap — no integration")
+AddRelTag("ideology",    $textColor="#6C3483", $lineColor="#8E44AD", $lineStyle="dashed", $legendText="Ideological alignment")
+
+' =========================
+' LEFT — SPEC KITTY LAYERS
+' =========================
+System_Boundary(sk_ideological, "Spec Kitty — Ideological Layers") {
+    Container(I1, "I1 — Philosophy",    "Principle",  "Code is source of truth; specs are deltas", $tags="ideological")
+    Container(I2, "I2 — Methodology",   "Process",    "Spec-Driven Development lifecycle: spec → plan → tasks → implement → review → accept → merge", $tags="ideological")
+    Container(I3, "I3 — Governance",    "Model",      "Constitution model — single governing document as policy anchor", $tags="ideological")
+    Container(I4, "I4 — Adaptability",  "Extension",  "Mission system provides domain context switching (software-dev, research, documentation)", $tags="ideological")
+}
+
+System_Boundary(sk_technical, "Spec Kitty — Technical Layers") {
+    Container(T1, "T1 — CLI Interface",              "Typer + Rich + StepTracker", "13+ commands covering the full SDD lifecycle; progress rendering and interactive UX", $tags="sk_layer")
+    Container(T2, "T2 — Core Infrastructure",        "Python modules",             "Config management, git_ops, worktree management, VCS abstraction, dependency graph, feature detection", $tags="sk_layer")
+    Container(T3, "T3 — Mission & Workflow Engine",  "Domain adapters + YAML",     "Domain adapters (software-dev, research, documentation) driven by mission.yaml context", $tags="sk_layer")
+    Container(T4, "T4 — Orchestration & Multi-Agent","Coordination modules",       "Agent coordination, work distribution, worktree isolation for parallel agent execution", $tags="sk_layer")
+    Container(T5, "T5 — Quality & Validation",       "Validators",                 "Merge preflight checks, conflict forecasting, spec and plan validators", $tags="sk_layer")
+    Container(T6, "T6 — Observability",              "Dashboard diagnostics",      "Thin diagnostic layer; status visibility without full telemetry pipeline", $tags="sk_layer")
+}
+
+' =========================
+' RIGHT — DOCTRINE FRAMEWORK
+' =========================
+System_Boundary(doctrine, "Doctrine Framework — CQRS Architecture") {
+
+    System_Boundary(ctrl, "Control Planes") {
+        Container(dash,    "Dashboard",          "Flask + SocketIO", "Real-time task state, cost metrics, artifact links. Read-only view. (ADR-032)", $tags="covered")
+        Container(console, "Interactive Console","CLI / TUI",        "Kick off tasks, open logs, interactive exploration. (ADR-025)", $tags="covered")
+    }
+
+    System_Boundary(svc, "Service Layer") {
+        Container(coord, "Coordination Service", "Python asyncio", "Command handler, governance validator, event emitter, dispatcher. Lifecycle event bus.", $tags="partial")
+    }
+
+    System_Boundary(dist_layer, "Distributor Layer (Strategy Pattern)") {
+        Container(dist_direct,  "Direct Distributor",   "In-process",         "Straight-through dispatch to execution adapters. Default strategy.", $tags="partial")
+        Container(dist_queue,   "Queue Distributor",    "asyncio.Queue/Redis", "Buffered dispatch with backpressure and retry.", $tags="gap")
+        Container(dist_workflow,"Workflow Distributor", "Kestra / Temporal",  "Durable workflow orchestration for multi-step runs.", $tags="gap")
+    }
+
+    System_Boundary(exec_layer, "Execution Layer") {
+        Container(exe_cli,  "CLI Execution Adapter",  "subprocess / asyncio", "Wraps CLI tools (claude-code, codex). Extends ToolAdapter ABC. (ADR-029)", $tags="partial")
+        Container(exe_sdk,  "SDK Execution Adapter",  "OpenAI / Anthropic SDK","Direct API calls; LLM routing logic. Deferred.", $tags="gap")
+        Container(exe_yaml, "YAML Tool Adapter",      "GenericYAMLAdapter",   "YAML-configured tool invocation for future tools. (ADR-025)", $tags="gap")
+    }
+
+    System_Boundary(store, "Storage Layer") {
+        ContainerDb(tel,   "Telemetry Store", "JSONL + SQLite",   "Append-only event log with materialized SQLite view for queries.", $tags="gap")
+        Container(art,     "Artifacts & Logs","Filesystem",       "stdout/stderr captures, generated artifacts, raw logs per run/task.", $tags="gap")
+        Container(tasks,   "Task State",      "YAML in work/",    "File-based orchestration. Source of truth for task lifecycle. (ADR-008)", $tags="covered")
+    }
+
+    System_Boundary(qside, "Read / Query Side") {
+        Container(qry, "Query Service", "Python", "Read-model facade: task query, telemetry query, artifact index. Serves dashboard and TUI.", $tags="gap")
+    }
+}
+
+' =========================
+' INTEGRATION RELATIONSHIPS
+' =========================
+
+' T1 CLI → Control Planes (covered)
+Rel(T1, dash,    "SDD commands surface task status to dashboard", $tags="integrates")
+Rel(T1, console, "CLI commands align with Interactive Console entry points", $tags="integrates")
+
+' T2 Core Infra → Task State (covered)
+Rel(T2, tasks,   "git_ops and worktree state persisted as YAML task files", $tags="integrates")
+
+' T3 Mission Engine → Coordination Service (partial)
+Rel(T3, coord,   "Domain adapters partially overlap coordination dispatch logic", $tags="partial_rel")
+
+' T4 Orchestration → Distributor + Execution (partial)
+Rel(T4, dist_direct, "Work distribution maps to Direct Distributor strategy", $tags="partial_rel")
+Rel(T4, exe_cli,     "Worktree-isolated agent calls route through CLI Adapter", $tags="partial_rel")
+
+' T5 Validation → Coordination Service (partial)
+Rel(T5, coord,   "Merge preflight and conflict forecasting align with governance validation", $tags="partial_rel")
+
+' T6 Observability → Telemetry gap
+Rel(T6, tel,     "Thin diagnostics do not write to Telemetry Store — gap", $tags="gap_rel")
+Rel(T6, qry,     "No query-side integration — gap", $tags="gap_rel")
+
+' Gaps: unaddressed doctrine components
+Rel(T4, dist_queue,    "No buffered dispatch support — gap", $tags="gap_rel")
+Rel(T4, dist_workflow, "No durable workflow orchestration — gap", $tags="gap_rel")
+Rel(T1, exe_sdk,       "No direct LLM SDK routing — gap", $tags="gap_rel")
+
+' Ideological alignment arrows
+Rel(I2, coord,   "SDD lifecycle aligns with command-handler governance model", $tags="ideology")
+Rel(I3, tasks,   "Constitution model resonates with file-based task-state governance", $tags="ideology")
+Rel(I4, T3,      "Mission system instantiates domain adaptability at T3", $tags="ideology")
+Rel(I1, T2,      "Source-of-truth philosophy grounds core infrastructure design", $tags="ideology")
+
+SHOW_LEGEND()
+@enduml

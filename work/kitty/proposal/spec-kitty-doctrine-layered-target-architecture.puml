@@ -1,0 +1,94 @@
+@startuml spec_kitty_doctrine_plugin_target_architecture
+skinparam backgroundColor #FEFEFE
+skinparam defaultFontName "Verdana"
+skinparam defaultFontSize 13
+skinparam wrapWidth 240
+
+title Target Layered Architecture — Spec Kitty Core + Doctrine Plugin Enhancement
+
+!define DOCTRINE_COLOR #E3F2FD
+!define SK_SPEC_COLOR #E8F5E9
+!define SK_ORCH_COLOR #FFF3E0
+!define SK_ROUTE_COLOR #F3E5F5
+!define SHARED_COLOR #ECEFF1
+
+actor "Human in Charge" as hic
+actor "Developer / Agent Operator" as user
+
+rectangle "Spec Kitty Core Control Surface\n(CLI, dashboard, mission UX)\n(Authoritative workflow engine)" as control #D7CCC8
+
+package "Layer 1 — Governance Plugin (Doctrine Reused)" as L1 {
+  rectangle "doctrine/\nGuidelines · Approaches · Directives · Tactics · Templates" as doctrine DOCTRINE_COLOR
+  rectangle ".doctrine-config/\nProject-local overrides" as overrides DOCTRINE_COLOR
+}
+
+package "Layer 2 — Specification Domain (Spec Kitty Authority)" as L2 {
+  rectangle "Spec Kitty Spec Domain\nkitty-specs/*\nspec -> plan -> tasks -> implement -> review -> accept -> merge" as skspec SK_SPEC_COLOR
+  rectangle "Mission System\nmission-aware prompts, artifacts, validation" as missions SK_SPEC_COLOR
+}
+
+package "Layer 3 — Orchestration (Spec Kitty-owned, extension-enabled)" as L3 {
+  rectangle "WP Lifecycle + Worktree Orchestration\nlanes, dependency scheduling, workspace isolation" as orch SK_ORCH_COLOR
+  rectangle "Event Bridge\nnormalized transition events" as evbridge SK_ORCH_COLOR
+}
+
+package "Layer 4 — Routing (Spec Kitty-owned, plugin-based)" as L4 {
+  rectangle "RoutingProvider API\nroute_task(task_context) -> RoutingDecision" as routeapi SK_ROUTE_COLOR
+  rectangle "DoctrinePolicyProvider (optional plugin)\nuses doctrine policy files for routing hints" as routeimpl SK_ROUTE_COLOR
+}
+
+package "Layer 5 — Execution" as shared {
+  rectangle "LLM Vendor Adapter Framework\nCLI/SDK tool adapters for provider invocation" as llmexec SHARED_COLOR
+  rectangle "Task State\nWP frontmatter + lane model" as taskstate SHARED_COLOR
+  rectangle "Artifacts + Logs\nworktrees, outputs, validation reports" as artifacts SHARED_COLOR
+}
+
+rectangle "LLM Providers\n(OpenAI, Anthropic, Others)" as providers #CFD8DC
+
+' Human / operator control
+hic --> doctrine : authors governance
+hic --> overrides : sets local policy
+user --> control : executes workflow
+
+' Control flow
+control --> skspec : lifecycle commands
+control --> orch : orchestrate WPs
+control --> routeapi : request routing decision
+
+' Governance attachment
+doctrine --> overrides : base + override merge
+control --> doctrine : load governance context
+control --> missions : mission-aware execution
+
+doctrine --> control : plugin constraints + guidance
+
+' Spec Kitty owned execution
+skspec --> orch : create executable work packages
+missions --> skspec : shape artifact contracts
+orch --> evbridge : emit workflow events
+routeapi --> routeimpl : optional provider
+routeimpl --> doctrine : read policy hints
+routeapi --> orch : return model/tool/agent selection
+orch --> llmexec : execute routed invocation
+routeapi --> llmexec : selected provider/tool contract
+llmexec --> providers : invoke model API/CLI
+
+' Shared persistence
+orch --> taskstate : update lane/state
+orch --> artifacts : write outputs
+llmexec --> artifacts : capture model output/metadata
+evbridge --> artifacts : append events/telemetry
+
+legend right
+|= Ownership |= Component |
+| Doctrine | Governance stack + local overrides |
+| Spec Kitty | Spec domain + missions + orchestration + routing |
+
+Key decisions:
+- Plug Doctrine into Spec Kitty as an enhancement layer.
+- Keep Spec Kitty as the authoritative lifecycle, mission, orchestration, and routing engine.
+- Reuse Doctrine stack unchanged with local overrides.
+- Governance participates through hooks/prechecks, not core workflow replacement.
+endlegend
+
+@enduml

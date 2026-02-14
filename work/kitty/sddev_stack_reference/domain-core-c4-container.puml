@@ -1,0 +1,31 @@
+@startuml domain_core_c4_container
+title C4 Level 2 — Container View: Domain Core Layer
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+skinparam defaultFontName "Verdana"
+skinparam defaultFontSize 14
+skinparam wrapWidth 260
+
+System_Ext(framework, "Framework / Application Layer", "Orchestration, CLI tools, dashboard")
+System_Ext(file_system, "File System", "YAML task files, Markdown doctrine sources")
+
+System_Boundary(domain_boundary, "Domain Core (src/domain/)") {
+    Container(collaboration, "Collaboration", "Python", "Task lifecycle, status state machine, repository pattern, query operations. ADR-042.")
+    Container(doctrine, "Doctrine", "Python", "Immutable models for agents, directives, tactics, approaches, styleguides, templates. Parsers and validators. ADR-045.")
+    Container(specifications, "Specifications", "Python", "Feature status tracking and specification lifecycle. Emerging context.")
+    Container(common, "Common", "Python", "Shared utilities with no domain semantics: path resolution, generic helpers.")
+}
+
+Rel(framework, collaboration, "Queries tasks, manages lifecycle")
+Rel(framework, doctrine, "Loads agent profiles, validates doctrine")
+Rel(framework, specifications, "Tracks feature status")
+Rel(collaboration, common, "Uses path utilities")
+Rel(doctrine, common, "Uses path utilities")
+Rel(specifications, common, "Uses path utilities")
+Rel(collaboration, file_system, "Reads/writes YAML task files")
+Rel(doctrine, file_system, "Reads Markdown doctrine sources")
+
+SHOW_LEGEND()
+@enduml

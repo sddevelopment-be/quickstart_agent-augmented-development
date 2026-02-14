@@ -1,0 +1,80 @@
+@startuml domain_collaboration_classes
+title Collaboration Bounded Context — Class Diagram
+
+skinparam defaultFontName "Verdana"
+skinparam defaultFontSize 14
+skinparam wrapWidth 260
+
+skinparam class {
+    BackgroundColor #E1F5FF
+    BorderColor #1565C0
+    FontColor Black
+}
+
+enum TaskStatus <<str, Enum>> {
+    NEW
+    INBOX
+    ASSIGNED
+    IN_PROGRESS
+    BLOCKED
+    DONE
+    ERROR
+    --
+    +is_terminal(): bool
+    +is_active(): bool
+    +is_pending(): bool
+    +valid_transitions(): set
+    +can_transition_to(target): bool
+    +validate_transition(current, target): None
+}
+
+note right of TaskStatus
+  State machine flow:
+  NEW -> INBOX -> ASSIGNED -> IN_PROGRESS -> DONE
+  Terminal states: DONE, ERROR
+end note
+
+enum TaskMode <<str, Enum>> {
+    ANALYSIS
+    CREATIVE
+    META
+    PROGRAMMING
+    PLANNING
+}
+
+enum TaskPriority <<str, Enum>> {
+    CRITICAL
+    HIGH
+    MEDIUM
+    NORMAL
+    LOW
+    --
+    +order: int
+    +is_urgent(): bool
+}
+
+class TaskQueryResult <<dataclass>> {
+    +tasks: list[dict]
+    +total_count: int
+    --
+    +filter_by_status(): TaskQueryResult
+    +filter_by_agent(): TaskQueryResult
+}
+
+class TaskRepository {
+    -work_dir: Path
+    --
+    +find_all(): TaskQueryResult
+    +find_open_tasks(): TaskQueryResult
+    +find_by_status(): TaskQueryResult
+    +find_by_agent(): TaskQueryResult
+    +find_by_id(): dict
+    +count_by_status(): dict
+    +count_by_agent(): dict
+}
+
+TaskRepository --> TaskQueryResult : returns
+TaskRepository ..> TaskStatus : uses
+TaskQueryResult ..> TaskStatus : filters by
+
+@enduml

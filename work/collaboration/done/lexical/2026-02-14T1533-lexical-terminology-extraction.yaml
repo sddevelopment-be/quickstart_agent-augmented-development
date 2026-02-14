@@ -1,0 +1,12 @@
+id: 2026-02-14T1533-lexical-terminology-extraction
+agent: lexical
+status: done
+priority: high
+title: Spec Kitty terminology extraction and normalization
+artefacts:
+  - work/kitty/glossary/delegation/reports/lexical-terminology-extraction.md
+created_at: '2026-02-14T15:33:09Z'
+created_by: manager-mike
+result:
+  summary: Extracted core terms and normalized aliases across CLI, templates, docs, architecture, and tests.
+  completed_at: '2026-02-14T15:36:00Z'
