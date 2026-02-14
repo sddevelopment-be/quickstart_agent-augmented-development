@@ -1,8 +1,8 @@
 # Vision: Agent-Augmented Development Framework
 
-_Version: 1.0.0_  
-_Last Updated: 2026-02-13_  
-_Agent: Bootstrap Bill_  
+_Version: 2.0.0_  
+_Last Updated: 2026-02-14_  
+_Agent: Editor Eddy_  
 _Purpose: Strategic vision and long-term direction_
 
 ---
@@ -34,16 +34,16 @@ Teams adopting AI-augmented workflows face critical challenges:
 | **Governance Gaps** | No clear precedence hierarchy | Conflicting instructions, ethical risks |
 | **Onboarding Difficulty** | No clear entry points for new agents/humans | Steep learning curve, slow adoption |
 
-### Market Gap
+### What's Missing
 
-Existing AI-augmented development approaches suffer from:
+Current AI-augmented development approaches lack structured governance:
 
-- **Ad-hoc prompt engineering** without systematic governance
-- **Conversational paradigms** that don't scale to complex workflows
-- **Lack of multi-agent coordination** for collaborative work
-- **No standardized artifact formats** for cross-tool compatibility
-- **Insufficient traceability** for decisions and changes
-- **Limited test-first discipline** in agent-generated code
+- Ad-hoc prompt engineering without systematic instruction hierarchies
+- Conversational paradigms that don't scale to complex, multi-step workflows
+- Insufficient coordination patterns for multi-agent collaboration
+- No standardized artifact formats for cross-tool compatibility
+- Weak traceability for decisions and changes
+- Inconsistent application of test-first discipline
 
 ---
 
@@ -80,18 +80,18 @@ We introduce a **layered instruction system** that separates concerns and establ
 7. **Test-First Discipline** - ATDD and TDD workflows mandatory (Directives 016, 017)
 8. **Traceable Decisions** - Architecture Decision Records for all major choices (Directive 018)
 
-### Unique Value Propositions
+### Core Capabilities
 
-| Feature | Benefit | Competitive Advantage |
-|---------|---------|----------------------|
-| **Doctrine Stack** | Layered governance with clear precedence | Only framework with explicit 5-layer model |
-| **File-Based Orchestration** | All state visible in Git, no central server | Transparent, auditable, version-controlled |
-| **50 Procedural Tactics** | Step-by-step execution guides | Eliminates agent interpretation variance |
-| **21 Specialist Agents** | Clear boundaries, explicit collaboration rules | Prevents scope creep and conflicts |
-| **Zero Dependencies** | Doctrine distributable via git subtree | Portable across organizations and toolchains |
-| **Domain Model API** | Type-safe programmatic access (ADR-045) | Foundation for tooling and automation |
-| **Test-First Mandate** | ATDD + TDD enforced via directives | Higher code quality, fewer regressions |
-| **ADR-Driven Architecture** | 45+ decision records | Complete traceability and rationale |
+| Capability | Benefit |
+|------------|---------|
+| **Doctrine Stack** | Layered governance with clear precedence |
+| **File-Based Orchestration** | All state visible in Git, no central server |
+| **Procedural Tactics** | Step-by-step execution guides |
+| **Specialist Agents** | Clear boundaries, explicit collaboration rules |
+| **Zero Dependencies** | Doctrine distributable via git subtree |
+| **Domain Model API** | Type-safe programmatic access (ADR-045) |
+| **Test-First Mandate** | ATDD + TDD enforced via directives |
+| **ADR-Driven Architecture** | Complete traceability and rationale |
 
 ---
 
@@ -103,7 +103,7 @@ This repository is successful when:
 
 #### For Development Teams
 
-- ✅ **Token efficiency:** Agents consume 40-60% less context vs monolithic governance
+- ✅ **Token efficiency:** Agents consume significantly less context via modular directive loading
 - ✅ **Quality maintainability:** Update single directives without touching unrelated content
 - ✅ **Cross-toolchain portability:** Directives work with any LLM supporting markdown
 - ✅ **Consistent outputs:** Agents produce standardized artifacts following templates
@@ -114,12 +114,11 @@ This repository is successful when:
 
 #### For Organizations
 
-- ✅ **Reduced onboarding time:** New team members productive in days, not weeks
+- ✅ **Reduced onboarding time:** New team members productive quickly
 - ✅ **Lower maintenance costs:** Single-source governance updates propagate automatically
 - ✅ **Improved audit compliance:** Complete decision trail via ADRs and work logs
 - ✅ **Risk mitigation:** Explicit ethical guardrails and escalation protocols
 - ✅ **Vendor independence:** Framework portable across LLM providers and tools
-- ✅ **Measurable ROI:** Sprint 1 achieved 8x better time efficiency (2.5h vs 20h estimated)
 
 #### For the AI Community
 
@@ -127,107 +126,6 @@ This repository is successful when:
 - ✅ **Open standards:** Contribute to agents.md specification and OpenCode
 - ✅ **Shared learnings:** Work logs and SWOT analyses improve prompting techniques
 - ✅ **Research contributions:** Empirical data on multi-agent coordination effectiveness
-
-### Success Metrics
-
-| Metric | Target | Current | Status |
-|--------|--------|---------|--------|
-| **Token Efficiency** | 40-60% reduction | ~50% (estimated) | ✅ On Target |
-| **Test Coverage** | >80% | 88.7% (665/750 tests) | ✅ Exceeds Target |
-| **Code Quality Score** | >70/100 | 70/100 (Sprint 1) | ✅ Met Target |
-| **Agent Specialization** | 20+ agents | 21 agents | ✅ Exceeds Target |
-| **Directive Library** | 30+ directives | 34 directives | ✅ Exceeds Target |
-| **Tactic Library** | 40+ tactics | 50 tactics | ✅ Exceeds Target |
-| **ADR Coverage** | All major decisions | 45+ ADRs | ✅ Comprehensive |
-| **Documentation Completeness** | 100% of features | 95% (estimated) | ✅ Near Complete |
-| **Adoption Rate** | Used by 3+ teams | 1 reference impl | 🔄 Growing |
-| **Community Contributions** | 5+ external PRs | 0 | 🔄 Early Stage |
-
----
-
-## Strategic Goals
-
-### Short-Term (3-6 Months)
-
-1. **Complete Sprint 2-3** (Optional Enhancements)
-   - Resolve remaining 459 code quality issues (type hints, error handling)
-   - Address framework module naming conflict (85 skipped tests)
-   - Increase test coverage to 95%
-   - Status: Planned, not committed
-
-2. **Enhance Documentation**
-   - Complete REPO_MAP.md ✅ (This document)
-   - Complete SURFACES.md ✅ (Companion document)
-   - Complete VISION.md ✅ (This document)
-   - Create doctrine/REPO_MAP.md (Doctrine-specific navigation)
-   - Create doctrine/SURFACES.md (Doctrine extension points)
-
-3. **Domain Model Expansion** (ADR-045 Phase 2)
-   - Add `TacticModel`, `TemplateModel`, `ApproachModel`
-   - Implement full validation suite (circular reference detection)
-   - Create doctrine tooling CLI (`doctrine validate`, `doctrine export`)
-   - Status: Planned for Milestone M5.2
-
-4. **Community Engagement**
-   - Publish blog posts on doctrine stack methodology
-   - Present at AI/ML conferences
-   - Contribute to agents.md specification
-   - Status: Planned
-
-### Mid-Term (6-12 Months)
-
-1. **Doctrine 2.0** - Enhanced governance features
-   - Dynamic directive composition (load bundles)
-   - Tactic dependency graphs (auto-select prerequisites)
-   - Guideline conflict detection and resolution
-   - Versioned doctrine bundles (semantic versioning)
-
-2. **Orchestration 2.0** - Advanced coordination
-   - Parallel workflow support (multiple agents on same task)
-   - Priority queues (critical, high, normal, low)
-   - Resource constraints (max concurrent agents)
-   - Retry policies (automatic error recovery)
-   - Rollback mechanisms (undo failed tasks)
-
-3. **Integrations** - Ecosystem expansion
-   - GitHub Copilot native integration (pre-installed profiles)
-   - Claude Desktop native integration (custom skills)
-   - Cursor editor integration (inline directives)
-   - VSCode extension (doctrine explorer, task manager)
-   - JetBrains plugin (PyCharm, IntelliJ)
-
-4. **Analytics & Observability**
-   - Real-time dashboard (task flow, agent utilization, metrics)
-   - Performance analytics (token usage, execution time, success rate)
-   - Quality metrics (test coverage, code quality trends)
-   - Cost tracking (LLM API costs per task)
-
-### Long-Term (1-2 Years)
-
-1. **Doctrine as a Platform**
-   - Doctrine Hub (community repository of tactics, directives, agents)
-   - Doctrine Marketplace (paid premium tactics and agents)
-   - Doctrine Certification (verified agent profiles and tactics)
-   - Doctrine Academy (training courses and workshops)
-
-2. **Enterprise Features**
-   - Multi-repository orchestration (cross-project coordination)
-   - Role-based access control (RBAC for agents and humans)
-   - Audit logging and compliance reporting
-   - Secret management and secure credential handling
-   - SLA monitoring and alerting
-
-3. **Research & Innovation**
-   - Academic partnerships (empirical studies on agent effectiveness)
-   - Benchmarking suite (compare agent performance across tasks)
-   - AI safety research (ethical guardrails, bias detection)
-   - Human-AI collaboration patterns (optimal handoff protocols)
-
-4. **Standards Contribution**
-   - Contribute to OpenCode specification
-   - Contribute to agents.md specification
-   - Propose ISO/IEC standard for AI-augmented development governance
-   - Publish whitepapers on doctrine stack methodology
 
 ---
 
@@ -304,10 +202,30 @@ Agents in this repository are **not** general-purpose AI assistants. They are **
 - ❌ **Not creative** - Follow procedural tactics, not improvisation
 - ❌ **Not flexible** - Bounded by specialization, escalate out-of-scope requests
 - ❌ **Not conversational** - Execute instructions, don't negotiate intent
-- ❌ **Not self-modifying** - Cannot change their own directives or tactics
+- ❌ **Not self-modifying** - Cannot change their own directives without explicit Human-in-Charge approval
 - ❌ **Not responsible** - Human retains approval authority ("Human in Charge")
 
 **See:** [`docs/audience/automation_agent.md`](docs/audience/automation_agent.md) for detailed agent responsibilities.
+
+### Framework Customizability
+
+The framework supports multiple levels of customization:
+
+- **Centralized governance** via doctrine stack with **local overrides** per project
+- **Modular directive loading** enables selective context inclusion
+- **Extensible agent profiles** allow domain-specific specializations
+- **Configurable feedback loops** (Directives 014, 015) capture work patterns and improve prompts over time
+
+### Feedback and Learning
+
+The framework incorporates multiple feedback mechanisms:
+
+- **Work logs** (Directive 014) document metrics, decisions, and blockers
+- **Prompt documentation** (Directive 015) captures effective prompt patterns for reuse
+- **ADRs** (Directive 018) preserve architectural rationale
+- **Boy Scout Rule** (Directive 036) ensures continuous incremental improvement
+
+These feedback loops enable systematic refinement of tactics, directives, and agent profiles based on empirical outcomes.
 
 ---
 
@@ -342,80 +260,22 @@ Agents in this repository are **not** general-purpose AI assistants. They are **
 
 6. **Educators & Trainers** - Teaching AI-augmented development
    - Need: Pedagogical materials, best practices, case studies
-   - Value: Sprint 1 case study (670 fixes, 8x efficiency), complete documentation
+   - Value: Reference implementation, complete documentation
 
 ---
 
 ## Core Use Cases
 
-### 1. Repository Bootstrapping
+For detailed workflow patterns and practical examples, see:
 
-**Scenario:** New project needs agent-augmented development setup
+**[doctrine/docs/workflows/core-use-cases.md](doctrine/docs/workflows/core-use-cases.md)**
 
-**Workflow:**
-1. Fork quickstart repository
-2. Bootstrap Bill initializes structure and creates REPO_MAP.md
-3. Customize `.doctrine-config/config.yaml` with repository paths
-4. Review and adapt agent profiles in `doctrine/agents/`
-5. Start submitting tasks to `work/inbox/`
-
-**Outcome:** Production-ready agent orchestration in <1 hour
-
-### 2. Multi-Agent Feature Development
-
-**Scenario:** Complex feature requires architecture → implementation → testing
-
-**Workflow:**
-1. **Human** submits architecture task to `work/inbox/`
-2. **Orchestrator** assigns to architect agent
-3. **Architect** creates design docs, diagrams, ADR
-4. **Architect** hands off to backend-dev (via `result.next_agent`)
-5. **Backend-dev** implements API following ATDD (Directive 016)
-6. **Backend-dev** hands off to test-agent
-7. **Test-agent** creates E2E tests, validates coverage
-
-**Outcome:** Feature complete with full test coverage and decision trail
-
-### 3. Code Quality Improvement
-
-**Scenario:** Repository has SonarCloud issues, needs systematic fixes
-
-**Workflow:**
-1. **DevOps Danny** configures coverage integration
-2. **Architect Alphonso** analyzes 1,129 issues, categorizes, creates remediation plan
-3. **Manager Mike** executes Sprint 1 (670 auto-fixes, security fix)
-4. **All agents** create work logs (Directive 014) and prompt documentation (Directive 015)
-
-**Outcome:** 59% of issues resolved, health score +8 points, 8x time efficiency
-
-**Case Study:** See [`work/reports/SPRINT1_EXECUTIVE_SUMMARY.md`](work/reports/SPRINT1_EXECUTIVE_SUMMARY.md)
-
-### 4. Documentation Maintenance
-
-**Scenario:** Docs outdated after major refactoring
-
-**Workflow:**
-1. **Curator** scans changed files, identifies affected docs
-2. **Curator** updates READMEs, guides, API references
-3. **Curator** validates internal links, cross-references
-4. **Scribe** reviews for consistency, tone, clarity
-5. **Scribe** generates doc status report
-
-**Outcome:** Docs synchronized with code, zero broken links
-
-### 5. Specification-Driven Development
-
-**Scenario:** New feature needs persona-driven requirements capture
-
-**Workflow:**
-1. **Analyst Annie** captures requirements from stakeholders
-2. **Analyst Annie** creates feature spec using template (Directive 034)
-3. **Analyst Annie** defines Given/When/Then acceptance criteria
-4. **Backend-dev** implements feature following spec
-5. **Test-agent** validates all acceptance criteria pass
-6. **Curator** marks spec as "Implemented"
-
-**Outcome:** Traceability from requirements → tests → implementation
+This document covers:
+- Repository bootstrapping
+- Multi-agent feature development
+- Code quality improvement
+- Documentation maintenance
+- Specification-driven development
 
 ---
 
@@ -464,139 +324,6 @@ Agents in this repository are **not** general-purpose AI assistants. They are **
 | **OpenCode** | Cross-platform | ✅ Supported (exporter available) |
 | **VSCode** | Extension | 🔄 Planned |
 | **JetBrains** | Plugin | 🔄 Planned |
-
----
-
-## Roadmap
-
-### Phase 1: Foundation (Complete ✅)
-
-**Timeline:** Q4 2025 - Q1 2026  
-**Status:** COMPLETE
-
-**Deliverables:**
-- ✅ Core doctrine stack (Guidelines, Approaches, Directives, Tactics, Templates)
-- ✅ 21 specialist agent profiles
-- ✅ 34 operational directives
-- ✅ 50 procedural tactics
-- ✅ File-based orchestration system (`work/` directory)
-- ✅ Domain model API (ADR-045, 92% coverage)
-- ✅ Test suite (665 tests, 88.7% passing)
-- ✅ Sprint 1 completion (670 code quality fixes)
-- ✅ Comprehensive documentation (REPO_MAP, SURFACES, VISION)
-
-### Phase 2: Enhancement (Current)
-
-**Timeline:** Q2 2026  
-**Status:** IN PROGRESS
-
-**Deliverables:**
-- 🔄 Doctrine-specific documentation (doctrine/REPO_MAP.md, doctrine/SURFACES.md)
-- 🔄 Sprint 2-3 completion (optional: type hints, error handling)
-- 🔄 Framework module consolidation (resolve naming conflict)
-- 🔄 Test coverage increase to 95%
-- 📅 Community engagement (blog posts, conference talks)
-
-### Phase 3: Expansion (Planned)
-
-**Timeline:** Q3-Q4 2026  
-**Status:** PLANNED
-
-**Deliverables:**
-- 📅 Doctrine 2.0 (dynamic composition, tactic dependencies)
-- 📅 Orchestration 2.0 (parallel workflows, priority queues)
-- 📅 VSCode extension (doctrine explorer, task manager)
-- 📅 Real-time dashboard enhancements (analytics, cost tracking)
-- 📅 Additional integrations (Cursor, JetBrains)
-
-### Phase 4: Platform (Vision)
-
-**Timeline:** 2027  
-**Status:** VISION
-
-**Deliverables:**
-- 📅 Doctrine Hub (community tactics/directives/agents)
-- 📅 Enterprise features (RBAC, audit logging, SLA monitoring)
-- 📅 Academic partnerships (empirical studies)
-- 📅 Standards contribution (ISO/IEC proposal)
-
----
-
-## Competitive Landscape
-
-### How We Compare
-
-| Feature | This Framework | Cursor | GitHub Copilot | Aider | Replit Agent |
-|---------|---------------|--------|----------------|-------|--------------|
-| **Governance Model** | 5-layer doctrine | Implicit | Implicit | Implicit | Implicit |
-| **Multi-Agent** | Yes (21 agents) | No | No | No | No |
-| **File-Based State** | Yes | No | No | No | No |
-| **Test-First Mandate** | Yes (ATDD+TDD) | Optional | Optional | Optional | Optional |
-| **Decision Traceability** | Yes (ADRs) | No | No | No | No |
-| **Zero Dependencies** | Yes (Markdown) | No | No | No | No |
-| **Cross-Platform** | Yes (portable) | Editor-specific | GitHub-specific | CLI-specific | Cloud-specific |
-| **Procedural Tactics** | 50 tactics | None | None | None | None |
-| **Validation Suite** | Comprehensive | Basic | Basic | Basic | Basic |
-| **Open Source** | Yes (MIT) | No | No | Yes | No |
-
-### Unique Differentiators
-
-1. **Only framework with explicit 5-layer governance model**
-2. **Only framework with 50 procedural tactics**
-3. **Only framework with mandatory test-first discipline**
-4. **Only framework with complete ADR-driven architecture**
-5. **Only framework with git-based state management (no databases)**
-6. **Only framework with domain model API for programmatic access**
-7. **Only framework distributable via git subtree (zero dependencies)**
-
----
-
-## Success Stories
-
-### Sprint 1: Code Quality Remediation
-
-**Context:** Repository had 1,129 SonarCloud issues
-
-**Approach:**
-- 3-phase multi-agent coordination
-- DevOps Danny: Coverage integration
-- Architect Alphonso: Issue analysis and categorization
-- Manager Mike: Execution of 670 auto-fixes
-
-**Results:**
-- ✅ 670 issues resolved (59% of auto-fixable issues)
-- ✅ Critical security fix (B108 tempfile vulnerability)
-- ✅ Health score: 62 → 70 (+8 points)
-- ✅ Time: 2.5 hours actual vs 20 hours estimated (**8x efficiency**)
-- ✅ All 711 unit tests passing
-- ✅ Complete documentation (Directives 014, 015 compliance)
-
-**ROI:** 4:1 on total project, 8:1 on Sprint 1
-
-**See:** [`work/reports/SPRINT1_EXECUTIVE_SUMMARY.md`](work/reports/SPRINT1_EXECUTIVE_SUMMARY.md)
-
-### Domain Model Implementation (ADR-045)
-
-**Context:** Need type-safe programmatic access to doctrine artifacts
-
-**Approach:**
-- Immutable dataclasses with validation
-- YAML/Markdown parsers with error handling
-- Cross-reference validators (agents, directives, ADRs)
-- Comprehensive test suite (195 tests)
-
-**Results:**
-- ✅ 6 immutable models
-- ✅ 4 parsers with enhanced error handling
-- ✅ 3 cross-reference validators
-- ✅ 92% test coverage
-- ✅ <10ms load performance for 20 agent profiles
-- ✅ Production-ready, fully documented
-
-**Benefits:**
-- Agents can programmatically access doctrine metadata
-- Automated validation catches broken references
-- Foundation for future tooling (CLI, exporters, dashboards)
 
 ---
 
@@ -679,115 +406,21 @@ Every major choice is **captured and traceable**:
 
 ---
 
-## Call to Action
-
-### For Development Teams
-
-**Start using the framework today:**
-
-1. Fork this repository
-2. Read `AGENTS.md` and `doctrine/DOCTRINE_STACK.md`
-3. Submit your first task to `work/inbox/`
-4. Experience the power of doctrine-driven agents
-
-**Join the community:**
-- Star the repository on GitHub
-- Report issues and suggest improvements
-- Share your success stories
-
-### For Contributors
-
-**Help us improve:**
-
-1. Review open issues and PRs
-2. Contribute new tactics, directives, or agents
-3. Improve documentation and examples
-4. Write blog posts and tutorials
-
-**Areas needing contribution:**
-- Additional language-specific agents (Ruby, Go, Rust)
-- Domain-specific tactics (ML, data science, security)
-- Integration plugins (VSCode, JetBrains, Neovim)
-- Benchmarking and performance studies
-
-### For Researchers
-
-**Study and extend:**
-
-1. Empirical studies on multi-agent effectiveness
-2. Human-AI collaboration pattern analysis
-3. Governance framework optimization
-4. Ethical AI development practices
-
-**Collaboration opportunities:**
-- Access to complete work logs and metrics
-- Partnership on academic papers
-- Grant proposals for framework enhancements
-
-### For Organizations
-
-**Adopt and scale:**
-
-1. Pilot with one team
-2. Measure productivity and quality metrics
-3. Customize doctrine for your domain
-4. Scale across teams and projects
-
-**Enterprise support:**
-- Custom training and workshops
-- Tailored directive development
-- Integration with internal tools
-- Ongoing consultation and support
-
----
-
-## Conclusion
-
-The **quickstart_agent-augmented-development** repository represents a **paradigm shift** in how teams integrate AI agents into software development workflows. By treating agents as **specialized executors under explicit doctrine** rather than conversational partners, we achieve:
-
-- **Predictability** through layered governance
-- **Quality** through test-first discipline
-- **Traceability** through ADR-driven architecture
-- **Efficiency** through procedural tactics
-- **Portability** through zero-dependency markdown
-- **Transparency** through file-based orchestration
-
-Our vision is to become the **de facto standard** for AI-augmented development governance, adopted by teams worldwide who value **human authority, systematic discipline, and measurable outcomes**.
-
-### The Future is Doctrine-Driven
-
-As AI capabilities continue to advance, the need for **explicit governance frameworks** will only grow. Teams that adopt structured approaches like the Doctrine Stack today will be well-positioned to:
-
-- Scale AI augmentation safely and ethically
-- Maintain code quality and auditability
-- Preserve human expertise and judgment
-- Adapt to new LLM technologies without vendor lock-in
-- Contribute to emerging standards and best practices
-
-### Join Us
-
-**This is just the beginning.**
-
-Together, we can build a future where AI agents amplify human creativity, reduce cognitive load, and enable teams to deliver higher-quality software faster—all while preserving the values, judgment, and oversight that only humans can provide.
-
-**Let's make AI-augmented development predictable, inspectable, and repeatable.**
-
----
-
 ## Related Documents
 
 - **[REPO_MAP.md](REPO_MAP.md)** - Complete repository structure and navigation
 - **[SURFACES.md](SURFACES.md)** - API surfaces and integration points
 - **[docs/WORKFLOWS.md](docs/WORKFLOWS.md)** - Detailed workflow patterns
 - **[doctrine/DOCTRINE_STACK.md](doctrine/DOCTRINE_STACK.md)** - Five-layer governance framework
+- **[doctrine/docs/workflows/core-use-cases.md](doctrine/docs/workflows/core-use-cases.md)** - Practical workflow examples
 - **[work/reports/SPRINT1_EXECUTIVE_SUMMARY.md](work/reports/SPRINT1_EXECUTIVE_SUMMARY.md)** - Sprint 1 case study
 - **[docs/architecture/adrs/README.md](docs/architecture/adrs/README.md)** - Architecture decision index
 
 ---
 
-_Generated by Bootstrap Bill_  
-_For updates: Assign task to `bootstrap-bill` agent in `work/inbox/`_  
-_Last Updated: 2026-02-13_
+_Revised by Editor Eddy on 2026-02-14_  
+_Original by Bootstrap Bill on 2026-02-13_  
+_For updates: Assign task to appropriate agent via AGENTS.md_
 
 ---
 
