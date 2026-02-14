@@ -152,7 +152,7 @@ When adding ideation artifacts:
 ## Related Documentation
 
 - Architecture Overview: [`docs/architecture/README.md`](../../docs/architecture/README.md)
-- Project Vision: [`docs/VISION.md`](../../docs/VISION.md)
+- Project Vision: [`VISION.md`](../../../VISION.md)
 - Work Directory: [`work/README.md`](../../README.md)
 - Templates: [`docs/templates/`](../../docs/templates/)
 

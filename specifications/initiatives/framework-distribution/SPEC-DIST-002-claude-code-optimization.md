@@ -64,7 +64,7 @@ The `deploy-skills.js` script deploys to `.claude/` in three modes:
 
 **FR-1: CLAUDE.md Generation**
 - The system SHALL generate a `CLAUDE.md` file at the repository root
-- The system SHALL compose CLAUDE.md from: `docs/VISION.md` (purpose), `doctrine/directives/003_repository_quick_reference.md` (structure), `doctrine/guidelines/python-conventions.md` (coding conventions), and project commands
+- The system SHALL compose CLAUDE.md from: `VISION.md` (purpose), `doctrine/directives/003_repository_quick_reference.md` (structure), `doctrine/guidelines/python-conventions.md` (coding conventions), and project commands
 - The generated CLAUDE.md SHALL be under 120 lines to avoid context bloat
 - The generated CLAUDE.md SHALL include pointers to deeper context (doctrine/ paths) rather than inlining full content
 
@@ -221,7 +221,7 @@ Output: Concise rules file with only actionable instructions
 
 | Output File | Source File(s) | Distillation Strategy |
 |---|---|---|
-| `CLAUDE.md` | `docs/VISION.md`, `doctrine/directives/003_repository_quick_reference.md`, `doctrine/guidelines/python-conventions.md` | Extract purpose (3 lines), structure summary (key dirs only), conventions (top-level rules only), common commands |
+| `CLAUDE.md` | `VISION.md`, `doctrine/directives/003_repository_quick_reference.md`, `doctrine/guidelines/python-conventions.md` | Extract purpose (3 lines), structure summary (key dirs only), conventions (top-level rules only), common commands |
 | `.claude/rules/guidelines.md` | `doctrine/guidelines/general_guidelines.md`, `doctrine/guidelines/operational_guidelines.md` | Merge behavioral and operational norms into single actionable list |
 | `.claude/rules/coding-conventions.md` | `doctrine/guidelines/python-conventions.md` | Extract formatting, test patterns, type hints, key conventions; drop examples and tooling setup |
 | `.claude/rules/testing.md` | `doctrine/directives/016_*.md`, `doctrine/directives/017_*.md` | Merge ATDD + TDD into unified test-first workflow; keep cycle description, drop glossary references |
