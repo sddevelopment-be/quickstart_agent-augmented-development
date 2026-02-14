@@ -69,7 +69,7 @@ module.exports = {
 
 ```javascript
 const config = {
-  visionFile: 'docs/VISION.md',
+  visionFile: 'VISION.md',
   quickRefFile: 'doctrine/directives/003_repository_quick_reference.md',
   pythonConventionsFile: 'doctrine/guidelines/python-conventions.md',
   projectRoot: '/path/to/repo'
@@ -77,7 +77,7 @@ const config = {
 ```
 
 **Algorithm:**
-1. Read `docs/VISION.md`, extract first paragraph under `## Problem` or opening description (purpose, 3-4 lines)
+1. Read `VISION.md`, extract first paragraph under `## Problem` or opening description (purpose, 3-4 lines)
 2. Read `doctrine/directives/003_repository_quick_reference.md`, extract directory structure table (key dirs only: `src/`, `tools/`, `tests/`, `doctrine/`, `work/`, `docs/`)
 3. Read `doctrine/guidelines/python-conventions.md`, extract top-level conventions (formatting tool, test pattern name, type hint rule — 5-6 lines max)
 4. Append common commands section (hardcoded: `python -m pytest`, `npm run deploy:claude`, etc.)
@@ -246,9 +246,9 @@ This mapping is exposed as a module export so it can be overridden or extended b
 Batch deployment (npm run deploy:claude):
 
   1. deployClaudeMd()
-     docs/VISION.md ──────────────┐
-     doctrine/directives/003*.md ─┤──► generateClaudeMd() ──► ./CLAUDE.md
-     doctrine/guidelines/python*.md┘
+     VISION.md ──────────────────────┐
+     doctrine/directives/003*.md ────┤──► generateClaudeMd() ──► ./CLAUDE.md
+     doctrine/guidelines/python*.md──┘
 
   2. deployClaudeRules()
      doctrine/guidelines/*.md ────┐

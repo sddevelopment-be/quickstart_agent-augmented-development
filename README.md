@@ -82,7 +82,7 @@ tests/                        # All test code
 1. **Initialize your project**
    ```bash
    # Fork this repository
-   # Edit docs/VISION.md and .doctrine-config/repository-guidelines.md
+   # Edit VISION.md and .doctrine-config/repository-guidelines.md
    ```
 
 2. **Review the doctrine stack**
