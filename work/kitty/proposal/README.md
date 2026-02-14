@@ -73,7 +73,7 @@
 **Option C: Doctrine as External Dependency** (from analysis)
 - Spec Kitty remains the "control plane" (workflow orchestration)
 - Doctrine plugged in via optional extension (governance hooks)
-- Explicit precedence contract: Constitution > Guidelines > Directives > Mission rules
+- Explicit precedence contract: Doctrine General/Operational Guidelines > Constitution > Directives > Mission rules
 - LLM service concerns (routing, cost tracking) as standalone libraries
 
 ### Coverage Analysis
