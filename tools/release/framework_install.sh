@@ -263,7 +263,8 @@ install_framework_files() {
     
     # Find all files in framework_core
     local core_dir="${release_dir}/framework_core"
-    local temp_counts=$(mktemp)
+    local temp_counts
+    temp_counts=$(mktemp)
     echo "0 0 0" > "${temp_counts}"
     
     # Use find to iterate over all files (POSIX-compliant)

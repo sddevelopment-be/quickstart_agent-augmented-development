@@ -39,7 +39,9 @@ if [[ "$1" == "--list" ]]; then
 fi
 
 for code in "$@"; do
+  # shellcheck disable=SC2125
   file="${DIR}/${code}_"*
+  # shellcheck disable=SC2206
   match=( ${file} )
   if [[ ${#match[@]} -eq 0 ]]; then
     echo "[WARN] No directive found for code ${code}" >&2

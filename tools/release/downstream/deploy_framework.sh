@@ -36,6 +36,7 @@ set -u
 UPSTREAM_REPO="sddevelopment-be/quickstart_agent-augmented-development"
 UPSTREAM_URL="https://github.com/${UPSTREAM_REPO}"
 API_URL="https://api.github.com/repos/${UPSTREAM_REPO}"
+# shellcheck disable=SC2034
 SCRIPT_VERSION="1.0.0"
 
 # Color codes
