@@ -2,7 +2,7 @@
 
 **Purpose:** Provide textual descriptions of architectural diagrams for accessibility and inclusive documentation.  
 **Audience:** Vision-impaired users, screen reader users, and all stakeholders requiring text-based diagram interpretation.  
-**Last Updated:** 2025-11-27T08:02:23Z  
+**Last Updated:** 2026-02-14T10:00:00Z  
 **Maintained By:** Diagram Daisy (Diagrammer Agent)
 
 ---
@@ -458,6 +458,206 @@ The legend at the bottom summarizes ADR-009 compliance requirements: all orchest
 
 ---
 
+## 8. Domain Core — C4 Container View
+
+### File
+- **Source:** `domain-core-c4-container.puml`
+
+### Alt Text
+C4 container diagram showing the four domain modules and their relationships to the framework and file system.
+
+### Long Description
+This C4 Level 2 container diagram depicts the Domain Core layer (`src/domain/`) as four bounded contexts within a system boundary. The Collaboration container handles task lifecycle and status state machines via the Repository pattern (ADR-042). The Doctrine container provides immutable models for agents, directives, tactics, approaches, styleguides, and templates with dedicated parsers and validators (ADR-045). The Specifications container tracks feature status and specification lifecycle as an emerging context. The Common container provides shared path resolution utilities with no domain semantics.
+
+External systems include the Framework/Application Layer (orchestration, CLI tools, dashboard) which queries and manages all three domain contexts, and the File System which stores YAML task files and Markdown doctrine sources. All three domain contexts depend on Common for path utilities. Collaboration reads and writes YAML task files; Doctrine reads Markdown doctrine sources.
+
+### Key Elements
+**Bounded Contexts:**
+- Collaboration: Task lifecycle, status state machine, repository pattern, query operations
+- Doctrine: Immutable governance models, parsers, validators, source traceability
+- Specifications: Feature status tracking (emerging)
+- Common: Path resolution utilities, no domain semantics
+
+**External Systems:**
+- Framework / Application Layer: orchestration consumer
+- File System: YAML and Markdown persistence
+
+### Related Documentation
+- [Domain Core Component Overview](../component-overview.md)
+- [ADR-042: Task Lifecycle](../adrs/ADR-042-task-lifecycle-domain-model.md)
+- [ADR-045: Doctrine Concept Domain Model](../adrs/ADR-045-doctrine-concept-domain-model.md)
+- [ADR-046: Domain Module Refactoring](../adrs/ADR-046-domain-module-refactoring.md)
+
+---
+
+## 9. Collaboration Bounded Context — Class Diagram
+
+### File
+- **Source:** `domain-collaboration-classes.puml`
+
+### Alt Text
+Class diagram showing TaskStatus state machine, TaskRepository, TaskQueryResult, and supporting enums for the collaboration context.
+
+### Long Description
+This class diagram details the Collaboration bounded context. The central element is the TaskStatus enum, a string-based enumeration with seven states (NEW, INBOX, ASSIGNED, IN_PROGRESS, BLOCKED, DONE, ERROR) that enforces valid transitions through methods like `can_transition_to()` and `validate_transition()`. Terminal states are DONE and ERROR. The typical flow proceeds from NEW through INBOX, ASSIGNED, and IN_PROGRESS to DONE.
+
+Supporting enums include TaskMode (ANALYSIS, CREATIVE, META, PROGRAMMING, PLANNING) and TaskPriority (CRITICAL through LOW with ordering and urgency methods). The TaskRepository class provides file-system-backed query methods (`find_all`, `find_open_tasks`, `find_by_status`, `find_by_agent`) and returns TaskQueryResult instances. TaskQueryResult is a chainable dataclass supporting CQRS-style read projections with `filter_by_status()` and `filter_by_agent()` methods.
+
+### Key Elements
+**State Machine:**
+- TaskStatus: 7 states with validated transitions, terminal state detection
+- Flow: NEW → INBOX → ASSIGNED → IN_PROGRESS → DONE
+
+**Supporting Types:**
+- TaskMode: reasoning mode classification
+- TaskPriority: urgency ordering with `is_urgent()` method
+
+**Query Infrastructure:**
+- TaskRepository: file-system-backed query operations
+- TaskQueryResult: chainable result set for CQRS read projections
+
+### Related Documentation
+- [Collaboration Context README](../../src/domain/collaboration/README.md)
+- [ADR-042: Task Lifecycle](../adrs/ADR-042-task-lifecycle-domain-model.md)
+- [Task Lifecycle State Machine](#1-task-lifecycle-state-machine) (this document)
+
+---
+
+## 10. Doctrine Bounded Context — Class Diagram
+
+### File
+- **Source:** `domain-doctrine-classes.puml`
+
+### Alt Text
+Class diagram showing frozen domain models, parsers, and validators for the doctrine governance context.
+
+### Long Description
+This class diagram illustrates the Doctrine bounded context, organized into three packages. The Domain Models package contains six frozen (immutable) dataclasses: Agent (with capabilities, required directives, handoff patterns, and primer matrix), Directive (numbered governance rules with enforcement levels), Tactic (procedural steps with prerequisites and outcomes), Approach (conceptual frameworks with principles), StyleGuide (scoped rules with enforcement), and Template (output structure contracts with required and optional sections). Each model tracks its source file path and SHA-256 content hash for change detection. Agent composes HandoffPattern and PrimerEntry value objects.
+
+The Parsers package provides four dedicated parsers (DirectiveParser, AgentParser, TacticParser, ApproachParser), each transforming Markdown source files into their corresponding frozen domain model. The Validators package contains CrossReferenceValidator (checking inter-model references), MetadataValidator (checking agent metadata completeness), and IntegrityChecker (detecting duplicate IDs and circular dependencies). All validators return ValidationResult objects with valid/invalid status, errors, and warnings.
+
+### Key Elements
+**Domain Models (all frozen/immutable):**
+- Agent: profiles with capabilities, handoff patterns, primer matrix
+- Directive, Tactic, Approach: governance artifacts with source traceability
+- StyleGuide, Template: output format contracts
+- HandoffPattern, PrimerEntry: Agent value objects
+
+**Parsers:**
+- DirectiveParser, AgentParser, TacticParser, ApproachParser: Markdown-to-model transformation
+
+**Validators:**
+- CrossReferenceValidator, MetadataValidator, IntegrityChecker: batch validation returning ValidationResult
+
+### Related Documentation
+- [Doctrine Context README](../../src/domain/doctrine/README.md)
+- [ADR-045: Doctrine Concept Domain Model](../adrs/ADR-045-doctrine-concept-domain-model.md)
+
+---
+
+## 11. Common Utilities — Class Diagram
+
+### File
+- **Source:** `domain-common-classes.puml`
+
+### Alt Text
+Simple class diagram showing the path_utils module with repository path resolution functions.
+
+### Long Description
+This minimal class diagram shows the Common utilities layer, which contains a single module: path_utils. The module provides three functions for resolving standard repository paths: `get_repo_root()`, `get_work_dir()`, and `get_agents_dir()`, each accepting a current file path and returning the resolved absolute path. The module carries no domain semantics — it exists as a leaf dependency that all bounded contexts may use without introducing coupling between domain contexts.
+
+### Key Elements
+**Module:**
+- path_utils: `get_repo_root()`, `get_work_dir()`, `get_agents_dir()`
+
+**Design Principle:**
+- No domain semantics — pure infrastructure
+- Leaf dependency — all contexts may depend on it
+
+### Related Documentation
+- [Common Context README](../../src/domain/common/README.md)
+- [ADR-046: Domain Module Refactoring](../adrs/ADR-046-domain-module-refactoring.md)
+
+---
+
+## 12. Specifications Bounded Context — Class Diagram
+
+### File
+- **Source:** `domain-specifications-classes.puml`
+
+### Alt Text
+Class diagram showing the FeatureStatus enum for the emerging specifications bounded context.
+
+### Long Description
+This class diagram represents the Specifications bounded context, which is currently an emerging context with minimal implementation. The only implemented element is the FeatureStatus enum with five states: DRAFT, PLANNED, IN_PROGRESS, IMPLEMENTED, and DEPRECATED. The lifecycle flows from DRAFT through PLANNED and IN_PROGRESS to IMPLEMENTED, with DEPRECATED as a terminal state. The enum provides `is_active()` and `is_complete()` convenience methods.
+
+A note indicates that additional models (Specification, Feature, Initiative, Portfolio) are planned but not yet implemented, marking this as a context that will grow as the framework matures.
+
+### Key Elements
+**Implemented:**
+- FeatureStatus: 5-state lifecycle enum with active/complete classification
+
+**Planned (not yet implemented):**
+- Specification, Feature, Initiative, Portfolio domain models
+
+### Related Documentation
+- [Specifications Context README](../../src/domain/specifications/README.md)
+- [ADR-046: Domain Module Refactoring](../adrs/ADR-046-domain-module-refactoring.md)
+
+---
+
+## 13. Control Plane Reference Architecture (CQRS)
+
+### File
+- **Source:** `control-plane-reference-architecture.puml`
+
+### Alt Text
+C4 container diagram showing the Local Agent Control Plane with CQRS separation of command and query paths.
+
+### Long Description
+This C4 Level 2 container diagram depicts the target-state reference architecture for the Local Agent Control Plane, organized across six system boundaries with explicit CQRS separation. The diagram uses two visual conventions: default blue for committed scope and yellow for deferred/optional components.
+
+The Human Operator interacts with two Control Planes: a Localhost Dashboard (Flask + SocketIO for real-time monitoring) and an Interactive Console (CLI/TUI for task initiation). Both control planes send commands (start, cancel, retry) to a Coordination Service in the Service Layer, which validates governance constraints and dispatches to the Distributor Layer. The Distributor uses the Strategy pattern with three implementations: Direct Distributor (in-process, default), Queue Distributor (asyncio.Queue/Redis, deferred), and Workflow Distributor (Kestra/Temporal, deferred).
+
+The Execution Layer contains CLI Execution Adapters (wrapping claude-code, codex, opencode via subprocess), an SDK Execution Adapter (direct API calls, deferred), and Other Tool Adapters (YAML-configured). All execution adapters write artifacts, stdout/stderr captures, and execution events to the Storage Layer.
+
+The read path flows through a Query Service facade that aggregates data from the Telemetry Store (JSONL primary + SQLite index), Artifacts & Logs (filesystem), and Task State (YAML files in `work/`). Query flows are shown as dashed purple lines to distinguish them from command flows.
+
+### Key Elements
+**Control Planes:**
+- Localhost Dashboard: real-time monitoring (ADR-032)
+- Interactive Console: task initiation (ADR-025)
+
+**Service Layer:**
+- Coordination Service: command validation, governance, dispatch, event emission
+
+**Distributor (Strategy Pattern):**
+- Direct Distributor: in-process, default (committed)
+- Queue Distributor: buffered dispatch (deferred)
+- Workflow Distributor: durable orchestration (deferred)
+
+**Execution Layer:**
+- CLI Execution Adapter: subprocess-based tool wrapping (ADR-029)
+- SDK Execution Adapter: direct API (deferred)
+- Other Tool Adapters: YAML-configured (ADR-025)
+
+**Query Side:**
+- Query Service: read-model facade for telemetry, task state, artifacts
+
+**Storage:**
+- Telemetry Store: JSONL append-only log + SQLite materialized index
+- Artifacts & Logs: filesystem-based captures
+- Task State: YAML files (ADR-008)
+
+### Related Documentation
+- [Technical Design: Local Agent Control Plane](../design/local-agent-control-plane-architecture.md)
+- [ADR-047: CQRS Pattern](../adrs/ADR-047-cqrs-local-agent-control-plane.md)
+- [ADR-048: Run Container Concept](../adrs/ADR-048-run-container-concept.md)
+- [ADR-049: Async Execution Engine](../adrs/ADR-049-async-execution-engine.md)
+- [Implementation Mapping](../design/control-plane-implementation-mapping.md)
+
+---
+
 ## Maintenance and Updates
 
 ### Updating Descriptions
@@ -528,6 +728,6 @@ Maintained by the Diagrammer agent team. Contact via repository issues.
 
 ---
 
-_Document version: 1.0.0_  
-_Last updated: 2025-11-27_  
+_Document version: 1.1.0_  
+_Last updated: 2026-02-14_  
 _Format: Accessibility metadata for architecture diagrams_

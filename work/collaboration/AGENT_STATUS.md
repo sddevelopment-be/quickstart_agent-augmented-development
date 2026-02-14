@@ -1,10 +1,11 @@
 # Agent Status Dashboard
 
-_Last updated: 2026-02-12 (Manager Mike - SPEC-REFACTOR-001 Batch 3 Closed)_
+_Last updated: 2026-02-14 (M6.1 P1a completed, architecture alignment in progress)_
 
 ## Current Batch Status
 
-- **M5.1 (Conceptual Alignment Foundation):** 🔄 IN PROGRESS - ADR-045 Tasks 1-4 COMPLETE ✅ (80%), Task 5 pending
+- **M5.1 (Conceptual Alignment Foundation):** ✅ COMPLETE - All 5 tasks done, 195 tests, 92% coverage
+- **M6.1 (Dashboard Query Architecture):** 🔄 IN PROGRESS - P1a JSONL writer complete, P1b + M4.3 pending
 - **ADR-046 (Domain Module Refactoring):** ✅ COMPLETE - 100% done, production-ready
 - **M4.3 (Dashboard Initiative Tracking):** ⏳ PENDING - Awaiting Task 5 completion, ready to resume
 - **SPEC-TERM-001 Phase 1 (Terminology Alignment):** 📋 PLANNED - 6 tasks defined, awaiting approval
@@ -126,18 +127,20 @@ _Last updated: 2026-02-12 (Manager Mike - SPEC-REFACTOR-001 Batch 3 Closed)_
 
 ## python-pedro
 
-- **Status**: ADR-045 Tasks 1-4 Complete ✅, Ready for Task 5
-- **Assigned**: 14 tasks (M5.1 + M4.3 remaining)
+- **Status**: M6.1 P1a Complete ✅, Ready for P1b
+- **Assigned**: 14 tasks (M5.1 done + M6.1 + M4.3 remaining)
 - **In Progress**: 0 tasks
-- **Completed**: ADR-045 Tasks 1-4 (195 tests, 92% coverage, APPROVED by all reviewers)
-- **Next**: ADR-045 Task 5 (Dashboard Integration, 2-4h, READY) OR M4.3 Initiative tracking backend (6-8h, HIGH)
+- **Completed**: ADR-045 Tasks 1-5 (195 tests, 92% coverage), M6.1 P1a JSONL Event Writer (31 tests, 100% coverage)
+- **Next**: M6.1 P1b Query Service Facade (pending branch merge + architecture alignment)
 - **Blocks**: M4.3 Dashboard frontend integration
-- **Last seen**: 2026-02-12 06:40:00
+- **Last seen**: 2026-02-14 10:00:00
 - **Recent Work**: 
+  - ✅ M6.1 P1a: JSONL Event Writer (31 tests, 100% coverage)
   - ✅ Task 1: Domain Models (27 tests, 98% coverage)
   - ✅ Task 2: Parsers (50 tests, 91% coverage)
   - ✅ Task 3: Agent Parser (27 tests, 90.48% coverage)
   - ✅ Task 4: Validators (91 tests, 100% coverage)
+  - ✅ Task 5: Dashboard Integration (30 tests, 95% coverage)
 
 ## researcher
 

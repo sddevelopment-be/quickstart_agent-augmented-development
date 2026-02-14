@@ -56,9 +56,9 @@ Control Plane P1a (JSONL event writer) is included because it is a prerequisite 
 
 **Technical References:**
 - Technical Design: `docs/architecture/design/local-agent-control-plane-architecture.md` (Approved)
-- ADR-047: CQRS Pattern — `docs/architecture/adrs/ADR-047-cqrs-local-agent-control-plane.md` (Proposed)
-- ADR-048: Run Container — `docs/architecture/adrs/ADR-048-run-container-concept.md` (Proposed)
-- ADR-049: Async Execution Engine — `docs/architecture/adrs/ADR-049-async-execution-engine.md` (Proposed)
+- ADR-047: CQRS Pattern — `docs/architecture/adrs/ADR-047-cqrs-local-agent-control-plane.md` (Accepted)
+- ADR-048: Run Container — `docs/architecture/adrs/ADR-048-run-container-concept.md` (Accepted)
+- ADR-049: Async Execution Engine — `docs/architecture/adrs/ADR-049-async-execution-engine.md` (Accepted)
 - Existing Task: `work/collaboration/assigned/python-pedro/2026-02-06T1150-dashboard-initiative-tracking.yaml`
 
 ---
@@ -68,7 +68,7 @@ Control Plane P1a (JSONL event writer) is included because it is a prerequisite 
 **Owner:** Python Pedro
 **Effort:** 1-2 days
 **Source:** ADR-047 (CQRS Pattern), Control Plane Architecture
-**Status:** Ready to start (no blockers)
+**Status:** ✅ COMPLETE (2026-02-14)
 
 **Deliverables:**
 - JSONL append-only event writer for run telemetry
