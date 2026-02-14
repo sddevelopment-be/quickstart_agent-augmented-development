@@ -245,6 +245,24 @@ class ExecutionEvent:
 
 **Implementation:** Spec Kitty orchestrator calls `event_bridge.emit_*()` at key workflow points. EventBridge fan-out to registered listeners.
 
+#### Design Note: Lifecycle Hooks as Unified Event Sources
+
+The `GovernancePlugin` lifecycle hooks and `EventBridge` share the same attachment points (lane transitions, phase boundaries). Rather than treating governance and telemetry as separate concerns wired independently, the architecture unifies them:
+
+```
+Lane transition (e.g., planned → doing)
+  ├── EventBridge.emit_lane_transition()     → telemetry store, dashboard
+  ├── GovernancePlugin.validate_pre_*()      → pass/warn/block decision
+  │     └── EventBridge.emit_validation_event()  → compliance metrics
+  └── WorkLogEmitter.record()                → Directive 014 work log entry
+```
+
+**Key insight:** Every governance validation is itself an event. The `ValidationResult` returned by `GovernancePlugin` feeds into `EventBridge.emit_validation_event()`, creating a single event stream that serves telemetry, work logging (Directive 014), cost tracking, and governance compliance — all from the same hook points.
+
+**Practical benefit:** Adding a new cross-cutting concern (e.g., budget enforcement, audit trail, agent performance metrics) requires only registering a new `EventBridge` consumer — no additional hook points in the orchestrator.
+
+**Work log integration (Directive 014):** A `WorkLogEmitter` consumer on the EventBridge can automatically generate structured work log entries from lane transitions and validation events, reducing manual logging overhead while maintaining traceability.
+
 ---
 
 ## Architecture Layers (Detailed)
