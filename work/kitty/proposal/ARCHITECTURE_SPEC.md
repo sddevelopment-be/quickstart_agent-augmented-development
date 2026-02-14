@@ -65,17 +65,9 @@ From `2026-02-14-control-plane-spec-kitty-coverage.md`:
 
 **We will implement a five-layer architecture where Spec Kitty owns orchestration and Doctrine provides governance as an optional plugin:**
 
-```
-Layer 1: Governance Plugin (Doctrine + .doctrine-config/)
-         ↓ (policy constraints, directive loading)
-Layer 2: Specification Domain (Spec Kitty kitty-specs/ + missions/)
-         ↓ (work package definition, domain context)
-Layer 3: Orchestration (Spec Kitty workflow engine, worktree, dependency scheduling)
-         ↓ (lifecycle transitions, agent coordination)
-Layer 4: Routing (RoutingProvider interface, model/tool selection)
-         ↓ (agent-to-LLM mapping, fallback chains)
-Layer 5: Execution (LLM vendor adapters, telemetry, artifact capture)
-```
+![Unified Doctrine Stack — Five-Layer Architecture](./diagrams/unified_doctrine_stack.png)
+
+*Source: [`diagrams/unified-doctrine-stack.puml`](./diagrams/unified-doctrine-stack.puml)*
 
 ### Interface Contracts
 
@@ -249,13 +241,9 @@ class ExecutionEvent:
 
 The `GovernancePlugin` lifecycle hooks and `EventBridge` share the same attachment points (lane transitions, phase boundaries). Rather than treating governance and telemetry as separate concerns wired independently, the architecture unifies them:
 
-```
-Lane transition (e.g., planned → doing)
-  ├── EventBridge.emit_lane_transition()     → telemetry store, dashboard
-  ├── GovernancePlugin.validate_pre_*()      → pass/warn/block decision
-  │     └── EventBridge.emit_validation_event()  → compliance metrics
-  └── WorkLogEmitter.record()                → Directive 014 work log entry
-```
+![Unified Event Spine — Lane Transition Fan-Out](./diagrams/unified_event_spine.png)
+
+*Source: [`diagrams/unified-event-spine.puml`](./diagrams/unified-event-spine.puml)*
 
 **Key insight:** Every governance validation is itself an event. The `ValidationResult` returned by `GovernancePlugin` feeds into `EventBridge.emit_validation_event()`, creating a single event stream that serves telemetry, work logging (Directive 014), cost tracking, and governance compliance — all from the same hook points.
 

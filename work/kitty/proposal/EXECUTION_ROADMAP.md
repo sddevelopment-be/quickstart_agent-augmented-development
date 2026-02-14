@@ -702,29 +702,18 @@ work/kitty/phase-6-release/
 
 ---
 
-## Dependency Graph (Text-Based DAG)
+## Dependency Graph
 
-```
-Phase 0 (Analysis & Foundation) ✅ COMPLETE
-    ├─→ Phase 1 (Telemetry Library) [M]
-    │       ├─→ Phase 3 (Model Routing) [L]
-    │       │       └─→ Phase 4 (Dashboard) [M]
-    │       │               └─→ Phase 6 (Release) [S]
-    │       └─→ Phase 5 (Error Reporting) [M]
-    │               └─→ Phase 6 (Release) [S]
-    └─→ Phase 2 (Governance Plugin) [L]
-            └─→ Phase 3 (Model Routing) [L]
-                    └─→ Phase 6 (Release) [S]
+![Phase Dependency DAG — Execution Roadmap](./diagrams/phase_dependency_dag.png)
 
-CRITICAL PATH (minimum viable integration):
-Phase 0 → Phase 1 → Phase 2 → Phase 3 → Phase 6
-(~3.5–4.5 person-months on critical path)
+*Source: [`diagrams/phase-dependency-dag.puml`](./diagrams/phase-dependency-dag.puml)*
 
-PARALLEL WORK OPPORTUNITIES:
+**Critical path:** Phase 0 → Phase 1 + Phase 2 (parallel) → Phase 3 → Phase 6 (~3.5–4.5 person-months)
+
+**Parallel work opportunities:**
 - Phase 1 and Phase 2 can run in parallel (no hard dependency)
 - Phase 4 and Phase 5 can run in parallel after Phase 1/3 complete
 - Documentation (Phase 6) can start during Phase 4/5 (overlap 50%)
-```
 
 ---
 

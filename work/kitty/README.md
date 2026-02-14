@@ -26,34 +26,9 @@ a unified stack that downstream projects can adopt incrementally through a
 The unified stack extends Spec Kitty's existing architecture with AAD's governance depth,
 organized into five conceptual layers. Each layer has clear ownership and well-defined boundaries.
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│  Layer 1 — Governance (Doctrine Extension)                         │
-│  doctrine/: Guidelines · Approaches · Directives · Tactics         │
-│  Constitution: Project-local governance overlay                    │
-│  Precedence: General Guidelines > Operational > Constitution >     │
-│              Directives > Mission guidance > Tactics/Templates     │
-├─────────────────────────────────────────────────────────────────────┤
-│  Layer 2 — Specification Domain (Spec Kitty Authority)             │
-│  kitty-specs/: spec → plan → tasks → implement → review → accept  │
-│  Missions: Domain-specific workflow profiles (software, research…) │
-├─────────────────────────────────────────────────────────────────────┤
-│  Layer 3 — Orchestration (Spec Kitty, extension-enabled)           │
-│  WP lifecycle · Worktree isolation · Dependency scheduling         │
-│  Event Bridge: Normalized events from all lifecycle transitions    │
-├─────────────────────────────────────────────────────────────────────┤
-│  Layer 4 — Routing (Spec Kitty, policy-informed)                   │
-│  RoutingProvider API · Agent-to-model mapping · Fallback chains    │
-│  DoctrinePolicyProvider: Routing hints from doctrine agent profiles│
-├─────────────────────────────────────────────────────────────────────┤
-│  Layer 5 — Execution                                               │
-│  LLM vendor adapters · Telemetry store · Artifact capture          │
-│  Budget enforcement · Cost tracking · Work log emission            │
-└─────────────────────────────────────────────────────────────────────┘
-```
+![Unified Doctrine Stack — Five-Layer Architecture](./proposal/diagrams/unified_doctrine_stack.png)
 
-**Visual reference:** [`proposal/spec-kitty-doctrine-layered-target-architecture.puml`](./proposal/spec-kitty-doctrine-layered-target-architecture.puml)  
-**C4 diagram:** [`proposal/diagrams/unified-doctrine-stack.puml`](./proposal/diagrams/unified-doctrine-stack.puml)
+*Source: [`proposal/diagrams/unified-doctrine-stack.puml`](./proposal/diagrams/unified-doctrine-stack.puml)*
 
 ---
 
@@ -132,11 +107,9 @@ role.
 
 The unified model bridges this gap:
 
-```
-SK agent config key ─→ AgentProfile lookup ─→ Rich identity
-     "claude-sonnet"       doctrine/agents/       capabilities, tone,
-                           architect.agent.md      directives, handoffs
-```
+![Agent Profile Bridge — SK Config ↔ Doctrine Enrichment → Routing Decision](./proposal/diagrams/agent_profile_bridge.png)
+
+*Source: [`proposal/diagrams/agent-profile-bridge.puml`](./proposal/diagrams/agent-profile-bridge.puml)*
 
 **What AAD adds:**
 - **Role specialization** — Architect, Backend Dev, Planner, Reviewer (not just "which LLM")
@@ -166,14 +139,9 @@ doesn't systematically help operators become better at using it. AAD addresses t
 Structured records of what was done, what decisions were made, and what the outcomes were.
 In the unified stack, these are **automatically generated** from lifecycle events:
 
-```
-Lane transition (WP moves from "doing" → "for_review")
-  └── EventBridge.emit_lane_transition()
-        ├── WorkLogEmitter.record()        → Structured work log entry
-        ├── TelemetryStore.append()        → Cost/time/token metrics
-        └── GovernancePlugin.validate()    → Compliance check result
-              └── EventBridge.emit_validation_event()
-```
+![Unified Event Spine — Lane Transition Fan-Out Pattern](./proposal/diagrams/unified_event_spine.png)
+
+*Source: [`proposal/diagrams/unified-event-spine.puml`](./proposal/diagrams/unified-event-spine.puml)*
 
 ### Prompt Documentation (Directive 015)
 
