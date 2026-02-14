@@ -105,10 +105,12 @@ When a user declares "afk-mode" or uses the `/afk-mode` command, it activates th
 - User-facing behavior changes
 - Pricing/licensing decisions
 
+**Action:** Create decision request in `work/human-in-charge/decision_requests/`
+
 **Examples:**
-- ❌ "Should I switch from REST to GraphQL?" → PAUSE, ask human
-- ❌ "Should I delete this deprecated module?" → PAUSE, ask human
-- ❌ "Should I add a new database table?" → PAUSE, ask human
+- ❌ "Should I switch from REST to GraphQL?" → PAUSE, create decision request
+- ❌ "Should I delete this deprecated module?" → PAUSE, create decision request
+- ❌ "Should I add a new database table?" → PAUSE, create decision request
 
 ---
 
@@ -126,26 +128,32 @@ When a user declares "afk-mode" or uses the `/afk-mode` command, it activates th
    - Broken dependencies that cannot be auto-fixed
    - Test failures unrelated to current work
 
+   **Action:** Create blocker in `work/human-in-charge/blockers/`
+
 3. **Critical Decisions:**
    - See "Critical Decisions" scope above
    - Trade-offs with significant business impact
    - Changes affecting user privacy or security
+
+   **Action:** Create decision request in `work/human-in-charge/decision_requests/`
 
 4. **Unexpected Results:**
    - Tests pass but behavior seems wrong
    - Implementation significantly diverges from plan
    - Discovered constraints not mentioned in requirements
 
+   **Action:** Create problem report in `work/human-in-charge/problems/`
+
 **How to Pause:**
 1. Stop current work
 2. Commit completed work (if any)
-3. Create checkpoint file: `work/reports/logs/[agent]/[timestamp]-afk-pause-[reason].md`
-4. Document:
-   - What was completed
-   - What decision is needed
-   - Options with pros/cons
-   - Recommended choice (if applicable)
-5. Wait for human guidance
+3. Create escalation file in `work/human-in-charge/`:
+   - Critical decisions → `decision_requests/`
+   - External blockers → `blockers/`
+   - Unexpected results → `problems/`
+4. Update task status to `frozen` with reference to HiC file
+5. Document in work log
+6. Wait for human guidance
 
 ---
 
@@ -229,6 +237,8 @@ Task 3: Adding tests for feature X...
 **Recommendation:** Option C (fixture files)
 **Rationale:** Balance between speed and realism
 
+**Created:** work/human-in-charge/decision_requests/2026-02-14-test-data-strategy.md
+
 Awaiting your choice before proceeding with test implementation.
 
 **Completed:** 2/3 tasks
@@ -242,6 +252,7 @@ Awaiting your choice before proceeding with test implementation.
 
 - **Directive 014:** Work Log Creation - Document AFK work in logs
 - **Directive 018:** Traceable Decisions - Document decision rationale
+- **Directive 040:** Human-in-Charge Escalation Protocol - Using HiC directory
 - **.doctrine-config/config.yaml:** Repository-specific commit signing policy
 
 ---

@@ -34,8 +34,13 @@ work/
     done/                 # Completed tasks (organized by agent)
     archive/              # Long-term task retention (by month)
     *.md                  # Cross-agent coordination artifacts
+  human-in-charge/        # Agent-to-human escalations (async coordination)
+    executive_summaries/  # High-level summaries requiring HiC review
+    decision_requests/    # Explicit decisions needed from HiC
+    blockers/             # External blockers awaiting human action
+    problems/             # Internal problems requiring human judgment
   notes/                  # Persistent project notes
-    external_memory/        # Inter-agent context sharing
+    external_memory/      # Inter-agent context sharing
   planning/               # Planning artifacts, roadmaps, and strategies that are yet uncommitted
   reports/                # Agent outputs, logs, and metrics
     logs/                 # Agent execution logs

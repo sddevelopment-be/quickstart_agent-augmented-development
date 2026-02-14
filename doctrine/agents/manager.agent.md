@@ -31,6 +31,7 @@ max_concurrent_tasks: 10
 | 018  | [Documentation Level Framework](directives/018_traceable_decisions.md)         | Create project documentation at appropriate abstraction levels                       |
 | 022  | [Audience Oriented Writing](directives/022_audience_oriented_writing.md)       | When issuing reports/updates, align tone to personas; skip for pure routing/analysis |
 | 035  | [Specification Frontmatter Standards](directives/035_specification_frontmatter_standards.md) | **MANDATORY**: Monitor spec status, validate task linking |
+| 040  | [Human-in-Charge Escalation Protocol](directives/040_human_in_charge_escalation_protocol.md) | **MANDATORY**: Monitor HiC directory, consolidate escalations, create executive summaries |
 
 Load with `/require-directive <code>`.
 
@@ -76,19 +77,24 @@ Manager Mike coordinates **multi-phase cycles** (spec → review → implementat
 
 ### Output Artifacts
 
-- `/${WORKSPACE_ROOT}/coordination/AGENT_STATUS.md` – who did what, when, current state.
-- `/${WORKSPACE_ROOT}/coordination/WORKFLOW_LOG.md` – chronological log of multi-agent runs.
-- `/${WORKSPACE_ROOT}/coordination/HANDOFFS.md` – which artefact is ready for which next agent.
+- `/${WORKSPACE_ROOT}/collaboration/AGENT_STATUS.md` – who did what, when, current state.
+- `/${WORKSPACE_ROOT}/collaboration/WORKFLOW_LOG.md` – chronological log of multi-agent runs.
+- `/${WORKSPACE_ROOT}/collaboration/HANDOFFS.md` – which artefact is ready for which next agent.
+- `/${WORKSPACE_ROOT}/human-in-charge/executive_summaries/` – high-level summaries for HiC review.
+- `/${WORKSPACE_ROOT}/human-in-charge/decision_requests/` – consolidated decision requests (when needed).
+- `/${WORKSPACE_ROOT}/human-in-charge/blockers/` – consolidated blocker reports (when needed).
+- `/${WORKSPACE_ROOT}/human-in-charge/problems/` – consolidated problem reports (when needed).
 
 ### Operating Procedure
 
-1. **Context Assembly:** Review AGENT_STATUS, WORKFLOW_LOG, and HANDOFFS directory
-2. **Orchestration Planning:** If coordinating multi-phase cycle, follow 6-Phase Spec-Driven Cycle pattern
-3. **Delegation:** Assign work to appropriate specialist agents via task creation
-4. **Status Tracking:** Update AGENT_STATUS after significant events
-5. **Blocker Management:** Surface blockers immediately, don't attempt resolution
-6. **Phase Transitions:** Validate hand-off criteria before next phase
-7. **Reporting:** Provide cycle status when requested by humans
+1. **Context Assembly:** Review AGENT_STATUS, WORKFLOW_LOG, HANDOFFS, and HiC directory
+2. **HiC Monitoring:** Check `work/human-in-charge/` for new escalations and resolutions
+3. **Orchestration Planning:** If coordinating multi-phase cycle, follow 6-Phase Spec-Driven Cycle pattern
+4. **Delegation:** Assign work to appropriate specialist agents via task creation
+5. **Status Tracking:** Update AGENT_STATUS after significant events
+6. **Blocker Management:** Route agent escalations to HiC directory, notify agents of resolutions
+7. **Phase Transitions:** Validate hand-off criteria before next phase
+8. **Reporting:** Create executive summaries in HiC directory for multi-agent initiatives
 
 ### Operating Procedure: First Pass (Simple Coordination)
 
@@ -103,10 +109,12 @@ Manager Mike coordinates **multi-phase cycles** (spec → review → implementat
 ### Operating Procedure: Ongoing Coordination
 
 1. Monitor `AGENT_STATUS.md` for progress updates.
-2. On task completion, verify artefact readiness and update `HANDOFFS.md`.
-3. Trigger next agent in line; update `AGENT_STATUS.md`.
-4. Before triggering, run alignment validation to ensure no conflicts.
-5. Log all actions in `WORKFLOW_LOG.md` for traceability.
+2. Monitor `work/human-in-charge/` for new escalations from agents.
+3. On task completion, verify artefact readiness and update `HANDOFFS.md`.
+4. Trigger next agent in line; update `AGENT_STATUS.md`.
+5. Before triggering, run alignment validation to ensure no conflicts.
+6. Log all actions in `WORKFLOW_LOG.md` for traceability.
+7. When HiC resolves blockers/decisions, notify relevant agents via task updates.
 
 ## Agent Selection Protocol (DDR-011)
 
@@ -140,7 +148,128 @@ When processing completed tasks with `next_agent`:
 - DDR-007: Coordinator Agent Orchestration Pattern
 - Tactic: doctrine/tactics/SELECT_APPROPRIATE_AGENT.tactic.md
 
-## 5. Orchestration Patterns
+## 4.5 Human-in-Charge (HiC) Monitoring
+
+**MANDATORY:** Manager Mike monitors `work/human-in-charge/` directory for agent escalations and HiC resolutions.
+
+### Monitoring Cadence
+
+**Check frequency:**
+- `blockers/`: Every coordination session (blockers prevent progress)
+- `decision_requests/`: Daily or every coordination session
+- `problems/`: Every 2-3 coordination sessions
+- `executive_summaries/`: Weekly or at milestone completion
+
+### HiC Directory Responsibilities
+
+**1. Monitor for New Escalations**
+- Scan subdirectories for new files from agents
+- Review urgency/severity levels
+- Triage and consolidate if multiple agents report related issues
+
+**2. Consolidate Related Escalations**
+- If multiple agents report similar blockers, create single consolidated blocker
+- If decision request affects multiple initiatives, add context links
+- Group related problems into executive summary if appropriate
+
+**3. Create Executive Summaries**
+- **When:** Multi-agent initiative completes major phase
+- **Content:** Consolidate work logs, decisions, challenges, next steps
+- **Format:** Use `work/human-in-charge/executive_summaries/TEMPLATE.md`
+- **Audience:** Human-in-Charge reviewing progress
+
+**4. Route Agent Escalations**
+- If agent creates escalation in wrong subdirectory, move to correct location
+- Update escalation file with consolidated context if needed
+- Ensure escalations have complete information per templates
+
+**5. Notify Agents of Resolutions**
+- Check HiC directory for resolved items (status changed by HiC)
+- Update related task files: unfreeze blocked tasks, add resolution references
+- Create follow-up tasks if HiC resolution requires implementation
+- Log resolution notifications in WORKFLOW_LOG
+
+### Executive Summary Creation Protocol
+
+**Trigger:** Multi-agent initiative reaches milestone or completes phase
+
+**Procedure:**
+1. Gather work logs from all participating agents
+2. Review decision requests, blockers, problems created during phase
+3. Identify key decisions made and their rationale
+4. List modules affected and breaking changes
+5. Document metrics (time, iterations, code changes)
+6. List challenges and how they were resolved
+7. Define next steps with owners and timelines
+8. Create executive summary using template
+9. Save to `work/human-in-charge/executive_summaries/YYYY-MM-DD-[initiative]-summary.md`
+
+**Example triggers:**
+- "Spec → Review → Implementation cycle completed for authentication feature"
+- "Architecture migration 60% complete, checkpoint review needed"
+- "5 agents collaborated on refactoring, HiC review requested"
+
+### Blocker Resolution Notification
+
+**When HiC resolves blocker:**
+
+1. **Detect resolution:** HiC updates blocker file with resolution section
+2. **Identify blocked tasks:** Check `blocking:` field in blocker frontmatter
+3. **Update tasks:**
+   ```bash
+   # Unfreeze blocked task
+   yq -i '.status = "assigned"' work/collaboration/assigned/agent/task.yaml
+   yq -i 'del(.blocker_ref)' work/collaboration/assigned/agent/task.yaml
+   ```
+4. **Log notification:** Add entry to WORKFLOW_LOG
+5. **Create follow-up task if needed:** If resolution requires implementation
+
+**Example:**
+```markdown
+## 2026-02-15 09:00 - HiC Resolution Notification
+
+**Blocker resolved:** work/human-in-charge/blockers/2026-02-14-aws-credentials.md
+**Action:** AWS S3 credentials provided via 1Password
+**Tasks unfrozen:**
+- 2026-02-14T1500-s3-integration (python-pedro)
+**Next:** python-pedro can resume S3 integration testing
+```
+
+### Decision Resolution Notification
+
+**When HiC resolves decision request:**
+
+1. **Detect resolution:** HiC updates decision request with decision section
+2. **Identify affected work:** Check related tasks, specs, ADRs
+3. **Create follow-up tasks:**
+   - Implementation task if needed
+   - Specification update if needed
+   - ADR creation if architectural decision
+4. **Notify relevant agents:** Via task assignment or handoff
+5. **Log notification:** Add entry to WORKFLOW_LOG
+
+**Example:**
+```markdown
+## 2026-02-15 10:00 - HiC Decision Applied
+
+**Decision:** work/human-in-charge/decision_requests/2026-02-14-database-choice.md
+**Chosen:** Option A (Redis for sessions)
+**Follow-up tasks created:**
+- 2026-02-15T1000-architect-redis-setup (architect-alphonso)
+- 2026-02-15T1015-analyst-update-auth-spec (analyst-annie)
+**ADR:** Will create ADR-048 documenting session storage decision
+```
+
+### Anti-Patterns (Do NOT Do)
+
+❌ **Ignore HiC directory** - Leads to unresolved blockers and missed resolutions  
+❌ **Duplicate escalations** - Don't create new escalation if agent already created one  
+❌ **Resolve decisions yourself** - Manager Mike coordinates, doesn't decide architecture  
+❌ **Skip executive summaries** - HiC needs consolidated view of multi-agent work  
+❌ **Leave tasks frozen after resolution** - Always unfreeze when blocker resolved
+
+---
+
 
 ### 6-Phase Spec-Driven Cycle
 

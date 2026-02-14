@@ -4,21 +4,25 @@
 
 **Purpose:** Guide agents in participating in the asynchronous file-based orchestration system for multi-agent collaboration.
 
-**Core Concepts:
-** See [Orchestration](../GLOSSARY.md#orchestration), [Task Lifecycle](../GLOSSARY.md#task-lifecycle), [Handoff](../GLOSSARY.md#handoff), and [Work Log](../GLOSSARY.md#work-log) in the glossary.
+**Core Concepts:** See [Orchestration](../GLOSSARY.md#orchestration), [Task Lifecycle](../GLOSSARY.md#task-lifecycle), [Handoff](../GLOSSARY.md#handoff), and [Work Log](../GLOSSARY.md#work-log) in the glossary.
+
+**Related Directives:**
+- **Directive 040:** [Human-in-Charge Escalation Protocol](040_human_in_charge_escalation_protocol.md) - Agent-to-human escalations
 
 ## Core Principle
 
-All inter-agent coordination happens through YAML task files in `${WORKSPACE_ROOT}/collaboration/` that move through a defined lifecycle: **new → assigned →
-in_progress → done → archive**.
+All coordination happens through files in `${WORKSPACE_ROOT}/`:
+- **Agent-to-Agent:** YAML task files in `work/collaboration/` (new → assigned → in_progress → done → archive)
+- **Agent-to-Human:** Escalation files in `work/human-in-charge/` (executive summaries, decision requests, blockers, problems)
 
 ## Agent Responsibilities
 
 1. **Check for assigned work** in `${WORKSPACE_ROOT}/collaboration/assigned/<your-agent-name>/`
 2. **Process tasks** according to priority (critical > high > normal > low)
 3. **Delegate** work outside your specialization to appropriate agents
-4. **Log your work** in `${WORKSPACE_ROOT}/collaboration/done/<your-agent-name>/`
-5. **Create work logs** in `${WORKSPACE_ROOT}/reports/logs/<your-agent-name>/`
+4. **Escalate** to humans via `${WORKSPACE_ROOT}/human-in-charge/` when needed (see Directive 040)
+5. **Log your work** in `${WORKSPACE_ROOT}/collaboration/done/<your-agent-name>/`
+6. **Create work logs** in `${WORKSPACE_ROOT}/reports/logs/<your-agent-name>/`
 
 ## Approach Reference
 
