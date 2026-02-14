@@ -98,7 +98,7 @@ print_section() {
   local title="$1"; shift
   local file="$1"
   [[ -f "${file}" ]] || { echo "[WARN] Skipping missing file: ${file}" >&2; return; }
-  echo "\n<!-- ${title} -->"
+  printf "\n<!-- %s -->\n" "${title}"
   cat "${file}"
 }
 
@@ -114,7 +114,7 @@ if [[ "${INCLUDE_ALIASES}" -eq 1 ]]; then
 fi
 
 if [[ ${#DIRECTIVES[@]} -gt 0 ]]; then
-  echo "\n<!-- Directives -->"
+  printf "\n<!-- Directives -->\n"
   "${LOADER}" "${DIRECTIVES[@]}"
 fi
 

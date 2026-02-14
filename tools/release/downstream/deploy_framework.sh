@@ -280,7 +280,7 @@ run_install() {
         install_args="--dry-run"
     fi
 
-    if ! sh "${install_script}" ${install_args} "${release_dir}" "${target_dir}"; then
+    if ! sh "${install_script}" "${install_args}" "${release_dir}" "${target_dir}"; then
         log_error "Installation failed"
         return 3
     fi
@@ -307,7 +307,7 @@ run_upgrade() {
         upgrade_args="--dry-run"
     fi
 
-    if ! sh "${upgrade_script}" ${upgrade_args} "${release_dir}" "${target_dir}"; then
+    if ! sh "${upgrade_script}" "${upgrade_args}" "${release_dir}" "${target_dir}"; then
         log_error "Upgrade failed"
         return 3
     fi

@@ -270,7 +270,7 @@ process_file() {
     local temp_counts="$4"
     
     # Read current counts
-    read new_c unch_c conf_c err_c local_c < "${temp_counts}"
+    read -r new_c unch_c conf_c err_c local_c < "${temp_counts}"
     
     # Check if in local/ directory (protected)
     if is_local_path "${rel_path}"; then
@@ -364,14 +364,14 @@ upgrade_framework_files() {
     # Process all files in framework_core (POSIX-compliant)
     find "${core_dir}" -type f | while IFS= read -r src_file; do
         # Calculate relative path
-        rel_path="${src_file#${core_dir}/}"
+        rel_path="${src_file#"${core_dir}"/}"
         dest_file="${target_dir}/${rel_path}"
         
         process_file "${src_file}" "${dest_file}" "${rel_path}" "${temp_counts}"
     done
     
     # Read final counts
-    read NEW_COUNT UNCHANGED_COUNT CONFLICT_COUNT ERROR_COUNT SKIPPED_LOCAL_COUNT < "${temp_counts}"
+    read -r NEW_COUNT UNCHANGED_COUNT CONFLICT_COUNT ERROR_COUNT SKIPPED_LOCAL_COUNT < "${temp_counts}"
     rm -f "${temp_counts}"
     
     log_success "Framework files processed"

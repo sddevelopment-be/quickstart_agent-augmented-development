@@ -119,4 +119,4 @@ if [[ -n "${GITHUB_STEP_SUMMARY:-}" ]]; then
   cat "${MARKDOWN_OUTPUT}" >> "${GITHUB_STEP_SUMMARY}"
 fi
 
-exit ${exit_code}
+exit "${exit_code}"

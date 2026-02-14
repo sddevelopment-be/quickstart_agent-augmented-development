@@ -270,11 +270,11 @@ install_framework_files() {
     # Use find to iterate over all files (POSIX-compliant)
     find "${core_dir}" -type f | while IFS= read -r src_file; do
         # Calculate relative path
-        rel_path="${src_file#${core_dir}/}"
+        rel_path="${src_file#"${core_dir}"/}"
         dest_file="${target_dir}/${rel_path}"
         
         # Read current counts
-        read new_count skip_count err_count < "${temp_counts}"
+        read -r new_count skip_count err_count < "${temp_counts}"
         
         # Check if destination already exists
         if [[ -f "${dest_file}" ]]; then
@@ -307,7 +307,7 @@ install_framework_files() {
     done
     
     # Read final counts
-    read NEW_COUNT SKIPPED_COUNT ERROR_COUNT < "${temp_counts}"
+    read -r NEW_COUNT SKIPPED_COUNT ERROR_COUNT < "${temp_counts}"
     rm -f "${temp_counts}"
     
     log_success "Framework files processed"
