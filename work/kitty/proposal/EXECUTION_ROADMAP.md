@@ -211,7 +211,7 @@ work/kitty/phase-1-telemetry/
 #### Tests
 7. **`validation/test_governance_*.py`** — Governance plugin test suite
    - Lifecycle hook execution tests
-   - Precedence resolution tests (constitution > guidelines > directives)
+   - Precedence resolution tests (general/operational guidelines > constitution > directives)
    - Doctrine-enabled vs disabled mode comparison tests
    - Hook output validation (pass/warn/block format)
 
@@ -235,7 +235,7 @@ work/kitty/phase-1-telemetry/
 - ✅ Backward compatibility: Spec Kitty works identically with Doctrine disabled
 - ✅ Deterministic governance: Same inputs → same pass/warn/block outputs
 - ✅ Advisory rollout: Hooks start in warn-only mode, block mode is opt-in
-- ✅ Precedence enforcement: Constitution overrides Doctrine, explicit conflict resolution
+- ✅ Precedence enforcement: Doctrine General/Operational Guidelines immutable; Constitution customizes within bounds
 - ✅ WP schema unchanged: No modifications to Spec Kitty's frontmatter schema
 - ✅ Test coverage: ≥80% on governance module
 - ✅ Bootstrap automation: One-command setup for new projects
@@ -1020,7 +1020,7 @@ Total calendar time with parallelization: ~18–20 weeks (4.5–5 months)
 |------|------------|
 | **Doctrine-enabled mode** | Spec Kitty project with governance plugin activated (`.doctrine-config/` present) |
 | **Governance hook** | Lifecycle checkpoint where Doctrine policies are evaluated (e.g., pre_plan, pre_implement) |
-| **Precedence contract** | Explicit ordering for resolving conflicts: Constitution > Guidelines > Directives > Mission rules > Tactics |
+| **Precedence contract** | Explicit ordering for resolving conflicts: General/Operational Guidelines > Constitution/.doctrine-config > Directives > Mission rules > Tactics |
 | **Routing provider** | Pluggable interface for task-to-model mapping (default, doctrine policy, custom) |
 | **Telemetry event** | Structured log entry (JSONL) recording task/agent/LLM activity |
 | **Materialized view** | Pre-computed SQLite query result for fast dashboard/API access |

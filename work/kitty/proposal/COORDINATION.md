@@ -65,7 +65,7 @@ Neither system solves these problems alone:
 - Teams report faster onboarding with governance clarity
 - Audit trails pass compliance review without manual annotation
 - Upstream Spec Kitty maintainers adopt governance hooks as stable extension point
-- Zero "two-masters" ambiguity reports (i.e., conflicting authority between Constitution and Directives)
+- Zero "two-masters" ambiguity reports (i.e., Constitution contradicting General/Operational Guidelines, or conflicting authority between Constitution and Directives)
 
 ---
 
@@ -189,12 +189,12 @@ Neither system solves these problems alone:
 - **Reference:** `work/kitty/2026-02-14-doctrine-spec-kitty-integration-analysis.md` (Section: Recommended Integration)
 - **Status:** ⚠️ **Awaiting stakeholder approval** (see Open Items #2)
 
-#### Decision #4: Constitution-as-Gateway Precedence Model
-- **Date:** 2026-02-14
-- **Context:** Risk of conflicting authority between Spec Kitty's mission rules and Doctrine's directives
-- **Rationale:** Single source of truth (Constitution) prevents "two-masters" problem; Constitution is compiled output of layered governance with explicit precedence order.
-- **Implication:** Constitution includes precedence contract: `Constitution → Doctrine Guidelines → Doctrine Directives → Mission Guidance → Tactics/Templates`.
-- **Reference:** `work/kitty/analysis/2026-02-14-evaluation-doctrine-governance-extension.md` (Section: Recommended Shape, Phase 1)
+#### Decision #4: Doctrine-First Precedence with Constitution as Local Override
+- **Date:** 2026-02-14 (revised)
+- **Context:** Risk of conflicting authority between Spec Kitty's Constitution and Doctrine's guidelines
+- **Rationale:** The Doctrine instruction hierarchy (AGENTS.md) is explicit and immutable: General/Operational Guidelines are HIGHEST priority; local overrides (`.doctrine-config/`) sit at MEDIUM priority and MUST NOT contradict them. Constitution is functionally equivalent to `.doctrine-config/` (see ARCHITECTURE_SPEC Q3a), so it occupies the same level — it customizes Doctrine for a specific project but cannot override core framework values.
+- **Implication:** Precedence contract: `Doctrine General Guidelines → Operational Guidelines → Constitution/.doctrine-config → Directives → Mission Guidance → Tactics/Templates`. Constitution extends, narrows, and adds project-specific rules within Doctrine bounds.
+- **Reference:** `AGENTS.md` (Instruction Hierarchy — Immutable), `doctrine/guidelines/bootstrap.md` (line 57: "Local overrides MUST NOT override general_guidelines.md or operational_guidelines.md")
 - **Refinement (2026-02-14):** Constitution and `.doctrine-config/` are near-identical concepts — both are project-scoped governance overlays. Treat them as two views of the same governance state (Constitution = human narrative, `.doctrine-config/` = machine config). Phase 2 must include a sync/validation mechanism.
 
 #### Decision #6: Unified Event Spine for Cross-Cutting Concerns
