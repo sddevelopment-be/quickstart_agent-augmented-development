@@ -496,11 +496,30 @@ class ExecutionEvent:
 | `AgentProfile` | Agent config key + profile file | ✅ Bridged |
 | `Directive` | Referenced in WP frontmatter | ✅ Integrated |
 
+**Inverse mapping (Spec Kitty → Doctrine):**
+
+| Spec Kitty Concept | ADR-045 Domain Model | Alignment | Notes |
+|---|---|:---:|---|
+| Feature Spec (`spec.md`) | `Specification` | ✅ Direct | Spec Kitty specs are change deltas; Doctrine specs are persistent |
+| Work Package (WP) | `Feature` | ✅ Direct | WP is independently deliverable; Feature is a capability unit |
+| Lane (`planned` → `done`) | Task lifecycle (`new` → `done`) | 🟡 Related | Different state names, same progression concept (see crosswalk below) |
+| Mission | No direct equivalent | ❌ Gap | Doctrine uses Approaches + Directives, not domain-scoped mission profiles |
+| Constitution | Guidelines (Layer 1) | 🟡 Conceptual | Constitution is a single document; Guidelines is a layered stack |
+| Worktree / Workspace | Run Container (ADR-048) | ✅ Direct | Both isolate work execution; worktrees are the implementation of Run Containers |
+| Agent config key | `AgentProfile` | ✅ Bridged | SK flat key maps to Doctrine rich profile via `doctrine_profiles` config |
+| Merge Preflight | Governance Validator | 🟡 Related | SK validates merge readiness; Doctrine validates behavioral compliance |
+| Slash Commands | Shorthands / Tactics | 🟡 Related | Both provide agent-facing command vocabulary at different abstraction levels |
+| Dashboard / Scanner | Query Service | 🟡 Related | SK has diagnostics focus; Doctrine design targets CQRS read models |
+| Event Log | Telemetry Store (JSONL) | ❌ Gap | SK concept exists but implementation is thin; Doctrine design is unbuilt |
+
+⚠️ **On `Iteration` vs `Cycle`:** These terms are related but not synonymous in Doctrine usage. *Iteration* refers to a discrete execution batch (planning → agent work → review), while *Cycle* refers to a complete structured workflow (e.g., TDD RED→GREEN→REFACTOR, or the Six-Phase SDD Cycle). Spec Kitty has neither concept explicitly — its lifecycle is continuous lane progression per WP, not batch-grouped.
+
 **Actions:**
 - Extend `Specification` dataclass with optional `doctrine_directives: list[int]`
 - Map `Feature` to WP metadata (no code change needed)
 - `Batch` concept unused (SK WPs are already batch-like)
 - `Iteration`/`Cycle` remain Doctrine-specific (not forced into SK)
+- Add Mission → Approach/Directive crosswalk in Phase 2 adapter layer
 
 ### Q4: Token budget impact?
 
